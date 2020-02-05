@@ -30,3 +30,17 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
+  .post('/', async ctx => {
+    const sql = `
+      insert into mis_user (username, name)
+      values (?, ?)
+    `
+    const pp = mysql.promise()
+    try {
+      await pp.execute(sql, [ctx.request.body.username, ctx.request.body.name])
+      ctx.response.body = { message: '', content: ''}
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })

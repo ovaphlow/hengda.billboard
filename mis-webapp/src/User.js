@@ -8,7 +8,8 @@ export function UserRouter() {
     <Router>
       <Switch>
         <Route exact path="/用户"><List /></Route>
-        <Route path="/用户/新增"><Detail caption="新增" /></Route>
+        <Route exact path="/用户/新增"><Detail caption="新增" /></Route>
+        <Route path="/用户/:id"><Detail caption="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -78,7 +79,7 @@ function List() {
             <table className="table table-hover">
               <thead className="thead-dark">
                 <tr>
-                  <th>序号</th>
+                  <th className="text-right">序号</th>
                   <th>姓名</th>
                   <th>用户名</th>
                 </tr>
@@ -87,7 +88,12 @@ function List() {
                 {
                   data.map(it => (
                     <tr key={it.id}>
-                      <td>{it.id}</td>
+                      <td>
+                        <a href={`#用户/${it.id}`}>
+                          <i className="fa fa-fw fa-edit"></i>
+                        </a>
+                        <span className="pull-right">{it.id}</span>
+                      </td>
                       <td>{it.name}</td>
                       <td>{it.username}</td>
                     </tr>
@@ -122,7 +128,17 @@ function Detail(props) {
   }
 
   const handleSubmit = async () => {
-    console.info('submit')
+    const response = await fetch(`/api/user/`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.location = '#用户'
   }
 
   return (
@@ -143,7 +159,7 @@ function Detail(props) {
             <div className="card shadow">
               <div className="card-body">
                 <div className="form-group row">
-                  <label className="col-sm-2 col-form-label">姓名</label>
+                  <label className="col-sm-2 col-form-label text-right">姓名</label>
                   <div className="col-sm-10">
                     <input type="text" name="name" value={data.name || ''}
                       className="form-control"
@@ -152,12 +168,14 @@ function Detail(props) {
                   </div>
                 </div>
 
-                <div className="form-group">
-                  <label>用户名</label>
-                  <input type="text" name="username" value={data.username || ''}
-                    className="form-control"
-                    onChange={handleChange}
-                  />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">用户名</label>
+                  <div className="col-sm-10">
+                    <input type="text" name="username" value={data.username || ''}
+                      className="form-control"
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
               </div>
 

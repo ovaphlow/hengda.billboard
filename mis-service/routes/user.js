@@ -19,6 +19,7 @@ router
     const sql = `
       select id, username, name
       from mis_user
+      order by id desc
       limit 200
     `
     const pp = mysql.promise()

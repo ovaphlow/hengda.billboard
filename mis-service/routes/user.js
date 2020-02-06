@@ -22,9 +22,9 @@ router
       order by id desc
       limit 200
     `
-    const pp = mysql.promise()
+    const pool = mysql.promise()
     try {
-      const [rows, fields] = await pp.query(sql)
+      const [rows, fields] = await pool.query(sql)
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)
@@ -36,9 +36,9 @@ router
       insert into mis_user (username, name)
       values (?, ?)
     `
-    const pp = mysql.promise()
+    const pool = mysql.promise()
     try {
-      await pp.execute(sql, [ctx.request.body.username, ctx.request.body.name])
+      await pool.execute(sql, [ctx.request.body.username, ctx.request.body.name])
       ctx.response.body = { message: '', content: ''}
     } catch (err) {
       console.error(err)

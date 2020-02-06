@@ -3,7 +3,8 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import SignIn from './SignIn'
 import Home from './Home'
-import { UserRouter } from './User'
+import MISUserRouter from './MISUser'
+import EnterpriseRouter from './Enterprise'
 
 export default function App() {
   useEffect(() => {
@@ -19,7 +20,8 @@ export default function App() {
         <Route exact path="/"><Home /></Route>
         <Route path="/登录"><SignIn /></Route>
         
-        <Route path="/用户"><UserRouter /></Route>
+        <Route path="/管理端用户"><MISUserRouter /></Route>
+        <Route path="/企业"><EnterpriseRouter /></Route>
       </Switch>
     </Router>
   )

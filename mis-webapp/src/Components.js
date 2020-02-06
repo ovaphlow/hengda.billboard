@@ -30,8 +30,14 @@ export function Navbar(props) {
           </li>
 
           <li className={`nav-item ${props.category === '用户' ? 'active' : ''}`}>
-            <a href="#用户" className="nav-link">
-              用户
+            <a href="#管理端用户" className="nav-link">
+              管理端用户
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '企业' ? 'active' : ''}`}>
+            <a href="#企业" className="nav-link">
+              企业
             </a>
           </li>
         </ul>
@@ -46,5 +52,19 @@ export function Navbar(props) {
         </ul>
       </div>
     </nav>
+  )
+}
+
+export function TextRowField(props) {
+  return (
+    <div className="form-group row">
+      <label className="col-sm-2 col-form-label text-right">{props.caption || ''}</label>
+      <div className="col-sm-10">
+        <input type="text" name={props.name} value={props.value || ''}
+          className="form-control"
+          onChange={props.handleChange}
+        />
+      </div>
+    </div>
   )
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
-import { Title, Navbar, TextRowField } from './Components'
+
+import { Title, Navbar, TextRowField, BackwardButton } from './Components'
+import { YUAN_GONG_SHU_LIANG } from './constant'
 
 export default function EnterpriseRouter() {
   return (
@@ -89,13 +91,16 @@ function Detail(props) {
   const [data, setData] = useState({
     id: 0,
     name: '',
+    yingyezhizhao: '',
     faren: '',
+    zhuceriqi: '',
+    zhiziguimo: '',
     yuangongshuliang: ''
   })
   const { id } = useParams()
 
   useEffect(() => {
-    if (props.caption === '编辑') {
+    if (props.category === '编辑') {
       const fetchData = async id => {
         const response = await fetch(`/api/enterprise/${id}`)
         const res = response.json()
@@ -116,10 +121,10 @@ function Detail(props) {
   }
 
   const handleSubmit = async () => {
-    if (props.caption === '新增') {
-
-    } else if (props.caption === '编辑') {
-
+    if (props.category === '新增') {
+      console.info('new')
+    } else if (props.category === '编辑') {
+      console.info('edit')
     }
   }
 
@@ -131,22 +136,43 @@ function Detail(props) {
       <div className="container-fluid mt-3">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category={props.caption || '新增'} />
+            <SideNav category={props.category} />
           </div>
 
           <div className="col-9 col-lg-10">
+            <h3>{props.category} 企业</h3>
+            <hr />
+
             <div className="card shadow">
               <div className="card-body">
                 <TextRowField caption="名称" name="name" value={data.name} handleChange={handleChange} />
+
+                <TextRowField caption="营业执照" name="yingyezhizhao" value={data.yingyezhizhao} handleChange={handleChange} />
+
+                <TextRowField caption="法人" name="faren" value={data.faren} handleChange={handleChange} />
+
+                <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi} handleChange={handleChange} />
+
+                <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo} handleChange={handleChange} />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">员工数量</label>
+                  <div className="col-sm-10">
+                    <select name="yuangongshuliang" className="form-control" onChange={handleChange}>
+                      <option value="未选择">未选择</option>
+                      {
+                        YUAN_GONG_SHU_LIANG.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
               </div>
 
               <div className="card-footer">
                 <div className="btn-group">
-                  <button type="button" className="btn btn-outline-secondary"
-                    onClick={() => window.history.go(-1)}
-                  >
-                    返回
-                  </button>
+                  <BackwardButton />
                 </div>
 
                 <div className="btn-group pull-right">

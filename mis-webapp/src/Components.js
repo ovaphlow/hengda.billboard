@@ -55,6 +55,14 @@ export function Navbar(props) {
   )
 }
 
+export function BackwardButton() {
+  return (
+    <button type="button" className="btn btn-outline-secondary" onClick={() => window.history.go(-1)}>
+      返回
+    </button>
+  )
+}
+
 export function TextRowField(props) {
   return (
     <div className="form-group row">

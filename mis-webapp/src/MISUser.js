@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 
-import { Title, Navbar } from './Components'
+import { Title, Navbar, BackwardButton } from './Components'
 
 export default function MISUserRouter() {
   return (
@@ -205,9 +205,7 @@ function Detail(props) {
 
               <div className="card-footer">
                 <div className="btn-group">
-                  <button type="button" className="btn btn-outline-secondary" onClick={() => window.history.go(-1)}>
-                    返回
-                  </button>
+                  <BackwardButton />
                 </div>
 
                 <div className="btn-group pull-right">

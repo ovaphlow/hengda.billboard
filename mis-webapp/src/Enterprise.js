@@ -20,7 +20,7 @@ function SideNav(props) {
   return (
     <div className="list-group">
       <h6 className="text-muted">
-        选择功能
+        <strong>选择功能</strong>
       </h6>
 
       <div>

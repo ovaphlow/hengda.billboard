@@ -47,6 +47,21 @@ function SideNav(props) {
 }
 
 function List() {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await window.fetch(`/api/enterprise/`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setData(res.content)
+    }
+    fetchData()
+  }, [])
+
   return (
     <>
       <Title />
@@ -75,7 +90,21 @@ function List() {
                   </thead>
 
                   <tbody>
-
+                    {
+                      data.map(it => (
+                        <tr key={it.id}>
+                          <td>
+                            <a href={`#企业/${it.id}`}>
+                              <i className="fa fa-fw fa-edit"></i>
+                            </a>
+                            <span className="pull-right">{it.id}</span>
+                          </td>
+                          <td>{it.name}</td>
+                          <td>{it.faren}</td>
+                          <td>{it.yuangongshuliang}</td>
+                        </tr>
+                      ))
+                    }
                   </tbody>
                 </table>
               </div>
@@ -103,7 +132,7 @@ function Detail(props) {
     if (props.category === '编辑') {
       const fetchData = async id => {
         const response = await fetch(`/api/enterprise/${id}`)
-        const res = response.json()
+        const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
           return
@@ -122,9 +151,29 @@ function Detail(props) {
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      console.info('new')
+      const response = await window.fetch(`/api/enterprise/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#企业'
     } else if (props.category === '编辑') {
-      console.info('edit')
+      const response = await window.fetch(`/api/enterprise/${id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#企业'
     }
   }
 
@@ -145,20 +194,20 @@ function Detail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="名称" name="name" value={data.name} handleChange={handleChange} />
+                <TextRowField caption="名称" name="name" value={data.name || ''} handleChange={handleChange} />
 
-                <TextRowField caption="营业执照" name="yingyezhizhao" value={data.yingyezhizhao} handleChange={handleChange} />
+                <TextRowField caption="营业执照" name="yingyezhizhao" value={data.yingyezhizhao || ''} handleChange={handleChange} />
 
-                <TextRowField caption="法人" name="faren" value={data.faren} handleChange={handleChange} />
+                <TextRowField caption="法人" name="faren" value={data.faren || ''} handleChange={handleChange} />
 
-                <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi} handleChange={handleChange} />
+                <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi || ''} handleChange={handleChange} />
 
-                <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo} handleChange={handleChange} />
+                <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo || ''} handleChange={handleChange} />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">员工数量</label>
                   <div className="col-sm-10">
-                    <select name="yuangongshuliang" className="form-control" onChange={handleChange}>
+                    <select name="yuangongshuliang" value={data.yuangongshuliang} className="form-control" onChange={handleChange}>
                       <option value="未选择">未选择</option>
                       {
                         YUAN_GONG_SHU_LIANG.map((it, index) => (

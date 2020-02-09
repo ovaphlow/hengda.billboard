@@ -69,7 +69,7 @@ function List() {
       <Title />
       <Navbar category="企业" />
 
-      <div className="container-fluid mt-3">
+      <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category="列表" />
@@ -201,7 +201,7 @@ function Detail(props) {
       <Title />
       <Navbar category="企业" />
 
-      <div className="container-fluid mt-3">
+      <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category={props.category} />
@@ -357,7 +357,7 @@ function UserDetail(props) {
       <Title />
       <Navbar />
 
-      <div className="container-fluid mt-3">
+      <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav />

@@ -66,7 +66,7 @@ function List() {
       <Title />
       <Navbar category="管理端用户" />
 
-      <div className="container-fluid mt-3">
+      <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category="列表" />
@@ -170,7 +170,7 @@ function Detail(props) {
       <Title />
       <Navbar category="管理端用户" />
 
-      <div className="container-fluid mt-3">
+      <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category={props.caption} />

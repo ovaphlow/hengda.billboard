@@ -38,8 +38,8 @@ export default function SignIn() {
 
       <Navbar category="首页" />
 
-      <div className="container-fluid">
-        <div className="row mt-5">
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
           <div className="col-6 offset-3 col-lg-4 offset-lg-4">
             <h1 className="text-center">用户 登录</h1>
           </div>

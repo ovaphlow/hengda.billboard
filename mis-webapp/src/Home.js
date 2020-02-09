@@ -8,7 +8,7 @@ export default function Home() {
       <Title />
       <Navbar category="首页" />
 
-      <div className="container-fluid">
+      <div className="container-fluid mt-3 mb-5">
         <h1>HOME</h1>
 
         <h3 className="text-center text-muted">TODO: 简单数据统计</h3>

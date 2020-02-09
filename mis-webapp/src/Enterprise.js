@@ -11,7 +11,6 @@ export default function EnterpriseRouter() {
         <Route exact path="/企业"><List /></Route>
         <Route exact path="/企业/新增"><Detail category="新增" /></Route>
         <Route exact path="/企业/:id"><Detail category="编辑" /></Route>
-        <Route path="/企业/:id/用户"><UserList /></Route>
       </Switch>
     </Router>
   )
@@ -87,7 +86,6 @@ function List() {
                       <th>名称</th>
                       <th>法人</th>
                       <th>员工数量</th>
-                      <th className="text-right">操作</th>
                     </tr>
                   </thead>
 
@@ -104,11 +102,6 @@ function List() {
                           <td>{it.name}</td>
                           <td>{it.faren}</td>
                           <td>{it.yuangongshuliang}</td>
-                          <td className="text-right">
-                            <a href={`#企业/${it.id}/用户`}>
-                              查看用户
-                            </a>
-                          </td>
                         </tr>
                       ))
                     }
@@ -239,37 +232,6 @@ function Detail(props) {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
-
-function UserList() {
-  const { id } = useParams()
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  } ,[])
-
-  return (
-    <>
-      <Title />
-      <Navbar category="企业" />
-
-      <div className="container-fluid mt-3">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
-          </div>
-
-          <div className="col-9 col-lg-10">
-            <h3>企业 用户</h3>
-            <hr />
-
           </div>
         </div>
       </div>

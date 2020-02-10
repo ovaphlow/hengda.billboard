@@ -1,5 +1,7 @@
 body {
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
+  padding-bottom:50px;
+  font-size: 11px;
 }
 
 .text-small {
@@ -10,4 +12,12 @@ body {
 .title-color {
   /* background: linear-gradient(to right, #5B5B5B, 64%, #ff6633); */
   background: linear-gradient(to right, DimGray, 75%, OrangeRed);
+}
+
+.input-control {
+  width: 100%; 
+  font-size: 1rem;
+  font-weight: 400;
+  border: 0px solid #ced4da;
+  border-bottom: 1px solid #dee2e6!important;
 }

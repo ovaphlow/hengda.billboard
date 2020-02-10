@@ -26,25 +26,26 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 })
 
-function initMISUserRouter() {
-  const router = require('./routes/mis-user')
+function initUserRouter() {
+  const router = require('./routes/user')
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
-initMISUserRouter()
+initUserRouter()
 
-function initEnterpriseRouter() {
-  const router = require('./routes/enterprise')
+function recruitmentRouter() {
+  const router = require('./routes/recruitment')
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
-initEnterpriseRouter()
+recruitmentRouter()
 
-function initCommonUserRouter() {
-  const router = require('./routes/common-user')
+function topicRouter() {
+  const router = require('./routes/topic')
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
-initCommonUserRouter()
+topicRouter()
+
 
 module.exports = app

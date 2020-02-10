@@ -5,7 +5,9 @@ import SignIn from './SignIn'
 import Home from './Home'
 import MISUserRouter from './MISUser'
 import EnterpriseRouter from './Enterprise'
-import CommonUserRouter from './CommonUser'
+import Position from './Position'
+import Recruit from './Recruit'
+import Message from './Message'
 
 export default function App() {
   useEffect(() => {
@@ -20,10 +22,11 @@ export default function App() {
       <Switch>
         <Route exact path="/"><Home /></Route>
         <Route path="/登录"><SignIn /></Route>
-        
-        <Route path="/管理端用户"><MISUserRouter /></Route>
+        <Route path="/岗位"><Position /></Route>
+        <Route path="/校园招聘"><Recruit /></Route>
+        <Route path="/消息"><Message /></Route>
+        <Route path="/我的"><MISUserRouter /></Route>
         <Route path="/企业"><EnterpriseRouter /></Route>
-        <Route path="/普通用户"><CommonUserRouter /></Route>
       </Switch>
     </Router>
   )

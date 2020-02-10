@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
-
-import { Title, Navbar, BackwardButton } from './Components'
+import Title from './components/Title'
+import Navbar from './components/Navbar'
+import { BackwardButton } from './components/Button'
 
 export default function MISUserRouter() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/管理端用户"><List /></Route>
+        <Route exact path=""><List /></Route>
         <Route exact path="/管理端用户/新增"><Detail caption="新增" /></Route>
         <Route path="/管理端用户/:id"><Detail caption="编辑" /></Route>
       </Switch>
@@ -15,99 +16,113 @@ export default function MISUserRouter() {
   )
 }
 
-function SideNav(props) {
-  return (
-    <div className="list-group">
-      <h6 className="text-muted">
-        <strong>选择功能</strong>
-      </h6>
-
-      <div>
-        <a href="#管理端用户"
-          className={`text-small list-group-item list-group-item-action ${props.category === '列表' ? 'active' : ''}`}
-        >
-          用户列表
-          <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
-          </span>
-        </a>
-
-        <a href="#管理端用户/新增"
-          className={`text-small list-group-item list-group-item-action ${props.category === '新增' ? 'active' : ''}`}
-        >
-          新增用户
-          <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
-          </span>
-        </a>
-      </div>
-    </div>
-  )
-}
-
 function List() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`/api/mis-user/`)
-      const res = await response.json()
-      if (res.message) {
-        window.console.error(res.message)
-        return
-      }
-      setData(res.content)
-    }
-    fetchData()
+    // const fetchData = async () => {
+    //   const response = await fetch(`/api/mis-user/`)
+    //   const res = await response.json()
+    //   if (res.message) {
+    //     window.console.error(res.message)
+    //     return
+    //   }
+    //   setData(res.content)
+    // }
+    // fetchData()
   }, [])
 
   return (
     <>
-      <Title />
-      <Navbar category="管理端用户" />
-
-      <div className="container-fluid mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav category="列表" />
+      <div className="container-fluid">
+        <Title category="我的" />
+        <div className="row ">
+          <div className="col-2 ">
+            <img className="img-circle" style={{ height: 50 }} src="lib/img/u868.png" alt="" />
           </div>
-
-          <div className="col-9 col-lg-10">
-            <h3>管理端用户列表</h3>
-            <hr />
-
-            <div className="card shadow">
-              <div className="card-body">
-                <table className="table table-hover table-bordered">
-                  <thead className="thead-dark">
-                    <tr>
-                      <th className="text-right">序号</th>
-                      <th>姓名</th>
-                      <th>用户名</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      data.map(it => (
-                        <tr key={it.id}>
-                          <td>
-                            <a href={`#用户/${it.id}`}>
-                              <i className="fa fa-fw fa-edit"></i>
-                            </a>
-                            <span className="pull-right">{it.id}</span>
-                          </td>
-                          <td>{it.name}</td>
-                          <td>{it.username}</td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
+          <div className="col">
+            <div className="row ">
+              <div className="col">
+                <h6>未登录</h6>
               </div>
             </div>
+            <span className="text-muted">
+              你还没有创建简历,暂时无法投递
+            </span>
+
           </div>
         </div>
+        <hr />
+        <div className="row pb-2 text-center">
+          <div className="col">
+            <a href="#/" className="text-muted">
+              <i class="fa fa-fw fa-3x fa-file-text" aria-hidden="true"></i>
+              <br />
+              我的简历
+            </a>
+          </div>
+          <div className="col">
+            <a href="#/" className="text-muted">
+              <i class="fa fa-fw fa-3x fa-rss-square" aria-hidden="true"></i>
+              <br />
+              投递情况
+            </a>
+          </div>
+          <div className="col">
+            <a href="#/" className="text-muted">
+              <i class="fa fa-fw fa-3x fa-clock-o" aria-hidden="true"></i>
+              <br />
+              历史记录
+            </a>
+          </div>
+          <div className="col">
+            <a href="#/" className="text-muted">
+              <i class="fa fa-fw fa-3x fa-star" aria-hidden="true"></i>
+              <br />
+              我的收藏
+            </a>
+          </div>
+        </div>
+        <div className="row" style={{ height: 7, backgroundColor: 'rgb(228, 238, 249)' }}>
+        </div>
+        <div className="row p-2 mt-2" >
+          <div className="col">
+            <a className="text-dark" href="#/登录" >
+              <h6 className="pull-left" >
+                <strong>平台介绍</strong>
+              </h6>
+              <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <hr style={{ marginTop: '0', marginBottom: '0' }} />
+        <div className="row p-2 mt-2" >
+          <div className="col">
+            <a className="text-dark" href="#/登录" >
+              <h6 className="pull-left" >
+                <strong>日程</strong>
+              </h6>
+              <span className="pull-right text-muted">
+                提示即将进行的日程
+                <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>     
+              </span>
+            </a>
+          </div>
+        </div>
+        <hr style={{ marginTop: '0', marginBottom: '0' }} />
+        <div className="row p-2 mt-2" >
+          <div className="col">
+            <a className="text-dark" href="#/登录" >
+              <h6 className="pull-left" >
+                <strong>意见反馈</strong>
+              </h6>
+              <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <hr style={{ marginTop: '0', marginBottom: '0' }} />
       </div>
+      <Navbar category="我的" />
     </>
   )
 }
@@ -129,12 +144,12 @@ function Detail(props) {
       }
       fetchData(id)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = e => {
     const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
+    setData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async () => {
@@ -167,13 +182,12 @@ function Detail(props) {
 
   return (
     <>
-      <Title />
-      <Navbar category="管理端用户" />
 
-      <div className="container-fluid mt-3 mb-5">
+
+
+      <div className="container-fluid mt-3">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category={props.caption} />
           </div>
 
           <div className="col-9 col-lg-10">

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import md5 from 'blueimp-md5'
 
-import { Title, Navbar } from './Components'
+import Title from './components/Title'
+import Navbar from './components/Navbar'
+
 
 export default function SignIn() {
   const [data, setData] = useState({
@@ -15,7 +17,7 @@ export default function SignIn() {
 
   const handleChange = e => {
     const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
+    setData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleSignIn = async () => {
@@ -34,43 +36,61 @@ export default function SignIn() {
 
   return (
     <>
-      <Title />
-
-      <Navbar category="首页" />
-
-      <div className="container-fluid mt-3 mb-5">
-        <div className="row">
-          <div className="col-6 offset-3 col-lg-4 offset-lg-4">
-            <h1 className="text-center">用户 登录</h1>
+      <div className="container-fluid">
+        <div className="row mt-5">
+          <div className="col">
+            <h4 className="text-center">
+              <span className="text-primary">hi</span>
+              &nbsp;
+              欢迎来到龙江学子就业平台
+            </h4>
           </div>
         </div>
 
-        <div className="row mt-5">
-          <div className="col-6 offset-3 col-lg-4 offset-lg-4">
-            <div className="card shadow">
+        <div className="row mt-3">
+          <div className="col">
+            <div className="card border-0">
               <div className="card-body">
-                <div className="form-group">
-                  <label>用户名</label>
+                <div className="form-group ">
                   <input type="text" name="username" value={data.username}
-                    className="form-control"
+                    className="input-control"
+                    placeholder="手机号码"
                     onChange={handleChange}
                   />
                 </div>
-
                 <div className="form-group">
-                  <label>密码</label>
                   <input type="password" name="password" value={data.password}
-                    className="form-control"
+                    className="input-control"
+                    placeholder="登陆密码"
                     onChange={handleChange}
                   />
                 </div>
               </div>
-
-              <div className="card-footer">
-                <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
-                  <i className="fa fa-fw fa-sign-in"></i>
-                  确定
+              <div className="form-group">
+                <button
+                  type="button"
+                  style={{ width: '80%' }}
+                  className="btn btn-block btn-primary mx-auto"
+                  onClick={handleSignIn}>
+                  登录
                 </button>
+              </div>
+              <div 
+              style={{
+                width: '95%',
+                fontSize: 13
+              }}
+              className="row mx-auto">
+                <div className="col">
+                  <a className="text-muted" href="#/">
+                    立即注册
+                  </a>
+                </div>
+                <div className="col">
+                <a className="pull-right text-muted" href="#/">
+                  忘记密码
+                </a>
+                </div>
               </div>
             </div>
           </div>

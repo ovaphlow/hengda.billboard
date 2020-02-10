@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 
-import { Title, Navbar, TextRowField, BackwardButton } from './Components'
+import Navbar from './components/Navbar'
+import Title from './components/Title'
+import { TextRowField } from './components/InputField'
+import { BackwardButton } from './components/Button'
 import { YUAN_GONG_SHU_LIANG } from './constant'
 
 export default function EnterpriseRouter() {
@@ -10,9 +13,7 @@ export default function EnterpriseRouter() {
       <Switch>
         <Route exact path="/企业"><List /></Route>
         <Route exact path="/企业/新增"><Detail category="新增" /></Route>
-        <Route exact path="/企业/:id"><Detail category="编辑" /></Route>
-        <Route path="/企业/:id/新增用户"><UserDetail category="新增" /></Route>
-        <Route path="/企业/:id/编辑用户/:user_id"><UserDetail category="编辑" /></Route>
+        <Route path="/企业/:id"><Detail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -22,7 +23,7 @@ function SideNav(props) {
   return (
     <div className="list-group">
       <h6 className="text-muted">
-        <strong>选择功能</strong>
+        选择功能
       </h6>
 
       <div>
@@ -49,27 +50,12 @@ function SideNav(props) {
 }
 
 function List() {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await window.fetch(`/api/enterprise/`)
-      const res = await response.json()
-      if (res.message) {
-        window.console.error(res.message)
-        return
-      }
-      setData(res.content)
-    }
-    fetchData()
-  }, [])
-
   return (
     <>
       <Title />
       <Navbar category="企业" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container-fluid mt-3">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category="列表" />
@@ -92,21 +78,7 @@ function List() {
                   </thead>
 
                   <tbody>
-                    {
-                      data.map(it => (
-                        <tr key={it.id}>
-                          <td>
-                            <a href={`#企业/${it.id}`}>
-                              <i className="fa fa-fw fa-edit"></i>
-                            </a>
-                            <span className="pull-right">{it.id}</span>
-                          </td>
-                          <td>{it.name}</td>
-                          <td>{it.faren}</td>
-                          <td>{it.yuangongshuliang}</td>
-                        </tr>
-                      ))
-                    }
+
                   </tbody>
                 </table>
               </div>
@@ -119,7 +91,6 @@ function List() {
 }
 
 function Detail(props) {
-  const { id } = useParams()
   const [data, setData] = useState({
     id: 0,
     name: '',
@@ -129,34 +100,18 @@ function Detail(props) {
     zhiziguimo: '',
     yuangongshuliang: ''
   })
-  const [dataUserList, setDataUserList] = useState([])
+  const { id } = useParams()
 
   useEffect(() => {
     if (props.category === '编辑') {
       const fetchData = async id => {
         const response = await fetch(`/api/enterprise/${id}`)
-        const res = await response.json()
+        const res = response.json()
         if (res.message) {
           window.console.error(res.message)
           return
         }
         setData(res.content)
-      }
-      fetchData(id)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    if (props.category === '编辑') {
-      const fetchData = async id => {
-        const response = await fetch(`/api/enterprise/${id}/user/`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setDataUserList(res.content)
       }
       fetchData(id)
     }
@@ -170,29 +125,9 @@ function Detail(props) {
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      const response = await window.fetch(`/api/enterprise/`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.location = '#企业'
+      console.info('new')
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${id}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.location = '#企业'
+      console.info('edit')
     }
   }
 
@@ -201,7 +136,7 @@ function Detail(props) {
       <Title />
       <Navbar category="企业" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container-fluid mt-3">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category={props.category} />
@@ -211,171 +146,31 @@ function Detail(props) {
             <h3>{props.category} 企业</h3>
             <hr />
 
-            <div className="row">
-              <div className="col-8">
-                <div className="card shadow">
-                  <div className="card-header">
-                    企业信息
-                  </div>
-
-                  <div className="card-body">
-                    <TextRowField caption="名称" name="name" value={data.name || ''} handleChange={handleChange} />
-
-                    <TextRowField caption="营业执照" name="yingyezhizhao" value={data.yingyezhizhao || ''} handleChange={handleChange} />
-
-                    <TextRowField caption="法人" name="faren" value={data.faren || ''} handleChange={handleChange} />
-
-                    <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi || ''} handleChange={handleChange} />
-
-                    <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo || ''} handleChange={handleChange} />
-
-                    <div className="form-group row">
-                      <label className="col-sm-2 col-form-label text-right">员工数量</label>
-                      <div className="col-sm-10">
-                        <select name="yuangongshuliang" value={data.yuangongshuliang} className="form-control" onChange={handleChange}>
-                          <option value="未选择">未选择</option>
-                          {
-                            YUAN_GONG_SHU_LIANG.map((it, index) => (
-                              <option value={it} key={index}>{it}</option>
-                            ))
-                          }
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="card-footer">
-                    <div className="btn-group">
-                      <BackwardButton />
-                    </div>
-
-                    <div className="btn-group pull-right">
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                        <i className="fa fa-fw fa-check"></i>
-                        确定
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-4">
-                {
-                  props.category === '编辑' && (
-                    <div className="card shadow">
-                      <div className="card-header">
-                        企业用户
-                        <div className="btn-group pull-right">
-                          <button type="button" className="btn btn-sm btn-outline-success"
-                            onClick={() => window.location = `#企业/${id}/新增用户`}
-                          >
-                            添加用户
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="card-body">
-                        <div className="list-group">
-                          {
-                            dataUserList.map(it => (
-                              <a href={`#企业/${id}/编辑用户/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
-                                {it.name}
-                                <span className="pull-right text-muted">{it.username}</span>
-                              </a>
-                            ))
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  )
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
-
-function UserDetail(props) {
-  const { id, user_id } = useParams()
-  const [data, setData] = useState({
-    id: 0,
-    enterprise_id: 0,
-    username: '',
-    name: ''
-  })
-
-  useEffect(() => {
-    if (props.category === '编辑') {
-      const fetchData = async (id, user_id) => {
-        const response = await fetch(`/api/enterprise/${id}/user/${user_id}`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setData(res.content)
-      }
-      fetchData(id, user_id)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
-
-  const handleSubmit = async () => {
-    if (props.category === '新增') {
-      const response = await window.fetch(`/api/enterprise/${id}/user/`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.location = `#企业/${id}`
-    } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${id}/user/${user_id}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.location = `#企业/${id}`
-    }
-  }
-
-  return (
-    <>
-      <Title />
-      <Navbar />
-
-      <div className="container-fluid mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
-          </div>
-
-          <div className="col-9 col-lg-10">
-            <h3>{props.category} 企业用户</h3>
-            <hr />
-
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="姓名" name="name" value={data.name || ''} handleChange={handleChange} />
+                <TextRowField caption="名称" name="name" value={data.name} handleChange={handleChange} />
 
-                <TextRowField caption="用户名" name="username" value={data.username || ''} handleChange={handleChange} />
+                <TextRowField caption="营业执照" name="yingyezhizhao" value={data.yingyezhizhao} handleChange={handleChange} />
+
+                <TextRowField caption="法人" name="faren" value={data.faren} handleChange={handleChange} />
+
+                <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi} handleChange={handleChange} />
+
+                <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo} handleChange={handleChange} />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">员工数量</label>
+                  <div className="col-sm-10">
+                    <select name="yuangongshuliang" className="form-control" onChange={handleChange}>
+                      <option value="未选择">未选择</option>
+                      {
+                        YUAN_GONG_SHU_LIANG.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
               </div>
 
               <div className="card-footer">
@@ -385,7 +180,7 @@ function UserDetail(props) {
 
                 <div className="btn-group pull-right">
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                    <i className="fa fa-fw fa-edit"></i>
+                    <i className="fa fa-fw fa-check"></i>
                     确定
                   </button>
                 </div>

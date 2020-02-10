@@ -5,6 +5,7 @@ import SignIn from './SignIn'
 import Home from './Home'
 import MISUserRouter from './MISUser'
 import EnterpriseRouter from './Enterprise'
+import CommonUserRouter from './CommonUser'
 
 export default function App() {
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function App() {
         
         <Route path="/管理端用户"><MISUserRouter /></Route>
         <Route path="/企业"><EnterpriseRouter /></Route>
+        <Route path="/普通用户"><CommonUserRouter /></Route>
       </Switch>
     </Router>
   )

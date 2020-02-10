@@ -29,7 +29,7 @@ export function Navbar(props) {
             </a>
           </li>
 
-          <li className={`nav-item ${props.category === '用户' ? 'active' : ''}`}>
+          <li className={`nav-item ${props.category === '管理端用户' ? 'active' : ''}`}>
             <a href="#管理端用户" className="nav-link">
               管理端用户
             </a>
@@ -38,6 +38,12 @@ export function Navbar(props) {
           <li className={`nav-item ${props.category === '企业' ? 'active' : ''}`}>
             <a href="#企业" className="nav-link">
               企业
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '普通用户' ? 'active' : ''}`}>
+            <a href="#普通用户" className="nav-link">
+              普通用户
             </a>
           </li>
         </ul>

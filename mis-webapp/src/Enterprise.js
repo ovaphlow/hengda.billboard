@@ -260,31 +260,35 @@ function Detail(props) {
               </div>
 
               <div className="col-4">
-                <div className="card shadow">
-                  <div className="card-header">
-                    企业用户
-                    <div className="btn-group pull-right">
-                      <button type="button" className="btn btn-sm btn-outline-success"
-                        onClick={() => window.location = `#企业/${id}/新增用户`}
-                      >
-                        添加用户
-                      </button>
-                    </div>
-                  </div>
+                {
+                  props.category === '编辑' && (
+                    <div className="card shadow">
+                      <div className="card-header">
+                        企业用户
+                        <div className="btn-group pull-right">
+                          <button type="button" className="btn btn-sm btn-outline-success"
+                            onClick={() => window.location = `#企业/${id}/新增用户`}
+                          >
+                            添加用户
+                          </button>
+                        </div>
+                      </div>
 
-                  <div className="card-body">
-                    <div className="list-group">
-                      {
-                        dataUserList.map(it => (
-                          <a href={`#企业/${id}/编辑用户/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
-                            {it.name}
-                            <span className="pull-right text-muted">{it.username}</span>
-                          </a>
-                        ))
-                      }
+                      <div className="card-body">
+                        <div className="list-group">
+                          {
+                            dataUserList.map(it => (
+                              <a href={`#企业/${id}/编辑用户/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
+                                {it.name}
+                                <span className="pull-right text-muted">{it.username}</span>
+                              </a>
+                            ))
+                          }
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  )
+                }
               </div>
             </div>
           </div>

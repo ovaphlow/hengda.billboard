@@ -40,4 +40,11 @@ function initEnterpriseRouter() {
 }
 initEnterpriseRouter()
 
+function initCommonUserRouter() {
+  const router = require('./routes/common-user')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+initCommonUserRouter()
+
 module.exports = app

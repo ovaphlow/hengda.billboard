@@ -15,7 +15,7 @@ const MessageRow = () => {
           paddingRight:0
         }}
         className="col-2">
-        <span class="badge badge-pill badge-danger pull-right">1</span>   
+        <span className="badge badge-pill badge-danger pull-right">1</span>   
       </div>
       <div className="col">
         <div className="row ">

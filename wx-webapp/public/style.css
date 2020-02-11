@@ -40,3 +40,9 @@ body {
   border-radius: 0;
   height: 100%;
 }
+
+.item-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

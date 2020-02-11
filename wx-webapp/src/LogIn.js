@@ -3,7 +3,7 @@ import md5 from 'blueimp-md5'
 
 import ToBack from './components/ToBack'
 
-export default function SignIn() {
+export default function LogIn() {
   const [data, setData] = useState({
     username: '',
     password: ''
@@ -19,7 +19,7 @@ export default function SignIn() {
   }
 
   const handleSignIn = async () => {
-    const response = await fetch(`/api/sign-in`, {
+    const response = await fetch(`/api/log-in`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ username: data.username, password: md5(data.password) })
@@ -64,20 +64,6 @@ export default function SignIn() {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
-                  <input type="password" name="password" value={data.password}
-                    className="input-control"
-                    placeholder="确认密码"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <input type="password" name="password" value={data.password}
-                    className="input-control"
-                    placeholder="验证码"
-                    onChange={handleChange}
-                  />
-                </div>
               </div>
               <div className="form-group">
                 <button
@@ -85,8 +71,25 @@ export default function SignIn() {
                   style={{ width: '80%' }}
                   className="btn btn-block btn-primary mx-auto"
                   onClick={handleSignIn}>
-                  注册
+                  登录
                 </button>
+              </div>
+              <div 
+              style={{
+                width: '95%',
+                fontSize: 13
+              }}
+              className="row mx-auto">
+                <div className="col">
+                  <a className="text-muted" href="#/注册">
+                    立即注册
+                  </a>
+                </div>
+                <div className="col">
+                <a className="pull-right text-muted" href="#/">
+                  忘记密码
+                </a>
+                </div>
               </div>
             </div>
           </div>

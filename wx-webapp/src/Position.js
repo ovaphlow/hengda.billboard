@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import Title from './components/Title'
 import Navbar from './components/Navbar'
@@ -44,6 +44,10 @@ const Position = () => {
       [val]:checked
     }))
   }
+
+  useEffect(()=> {
+    console.info(types)
+  },[types])
 
   return (
     <>

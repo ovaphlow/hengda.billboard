@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Title from './components/Title'
 import Navbar from './components/Navbar'
@@ -36,6 +36,11 @@ const RecruitRow = props => (
 const Recruit = () => {
 
   const [types, setTypes] = useState({})
+
+  
+  useEffect(()=> {
+    console.info(types)
+  },[types])
 
   const _onCheckboxChange = ({val,checked}) => {
     setTypes(types => ({

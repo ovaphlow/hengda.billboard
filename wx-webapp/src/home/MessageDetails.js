@@ -1,20 +1,13 @@
 import React from 'react'
 
-const MessageDetails = props => {
+import ToBack from '../components/ToBack'
 
-  const toPrevious = () => {
-    window.history.go(-1)
-  }
+const MessageDetails = props => {
 
   return (
     <>
       <div className="container-fluid">
-        <div className="row">
-          <span className="text-dark p-2" style={{ fontSize: 13 }}>
-            <i onClick={toPrevious}
-              className="fa fa-fw fa-chevron-left fa-lg text-primary"></i>
-          </span>
-        </div>
+        <ToBack />
         <div className="row mt-2">
           <div className="col">
             发布时间：2019-12-13

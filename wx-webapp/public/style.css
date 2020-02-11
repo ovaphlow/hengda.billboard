@@ -1,0 +1,48 @@
+body {
+  /* margin-top: 3rem; */
+  padding-bottom: 50px;
+  font-size: 11px;
+}
+
+.text-small {
+  /* font-size: 0.875rem; */
+  font-size: small;
+}
+
+.title-color {
+  /* background: linear-gradient(to right, #5B5B5B, 64%, #ff6633); */
+  background: linear-gradient(to right, DimGray, 75%, OrangeRed);
+}
+
+.input-control {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  border: 0px solid #ced4da;
+  border-bottom: 1px solid #dee2e6 !important;
+}
+
+.nav-row {
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0
+}
+
+.nav-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.nav-btn {
+  width: 100%;
+  border-radius: 0;
+  height: 100%;
+}
+
+.item-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

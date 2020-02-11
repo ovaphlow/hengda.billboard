@@ -16,14 +16,13 @@ public class DemoServiceImpl extends DemoGrpc.DemoImplBase {
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
 
     @Override
-    @SuppressWarnings("unchecked")
     public void test(DemoRequest req, StreamObserver<DemoReply> responseObserver) {
         Gson gson = new Gson();
         Map<String, Object> resp = new HashMap<>();
         resp.put("message", "");
         resp.put("content", "");
         try {
-            Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            logger.debug(req.getData());
             Connection conn = DBUtil.getConn();
             String sql = "show tables";
             PreparedStatement ps = conn.prepareStatement(sql);

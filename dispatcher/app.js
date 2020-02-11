@@ -31,6 +31,7 @@ function initUserRouter() {
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
+
 initUserRouter()
 
 function recruitmentRouter() {
@@ -38,6 +39,7 @@ function recruitmentRouter() {
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
+
 recruitmentRouter()
 
 function topicRouter() {
@@ -45,6 +47,7 @@ function topicRouter() {
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
+
 topicRouter()
 
 

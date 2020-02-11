@@ -17,7 +17,7 @@ public class DBUtil {
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/hengda-billboard");
+        config.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/hengda-billboard?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
         config.setUsername("root");
         config.setPassword("kill8268.com");
         config.setMinimumIdle(0);
@@ -47,9 +47,8 @@ public class DBUtil {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public static List<Map<String, Object>> getList(ResultSet rs) throws Exception {
-        List<Map<String, Object>> result = new ArrayList();
+        List<Map<String, Object>> result = new ArrayList<>();
         while (rs.next()) {
             Map<String, Object> map = new HashMap<>();
             ResultSetMetaData rsmd = rs.getMetaData();

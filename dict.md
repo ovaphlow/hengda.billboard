@@ -1,23 +1,30 @@
 # 常用词命名
 
+## 常规
+
 中文|英文
 :--:|:--:
+普通用户|common_user
+邮箱|email
 企业|enterprise
+姓名|name
 密码|password
 招聘|recruitment
-简历|resume
 用户|user
 用户名|username
-普通用户|common_user
-电话号码|phone
-姓名|name
-邮箱|email
-性别|gender
-毕业院校|school
-学历|education
+
+## 简历
+
+中文|英文
+:--:|:--:
+住址|address1, address2, address3, address4
 入学时间|date_begin
 毕业时间|date_end
+学历|education
+性别|gender
 专业|major
+电话号码|phone
+简历|resume
+毕业院校|school
 求职意向|qiuzhiyixiang
-住址|address1, address2, address3, address4
 求职意向地址|yixiangchengshi

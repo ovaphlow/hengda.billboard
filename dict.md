@@ -21,6 +21,7 @@
 入学时间|date_begin
 毕业时间|date_end
 学历|education
+邮箱|email
 性别|gender
 专业|major
 电话号码|phone

@@ -1,0 +1,73 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'com.google.protobuf' version '0.8.8'
+}
+
+group 'hengda.billboard'
+version '202002-11'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+def grpcVersion = '1.25.0' // from: 1.24.0
+def protobufVersion = '3.11.1' // from: '3.9.0'
+def protocVersion = protobufVersion
+
+dependencies {
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    compileOnly "javax.annotation:javax.annotation-api:1.2"
+
+    implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+
+    runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+
+    implementation "com.zaxxer:HikariCP-java7:2.4.13"
+    implementation "mysql:mysql-connector-java:8.0.19" 
+
+    implementation "org.apache.poi:poi-ooxml:4.1.1"
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:${protocVersion}" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
+    }
+    generateProtoTasks {
+        all()*.plugins { grpc {} }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+startScripts.enabled = false
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task bizService(type: CreateStartScripts) {
+    mainClassName = 'hengda.billboard.BizService'
+    applicationName = 'hengda.billboard.biz-service.202002-11'
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = startScripts.classpath
+}
+
+applicationDistribution.into('bin') {
+    from(bizService)
+    fileMode = 0755
+}

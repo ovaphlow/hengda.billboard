@@ -8,7 +8,7 @@ const config = {
   },
   mysql: {
     username: 'ovaphlow',
-    password: 'ovaph@CDT.1123',
+    password: 'ovaph@HD.1123',
     host: '211.159.150.3',
     prot: 3306,
     database: 'hengda-billboard',

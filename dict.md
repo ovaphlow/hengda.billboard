@@ -11,13 +11,13 @@
 普通用户|common_user
 电话号码|phone
 姓名|name
-邮箱|mail
-性别|sex
-毕业院校|university
+邮箱|email
+性别|gender
+毕业院校|school
 学历|education
-入学时间|admission_time
-毕业时间|graduation_time
-专业|profession
-求职意向|objective
-住址|address
-求职意向地址|intent_address
+入学时间|date_begin
+毕业时间|date_end
+专业|major
+求职意向|qiuzhiyixiang
+住址|address1, address2, address3, address4
+求职意向地址|yixiangchengshi

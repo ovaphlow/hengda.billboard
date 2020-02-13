@@ -159,7 +159,16 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      console.info(id)
+      const fetchData = async id => {
+        const response = await window.fetch(`/api/common-user/${id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(err)
+          return
+        }
+        setData(res.content)
+      }
+      fetchData(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

@@ -69,6 +69,15 @@ export function BackwardButton() {
   )
 }
 
+export function RefreshButton(props) {
+  return (
+    <button type="button" className="btn btn-outline-secondary" onClick={() => window.location.reload(true)}>
+      <i className="fa fa-fw fa-refresh"></i>
+      {props.caption || '刷新'}
+    </button>
+  )
+}
+
 export function TextRowField(props) {
   return (
     <div className="form-group row">

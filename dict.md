@@ -18,6 +18,7 @@
 中文|英文
 :--:|:--:
 住址|address1, address2, address3, address4
+出生日期|birthday
 入学时间|date_begin
 毕业时间|date_end
 学历|education

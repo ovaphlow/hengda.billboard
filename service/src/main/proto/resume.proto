@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "ResumeProto";
+
+package resume;
+
+service Resume {
+  
+  rpc get(ResumeRequest) returns (ResumeReply) {}
+
+  rpc update(ResumeRequest) returns (ResumeReply) {}
+
+  rpc init(ResumeRequest) returns (ResumeReply) {}
+    
+}
+
+message ResumeRequest { string data = 1; }
+
+message ResumeReply { string data = 1; }

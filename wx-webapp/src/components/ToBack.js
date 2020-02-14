@@ -1,9 +1,12 @@
 import React from 'react'
 
 
-const ToBack = () => {
+const ToBack = props => {
   
   const toPrevious = () => {
+    if (props.handleBack) {
+      props.handleBack()
+    }
     window.history.go(-1)
   }
 
@@ -15,7 +18,6 @@ const ToBack = () => {
       </span>
     </div>
   )
-
 }
 
 export default ToBack

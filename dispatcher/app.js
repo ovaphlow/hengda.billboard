@@ -34,6 +34,14 @@ function initUserRouter() {
 
 initUserRouter()
 
+function resumeRouter() {
+  const router = require('./routes/resume')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+resumeRouter()
+
 function recruitmentRouter() {
   const router = require('./routes/recruitment')
   app.use(router.routes())

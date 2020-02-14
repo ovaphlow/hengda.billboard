@@ -16,6 +16,8 @@ public class BizService {
         int port = 5001;
         server = ServerBuilder.forPort(port)
                 .addService(new DemoServiceImpl())
+                .addService(new UserServiceImpl())
+                .addService(new ResumeServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

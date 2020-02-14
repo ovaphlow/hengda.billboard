@@ -61,7 +61,7 @@ const MessageDetails = props => {
           </div>
         </div>
       </div>
-      <ul className="nav bg-light nav-light  fixed-bottom border-top" style={{ height: '50px', fontSize: 11, flexWrap: 'inherit' }}>
+      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
         <div className="row text-center nav-row">
           <div className="col-2 nav-col">
             <button className="btn btn-light nav-btn text-muted text-small">

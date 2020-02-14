@@ -15,7 +15,14 @@ const HomePage = () => {
 
   const [messageTypes, setMessageTypes] = useState({})
 
+  const [ auth, setAuth ] = useState(0)
+
   useEffect(() => {
+    const _auth = localStorage.getItem('auth')
+    if (_auth !== null) {
+      setAuth(JSON.parse(_auth)) 
+    }
+    
     fetch('./api/recruitment')
       .then(res => res.json())
       .then(res => {
@@ -48,12 +55,16 @@ const HomePage = () => {
       <div className="container-fluid">
         <Title category="龙江学子就业平台" />
         <div className="row pb-2">
-          <div className="col text-center">
-            <a className="text-muted" href="#登录" >
-              登录完善信息，为您精准推荐职位信息
-              <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
-            </a>
-          </div>
+          {
+            auth!==0 || (
+              <div className="col text-center">
+                <a className="text-muted" href="#登录" >
+                  登录完善信息，为您精准推荐职位信息
+                  <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
+                </a>
+              </div>
+            )
+          }
         </div>
         <PlayImg />
         <div className="mt-2 border-0">

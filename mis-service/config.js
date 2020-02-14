@@ -7,9 +7,9 @@ const config = {
     numChildProcesses: os.cpus().length
   },
   mysql: {
-    username: 'root',
-    password: 'ovaph@CDT.1123',
-    host: '127.0.0.1',
+    username: 'ovaphlow',
+    password: 'ovaph@HD.1123',
+    host: '211.159.150.3',
     prot: 3306,
     database: 'hengda-billboard',
     pool: {

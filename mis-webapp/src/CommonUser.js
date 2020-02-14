@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import md5 from 'blueimp-md5'
 
-import { Title, Navbar, BackwardButton, TextRowField } from './Components'
+import { Title, Navbar, BackwardButton, TextRowField, RefreshButton } from './Components'
 
 export default function CommonUserRouter() {
   return (
     <Router>
       <Switch>\
         <Route exact path="/普通用户"><List /></Route>
-        <Route path="/普通用户/新增"><Detail category="新增" /></Route>
+        <Route exact path="/普通用户/新增"><Detail category="新增" /></Route>
+        <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
+        <Route path="/普通用户/:user_id/新增简历"><ResumeDetail category="新增" /></Route>
       </Switch>
     </Router>
   )
@@ -45,6 +48,30 @@ function SideNav(props) {
 }
 
 function List() {
+  const [data, setData] = useState([])
+  const [filterParams, setFilterParams] = useState({
+    filter_name: '',
+  })
+
+  const handleFilterParamsChange = e => {
+    const { value, name } = e.target
+    setFilterParams(prev => ({ ...prev, [name]: value}))
+  }
+
+  const handleFilter = async () => {
+    const response = await window.fetch(`/api/common-user/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(filterParams)
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setData(res.content)
+  }
+
   return (
     <>
       <Title />
@@ -61,6 +88,58 @@ function List() {
             <hr />
 
             <div className="card shadow">
+              <div className="card-header">
+                <div className="form-row align-items-center">
+                  <div className="col-auto mt-2">
+                    <label className="sr-only">姓名</label>
+                    <input type="text" name="filter_name" value={filterParams.filter_name} placeholder="姓名"
+                      className="form-control mb-2"
+                      onChange={handleFilterParamsChange}
+                    />
+                  </div>
+
+                  <div className="col-auto">
+                    <div className="btn-group">
+                      <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
+                        查询
+                      </button>
+
+                      <RefreshButton caption="重置" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-body">
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th className="text-right">序号</th>
+                      <th>姓名</th>
+                      <th>用户名</th>
+                      <th>EMAIL</th>
+                      <th>电话</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {data.map(it => (
+                      <tr key={it.id}>
+                        <td>
+                          <a href={`#普通用户/${it.id}`}>
+                            <i className="fa fa-fw fa-edit"></i>
+                          </a>
+                          <span className="pull-right">{it.id}</span>
+                        </td>
+                        <td>{it.name}</td>
+                        <td>{it.username}</td>
+                        <td>{it.email}</td>
+                        <td>{it.phone}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -70,11 +149,47 @@ function List() {
 }
 
 function Detail(props) {
+  const { id } = useParams()
   const [data, setData] = useState({
     name: '',
     username: '',
-    email: ''
+    password: '',
+    email: '',
+    phone: '',
   })
+  const [dataResumeList, setDataResumeList] = useState([])
+
+  useEffect(() => {
+    if (props.category === '编辑') {
+      const fetchData = async id => {
+        const response = await window.fetch(`/api/common-user/${id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setData(res.content)
+      }
+      fetchData(id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (props.category === '编辑') {
+      const fetchData = async id => {
+        const response = await window.fetch(`/api/common-user/${id}/resume/`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setDataResumeList(res.content)
+      }
+      fetchData(id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -86,7 +201,13 @@ function Detail(props) {
       const response = await window.fetch(`/api/common-user/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: data.name,
+          username: data.username,
+          password: md5(data.password),
+          email: data.email,
+          phone: data.phone
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -95,6 +216,17 @@ function Detail(props) {
       }
       window.location = '#普通用户'
     } else if (props.category === '编辑') {
+      const response = await window.fetch(`/api/common-user/${id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#普通用户'
     }
   }
 
@@ -123,7 +255,15 @@ function Detail(props) {
 
                     <TextRowField caption="用户名" name="username" value={data.username || ''} handleChange={handleChange} />
 
-                    <TextRowField caption="Email" name="email" value={data.email || ''} handleChange={handleChange} />
+                    {
+                      props.category === '新增' && (
+                        <TextRowField caption="密码" name="password" value={data.password || ''} handleChange={handleChange} />
+                      )
+                    }
+
+                    <TextRowField caption="EMAIL" name="email" value={data.email || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="电话" name="phone" value={data.phone || ''} handleChange={handleChange} />
                   </div>
 
                   <div className="card-footer">
@@ -148,10 +288,88 @@ function Detail(props) {
                       <div className="card-header">用户简历</div>
 
                       <div className="card-body">
+                        <div className="list-group">
+                          {
+                            dataResumeList.map(it => (
+                              <a href={`#普通用户/${id}/编辑简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
+                                {it.qiuzhiyixiang}
+                                <span className="pull-right text-muted">{it.yixiangchengshi}</span>
+                              </a>
+                            ))
+                          }
+                        </div>
+                      </div>
+
+                      <div className="card-footer text-center">
+                        <button type="button" className="btn btn-sm btn-outline-success"
+                          onClick={() => window.location = `#普通用户/${id}/新增简历`}
+                        >
+                          <i className="fa fa-fw fa-plus"></i>
+                          添加简历
+                        </button>
                       </div>
                     </div>
                   )
                 }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function ResumeDetail(props) {
+  const { common_user_id, resume_id } = useParams()
+  const { data, setData } = useState({
+
+  })
+
+  useEffect(() => {
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleSubmit = async () => {
+    if (props.category === '新增') {
+
+    } else if (props.category === '编辑') {
+
+    }
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="普通用户" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>普通用户 {props.category} 简历</h3>
+            <hr />
+
+            <div className="card shadow">
+              <div className="card-body">
+
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                    <i className="fa fa-fw fa-check"></i>
+                    确定
+                  </button>
+                </div>
               </div>
             </div>
           </div>

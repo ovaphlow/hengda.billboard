@@ -25,16 +25,10 @@
 邮箱|email
 性别|gender
 专业|major
-<<<<<<< HEAD
-期望职位|qiwangzhiwei
-期望行业|qiwanghangye
-住址|address1, address2, address3, address4
-求职意向地址|yixiangchengshi
-自我评价|ziwopingjia
-=======
 电话号码|phone
 简历|resume
 毕业院校|school
-求职意向|qiuzhiyixiang
+期望职位|qiwangzhiwei
+期望行业|qiwanghangye
 求职意向地址|yixiangchengshi
->>>>>>> upstream/master
+自我评价|ziwopingjia

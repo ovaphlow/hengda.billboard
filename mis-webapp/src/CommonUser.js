@@ -163,7 +163,7 @@ function Detail(props) {
         const response = await window.fetch(`/api/common-user/${id}`)
         const res = await response.json()
         if (res.message) {
-          window.console.error(err)
+          window.console.error(res.message)
           return
         }
         setData(res.content)

@@ -198,7 +198,17 @@ function Detail(props) {
       }
       window.location = '#普通用户'
     } else if (props.category === '编辑') {
-
+      const response = await window.fetch(`/api/common-user/${id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#普通用户'
     }
   }
 
@@ -227,7 +237,11 @@ function Detail(props) {
 
                     <TextRowField caption="用户名" name="username" value={data.username || ''} handleChange={handleChange} />
 
-                    <TextRowField caption="密码" name="password" value={data.password || ''} handleChange={handleChange} />
+                    {
+                      props.category === '新增' && (
+                        <TextRowField caption="密码" name="password" value={data.password || ''} handleChange={handleChange} />
+                      )
+                    }
 
                     <TextRowField caption="EMAIL" name="email" value={data.email || ''} handleChange={handleChange} />
 

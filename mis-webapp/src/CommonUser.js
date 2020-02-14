@@ -10,7 +10,8 @@ export default function CommonUserRouter() {
       <Switch>\
         <Route exact path="/普通用户"><List /></Route>
         <Route exact path="/普通用户/新增"><Detail category="新增" /></Route>
-        <Route path="/普通用户/:id"><Detail category="编辑" /></Route>
+        <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
+        <Route path="/普通用户/:user_id/新增简历"><ResumeDetail category="新增" /></Route>
       </Switch>
     </Router>
   )
@@ -148,6 +149,7 @@ function List() {
 }
 
 function Detail(props) {
+  const { id } = useParams()
   const [data, setData] = useState({
     name: '',
     username: '',
@@ -155,7 +157,7 @@ function Detail(props) {
     email: '',
     phone: '',
   })
-  const { id } = useParams()
+  const [dataResumeList, setDataResumeList] = useState([])
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -167,6 +169,22 @@ function Detail(props) {
           return
         }
         setData(res.content)
+      }
+      fetchData(id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (props.category === '编辑') {
+      const fetchData = async id => {
+        const response = await window.fetch(`/api/common-user/${id}/resume/`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setDataResumeList(res.content)
       }
       fetchData(id)
     }
@@ -270,10 +288,88 @@ function Detail(props) {
                       <div className="card-header">用户简历</div>
 
                       <div className="card-body">
+                        <div className="list-group">
+                          {
+                            dataResumeList.map(it => (
+                              <a href={`#普通用户/${id}/编辑简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
+                                {it.qiuzhiyixiang}
+                                <span className="pull-right text-muted">{it.yixiangchengshi}</span>
+                              </a>
+                            ))
+                          }
+                        </div>
+                      </div>
+
+                      <div className="card-footer text-center">
+                        <button type="button" className="btn btn-sm btn-outline-success"
+                          onClick={() => window.location = `#普通用户/${id}/新增简历`}
+                        >
+                          <i className="fa fa-fw fa-plus"></i>
+                          添加简历
+                        </button>
                       </div>
                     </div>
                   )
                 }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function ResumeDetail(props) {
+  const { common_user_id, resume_id } = useParams()
+  const { data, setData } = useState({
+
+  })
+
+  useEffect(() => {
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleSubmit = async () => {
+    if (props.category === '新增') {
+
+    } else if (props.category === '编辑') {
+
+    }
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="普通用户" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>普通用户 {props.category} 简历</h3>
+            <hr />
+
+            <div className="card shadow">
+              <div className="card-body">
+
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                    <i className="fa fa-fw fa-check"></i>
+                    确定
+                  </button>
+                </div>
               </div>
             </div>
           </div>

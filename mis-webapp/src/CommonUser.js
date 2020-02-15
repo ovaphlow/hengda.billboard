@@ -11,7 +11,8 @@ export default function CommonUserRouter() {
         <Route exact path="/普通用户"><List /></Route>
         <Route exact path="/普通用户/新增"><Detail category="新增" /></Route>
         <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
-        <Route path="/普通用户/:user_id/新增简历"><ResumeDetail category="新增" /></Route>
+        <Route path="/普通用户/:common_user_id/新增简历"><ResumeDetail category="新增" /></Route>
+        <Route path="/普通用户/:common_user_id/简历/:resume_id"><ResumeDetail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -238,7 +239,7 @@ function Detail(props) {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category="新增" />
+            <SideNav />
           </div>
 
           <div className="col-9 col-lg-10">
@@ -291,7 +292,7 @@ function Detail(props) {
                         <div className="list-group">
                           {
                             dataResumeList.map(it => (
-                              <a href={`#普通用户/${id}/编辑简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
+                              <a href={`#普通用户/${id}/简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.qiuzhiyixiang}
                                 <span className="pull-right text-muted">{it.yixiangchengshi}</span>
                               </a>
@@ -322,18 +323,60 @@ function Detail(props) {
 
 function ResumeDetail(props) {
   const { common_user_id, resume_id } = useParams()
-  const { data, setData } = useState({
-
+  const [ data, setData ] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    gender: '',
+    birthday: '',
+    school: '',
+    major: '',
+    education: '',
+    date_begin: '',
+    date_end: '',
+    address1: '',
+    address2: '',
+    address3: '',
+    ziwopingjia: '',
+    qiwangzhiwei: '',
+    qiwanghangye: '',
+    yixiangchengshi: ''
   })
 
   useEffect(() => {
-
+    if (props.category === '编辑') {
+      const fetchData = async (common_user_id, resume_id) => {
+        const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setData(res.content)
+      }
+      fetchData(common_user_id, resume_id)
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleChange = e => {
+    const { value, name } = e.target
+    setData(prev => ({ ...prev, [name]: value}))
+  }
+
   const handleSubmit = async () => {
     if (props.category === '新增') {
-
+      const response = await window.fetch(`/api/common-user/${common_user_id}/resume/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = `#普通用户/${common_user_id}`
     } else if (props.category === '编辑') {
 
     }
@@ -356,7 +399,48 @@ function ResumeDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
+                <TextRowField caption="姓名" name="name" value={data.name || ''} handleChange={handleChange} />
 
+                <TextRowField caption="电话" name="phone" value={data.phone || ''} handleChange={handleChange} />
+
+                <TextRowField caption="EMAIL" name="email" value={data.email || ''} handleChange={handleChange} />
+
+                <TextRowField caption="性别" name="gender" value={data.gender || ''} handleChange={handleChange} />
+
+                <TextRowField caption="出生日期" name="birthday" value={data.birthday || ''} handleChange={handleChange} />
+
+                <TextRowField caption="毕业院校" name="school" value={data.school || ''} handleChange={handleChange} />
+
+                <TextRowField caption="专业" name="major" value={data.major || ''} handleChange={handleChange} />
+
+                <TextRowField caption="学历" name="education" value={data.education || ''} handleChange={handleChange} />
+
+                <TextRowField caption="开始日期" name="date_begin" value={data.date_begin || ''} handleChange={handleChange} />
+
+                <TextRowField caption="结束日期" name="date_end" value={data.date_end || ''} handleChange={handleChange} />
+
+                <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+
+                <hr />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">自我评价</label>
+                  <div className="col-sm-10">
+                    <textarea name="ziwopingjia" value={data.ziwopingjia || ''} className="form-control" onChange={handleChange}></textarea>
+                  </div>
+                </div>
+
+                <TextRowField caption="自我评价" name="自我评价" value={data.ziwopingjia || ''} handleChange={handleChange} />
+
+                <TextRowField caption="期望职位" name="qiwangzhiwei" value={data.qiwangzhiwei || ''} handleChange={handleChange} />
+
+                <TextRowField caption="期望行业" name="qiwanghangye" value={data.qiwangzhiwei || ''} handleChange={handleChange} />
+
+                <TextRowField caption="意向城市" name="yixiangchengshi" value={data.yixiangchengshi || ''} handleChange={handleChange} />
               </div>
 
               <div className="card-footer">

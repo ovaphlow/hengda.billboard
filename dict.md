@@ -9,6 +9,7 @@
 企业|enterprise
 姓名|name
 密码|password
+电话号码|phone
 招聘|recruitment
 用户|user
 用户名|username
@@ -42,3 +43,6 @@
 类型|category
 薪资|salary1,salary2
 要求学历|education
+工作内容|description
+招聘人数|qty
+岗位要求|requirement

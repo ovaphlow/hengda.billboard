@@ -2,7 +2,7 @@
 .gradle/
 .idea/
 .classpath/
-.Project/
+.project/
 .settings/
 build/
 logs/

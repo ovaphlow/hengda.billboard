@@ -32,3 +32,13 @@
 期望行业|qiwanghangye
 求职意向地址|yixiangchengshi
 自我评价|ziwopingjia
+
+## 招聘
+
+中文|英文
+:--:|:--:
+地址|address1, address2, address3, address4
+发布日期写|date
+类型|category
+薪资|salary1,salary2
+要求学历|education

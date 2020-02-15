@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 import moment from 'moment'
 
 
@@ -13,11 +13,11 @@ const UserRouter = () => (
   <Router>
     <Switch>
       <Route exact path="/我的/简历/"><Resume /></Route>
-      <Route exact path="/我的/简历/个人信息"><Personal /></Route>
-      <Route exact path="/我的/简历/毕业院校"><School /></Route>
-      <Route exact path="/我的/简历/求职意向"><Intention /></Route>
-      <Route exact path="/我的/简历/自我评价"><Evaluation /></Route>
-      <Route exact path="/我的/简历/所在地"><ProvinceCity /></Route>
+      <Route exact path="/我的/简历/个人信息/:id"><Personal /></Route>
+      <Route exact path="/我的/简历/毕业院校/:id"><School /></Route>
+      <Route exact path="/我的/简历/求职意向/:id"><Intention /></Route>
+      <Route exact path="/我的/简历/自我评价/:id"><Evaluation /></Route>
+      <Route exact path="/我的/简历/所在地/:id"><ProvinceCity /></Route>
     </Switch>
   </Router>
 )
@@ -32,7 +32,7 @@ const Resume = () => {
     address1: '',
     address2: '',
     address3: '',
-    address4:'',
+    address4: '',
     phone: '',
     email: '',
     school: '',
@@ -46,90 +46,55 @@ const Resume = () => {
     ziwopingjia: ''
   })
 
-  const [ auth, setAuth ] = useState(0)
+  const [auth, setAuth] = useState(0)
 
   useState(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth === null) {
       window.location = '#/登录'
-    } 
-    setAuth(_auth)
-    const resume = JSON.parse(sessionStorage.getItem('resume'))
-    if (resume !== null) {
-      setData(resume)
-    } else {
-      fetch(`./api/resume/${_auth.id}`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.content) {
-            res.content.birthday = 
-            `${res.content.birthday.slice(8,12)}/${res.content.birthday.slice(0,2)}/${res.content.birthday.slice(4,6)}`
-            sessionStorage.setItem('resume', JSON.stringify(res.content))
-            setData(res.content)
-          } else {
-            if (res.content !== undefined) {
-              fetch(`./api/resume/init`, {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ common_user_id: _auth.id })
-              })
-                .then(res1 => res1.json())
-                .then(res1 => {
-                  sessionStorage.setItem('resume', JSON.stringify({
-                    ...data,
-                    phone: _auth.phone,
-                    email: _auth.email,
-                    name: _auth.name
-                  }))
-                  setData(p => ({
-                    ...p,
-                    phone: _auth.phone,
-                    email: _auth.email,
-                    name: _auth.name
-                  }))
-                })
-            } else {
-              alert(res.message)
-            }
-          }
-        })
     }
+    setAuth(_auth)
+
+    fetch(`./api/resume/${_auth.id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setData(res.content)
+        } else {
+          if (res.content !== undefined) {
+            fetch(`./api/resume/init`, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ common_user_id: _auth.id })
+            })
+              .then(res1 => res1.json())
+              .then(res1 => {
+                setData(p => ({
+                  ...p,
+                  phone: _auth.phone,
+                  email: _auth.email,
+                  name: _auth.name
+                }))
+              })
+          } else {
+            alert(res.message)
+          }
+        }
+      })
   }, [])
 
   const age = birthday => {
-    if (birthday && birthday!=='') {
-      
-      return `${parseInt(moment().format('YYYY')) - parseInt(birthday.slice(0,4))}岁`
-    }  else {
+    if (birthday && birthday !== '') {
+      return `${parseInt(moment().format('YYYY')) - parseInt(birthday.slice(0, 4))}岁`
+    } else {
       return '0岁'
     }
-  }
-
-
-  const handleSave = () => {
-    fetch(`./api/resume/${auth.id}`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.message) {
-          alert(res.message)
-        } else {
-          alert('已保存修改')
-        }
-      })
-  }
-
-  const handleBack = () => {
-    sessionStorage.removeItem('resume')
   }
 
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack handleBack={handleBack}/>
+        <ToBack />
         <div className="row mt-2">
           <div className="col">
             <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
@@ -137,12 +102,12 @@ const Resume = () => {
           <div className="col-9 " style={{ paddingLeft: 0 }}>
             <div className="pull-left">
               <span style={{ fontSize: 18 }}>{data.name}</span>
-              <span>/{data.gender === '男' ? '先生' : '女士'}</span>
+              <span>/{!data.gender||(data.gender === '男' ? '先生' : '女士')}</span>
               <br />
               {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
             </div>
             <div className="pull-right">
-              <a href="#/我的/简历/个人信息">
+              <a href={`#/我的/简历/个人信息/${auth.id}`}>
                 <i className="fa fa-pencil-square-o fa-fw"></i>
                 编辑
               </a>
@@ -162,14 +127,14 @@ const Resume = () => {
           </div>
         </div>
 
-        <hr/>
+        <hr />
 
         <div className="row">
           <div className="col">
             <h5>毕业院校</h5>
           </div>
           <div className="col">
-            <a className="pull-right" href="#/我的/简历/毕业院校">
+            <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}`}>
               <i className="fa fa-pencil-square-o fa-fw"></i>
               编辑
             </a>
@@ -197,7 +162,7 @@ const Resume = () => {
             <h5>求职意向</h5>
           </div>
           <div className="col">
-            <a className="pull-right" href="#/我的/简历/求职意向">
+            <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}`}>
               <i className="fa fa-pencil-square-o fa-fw"></i>
               编辑
             </a>
@@ -225,7 +190,7 @@ const Resume = () => {
             <h5>自我评价</h5>
           </div>
           <div className="col">
-            <a className="pull-right" href="#/我的/简历/自我评价">
+            <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}`}>
               <i className="fa fa-pencil-square-o fa-fw"></i>
               编辑
             </a>
@@ -238,13 +203,6 @@ const Resume = () => {
           </div>
         </div>
       </div>
-      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
-        <div className="row text-center nav-row">
-          <button className="btn btn-primary nav-btn" onClick={handleSave}>
-            保存
-        </button>
-        </div>
-      </ul>
     </>
   )
 }
@@ -253,14 +211,19 @@ const Personal = () => {
 
   const [data, setData] = useState({})
 
-  useEffect(() => {
-    setData(JSON.parse(sessionStorage.getItem('resume')))
-  }, [])
+  const { id } = useParams()
 
-  const toProvinceCity = () => {
-    sessionStorage.setItem('resume',JSON.stringify(data))
-    window.location = '#/我的/简历/所在地'
-  }
+  useEffect(() => {
+    fetch(`./api/resume/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setData(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
+  }, [id])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -268,8 +231,24 @@ const Personal = () => {
   }
 
   const handleSave = () => {
-    sessionStorage.setItem('resume',JSON.stringify(data))
-    window.history.go(-1)
+    fetch(`./api/resume/${id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          alert(res.message)
+        } else {
+          window.history.go(-1)
+        }
+      })
+  }
+
+
+  const toProvinceCity = () => {
+    window.location = `#/我的/简历/所在地/${id}`
   }
 
   return (
@@ -296,6 +275,7 @@ const Personal = () => {
             value={data.gender}
             placeholder="请选择性别"
             handleChange={handleChange}>
+            <option></option>
             <option>男</option>
             <option>女</option>
           </SelectField>
@@ -345,7 +325,7 @@ const Personal = () => {
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
-            确定
+            保存
         </button>
         </div>
       </ul>
@@ -357,10 +337,19 @@ const School = () => {
 
   const [data, setData] = useState({})
 
-  useEffect(() => {
-    setData(JSON.parse(sessionStorage.getItem('resume')))
-  }, [])
+  const { id } = useParams()
 
+  useEffect(() => {
+    fetch(`./api/resume/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setData(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
+  }, [id])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -368,8 +357,19 @@ const School = () => {
   }
 
   const handleSave = () => {
-    sessionStorage.setItem('resume',JSON.stringify(data))
-    window.history.go(-1)
+    fetch(`./api/resume/${id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          alert(res.message)
+        } else {
+          window.history.go(-1)
+        }
+      })
   }
 
   return (
@@ -438,7 +438,7 @@ const School = () => {
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
-            确定
+            保存
         </button>
         </div>
       </ul>
@@ -450,10 +450,19 @@ const Intention = () => {
 
   const [data, setData] = useState({})
 
-  useEffect(() => {
-    setData(JSON.parse(sessionStorage.getItem('resume')))
-  }, [])
+  const { id } = useParams()
 
+  useEffect(() => {
+    fetch(`./api/resume/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setData(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
+  }, [id])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -461,9 +470,22 @@ const Intention = () => {
   }
 
   const handleSave = () => {
-    sessionStorage.setItem('resume',JSON.stringify(data))
-    window.history.go(-1)
+    fetch(`./api/resume/${id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          alert(res.message)
+        } else {
+          window.history.go(-1)
+        }
+      })
   }
+
+
   return (
     <>
       <div className="container-fluid">
@@ -500,7 +522,7 @@ const Intention = () => {
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
-            确定
+            保存
         </button>
         </div>
       </ul>
@@ -512,10 +534,19 @@ const Evaluation = () => {
 
   const [data, setData] = useState({})
 
-  useEffect(() => {
-    setData(JSON.parse(sessionStorage.getItem('resume')))
-  }, [])
+  const { id } = useParams()
 
+  useEffect(() => {
+    fetch(`./api/resume/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setData(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
+  }, [id])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -523,8 +554,19 @@ const Evaluation = () => {
   }
 
   const handleSave = () => {
-    sessionStorage.setItem('resume',JSON.stringify(data))
-    window.history.go(-1)
+    fetch(`./api/resume/${id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          alert(res.message)
+        } else {
+          window.history.go(-1)
+        }
+      })
   }
 
   return (
@@ -539,12 +581,12 @@ const Evaluation = () => {
         <div className="row mt-3">
           <div className="col">
             <div className="form-group">
-              <textarea 
-              className="form-control" 
-              name="ziwopingjia" 
-              value={data.ziwopingjia}
-              onChange={handleChange} 
-              rows="6"></textarea>
+              <textarea
+                className="form-control"
+                name="ziwopingjia"
+                value={data.ziwopingjia}
+                onChange={handleChange}
+                rows="6"></textarea>
             </div>
           </div>
         </div>
@@ -552,7 +594,7 @@ const Evaluation = () => {
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
-            确定
+            保存
         </button>
         </div>
       </ul>

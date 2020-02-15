@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "RecruitmentProto";
+
+package recruitment;
+
+service Recruitment {
+  
+  rpc get(RecruitmentRequest) returns (RecruitmentReply) {}
+
+  rpc list(RecruitmentRequest) returns (RecruitmentReply) {}
+    
+}
+
+message RecruitmentRequest { string data = 1; }
+
+message RecruitmentReply { string data = 1; }

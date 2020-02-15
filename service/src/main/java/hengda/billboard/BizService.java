@@ -18,6 +18,7 @@ public class BizService {
                 .addService(new DemoServiceImpl())
                 .addService(new UserServiceImpl())
                 .addService(new ResumeServiceImpl())
+                .addService(new RecruitmentServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

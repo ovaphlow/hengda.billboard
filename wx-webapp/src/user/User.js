@@ -106,7 +106,7 @@ const User = () => {
         <hr style={{ marginTop: '0', marginBottom: '0' }} />
         <div className="row p-2 mt-2" >
           <div className="col">
-            <a className="text-dark" href="#/登录" >
+            <a className="text-dark" href="#/我的/反馈" >
               <h6 className="pull-left" >
                 <strong>意见反馈</strong>
               </h6>

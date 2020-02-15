@@ -46,3 +46,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.nav-bottom {
+  height: 50px; 
+  flex-wrap: inherit
+}

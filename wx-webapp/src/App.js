@@ -1,21 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
-import LogIn from './LogIn'
-import SignIn from './SignIn'
+import LogIn from './user/LogIn'
+import SignIn from './user/SignIn'
 import HomeRouter from './home/Index'
-import UserRouter from './User'
+import UserRouter from './user/Index'
 import Position from './Position'
 import Recruit from './Recruit'
 import Message from './Message'
 
 export default function App() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem('auth')
-    if (!!!auth) {
-      // window.location = '#登录'
-    }
-  }, [])
 
   return (
     <Router>

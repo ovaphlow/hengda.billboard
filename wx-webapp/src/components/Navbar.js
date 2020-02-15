@@ -3,7 +3,7 @@ import React from 'react'
 const Navbar = props => {
   return (
     <>
-      <ul className="nav bg-light nav-light fixed-bottom border-top text-center  justify-content-center" style={{height:'50px', fontSize: 11,flexWrap:'inherit' }}>
+      <ul className="nav bg-light nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center">
         <li className="nav-item">
           <a href="#/" className={`nav-link ${props.category === '首页' ? 'text-primary' : 'text-muted'} `}>
             <i className="fa fa-fw fa-2x fa-home"></i>

@@ -29,8 +29,10 @@
 电话号码|phone
 简历|resume
 毕业院校|school
-求职意向|qiuzhiyixiang
+期望职位|qiwangzhiwei
+期望行业|qiwanghangye
 求职意向地址|yixiangchengshi
+自我评价|ziwopingjia
 
 ## 招聘
 

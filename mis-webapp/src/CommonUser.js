@@ -293,7 +293,7 @@ function Detail(props) {
                           {
                             dataResumeList.map(it => (
                               <a href={`#普通用户/${id}/简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
-                                {it.qiuzhiyixiang}
+                                {it.qiwangzhiwei}
                                 <span className="pull-right text-muted">{it.yixiangchengshi}</span>
                               </a>
                             ))
@@ -378,7 +378,17 @@ function ResumeDetail(props) {
       }
       window.location = `#普通用户/${common_user_id}`
     } else if (props.category === '编辑') {
-
+      const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = `#普通用户/${common_user_id}`
     }
   }
 
@@ -434,11 +444,9 @@ function ResumeDetail(props) {
                   </div>
                 </div>
 
-                <TextRowField caption="自我评价" name="自我评价" value={data.ziwopingjia || ''} handleChange={handleChange} />
-
                 <TextRowField caption="期望职位" name="qiwangzhiwei" value={data.qiwangzhiwei || ''} handleChange={handleChange} />
 
-                <TextRowField caption="期望行业" name="qiwanghangye" value={data.qiwangzhiwei || ''} handleChange={handleChange} />
+                <TextRowField caption="期望行业" name="qiwanghangye" value={data.qiwanghangye || ''} handleChange={handleChange} />
 
                 <TextRowField caption="意向城市" name="yixiangchengshi" value={data.yixiangchengshi || ''} handleChange={handleChange} />
               </div>

@@ -25,6 +25,44 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
+  .put('/:id/resume/:resume_id', async ctx => {
+    const sql = `
+      update resume
+      set name = ?, phone = ?, email = ?, gender = ?, birthday = ?,
+      school = ?, education = ?, date_begin = ?, date_end = ?, major = ?,
+      address1 = ?, address2 = ?, address3 = ?,
+      qiwangzhiwei = ?, qiwanghangye = ?, yixiangchengshi = ?, ziwopingjia = ?
+      where id = ? and common_user_id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.name,
+        ctx.request.body.phone,
+        ctx.request.body.email,
+        ctx.request.body.gender,
+        ctx.request.body.birthday,
+        ctx.request.body.school,
+        ctx.request.body.education,
+        ctx.request.body.date_begin,
+        ctx.request.body.date_end,
+        ctx.request.body.major,
+        ctx.request.body.address1,
+        ctx.request.body.address2,
+        ctx.request.body.address3,
+        ctx.request.body.qiwangzhiwei,
+        ctx.request.body.qiwanghangye,
+        ctx.request.body.yixiangchengshi,
+        ctx.request.body.ziwopingjia,
+        ctx.params.resume_id,
+        ctx.params.id
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
   .get('/:id/resume/', async ctx => {
     const sql = `
       select * from resume where common_user_id = ?

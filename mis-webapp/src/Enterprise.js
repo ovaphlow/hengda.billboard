@@ -13,6 +13,9 @@ export default function EnterpriseRouter() {
         <Route exact path="/企业/:id"><Detail category="编辑" /></Route>
         <Route path="/企业/:id/新增用户"><UserDetail category="新增" /></Route>
         <Route path="/企业/:id/编辑用户/:user_id"><UserDetail category="编辑" /></Route>
+        <Route exact path="/企业/:id/职位"><RecruitmentList /></Route>
+        <Route path="/企业/:enterprise_id/新增职位"><RecruitmentDetail category="新增" /></Route>
+        <Route path="/企业/:enterprise_id/职位/:recruitment_id"><RecruitmentDetail category="新增" /></Route>
       </Switch>
     </Router>
   )
@@ -130,6 +133,7 @@ function List() {
                       <th>名称</th>
                       <th>法人</th>
                       <th>员工数量</th>
+                      <th>操作</th>
                     </tr>
                   </thead>
 
@@ -146,6 +150,12 @@ function List() {
                           <td>{it.name}</td>
                           <td>{it.faren}</td>
                           <td>{it.yuangongshuliang}</td>
+                          <td>
+                            <a href={`#企业/${it.id}/职位`}>
+                              <i className="fa fa-fw fa-list"></i>
+                              查看发布的职位
+                            </a>
+                          </td>
                         </tr>
                       ))
                     }
@@ -432,6 +442,172 @@ function UserDetail(props) {
                 <div className="btn-group pull-right">
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-edit"></i>
+                    确定
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function RecruitmentList() {
+  const { id } = useParams()
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const fetchData = async id => {
+      const response = await window.fetch(`/api/enterprise/${id}/recruitment/`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setData(res.content)
+    }
+    fetchData(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <>
+      <Title />
+      <Navbar />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>企业用户 发布的职位</h3>
+            <hr />
+
+            <div className="btn-group">
+              <BackwardButton />
+            </div>
+
+            <div className="btn-group pull-right">
+              <button type="button" className="btn btn-outline-success"
+                onClick={() => window.location = `#企业/${id}/新增职位`}
+              >
+                <i className="fa fa-fw fa-plus"></i>
+                新增职位
+              </button>
+            </div>
+
+            <div className="card shadow mt-3">
+              <div className="card-body">
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>序号</th>
+                      <th>职位</th>
+                      <th>人数</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {
+                      data.map(it => (
+                        <tr key={it.id}>
+                          <td>{it.id}</td>
+                          <td>{it.name}</td>
+                          <td>{it.qty}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function RecruitmentDetail(props) {
+  const { enterprise_id, recruitment_id } = useParams()
+  const [data, setData] = useState({
+    name: '',
+    qty: '',
+    description: '',
+    requirement: ''
+  })
+
+  const handleChange = e => {
+    const { value, name } = e.target
+    setData(prev => ({ ...prev, [name]: value}))
+  }
+
+  const handleSubmit = async () => {
+    if (props.category === '新增') {
+      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = `#企业/${enterprise_id}/职位`
+    } else if (props.category === '编辑') {
+
+    }
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>企业用户 {props.category} 职位</h3>
+            <hr />
+
+            <div className="card shadow">
+              <div className="card-body">
+                <TextRowField caption="职位" name="name" value={data.name || ''} handleChange={handleChange} />
+
+                <TextRowField caption="人数" name="qty" value={data.qty || ''} handleChange={handleChange} />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">工作职责</label>
+                  <div className="col-sm-10">
+                    <textarea name="description" value={data.description || ''} className="form-control" onChange={handleChange}></textarea>
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">岗位要求</label>
+                  <div className="col-sm-10">
+                    <textarea name="requirement" value={data.requirement || ''} className="form-control" onChange={handleChange}></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                    <i className="fa fa-fw fa-check"></i>
                     确定
                   </button>
                 </div>

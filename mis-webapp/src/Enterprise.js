@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 
-import { Title, Navbar, TextRowField, BackwardButton } from './Components'
+import { Title, Navbar, TextRowField, BackwardButton, RefreshButton } from './Components'
 import { YUAN_GONG_SHU_LIANG } from './constant'
 
 export default function EnterpriseRouter() {
@@ -50,19 +50,39 @@ function SideNav(props) {
 
 function List() {
   const [data, setData] = useState([])
+  const [filterParams, setFilterParams] = useState({ filter_name: '' })
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await window.fetch(`/api/enterprise/`)
-      const res = await response.json()
-      if (res.message) {
-        window.console.error(res.message)
-        return
-      }
-      setData(res.content)
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await window.fetch(`/api/enterprise/`)
+  //     const res = await response.json()
+  //     if (res.message) {
+  //       window.console.error(res.message)
+  //       return
+  //     }
+  //     setData(res.content)
+  //   }
+  //   fetchData()
+  // }, [])
+
+  const handleFilterParamsChange = e => {
+    const { value, name } = e.target
+    setFilterParams(prev => ({ ...prev, [name]: value}))
+  }
+
+  const handleFilter = async () => {
+    const response = await window.fetch(`/api/enterprise/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(filterParams)
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
     }
-    fetchData()
-  }, [])
+    setData(res.content)
+  }
 
   return (
     <>
@@ -80,9 +100,31 @@ function List() {
             <hr />
 
             <div className="card shadow">
+              <div className="card-header">
+                <div className="form-row align-items-center">
+                  <div className="col-auto mt-2">
+                    <label className="sr-only">企业名称</label>
+                    <input type="text" name="filter_name" value={filterParams.filter_name} placeholder="企业名称"
+                      className="form-control mb-2"
+                      onChange={handleFilterParamsChange}
+                    />
+                  </div>
+
+                  <div className="col-auto">
+                    <div className="btn-group">
+                      <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
+                        查询
+                      </button>
+
+                      <RefreshButton caption="重置" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="card-body">
-                <table className="table table-bordered table-hover">
-                  <thead className="thead-dark">
+                <table className="table table-hover">
+                  <thead>
                     <tr>
                       <th className="text-right">序号</th>
                       <th>名称</th>
@@ -126,7 +168,7 @@ function Detail(props) {
     yingyezhizhao: '',
     faren: '',
     zhuceriqi: '',
-    zhiziguimo: '',
+    zhuziguimo: '',
     yuangongshuliang: ''
   })
   const [dataUserList, setDataUserList] = useState([])
@@ -265,13 +307,6 @@ function Detail(props) {
                     <div className="card shadow">
                       <div className="card-header">
                         企业用户
-                        <div className="btn-group pull-right">
-                          <button type="button" className="btn btn-sm btn-outline-success"
-                            onClick={() => window.location = `#企业/${id}/新增用户`}
-                          >
-                            添加用户
-                          </button>
-                        </div>
                       </div>
 
                       <div className="card-body">
@@ -284,6 +319,17 @@ function Detail(props) {
                               </a>
                             ))
                           }
+                        </div>
+                      </div>
+
+                      <div className="card-footer text-center">
+                        <div className="btn-group">
+                          <button type="button" className="btn btn-sm btn-outline-success"
+                            onClick={() => window.location = `#企业/${id}/新增用户`}
+                          >
+                            <i className="fa fa-fw fa-plus"></i>
+                            添加用户
+                          </button>
                         </div>
                       </div>
                     </div>

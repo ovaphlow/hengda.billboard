@@ -142,13 +142,28 @@ router
     `
     const pool = mysql.promise()
     try {
-      await pool.execute(sql, [ctx.request.body.name,
+      await pool.execute(sql, [
+        ctx.request.body.name,
         ctx.request.body.yingyezhizhao,
         ctx.request.body.faren,
         ctx.request.body.zhuceriqi,
         ctx.request.body.zhuziguimo,
-        ctx.request.body.yuangongshuliang])
+        ctx.request.body.yuangongshuliang
+      ])
       ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/', async ctx => {
+    const sql = `
+      select * from enterprise where position(? in name) > 0 limit 200
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [ctx.request.body.filter_name])
+      ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误', content: '' }

@@ -9,6 +9,44 @@ const router = new Router({
 module.exports = router
 
 router
+  .get('/:enterprise_id/recruitment/:recruitment_id', async ctx => {
+    const sql = `
+      select * from recruitment where id = ? and enterprise_id = ? limit 1
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.recruitment_id,
+        ctx.params.enterprise_id
+      ])
+      ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/:enterprise_id/recruitment/:recruitment_id', async ctx => {
+    const sql = `
+      update recruitment
+      set name = ?, qty = ?, description = ?, requirement = ?
+      where id = ? and enterprise_id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.name,
+        ctx.request.body.qty,
+        ctx.request.body.description,
+        ctx.request.body.requirement,
+        ctx.params.recruitment_id,
+        ctx.params.enterprise_id
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
   .get('/:id/recruitment/', async ctx => {
     const sql = `
       select * from recruitment where enterprise_id = ? limit 200

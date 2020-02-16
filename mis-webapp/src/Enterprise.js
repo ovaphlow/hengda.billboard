@@ -15,7 +15,7 @@ export default function EnterpriseRouter() {
         <Route path="/企业/:id/编辑用户/:user_id"><UserDetail category="编辑" /></Route>
         <Route exact path="/企业/:id/职位"><RecruitmentList /></Route>
         <Route path="/企业/:enterprise_id/新增职位"><RecruitmentDetail category="新增" /></Route>
-        <Route path="/企业/:enterprise_id/职位/:recruitment_id"><RecruitmentDetail category="新增" /></Route>
+        <Route path="/企业/:enterprise_id/职位/:recruitment_id"><RecruitmentDetail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -505,7 +505,7 @@ function RecruitmentList() {
                 <table className="table table-hover">
                   <thead>
                     <tr>
-                      <th>序号</th>
+                      <th className="text-right">序号</th>
                       <th>职位</th>
                       <th>人数</th>
                     </tr>
@@ -515,7 +515,12 @@ function RecruitmentList() {
                     {
                       data.map(it => (
                         <tr key={it.id}>
-                          <td>{it.id}</td>
+                          <td>
+                            <a href={`#企业/${id}/职位/${it.id}`}>
+                              <i className="fa fa-fw fa-edit"></i>
+                            </a>
+                            <span className="pull-right">{it.id}</span>
+                          </td>
                           <td>{it.name}</td>
                           <td>{it.qty}</td>
                         </tr>
@@ -541,6 +546,22 @@ function RecruitmentDetail(props) {
     requirement: ''
   })
 
+  useEffect(() => {
+    if (props.category === '编辑') {
+      const fetchData = async (enterprise_id, recruitment_id) => {
+        const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setData(res.content)
+      }
+      fetchData(enterprise_id, recruitment_id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const handleChange = e => {
     const { value, name } = e.target
     setData(prev => ({ ...prev, [name]: value}))
@@ -560,7 +581,17 @@ function RecruitmentDetail(props) {
       }
       window.location = `#企业/${enterprise_id}/职位`
     } else if (props.category === '编辑') {
-
+      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = `#企业/${enterprise_id}/职位`
     }
   }
 

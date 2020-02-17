@@ -15,7 +15,7 @@ export default function EnterpriseRouter() {
         <Route path="/企业/:id/编辑用户/:user_id"><UserDetail category="编辑" /></Route>
         <Route exact path="/企业/:id/职位"><RecruitmentList /></Route>
         <Route path="/企业/:enterprise_id/新增职位"><RecruitmentDetail category="新增" /></Route>
-        <Route path="/企业/:enterprise_id/职位/:recruitment_id"><RecruitmentDetail category="新增" /></Route>
+        <Route path="/企业/:enterprise_id/职位/:recruitment_id"><RecruitmentDetail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -179,7 +179,11 @@ function Detail(props) {
     faren: '',
     zhuceriqi: '',
     zhuziguimo: '',
-    yuangongshuliang: ''
+    yuangongshuliang: '',
+    address1: '',
+    address2: '',
+    address3: '',
+    address4: ''
   })
   const [dataUserList, setDataUserList] = useState([])
 
@@ -280,6 +284,14 @@ function Detail(props) {
                     <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi || ''} handleChange={handleChange} />
 
                     <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="" name="address4" value={data.address4 || ''} handleChange={handleChange} />
 
                     <div className="form-group row">
                       <label className="col-sm-2 col-form-label text-right">员工数量</label>
@@ -505,7 +517,7 @@ function RecruitmentList() {
                 <table className="table table-hover">
                   <thead>
                     <tr>
-                      <th>序号</th>
+                      <th className="text-right">序号</th>
                       <th>职位</th>
                       <th>人数</th>
                     </tr>
@@ -515,7 +527,12 @@ function RecruitmentList() {
                     {
                       data.map(it => (
                         <tr key={it.id}>
-                          <td>{it.id}</td>
+                          <td>
+                            <a href={`#企业/${id}/职位/${it.id}`}>
+                              <i className="fa fa-fw fa-edit"></i>
+                            </a>
+                            <span className="pull-right">{it.id}</span>
+                          </td>
                           <td>{it.name}</td>
                           <td>{it.qty}</td>
                         </tr>
@@ -538,8 +555,32 @@ function RecruitmentDetail(props) {
     name: '',
     qty: '',
     description: '',
-    requirement: ''
+    requirement: '',
+    address1: '',
+    address2: '',
+    address3: '',
+    data: '',
+    salary1: 0,
+    salary2: 0,
+    education: '',
+    category: ''
   })
+
+  useEffect(() => {
+    if (props.category === '编辑') {
+      const fetchData = async (enterprise_id, recruitment_id) => {
+        const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setData(res.content)
+      }
+      fetchData(enterprise_id, recruitment_id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -560,7 +601,17 @@ function RecruitmentDetail(props) {
       }
       window.location = `#企业/${enterprise_id}/职位`
     } else if (props.category === '编辑') {
-
+      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = `#企业/${enterprise_id}/职位`
     }
   }
 
@@ -584,6 +635,22 @@ function RecruitmentDetail(props) {
                 <TextRowField caption="职位" name="name" value={data.name || ''} handleChange={handleChange} />
 
                 <TextRowField caption="人数" name="qty" value={data.qty || ''} handleChange={handleChange} />
+
+                <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="发布日期" name="date" value={data.date || ''} handleChange={handleChange} />
+
+                <TextRowField caption="薪资范围" name="salary1" value={data.salary1 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="salary2" value={data.salary2 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="学历" name="education" value={data.education || ''} handleChange={handleChange} />
+
+                <TextRowField caption="类别" name="category" value={data.category || ''} handleChange={handleChange} />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">工作职责</label>

@@ -9,6 +9,55 @@ const router = new Router({
 module.exports = router
 
 router
+  .get('/:enterprise_id/recruitment/:recruitment_id', async ctx => {
+    const sql = `
+      select * from recruitment where id = ? and enterprise_id = ? limit 1
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.recruitment_id,
+        ctx.params.enterprise_id
+      ])
+      ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/:enterprise_id/recruitment/:recruitment_id', async ctx => {
+    const sql = `
+      update recruitment
+      set name = ?, qty = ?,
+        address1 = ?, address2 = ?, address3 = ?,
+        date = ?, salary1 = ?, salary2 = ?, education = ?, category = ?,
+        description = ?, requirement = ?
+      where id = ? and enterprise_id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.name,
+        ctx.request.body.qty,
+        ctx.request.body.address1,
+        ctx.request.body.address2,
+        ctx.request.body.address3,
+        ctx.request.body.date,
+        ctx.request.body.salary1,
+        ctx.request.body.salary2,
+        ctx.request.body.education,
+        ctx.request.body.category,
+        ctx.request.body.description,
+        ctx.request.body.requirement,
+        ctx.params.recruitment_id,
+        ctx.params.enterprise_id
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
   .get('/:id/recruitment/', async ctx => {
     const sql = `
       select * from recruitment where enterprise_id = ? limit 200
@@ -24,7 +73,12 @@ router
   })
   .post('/:id/recruitment/', async ctx => {
     const sql = `
-      insert into recruitment (enterprise_id, name, qty, description, requirement)
+      insert into recruitment (
+        enterprise_id, name, qty,
+        address1, address2, address3,
+        date, salary1, salary2, education, category,
+        description, requirement
+      )
       values (?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
@@ -33,6 +87,14 @@ router
         ctx.params.id,
         ctx.request.body.name,
         ctx.request.body.qty,
+        ctx.request.body.address1,
+        ctx.request.body.address2,
+        ctx.request.body.address3,
+        ctx.request.body.date,
+        ctx.request.body.salary1,
+        ctx.request.body.salary2,
+        ctx.request.body.education,
+        ctx.request.body.category,
         ctx.request.body.description,
         ctx.request.body.requirement,
       ])
@@ -132,7 +194,8 @@ router
     const sql = `
       update enterprise
       set name = ?, yingyezhizhao = ?, faren = ?, zhuceriqi = ?,
-        zhuziguimo = ?, yuangongshuliang = ?
+        zhuziguimo = ?, yuangongshuliang = ?,
+        address1 = ?, address2 = ?, address3 = ?, address4 = ?
       where id = ?
     `
     const pool = mysql.promise()
@@ -144,6 +207,10 @@ router
         ctx.request.body.zhuceriqi,
         ctx.request.body.zhuziguimo,
         ctx.request.body.yuangongshuliang,
+        ctx.request.body.address1,
+        ctx.request.body.address2,
+        ctx.request.body.address3,
+        ctx.request.body.address4,
         ctx.params.id
       ])
       ctx.response.body = { message: '', content: '' }
@@ -172,8 +239,11 @@ router
   })
   .post('/', async ctx => {
     const sql = `
-      insert into enterprise (name, yingyezhizhao, faren, zhuceriqi, zhuziguimo, yuangongshuliang)
-      values (?, ?, ?, ?, ?, ?)
+      insert into enterprise (
+        name, yingyezhizhao, faren, zhuceriqi, zhuziguimo, yuangongshuliang,
+        address1, address2, address3, address4
+      )
+      values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
@@ -183,7 +253,11 @@ router
         ctx.request.body.faren,
         ctx.request.body.zhuceriqi,
         ctx.request.body.zhuziguimo,
-        ctx.request.body.yuangongshuliang
+        ctx.request.body.yuangongshuliang,
+        ctx.request.body.address1,
+        ctx.request.body.address2,
+        ctx.request.body.address3,
+        ctx.request.body.address4
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

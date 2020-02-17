@@ -179,7 +179,11 @@ function Detail(props) {
     faren: '',
     zhuceriqi: '',
     zhuziguimo: '',
-    yuangongshuliang: ''
+    yuangongshuliang: '',
+    address1: '',
+    address2: '',
+    address3: '',
+    address4: ''
   })
   const [dataUserList, setDataUserList] = useState([])
 
@@ -280,6 +284,14 @@ function Detail(props) {
                     <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi || ''} handleChange={handleChange} />
 
                     <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+
+                    <TextRowField caption="" name="address4" value={data.address4 || ''} handleChange={handleChange} />
 
                     <div className="form-group row">
                       <label className="col-sm-2 col-form-label text-right">员工数量</label>
@@ -543,7 +555,15 @@ function RecruitmentDetail(props) {
     name: '',
     qty: '',
     description: '',
-    requirement: ''
+    requirement: '',
+    address1: '',
+    address2: '',
+    address3: '',
+    data: '',
+    salary1: 0,
+    salary2: 0,
+    education: '',
+    category: ''
   })
 
   useEffect(() => {
@@ -615,6 +635,22 @@ function RecruitmentDetail(props) {
                 <TextRowField caption="职位" name="name" value={data.name || ''} handleChange={handleChange} />
 
                 <TextRowField caption="人数" name="qty" value={data.qty || ''} handleChange={handleChange} />
+
+                <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="发布日期" name="date" value={data.date || ''} handleChange={handleChange} />
+
+                <TextRowField caption="薪资范围" name="salary1" value={data.salary1 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="" name="salary2" value={data.salary2 || ''} handleChange={handleChange} />
+
+                <TextRowField caption="学历" name="education" value={data.education || ''} handleChange={handleChange} />
+
+                <TextRowField caption="类别" name="category" value={data.category || ''} handleChange={handleChange} />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">工作职责</label>

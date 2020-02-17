@@ -46,7 +46,6 @@ router.get('/', async ctx => {
   }
 })
 
-// 模拟数据
 router.get('/:id', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
     grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {

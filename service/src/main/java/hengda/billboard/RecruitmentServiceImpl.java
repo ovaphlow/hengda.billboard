@@ -1,6 +1,5 @@
 package hengda.billboard;
 
-
 import com.google.gson.Gson;
 import io.grpc.stub.StreamObserver;
 import org.slf4j.Logger;
@@ -13,20 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@SuppressWarnings("unchecked")
 public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase {
   
   private static final Logger logger = LoggerFactory.getLogger(RecruitmentServiceImpl.class);
 
   @Override
   public void list(RecruitmentRequest req, StreamObserver<RecruitmentReply> responseObserver) {
+    logger.info("RecruitmentServiceImpl.list");
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try {
-      logger.debug(req.getData());
-      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      
       Connection conn = DBUtil.getConn();
       String sql = "select * from recruitment";
       PreparedStatement ps = conn.prepareStatement(sql);
@@ -50,7 +49,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try {
-      logger.debug(req.getData());
+      
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
       String sql = "select *, (select e.name from enterprise e where e.id=enterprise_id) as enterprise_name from recruitment where id = ?";

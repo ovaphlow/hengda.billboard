@@ -50,6 +50,39 @@ function recruitmentRouter() {
 
 recruitmentRouter()
 
+function journalRouter() {
+  const router = require('./routes/journal')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+journalRouter()
+
+function favoriteRouter() {
+  const router = require('./routes/favorite')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+favoriteRouter()
+
+function deliveryRouter() {
+  const router = require('./routes/delivery')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+deliveryRouter()
+
+
+function feedbackRouter() {
+  const router = require('./routes/feedback')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+feedbackRouter()
+
 function topicRouter() {
   const router = require('./routes/topic')
   app.use(router.routes())

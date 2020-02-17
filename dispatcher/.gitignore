@@ -1,1 +1,10 @@
 node_modules/
+.vscode/
+.gradle/
+.idea/
+.classpath
+.project
+.settings/
+build/
+logs/
+bin/

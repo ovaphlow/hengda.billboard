@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 
 import ToBack from '../components/ToBack'
 
 const Feedback = () => {
 
-  const [text, setText] = useState('')
+  const [content, setCntent] = useState('')
 
   const [auth, setAuth] = useState(0)
 
@@ -19,16 +20,21 @@ const Feedback = () => {
 
 
   const handleChange = e => {
-    setText(e.target.value)
+    setCntent(e.target.value)
   }
 
   const handleSave = () => {
+    if (content === '') {
+      window.alert('请填写反馈内容')
+      return
+    }
     fetch(`./api/feedback/`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        text: text,
-        common_user_id:auth.id
+        content: content,
+        common_user_id:auth.id,
+        datime: moment().format('YYYY-MM-DD HH:mm')
       })
     })
       .then(res => res.json())
@@ -55,7 +61,7 @@ const Feedback = () => {
             <div className="form-group">
               <textarea
                 className="form-control"
-                value={text}
+                value={content}
                 onChange={handleChange}
                 rows="6" />
             </div>

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "FavoriteProto";
+
+package favorite;
+
+service Favorite {
+  
+  rpc get(FavoriteRequest) returns (FavoriteReply) {}
+
+  rpc list(FavoriteRequest) returns (FavoriteReply) {}
+
+  rpc delete(FavoriteRequest) returns (FavoriteReply) {}
+  
+  rpc insert(FavoriteRequest) returns (FavoriteReply) {}
+
+}
+
+message FavoriteRequest { string data = 1; }
+
+message FavoriteReply { string data = 1; }

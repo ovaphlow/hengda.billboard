@@ -24,10 +24,10 @@ export const RecruitmentRow = props => (
           props.salary1 && props.salary2 ? '元月' : ''
         }
         <br></br>
-        <span className="pull-left text-muted">
+        <span className="pull-left text-muted" style={{fontSize: 11}}>
           {props.address1} {props.address2}/{props.education} | 招聘人数:{props.qty}
         </span>
-        <span className="pull-right text-muted">
+        <span className="pull-right text-muted" style={{fontSize: 11}}>
           发布于: {props.date}
         </span>
       </div>

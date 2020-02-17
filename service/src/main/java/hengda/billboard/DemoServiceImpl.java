@@ -17,12 +17,13 @@ public class DemoServiceImpl extends DemoGrpc.DemoImplBase {
 
     @Override
     public void test(DemoRequest req, StreamObserver<DemoReply> responseObserver) {
+        logger.info("test");
         Gson gson = new Gson();
         Map<String, Object> resp = new HashMap<>();
         resp.put("message", "");
         resp.put("content", "");
         try {
-            logger.debug(req.getData());
+            
             Connection conn = DBUtil.getConn();
             String sql = "show tables";
             PreparedStatement ps = conn.prepareStatement(sql);

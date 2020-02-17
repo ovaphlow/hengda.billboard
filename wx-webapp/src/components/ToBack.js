@@ -12,9 +12,10 @@ const ToBack = props => {
 
   return (
     <div className="row">
-      <span className="text-dark p-2" style={{ fontSize: 13 }}>
+      <span className="text-dark p-2" style={{ fontSize: 15 }}>
         <i onClick={toPrevious}
           className="fa fa-fw fa-chevron-left fa-lg text-muted"></i>
+        {props.category}
       </span>
     </div>
   )

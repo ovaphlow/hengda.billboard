@@ -94,7 +94,7 @@ const Resume = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack />
+        <ToBack category="我的简历"/>
         <div className="row mt-2">
           <div className="col">
             <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
@@ -254,7 +254,7 @@ const Personal = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack category="我的简历"/>
         <div className="mt-2">
           <h4>个人信息</h4>
         </div>
@@ -375,7 +375,7 @@ const School = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack category="我的简历"/>
         <div className="mt-2">
           <h4>毕业院校</h4>
         </div>
@@ -489,7 +489,7 @@ const Intention = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack category="我的简历"/>
         <div className="mt-2">
           <h4>求职意向</h4>
         </div>
@@ -572,7 +572,7 @@ const Evaluation = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack category="我的简历"/>
 
         <div className="mt-2">
           <h4>自我评价</h4>

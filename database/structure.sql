@@ -58,3 +58,47 @@ CREATE TABLE `resume` (
   `yixiangchengshi` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '求职意向地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `recruitment` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `enterprise_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘职位',
+  `qty` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘人数',
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '工作内容',
+  `requirement` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '岗位要求',
+  `address1` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '省',
+  `address2` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '市',
+  `address3` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '区',
+  `address4` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '详细地址',
+  `date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发布日期',
+  `salary1` int(11) NOT NULL DEFAULT '0' COMMENT '薪资',
+  `salary2` int(11) NOT NULL DEFAULT '0' COMMENT '薪资',
+  `education` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '学历',
+  `category` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '类型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `delivery` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `resume_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '简历id',
+  `recruitment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '岗位id',
+  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '投递时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='简历投递';
+
+CREATE TABLE `journal` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数据id',
+  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏数据类型',
+  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户历史记录';
+
+CREATE TABLE `favorite` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数据id',
+  `category` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏数据类型',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户收藏';

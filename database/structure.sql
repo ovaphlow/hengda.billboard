@@ -12,13 +12,17 @@ CREATE TABLE `enterprise` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '企业名称',
   `yingyezhizhao` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '营业执照/企业号',
-  `faren` varchar(20) NOT NULL DEFAULT '' COMMENT '法人',
+  `faren` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '法人',
   `zhuceriqi` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '注册日期',
   `zhuziguimo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '注资规模',
   `yuangongshuliang` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '员工数量',
-  `yingyezhizhao_tu` mediumtext COMMENT '营业执照图像',
+  `yingyezhizhao_tu` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '营业执照图像',
+  `address1` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `address2` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `address3` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `address4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='企业';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='企业';
 
 CREATE TABLE `enterprise_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -69,7 +73,6 @@ CREATE TABLE `recruitment` (
   `address1` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '省',
   `address2` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '市',
   `address3` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '区',
-  `address4` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '详细地址',
   `date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发布日期',
   `salary1` int(11) NOT NULL DEFAULT '0' COMMENT '薪资',
   `salary2` int(11) NOT NULL DEFAULT '0' COMMENT '薪资',

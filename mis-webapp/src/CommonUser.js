@@ -120,6 +120,8 @@ function List() {
                       <th>用户名</th>
                       <th>EMAIL</th>
                       <th>电话</th>
+                      <th>投递</th>
+                      <th>收藏</th>
                     </tr>
                   </thead>
 
@@ -136,6 +138,8 @@ function List() {
                         <td>{it.username}</td>
                         <td>{it.email}</td>
                         <td>{it.phone}</td>
+                        <td>{it.qty_delivery}</td>
+                        <td>{it.qty_favorite}</td>
                       </tr>
                     ))}
                   </tbody>

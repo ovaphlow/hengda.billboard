@@ -11,7 +11,11 @@ module.exports = router
 router
   .get('/:enterprise_id/recruitment/:recruitment_id', async ctx => {
     const sql = `
-      select * from recruitment where id = ? and enterprise_id = ? limit 1
+      select *
+      from recruitment
+      where id = ?
+        -- and enterprise_id = ? -- 由举报页面链接过来时无法提供企业ID，取消同时对比企业ID的查询条件
+      limit 1
     `
     const pool = mysql.promise()
     try {

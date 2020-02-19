@@ -54,4 +54,11 @@ function initFeedbackRouter() {
 }
 initFeedbackRouter()
 
+function initReportRouter() {
+  const router = require('./routes/report')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+initReportRouter()
+
 module.exports = app

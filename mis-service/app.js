@@ -47,4 +47,11 @@ function initCommonUserRouter() {
 }
 initCommonUserRouter()
 
+function initFeedbackRouter() {
+  const router = require('./routes/feedback')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+initFeedbackRouter()
+
 module.exports = app

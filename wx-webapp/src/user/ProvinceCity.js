@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import ToBack from '../components/ToBack'
 import level from '../components/level.json'
+
 
 const ProvinceCity = () => {
 
@@ -17,26 +19,35 @@ const ProvinceCity = () => {
 
   const [resume, setResume] = useState({})
 
+  const { id } = useParams()
+
   useEffect(() => {
-    const _resume = JSON.parse(sessionStorage.getItem('resume'))
-    if (_resume !== null) {
-      if (_resume.address1) {
-        const l1 = level.find(item => item.name === _resume.address1)  
-        if (l1) {
-          setLevel2List(l1.children)
-          const l2 = l1.children.find(
-            item => item.name === _resume.address2)
-          if (l2 && l2.children) {
-            setLevel3List(l2.children.filter(it => it.province === l2.code.slice(0, 2)))
+    fetch(`./api/resume/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setResume(res.content)
+
+          if (res.content.address1) {
+            const l1 = level.find(item => item.name === res.content.address1)
+            if (l1) {
+              setLevel2List(l1.children)
+              const l2 = l1.children.find(
+                item => item.name === res.content.address2)
+              if (l2 && l2.children) {
+                setLevel3List(l2.children.filter(it => it.province === l2.code.slice(0, 2)))
+              }
+            }
           }
-        }         
-      }
-      setLevel1(_resume.address1)
-      setLevel2(_resume.address2)
-      setLevel3(_resume.address3)
-      setResume(_resume)
-    }
-  }, [])
+          setLevel1(res.content.address1)
+          setLevel2(res.content.address2)
+          setLevel3(res.content.address3)
+
+        } else {
+          alert(res.message)
+        }
+      })
+  }, [id])
 
 
   const level1Click = item => {
@@ -62,13 +73,19 @@ const ProvinceCity = () => {
   }
 
   const handleSave = () => {
-    sessionStorage.setItem('resume', JSON.stringify({
-      ...resume,
-      address1:level1,
-      address2:level2,
-      address3:level3,
-    }))
-    window.history.go(-1)
+    fetch(`./api/resume/${id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(resume)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          alert(res.message)
+        } else {
+          window.history.go(-1)
+        }
+      })
   }
 
   return (

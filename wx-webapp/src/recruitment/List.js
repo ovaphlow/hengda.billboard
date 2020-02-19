@@ -1,42 +1,30 @@
 import React, {useState, useEffect} from 'react'
 
-import Title from './components/Title'
-import Navbar from './components/Navbar'
-import PlayImg from './components/PlayImg'
-import { TextCheckbox } from './components/Button'
+import Title from '../components/Title'
+import Navbar from '../components/Navbar'
+import PlayImg from '../components/PlayImg'
+import { TextCheckbox } from '../components/Button'
+import { RecruitmentRow } from '../components/DataRow'
 
-const PositionRow = props => (
-  <>
-    <div className="row">
-      <div className="col">
-        <div className="pull-left">
-          <strong>电子维修工程师</strong>
-        </div>
-        <div className="pull-right">
-          <a style={{ fontSize: 12 }} className="badge badge-pill badge-info" href="#/">
-            查看
-          </a>
-        </div>
-        <br></br>
-        <span className="text-success">
-          5000-8000
-        </span>元月
-        <br></br>
-        <span className="pull-left text-muted">
-          上海/本科 | 招聘人数 2人
-            </span>
-        <span className="pull-right text-muted">
-          发布于: 2019/12/14
-            </span>
-      </div>
-    </div>
-    <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-  </>
-)
-
-const Position = () => {
+const List = () => {
 
   const [types, setTypes] = useState({})
+
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    fetch(`./api/recruitment`)
+    .then(res => res.json())
+    .then(res => {
+      if (res.content) {
+        setList(res.content)
+      } else {
+        alert(res.message)
+      }
+    })
+  },[])
+
+
 
   const _onCheckboxChange = ({val,checked}) => {
     setTypes(types => ({
@@ -48,6 +36,9 @@ const Position = () => {
   useEffect(()=> {
     console.info(types)
   },[types])
+
+
+  
 
   return (
     <>
@@ -74,9 +65,7 @@ const Position = () => {
             </div>
           </div>
         </div>
-        <PositionRow/>
-        <PositionRow/>
-        <PositionRow/>
+        {list&&list.map(item => <RecruitmentRow key={item.id} {...item}/>)}
       </div>
       <Navbar category="岗位" />
     </>
@@ -86,4 +75,4 @@ const Position = () => {
 }
 
 
-export default Position
+export default List

@@ -18,6 +18,11 @@ public class BizService {
                 .addService(new DemoServiceImpl())
                 .addService(new UserServiceImpl())
                 .addService(new ResumeServiceImpl())
+                .addService(new RecruitmentServiceImpl())
+                .addService(new FavoriteServiceImpl())
+                .addService(new JournalServiceImpl())
+                .addService(new DeliveryServiceImpl())
+                .addService(new FeedbackServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

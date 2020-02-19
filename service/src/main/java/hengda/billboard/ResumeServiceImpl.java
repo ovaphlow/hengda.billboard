@@ -12,18 +12,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
 
   private static final Logger logger = LoggerFactory.getLogger(ResumeServiceImpl.class);
 
   @Override
   public void get(ResumeRequest req, StreamObserver<ResumeReply> responseObserver) {
+    logger.info("RecruitmentServiceImpl.get");
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try {
-      logger.debug(req.getData());
+      
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
       String sql = "select * from resume where common_user_id = ?";
@@ -118,9 +120,9 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try {
-      logger.debug(req.getData());
+      
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      logger.debug(req.getData());
+      
       Connection conn = DBUtil.getConn();
       String sql = "insert into resume (common_user_id) value (?)";
       PreparedStatement ps = conn.prepareStatement(sql);

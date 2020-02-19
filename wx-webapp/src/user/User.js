@@ -56,21 +56,21 @@ const User = () => {
             </a>
           </div>
           <div className="col">
-            <a href="#/" className="text-muted">
+            <a href="#/我的/投递" className="text-muted">
               <i className="fa fa-fw fa-3x fa-rss-square" aria-hidden="true"></i>
               <br />
               投递情况
             </a>
           </div>
           <div className="col">
-            <a href="#/" className="text-muted">
+            <a href="#/我的/记录" className="text-muted">
               <i className="fa fa-fw fa-3x fa-clock-o" aria-hidden="true"></i>
               <br />
               历史记录
             </a>
           </div>
           <div className="col">
-            <a href="#/" className="text-muted">
+            <a href="#/我的/收藏" className="text-muted">
               <i className="fa fa-fw fa-3x fa-star" aria-hidden="true"></i>
               <br />
               我的收藏
@@ -106,7 +106,7 @@ const User = () => {
         <hr style={{ marginTop: '0', marginBottom: '0' }} />
         <div className="row p-2 mt-2" >
           <div className="col">
-            <a className="text-dark" href="#/登录" >
+            <a className="text-dark" href="#/我的/反馈" >
               <h6 className="pull-left" >
                 <strong>意见反馈</strong>
               </h6>

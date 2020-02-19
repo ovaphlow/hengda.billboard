@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "DeliveryProto";
+
+package delivery;
+
+service Delivery {
+  
+  rpc userDeliveryList(DeliveryRequest) returns (DeliveryReply) {}
+
+  rpc userDelivery(DeliveryRequest) returns (DeliveryReply) {}
+  
+  rpc insert(DeliveryRequest) returns (DeliveryReply) {}
+
+}
+
+message DeliveryRequest { string data = 1; }
+
+message DeliveryReply { string data = 1; }

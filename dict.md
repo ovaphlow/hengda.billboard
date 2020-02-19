@@ -38,6 +38,44 @@
 
 中文|英文
 :--:|:--:
+地址|address1, address2, address3, address4
+发布日期写|date
+类型|category
+薪资|salary1,salary2
+要求学历|education
 工作内容|description
 招聘人数|qty
 岗位要求|requirement
+
+## 收藏
+
+中文|英文
+:--:|:--:
+用户id|common_user_id
+收藏数据id|data_id
+收藏类型|category
+
+## 历史记录
+
+中文|英文
+:--:|:--:
+用户id|common_user_id
+收藏数据id|data_id
+收藏类型|category
+
+## 简历投递
+
+中文|英文
+:--:|:--:
+用户id|common_user_id
+简历id|resume_id
+岗位id|recruitment_id
+状态|status
+
+## 意见反馈
+
+中文|英文
+:--:|:--:
+用户id|common_user_id
+反馈内容|content
+反馈时间|datime

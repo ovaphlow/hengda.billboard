@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "JournalProto";
+
+package journal;
+
+service Journal {
+  
+  rpc get(JournalRequest) returns (JournalReply) {}
+
+  rpc list(JournalRequest) returns (JournalReply) {}
+
+  rpc delete(JournalRequest) returns (JournalReply) {}
+    
+  rpc insert(JournalRequest) returns (JournalReply) {}
+}
+
+message JournalRequest { string data = 1; }
+
+message JournalReply { string data = 1; }

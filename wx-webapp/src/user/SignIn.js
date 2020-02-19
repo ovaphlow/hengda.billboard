@@ -39,8 +39,10 @@ export default function SignIn() {
     if (res.message) {
       window.alert(res.message)
       return
+    } else {
+      window.alert('注册成功')
+      window.location = '#登录'
     }
-    window.location = '#/'
   }
 
   return (

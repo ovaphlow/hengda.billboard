@@ -63,10 +63,10 @@ const User = () => {
             </a>
           </div>
           <div className="col">
-            <a href="#/我的/记录" className="text-muted">
+            <a href="#/我的/记录/浏览" className="text-muted">
               <i className="fa fa-fw fa-3x fa-clock-o" aria-hidden="true"></i>
               <br />
-              历史记录
+              操作记录
             </a>
           </div>
           <div className="col">
@@ -108,7 +108,7 @@ const User = () => {
           <div className="col">
             <a className="text-dark" href="#/我的/反馈" >
               <h6 className="pull-left" >
-                <strong>意见反馈</strong>
+                <strong>反馈/投诉</strong>
               </h6>
               <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
             </a>

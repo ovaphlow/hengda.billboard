@@ -29,7 +29,7 @@ const Setting = () => {
 
   const handleSave = async e => {
     const response = await fetch(`/api/common-user/`, {
-      method: 'POST',
+      method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(data)
     })

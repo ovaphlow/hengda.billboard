@@ -234,7 +234,10 @@ const Personal = () => {
     fetch(`./api/resume/${id}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        editType:'修改简历个人信息'
+      })
     })
       .then(res => res.json())
       .then(res => {
@@ -360,7 +363,10 @@ const School = () => {
     fetch(`./api/resume/${id}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        editType:'修改简历毕业院校'
+      })
     })
       .then(res => res.json())
       .then(res => {
@@ -473,7 +479,10 @@ const Intention = () => {
     fetch(`./api/resume/${id}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        editType:'修改简历求职意向'
+      })
     })
       .then(res => res.json())
       .then(res => {
@@ -557,7 +566,10 @@ const Evaluation = () => {
     fetch(`./api/resume/${id}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        editType:'修改简历自我评价'
+      })
     })
       .then(res => res.json())
       .then(res => {

@@ -549,7 +549,7 @@ function RecruitmentList() {
   )
 }
 
-function RecruitmentDetail(props) {
+export function RecruitmentDetail(props) {
   const { enterprise_id, recruitment_id } = useParams()
   const [data, setData] = useState({
     name: '',

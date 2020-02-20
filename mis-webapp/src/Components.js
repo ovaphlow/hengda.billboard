@@ -46,6 +46,18 @@ export function Navbar(props) {
               普通用户
             </a>
           </li>
+
+          <li className={`nav-item ${props.category === '投诉及反馈' ? 'active' : ''}`}>
+            <a href="#投诉及反馈/投诉" className="nav-link">
+              投诉及反馈
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '举报' ? 'active' : ''}`}>
+            <a href="#举报" className="nav-link">
+              举报
+            </a>
+          </li>
         </ul>
 
         <ul className="navbar-nav pull-right">

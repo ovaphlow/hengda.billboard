@@ -113,3 +113,13 @@ CREATE TABLE `feedback` (
   `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '反馈时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='问题反馈';
+
+CREATE TABLE `report` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '举报内容id',
+  `category` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '举报类型',
+  `content` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '举报原因',
+  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '举报时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='举报';

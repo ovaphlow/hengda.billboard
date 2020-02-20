@@ -6,6 +6,9 @@ import Home from './Home'
 import MISUserRouter from './MISUser'
 import EnterpriseRouter from './Enterprise'
 import CommonUserRouter from './CommonUser'
+import FeedbackRouter from './Feedback'
+import ReportRouter from './Report'
+import RecruitmentRouter from './Recruitment'
 
 export default function App() {
   useEffect(() => {
@@ -24,6 +27,9 @@ export default function App() {
         <Route path="/管理端用户"><MISUserRouter /></Route>
         <Route path="/企业"><EnterpriseRouter /></Route>
         <Route path="/普通用户"><CommonUserRouter /></Route>
+        <Route path="/投诉及反馈"><FeedbackRouter /></Route>
+        <Route path="/举报"><ReportRouter /></Route>
+        <Route path="/岗位"><RecruitmentRouter /></Route>
       </Switch>
     </Router>
   )

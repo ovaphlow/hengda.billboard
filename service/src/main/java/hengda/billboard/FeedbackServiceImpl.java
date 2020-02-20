@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
@@ -26,11 +28,12 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into feedback (common_user_id, content, datime) value (?, ?, ?)";
+      String sql = "insert into feedback (common_user_id, content, datime, category) value (?, ?, ?, ?)";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
       ps.setString(2, body.get("content").toString());
       ps.setString(3, body.get("datime").toString());
+      ps.setString(4, body.get("category").toString());
       ps.execute();
       resp.put("content", true);
     } catch (Exception e) {
@@ -41,5 +44,33 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
+
+  @Override
+  public void list(FeedbackRequest req, StreamObserver<FeedbackReply> responseObserver) {
+    logger.info("FeedbackServiceImpl.list");
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from feedback where common_user_id = ? ORDER BY datime DESC ";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("common_user_id").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      resp.put("content", result);
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    FeedbackReply reply = FeedbackReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
 
 }

@@ -4,22 +4,24 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/feedback.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/report.proto'), {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
 }
-).feedback
+).report
 
-const grpcClient = new proto.Feedback(
+const grpcClient = new proto.Report(
   `${config.grpcServer.host}:${config.grpcServer.port}`,
   grpc.credentials.createInsecure()
 )
 
+
+
 const router = new Router({
-  prefix: '/api/feedback'
+  prefix: '/api/report'
 })
 
 module.exports = router

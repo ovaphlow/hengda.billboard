@@ -15,7 +15,9 @@ service User {
   rpc update(UserRequest) returns (UserReply) {}
 
   rpc get(UserRequest) returns (UserReply) {}
-    
+     
+  rpc journal(UserRequest) returns (UserReply) {}
+
 }
 
 message UserRequest { string data = 1; }

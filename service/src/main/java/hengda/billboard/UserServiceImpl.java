@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,12 +61,11 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try {
-      
+
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      
+
       Connection conn = DBUtil.getConn();
-      String sql = "select * from common_user" +
-              " where phone = ? and password = ?";
+      String sql = "select * from common_user" + " where phone = ? and password = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("phone").toString());
       ps.setString(2, body.get("password").toString());
@@ -73,7 +74,16 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
       if (result.size() == 0) {
         resp.put("message", "账号或密码错误");
       } else {
-        resp.put("content", result.get(0));
+        Map<String, Object> userData = result.get(0);
+        sql = "insert into login_journal (user_id, ip, address, category, datime) value (?,?,?,?,?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, userData.get("id").toString());
+        ps.setString(2, body.get("ip").toString());
+        ps.setString(3, body.get("address").toString());
+        ps.setString(4, "普通用户");
+        ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+        ps.execute();
+        resp.put("content", userData);
       }
       conn.close();
     } catch (Exception e) {
@@ -92,9 +102,9 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try {
-      
+
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      
+
       Connection conn = DBUtil.getConn();
       String sql = "select * from common_user where id = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
@@ -123,17 +133,24 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try {
-      
+
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      
+
       Connection conn = DBUtil.getConn();
       String sql = "update common_user set name = ?, email=?  where id=?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("name").toString());
       ps.setString(2, body.get("email").toString());
       ps.setString(3, body.get("id").toString());
-      boolean rs = ps.execute();
-      resp.put("content", rs);
+      ps.execute();
+      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
+      ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("id").toString());
+      ps.setString(2, "普通用户");
+      ps.setString(3, "编辑用户信息");
+      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+      ps.execute();
+      resp.put("content", true);
       conn.close();
     } catch (Exception e) {
       e.printStackTrace();
@@ -143,4 +160,32 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
+
+  @Override
+  public void journal(UserRequest req, StreamObserver<UserReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from  login_journal where user_id = ? and category = ? ORDER BY datime DESC ";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, body.get("category").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      resp.put("content", result);
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
 }

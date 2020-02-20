@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,8 +103,15 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       ps.setString(16, body.get("yixiangchengshi").toString());
       ps.setString(17, body.get("ziwopingjia").toString());
       ps.setString(18, body.get("common_user_id").toString());
-      boolean rs = ps.execute();
-      resp.put("content", rs);
+      ps.execute();
+      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
+      ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("common_user_id").toString());
+      ps.setString(2, "普通用户");
+      ps.setString(3, body.get("editType").toString());
+      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+      ps.execute();
+      resp.put("content", true);
       conn.close();
     } catch (Exception e) {
       e.printStackTrace();

@@ -28,10 +28,10 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select t.datime as journal_date, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category,\n" 
-      +"   (select name from enterprise) as enterprise_name from "
-      + "(select data_id, datime, category from browse_journal where category = '岗位' and common_user_id =?) as t "
-      + "join recruitment as r on data_id = r.id order by t.datime desc ";
+      String sql = "select t.datime as journal_date, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category,\n"
+          + "   (select name from enterprise) as enterprise_name from "
+          + "(select data_id, datime, category from browse_journal where category = '岗位' and common_user_id =?) as t "
+          + "join recruitment as r on data_id = r.id order by t.datime desc ";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
       ResultSet rs = ps.executeQuery();
@@ -132,12 +132,12 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
         resp.put("content", true);
       } else {
         sql = "update browse_journal set datime = ? where common_user_id=? and  data_id=? and category=? ";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, body.get("datime").toString());
-        ps.setString(2, body.get("common_user_id").toString());
-        ps.setString(3, body.get("data_id").toString());
-        ps.setString(4, body.get("category").toString());
-        ps.execute();
+        PreparedStatement ps1 = conn.prepareStatement(sql);
+        ps1.setString(1, body.get("datime").toString());
+        ps1.setString(2, body.get("common_user_id").toString());
+        ps1.setString(3, body.get("data_id").toString());
+        ps1.setString(4, body.get("category").toString());
+        ps1.execute();
         resp.put("content", true);
       }
     } catch (Exception e) {

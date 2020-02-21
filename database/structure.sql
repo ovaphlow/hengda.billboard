@@ -1,16 +1,50 @@
+CREATE TABLE `browse_journal` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数据id',
+  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏数据类型',
+  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '时间',
+  PRIMARY KEY (`id`),
+  KEY `browse_journal_common_user_id_IDX` (`common_user_id`) USING BTREE,
+  KEY `browse_journal_data_id_IDX` (`data_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户浏览记录';
+
 CREATE TABLE `common_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '电话',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`),
+  KEY `common_user_username_IDX` (`username`) USING BTREE,
+  KEY `common_user_name_IDX` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `delivery` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `resume_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '简历id',
+  `recruitment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '岗位id',
+  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '投递时间',
+  `status` varchar(5) COLLATE utf8mb4_general_ci DEFAULT '已投递' COMMENT '投递状态',
+  PRIMARY KEY (`id`),
+  KEY `delivery_resume_id_IDX` (`resume_id`) USING BTREE,
+  KEY `delivery_recruitment_id_IDX` (`recruitment_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='简历投递';
+
+CREATE TABLE `edit_journal` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `category1` varchar(4) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户类型',
+  `category2` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作类型',
+  `datime` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作时间',
+  PRIMARY KEY (`id`),
+  KEY `edit_journal_user_id_IDX` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='编辑记录表';
 
 CREATE TABLE `enterprise` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '企业名称',
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `yingyezhizhao` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '营业执照/企业号',
   `faren` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '法人',
   `zhuceriqi` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '注册日期',
@@ -21,52 +55,66 @@ CREATE TABLE `enterprise` (
   `address2` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `address3` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `address4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `enterprise_name_IDX` (`name`) USING BTREE,
+  KEY `enterprise_address1_IDX` (`address1`,`address2`,`address3`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='企业';
 
 CREATE TABLE `enterprise_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `enterprise_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `username` varchar(20) NOT NULL DEFAULT '',
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `enterprise_user_enterprise_id_IDX` (`enterprise_id`) USING BTREE,
+  KEY `enterprise_user_username_IDX` (`username`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='企业用户';
+
+CREATE TABLE `favorite` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数据id',
+  `category` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏数据类型',
+  PRIMARY KEY (`id`),
+  KEY `favorite_common_user_id_IDX` (`common_user_id`) USING BTREE,
+  KEY `favorite_data_id_IDX` (`data_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户收藏';
+
+CREATE TABLE `feedback` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '反馈内容',
+  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '反馈时间',
+  `category` varchar(4) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '类型',
+  PRIMARY KEY (`id`),
+  KEY `feedback_common_user_id_IDX` (`common_user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='反馈/投诉';
+
+CREATE TABLE `login_journal` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `ip` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0.0.0.0' COMMENT '登录ip地址',
+  `address` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '登录物理位置',
+  `category` varchar(4) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户类型',
+  `datime` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0000-01-01 00:01' COMMENT '登录时间',
+  PRIMARY KEY (`id`),
+  KEY `login_journal_user_id_IDX` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `mis_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `mis_user_username_IDX` (`username`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理端用户';
-
-CREATE TABLE `resume` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '姓名',
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '联系电话',
-  `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '邮箱地址',
-  `gender` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '性别',
-  `birthday` date NOT NULL DEFAULT '0000-01-01',
-  `school` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '毕业院校',
-  `education` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '学历',
-  `date_begin` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '入学时间',
-  `date_end` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '毕业时间',
-  `major` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '专业',
-  `qiuzhiyixiang` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '求职意向',
-  `address1` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '省',
-  `address2` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '市',
-  `address3` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '区',
-  `address4` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '详细',
-  `yixiangchengshi` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '求职意向地址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `recruitment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `enterprise_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `name` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘职位',
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘职位',
   `qty` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘人数',
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '工作内容',
   `requirement` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '岗位要求',
@@ -78,41 +126,11 @@ CREATE TABLE `recruitment` (
   `salary2` int(11) NOT NULL DEFAULT '0' COMMENT '薪资',
   `education` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '学历',
   `category` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '类型',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `recruitment_enterprise_id_IDX` (`enterprise_id`) USING BTREE,
+  KEY `recruitment_name_IDX` (`name`) USING BTREE,
+  KEY `recruitment_address1_IDX` (`address1`,`address2`,`address3`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `delivery` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `resume_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '简历id',
-  `recruitment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '岗位id',
-  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '投递时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='简历投递';
-
-CREATE TABLE `journal` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数据id',
-  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏数据类型',
-  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户历史记录';
-
-CREATE TABLE `favorite` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `data_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数据id',
-  `category` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '收藏数据类型',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户收藏';
-
-CREATE TABLE `feedback` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '反馈内容',
-  `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '反馈时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='问题反馈';
 
 CREATE TABLE `report` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -121,5 +139,33 @@ CREATE TABLE `report` (
   `category` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '举报类型',
   `content` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '举报原因',
   `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '举报时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='举报';
+  PRIMARY KEY (`id`),
+  KEY `report_common_user_id_IDX` (`common_user_id`) USING BTREE,
+  KEY `report_data_id_IDX` (`data_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='举报';
+
+CREATE TABLE `resume` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `common_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '姓名',
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '联系电话',
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '邮箱地址',
+  `gender` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '性别',
+  `birthday` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0000-01-01',
+  `school` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '毕业院校',
+  `education` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '学历',
+  `date_begin` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '入学时间',
+  `date_end` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '毕业时间',
+  `major` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '专业',
+  `qiwangzhiwei` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '期望职位',
+  `qiwanghangye` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '期望行业',
+  `address1` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '省',
+  `address2` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '市',
+  `address3` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '区',
+  `address4` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '详细',
+  `yixiangchengshi` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '求职意向地址',
+  `ziwopingjia` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '自我评价',
+  PRIMARY KEY (`id`),
+  KEY `resume_common_user_id_IDX` (`common_user_id`) USING BTREE,
+  KEY `resume_education_IDX` (`education`,`yixiangchengshi`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

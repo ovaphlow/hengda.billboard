@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import PropTypes from 'prop-types';
-// import Pagination from 'docs/src/modules/components/Pagination';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
 
@@ -87,7 +86,7 @@ const PlayImg = () => {
 
   const handleChangeIndex = index => {
     setIndex(index)
-  };
+  }
 
 
   return (

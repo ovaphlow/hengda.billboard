@@ -4,7 +4,7 @@ import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
 import { TextCheckbox } from '../components/Button'
-import { MessageRow, TopicCard } from './Components'
+import { MessageRow, TopicCards } from './Components'
 
 
 const HomePage = () => {
@@ -67,7 +67,6 @@ const HomePage = () => {
   }, [])
 
   useEffect(() => {
-    console.info(messageTypes)
   }, [messageTypes])
 
   const _onCheckboxChange = ({ value, checked }) => {
@@ -99,10 +98,7 @@ const HomePage = () => {
           <div style={{ borderLeft: ".25rem solid#007bff", fontSize: 13 }}>
             <span >&nbsp;&nbsp;热门话题</span>
           </div>
-          <div className="row px-3 mt-2 text-center" style={{ fontSize: 10 }}>
-            {topicList && topicList.map(item =>
-              <TopicCard key={item.id} {...item} toDetails={(() => { })} />)}
-          </div>
+          <TopicCards list={topicList} />
         </div>
         <div className="mt-2 border-0">
           <div style={{ width: "100%", borderLeft: ".25rem solid#007bff", fontSize: 13 }}>

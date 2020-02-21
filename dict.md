@@ -55,7 +55,7 @@
 收藏数据id|data_id
 收藏类型|category
 
-## 历史记录
+## 浏览记录
 
 中文|英文
 :--:|:--:
@@ -72,10 +72,38 @@
 岗位id|recruitment_id
 状态|status
 
-## 意见反馈
+## 反馈/投诉
 
 中文|英文
 :--:|:--:
 用户id|common_user_id
-反馈内容|content
-反馈时间|datime
+内容|content
+时间|datime
+反馈/投诉|category
+
+## 登陆记录
+
+中文|英文
+:--:|:--:
+user_id|用户id
+ip|ip地址
+address|登陆地理位置
+category|用户类型
+datime|登录时间
+
+## 编辑记录
+
+中文|英文
+:--:|:--:
+user_id|用户id
+category1|用户类型
+category2|编辑操作类型
+datime|编辑时间
+
+## 举报
+
+common_user_id|用户id
+data_id|举报数据id
+category|举报数据类型
+content|举报原因
+datime|举报时间

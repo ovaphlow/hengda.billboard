@@ -24,22 +24,42 @@ const router = new Router({
 
 module.exports = router
 
-router.post('/', async ctx => {
-  const grpcFetch = body => new Promise((resolve, reject) =>
-    grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
-      if (err) {
-        console.error(err)
-        reject(err)
-        return
-      } else {
-        resolve(JSON.parse(response.data))
-      }
-    })
-  )
-  try {
-    ctx.response.body = await grpcFetch(ctx.request.body)
-  } catch (err) {
-    console.error(err)
-    ctx.response.body = { message: '服务器错误' }
-  }
-})
+router
+  .get('/:common_user_id', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.list({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .post('/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })

@@ -74,6 +74,13 @@ function deliveryRouter() {
 
 deliveryRouter()
 
+function reportRouter() {
+  const router = require('./routes/report')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+reportRouter()
 
 function feedbackRouter() {
   const router = require('./routes/feedback')
@@ -82,6 +89,15 @@ function feedbackRouter() {
 }
 
 feedbackRouter()
+
+
+function enterpriseRouter() {
+  const router = require('./routes/enterprise')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+enterpriseRouter()
 
 function topicRouter() {
   const router = require('./routes/topic')

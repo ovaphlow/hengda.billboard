@@ -22,7 +22,11 @@ export default function LogIn() {
     const response = await fetch(`/api/common-user/log-in`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ phone: data.phone, password: md5(data.password) })
+      body: JSON.stringify({ 
+        ip: window.returnCitySN.cip,
+        address: window.returnCitySN.cname,
+        phone: data.phone, password: md5(data.password) 
+      })
     })
     const res = await response.json()
     if (res.message) {
@@ -54,8 +58,8 @@ export default function LogIn() {
             <div className="card border-0">
               <div className="card-body">
                 <div className="form-group ">
-                  <input type="text" 
-                    name="phone" 
+                  <input type="text"
+                    name="phone"
                     value={data.phone}
                     className="input-control"
                     placeholder="手机号码"
@@ -79,20 +83,20 @@ export default function LogIn() {
                   登录
                 </button>
               </div>
-              <div 
-              style={{
-                width: '95%',
-                fontSize: 13
-              }}
-              className="row mx-auto">
+              <div
+                style={{
+                  width: '95%',
+                  fontSize: 13
+                }}
+                className="row mx-auto">
                 <div className="col">
                   <a className="text-muted" href="#/注册">
                     立即注册
                   </a>
                 </div>
                 <div className="col">
-                <a className="pull-right text-muted" href="#/">
-                  忘记密码
+                  <a className="pull-right text-muted" href="#/">
+                    忘记密码
                 </a>
                 </div>
               </div>

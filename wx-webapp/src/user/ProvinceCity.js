@@ -76,7 +76,10 @@ const ProvinceCity = () => {
     fetch(`./api/resume/${id}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(resume)
+      body: JSON.stringify({
+        ...resume,
+        editType:'修改简历个人信息'
+      })
     })
       .then(res => res.json())
       .then(res => {

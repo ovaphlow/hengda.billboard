@@ -10,6 +10,8 @@ service Feedback {
 
   rpc insert(FeedbackRequest) returns (FeedbackReply) {}
 
+  rpc list(FeedbackRequest) returns (FeedbackReply) {}
+
 }
 
 message FeedbackRequest { string data = 1; }

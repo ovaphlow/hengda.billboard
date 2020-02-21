@@ -87,7 +87,7 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
-  .post('/', async ctx => {
+  .put('/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.update({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {
@@ -101,6 +101,26 @@ router
     )
     try {
       ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .get('/journal/:user_id/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.journal({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.params.category = '普通用户'
+      ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import moment from 'moment'
 
 
 import ToBack from '../components/ToBack'
-import { useParams } from 'react-router-dom'
+
 
 const Details = () => {
 
@@ -123,7 +124,7 @@ const Details = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack />
+        <ToBack report dataType="岗位" dataId={id} />
         {data && (
           <>
             <div className="row mt-3">
@@ -139,7 +140,8 @@ const Details = () => {
             <div className="row">
               <div className="col">
                 <span className="text-muted" style={{ fontSize: 12 }}>
-                  {data.enterprise_name}<br />
+                  <a href={`#岗位/企业/${data.enterprise_id}`}> {data.enterprise_name}</a>
+                  <br />
                   {data.address2 ? data.address2 : data.address1} |{data.education}|{data.category}
                 </span>
               </div>
@@ -196,14 +198,14 @@ const Details = () => {
           {
             delivery ? (
               <div className="col-5 nav-col">
-                <button className="btn btn-secondary nav-btn " 
+                <button className="btn btn-secondary nav-btn "
                   onClick={handleResumeDelivery} disabled>
-                  {delivery === true? '已投递':delivery.status}
+                  {delivery === true ? '已投递' : delivery.status}
                 </button>
               </div>
             ) : (
                 <div className="col-5 nav-col">
-                  <button className="btn btn-primary nav-btn" 
+                  <button className="btn btn-primary nav-btn"
                     onClick={handleResumeDelivery}>
                     投递简历
                   </button>

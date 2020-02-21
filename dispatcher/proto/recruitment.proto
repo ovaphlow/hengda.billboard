@@ -11,7 +11,11 @@ service Recruitment {
   rpc get(RecruitmentRequest) returns (RecruitmentReply) {}
 
   rpc list(RecruitmentRequest) returns (RecruitmentReply) {}
-    
+
+  rpc search(RecruitmentRequest) returns (RecruitmentReply) {}
+
+  rpc enterpriseList(RecruitmentRequest) returns (RecruitmentReply) {}
+  
 }
 
 message RecruitmentRequest { string data = 1; }

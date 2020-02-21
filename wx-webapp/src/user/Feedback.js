@@ -7,21 +7,19 @@ const Feedback = () => {
 
   const [content, setCntent] = useState('')
 
+  const [category, setCategory] = useState('意见反馈')
+
   const [auth, setAuth] = useState(0)
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth === null) {
-      window.location='#/登录'
+      window.location = '#/登录'
     } else {
       setAuth(_auth)
     }
-  },[])
+  }, [])
 
-
-  const handleChange = e => {
-    setCntent(e.target.value)
-  }
 
   const handleSave = () => {
     if (content === '') {
@@ -33,7 +31,8 @@ const Feedback = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         content: content,
-        common_user_id:auth.id,
+        category:category,
+        common_user_id: auth.id,
         datime: moment().format('YYYY-MM-DD HH:mm')
       })
     })
@@ -53,17 +52,39 @@ const Feedback = () => {
         <ToBack />
 
         <div className="mt-2">
-          <h4>意见反馈</h4>
+          <h4>反馈/投诉</h4>
         </div>
 
         <div className="row mt-3">
           <div className="col">
             <div className="form-group">
-              <textarea
+              <span className="text-muted" style={{ fontSize: 13 }}>
+                类别:
+              </span>
+              <select
                 className="form-control"
-                value={content}
-                onChange={handleChange}
-                rows="6" />
+                onChange={e => setCategory(e.target.value)}
+              >
+                <option>意见反馈</option>
+                <option>问题投诉</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="row mt-1">
+          <div className="col">
+            <div className="form-group">
+              <div className="form-group">
+                <span className="text-muted" style={{ fontSize: 13 }}>
+                  内容:
+                </span>
+                <textarea
+                  className="form-control"
+                  value={content}
+                  onChange={e => setCntent(e.target.value)}
+                  rows="6" />
+              </div>
             </div>
           </div>
         </div>
@@ -71,7 +92,7 @@ const Feedback = () => {
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
-            保存
+            提交
           </button>
         </div>
       </ul>

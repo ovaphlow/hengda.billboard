@@ -23,6 +23,8 @@ public class BizService {
                 .addService(new JournalServiceImpl())
                 .addService(new DeliveryServiceImpl())
                 .addService(new FeedbackServiceImpl())
+                .addService(new ReportServiceImpl())
+                .addService(new EnterpriseServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

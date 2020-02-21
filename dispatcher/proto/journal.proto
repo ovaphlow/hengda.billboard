@@ -15,6 +15,9 @@ service Journal {
   rpc delete(JournalRequest) returns (JournalReply) {}
     
   rpc insert(JournalRequest) returns (JournalReply) {}
+
+  rpc editList(JournalRequest) returns (JournalReply) {}
+  
 }
 
 message JournalRequest { string data = 1; }

@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
 import { TextCheckbox } from '../components/Button'
 import { RecruitmentRow } from '../components/DataRow'
+import CityDropdowns from '../components/CityDropdowns'
+
 
 const List = () => {
 
@@ -12,45 +14,70 @@ const List = () => {
 
   const [list, setList] = useState([])
 
+  const [city, setCity] = useState('')
+
+
   useEffect(() => {
     fetch(`./api/recruitment`)
-    .then(res => res.json())
-    .then(res => {
-      if (res.content) {
-        setList(res.content)
-      } else {
-        alert(res.message)
-      }
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setList(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
+  }, [])
+
+
+
+  const _onCheckboxChange = ({ value, checked }) => {
+    search({
+      city: city,
+      ...types,
+      [value]: checked
     })
-  },[])
-
-
-
-  const _onCheckboxChange = ({val,checked}) => {
     setTypes(types => ({
       ...types,
-      [val]:checked
+      [value]: checked
     }))
   }
 
-  useEffect(()=> {
-    console.info(types)
-  },[types])
+  const handleChange = val => {
+    search({
+      city: val,
+      ...types
+    })
+    setCity(val)
+  }
 
-
-  
+  const search = param => {
+    fetch(`./api/recruitment/search`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(param)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setList(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
+  }
 
   return (
     <>
       <div className="container-fluid">
         <Title category="岗位" />
         <PlayImg />
-        <div className="row mt-2 mb-2" style={{fontSize:12}}>
+        <div className="row mt-1 mb-1" >
           <div className="col">
-            城市
+            <CityDropdowns handleChange={handleChange} key={0}/>
           </div>
-          <div className="col">
-            <div className="pull-right text-primary">
+          <div className="col flex-end">
+            <div className="pull-right text-primary" style={{ fontSize: '.875rem' }}>
               <TextCheckbox value="兼职" onChange={_onCheckboxChange}>
                 兼职
               </TextCheckbox>
@@ -65,7 +92,7 @@ const List = () => {
             </div>
           </div>
         </div>
-        {list&&list.map(item => <RecruitmentRow key={item.id} {...item}/>)}
+        {list && list.map(item => <RecruitmentRow key={item.id} {...item} />)}
       </div>
       <Navbar category="岗位" />
     </>

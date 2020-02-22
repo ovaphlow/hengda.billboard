@@ -94,7 +94,7 @@ function List() {
                           <td>{it.datime}</td>
                           <td>{it.category}</td>
                           <td>{it.content}</td>
-                          <td className="pull-right">
+                          <td className="text-right">
                             <button type="button" className="btn btn-sm btn-outline-danger" data-id={it.data_id} data-category={it.category} onClick={handleRedirect}>
                               <i className="fa fa-fw fa-link"></i>
                               查看

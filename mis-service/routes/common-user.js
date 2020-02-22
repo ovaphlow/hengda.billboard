@@ -121,6 +121,108 @@ router
     }
   })
 
+// 登录记录、浏览记录、编辑记录
+router
+  .get('/:id/journal/sign-in/', async ctx => {
+    const sql = `
+      select * from login_journal where user_id = ? order by id desc limit 200
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/:id/journal/sign-in/', async ctx => {
+    const sql = `
+      select *
+      from login_journal
+      where user_id = ?
+        and datime between ? and ?
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.id,
+        ctx.request.body.date_begin,
+        ctx.request.body.date_end
+      ])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .get('/:id/journal/browse/', async ctx => {
+    const sql = `
+      select * from browse_journal where common_user_id = ? order by id desc limit 200
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/:id/journal/browse/', async ctx => {
+    const sql = `
+      select *
+      from browse_journal
+      where common_user_id = ?
+        and datime between ? and ?
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.id,
+        ctx.request.body.date_begin,
+        ctx.request.body.date_end
+      ])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .get('/:id/journal/edit/', async ctx => {
+    const sql = `
+      select * from edit_journal where user_id = ? order by id desc limit 200
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/:id/journal/edit/', async ctx => {
+    const sql = `
+      select *
+      from edit_journal
+      where user_id = ?
+        and datime between ? and ?
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.id,
+        ctx.request.body.date_begin,
+        ctx.request.body.date_end
+      ])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
 router
   .get('/:id', async ctx => {
     const sql = `

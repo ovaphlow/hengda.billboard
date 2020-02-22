@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "CommonUserProto";
+
+package commonUser;
+
+service CommonUser {
+  
+  rpc signIn(CommonUserRequest) returns (CommonUserReply) {}
+
+  rpc logIn(CommonUserRequest) returns (CommonUserReply) {}
+
+  rpc update(CommonUserRequest) returns (CommonUserReply) {}
+
+  rpc get(CommonUserRequest) returns (CommonUserReply) {}
+     
+  rpc journal(CommonUserRequest) returns (CommonUserReply) {}
+
+}
+
+message CommonUserRequest { string data = 1; }
+
+message CommonUserReply { string data = 1; }

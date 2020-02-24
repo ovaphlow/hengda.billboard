@@ -524,7 +524,6 @@ function DeliveryList() {
       return
     }
     setData(res.content)
-    console.info(res)
   }
 
   return (

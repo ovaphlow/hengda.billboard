@@ -14,6 +14,7 @@ export default function CommonUserRouter() {
         <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
         <Route path="/普通用户/:common_user_id/新增简历"><ResumeDetail category="新增" /></Route>
         <Route path="/普通用户/:common_user_id/简历/:resume_id"><ResumeDetail category="编辑" /></Route>
+        <Route path="/普通用户/:id/投递记录"><DeliveryList /></Route>
         <Route path="/普通用户/:id/登录记录"><Journal category="登录" /></Route>
         <Route path="/普通用户/:id/浏览记录"><Journal category="浏览" /></Route>
         <Route path="/普通用户/:id/编辑记录"><Journal category="编辑" /></Route>
@@ -324,12 +325,21 @@ function Detail(props) {
                       </div>
 
                       <div className="card-footer text-center">
-                        <button type="button" className="btn btn-sm btn-outline-success"
-                          onClick={() => window.location = `#普通用户/${id}/新增简历`}
-                        >
-                          <i className="fa fa-fw fa-plus"></i>
-                          添加简历
-                        </button>
+                        <div className="btn-group">
+                          <button type="button" className="btn btn-sm btn-outline-success"
+                            onClick={() => window.location = `#普通用户/${id}/新增简历`}
+                          >
+                            <i className="fa fa-fw fa-plus"></i>
+                            添加简历
+                          </button>
+
+                          <button type="button" className="btn btn-sm btn-outline-info"
+                            onClick={() => window.location = `#普通用户/${id}/投递记录`}
+                          >
+                            <i className="fa fa-fw fa-list"></i>
+                            投递记录
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )
@@ -484,6 +494,122 @@ function ResumeDetail(props) {
                     确定
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function DeliveryList() {
+  const { id } = useParams()
+  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-DD'))
+  const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'))
+  const [data, setData] = useState([])
+
+  const handleFilter = async () => {
+    const response = await window.fetch(`/api/common-user/${id}/delivery/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        filter_date_begin: filter_date_begin,
+        filter_date_end: filter_date_end
+      })
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setData(res.content)
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="普通用户" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>普通用户 简历投递记录</h3>
+            <hr />
+
+            <div className="btn-group mb-3">
+              <BackwardButton />
+            </div>
+
+            <div className="card shadow">
+              <div className="card-header">
+                <div className="form-row align-items-center">
+                  <div className="col-auto mt-2">
+                    <label className="sr-only">起止日期</label>
+                    <input type="date" name="filter_name" value={filter_date_begin} placeholder="起始日期"
+                      className="form-control mb-2"
+                      onChange={event => setFilterDateBegin(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="col-auto mt-2">
+                    <input type="date" name="filter_date_end" value={filter_date_end} placeholder="终止日期"
+                      className="form-control mb-2"
+                      onChange={event => setFilterDateEnd(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="col-auto">
+                    <div className="btn-group">
+                      <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
+                        查询
+                      </button>
+
+                      <RefreshButton caption="重置" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-body">
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th className="text-right">序号</th>
+                      <th>简历</th>
+                      <th>岗位</th>
+                      <th>日期</th>
+                      <th>状态</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {
+                      data.length === 0 && (
+                        <tr><td>无数据</td></tr>
+                      )
+                    }
+                    {
+                      data.map(it => (
+                        <tr key={it.id}>
+                          <td className="text-right">{it.id}</td>
+                          <td>
+                            <a href={`#普通用户/${id}/简历/${it.resume_id}`}>{it.resume_name}</a>
+                          </td>
+                          <td>
+                            <a href={`#岗位/${it.recruitment_id}`}>{it.recruitment_name}</a>
+                          </td>
+                          <td>{it.datime}</td>
+                          <td>{it.status}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

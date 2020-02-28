@@ -121,6 +121,28 @@ router
     }
   })
 
+router
+  .put('/:id/delivery/', async ctx => {
+    const sql = `
+      select *,
+        (select name from resume where id = d.resume_id ) as resume_name,
+        (select name from recruitment where id = d.recruitment_id ) as recruitment_name
+      from delivery as d
+      where datime between ? and ?
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.request.body.filter_date_begin,
+        ctx.request.body.filter_date_end
+      ])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
 // 登录记录、浏览记录、编辑记录
 router
   .get('/:id/journal/sign-in/', async ctx => {

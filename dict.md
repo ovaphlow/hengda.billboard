@@ -46,14 +46,19 @@
 工作内容|description
 招聘人数|qty
 岗位要求|requirement
+学历要求|education
+类型|category
+行业|industry
+状态|status
 
 ## 收藏
 
 中文|英文
 :--:|:--:
-用户id|common_user_id
+用户id|user_id
 收藏数据id|data_id
-收藏类型|category
+用户类型|category1
+收藏数据类型|category2
 
 ## 浏览记录
 

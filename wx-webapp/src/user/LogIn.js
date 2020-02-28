@@ -18,7 +18,7 @@ export default function LogIn() {
     setData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSignIn = async () => {
+  const handleLogIn = async () => {
     const response = await fetch(`/api/common-user/log-in`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -79,7 +79,7 @@ export default function LogIn() {
                   type="button"
                   style={{ width: '80%' }}
                   className="btn btn-block btn-primary mx-auto"
-                  onClick={handleSignIn}>
+                  onClick={handleLogIn}>
                   登录
                 </button>
               </div>

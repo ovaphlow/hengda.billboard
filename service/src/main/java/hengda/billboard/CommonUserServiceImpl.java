@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class UserServiceImpl extends UserGrpc.UserImplBase {
+public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(CommonUserServiceImpl.class);
 
   @Override
-  public void signIn(UserRequest req, StreamObserver<UserReply> responseObserver) {
+  public void signIn(CommonUserRequest req, StreamObserver<CommonUserReply> responseObserver) {
     logger.info("RecruitmentServiceImpl.signIn");
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
@@ -49,13 +49,13 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+    CommonUserReply reply = CommonUserReply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
-  public void logIn(UserRequest req, StreamObserver<UserReply> responseObserver) {
+  public void logIn(CommonUserRequest req, StreamObserver<CommonUserReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -90,13 +90,13 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+    CommonUserReply reply = CommonUserReply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
-  public void get(UserRequest req, StreamObserver<UserReply> responseObserver) {
+  public void get(CommonUserRequest req, StreamObserver<CommonUserReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -121,13 +121,13 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+    CommonUserReply reply = CommonUserReply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
-  public void update(UserRequest req, StreamObserver<UserReply> responseObserver) {
+  public void update(CommonUserRequest req, StreamObserver<CommonUserReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -156,13 +156,13 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+    CommonUserReply reply = CommonUserReply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
-  public void journal(UserRequest req, StreamObserver<UserReply> responseObserver) {
+  public void journal(CommonUserRequest req, StreamObserver<CommonUserReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -183,7 +183,7 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+    CommonUserReply reply = CommonUserReply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }

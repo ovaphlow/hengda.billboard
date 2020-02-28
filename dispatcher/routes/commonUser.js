@@ -4,16 +4,16 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/user.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/commonUser.proto'), {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
 }
-).user
+).commonUser
 
-const grpcClient = new proto.User(
+const grpcClient = new proto.CommonUser(
   `${config.grpcServer.host}:${config.grpcServer.port}`,
   grpc.credentials.createInsecure()
 )

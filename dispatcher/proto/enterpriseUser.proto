@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "EnterpriseUserProto";
+
+package enterpriseUser;
+
+service EnterpriseUser {
+  
+  rpc signIn(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
+  rpc logIn(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
+}
+
+message EnterpriseUserRequest { string data = 1; }
+
+message EnterpriseUserReply { string data = 1; }

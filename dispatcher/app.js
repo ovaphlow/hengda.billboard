@@ -26,13 +26,22 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 })
 
-function initUserRouter() {
-  const router = require('./routes/user')
+function EnterpriseUserRouter() {
+  const router = require('./routes/enterpriseUser')
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
 
-initUserRouter()
+EnterpriseUserRouter()
+
+
+function CommonUserRouter() {
+  const router = require('./routes/commonUser')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+CommonUserRouter()
 
 function resumeRouter() {
   const router = require('./routes/resume')

@@ -4,7 +4,7 @@
 
 中文|英文
 :--:|:--:
-普通用户|common_user
+个人用户|common_user
 邮箱|email
 企业|enterprise
 姓名|name
@@ -107,3 +107,13 @@ data_id|举报数据id
 category|举报数据类型
 content|举报原因
 datime|举报时间
+
+## 消息
+
+category| 消息类型
+send_user_id | 发起方
+send_category| 发起方类型
+receive_user_id | 接收方
+receive_category| 接收方类型
+content | 内容
+datime | 发送时间

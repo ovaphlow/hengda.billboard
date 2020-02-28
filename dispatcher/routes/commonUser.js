@@ -119,7 +119,7 @@ router
       })
     )
     try {
-      ctx.params.category = '普通用户'
+      ctx.params.category = '个人用户'
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)

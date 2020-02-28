@@ -80,7 +80,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
         ps.setString(1, userData.get("id").toString());
         ps.setString(2, body.get("ip").toString());
         ps.setString(3, body.get("address").toString());
-        ps.setString(4, "普通用户");
+        ps.setString(4, "个人用户");
         ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
         ps.execute();
         resp.put("content", userData);
@@ -146,7 +146,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
       sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
       ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
-      ps.setString(2, "普通用户");
+      ps.setString(2, "个人用户");
       ps.setString(3, "编辑用户信息");
       ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
       ps.execute();

@@ -5,12 +5,13 @@ import Navbar from '../components/Navbar'
 import Title from '../components/Title'
 import Footer from '../components/Footer'
 import List from './List'
-
+import Save from './Save'
+import Update from './Update'
 
 const Index = () => {
   useEffect(() => {
     const auth = sessionStorage.getItem('auth')
-    if (!!!auth) {
+    if (auth === null) {
       window.location = '#登录'
     }
   }, [])
@@ -22,6 +23,8 @@ const Index = () => {
       <Router>
         <Switch>
           <Route exact path="/岗位/列表/" ><List /></Route>
+          <Route exact path="/岗位/新增/" ><Save /></Route>
+          <Route exact path="/岗位/编辑/:id/" ><Update /></Route>
         </Switch>
       </Router>
       <Footer />

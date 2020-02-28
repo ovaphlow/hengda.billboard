@@ -55,7 +55,7 @@ const Resume = () => {
     }
     setAuth(_auth)
 
-    fetch(`./api/resume/${_auth.id}`)
+    fetch(`./api/resume/user/${_auth.id}/`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -214,7 +214,7 @@ const Personal = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`./api/resume/${id}`)
+    fetch(`./api/resume/user/${id}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -343,7 +343,7 @@ const School = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`./api/resume/${id}`)
+    fetch(`./api/resume/user/${id}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -459,7 +459,7 @@ const Intention = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`./api/resume/${id}`)
+    fetch(`./api/resume/user/${id}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -546,7 +546,7 @@ const Evaluation = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`./api/resume/${id}`)
+    fetch(`./api/resume/user/${id}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {

@@ -14,12 +14,12 @@ const Navbar = props => {
         </a>
       </div>
       <div className={`col ${props.category === '简历' && 'nav-bar-active'}`}>
-        <a className="nav-link text-dark" href="#/">
+        <a className="nav-link text-dark" href="#/简历/列表">
           简历管理
         </a>
       </div>
       <div className={`col ${props.category === '消息' && 'nav-bar-active'}`}>
-        <a className="nav-link text-dark" href="#/">
+        <a className="nav-link text-dark" href="#/消息/面试">
           消息
         </a>
       </div>
@@ -30,7 +30,7 @@ const Navbar = props => {
       </div>
       <div className={`col ${props.category === '我的消息' && 'nav-bar-active'}`}>
         <a className="nav-link text-dark" href="#/">
-          我的消息
+          我的信息
         </a>
       </div>
     </div>

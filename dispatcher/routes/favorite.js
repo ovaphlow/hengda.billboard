@@ -25,7 +25,7 @@ const router = new Router({
 module.exports = router
 
 router
-  .get('/:common_user_id/', async ctx => {
+  .get('/category1/:user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.list({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {
@@ -44,9 +44,9 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
-  .get('/:common_user_id/:data_id/:category/', async ctx => {
+  .put('/search/resume/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.searchResume({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -57,7 +57,26 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.params)
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .put('/search/one/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.searchOne({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -82,7 +101,7 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
-  .delete('/:common_user_id/:data_id/:category/', async ctx => {
+  .delete('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.delete({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {

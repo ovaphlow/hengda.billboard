@@ -14,6 +14,11 @@ body {
   background: linear-gradient(to right, DimGray, 75%, OrangeRed);
 }
 
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .input-control {
   width: 100%;
   font-size: 1rem;

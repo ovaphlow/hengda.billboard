@@ -7,7 +7,7 @@ CREATE TABLE `browse_journal` (
   PRIMARY KEY (`id`),
   KEY `browse_journal_common_user_id_IDX` (`common_user_id`) USING BTREE,
   KEY `browse_journal_data_id_IDX` (`data_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户浏览记录';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='个人用户浏览记录';
 
 CREATE TABLE `common_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -79,7 +79,7 @@ CREATE TABLE `favorite` (
   PRIMARY KEY (`id`),
   KEY `favorite_common_user_id_IDX` (`common_user_id`) USING BTREE,
   KEY `favorite_data_id_IDX` (`data_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户收藏';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='个人用户收藏';
 
 CREATE TABLE `feedback` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

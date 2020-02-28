@@ -6,6 +6,17 @@ import moment from 'moment'
 import ToBack from '../components/ToBack'
 
 
+const searchFavorite = body => new Promise((resolve, reject) => {
+  fetch(`./api/favorite/search/one/`, {
+    method: 'PUT',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+    .then(res => res.json())
+    .then(response => resolve(response))
+    .catch(err => reject(err))
+})
+
 const Details = () => {
 
   const [data, setData] = useState(0)
@@ -47,13 +58,16 @@ const Details = () => {
         })
           .then(res => res.json())
           .then(res => { })
-        fetch(`./api/favorite/${_auth.id}/${data.id}/岗位/`)
-          .then(res => res.json())
-          .then(res => {
-            if (res.content) {
-              setFavorite(p => true)
-            }
-          })
+        searchFavorite({
+          user_id: _auth.id,
+          data_id: data.id,
+          category1: '个人用户',
+          category2: '岗位',
+        }).then(res => {
+          if (res.content) {
+            setFavorite(p => res.content)
+          }
+        })
         fetch(`./api/delivery/${_auth.id}/${data.id}/`)
           .then(res => res.json())
           .then(res => {
@@ -67,57 +81,77 @@ const Details = () => {
 
 
   const handleFavorite = () => {
-    if (favorite) {
-      fetch(`./api/favorite/${auth.id}/${data.id}/岗位/`, {
-        method: 'DELETE'
-      })
-        .then(res => res.json())
-        .then(res => {
-          if (res.message === '') {
-            setFavorite(false)
-          } else {
-            alert(res.message)
-          }
-        })
+    const _auth = JSON.parse(localStorage.getItem('auth'))
+    if (_auth === null) {
+      window.location = '#登录'
     } else {
-      fetch(`./api/favorite/`, {
+      if (favorite) {
+        fetch(`./api/favorite/${favorite.id}/`, {
+          method: 'DELETE'
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.message === '') {
+              setFavorite(false)
+            } else {
+              alert(res.message)
+            }
+          })
+      } else {
+        fetch(`./api/favorite/`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            user_id: auth.id,
+            data_id: data.id,
+            category1: '个人用户',
+            category2: '岗位',
+          })
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.message === '') {
+              searchFavorite({
+                user_id: auth.id,
+                data_id: data.id,
+                category1: '个人用户',
+                category2: '岗位',
+              }).then(res1 => {
+                if (res1.content) {
+                  setFavorite(p => res1.content)
+                }
+              })
+            } else {
+              alert(res.message)
+            }
+          })
+      }
+    }
+  }
+
+  const handleResumeDelivery = () => {
+    const _auth = JSON.parse(localStorage.getItem('auth'))
+    if (_auth === null) {
+      window.location = '#登录'
+    } else {
+      fetch(`./api/delivery/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           common_user_id: auth.id,
-          data_id: data.id,
-          category: '岗位',
+          recruitment_id: data.id,
+          datime: moment().format('YYYY-MM-DD HH:mm'),
         })
       })
         .then(res => res.json())
         .then(res => {
           if (res.message === '') {
-            setFavorite(true)
+            setDelivery(true)
           } else {
             alert(res.message)
           }
         })
     }
-  }
-
-  const handleResumeDelivery = () => {
-    fetch(`./api/delivery/`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        common_user_id: auth.id,
-        recruitment_id: data.id,
-        datime: moment().format('YYYY-MM-DD HH:mm'),
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.message === '') {
-          setDelivery(true)
-        } else {
-          alert(res.message)
-        }
-      })
   }
 
 
@@ -166,14 +200,14 @@ const Details = () => {
             <div className="row">
               <div className="col">
                 岗位要求:<br />
-                {data.description}
+                <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
               </div>
             </div>
 
             <div className="row">
               <div className="col">
                 工作内容:<br />
-                {data.requirement}
+                <div dangerouslySetInnerHTML={{ __html: data.requirement }}></div>
               </div>
             </div>
           </>
@@ -196,23 +230,29 @@ const Details = () => {
             </button>
           </div>
           {
-            delivery ? (
+            data.status === '停招' ? (
               <div className="col-5 nav-col">
-                <button className="btn btn-secondary nav-btn "
-                  onClick={handleResumeDelivery} disabled>
-                  {delivery === true ? '已投递' : delivery.status}
-                </button>
+                <button className="btn btn-secondary nav-btn" disabled>
+                  已停招
+              </button>
               </div>
             ) : (
-                <div className="col-5 nav-col">
-                  <button className="btn btn-primary nav-btn"
-                    onClick={handleResumeDelivery}>
-                    投递简历
-                  </button>
-                </div>
+                delivery ? (
+                  <div className="col-5 nav-col">
+                    <button className="btn btn-secondary nav-btn" disabled>
+                      {delivery === true ? '已投递' : delivery.status}
+                    </button>
+                  </div>
+                ) : (
+                    <div className="col-5 nav-col">
+                      <button className="btn btn-primary nav-btn"
+                        onClick={handleResumeDelivery}>
+                        投递简历
+                    </button>
+                    </div>
+                  )
               )
           }
-
         </div>
       </ul>
     </>

@@ -100,6 +100,14 @@ function feedbackRouter() {
 feedbackRouter()
 
 
+function messageRouter() {
+  const router = require('./routes/message')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+messageRouter()
+
 function enterpriseRouter() {
   const router = require('./routes/enterprise')
   app.use(router.routes())

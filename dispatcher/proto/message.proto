@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package= "hengda.billboard";
+option java_outer_classname = "MessageProto";
+
+package message;
+
+service Message {
+
+  rpc insert(MessageRequest) returns (MessageReply) {}
+
+  rpc messageList(MessageRequest) returns (MessageReply) {}
+
+  rpc messageContent(MessageRequest) returns (MessageReply) {}
+
+}
+
+message MessageRequest { string data = 1; }
+
+message MessageReply { string data = 1; }

@@ -8,11 +8,19 @@ package delivery;
 
 service Delivery {
   
+  rpc get(DeliveryRequest) returns (DeliveryReply) {}
+
+  rpc details(DeliveryRequest) returns (DeliveryReply) {}
+
   rpc userDeliveryList(DeliveryRequest) returns (DeliveryReply) {}
 
   rpc userDelivery(DeliveryRequest) returns (DeliveryReply) {}
   
   rpc insert(DeliveryRequest) returns (DeliveryReply) {}
+
+  rpc search(DeliveryRequest) returns (DeliveryReply) {}
+
+  rpc status(DeliveryRequest) returns (DeliveryReply) {}
 
 }
 

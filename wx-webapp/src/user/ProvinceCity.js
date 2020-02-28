@@ -22,7 +22,7 @@ const ProvinceCity = () => {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch(`./api/resume/${id}`)
+    fetch(`./api/resume/user/${id}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {

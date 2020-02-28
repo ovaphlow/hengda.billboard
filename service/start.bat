@@ -1,0 +1,1 @@
+.\gradlew installDist && .\build\install\biz-service\bin\hengda.billboard.biz-service.202002-11.bat

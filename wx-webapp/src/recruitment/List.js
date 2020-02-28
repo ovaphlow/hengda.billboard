@@ -18,7 +18,13 @@ const List = () => {
 
 
   useEffect(() => {
-    fetch(`./api/recruitment`)
+    fetch(`./api/recruitment/search/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        status:'在招'
+      })
+    })
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -46,13 +52,14 @@ const List = () => {
   const handleChange = val => {
     search({
       city: val,
+      status:'在招',
       ...types
     })
     setCity(val)
   }
 
   const search = param => {
-    fetch(`./api/recruitment/search`, {
+    fetch(`./api/recruitment/search/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(param)

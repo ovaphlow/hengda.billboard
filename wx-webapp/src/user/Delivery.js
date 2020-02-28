@@ -46,7 +46,7 @@ const Delivery = () => {
     if (_auth === null) {
       window.location = '#登录'
     } else {
-      fetch(`./api/delivery/${_auth.id}`)
+      fetch(`./api/delivery/user/${_auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

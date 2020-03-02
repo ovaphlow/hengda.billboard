@@ -150,8 +150,6 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     responseObserver.onCompleted();
   }
 
-  
-
   @Override
   public void get(RecruitmentRequest req, StreamObserver<RecruitmentReply> responseObserver) {
     Gson gson = new Gson();
@@ -162,7 +160,10 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select *, (select e.name from enterprise e where e.id=enterprise_id) as enterprise_name from recruitment where id = ?";
+      String sql = "select r.*, e.name as enterprise_name, u.id as ent_user_id\n"+
+      "from recruitment r left join enterprise e on e.id=r.enterprise_id\n"+
+      "left join enterprise_user u on u.enterprise_id = e.id\n"+
+      "where r.id = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
       ResultSet rs = ps.executeQuery();
@@ -230,9 +231,9 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         if (body.get("status") != null && !"".equals(body.get("status").toString())) {
           sql += " and status=?";
           list.add(body.get("status").toString());
-        }  
+        }
       }
-      
+
       logger.info(sql);
       PreparedStatement ps = conn.prepareStatement(sql);
       for (int inx = 0; inx < list.size(); inx++) {

@@ -23,7 +23,11 @@ const Enterprise = () => {
           setData(res.content)
         }
       })
-    fetch(`./api/recruitment/enterprise/${id}`)
+    fetch(`./api/recruitment/enterprise/${id}`,{
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({status:'在招'})
+    })
       .then(res => res.json())
       .then(res => {
         if (res.message) {
@@ -36,11 +40,20 @@ const Enterprise = () => {
 
 
   return (
-    <div className="container-fluid" style={{ fontSize: 12 }}>
+    <div className="container-fluid" style={{ fontSize: 14 }}>
       <ToBack report dataType="企业" dataId={id} />
       <div className="row mt-2">
         <div className="col">
-          <h5>{data.name}</h5>
+          <div className="row">
+            <div className="col">
+              <h5 className="pull-left">{data.name}</h5>
+              <a className="pull-right text-success"
+                href={`#消息/${data.enterprise_name}/企业用户/${data.ent_user_id}`}>
+                <i className="fa fa-fw fa-comments" ></i>
+                咨询
+              </a>
+            </div>
+          </div>
           <span className="text-muted">
             {data.zhuziguimo} | {data.yuangongshuliang}
           </span><br />
@@ -59,7 +72,7 @@ const Enterprise = () => {
         </div>
       </div>
       {
-        list&& list.map(item=> <RecruitmentRow key={item.id} {...item} />)
+        list && list.map(item => <RecruitmentRow key={item.id} {...item} />)
       }
     </div>
   )

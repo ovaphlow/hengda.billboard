@@ -72,7 +72,7 @@ const Details = () => {
           .then(res => res.json())
           .then(res => {
             if (res.content) {
-              setDelivery(p => true)
+              setDelivery(p => res.content)
             }
           })
       }
@@ -118,7 +118,7 @@ const Details = () => {
                 category2: '岗位',
               }).then(res1 => {
                 if (res1.content) {
-                  setFavorite(p => res1.content)
+                  setDelivery(p => res1.content)
                 }
               })
             } else {
@@ -158,7 +158,7 @@ const Details = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack report dataType="岗位" dataId={id} />
+        <ToBack report advisory dataType="岗位" dataId={id} />
         {data && (
           <>
             <div className="row mt-3">
@@ -174,13 +174,11 @@ const Details = () => {
             <div className="row">
               <div className="col">
                 <span className="text-muted" style={{ fontSize: 12 }}>
-                  <a href={`#岗位/企业/${data.enterprise_id}`}> {data.enterprise_name}</a>
-                  <br />
                   {data.address2 ? data.address2 : data.address1} |{data.education}|{data.category}
                 </span>
               </div>
             </div>
-            <div className="row mt-2">
+            <div className="row ">
               <div className="col">
                 <h5 className="text-success">
                   {
@@ -189,6 +187,19 @@ const Details = () => {
                       '面议'
                   }
                 </h5>
+              </div>
+            </div>
+            <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+            <div className="row mt-3">
+              <div className="col">
+                <a  className="pull-left" href={`#岗位/企业/${data.enterprise_id}`}>
+                  <h6 >{data.enterprise_name}</h6>
+                </a>
+                <div className="pull-right">
+                  <a className="text-success" href={`#消息/${data.enterprise_name}/企业用户/${data.ent_user_id}`}>
+                    咨询
+                  </a>
+                </div>
               </div>
             </div>
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -240,7 +251,7 @@ const Details = () => {
                 delivery ? (
                   <div className="col-5 nav-col">
                     <button className="btn btn-secondary nav-btn" disabled>
-                      {delivery === true ? '已投递' : delivery.status}
+                      {delivery.status}
                     </button>
                   </div>
                 ) : (

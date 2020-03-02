@@ -140,6 +140,7 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
         ps1.execute();
         resp.put("content", true);
       }
+      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

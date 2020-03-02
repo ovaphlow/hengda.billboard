@@ -65,6 +65,7 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
       String sql = "select * from message m where "+
             " (m.send_category = ? and m.send_user_id = ? and"+
             " m.receive_category = ? and m.receive_user_id = ?) or"+
+
             " (m.send_category = ? and m.send_user_id = ? and"+
             " m.receive_category = ? and m.receive_user_id = ?)"+
             " order by datime";
@@ -73,10 +74,10 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
       ps.setString(2, body.get("user1_id").toString());
       ps.setString(3, body.get("user2_category").toString());
       ps.setString(4, body.get("user2_id").toString());
-      ps.setString(5, body.get("user1_category").toString());
-      ps.setString(6, body.get("user1_id").toString());
-      ps.setString(7, body.get("user2_category").toString());
-      ps.setString(8, body.get("user2_id").toString());
+      ps.setString(5, body.get("user2_category").toString());
+      ps.setString(6, body.get("user2_id").toString());
+      ps.setString(7, body.get("user1_category").toString());
+      ps.setString(8, body.get("user1_id").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

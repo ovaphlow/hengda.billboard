@@ -52,11 +52,24 @@ const ProvinceCity = () => {
 
   const level1Click = item => {
     setLevel1(item.name)
-    setLevel2List(item.children)
+    setLevel2('')
+    setLevel3('')
+    setLevel3List([])
+    switch (item.name) {
+      case '北京市':
+      case '上海市':
+      case '天津市':
+      case '重庆市':
+        setLevel2List([item])
+        break
+      default:
+        setLevel2List(item.children)
+    }
   }
 
   const level2Click = item => {
     setLevel2(item.name)
+    setLevel3('')
     let data = []
     if (item.children) {
       data = item.children.filter(it => it.province === item.code.slice(0, 2))
@@ -78,7 +91,10 @@ const ProvinceCity = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...resume,
-        editType:'修改简历个人信息'
+        address1: level1,
+        address2: level2,
+        address3: level3,
+        editType: '修改简历个人信息'
       })
     })
       .then(res => res.json())

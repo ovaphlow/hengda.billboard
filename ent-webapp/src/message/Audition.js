@@ -55,7 +55,7 @@ const Mianshi = props => (
     </div>
     <hr className="m-1" />
     <div className="row p-2  mt-2">
-      <div className="col" style={{ maxWidth: 340 }} >
+      <div className="col" style={{ maxWidth: 400 }} >
         {props.remark}
       </div>
     </div>
@@ -64,7 +64,7 @@ const Mianshi = props => (
         <span className="text-muted" style={{ fontSize: 15 }}>
           面试地点: {props.address}<br />
           面试时间: {props.datime}<br />
-          面试岗位: {props.name}<br />
+          面试岗位: {props.recruitment_name}<br />
           联系电话: {props.phone}<br />
         </span>
       </div>

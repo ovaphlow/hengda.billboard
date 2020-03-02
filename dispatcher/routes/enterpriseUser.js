@@ -26,7 +26,26 @@ module.exports = router
 
 
 router
-  .post('/sign-in', async ctx => {
+  .get('/:id/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .post('/sign-in/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.signIn({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {
@@ -47,7 +66,7 @@ router
   })
 
 router
-  .post('/log-in', async ctx => {
+  .post('/log-in/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.logIn({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {

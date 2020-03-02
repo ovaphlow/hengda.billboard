@@ -90,35 +90,39 @@
 
 中文|英文
 :--:|:--:
-user_id|用户id
-ip|ip地址
-address|登陆地理位置
-category|用户类型
-datime|登录时间
+用户id|user_id
+ip地址|ip
+登陆地理位置|address
+用户类型|category
+登录时间|datime
 
 ## 编辑记录
 
 中文|英文
 :--:|:--:
-user_id|用户id
-category1|用户类型
-category2|编辑操作类型
-datime|编辑时间
+用户id|user_id
+用户类型|category1
+编辑操作类型|category2
+编辑时间|datime
 
 ## 举报
 
-common_user_id|用户id
-data_id|举报数据id
-category|举报数据类型
-content|举报原因
-datime|举报时间
+中文|英文
+:--:|:--:
+用户id|common_user_id
+举报数据id|data_id
+举报数据类型|category
+举报原因|content
+举报时间|datime
 
 ## 消息
 
-category| 消息类型
-send_user_id | 发起方
-send_category| 发起方类型
-receive_user_id | 接收方
-receive_category| 接收方类型
-content | 内容
-datime | 发送时间
+中文|英文
+:--:|:--:
+消息类型|category 
+发起方|send_user_id 
+发起方类型|send_category
+接收方|receive_user_id
+接收方类型|receive_category
+内容|content 
+发送时间|datime

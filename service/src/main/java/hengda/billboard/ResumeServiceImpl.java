@@ -19,8 +19,40 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
 
   private static final Logger logger = LoggerFactory.getLogger(ResumeServiceImpl.class);
 
+
   @Override
   public void get(ResumeRequest req, StreamObserver<ResumeReply> responseObserver) {
+    logger.info("RecruitmentServiceImpl.get");
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from resume where id = ?";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("id").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      if (result.size() == 0) {
+        resp.put("content", false);
+      } else {
+        resp.put("content", result.get(0));
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    ResumeReply reply = ResumeReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void user(ResumeRequest req, StreamObserver<ResumeReply> responseObserver) {
     logger.info("RecruitmentServiceImpl.get");
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
@@ -107,7 +139,7 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
       ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, "普通用户");
+      ps.setString(2, "个人用户");
       ps.setString(3, body.get("editType").toString());
       ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
       ps.execute();

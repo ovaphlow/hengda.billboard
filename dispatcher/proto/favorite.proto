@@ -8,7 +8,9 @@ package favorite;
 
 service Favorite {
   
-  rpc get(FavoriteRequest) returns (FavoriteReply) {}
+  rpc searchOne(FavoriteRequest) returns (FavoriteReply) {}
+
+  rpc searchResume(FavoriteRequest) returns (FavoriteReply) {}
 
   rpc list(FavoriteRequest) returns (FavoriteReply) {}
 

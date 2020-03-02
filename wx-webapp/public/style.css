@@ -14,6 +14,11 @@ body {
   background: linear-gradient(to right, DimGray, 75%, OrangeRed);
 }
 
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .input-control {
   width: 100%;
   font-size: 1rem;
@@ -84,4 +89,36 @@ body {
   bottom: 1px;
   display: flex;
   flex-direction: row;
+}
+
+
+.textarea-row {
+  height: 106px
+}
+
+.textarea-col {
+  padding-left: 0;
+  padding-right: 0 
+}
+
+.message-textarea {
+  width: 100%; 
+  height: 100%;
+  resize: none;
+  border: 0;
+  outline: none; 
+}
+
+.message-img {
+  height: 40px;
+  width: 40px
+}
+
+.message-text {
+  max-width: 70%;
+  word-break: break-all
+}
+
+.modal-show {
+  display: block
 }

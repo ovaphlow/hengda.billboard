@@ -80,12 +80,10 @@ export const TopicCards = props => {
         list.map((item, inx) => (
           <div key={inx} className="row mx-0 mt-2 text-center" style={{ fontSize: 9 }}>
             {item.map((it, i) => (
-              <>
-                <div key={i} className={`col${item.length < 3?'-4':''} ${it.color} text-light mx-1 flex-center rounded`}  
-                style={{height:50}}>
-                  {it.title}
-                </div>
-              </>
+              <div key={i} className={`col${item.length < 3 ? '-4' : ''} ${it.color} text-light mx-1 flex-center rounded`}
+                style={{ height: 50 }}>
+                {it.title}
+              </div>
             ))}
           </div>
         ))

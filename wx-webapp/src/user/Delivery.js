@@ -7,10 +7,11 @@ const DataRow = props => (
       <div className="col">
         <div className="pull-left">
           <strong>{props.name}</strong>
+          ({props.status})
         </div>
         <div className="pull-right">
           <a style={{ fontSize: 12 }} className="badge badge-pill badge-info" href={`#/岗位/${props.id}`}>
-            查看
+            详情
           </a>
         </div>
         <br></br>
@@ -46,7 +47,7 @@ const Delivery = () => {
     if (_auth === null) {
       window.location = '#登录'
     } else {
-      fetch(`./api/delivery/${_auth.id}`)
+      fetch(`./api/delivery/user/${_auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

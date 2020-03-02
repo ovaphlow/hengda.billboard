@@ -10,6 +10,8 @@ service Resume {
   
   rpc get(ResumeRequest) returns (ResumeReply) {}
 
+  rpc user(ResumeRequest) returns (ResumeReply) {}
+
   rpc update(ResumeRequest) returns (ResumeReply) {}
 
   rpc init(ResumeRequest) returns (ResumeReply) {}

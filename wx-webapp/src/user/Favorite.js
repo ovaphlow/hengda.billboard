@@ -12,7 +12,7 @@ const Favorite = () => {
     if (_auth === null) {
       window.location = '#登录'
     } else {
-      fetch(`./api/favorite/${_auth.id}`)
+      fetch(`./api/favorite/个人用户/${_auth.id}/`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

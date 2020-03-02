@@ -24,7 +24,7 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from enterprise where id=?";
+      String sql = "select *, (select u.id from enterprise_user u where u.enterprise_id = e.id) as ent_user_id from enterprise e where id=?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
       ResultSet rs = ps.executeQuery();

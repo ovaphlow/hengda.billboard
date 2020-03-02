@@ -4,7 +4,7 @@
 
 中文|英文
 :--:|:--:
-普通用户|common_user
+个人用户|common_user
 邮箱|email
 企业|enterprise
 姓名|name
@@ -46,14 +46,19 @@
 工作内容|description
 招聘人数|qty
 岗位要求|requirement
+学历要求|education
+类型|category
+行业|industry
+状态|status
 
 ## 收藏
 
 中文|英文
 :--:|:--:
-用户id|common_user_id
+用户id|user_id
 收藏数据id|data_id
-收藏类型|category
+用户类型|category1
+收藏数据类型|category2
 
 ## 浏览记录
 
@@ -85,25 +90,39 @@
 
 中文|英文
 :--:|:--:
-user_id|用户id
-ip|ip地址
-address|登陆地理位置
-category|用户类型
-datime|登录时间
+用户id|user_id
+ip地址|ip
+登陆地理位置|address
+用户类型|category
+登录时间|datime
 
 ## 编辑记录
 
 中文|英文
 :--:|:--:
-user_id|用户id
-category1|用户类型
-category2|编辑操作类型
-datime|编辑时间
+用户id|user_id
+用户类型|category1
+编辑操作类型|category2
+编辑时间|datime
 
 ## 举报
 
-common_user_id|用户id
-data_id|举报数据id
-category|举报数据类型
-content|举报原因
-datime|举报时间
+中文|英文
+:--:|:--:
+用户id|common_user_id
+举报数据id|data_id
+举报数据类型|category
+举报原因|content
+举报时间|datime
+
+## 消息
+
+中文|英文
+:--:|:--:
+消息类型|category 
+发起方|send_user_id 
+发起方类型|send_category
+接收方|receive_user_id
+接收方类型|receive_category
+内容|content 
+发送时间|datime

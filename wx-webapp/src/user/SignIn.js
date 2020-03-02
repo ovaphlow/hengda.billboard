@@ -31,7 +31,7 @@ export default function SignIn() {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         phone: data.phone,
-        password: md5(data.password),
+        password: md5(data.password1),
         code: data.code
       })
     })
@@ -41,7 +41,7 @@ export default function SignIn() {
       return
     } else {
       window.alert('注册成功')
-      window.location = '#登录'
+      window.history.go(-1)
     }
   }
 

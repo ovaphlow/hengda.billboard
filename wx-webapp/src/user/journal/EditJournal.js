@@ -32,7 +32,7 @@ const EditJournal = () => {
     if (auth === null) {
       window.location = '#登录'
     } else {
-      fetch(`/api/journal/edit/普通用户/${auth.id}`)
+      fetch(`/api/journal/edit/个人用户/${auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

@@ -12,10 +12,18 @@ service Recruitment {
 
   rpc list(RecruitmentRequest) returns (RecruitmentReply) {}
 
+  rpc insert(RecruitmentRequest) returns (RecruitmentReply) {}
+
+  rpc update(RecruitmentRequest) returns (RecruitmentReply) {}
+
   rpc search(RecruitmentRequest) returns (RecruitmentReply) {}
 
+  rpc status(RecruitmentRequest) returns (RecruitmentReply) {}
+
   rpc enterpriseList(RecruitmentRequest) returns (RecruitmentReply) {}
-  
+
+  rpc enterpriseSearch(RecruitmentRequest) returns (RecruitmentReply) {}
+
 }
 
 message RecruitmentRequest { string data = 1; }

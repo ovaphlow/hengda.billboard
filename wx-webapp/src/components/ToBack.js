@@ -15,7 +15,7 @@ const ToBack = props => {
   }
 
   return (
-    <div className="row p-2">
+    <div className="row p-2 bg-light">
       <div className="col" style={{ padding: 0 }}>
         <span onClick={toPrevious} className="text-left text-dark">
           <i 

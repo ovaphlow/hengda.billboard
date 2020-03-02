@@ -34,7 +34,6 @@ export default function LogIn() {
       return
     } else {
       localStorage.setItem('auth', JSON.stringify(res.content))
-      // window.location = '#/'
       window.history.go(-1)
     }
   }

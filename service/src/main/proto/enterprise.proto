@@ -9,6 +9,8 @@ package enterprise;
 service Enterprise {
 
   rpc get(EnterpriseRequest) returns (EnterpriseReply) {}
+
+  rpc update(EnterpriseRequest) returns (EnterpriseReply) {}
 }
 
 message EnterpriseRequest { string data = 1; }

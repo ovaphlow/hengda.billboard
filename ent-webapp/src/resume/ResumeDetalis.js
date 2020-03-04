@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
@@ -22,6 +22,8 @@ const ResumeDetalis = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   const [data, setData] = useState({})
 
   const [favorite, setFavorite] = useState(false)
@@ -38,7 +40,7 @@ const ResumeDetalis = () => {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/resume/${id}`)
+      fetch(`./api/resume/${id}${search}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -57,7 +59,7 @@ const ResumeDetalis = () => {
           setFavorite(p => res.content)
         }
       })
-      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}`, {
+      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}?u_id=${_auth.uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -73,7 +75,7 @@ const ResumeDetalis = () => {
           }
         })
     }
-  }, [id])
+  }, [id,search])
 
   const handleFavorite = () => {
     if (favorite) {

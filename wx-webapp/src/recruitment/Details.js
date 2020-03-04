@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 
 
@@ -29,8 +29,10 @@ const Details = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   useEffect(() => {
-    fetch(`./api/recruitment/${id}`)
+    fetch(`./api/recruitment/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -146,7 +148,13 @@ const Details = () => {
         .then(res => res.json())
         .then(res => {
           if (res.message === '') {
-            setDelivery(true)
+            fetch(`./api/delivery/${auth.id}/${data.id}/`)
+              .then(res1 => res1.json())
+              .then(res1 => {
+                if (res1.content) {
+                  setDelivery(res1.content)
+                }
+              })
           } else {
             alert(res.message)
           }
@@ -192,7 +200,7 @@ const Details = () => {
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
             <div className="row mt-3">
               <div className="col">
-                <a  className="pull-left" href={`#岗位/企业/${data.enterprise_id}`}>
+                <a className="pull-left" href={`#岗位/企业/${data.enterprise_id}?u_id=${data.enterprise_uuid}`}>
                   <h6 >{data.enterprise_name}</h6>
                 </a>
                 <div className="pull-right">

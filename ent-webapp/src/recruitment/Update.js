@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 
 import { TextField, SelectField } from '../components/InputField'
 import RichEditor from '../components/RichEditor'
@@ -30,8 +30,11 @@ const Update = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
+
   useEffect(() => {
-    fetch(`./api/recruitment/${id}`)
+    fetch(`./api/recruitment/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -65,7 +68,7 @@ const Update = () => {
           alert(res.message)
         }
       })
-  }, [id])
+  }, [id,search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -73,7 +76,7 @@ const Update = () => {
   }
 
   const handleSave = () => {
-    fetch(`./api/recruitment/${id}/`, {
+    fetch(`./api/recruitment/${id}${search}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(data)
@@ -146,7 +149,7 @@ const Update = () => {
   }
 
   const handleDataStatus = v => {
-    fetch(`./api/recruitment/status/${id}/`, {
+    fetch(`./api/recruitment/status/${id}${search}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({status:v})
@@ -204,14 +207,14 @@ const Update = () => {
                 <TextField
                   category="所属行业"
                   name="industry"
-                  value={data.industry}
+                  value={data.industry||''}
                   handleChange={handleChange} />
               </div>
               <div className="col">
                 <SelectField
                   category="职位类型"
                   name="category"
-                  value={data.category}
+                  value={data.category||''}
                   handleChange={handleChange}>
                   <option></option>
                   <option>全职</option>
@@ -236,7 +239,7 @@ const Update = () => {
                 <TextField
                   category="招聘人数"
                   name="qty"
-                  value={data.qty}
+                  value={data.qty||''}
                   handleChange={handleChange} />
               </div>
             </div>

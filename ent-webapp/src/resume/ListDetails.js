@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
@@ -9,6 +9,8 @@ import { SearchFavorite } from './ResumeDetalis'
 const ListDetails = () => {
 
   const { id } = useParams()
+
+  const { search } = useLocation()
 
   const [data, setData] = useState({})
 
@@ -24,7 +26,7 @@ const ListDetails = () => {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/delivery/details/${id}`)
+      fetch(`./api/delivery/details/${id}${search}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -55,7 +57,7 @@ const ListDetails = () => {
 
 
     }
-  }, [id])
+  }, [id,search])
 
   const handleFavorite = () => {
     if (favorite) {

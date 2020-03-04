@@ -37,7 +37,7 @@ const User = () => {
             ) : (
                 <div className="col">
                   <a href="#/我的/设置">
-                    <h6>{auth.name || '未设置名称'}</h6>
+                    <h6>{auth.username}</h6>
                   </a>
                   <span className="text-muted">
                     {auth.phone}

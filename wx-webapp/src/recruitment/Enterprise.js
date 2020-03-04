@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 
 import { RecruitmentRow } from '../components/DataRow'
 import ToBack from '../components/ToBack'
@@ -13,8 +13,10 @@ const Enterprise = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   useEffect(() => {
-    fetch(`./api/enterprise/${id}`)
+    fetch(`./api/enterprise/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.message) {
@@ -23,11 +25,7 @@ const Enterprise = () => {
           setData(res.content)
         }
       })
-    fetch(`./api/recruitment/enterprise/${id}`,{
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({status:'在招'})
-    })
+    fetch(`./api/recruitment/enterprise/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.message) {

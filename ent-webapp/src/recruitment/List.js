@@ -21,7 +21,11 @@ const List = () => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth !== null) {
       setAuth(_auth)
-      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}`)
+      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}?u_id=${_auth.uuid}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({})
+      })
         .then(res => res.json())
         .then(res => {
           if (res.message) {
@@ -40,7 +44,7 @@ const List = () => {
   }
 
   const search = () => {
-    fetch(`./api/recruitment/enterprise/${auth.enterprise_id}`, {
+    fetch(`./api/recruitment/enterprise/${auth.enterprise_id}?u_id=${auth.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(param)
@@ -152,7 +156,7 @@ const List = () => {
                     <td>{item.date}</td>
                     <td>
                       <div className="btn-group btn-group-sm">
-                        <a className="btn btn-primary" href={`#岗位/编辑/${item.id}/`}>
+                        <a className="btn btn-primary" href={`#岗位/编辑/${item.id}?u_id=${item.uuid}`}>
                           编辑
                         </a>
                       </div>

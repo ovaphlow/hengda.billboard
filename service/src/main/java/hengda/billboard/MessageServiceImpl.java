@@ -106,7 +106,7 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
               "    *,\n" +
               "    case\n" +
               "    when user2_category = '企业用户' then (select name from enterprise_user where id=user2)\n" +
-              "    when user2_category = '个人用户' then (select name from common_user where id=user2)\n" +
+              "    when user2_category = '个人用户' then (select username from common_user where id=user2)\n" +
               "    else (select name from mis_user where id=user2)\n" +
               "    end  as user2_name,\n" +
               "    (select\n" +

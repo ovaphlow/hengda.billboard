@@ -59,17 +59,15 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = 
-      "select d.*,r.name as recruitment_name,re.common_user_id,re.name," +
-      "  re.phone,re.email,re.gender, re.birthday,re.school,re.education," +
-      "  re.date_begin,re.date_end,re.major,re.qiwangzhiwei,re.qiwanghangye," +
-      "  re.address1,re.address2,re.address3,re.yixiangchengshi,re.ziwopingjia \n" +
-      "from delivery d\n" +
-      "  left join recruitment r on d.recruitment_id = r.id\n" +
-      "  left join resume re on d.resume_id = re.id\n" +
-      " where d.id = ?";
+      String sql = "select d.*,r.name as recruitment_name,re.common_user_id,re.name,"
+          + "  re.phone,re.email,re.gender, re.birthday,re.school,re.education,"
+          + "  re.date_begin,re.date_end,re.major,re.qiwangzhiwei,re.qiwanghangye,"
+          + "  re.address1,re.address2,re.address3,re.yixiangchengshi,re.ziwopingjia \n" + "from delivery d\n"
+          + "  left join recruitment r on d.recruitment_id = r.id\n" + "  left join resume re on d.resume_id = re.id\n"
+          + " where d.id = ? and re.uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
+      ps.setString(2, body.get("uuid").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       if (result.size() == 0) {
@@ -86,7 +84,7 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
-  
+
   @Override
   public void userDeliveryList(DeliveryRequest req, StreamObserver<DeliveryReply> responseObserver) {
     logger.info("userDeliveryList");
@@ -185,12 +183,13 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
       String sql = "select re.name as recruitment_name, re.industry,"
-          + "r.education, r.name as name, r.school,t.datime,  t.id, t.recruitment_id, t.resume_id "
-          + "from (select * from delivery d where recruitment_id in (select id from recruitment where enterprise_id = ?) ) as t "
-          + "left join resume r on r.id = t.resume_id left join recruitment re on re.id = t.recruitment_id"
-          + " ORDER BY t.datime DESC";
+          + "r.education, r.uuid, r.name as name, r.school,d.datime,  d.id, d.recruitment_id, d.resume_id "
+          + "from delivery d left join resume r on d.resume_id = r.id left join recruitment re on d.recruitment_id = re.id "
+          + "where re.enterprise_id = ? and (select u.enterprise_id from enterprise_user u where u.uuid = ?) = re.enterprise_id "
+          + "ORDER BY d.datime DESC";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("enterprise_id").toString());
+      ps.setString(2, body.get("uuid").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

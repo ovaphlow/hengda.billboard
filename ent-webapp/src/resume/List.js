@@ -21,7 +21,7 @@ const List = () => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth !== null) {
       setAuth(_auth)
-      fetch(`./api/delivery/search/`,{
+      fetch(`./api/delivery/search?u_id=${_auth.uuid}`,{
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -155,7 +155,7 @@ const List = () => {
                     <td>{item.datime}</td>
                     <td>
                       <div className="btn-group btn-group-sm">
-                        <a className="btn btn-primary" href={`#简历/列表/详情/${item.id}/`}>
+                        <a className="btn btn-primary" href={`#简历/列表/详情/${item.id}?u_id=${item.uuid}`}>
                           查看
                         </a>
                       </div>

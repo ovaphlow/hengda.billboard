@@ -9,7 +9,7 @@ export const RecruitmentRow = props => (
           <strong>{props.name}</strong>
         </div>
         <div className="pull-right">
-          <a style={{ fontSize: 12 }} className="badge badge-pill badge-info" href={`#/岗位/${props.id}`}>
+          <a style={{ fontSize: 12 }} className="badge badge-pill badge-info" href={`#/岗位/${props.id}?u_id=${props.uuid}`}>
             查看
           </a>
         </div>

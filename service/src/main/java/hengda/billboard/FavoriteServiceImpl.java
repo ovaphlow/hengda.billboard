@@ -91,7 +91,7 @@ public class FavoriteServiceImpl extends FavoriteGrpc.FavoriteImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select f.id, r.id as resume_id, r.name, r.education, r.school,"
+      String sql = "select f.id, r.id as resume_id, r.uuid, r.name, r.education, r.school,"
           + "r.yixiangchengshi, r.qiwanghangye,  r.qiwangzhiwei from "
           + "favorite f left join resume r on f.data_id = r.id " 
           + "where f.category1 = '企业用户' and f.category2 = '简历' and user_id = ?";

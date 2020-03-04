@@ -31,9 +31,10 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from resume where id = ?";
+      String sql = "select * from resume where id = ? and uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
+      ps.setString(2, body.get("uuid").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       if (result.size() == 0) {
@@ -62,9 +63,10 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from resume where common_user_id = ?";
+      String sql = "select * from resume where common_user_id = ? and (select uuid from common_user where id = common_user_id) = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
+      ps.setString(2, body.get("uuid").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       if (result.size() == 0) {
@@ -114,7 +116,7 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
               "    yixiangchengshi=?,\n" +
               "    ziwopingjia=?\n" +
               "where\n" +
-              "    common_user_id = ?";
+              "    common_user_id = ? and uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("name").toString());
       ps.setString(2, body.get("phone").toString());
@@ -135,6 +137,7 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       ps.setString(16, body.get("yixiangchengshi").toString());
       ps.setString(17, body.get("ziwopingjia").toString());
       ps.setString(18, body.get("common_user_id").toString());
+      ps.setString(19, body.get("uuid").toString());
       ps.execute();
       sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
       ps = conn.prepareStatement(sql);
@@ -165,7 +168,7 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       
       Connection conn = DBUtil.getConn();
-      String sql = "insert into resume (common_user_id) value (?)";
+      String sql = "insert into resume (common_user_id,uuid) value (?,uuid())";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
       boolean rs = ps.execute();

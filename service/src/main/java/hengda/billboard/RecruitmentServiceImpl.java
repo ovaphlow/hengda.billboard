@@ -57,7 +57,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       Connection conn = DBUtil.getConn();
       String sql = "insert into recruitment ( enterprise_id, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
-          + " industry ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          + " industry, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("enterprise_id").toString());
       ps.setString(2, body.get("name").toString());
@@ -97,7 +97,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       Connection conn = DBUtil.getConn();
       String sql = "update recruitment set name = ?, qty = ?, description = ?,"
           + "requirement = ?, address1 = ?, address2 = ?, address3 = ?, salary1 = ?,"
-          + "salary2 = ?, education = ?, category = ?,  industry = ? where id = ?";
+          + "salary2 = ?, education = ?, category = ?,  industry = ? where id = ? and uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("name").toString());
       ps.setString(2, body.get("qty").toString());
@@ -112,6 +112,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(11, body.get("category").toString());
       ps.setString(12, body.get("industry").toString());
       ps.setString(13, body.get("id").toString());
+      ps.setString(14, body.get("uuid").toString());
       ps.execute();
       resp.put("content", true);
       conn.close();
@@ -134,10 +135,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "update recruitment set status = ? where id = ?";
+      String sql = "update recruitment set status = ? where id = ? and uuid=?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("status").toString());
       ps.setString(2, body.get("id").toString());
+      ps.setString(3, body.get("uuid").toString());
       ps.execute();
       resp.put("content", true);
       conn.close();
@@ -160,12 +162,13 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select r.*, e.name as enterprise_name, u.id as ent_user_id\n"+
+      String sql = "select r.*, e.name as enterprise_name, e.uuid as enterprise_uuid, u.id as ent_user_id\n"+
       "from recruitment r left join enterprise e on e.id=r.enterprise_id\n"+
       "left join enterprise_user u on u.enterprise_id = e.id\n"+
-      "where r.id = ?";
+      "where r.id = ? and r.uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
+      ps.setString(2, body.get("uuid").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       if (result.size() == 0) {
@@ -262,9 +265,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from recruitment where enterprise_id = ?";
+      String sql = "select * from recruitment where enterprise_id = ? and "+ 
+      "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招'";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
+      ps.setString(2, body.get("uuid").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);
@@ -288,9 +293,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from recruitment where enterprise_id = ?";
+      String sql = "select * from recruitment where enterprise_id = ? and "+
+      "(select uuid  from enterprise_user u where u.enterprise_id = enterprise_id limit 1) = ?";
       List<String> list = new ArrayList<>();
       list.add(body.get("enterprise_id").toString());
+      list.add(body.get("uuid").toString());      
       if (body.get("name") != null && !"".equals(body.get("name").toString())) {
         sql += " and name = ? ";
         list.add(body.get("name").toString());

@@ -38,6 +38,7 @@ router
       })
     )
     try {
+      ctx.params.uuid = ctx.query.u_id
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
@@ -57,6 +58,7 @@ router
       })
     )
     try {
+      ctx.params.uuid = ctx.query.u_id
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
@@ -76,6 +78,7 @@ router
       })
     )
     try {
+      ctx.request.body.uuid = ctx.query.u_id
       ctx.request.body.common_user_id = ctx.params.common_user_id
       ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
@@ -98,6 +101,7 @@ router.post('/init/', async ctx => {
     })
   )
   try {
+    ctx.params.uuid = ctx.query.u_id
     ctx.response.body = await grpcFetch(ctx.request.body)
   } catch (err) {
     console.error(err)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 
 
@@ -55,14 +55,14 @@ const Resume = () => {
     }
     setAuth(_auth)
 
-    fetch(`./api/resume/user/${_auth.id}/`)
+    fetch(`./api/resume/user/${_auth.id}?u_id=${_auth.uuid}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
           setData(res.content)
         } else {
           if (res.content !== undefined) {
-            fetch(`./api/resume/init`, {
+            fetch(`./api/resume/init?u_id=${_auth.uuid}`, {
               method: 'POST',
               headers: { 'content-type': 'application/json' },
               body: JSON.stringify({ common_user_id: _auth.id })
@@ -107,7 +107,7 @@ const Resume = () => {
               {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
             </div>
             <div className="pull-right">
-              <a href={`#/我的/简历/个人信息/${auth.id}`}>
+              <a href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
                 <i className="fa fa-pencil-square-o fa-fw"></i>
                 编辑
               </a>
@@ -134,7 +134,7 @@ const Resume = () => {
             <h5>毕业院校</h5>
           </div>
           <div className="col">
-            <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}`}>
+            <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
               <i className="fa fa-pencil-square-o fa-fw"></i>
               编辑
             </a>
@@ -162,7 +162,7 @@ const Resume = () => {
             <h5>求职意向</h5>
           </div>
           <div className="col">
-            <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}`}>
+            <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
               <i className="fa fa-pencil-square-o fa-fw"></i>
               编辑
             </a>
@@ -190,7 +190,7 @@ const Resume = () => {
             <h5>自我评价</h5>
           </div>
           <div className="col">
-            <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}`}>
+            <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
               <i className="fa fa-pencil-square-o fa-fw"></i>
               编辑
             </a>
@@ -213,8 +213,10 @@ const Personal = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   useEffect(() => {
-    fetch(`./api/resume/user/${id}`)
+    fetch(`./api/resume/user/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -223,7 +225,7 @@ const Personal = () => {
           alert(res.message)
         }
       })
-  }, [id])
+  }, [id,search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -231,7 +233,7 @@ const Personal = () => {
   }
 
   const handleSave = () => {
-    fetch(`./api/resume/${id}`, {
+    fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -251,7 +253,7 @@ const Personal = () => {
 
 
   const toProvinceCity = () => {
-    window.location = `#/我的/简历/所在地/${id}`
+    window.location = `#/我的/简历/所在地/${id}${search}`
   }
 
   return (
@@ -342,8 +344,10 @@ const School = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   useEffect(() => {
-    fetch(`./api/resume/user/${id}`)
+    fetch(`./api/resume/user/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -352,7 +356,7 @@ const School = () => {
           alert(res.message)
         }
       })
-  }, [id])
+  }, [id,search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -360,7 +364,7 @@ const School = () => {
   }
 
   const handleSave = () => {
-    fetch(`./api/resume/${id}`, {
+    fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -458,8 +462,10 @@ const Intention = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   useEffect(() => {
-    fetch(`./api/resume/user/${id}`)
+    fetch(`./api/resume/user/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -468,7 +474,7 @@ const Intention = () => {
           alert(res.message)
         }
       })
-  }, [id])
+  }, [id,search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -476,7 +482,7 @@ const Intention = () => {
   }
 
   const handleSave = () => {
-    fetch(`./api/resume/${id}`, {
+    fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -545,8 +551,10 @@ const Evaluation = () => {
 
   const { id } = useParams()
 
+  const { search } = useLocation()
+
   useEffect(() => {
-    fetch(`./api/resume/user/${id}`)
+    fetch(`./api/resume/user/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -555,7 +563,7 @@ const Evaluation = () => {
           alert(res.message)
         }
       })
-  }, [id])
+  }, [id,search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -563,7 +571,7 @@ const Evaluation = () => {
   }
 
   const handleSave = () => {
-    fetch(`./api/resume/${id}`, {
+    fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({

@@ -28,8 +28,8 @@ const Navbar = props => {
           我的资产
         </a>
       </div>
-      <div className={`col ${props.category === '我的消息' && 'nav-bar-active'}`}>
-        <a className="nav-link text-dark" href="#/">
+      <div className={`col ${props.category === '信息' && 'nav-bar-active'}`}>
+        <a className="nav-link text-dark" href="#/信息/">
           我的信息
         </a>
       </div>

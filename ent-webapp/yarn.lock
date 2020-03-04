@@ -8859,6 +8859,10 @@ watchpack@^1.6.0:
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
 
+watermarkjs@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npm.taobao.org/watermarkjs/download/watermarkjs-2.1.1.tgz#ed14aae56b509937be4e56f379981786e0335522"
+
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"
   resolved "https://registry.npm.taobao.org/wbuf/download/wbuf-1.7.3.tgz#c1d8d149316d3ea852848895cb6a0bfe887b87df"

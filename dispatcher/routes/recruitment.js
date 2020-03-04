@@ -59,6 +59,7 @@ router
       })
     )
     try {
+      ctx.params.uuid = ctx.query.u_id
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
@@ -117,6 +118,7 @@ router
     )
     try {
       ctx.request.body.id = ctx.params.id
+      ctx.request.body.uuid = ctx.query.u_id
       ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
       console.error(err)
@@ -137,6 +139,7 @@ router.get('/enterprise/:id/', async ctx => {
     })
   )
   try {
+    ctx.params.uuid = ctx.query.u_id
     ctx.response.body = await grpcFetch(ctx.params)
   } catch (err) {
     console.error(err)
@@ -157,6 +160,7 @@ router.get('/enterprise/:id/', async ctx => {
   try {
 
     ctx.request.body.enterprise_id = ctx.params.id
+    ctx.request.body.uuid = ctx.query.u_id
     ctx.response.body = await grpcFetch(ctx.request.body)
   } catch (err) {
     console.error(err)
@@ -178,6 +182,7 @@ router.put('/status/:id/', async ctx => {
   )
   try {
     ctx.request.body.id = ctx.params.id
+    ctx.request.body.uuid = ctx.query.u_id
     ctx.response.body = await grpcFetch(ctx.request.body)
   } catch (err) {
     console.error(err)

@@ -149,7 +149,7 @@ const Favorite = () => {
                     <td>{item.education}</td>
                     <td>
                       <div className="btn-group btn-group-sm">
-                        <a className="btn btn-primary" href={`#简历/详情/${item.resume_id}/`}>
+                        <a className="btn btn-primary" href={`#简历/详情/${item.resume_id}?u_id=${item.uuid}`}>
                           查看
                       </a>
                       </div>

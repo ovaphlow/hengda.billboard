@@ -287,8 +287,9 @@ router
   .put('/', async ctx => {
     const sql = `
       select id, name, username, phone, email,
-        (select count(*) from favorite where common_user_id = cu.id) as qty_favorite,
-        (select count(*) from favorite where common_user_id = cu.id) as qty_delivery
+        (select count(*) from favorite where user_id = cu.id) as qty_favorite
+        -- 投递数量
+        -- (select count(*) from favorite where common_user_id = cu.id) as qty_delivery
       from common_user as cu
       where position(? in name) > 0
       limit 2000

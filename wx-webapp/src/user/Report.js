@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 
 
@@ -67,9 +67,11 @@ const Report = () => {
 
   const { id, category } = useParams()
 
+  const { search } = useLocation()  
+
   useEffect(() => {
     if (category === '岗位') {
-      fetch(`./api/recruitment/${id}`)
+      fetch(`./api/recruitment/${id}${search}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -80,7 +82,7 @@ const Report = () => {
         })
     }
     if (category === '企业') {
-      fetch(`./api/enterprise/${id}`)
+      fetch(`./api/enterprise/${id}${search}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {
@@ -119,7 +121,8 @@ const Report = () => {
         data_id: id,
         content: content,
         category: category,
-        common_user_id: auth.id,
+        user_id: auth.id,
+        user_category: '个人用户',
         datime: moment().format('YYYY-MM-DD HH:mm')
       })
     })

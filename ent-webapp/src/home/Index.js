@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <div className="container-fluid" >
       <Title />
-      <Navbar category="首页" />
+      <Navbar category="首页" totalFlg />
       <Router>
         <Switch>
           <Route exact path="/"><Home /></Route>

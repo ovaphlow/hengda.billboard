@@ -32,7 +32,8 @@ const Feedback = () => {
       body: JSON.stringify({
         content: content,
         category:category,
-        common_user_id: auth.id,
+        user_id: auth.id,
+        user_category: '个人用户',
         datime: moment().format('YYYY-MM-DD HH:mm')
       })
     })

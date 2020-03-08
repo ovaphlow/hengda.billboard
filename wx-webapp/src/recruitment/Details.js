@@ -41,7 +41,7 @@ const Details = () => {
           alert(res.message)
         }
       })
-  }, [id])
+  }, [id,search])
 
   useEffect(() => {
     if (data) {
@@ -166,7 +166,7 @@ const Details = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack report advisory dataType="岗位" dataId={id} />
+        <ToBack report advisory dataType="岗位" dataId={id}  search={search}/>
         {data && (
           <>
             <div className="row mt-3">

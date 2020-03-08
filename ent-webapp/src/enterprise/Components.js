@@ -11,6 +11,15 @@ const Sidebar = props => (
         <i className="fa fa-fw fa-angle-right"></i>
       </span>
     </a>
+    <a
+      href="#信息"
+      className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '我的资产' && 'text-primary'}`}
+    >
+      我的资产
+      <span className="pull-right">
+        <i className="fa fa-fw fa-angle-right"></i>
+      </span>
+    </a>
   </div>
 )
 

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,7 +59,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       String sql = "insert into recruitment ( enterprise_id, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
           + " industry, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
-      PreparedStatement ps = conn.prepareStatement(sql);
+      PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
       ps.setString(1, body.get("enterprise_id").toString());
       ps.setString(2, body.get("name").toString());
       ps.setString(3, body.get("qty").toString());
@@ -73,7 +74,17 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(12, body.get("education").toString());
       ps.setString(13, body.get("category").toString());
       ps.setString(14, body.get("industry").toString());
-      ps.execute();
+      ps.executeUpdate();
+      ResultSet rs = ps.getGeneratedKeys();
+      if (rs.next()) {
+        sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','发布岗位',?,?,?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, body.get("user_id").toString());
+        ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+        ps.setInt(3, rs.getInt(1));
+        ps.setString(4, "发布岗位<" + body.get("name").toString() + ">");
+        ps.execute();
+      }
       resp.put("content", true);
       conn.close();
     } catch (Exception e) {
@@ -114,6 +125,13 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(13, body.get("id").toString());
       ps.setString(14, body.get("uuid").toString());
       ps.execute();
+      sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','编辑岗位',?,?,?)";
+      ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+      ps.setString(3, body.get("id").toString());
+      ps.setString(4, "修改岗位<" + body.get("name").toString() + ">");
+      ps.execute();
       resp.put("content", true);
       conn.close();
     } catch (Exception e) {
@@ -141,6 +159,14 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(2, body.get("id").toString());
       ps.setString(3, body.get("uuid").toString());
       ps.execute();
+      sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户',?,?,?,?)";
+      ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, ("在招".equals(body.get("status").toString())?"复招":"停招")+"岗位");
+      ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+      ps.setString(4, body.get("id").toString());
+      ps.setString(5, ("在招".equals(body.get("status").toString())?"复招":"停招")+"岗位<" + body.get("name").toString() + ">");
+      ps.execute();
       resp.put("content", true);
       conn.close();
     } catch (Exception e) {
@@ -162,10 +188,9 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select r.*, e.name as enterprise_name, e.uuid as enterprise_uuid, u.id as ent_user_id\n"+
-      "from recruitment r left join enterprise e on e.id=r.enterprise_id\n"+
-      "left join enterprise_user u on u.enterprise_id = e.id\n"+
-      "where r.id = ? and r.uuid = ?";
+      String sql = "select r.*, e.name as enterprise_name, e.uuid as enterprise_uuid, u.id as ent_user_id\n"
+          + "from recruitment r left join enterprise e on e.id=r.enterprise_id\n"
+          + "left join enterprise_user u on u.enterprise_id = e.id\n" + "where r.id = ? and r.uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
       ps.setString(2, body.get("uuid").toString());
@@ -265,8 +290,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from recruitment where enterprise_id = ? and "+ 
-      "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招'";
+      String sql = "select * from recruitment where enterprise_id = ? and "
+          + "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招'";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
       ps.setString(2, body.get("uuid").toString());
@@ -293,11 +318,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from recruitment where enterprise_id = ? and "+
-      "(select uuid  from enterprise_user u where u.enterprise_id = enterprise_id limit 1) = ?";
+      String sql = "select * from recruitment where enterprise_id = ? and "
+          + "(select uuid  from enterprise_user u where u.enterprise_id = enterprise_id limit 1) = ?";
       List<String> list = new ArrayList<>();
       list.add(body.get("enterprise_id").toString());
-      list.add(body.get("uuid").toString());      
+      list.add(body.get("uuid").toString());
       if (body.get("name") != null && !"".equals(body.get("name").toString())) {
         sql += " and name = ? ";
         list.add(body.get("name").toString());

@@ -32,8 +32,6 @@ router
     }
   })
   .put('/:id', async ctx => {
-    console.info(ctx.request.body)
-    console.info(ctx.params)
     const sql = `
       update mis_user
         set username = ?, name = ?

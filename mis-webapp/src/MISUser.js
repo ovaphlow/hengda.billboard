@@ -78,8 +78,8 @@ function List() {
 
             <div className="card shadow">
               <div className="card-body">
-                <table className="table table-hover table-bordered">
-                  <thead className="thead-dark">
+                <table className="table table-hover">
+                  <thead>
                     <tr>
                       <th className="text-right">序号</th>
                       <th>姓名</th>
@@ -91,7 +91,7 @@ function List() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>
-                            <a href={`#用户/${it.id}`}>
+                            <a href={`#管理端用户/${it.id}`}>
                               <i className="fa fa-fw fa-edit"></i>
                             </a>
                             <span className="pull-right">{it.id}</span>
@@ -113,11 +113,8 @@ function List() {
 }
 
 function Detail(props) {
-  const [data, setData] = useState({
-    id: 0,
-    username: '',
-    name: ''
-  })
+  const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
   const { id } = useParams()
 
   useEffect(() => {
@@ -125,24 +122,23 @@ function Detail(props) {
       const fetchData = async id => {
         const response = await fetch(`/api/mis-user/${id}`)
         const res = await response.json()
-        setData(res.content)
+        setName(res.content.name)
+        setUsername(res.content.username)
       }
       fetchData(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
-
   const handleSubmit = async () => {
     if (props.caption === '新增') {
       const response = await fetch(`/api/mis-user/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          username: username
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -154,7 +150,10 @@ function Detail(props) {
       const response = await fetch(`/api/mis-user/${id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          username: username
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -177,7 +176,7 @@ function Detail(props) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>管理端用户 {props.caption}</h3>
+            <h3>{props.caption} 管理端用户</h3>
             <hr />
 
             <div className="card shadow">
@@ -185,9 +184,9 @@ function Detail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">姓名</label>
                   <div className="col-sm-10">
-                    <input type="text" name="name" value={data.name || ''}
+                    <input type="text" value={name || ''}
                       className="form-control"
-                      onChange={handleChange}
+                      onChange={event => setName(event.target.value)}
                     />
                   </div>
                 </div>
@@ -195,9 +194,9 @@ function Detail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">用户名</label>
                   <div className="col-sm-10">
-                    <input type="text" name="username" value={data.username || ''}
+                    <input type="text" value={username || ''}
                       className="form-control"
-                      onChange={handleChange}
+                      onChange={event => setUsername(event.target.value)}
                     />
                   </div>
                 </div>

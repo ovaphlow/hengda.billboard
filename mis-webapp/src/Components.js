@@ -29,6 +29,12 @@ export function Navbar(props) {
             </a>
           </li>
 
+          <li className={`nav-item ${props.category === '平台内容' ? 'active' : ''}`}>
+            <a href="#平台内容/banner" className="nav-link">
+              平台内容
+            </a>
+          </li>
+
           <li className={`nav-item ${props.category === '管理端用户' ? 'active' : ''}`}>
             <a href="#管理端用户" className="nav-link">
               管理端用户

@@ -54,30 +54,13 @@ function SideNav(props) {
 function List() {
   const [data, setData] = useState([])
   const [filterParams, setFilterParams] = useState({ filter_name: '' })
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await window.fetch(`/api/enterprise/`)
-  //     const res = await response.json()
-  //     if (res.message) {
-  //       window.console.error(res.message)
-  //       return
-  //     }
-  //     setData(res.content)
-  //   }
-  //   fetchData()
-  // }, [])
-
-  const handleFilterParamsChange = e => {
-    const { value, name } = e.target
-    setFilterParams(prev => ({ ...prev, [name]: value}))
-  }
+  const [filter_name, setFilterName] = useState('')
 
   const handleFilter = async () => {
     const response = await window.fetch(`/api/enterprise/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(filterParams)
+      body: JSON.stringify({ filter_name: filter_name })
     })
     const res = await response.json()
     if (res.message) {
@@ -107,9 +90,9 @@ function List() {
                 <div className="form-row align-items-center">
                   <div className="col-auto mt-2">
                     <label className="sr-only">企业名称</label>
-                    <input type="text" name="filter_name" value={filterParams.filter_name} placeholder="企业名称"
+                    <input type="text" value={filter_name} placeholder="企业名称"
                       className="form-control mb-2"
-                      onChange={handleFilterParamsChange}
+                      onChange={event => setFilterName(event.target.value)}
                     />
                   </div>
 

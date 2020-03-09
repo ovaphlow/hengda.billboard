@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Navbar from '../components/Navbar'
 import Title from '../components/Title'
 import Footer from '../components/Footer'
 import Audition from './Audition'
+import Offer from './Offer'
 
 const Index = () => {
   useEffect(() => {
@@ -17,10 +17,10 @@ const Index = () => {
   return (
     <div className="container-fluid">
       <Title />
-      <Navbar category="消息" />
       <Router>
         <Switch>
-          <Route exact path="/消息/面试/" ><Audition /></Route>
+          <Route exact path="/消息/会话/" ><Audition /></Route>
+          <Route exact path="/消息/邀请/"><Offer/></Route>  
         </Switch>
       </Router>
       <Footer />

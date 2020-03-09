@@ -77,6 +77,7 @@ router
     )
     try {
       ctx.params.uuid = ctx.query.u_id
+      ctx.params.user_id = ctx.query.u_i
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)

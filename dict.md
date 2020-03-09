@@ -81,7 +81,8 @@
 
 中文|英文
 :--:|:--:
-用户id|common_user_id
+用户id|user_id
+用户类型|user_category
 内容|content
 时间|datime
 反馈/投诉|category
@@ -104,12 +105,15 @@ ip地址|ip
 用户类型|category1
 编辑操作类型|category2
 编辑时间|datime
+操作的数据|data_id
+备注|remark
 
 ## 举报
 
 中文|英文
 :--:|:--:
-用户id|common_user_id
+用户id|user_id
+用户类型|user_category
 举报数据id|data_id
 举报数据类型|category
 举报原因|content
@@ -120,9 +124,21 @@ ip地址|ip
 中文|英文
 :--:|:--:
 消息类型|category 
-发起方|send_user_id 
-发起方类型|send_category
-接收方|receive_user_id
-接收方类型|receive_category
+个人用户id|common_user_id 
+企业用户id|ent_user_id
 内容|content 
 发送时间|datime
+状态|status
+
+## 面试邀请
+
+中文|英文
+:--:|:--:
+岗位id|recruitment_id 
+个人用户id|common_user_id 
+面试地点|address        
+面试时间|mianshishijian 
+备注|remark         
+电话|phone          
+发送时间|datime         
+状态|status         

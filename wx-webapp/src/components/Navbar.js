@@ -1,6 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Navbar = props => {
+
+  const [message, setMessage] = useState(0)
+
+  const [offer, setOffer] = useState(0)
+
+  const [totalFlg, setTotalFlg] = useState(true)
+
+  useEffect(() => {
+    const jobId = setInterval(() => {
+      const _auth = JSON.parse(localStorage.getItem('auth'))
+      if (_auth !== null) {
+        fetch(`./api/message/common/total/${_auth.id}`)
+          .then(res => res.json())
+          .then(res => {
+            if (res.content) {
+              setMessage(res.content)
+            } else {
+              setMessage(0)
+            }
+          })
+        fetch(`./api/offer/common/total/${_auth.id}`)
+          .then(res => res.json())
+          .then(res => {
+            if (res.content) {
+              setOffer(res.content)
+            } else {
+              setMessage(0)
+            }
+          })
+      }
+    }, 900000)
+    return (() => window.clearInterval(jobId))
+  }, [])
+
+  useEffect(() => {
+    if (totalFlg === props.totalFlg) {
+      return
+    }
+    setTotalFlg(props.totalFlg)
+    const _auth = JSON.parse(localStorage.getItem('auth'))
+    if (_auth !== null && props.totalFlg) {
+      fetch(`./api/message/ent/total/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.content) {
+            setMessage(res.content)
+          } else {
+            setMessage(0)
+          }
+        })
+    }
+  }, [props, totalFlg])
+
+
+
+
   return (
     <>
       <ul className="nav bg-light nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center">
@@ -28,11 +84,15 @@ const Navbar = props => {
           </a>
         </li>
         <li className="nav-item">
+
           <a href="#消息" className={`nav-link ${props.category === '消息' ? 'text-primary' : 'text-muted'} `}>
             <i className="fa fa-fw fa-2x fa-envelope" aria-hidden="true"></i>
             <br></br>
             消息
-        </a>
+            {
+              (message + offer) !== 0 ? (<span className="badge badge-pill badge-danger">{message + offer}</span>) : (<></>)
+            }
+          </a>
         </li>
         <li className="nav-item">
           <a href="#我的" className={`nav-link ${props.category === '我的' ? 'text-primary' : 'text-muted'} `}>

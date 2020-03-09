@@ -9,9 +9,14 @@ const ChatRow = props => (
       <div className="float-left">
         <img className="rounded-circle chat-img" src={require('../components/img/user.jpg')} alt="" />
       </div>
+
       <div className="chat-text-box">
-        {props.name}<br />
+        {props.name}
+        <br />
         <span className="text-muted">
+          {
+            props.total !== 0 ? (<span className="badge badge-pill badge-danger">{props.total}</span>) : (<></>)
+          } &nbsp;
           {props.text}
         </span>
       </div>
@@ -46,31 +51,31 @@ const RightMessage = props => (
 )
 
 
-const Mianshi = props => (
-  <>
-    <div className="row p-2 ">
-      <div className="col">
-        面试邀请
-    </div>
-    </div>
-    <hr className="m-1" />
-    <div className="row p-2  mt-2">
-      <div className="col" style={{ maxWidth: 400 }} >
-        {props.remark}
-      </div>
-    </div>
-    <div className="row p-2">
-      <div className="col">
-        <span className="text-muted" style={{ fontSize: 15 }}>
-          面试地点: {props.address}<br />
-          面试时间: {props.datime}<br />
-          面试岗位: {props.recruitment_name}<br />
-          联系电话: {props.phone}<br />
-        </span>
-      </div>
-    </div>
-  </>
-)
+// const Mianshi = props => (
+//   <>
+//     <div className="row p-2 ">
+//       <div className="col">
+//         面试邀请
+//     </div>
+//     </div>
+//     <hr className="m-1" />
+//     <div className="row p-2  mt-2">
+//       <div className="col" style={{ maxWidth: 400 }} >
+//         {props.remark}
+//       </div>
+//     </div>
+//     <div className="row p-2">
+//       <div className="col">
+//         <span className="text-muted" style={{ fontSize: 15 }}>
+//           面试地点: {props.address}<br />
+//           面试时间: {props.datime}<br />
+//           面试岗位: {props.recruitment_name}<br />
+//           联系电话: {props.phone}<br />
+//         </span>
+//       </div>
+//     </div>
+//   </>
+// )
 
 const Audition = () => {
 
@@ -78,15 +83,20 @@ const Audition = () => {
 
   const [chatList, setChatList] = useState([])
 
-  const [nowChat, setNowChat] = useState(0)
+  const [nowUser, setNowUser] = useState(0)
 
   const [auth, setAuth] = useState(0)
 
+  const [totalFlg, setTotalFlg] = useState(false)
+
   const [contentList, setContentList] = useState([])
+
+  const [chatTotal, setChatTotal] = useState([])
 
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
+    let jobId1 = -1
     if (_auth !== null) {
       setAuth(_auth)
       fetch(`./api/message/企业用户/${_auth.id}/`)
@@ -96,52 +106,76 @@ const Audition = () => {
             window.alert(res.message)
           } else {
             if (res.content.length > 0) {
-              setNowChat(0)
-              fetch(`./api/message/content/`, {
-                method: 'PUT',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({
-                  user1_id: _auth.id,
-                  user1_category: '企业用户',
-                  user2_id: res.content[0].user2,
-                  user2_category: res.content[0].user2_category,
-                })
-              })
+              setNowUser(res.content[0])
+              jobId1 = setInterval(() => {
+                fetch(`./api/message/ent/chat/total/${_auth.id}`)
+                  .then(res => res.json())
+                  .then(res => {
+                    setChatTotal(res.content)
+                  })
+              }, 900000)
+              fetch(`./api/message/ent/chat/total/${_auth.id}`)
                 .then(res1 => res1.json())
                 .then(res1 => {
-                  setContentList(res1.content.filter(item => item.content !== ''))
+                  setChatTotal(res1.content)
+                })
+              fetch(`./api/message/ent/content/${_auth.id}/${res.content[0].common_user_id}`)
+                .then(res1 => res1.json())
+                .then(res1 => {
+                  setTotalFlg(String(0))
+                  setContentList(res1.content)
                 })
             }
             setChatList(res.content)
           }
         })
     }
+    return (() => {
+      if (jobId1 !== -1) {
+        window.clearInterval(jobId1)
+      }
+    })
   }, [])
+
+  useEffect(() => {
+    if (auth) {
+      if (nowUser) {
+        fetch(`./api/message/ent/content/${auth.id}/${nowUser.common_user_id}`)
+          .then(res => res.json())
+          .then(res => {
+            setContentList(res.content)
+          })
+      }
+      fetch(`./api/message/企业用户/${auth.id}/`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            setChatList(res.content)
+          }
+        })
+    }
+
+  }, [chatTotal, auth, nowUser])
+
 
   useEffect(() => {
     let div = document.getElementById('chat-body')
     div.scrollTop = div.scrollHeight
   }, [contentList])
 
-  const handleClick = inx => {
-    fetch(`./api/message/content/`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        user1_id: auth.id,
-        user1_category: '企业用户',
-        user2_id: chatList[inx].user2,
-        user2_category: chatList[inx].user2_category,
-      })
-    })
+  const handleClick = user => {
+    fetch(`./api/message/ent/content/${auth.id}/${user.common_user_id}`)
       .then(res => res.json())
       .then(res => {
         if (res.message) {
           window.alert(res.message)
         } else {
           setText('')
-          setNowChat(inx)
-          setContentList(res.content.filter(item => item.content !== ''))
+          setNowUser(user)
+          setTotalFlg(String(user.common_user_id))
+          setContentList(res.content)
         }
       })
   }
@@ -150,20 +184,15 @@ const Audition = () => {
     setText(event.target.value.trim())
   }
 
-  const meassageText = item => {
-    return item.category === '消息' ? item.content : <Mianshi {...JSON.parse(item.content)} />
-  }
 
   const handlePush = () => {
     if (text === '') {
       return
     }
     const data = {
-      category: '消息',
-      send_user_id: auth.id,
-      send_category: '企业用户',
-      receive_user_id: chatList[nowChat].user2,
-      receive_category: chatList[nowChat].user2_category,
+      category: 'ent_to_common',
+      ent_user_id: auth.id,
+      common_user_id: nowUser.common_user_id,
       content: text
     }
     fetch(`./api/message/`, {
@@ -190,7 +219,7 @@ const Audition = () => {
   }
 
   return (
-    <View category='面试'>
+    <View category='会话' totalFlg={totalFlg}>
       <div className="row bg-white shadow " >
         <div className="col-2 border">
 
@@ -205,10 +234,11 @@ const Audition = () => {
                 chatList && chatList.map((item, inx) =>
                   <ChatRow
                     key={inx}
-                    name={item.user2_name}
+                    name={item.username}
                     text={item.content}
-                    handleClick={() => handleClick(inx)}
-                    active={inx === nowChat} />
+                    total={chatTotal.length > 0 && chatTotal.find(it => it.common_user_id === item.common_user_id).count}
+                    handleClick={() => handleClick(item)}
+                    active={item.common_user_id === nowUser.common_user_id} />
                 )
               }
             </div>
@@ -217,16 +247,16 @@ const Audition = () => {
         <div className="col-10 border">
           <div className="row  border-bottom">
             <div className="col text-center p-2">
-              王腾宇
+              {nowUser.username}
             </div>
           </div>
           <div id="chat-body" className="row border-bottom chat-body" >
             <div className="col mt-3">
               {
                 contentList && contentList.map((item, inx) =>
-                  item.send_user_id === auth.id ?
-                    <RightMessage key={inx} text={meassageText(item)} /> :
-                    <LetfMessage key={inx} text={meassageText(item)} />
+                  item.category === 'common_to_ent' ?
+                    <LetfMessage key={inx} text={item.content} /> :
+                    <RightMessage key={inx} text={item.content} />
                 )
               }
             </div>

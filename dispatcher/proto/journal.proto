@@ -16,6 +16,8 @@ service Journal {
     
   rpc insert(JournalRequest) returns (JournalReply) {}
 
+  rpc loginList(JournalRequest) returns (JournalReply) {}
+
   rpc editList(JournalRequest) returns (JournalReply) {}
   
 }

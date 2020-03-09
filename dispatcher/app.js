@@ -116,6 +116,14 @@ function enterpriseRouter() {
 
 enterpriseRouter()
 
+function offerRouter() {
+  const router = require('./routes/offer')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+offerRouter()
+
 function topicRouter() {
   const router = require('./routes/topic')
   app.use(router.routes())

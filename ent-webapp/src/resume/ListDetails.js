@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
 import { SearchFavorite } from './ResumeDetalis'
-
+import moment from 'moment'
 
 const ListDetails = () => {
 
@@ -18,7 +18,9 @@ const ListDetails = () => {
 
   const [auth, setAuth] = useState(0)
 
-  const [modalShow, setModalShow] = useState(false)
+  const [modalShow1, setModalShow1] = useState(false)
+
+  const [modalShow2, setModalShow2] = useState(false)
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
@@ -26,7 +28,7 @@ const ListDetails = () => {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/delivery/details/${id}${search}`)
+      fetch(`./api/delivery/details/${id}${search}&u_i=${_auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -106,31 +108,22 @@ const ListDetails = () => {
 
   const handleInvite = () => {
 
-    const content = JSON.stringify({
-      remark: document.getElementById('remark').value,
-      address: document.getElementById('address').value,
-      datime: document.getElementById('datime').value,
-      recruitment_name: data.recruitment_name,
-      recruitment_id: data.recruitment_id,
-      phone: document.getElementById('phone').value,
-    })
-
-    fetch(`./api/message/`, {
+    fetch(`./api/offer/`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        category: '面试邀请',
-        send_user_id: auth.id,
-        send_category: '企业用户',
-        receive_user_id: data.common_user_id,
-        receive_category: '个人用户',
-        content: content
+        recruitment_id: data.recruitment_id,
+        common_user_id: data.common_user_id,
+        address: document.getElementById('address').value,
+        phone: document.getElementById('phone').value,
+        mianshishijian: document.getElementById('datime').value,
+        remark: document.getElementById('remark').value
       })
     })
       .then(res => res.json())
       .then(res => {
         if (res.content) {
-          window.alert('已发出面试邀请,请到消息确实')
+          window.alert('已发出面试邀请,请到消息确认')
           fetch(`./api/delivery/status/`, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
@@ -139,7 +132,29 @@ const ListDetails = () => {
               status: '已邀请'
             })
           })
-          setModalShow(false)
+          setModalShow1(false)
+        }
+      })
+  }
+
+  const handleReport = () => {
+    fetch(`./api/report/`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        user_id: auth.id,
+        data_id: data.resume_id,
+        user_category: '企业用户',
+        content: document.getElementById('report').value,
+        category: '简历',
+        datime: moment().format('YYYY-MM-DD HH:mm')
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          window.alert('以提交到后台,我们将尽快处理')
+          setModalShow2(false)
         }
       })
   }
@@ -159,11 +174,11 @@ const ListDetails = () => {
                   }
                   收藏
                 </button>
-                <button className="btn btn-light rounded-0 text-muted" onClick={() => setModalShow(true)} >
+                <button className="btn btn-light rounded-0 text-muted" onClick={() => setModalShow1(true)} >
                   <i className="fa fa-comment-o fa-fw" aria-hidden="true"></i>
                   邀请面试
                   </button>
-                <button className="btn btn-light rounded-0 text-danger" >
+                <button className="btn btn-light rounded-0 text-danger" onClick={() => setModalShow2(true)}>
                   <i className="fa fa-ban fa-fw" aria-hidden="true"></i>
                   举报
                 </button>
@@ -178,10 +193,22 @@ const ListDetails = () => {
         </div>
       </div>
       <Modal
+        title="举报"
+        show={modalShow2}
+        handleSave={handleReport}
+        close={() => setModalShow2(false)} >
+        <div className="form-group">
+          <label>举报原因</label>
+          <textarea
+            id="report"
+            className="form-control" />
+        </div>
+      </Modal>
+      <Modal
         title="发起邀请"
-        show={modalShow}
+        show={modalShow1}
         handleSave={handleInvite}
-        close={() => setModalShow(false)} >
+        close={() => setModalShow1(false)} >
         <div className="form-group">
           <label>面试职位</label>
           <input type="text"

@@ -28,16 +28,27 @@ const Update = () => {
 
   const [area, setArea] = useState([])
 
+  const [auth, setAuth] = useState(0)
+
+  const [name, setName] = useState('')
+
   const { id } = useParams()
 
   const { search } = useLocation()
 
 
   useEffect(() => {
+    const _auth = JSON.parse(sessionStorage.getItem('auth'))
+    if (_auth === null) {
+      window.location = '#登录'
+      return
+    }
+    setAuth(_auth) 
     fetch(`./api/recruitment/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
+          setName(res.content.name)
           if (res.content.address1) {
             const l1 = level.find(item => item.name === res.content.address1)
             switch (res.content.address1) {
@@ -79,7 +90,10 @@ const Update = () => {
     fetch(`./api/recruitment/${id}${search}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        user_id: auth.id
+      })
     })
       .then(res => res.json())
       .then(res => {
@@ -152,7 +166,11 @@ const Update = () => {
     fetch(`./api/recruitment/status/${id}${search}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({status:v})
+      body: JSON.stringify({
+        status:v,
+        user_id:auth.id,
+        name: name
+      })
     })
       .then(res => res.json())
       .then(res => {

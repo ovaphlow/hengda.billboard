@@ -26,7 +26,7 @@ const ToBack = props => {
       <div className="col flex-end" style={{ padding: 0 }}>
         {
           props.report && (
-            <a className="text-danger" href={`#/我的/举报/${props.dataId}/${props.dataType}`}>
+            <a className="text-danger" href={`#/我的/举报/${props.dataId}/${props.dataType}${props.search}`}>
               举报
             </a>
           )

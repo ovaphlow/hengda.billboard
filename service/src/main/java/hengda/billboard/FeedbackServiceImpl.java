@@ -28,12 +28,13 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into feedback (common_user_id, content, datime, category) value (?, ?, ?, ?)";
+      String sql = "insert into feedback (user_id, user_category, content, datime, category) value (?, ?, ?, ?)";
       PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, body.get("content").toString());
-      ps.setString(3, body.get("datime").toString());
-      ps.setString(4, body.get("category").toString());
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, body.get("user_category").toString());
+      ps.setString(3, body.get("content").toString());
+      ps.setString(4, body.get("datime").toString());
+      ps.setString(5, body.get("category").toString());
       ps.execute();
       resp.put("content", true);
     } catch (Exception e) {
@@ -56,9 +57,10 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from feedback where common_user_id = ? ORDER BY datime DESC ";
+      String sql = "select * from feedback where user_id = ? and user_category = ? ORDER BY datime DESC ";
       PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, body.get("user_category").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

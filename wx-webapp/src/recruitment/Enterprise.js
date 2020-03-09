@@ -34,19 +34,19 @@ const Enterprise = () => {
           setList(res.content)
         }
       })
-  }, [id])
+  }, [id, search])
 
 
   return (
     <div className="container-fluid" style={{ fontSize: 14 }}>
-      <ToBack report dataType="企业" dataId={id} />
+      <ToBack report dataType="企业" dataId={id} search={search} />
       <div className="row mt-2">
         <div className="col">
           <div className="row">
             <div className="col">
               <h5 className="pull-left">{data.name}</h5>
               <a className="pull-right text-success"
-                href={`#消息/${data.enterprise_name}/企业用户/${data.ent_user_id}`}>
+                href={`#消息/${data.name}/${data.ent_user_id}`}>
                 <i className="fa fa-fw fa-comments" ></i>
                 咨询
               </a>

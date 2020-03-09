@@ -12,7 +12,17 @@ service Message {
 
   rpc messageList(MessageRequest) returns (MessageReply) {}
 
-  rpc messageContent(MessageRequest) returns (MessageReply) {}
+  rpc entTotal(MessageRequest) returns (MessageReply) {}
+
+  rpc commonTotal(MessageRequest) returns (MessageReply) {}
+
+  rpc commonContent(MessageRequest) returns (MessageReply) {}
+
+  rpc entContent(MessageRequest) returns (MessageReply) {}
+
+  rpc entChatTotal(MessageRequest) returns (MessageReply) {}
+
+  rpc commonChatTotal(MessageRequest) returns (MessageReply) {}
 
 }
 

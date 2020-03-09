@@ -44,6 +44,26 @@ router.get('/edit/:category/:id/', async ctx => {
   }
 })
 
+router.get('/login/:category/:id/', async ctx => {
+  const grpcFetch = body => new Promise((resolve, reject) =>
+    grpcClient.loginList({ data: JSON.stringify(body) }, (err, response) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+        return
+      } else {
+        resolve(JSON.parse(response.data))
+      }
+    })
+  )
+  try {
+    ctx.response.body = await grpcFetch(ctx.params)
+  } catch (err) {
+    console.error(err)
+    ctx.response.body = { message: '服务器错误' }
+  }
+})
+
 router
   .get('/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>

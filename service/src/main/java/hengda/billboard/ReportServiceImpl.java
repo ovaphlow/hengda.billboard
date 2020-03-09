@@ -27,13 +27,14 @@ public class ReportServiceImpl extends ReportGrpc.ReportImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into report (common_user_id, data_id, category, content, datime)  value (?, ?, ?, ?, ?)";
+      String sql = "insert into report (user_id, user_category, data_id, category, content, datime)  value (?, ?, ?, ?, ?, ?)";
       PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, body.get("data_id").toString());
-      ps.setString(3, body.get("category").toString());
-      ps.setString(4, body.get("content").toString());
-      ps.setString(5, body.get("datime").toString());
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, body.get("user_category").toString());      
+      ps.setString(3, body.get("data_id").toString());
+      ps.setString(4, body.get("category").toString());
+      ps.setString(5, body.get("content").toString());
+      ps.setString(6, body.get("datime").toString());
       ps.execute();
       resp.put("content", true);
     } catch (Exception e) {
@@ -56,26 +57,14 @@ public class ReportServiceImpl extends ReportGrpc.ReportImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from (\n" +
-      "                  (select t.*, r.name as name\n" +
-      "                   from (\n" +
-      "                            select *\n" +
-      "                            from report\n" +
-      "                            where common_user_id = ? and category = '岗位'\n" +
-      "                        ) as t\n" +
-      "                            left join recruitment r on t.data_id = r.id)\n" +
-      "                  UNION all\n" +
-      "                  (select t.*, e.name as name\n" +
-      "                   from (\n" +
-      "                            select *\n" +
-      "                            from report\n" +
-      "                            where common_user_id = ? and category = '企业'\n" +
-      "                        ) as t\n" +
-      "                            left join enterprise e on t.data_id = e.id)\n" +
-      "              ) as tab ORDER BY datime desc";
+      String sql = "select*, (case category "+
+      "    when '岗位' then (select name from recruitment where id = data_id) "+
+      " when '企业' then  (select name from enterprise where id = data_id) "+
+      " when '简历' then (select name from resume where id = data_id) "+
+      " end ) as name from report where user_id=? and user_category=?  ORDER BY datime desc";
       PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, body.get("common_user_id").toString());
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, body.get("user_category").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

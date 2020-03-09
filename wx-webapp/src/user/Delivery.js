@@ -10,7 +10,7 @@ const DataRow = props => (
           ({props.status})
         </div>
         <div className="pull-right">
-          <a style={{ fontSize: 12 }} className="badge badge-pill badge-info" href={`#/岗位/${props.id}`}>
+          <a style={{ fontSize: 12 }} className="badge badge-pill badge-info" href={`#/岗位/${props.id}?u_id=${props.uuid}`}>
             详情
           </a>
         </div>

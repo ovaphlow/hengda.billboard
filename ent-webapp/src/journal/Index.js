@@ -2,12 +2,11 @@ import React, { useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from '../components/Navbar'
-import Title from '../components/Title'
 import Footer from '../components/Footer'
-import List from './List'
-import Favorite from './Favorite'
-import ListDetails from './ListDetails'
-import ResumeDetalis from './ResumeDetalis'
+import Title from '../components/Title'
+import Edit from './Edit'
+import Login from './Login'
+import Report from './Report'
 
 const Index = () => {
   useEffect(() => {
@@ -20,13 +19,12 @@ const Index = () => {
   return (
     <div className="container-fluid">
       <Title />
-      <Navbar category="简历" totalFlg/>
+      <Navbar category="记录" totalFlg />
       <Router>
         <Switch>
-          <Route exact path="/简历/列表/" ><List /></Route>
-          <Route exact path="/简历/列表/详情/:id/"><ListDetails /></Route>
-          <Route exact path="/简历/收藏/"><Favorite /></Route>
-          <Route exact path="/简历/详情/:id/"><ResumeDetalis /></Route>
+          <Route exact path="/记录/登录/" ><Login/></Route>
+          <Route exact path="/记录/操作/" ><Edit/></Route>
+          <Route exact path="/记录/举报/" ><Report/></Route>
         </Switch>
       </Router>
       <Footer />

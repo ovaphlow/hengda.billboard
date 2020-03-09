@@ -31,37 +31,37 @@ const RightMessage = props => (
 )
 
 
-const Mianshi = props => (
-  <>
-    <div className="row p-2 ">
-      <div className="col">
-        面试邀请
-      </div>
-    </div>
-    <hr className="m-1" />
-    <div className="row p-2  mt-2" style={{ fontSize: 12 }}>
-      <div className="col" >
-        {props.remark}
-      </div>
-    </div>
-    <div className="row p-2">
-      <div className="col">
-        <span className="text-muted" style={{ fontSize: 10 }}>
-          面试地点: {props.address}<br />
-          面试时间: {props.datime}<br />
-          面试岗位: {props.recruitment_name}<br />
-          联系电话: {props.phone}<br />
-        </span>
-      </div>
-    </div>
-  </>
-)
+// const Mianshi = props => (
+//   <>
+//     <div className="row p-2 ">
+//       <div className="col">
+//         面试邀请
+//       </div>
+//     </div>
+//     <hr className="m-1" />
+//     <div className="row p-2  mt-2" style={{ fontSize: 12 }}>
+//       <div className="col" >
+//         {props.remark}
+//       </div>
+//     </div>
+//     <div className="row p-2">
+//       <div className="col">
+//         <span className="text-muted" style={{ fontSize: 10 }}>
+//           面试地点: {props.address}<br />
+//           面试时间: {props.datime}<br />
+//           面试岗位: {props.recruitment_name}<br />
+//           联系电话: {props.phone}<br />
+//         </span>
+//       </div>
+//     </div>
+//   </>
+// )
 
 
 
 const Chat = () => {
 
-  const { user_id, user_category, title } = useParams()
+  const { user_id, title } = useParams()
 
   const [contentList, setContentList] = useState([])
 
@@ -70,35 +70,35 @@ const Chat = () => {
   const [auth, setAuth] = useState(0)
 
   useEffect(() => {
+    let jobId = -1
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth === null) {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/message/content/`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          user1_id: _auth.id,
-          user1_category: '个人用户',
-          user2_id: user_id,
-          user2_category: user_category,
-        })
-      })
+      fetch(`./api/message/common/content/${user_id}/${_auth.id}/`)
         .then(res => res.json())
         .then(res => {
           setContentList(res.content.filter(item => item.content !== ''))
         })
+      jobId = setInterval(() => {
+        fetch(`./api/message/common/content/${user_id}/${_auth.id}/`)
+          .then(res => res.json())
+          .then(res => {
+            setContentList(res.content.filter(item => item.content !== ''))
+          })
+      }, 900000)
     }
-  }, [user_id, user_category])
+    return (() => {
+      if (jobId !== -1) {
+        window.clearInterval(jobId)
+      }
+    })
+  }, [user_id])
 
   useEffect(() => {
     document.documentElement.scrollTop = document.body.scrollHeight
   }, [contentList])
-
-  const meassageText = item => {
-    return item.category === '消息' ? item.content : <Mianshi {...JSON.parse(item.content)} />
-  }
 
   const handleChange = event => {
     setText(event.target.value.trim())
@@ -109,11 +109,9 @@ const Chat = () => {
       return
     }
     const data = {
-      category: '消息',
-      send_user_id: auth.id,
-      send_category: '个人用户',
-      receive_user_id: user_id,
-      receive_category: user_category,
+      category: 'common_to_ent',
+      ent_user_id: user_id,
+      common_user_id: auth.id,
       content: text
     }
     fetch(`./api/message/`, {
@@ -131,6 +129,7 @@ const Chat = () => {
         }
       })
   }
+
   return (
     <>
       <div className="fixed-top border-bottom" style={{ fontSize: 14 }}>
@@ -144,9 +143,9 @@ const Chat = () => {
           <div className="col" id="chat-body1">
             {
               contentList && contentList.map((item, inx) =>
-                item.send_user_id === auth.id ?
-                  <RightMessage key={inx} text={meassageText(item)} /> :
-                  <LetfMessage key={inx} text={meassageText(item)} />
+                item.category === 'common_to_ent' ?
+                  <RightMessage key={inx} text={item.content} /> :
+                  <LetfMessage key={inx} text={item.content} />
               )
             }
           </div>

@@ -35,7 +35,7 @@ const ReportJournal = () => {
     if (auth === null) {
       window.location = '#登录'
     } else {
-      fetch(`/api/report/${auth.id}`)
+      fetch(`/api/report/个人用户/${auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

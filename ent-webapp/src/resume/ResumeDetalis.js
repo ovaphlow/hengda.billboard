@@ -5,6 +5,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
 import { SelectField } from '../components/InputField'
+import moment from 'moment'
 
 
 export const SearchFavorite = body => new Promise((resolve, reject) => {
@@ -30,7 +31,9 @@ const ResumeDetalis = () => {
 
   const [auth, setAuth] = useState(0)
 
-  const [modalShow, setModalShow] = useState(false)
+  const [modalShow1, setModalShow1] = useState(false)
+
+  const [modalShow2, setModalShow2] = useState(false)
 
   const [recruitmentList, setRecruitmentList] = useState([])
 
@@ -40,7 +43,7 @@ const ResumeDetalis = () => {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/resume/${id}${search}`)
+      fetch(`./api/resume/${id}${search}&u_i=${_auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -63,7 +66,7 @@ const ResumeDetalis = () => {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          status:'在招'
+          status: '在招'
         })
       })
         .then(res => res.json())
@@ -75,7 +78,7 @@ const ResumeDetalis = () => {
           }
         })
     }
-  }, [id,search])
+  }, [id, search])
 
   const handleFavorite = () => {
     if (favorite) {
@@ -123,35 +126,50 @@ const ResumeDetalis = () => {
 
   const handleInvite = () => {
 
-    const content = JSON.stringify({
-      remark: document.getElementById('remark').value,
-      address: document.getElementById('address').value,
-      datime: document.getElementById('datime').value,
-      recruitment_name: document.getElementById('recruitment').text,
-      recruitment_id: document.getElementById('recruitment').value,
-      phone: document.getElementById('phone').value,
-    })
 
-    fetch(`./api/message/`, {
+    fetch(`./api/offer/`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        category: '面试邀请',
-        send_user_id: auth.id,
-        send_category: '企业用户',
-        receive_user_id: data.common_user_id,
-        receive_category: '个人用户',
-        content: content
+        recruitment_id: data.recruitment_id,
+        common_user_id: data.common_user_id,
+        address: document.getElementById('address').value,
+        phone: document.getElementById('phone').value,
+        mianshishijian: document.getElementById('datime').value,
+        remark: document.getElementById('remark').value
       })
     })
       .then(res => res.json())
       .then(res => {
         if (res.content) {
-          window.alert('已发出面试邀请,请到消息确实')
-          setModalShow(false)
+          window.alert('已发出面试邀请,请到消息确认')
+          setModalShow1(false)
         }
       })
   }
+
+  const handleReport = () => {
+    fetch(`./api/report/`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        user_id: auth.id,
+        data_id: data.id,
+        user_category: '企业用户',
+        content: document.getElementById('report').value,
+        category: '简历',
+        datime: moment().format('YYYY-MM-DD HH:mm')
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          window.alert('以提交到后台,我们将尽快处理')
+          setModalShow2(false)
+        }
+      })
+  }
+
 
   return (
     <View category="收藏">
@@ -168,11 +186,11 @@ const ResumeDetalis = () => {
                   }
                   收藏
                 </button>
-                <button className="btn btn-light rounded-0 text-muted" onClick={() => setModalShow(true)} >
+                <button className="btn btn-light rounded-0 text-muted" onClick={() => setModalShow1(true)} >
                   <i className="fa fa-comment-o fa-fw" aria-hidden="true"></i>
                   邀请面试
                   </button>
-                <button className="btn btn-light rounded-0 text-danger" >
+                <button className="btn btn-light rounded-0 text-danger"  onClick={() => setModalShow2(true)}>
                   <i className="fa fa-ban fa-fw" aria-hidden="true"></i>
                   举报
                 </button>
@@ -187,15 +205,27 @@ const ResumeDetalis = () => {
         </div>
       </div>
       <Modal
+        title="举报"
+        show={modalShow2}
+        handleSave={handleReport}
+        close={() => setModalShow2(false)} >
+        <div className="form-group">
+          <label>举报原因</label>
+          <textarea
+            id="report"
+            className="form-control" />
+        </div>
+      </Modal>
+      <Modal
         title="发起邀请"
-        show={modalShow}
+        show={modalShow1}
         handleSave={handleInvite}
-        close={() => setModalShow(false)} >
-        <SelectField 
+        close={() => setModalShow1(false)} >
+        <SelectField
           id="recruitment"
           className="form-control"
           category="面试职位">
-          {recruitmentList && recruitmentList.map((item,inx) => 
+          {recruitmentList && recruitmentList.map((item, inx) =>
             <option value={item.id} key={inx}>{item.name}</option>
           )}
         </SelectField>

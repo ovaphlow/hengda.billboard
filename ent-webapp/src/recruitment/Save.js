@@ -26,12 +26,15 @@ const Save = () => {
   const [area, setArea] = useState([])
 
 
+
+
   useEffect(() => {
     const auth = JSON.parse(sessionStorage.getItem('auth'))
     if (auth !== null) {
       setData(p=> ({
         ...p,
-        enterprise_id: auth.id
+        enterprise_id: auth.enterprise_id,
+        user_id:auth.id
       }))
     } 
   },[])

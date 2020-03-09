@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package= "hengda.billboard";
+option java_outer_classname = "OfferProto";
+
+package offer;
+
+service Offer {
+
+  rpc entList(OfferRequest) returns (OfferReply) {}
+
+  rpc commonList(OfferRequest) returns (OfferReply) {}
+
+  rpc commonTotal(OfferRequest) returns (OfferReply) {}
+
+  rpc insert(OfferRequest) returns (OfferReply) {}
+
+}
+
+message OfferRequest { string data = 1; }
+
+message OfferReply { string data = 1; }

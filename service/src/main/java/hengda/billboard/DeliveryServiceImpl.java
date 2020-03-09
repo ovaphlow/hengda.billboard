@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @SuppressWarnings("unchecked")
 public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
@@ -73,6 +75,13 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
       if (result.size() == 0) {
         resp.put("content", false);
       } else {
+        sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','发布岗位',?,?,?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, body.get("user_id").toString());
+        ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+        ps.setString(3, result.get(0).get("resume_id").toString());
+        ps.setString(4, "查看<" + result.get(0).get("name").toString()+ ">的简历");
+        ps.execute();
         resp.put("content", result.get(0));
       }
       conn.close();

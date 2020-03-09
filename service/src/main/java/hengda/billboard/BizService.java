@@ -27,6 +27,7 @@ public class BizService {
                 .addService(new EnterpriseServiceImpl())
                 .addService(new EnterpriseUserServiceImpl())
                 .addService(new MessageServiceImpl())
+                .addService(new OfferServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

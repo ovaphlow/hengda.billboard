@@ -35,7 +35,7 @@ const ComplaintJournal = () => {
     if (auth === null) {
       window.location = '#登录'
     } else {
-      fetch(`/api/feedback/${auth.id}`)
+      fetch(`/api/feedback/个人用户/${auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

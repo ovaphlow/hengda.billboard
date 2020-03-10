@@ -530,7 +530,7 @@ function RecruitmentList() {
                 onClick={() => window.location = `#企业/${id}/新增职位`}
               >
                 <i className="fa fa-fw fa-plus"></i>
-                新增职位
+                新增
               </button>
             </div>
 
@@ -573,6 +573,18 @@ function RecruitmentList() {
 
 export function RecruitmentDetail(props) {
   const { enterprise_id, recruitment_id } = useParams()
+  const [name, setName] = useState('')
+  const [qty, setQty] = useState('')
+  const [description, setDescription] = useState('')
+  const [requirement, setRequirement] = useState('')
+  const [address1, setAddress1] = useState('')
+  const [address2, setAddress2] = useState('')
+  const [address3, setAddress3] = useState('')
+  const [date, setDate] = useState('')
+  const [salary1, setSalary1] = useState('')
+  const [salary2, setSalary2] = useState('')
+  const [education, setEducation] = useState('')
+  const [category, setCategory] = useState('')
   const [data, setData] = useState({
     name: '',
     qty: '',
@@ -597,7 +609,19 @@ export function RecruitmentDetail(props) {
           window.console.error(res.message)
           return
         }
-        setData(res.content)
+        // setData(res.content)
+        setName(res.content.name)
+        setQty(res.content.qty)
+        setDescription(res.content.description)
+        setRequirement(res.content.requirement)
+        setAddress1(res.content.address1)
+        setAddress2(res.content.address2)
+        setAddress3(res.content.address3)
+        setDate(res.content.date)
+        setSalary1(res.content.salary1)
+        setSalary2(res.content.salary2)
+        setEducation(res.content.education)
+        setCategory(res.content.category)
       }
       fetchData(enterprise_id, recruitment_id)
     }
@@ -614,7 +638,20 @@ export function RecruitmentDetail(props) {
       const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          qty: qty,
+          description: description,
+          requirement: requirement,
+          address1: address1,
+          address2: address2,
+          address3: address3,
+          date: date,
+          salary1: salary1,
+          salary2: salary2,
+          education: education,
+          category: category
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -626,7 +663,20 @@ export function RecruitmentDetail(props) {
       const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          qty: qty,
+          description: description,
+          requirement: requirement,
+          address1: address1,
+          address2: address2,
+          address3: address3,
+          date: date,
+          salary1: salary1,
+          salary2: salary2,
+          education: education,
+          category: category
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -654,37 +704,37 @@ export function RecruitmentDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="职位" name="name" value={data.name || ''} handleChange={handleChange} />
+                <TextRowField caption="职位" value={name || ''} handleChange={e => setName(e.target.value)} />
 
-                <TextRowField caption="人数" name="qty" value={data.qty || ''} handleChange={handleChange} />
+                <TextRowField caption="人数" value={qty || ''} handleChange={e => setQty(e.target.value)} />
 
-                <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+                <TextRowField caption="地址" value={address1 || ''} handleChange={e => setAddress1(e.target.value)} />
 
-                <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+                <TextRowField caption="" value={address2 || ''} handleChange={e => setAddress2(e.target.value)} />
 
-                <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+                <TextRowField caption="" value={address3 || ''} handleChange={e => setAddress3(e.target.value)} />
 
-                <TextRowField caption="发布日期" name="date" value={data.date || ''} handleChange={handleChange} />
+                <TextRowField caption="发布日期" value={date || ''} handleChange={e => setDate(e.target.date)} />
 
-                <TextRowField caption="薪资范围" name="salary1" value={data.salary1 || ''} handleChange={handleChange} />
+                <TextRowField caption="薪资范围" value={salary1 || ''} handleChange={e => setSalary1(e.target.salary1)} />
 
-                <TextRowField caption="" name="salary2" value={data.salary2 || ''} handleChange={handleChange} />
+                <TextRowField caption="" value={salary2 || ''} handleChange={e => setSalary2(e.target.salary2)} />
 
-                <TextRowField caption="学历" name="education" value={data.education || ''} handleChange={handleChange} />
+                <TextRowField caption="学历" value={education || ''} handleChange={e => setEducation(e.target.education)} />
 
-                <TextRowField caption="类别" name="category" value={data.category || ''} handleChange={handleChange} />
+                <TextRowField caption="类别" value={category || ''} handleChange={e => setCategory(e.target.category)} />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">工作职责</label>
                   <div className="col-sm-10">
-                    <textarea name="description" value={data.description || ''} className="form-control" onChange={handleChange}></textarea>
+                    <textarea value={description || ''} className="form-control" onChange={e => setDescription(e.target.value)}></textarea>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">岗位要求</label>
                   <div className="col-sm-10">
-                    <textarea name="requirement" value={data.requirement || ''} className="form-control" onChange={handleChange}></textarea>
+                    <textarea value={requirement || ''} className="form-control" onChange={e => setRequirement(e.target.value)}></textarea>
                   </div>
                 </div>
               </div>

@@ -53,7 +53,6 @@ function SideNav(props) {
 
 function List() {
   const [data, setData] = useState([])
-  const [filterParams, setFilterParams] = useState({ filter_name: '' })
   const [filter_name, setFilterName] = useState('')
 
   const handleFilter = async () => {
@@ -155,20 +154,17 @@ function List() {
 
 function Detail(props) {
   const { id } = useParams()
-  const [data, setData] = useState({
-    id: 0,
-    name: '',
-    yingyezhizhao: '',
-    faren: '',
-    zhuceriqi: '',
-    zhuziguimo: '',
-    yuangongshuliang: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    address4: ''
-  })
-  const [dataUserList, setDataUserList] = useState([])
+  const [name, setName] = useState('')
+  const [yingyezhizhao, setYingyezhizhao] = useState('')
+  const [faren, setFaren] = useState('')
+  const [zhuceriqi, setZhuceriqi] = useState('')
+  const [zhuziguimo, setZhuziguimo] = useState('')
+  const [yuangongshuliang, setYuangongshuliang] = useState('')
+  const [address1, setAddress1] = useState('')
+  const [address2, setAddress2] = useState('')
+  const [address3, setAddress3] = useState('')
+  const [address4, setAddress4] = useState('')
+  const [user_list, setUserList] = useState([])
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -179,7 +175,17 @@ function Detail(props) {
           window.console.error(res.message)
           return
         }
-        setData(res.content)
+        // setData(res.content)
+        setName(res.content.name)
+        setYingyezhizhao(res.content.yingyezhizhao)
+        setFaren(res.content.faren)
+        setZhuceriqi(res.content.zhuceriqi)
+        setZhuziguimo(res.content.zhuziguimo)
+        setYuangongshuliang(res.content.yuangongshuliang)
+        setAddress1(res.content.address1)
+        setAddress2(res.content.address2)
+        setAddress3(res.content.address3)
+        setAddress4(res.content.address4)
       }
       fetchData(id)
     }
@@ -195,24 +201,30 @@ function Detail(props) {
           window.console.error(res.message)
           return
         }
-        setDataUserList(res.content)
+        setUserList(res.content)
       }
       fetchData(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
-
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/enterprise/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          yingyezhizhao: yingyezhizhao,
+          faren: faren,
+          zhuceriqi: zhuceriqi,
+          zhuziguimo: zhuziguimo,
+          yuangongshuliang: yuangongshuliang,
+          address1: address1,
+          address2: address2,
+          address3: address3,
+          address4: address4
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -224,7 +236,18 @@ function Detail(props) {
       const response = await window.fetch(`/api/enterprise/${id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          yingyezhizhao: yingyezhizhao,
+          faren: faren,
+          zhuceriqi: zhuceriqi,
+          zhuziguimo: zhuziguimo,
+          yuangongshuliang: yuangongshuliang,
+          address1: address1,
+          address2: address2,
+          address3: address3,
+          address4: address4
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -258,28 +281,46 @@ function Detail(props) {
                   </div>
 
                   <div className="card-body">
-                    <TextRowField caption="名称" name="name" value={data.name || ''} handleChange={handleChange} />
+                    <TextRowField caption="名称" value={name || ''} handleChange={event => setName(event.target.value)} />
 
-                    <TextRowField caption="营业执照" name="yingyezhizhao" value={data.yingyezhizhao || ''} handleChange={handleChange} />
+                    <TextRowField caption="营业执照" value={yingyezhizhao || ''}
+                      handleChange={event => setYingyezhizhao(event.target.value)}
+                    />
 
-                    <TextRowField caption="法人" name="faren" value={data.faren || ''} handleChange={handleChange} />
+                    <TextRowField caption="法人" value={faren || ''}
+                      handleChange={event => setFaren(event.target.value)}
+                    />
 
-                    <TextRowField caption="注册日期" name="zhuceriqi" value={data.zhuceriqi || ''} handleChange={handleChange} />
+                    <TextRowField caption="注册日期" value={zhuceriqi || ''}
+                      handleChange={event => setZhuceriqi(event.target.value)}
+                    />
 
-                    <TextRowField caption="注册规模" name="zhuziguimo" value={data.zhuziguimo || ''} handleChange={handleChange} />
+                    <TextRowField caption="注资规模" value={zhuziguimo || ''}
+                      handleChange={event => setZhuziguimo(event.target.value)}
+                    />
 
-                    <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+                    <TextRowField caption="地址" value={address1 || ''}
+                      handleChange={event => setAddress1(event.target.value)}
+                    />
 
-                    <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+                    <TextRowField caption="" value={address2 || ''}
+                      handleChange={event => setAddress2(event.target.value)}
+                    />
 
-                    <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+                    <TextRowField caption="" value={address3 || ''}
+                      handleChange={event => setAddress3(event.target.value)}
+                    />
 
-                    <TextRowField caption="" name="address4" value={data.address4 || ''} handleChange={handleChange} />
+                    <TextRowField caption="" value={address4 || ''}
+                      handleChange={event => setAddress4(event.target.value)}
+                    />
 
                     <div className="form-group row">
                       <label className="col-sm-2 col-form-label text-right">员工数量</label>
                       <div className="col-sm-10">
-                        <select name="yuangongshuliang" value={data.yuangongshuliang} className="form-control" onChange={handleChange}>
+                        <select value={yuangongshuliang} className="form-control"
+                          onChange={event => setYuangongshuliang(event.target.value)}
+                        >
                           <option value="未选择">未选择</option>
                           {
                             YUAN_GONG_SHU_LIANG.map((it, index) => (
@@ -317,7 +358,7 @@ function Detail(props) {
                       <div className="card-body">
                         <div className="list-group">
                           {
-                            dataUserList.map(it => (
+                            user_list.map(it => (
                               <a href={`#企业/${id}/编辑用户/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.name}
                                 <span className="pull-right text-muted">{it.username}</span>
@@ -351,12 +392,8 @@ function Detail(props) {
 
 function UserDetail(props) {
   const { id, user_id } = useParams()
-  const [data, setData] = useState({
-    id: 0,
-    enterprise_id: 0,
-    username: '',
-    name: ''
-  })
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -367,24 +404,23 @@ function UserDetail(props) {
           window.console.error(res.message)
           return
         }
-        setData(res.content)
+        setName(res.content.name)
+        setUsername(res.content.username)
       }
       fetchData(id, user_id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
-
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/enterprise/${id}/user/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          username: username
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -396,7 +432,10 @@ function UserDetail(props) {
       const response = await window.fetch(`/api/enterprise/${id}/user/${user_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          username: username
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -424,9 +463,9 @@ function UserDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="姓名" name="name" value={data.name || ''} handleChange={handleChange} />
+                <TextRowField caption="姓名" value={name || ''} handleChange={event => setName(event.target.value)} />
 
-                <TextRowField caption="用户名" name="username" value={data.username || ''} handleChange={handleChange} />
+                <TextRowField caption="用户名" value={username || ''} handleChange={e => setUsername(e.target.value)} />
               </div>
 
               <div className="card-footer">

@@ -585,20 +585,6 @@ export function RecruitmentDetail(props) {
   const [salary2, setSalary2] = useState('')
   const [education, setEducation] = useState('')
   const [category, setCategory] = useState('')
-  const [data, setData] = useState({
-    name: '',
-    qty: '',
-    description: '',
-    requirement: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    data: '',
-    salary1: 0,
-    salary2: 0,
-    education: '',
-    category: ''
-  })
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -609,7 +595,6 @@ export function RecruitmentDetail(props) {
           window.console.error(res.message)
           return
         }
-        // setData(res.content)
         setName(res.content.name)
         setQty(res.content.qty)
         setDescription(res.content.description)
@@ -627,11 +612,6 @@ export function RecruitmentDetail(props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
 
   const handleSubmit = async () => {
     if (props.category === '新增') {

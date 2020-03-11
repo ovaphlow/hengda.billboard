@@ -167,14 +167,12 @@ function List() {
 
 function Detail(props) {
   const { id } = useParams()
-  const [data, setData] = useState({
-    name: '',
-    username: '',
-    password: '',
-    email: '',
-    phone: '',
-  })
-  const [dataResumeList, setDataResumeList] = useState([])
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [resume_list, setResumeList] = useState([])
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -185,7 +183,11 @@ function Detail(props) {
           window.console.error(res.message)
           return
         }
-        setData(res.content)
+        // setData(res.content)
+        setName(res.content.name)
+        setUsername(res.content.username)
+        setEmail(res.content.email)
+        setPhone(res.content.phone)
       }
       fetchData(id)
     }
@@ -201,17 +203,12 @@ function Detail(props) {
           window.console.error(res.message)
           return
         }
-        setDataResumeList(res.content)
+        setResumeList(res.content)
       }
       fetchData(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
@@ -219,11 +216,11 @@ function Detail(props) {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: data.name,
-          username: data.username,
-          password: md5(data.password),
-          email: data.email,
-          phone: data.phone
+          name: name,
+          username: username,
+          password: md5(password),
+          email: email,
+          phone: phone
         })
       })
       const res = await response.json()
@@ -236,7 +233,12 @@ function Detail(props) {
       const response = await window.fetch(`/api/common-user/${id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          username: username,
+          email: email,
+          phone: phone
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -268,19 +270,29 @@ function Detail(props) {
                   <div className="card-header">用户信息</div>
 
                   <div className="card-body">
-                    <TextRowField caption="姓名" name="name" value={data.name || ''} handleChange={handleChange} />
+                    <TextRowField caption="姓名" value={name || ''}
+                      handleChange={event => setName(event.target.value)}
+                    />
 
-                    <TextRowField caption="用户名" name="username" value={data.username || ''} handleChange={handleChange} />
+                    <TextRowField caption="用户名" value={username || ''}
+                      handleChange={event => setUsername(event.target.value)}
+                    />
 
                     {
                       props.category === '新增' && (
-                        <TextRowField caption="密码" name="password" value={data.password || ''} handleChange={handleChange} />
+                        <TextRowField caption="密码" value={password || ''}
+                          handleChange={event => setPassword(event.target.value)}
+                        />
                       )
                     }
 
-                    <TextRowField caption="EMAIL" name="email" value={data.email || ''} handleChange={handleChange} />
+                    <TextRowField caption="EMAIL" value={email || ''}
+                      handleChange={event => setEmail(event.target.value)}
+                    />
 
-                    <TextRowField caption="电话" name="phone" value={data.phone || ''} handleChange={handleChange} />
+                    <TextRowField caption="电话" value={phone || ''}
+                      handleChange={event => setPhone(event.target.value)}
+                    />
                   </div>
 
                   <div className="card-footer">
@@ -307,7 +319,7 @@ function Detail(props) {
                       <div className="card-body">
                         <div className="list-group">
                           {
-                            dataResumeList.map(it => (
+                            resume_list.map(it => (
                               <a href={`#普通用户/${id}/简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.qiwangzhiwei}
                                 <span className="pull-right text-muted">{it.yixiangchengshi}</span>
@@ -348,53 +360,78 @@ function Detail(props) {
 
 function ResumeDetail(props) {
   const { common_user_id, resume_id } = useParams()
-  const [ data, setData ] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    gender: '',
-    birthday: '',
-    school: '',
-    major: '',
-    education: '',
-    date_begin: '',
-    date_end: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    ziwopingjia: '',
-    qiwangzhiwei: '',
-    qiwanghangye: '',
-    yixiangchengshi: ''
-  })
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [gender, setGender] = useState('')
+  const [birthday, setBirthday] = useState('')
+  const [school, setSchool] = useState('')
+  const [major, setMajor] = useState('')
+  const [education, setEducation] = useState('')
+  const [date_begin, setDateBegin] = useState('')
+  const [date_end, setDateEnd] = useState('')
+  const [address1, setAddress1] = useState('')
+  const [address2, setAddress2] = useState('')
+  const [address3, setAddress3] = useState('')
+  const [ziwopingjia, setZiwopingjia] = useState('')
+  const [qiwangzhiwei, setQiwangzhiwei] = useState('')
+  const [qiwanghangye, setQiwanghangye] = useState('')
+  const [yixiangchengshi, setYixiangchengshi] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async (common_user_id, resume_id) => {
+      (async (common_user_id, resume_id) => {
         const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
           return
         }
-        setData(res.content)
-      }
-      fetchData(common_user_id, resume_id)
+        setName(res.content.name)
+        setPhone(res.content.phone)
+        setEmail(res.content.email)
+        setGender(res.content.gender)
+        setBirthday(res.content.birthday)
+        setSchool(res.content.school)
+        setMajor(res.content.major)
+        setDateBegin(res.content.date_begin)
+        setDateEnd(res.content.date_end)
+        setAddress1(res.content.address1)
+        setAddress2(res.content.address2)
+        setAddress3(res.content.address3)
+        setZiwopingjia(res.content.ziwopingjia)
+        setQiwangzhiwei(res.content.qiwangzhiwei)
+        setQiwanghangye(res.content.qiwanghangye)
+        setYixiangchengshi(res.content.yixiangchengshi)
+      })(common_user_id, resume_id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/common-user/${common_user_id}/resume/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          phone: phone,
+          email: email,
+          gender: gender,
+          birthday: birthday,
+          school: school,
+          major: major,
+          education: education,
+          date_begin: date_begin,
+          date_end: date_end,
+          address1: address1,
+          address2: address2,
+          address3: address3,
+          ziwopingjia: ziwopingjia,
+          qiwangzhiwei: qiwangzhiwei,
+          qiwanghangye: qiwanghangye,
+          yixiangchengshi: yixiangchengshi
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -406,7 +443,25 @@ function ResumeDetail(props) {
       const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+          name: name,
+          phone: phone,
+          email: email,
+          gender: gender,
+          birthday: birthday,
+          school: school,
+          major: major,
+          education: education,
+          date_begin: date_begin,
+          date_end: date_end,
+          address1: address1,
+          address2: address2,
+          address3: address3,
+          ziwopingjia: ziwopingjia,
+          qiwangzhiwei: qiwangzhiwei,
+          qiwanghangye: qiwanghangye,
+          yixiangchengshi: yixiangchengshi
+        })
       })
       const res = response.json()
       if (res.message) {
@@ -434,46 +489,81 @@ function ResumeDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="姓名" name="name" value={data.name || ''} handleChange={handleChange} />
+                <TextRowField caption="姓名" value={name || ''}
+                  handleChange={event => setName(event.target.value)}
+                />
 
-                <TextRowField caption="电话" name="phone" value={data.phone || ''} handleChange={handleChange} />
+                <TextRowField caption="电话" value={phone || ''}
+                  handleChange={event => setPhone(event.target.value)}
+                />
 
-                <TextRowField caption="EMAIL" name="email" value={data.email || ''} handleChange={handleChange} />
+                <TextRowField caption="EMAIL" value={email || ''}
+                  handleChange={event => setEmail(event.target.value)}
+                />
 
-                <TextRowField caption="性别" name="gender" value={data.gender || ''} handleChange={handleChange} />
+                <TextRowField caption="性别" value={gender || ''}
+                  handleChange={event => setGender(event.target.value)}
+                />
 
-                <TextRowField caption="出生日期" name="birthday" value={data.birthday || ''} handleChange={handleChange} />
+                <TextRowField caption="出生日期" value={birthday || ''}
+                  handleChange={event => setBirthday(event.target.value)}
+                />
 
-                <TextRowField caption="毕业院校" name="school" value={data.school || ''} handleChange={handleChange} />
+                <TextRowField caption="毕业院校" value={school || ''}
+                  handleChange={event => setSchool(event.target.value)}
+                />
 
-                <TextRowField caption="专业" name="major" value={data.major || ''} handleChange={handleChange} />
+                <TextRowField caption="专业" value={major || ''}
+                  handleChange={event => setMajor(event.target.value)}
+                />
 
-                <TextRowField caption="学历" name="education" value={data.education || ''} handleChange={handleChange} />
+                <TextRowField caption="学历" value={education || ''}
+                  handleChange={event => setEducation(event.target.value)}
+                />
 
-                <TextRowField caption="开始日期" name="date_begin" value={data.date_begin || ''} handleChange={handleChange} />
+                <TextRowField caption="开始日期" value={date_begin || ''}
+                  handleChange={event => setDateBegin(event.target.value)}
+                />
 
-                <TextRowField caption="结束日期" name="date_end" value={data.date_end || ''} handleChange={handleChange} />
+                <TextRowField caption="结束日期" value={date_end || ''}
+                  handleChange={event => setDateEnd(event.target.value)}
+                />
 
-                <TextRowField caption="地址" name="address1" value={data.address1 || ''} handleChange={handleChange} />
+                <TextRowField caption="地址" value={address1 || ''}
+                  handleChange={event => setAddress1(event.target.value)}
+                />
 
-                <TextRowField caption="" name="address2" value={data.address2 || ''} handleChange={handleChange} />
+                <TextRowField caption="" value={address2 || ''}
+                  handleChange={event => setAddress2(event.target.value)}
+                />
 
-                <TextRowField caption="" name="address3" value={data.address3 || ''} handleChange={handleChange} />
+                <TextRowField caption="" value={address3 || ''}
+                  handleChange={event => setAddress3(event.target.value)}
+                />
 
                 <hr />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">自我评价</label>
                   <div className="col-sm-10">
-                    <textarea name="ziwopingjia" value={data.ziwopingjia || ''} className="form-control" onChange={handleChange}></textarea>
+                    <textarea value={ziwopingjia || ''} className="form-control"
+                      onChange={event => setZiwopingjia(event.target.value)}
+                    >
+                    </textarea>
                   </div>
                 </div>
 
-                <TextRowField caption="期望职位" name="qiwangzhiwei" value={data.qiwangzhiwei || ''} handleChange={handleChange} />
+                <TextRowField caption="期望职位" value={qiwangzhiwei || ''}
+                  handleChange={event => setQiwangzhiwei(event.target.value)}
+                />
 
-                <TextRowField caption="期望行业" name="qiwanghangye" value={data.qiwanghangye || ''} handleChange={handleChange} />
+                <TextRowField caption="期望行业" value={qiwanghangye || ''}
+                  handleChange={event => setQiwanghangye(event.target.value)}
+                />
 
-                <TextRowField caption="意向城市" name="yixiangchengshi" value={data.yixiangchengshi || ''} handleChange={handleChange} />
+                <TextRowField caption="意向城市" value={yixiangchengshi || ''}
+                  handleChange={event => setYixiangchengshi(event.target.value)}
+                />
               </div>
 
               <div className="card-footer">

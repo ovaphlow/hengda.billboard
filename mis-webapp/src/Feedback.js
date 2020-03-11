@@ -48,7 +48,7 @@ function Complaint() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const response = await window.fetch(`/api/feedback/feedback/`)
       const res = await response.json()
       if (res.message) {
@@ -56,8 +56,7 @@ function Complaint() {
         return
       }
       setData(res.content)
-    }
-    fetchData()
+    })()
   }, [])
 
   return (
@@ -113,7 +112,7 @@ function Feedback() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const response = await window.fetch(`/api/feedback/complaint/`)
       const res = await response.json()
       if (res.message) {
@@ -121,8 +120,7 @@ function Feedback() {
         return
       }
       setData(res.content)
-    }
-    fetchData()
+    })()
   }, [])
 
   return (
@@ -167,7 +165,6 @@ function Feedback() {
                 </table>
               </div>
             </div>
-
           </div>
         </div>
       </div>

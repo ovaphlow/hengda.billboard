@@ -633,14 +633,14 @@ function DeliveryList() {
                 <div className="form-row align-items-center">
                   <div className="col-auto mt-2">
                     <label className="sr-only">起止日期</label>
-                    <input type="date" name="filter_name" value={filter_date_begin} placeholder="起始日期"
+                    <input type="date" value={filter_date_begin} placeholder="起始日期"
                       className="form-control mb-2"
                       onChange={event => setFilterDateBegin(event.target.value)}
                     />
                   </div>
 
                   <div className="col-auto mt-2">
-                    <input type="date" name="filter_date_end" value={filter_date_end} placeholder="终止日期"
+                    <input type="date" value={filter_date_end} placeholder="终止日期"
                       className="form-control mb-2"
                       onChange={event => setFilterDateEnd(event.target.value)}
                     />
@@ -705,14 +705,12 @@ function DeliveryList() {
 function Journal(props) {
   const { id } = useParams()
   const [data, setData] = useState([])
-  const [filterParams, setFilterParams] = useState({
-    date_begin: moment().format('YYYY-MM-DD'),
-    date_end: moment().format('YYYY-MM-DD')
-  })
+  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-DD'))
+  const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
     if (props.category === '登录') {
-      const fetchData = async id => {
+      (async id => {
         const response = await window.fetch(`/api/common-user/${id}/journal/sign-in/`)
         const res = await response.json()
         if (res.message) {
@@ -720,10 +718,9 @@ function Journal(props) {
           return
         }
         setData(res.content)
-      }
-      fetchData(id)
+      })(id)
     } else if (props.category === '浏览') {
-      const fetchData = async id => {
+      (async id => {
         const response = await window.fetch(`/api/common-user/${id}/journal/browse/`)
         const res = await response.json()
         if (res.message) {
@@ -731,10 +728,9 @@ function Journal(props) {
           return
         }
         setData(res.content)
-      }
-      fetchData(id)
+      })(id)
     } else if (props.category === '编辑') {
-      const fetchData = async id => {
+      (async id => {
         const response = await window.fetch(`/api/common-user/${id}/journal/edit/`)
         const res = await response.json()
         if (res.message) {
@@ -742,23 +738,20 @@ function Journal(props) {
           return
         }
         setData(res.content)
-      }
-      fetchData(id)
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  const handleFilterParamsChange = e => {
-    const { value, name } = e.target
-    setFilterParams(prev => ({ ...prev, [name]: value}))
-  }
 
   const handleFilter = async () => {
     if (props.category === '登录') {
       const response = await window.fetch(`/api/common-user/${id}/journal/sign-in/`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(filterParams)
+        body: JSON.stringify({
+          date_begin: filter_date_begin,
+          date_end: filter_date_end
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -770,7 +763,10 @@ function Journal(props) {
       const response = await window.fetch(`/api/common-user/${id}/journal/browse/`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(filterParams)
+        body: JSON.stringify({
+          date_begin: filter_date_begin,
+          date_end: filter_date_end
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -782,7 +778,10 @@ function Journal(props) {
       const response = await window.fetch(`/api/common-user/${id}/journal/edit/`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(filterParams)
+        body: JSON.stringify({
+          date_begin: filter_date_begin,
+          date_end: filter_date_end
+        })
       })
       const res = await response.json()
       if (res.message) {
@@ -817,17 +816,17 @@ function Journal(props) {
                 <div className="form-row align-items-center">
                   <div className="col-auto mt-2">
                     <label className="sr-only">时间</label>
-                    <input type="date" name="date_begin" value={filterParams.date_begin} placeholder="起始时间"
+                    <input type="date" value={filter_date_begin} placeholder="起始时间"
                       className="form-control mb-2"
-                      onChange={handleFilterParamsChange}
+                      onChange={event => setFilterDateBegin(event.target.value)}
                     />
                   </div>
 
                   <div className="col-auto mt-2">
                     <label className="sr-only"></label>
-                    <input type="date" name="date_end" value={filterParams.date_end} placeholder="终止时间"
+                    <input type="date" value={filter_date_end} placeholder="终止时间"
                       className="form-control mb-2"
-                      onChange={handleFilterParamsChange}
+                      onChange={event => setFilterDateEnd(event.target.value)}
                     />
                   </div>
 

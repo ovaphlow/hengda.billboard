@@ -38,7 +38,7 @@ function List() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const response = await window.fetch(`/api/report/`)
       const res = await response.json()
       if (res.message) {
@@ -46,13 +46,14 @@ function List() {
         return
       }
       setData(res.content)
-    }
-    fetchData()
+    })()
   }, [])
 
   const handleRedirect = event => {
     if (event.target.getAttribute('data-category') === '岗位') {
       window.location = `#岗位/${event.target.getAttribute('data-id')}`
+    } else if (event.target.getAttribute('data-category') === '企业') {
+      window.location = `#企业/${event.target.getAttribute('data-id')}`
     }
   }
 
@@ -90,7 +91,11 @@ function List() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>{it.id}</td>
-                          <td>{it.name}({it.username})</td>
+                          <td>
+                            <span className="badge badge-info">{it.user_category}</span>
+                            {it.name}
+                            ({it.username})
+                          </td>
                           <td>{it.datime}</td>
                           <td>{it.category}</td>
                           <td>{it.content}</td>

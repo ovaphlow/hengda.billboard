@@ -91,7 +91,11 @@ function Complaint() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>{it.id}</td>
-                          <td>{it.name}({it.username})</td>
+                          <td>
+                            <span className="badge badge-info">{it.user_category}</span>
+                            {it.name}
+                            ({it.username})
+                          </td>
                           <td>{it.datime}</td>
                           <td>{it.content}</td>
                         </tr>
@@ -155,7 +159,11 @@ function Feedback() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>{it.id}</td>
-                          <td>{it.name}({it.username})</td>
+                          <td>
+                            <span className="badge badge-info">{it.user_category}</span>
+                            {it.name}
+                            ({it.username})
+                          </td>
                           <td>{it.datime}</td>
                           <td>{it.content}</td>
                         </tr>

@@ -176,7 +176,7 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async id => {
+      (async id => {
         const response = await window.fetch(`/api/common-user/${id}`)
         const res = await response.json()
         if (res.message) {
@@ -188,15 +188,14 @@ function Detail(props) {
         setUsername(res.content.username)
         setEmail(res.content.email)
         setPhone(res.content.phone)
-      }
-      fetchData(id)
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async id => {
+      (async id => {
         const response = await window.fetch(`/api/common-user/${id}/resume/`)
         const res = await response.json()
         if (res.message) {
@@ -204,8 +203,7 @@ function Detail(props) {
           return
         }
         setResumeList(res.content)
-      }
-      fetchData(id)
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

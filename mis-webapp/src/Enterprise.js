@@ -168,7 +168,7 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async id => {
+      (async id => {
         const response = await fetch(`/api/enterprise/${id}`)
         const res = await response.json()
         if (res.message) {
@@ -186,15 +186,14 @@ function Detail(props) {
         setAddress2(res.content.address2)
         setAddress3(res.content.address3)
         setAddress4(res.content.address4)
-      }
-      fetchData(id)
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async id => {
+      (async id => {
         const response = await fetch(`/api/enterprise/${id}/user/`)
         const res = await response.json()
         if (res.message) {
@@ -202,8 +201,7 @@ function Detail(props) {
           return
         }
         setUserList(res.content)
-      }
-      fetchData(id)
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -397,7 +395,7 @@ function UserDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async (id, user_id) => {
+      (async (id, user_id) => {
         const response = await fetch(`/api/enterprise/${id}/user/${user_id}`)
         const res = await response.json()
         if (res.message) {
@@ -406,8 +404,7 @@ function UserDetail(props) {
         }
         setName(res.content.name)
         setUsername(res.content.username)
-      }
-      fetchData(id, user_id)
+      })(id, user_id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -493,7 +490,7 @@ function RecruitmentList() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async id => {
+    (async id => {
       const response = await window.fetch(`/api/enterprise/${id}/recruitment/`)
       const res = await response.json()
       if (res.message) {
@@ -501,8 +498,7 @@ function RecruitmentList() {
         return
       }
       setData(res.content)
-    }
-    fetchData(id)
+    })(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -588,7 +584,7 @@ export function RecruitmentDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const fetchData = async (enterprise_id, recruitment_id) => {
+      (async (enterprise_id, recruitment_id) => {
         const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`)
         const res = await response.json()
         if (res.message) {
@@ -607,8 +603,7 @@ export function RecruitmentDetail(props) {
         setSalary2(res.content.salary2)
         setEducation(res.content.education)
         setCategory(res.content.category)
-      }
-      fetchData(enterprise_id, recruitment_id)
+      })(enterprise_id, recruitment_id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

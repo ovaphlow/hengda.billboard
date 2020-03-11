@@ -92,7 +92,7 @@ function List() {
                   <div className="col-auto mt-2">
                     <label className="sr-only">姓名</label>
                     <input type="text" value={filter_name} placeholder="姓名"
-                      className="form-control mb-2"
+                      className="form-control mb-2 input-borderless"
                       onChange={e => setFilterName(e.target.value)}
                     />
                   </div>
@@ -544,7 +544,7 @@ function ResumeDetail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">自我评价</label>
                   <div className="col-sm-10">
-                    <textarea value={ziwopingjia || ''} className="form-control"
+                    <textarea value={ziwopingjia || ''} className="form-control input-borderless"
                       onChange={event => setZiwopingjia(event.target.value)}
                     >
                     </textarea>
@@ -632,14 +632,14 @@ function DeliveryList() {
                   <div className="col-auto mt-2">
                     <label className="sr-only">起止日期</label>
                     <input type="date" value={filter_date_begin} placeholder="起始日期"
-                      className="form-control mb-2"
+                      className="form-control mb-2 input-borderless"
                       onChange={event => setFilterDateBegin(event.target.value)}
                     />
                   </div>
 
                   <div className="col-auto mt-2">
                     <input type="date" value={filter_date_end} placeholder="终止日期"
-                      className="form-control mb-2"
+                      className="form-control mb-2 input-borderless"
                       onChange={event => setFilterDateEnd(event.target.value)}
                     />
                   </div>
@@ -815,7 +815,7 @@ function Journal(props) {
                   <div className="col-auto mt-2">
                     <label className="sr-only">时间</label>
                     <input type="date" value={filter_date_begin} placeholder="起始时间"
-                      className="form-control mb-2"
+                      className="form-control mb-2 input-borderless"
                       onChange={event => setFilterDateBegin(event.target.value)}
                     />
                   </div>
@@ -823,7 +823,7 @@ function Journal(props) {
                   <div className="col-auto mt-2">
                     <label className="sr-only"></label>
                     <input type="date" value={filter_date_end} placeholder="终止时间"
-                      className="form-control mb-2"
+                      className="form-control mb-2 input-borderless"
                       onChange={event => setFilterDateEnd(event.target.value)}
                     />
                   </div>

@@ -90,7 +90,7 @@ function List() {
                   <div className="col-auto mt-2">
                     <label className="sr-only">企业名称</label>
                     <input type="text" value={filter_name} placeholder="企业名称"
-                      className="form-control mb-2"
+                      className="form-control mb-2 input-borderless"
                       onChange={event => setFilterName(event.target.value)}
                     />
                   </div>
@@ -702,14 +702,14 @@ export function RecruitmentDetail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">工作职责</label>
                   <div className="col-sm-10">
-                    <textarea value={description || ''} className="form-control" onChange={e => setDescription(e.target.value)}></textarea>
+                    <textarea value={description || ''} className="form-control input-borderless" onChange={e => setDescription(e.target.value)}></textarea>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">岗位要求</label>
                   <div className="col-sm-10">
-                    <textarea value={requirement || ''} className="form-control" onChange={e => setRequirement(e.target.value)}></textarea>
+                    <textarea value={requirement || ''} className="form-control input-borderless" onChange={e => setRequirement(e.target.value)}></textarea>
                   </div>
                 </div>
               </div>

@@ -183,7 +183,7 @@ function Detail(props) {
                   <label className="col-sm-2 col-form-label text-right">姓名</label>
                   <div className="col-sm-10">
                     <input type="text" value={name || ''}
-                      className="form-control"
+                      className="form-control input-borderless"
                       onChange={event => setName(event.target.value)}
                     />
                   </div>
@@ -193,7 +193,7 @@ function Detail(props) {
                   <label className="col-sm-2 col-form-label text-right">用户名</label>
                   <div className="col-sm-10">
                     <input type="text" value={username || ''}
-                      className="form-control"
+                      className="form-control input-borderless"
                       onChange={event => setUsername(event.target.value)}
                     />
                   </div>

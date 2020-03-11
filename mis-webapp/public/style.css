@@ -11,3 +11,10 @@ body {
   /* background: linear-gradient(to right, #5B5B5B, 64%, #ff6633); */
   background: linear-gradient(to right, DimGray, 75%, OrangeRed);
 }
+
+.input-borderless {
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  background-color: transparent;
+}

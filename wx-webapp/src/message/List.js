@@ -158,7 +158,7 @@ const List = () => {
         </div>
         {chatList && chatList.map((item, inx) =>
           <MessageRow key={inx} {...item}
-            total={chatTotal.length > 0 && chatTotal.find(it => it.ent_user_id === item.common_user_id).count} />)}
+            total={chatTotal.length > 0 && chatTotal.find(it => it.ent_user_id === item.ent_user_id).count} />)}
       </div>
       <Navbar category="消息" />
     </>

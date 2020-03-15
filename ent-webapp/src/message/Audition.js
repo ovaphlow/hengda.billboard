@@ -15,7 +15,7 @@ const ChatRow = props => (
         <br />
         <span className="text-muted">
           {
-            props.total !== 0 ? (<span className="badge badge-pill badge-danger">{props.total}</span>) : (<></>)
+            (!props.active && props.total !== 0) ? (<span className="badge badge-pill badge-danger">{props.total}</span>) : (<></>)
           } &nbsp;
           {props.text}
         </span>
@@ -166,18 +166,12 @@ const Audition = () => {
   }, [contentList])
 
   const handleClick = user => {
-    fetch(`./api/message/ent/content/${auth.id}/${user.common_user_id}`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.message) {
-          window.alert(res.message)
-        } else {
-          setText('')
-          setNowUser(user)
-          setTotalFlg(String(user.common_user_id))
-          setContentList(res.content)
-        }
-      })
+    if (user.common_user_id === nowUser.common_user_id) {
+      return
+    }
+    setText('')
+    setNowUser(user)
+    setTotalFlg(String(user.common_user_id))
   }
 
   const handleChange = event => {

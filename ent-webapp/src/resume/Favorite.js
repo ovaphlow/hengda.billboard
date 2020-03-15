@@ -10,9 +10,9 @@ const Favorite = () => {
 
   const [param, setParam] = useState({
     name: '',
-    category: '',
-    date: '',
-    status: '',
+    qiwanghangye: '',
+    qiwangzhiwei: '',
+    yixiangchengshi: '',
     education: ''
   })
 
@@ -77,27 +77,23 @@ const Favorite = () => {
         <div className="col">
           <TextField
             category="期望行业"
-            name="category"
-            value={param.category}
+            name="qiwanghangye"
+            value={param.qiwanghangye}
             handleChange={handleChange} />
         </div>
         <div className="col">
           <TextField
             category="期望职位"
-            name="date"
-            value={param.date}
+            name="qiwangzhiwei"
+            value={param.qiwangzhiwei}
             handleChange={handleChange} />
         </div>
         <div className="col">
-          <SelectField
-            category="状态"
-            name="status"
+          <TextField
+            category="期望地点"
+            name="yixiangchengshi"
             value={param.status}
-            handleChange={handleChange}>
-            <option></option>
-            <option>已查看</option>
-            <option>未查看</option>
-          </SelectField>
+            handleChange={handleChange} />
         </div>
         <div className="col">
           <SelectField
@@ -106,7 +102,6 @@ const Favorite = () => {
             value={param.education}
             handleChange={handleChange}>
             <option></option>
-            <option>不限</option>
             <option>高中</option>
             <option>大专</option>
             <option>本科</option>

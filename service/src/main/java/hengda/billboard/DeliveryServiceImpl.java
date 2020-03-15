@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @SuppressWarnings("unchecked")
@@ -191,14 +192,43 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select re.name as recruitment_name, re.industry,"
+      String sql = "select re.name as recruitment_name, re.industry, d.status," 
           + "r.education, r.uuid, r.name as name, r.school,d.datime,  d.id, d.recruitment_id, d.resume_id "
           + "from delivery d left join resume r on d.resume_id = r.id left join recruitment re on d.recruitment_id = re.id "
-          + "where re.enterprise_id = ? and (select u.enterprise_id from enterprise_user u where u.uuid = ?) = re.enterprise_id "
-          + "ORDER BY d.datime DESC";
+          + "where re.enterprise_id = ? and (select u.enterprise_id from enterprise_user u where u.uuid = ?) = re.enterprise_id ";
+
+      List<String> list = new ArrayList<>();
+      list.add(body.get("enterprise_id").toString());
+      list.add(body.get("uuid").toString());
+      if (body.get("name") != null && !"".equals(body.get("name").toString())) {
+        list.add(body.get("name").toString());
+        sql += " and r.name like CONCAT(?,'%') ";
+      }
+
+      if (body.get("recruitment_name") != null && !"".equals(body.get("recruitment_name").toString())) {
+        list.add(body.get("recruitment_name").toString());
+        sql += " and re.name like CONCAT(?,'%') ";
+      }
+      
+      if (body.get("date") != null && !"".equals(body.get("date").toString())) {
+        list.add(body.get("date").toString()); 
+        sql += " and SUBSTRING_INDEX(d.datime,' ',1) = ? ";
+      }
+      
+      if (body.get("status") != null && !"".equals(body.get("status").toString())) {
+        list.add(body.get("status").toString());
+        sql += " and d.status = ? ";
+      }
+
+      if (body.get("education") != null && !"".equals(body.get("education").toString())) {
+        list.add(body.get("education").toString());
+        sql += " and re.name = ? ";
+      }
+      sql+=" ORDER BY d.datime DESC";
       PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("enterprise_id").toString());
-      ps.setString(2, body.get("uuid").toString());
+      for (int inx = 0; inx<list.size(); inx++) {
+        ps.setString(inx+1, list.get(inx));  
+      }
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

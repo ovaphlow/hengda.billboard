@@ -92,7 +92,7 @@ const Report = () => {
           }
         })
     }
-  }, [id, category])
+  }, [id, category,search])
 
 
   useEffect(() => {

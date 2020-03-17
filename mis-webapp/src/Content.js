@@ -99,7 +99,7 @@ function Banner() {
                 <div className="row">
                   {
                     list.map(it => (
-                      <div className="card" style={{ width: '18rem', marginLeft: '1rem' }} key={it.id}>
+                      <div className="card" style={{ width: '18rem', marginLeft: '1rem', marginBottom: '1rem' }} key={it.id}>
                         <img src={it.data_url} className="card-img-top" alt={it.title} />
                         <div className="card-body">
                           <h5 className="card-title">

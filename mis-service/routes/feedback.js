@@ -12,8 +12,8 @@ router
   .get('/feedback/', async ctx => {
     const sql = `
       select *,
-        (select username from common_user where id = f.common_user_id) as username,
-        (select name from common_user where id = f.common_user_id) as name
+        (select username from common_user where id = f.user_id) as username,
+        (select name from common_user where id = f.user_id) as name
       from feedback as f
       where category = '意见反馈'
       order by id desc
@@ -33,8 +33,8 @@ router
   .get('/complaint/', async ctx => {
     const sql = `
       select *,
-        (select username from common_user where id = f.common_user_id) as username,
-        (select name from common_user where id = f.common_user_id) as name
+        (select username from common_user where id = f.user_id) as username,
+        (select name from common_user where id = f.user_id) as name
       from feedback as f
       where category = '投诉'
       order by id desc

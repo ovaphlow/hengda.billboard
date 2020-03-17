@@ -52,7 +52,7 @@ export default function SignIn() {
                 <div className="form-group">
                   <label>用户名</label>
                   <input type="text" name="username" value={data.username}
-                    className="form-control"
+                    className="form-control input-borderless"
                     onChange={handleChange}
                   />
                 </div>
@@ -60,7 +60,7 @@ export default function SignIn() {
                 <div className="form-group">
                   <label>密码</label>
                   <input type="password" name="password" value={data.password}
-                    className="form-control"
+                    className="form-control input-borderless"
                     onChange={handleChange}
                   />
                 </div>

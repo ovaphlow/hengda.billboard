@@ -49,7 +49,7 @@ function List() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       const response = await fetch(`/api/mis-user/`)
       const res = await response.json()
       if (res.message) {
@@ -57,8 +57,7 @@ function List() {
         return
       }
       setData(res.content)
-    }
-    fetchData()
+    })()
   }, [])
 
   return (
@@ -119,13 +118,12 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.caption === '编辑') {
-      const fetchData = async id => {
+      (async id => {
         const response = await fetch(`/api/mis-user/${id}`)
         const res = await response.json()
         setName(res.content.name)
         setUsername(res.content.username)
-      }
-      fetchData(id)
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -185,7 +183,7 @@ function Detail(props) {
                   <label className="col-sm-2 col-form-label text-right">姓名</label>
                   <div className="col-sm-10">
                     <input type="text" value={name || ''}
-                      className="form-control"
+                      className="form-control input-borderless"
                       onChange={event => setName(event.target.value)}
                     />
                   </div>
@@ -195,7 +193,7 @@ function Detail(props) {
                   <label className="col-sm-2 col-form-label text-right">用户名</label>
                   <div className="col-sm-10">
                     <input type="text" value={username || ''}
-                      className="form-control"
+                      className="form-control input-borderless"
                       onChange={event => setUsername(event.target.value)}
                     />
                   </div>

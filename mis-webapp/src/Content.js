@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 import moment from 'moment'
 
-import { Title, Navbar, BackwardButton, TextRowField } from './Components'
+import { Title, Navbar, TextRowField } from './Components'
 
 export default function MISUserRouter() {
   return (
@@ -73,7 +73,6 @@ function Banner() {
         return
       }
       setList(res.content)
-      console.info(res.content)
     })()
   }, [])
 
@@ -271,7 +270,7 @@ function BannerDetail(props) {
                 <p className="text-muted text-center">
                   预览
                   <br />
-                  <img src={data_url} className="img-fluid" />
+                  <img src={data_url} className="img-fluid" alt={title} />
                 </p>
               </div>
 

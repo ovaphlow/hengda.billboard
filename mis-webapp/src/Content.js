@@ -3,6 +3,7 @@ import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom
 import moment from 'moment'
 
 import { Title, Navbar, TextRowField } from './Components'
+import { BANNER_CATEGORY } from './constant'
 
 export default function MISUserRouter() {
   return (
@@ -63,18 +64,26 @@ function BannerToolbar() {
 
 function Banner() {
   const [list, setList] = useState([])
+  const [filter_category, setFilterCategory] = useState('小程序-首页')
+  const [filter_status, setFilterStatus] = useState('启用')
 
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch(`/api/content/banner/`)
-      const res = await response.json()
-      if (res.message) {
-        window.console.error(res.message)
-        return
-      }
-      setList(res.content)
-    })()
-  }, [])
+  const handleFilter = async () => {
+    setList([])
+    const response = await window.fetch(`/api/content/banner/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        category: filter_category,
+        status: filter_status
+      })
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setList(res.content)
+  }
 
   return (
     <>
@@ -94,6 +103,40 @@ function Banner() {
             <BannerToolbar />
 
             <div className="card shadow">
+              <div className="card-header">
+                <div className="row">
+                  <div className="form-group col-4 col-lg-2 mb-0">
+                    <select value={filter_category || ''} className="form-control"
+                      onChange={event => setFilterCategory(event.target.value)}
+                    >
+                      {
+                        BANNER_CATEGORY.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+
+                  <div className="form-group col-4 col-lg-2 mb-0">
+                    <select value={filter_status || ''} className="form-control"
+                      onChange={event => setFilterStatus(event.target.value)}
+                    >
+                      <option value="启用">启用</option>
+                      <option value="未启用">未启用</option>
+                    </select>
+                  </div>
+
+                  <div className="btn-group pull-right">
+                    <button type="button" className="btn btn-outline-primary btn-sm"
+                      onClick={handleFilter}
+                    >
+                      <i className="fa fa-fw fa-search"></i>
+                      检索
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div className="card-body">
                 <div className="row">
                   {
@@ -137,6 +180,7 @@ function Banner() {
 function BannerDetail(props) {
   const { id } = useParams()
   const [status, setStatus] = useState('')
+  const [category, setCategory] = useState('')
   const [title, setTitle] = useState('')
   const [comment, setComment] = useState('')
   const [data_url, setDataUrl] = useState('')
@@ -151,6 +195,7 @@ function BannerDetail(props) {
           return
         }
         setStatus(res.content.status)
+        setCategory(res.content.category)
         setTitle(res.content.title)
         setComment(res.content.comment)
         setDataUrl(res.content.data_url)
@@ -179,6 +224,7 @@ function BannerDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           status: status,
+          category: category,
           title: title,
           comment: comment,
           datime: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -197,6 +243,7 @@ function BannerDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           status: status,
+          category: category,
           title: title,
           comment: comment,
           datime: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -249,6 +296,22 @@ function BannerDetail(props) {
                 <TextRowField caption="内容" value={comment || ''}
                   handleChange={event => setComment(event.target.value)}
                 />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">类别</label>
+                  <div className="col-sm-10">
+                    <select value={category || ''} className="form-control input-borderless"
+                      onChange={event => setCategory(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        BANNER_CATEGORY.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
 
                 <div className="form-group row">
                   <div className="col-sm-2 text-right">状态</div>

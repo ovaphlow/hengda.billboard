@@ -25,13 +25,14 @@ router
   .put('/banner/:id', async ctx => {
     const sql = `
       update banner
-      set status = ?, title = ?, comment = ?, datime = ?, data_url = ?
+      set status = ?, category = ?, title = ?, comment = ?, datime = ?, data_url = ?
       where id = ?
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.status,
+        ctx.request.body.category,
         ctx.request.body.title,
         ctx.request.body.comment,
         ctx.request.body.datime,
@@ -46,13 +47,21 @@ router
   })
 
 router
-  .get('/banner/', async ctx => {
+  .put('/banner/', async ctx => {
     const sql = `
-      select * from banner order by status, datime desc limit 200
+      select *
+      from banner
+      where category = ?
+        and status = ?
+      order by datime desc
+      limit 200
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql)
+      const [rows, fields] = await pool.query(sql, [
+        ctx.request.body.category,
+        ctx.request.body.status
+      ])
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)
@@ -62,12 +71,13 @@ router
   .post('/banner/', async ctx => {
     const sql = `
       insert into
-        banner (status, title, comment, datime, data_url)
-        values ('未启用', ?, ?, ?, ?)
+        banner (status, category, title, comment, datime, data_url)
+        values ('未启用', ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
+        ctx.request.body.category,
         ctx.request.body.title,
         ctx.request.body.comment,
         ctx.request.body.datime,

@@ -12,6 +12,9 @@ export default function MISUserRouter() {
         <Route exact path="/平台内容/banner"><Banner /></Route>
         <Route exact path="/平台内容/banner/新增"><BannerDetail category="新增" /></Route>
         <Route path="/平台内容/banner/:id"><BannerDetail category="编辑" /></Route>
+        <Route exact path="/平台内容/校园招聘"><Campus /></Route>
+        <Route exact path="/平台内容/校园招聘/新增"><CampusDetail category="新增" /></Route>
+        <Route path="/平台内容/校园招聘/:id"><CampusDetail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -33,6 +36,16 @@ function SideNav(props) {
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
         </a>
+
+        <a href="#平台内容/校园招聘"
+          className={`text-small list-group-item list-group-item-action ${props.category === '校园招聘' ? 'active' : ''}`}
+        >
+          校园招聘
+          <span className="pull-right">
+            <i className="fa fa-fw fa-angle-right"></i>
+          </span>
+        </a>
+
       </div>
     </div>
   )
@@ -340,6 +353,215 @@ function BannerDetail(props) {
               <div className="card-footer">
                 <div className="btn-group pull-right">
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                    <i className="fa fa-fw fa-check"></i>
+                    确定
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function CampusToolbar() {
+  return (
+    <div className="mb-2">
+      <div className="btn-group">
+        <button type="button" className="btn btn-outline-success btn-sm shadow"
+          onClick={() => window.location = '#平台内容/校园招聘/新增'}
+        >
+          <i className="fa fa-fw fa-plus"></i>
+          新增
+        </button>
+      </div>
+
+      <div className="btn-group pull-right">
+        <button type="button" className="btn btn-outline-secondary btn-sm shadow"
+          onClick={() => window.location = '#平台内容/校园招聘'}
+        >
+          <i className="fa fa-fw fa-list"></i>
+          列表
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function Campus() {
+  const [list, setList] = useState([])
+  const [filter_title, setFilterTitle] = useState('')
+  const [filter_datime, setFilterDatime] = useState('')
+
+  useEffect(() => {
+    (async () => {
+      const response = await window.fetch(`/api/content/campus/`)
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      setList(res.content)
+    })()
+  }, [])
+
+  return (
+    <>
+      <Title />
+      <Navbar category="平台内容" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav category="校园招聘" />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>校园招聘</h3>
+            <hr />
+
+            <CampusToolbar />
+
+            <div className="card shadow">
+              <div className="card-header">
+                <div className="row">
+                  <div className="input-group col-4 col-lg-2">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">标题</span>
+                    </div>
+                    <input type="text" value={filter_title || ''} aria-label="标题"
+                      className="form-control"
+                      onChange={event => setFilterTitle(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="input-group col-4 col-lg-2">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">日期</span>
+                    </div>
+                    <input type="text" value={filter_datime || ''} aria-label="日期"
+                      className="form-control"
+                      onChange={event => setFilterDatime(event.target.value)}
+                    />
+                  </div>
+
+                  <button type="button" className="btn btn-outline-primary btn-sm">
+                    <i className="fa fa-fw fa-search"></i>
+                    查询
+                  </button>
+                </div>
+              </div>
+
+              <div className="card-body">
+                <div className="list-group">
+                  {
+                    list.map(it => (
+                      <a href={`#平台内容/校园招聘/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                        <div className="d-flex w-100 justify-content-between">
+                          <h5 className="mb-1">{it.title}</h5>
+                          <small>{it.datime}</small>
+                        </div>
+                        <p className="mb-1"></p>
+                        {/* <small></small> */}
+                      </a>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function CampusDetail(props) {
+  const { id, uuid } = useParams()
+  const [title, setTitle] = useState('')
+  const [datime, setDatime] = useState('')
+  const [content, setContent] = useState('')
+
+  useEffect(() => {
+    if (props.category === '编辑') {
+      ;(async () => {
+        const response = await window.fetch(`/api/content/campus/${id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.alert(res.message)
+          return
+        }
+        setTitle(res.content.title)
+        setDatime(res.content.datime)
+      })()
+    }
+  }, [])
+
+  const handleSubmit = async () => {
+    if (props.category === '新增') {
+      const response = await window.fetch(`/api/content/campus/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          title: title,
+          datime: moment().format('YYYY-MM-DD HH:mm:ss')
+        })
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#平台内容/校园招聘'
+    } else if (props.category === '编辑') {
+      const response = await window.fetch(`/api/content/campus/${id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          title: title,
+          datime: moment().format('YYYY-MM-DD HH:mm:ss')
+        })
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#平台内容/校园招聘'
+    }
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="平台内容" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav category="校园招聘" />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>校园招聘</h3>
+            <hr />
+
+            <CampusToolbar />
+
+            <div className="card shadow">
+              <div className="card-body">
+                <TextRowField caption="标题" value={title || ''}
+                  handleChange={event => setTitle(event.target.value)}
+                />
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-primary"
+                    onClick={handleSubmit}
+                  >
                     <i className="fa fa-fw fa-check"></i>
                     确定
                   </button>

@@ -9,6 +9,71 @@ const router = new Router({
 module.exports = router
 
 router
+  .get('/campus/:id', async ctx => {
+    const sql = `
+      select * from campus where id = ? limit 1
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/campus/:id', async ctx => {
+    const sql = `
+      update campus set title = ?, datime = ? where id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.title,
+        ctx.request.body.datime,
+        ctx.params.id
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
+router
+  .get('/campus/', async ctx => {
+    const sql = `
+      select * from campus order by id desc limit 100
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql)
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.info(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .post('/campus/', async ctx => {
+    const sql = `
+      insert into
+        campus (uuid, mis_user_id, title, datime, content)
+        values (uuid(), 0, ?, ?, '')
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.title,
+        ctx.request.body.datime
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
+router
   .get('/banner/:id', async ctx => {
     const sql = `
       select * from banner where id = ? limit 1

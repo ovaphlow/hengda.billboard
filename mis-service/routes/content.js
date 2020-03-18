@@ -24,13 +24,14 @@ router
   })
   .put('/campus/:id', async ctx => {
     const sql = `
-      update campus set title = ?, datime = ? where id = ?
+      update campus set title = ?, date = ?, time = ? where id = ?
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.title,
-        ctx.request.body.datime,
+        ctx.request.body.date,
+        ctx.request.body.time,
         ctx.params.id
       ])
       ctx.response.body = { message: '', content: '' }
@@ -54,17 +55,38 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
+  .put('/campus/', async ctx => {
+    const sql = `
+      select *
+      from campus
+      where date = ?
+        and position(? in title) > 0
+      limit 100
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.request.body.date,
+        ctx.request.body.title
+      ])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
   .post('/campus/', async ctx => {
     const sql = `
       insert into
-        campus (uuid, mis_user_id, title, datime, content)
-        values (uuid(), 0, ?, ?, '')
+        campus (uuid, mis_user_id, title, date, time, content)
+        values (uuid(), 0, ?, ?, ?, '')
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.title,
-        ctx.request.body.datime
+        ctx.request.body.date,
+        ctx.request.body.time
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

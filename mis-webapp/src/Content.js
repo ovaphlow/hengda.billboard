@@ -393,7 +393,7 @@ function CampusToolbar() {
 function Campus() {
   const [list, setList] = useState([])
   const [filter_title, setFilterTitle] = useState('')
-  const [filter_datime, setFilterDatime] = useState('')
+  const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
     (async () => {
@@ -406,6 +406,24 @@ function Campus() {
       setList(res.content)
     })()
   }, [])
+
+  const handleFilter = async () => {
+    setList([])
+    const response = await window.fetch(`/api/content/campus/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        title: filter_title,
+        date: filter_date
+      })
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setList(res.content)
+  }
 
   return (
     <>
@@ -441,13 +459,13 @@ function Campus() {
                     <div className="input-group-prepend">
                       <span className="input-group-text">日期</span>
                     </div>
-                    <input type="text" value={filter_datime || ''} aria-label="日期"
+                    <input type="date" value={filter_date || ''} aria-label="日期"
                       className="form-control"
-                      onChange={event => setFilterDatime(event.target.value)}
+                      onChange={event => setFilterDate(event.target.value)}
                     />
                   </div>
 
-                  <button type="button" className="btn btn-outline-primary btn-sm">
+                  <button type="button" className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
                     <i className="fa fa-fw fa-search"></i>
                     查询
                   </button>
@@ -461,7 +479,7 @@ function Campus() {
                       <a href={`#平台内容/校园招聘/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1">{it.title}</h5>
-                          <small>{it.datime}</small>
+                          <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
                         </div>
                         <p className="mb-1"></p>
                         {/* <small></small> */}
@@ -481,7 +499,6 @@ function Campus() {
 function CampusDetail(props) {
   const { id, uuid } = useParams()
   const [title, setTitle] = useState('')
-  const [datime, setDatime] = useState('')
   const [content, setContent] = useState('')
 
   useEffect(() => {
@@ -494,9 +511,9 @@ function CampusDetail(props) {
           return
         }
         setTitle(res.content.title)
-        setDatime(res.content.datime)
       })()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
@@ -506,7 +523,8 @@ function CampusDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: title,
-          datime: moment().format('YYYY-MM-DD HH:mm:ss')
+          date: moment().format('YYYY-MM-DD'),
+          time: moment().format('HH:mm:ss')
         })
       })
       const res = await response.json()
@@ -521,7 +539,8 @@ function CampusDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: title,
-          datime: moment().format('YYYY-MM-DD HH:mm:ss')
+          date: moment().format('YYYY-MM-DD'),
+          time: moment().format('HH:mm:ss')
         })
       })
       const res = await response.json()

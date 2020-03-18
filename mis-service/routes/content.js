@@ -118,9 +118,9 @@ router
       await pool.execute(sql, [
         ctx.request.body.title,
         ctx.request.body.date,
-        ctx.request.body.time
+        ctx.request.body.time,
+        ctx.params.id
       ])
-      console.info(11111111)
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
       console.error(err)

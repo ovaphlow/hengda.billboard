@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 import moment from 'moment'
+import { createEditor } from 'slate'
+import { Slate, Editable, withReact } from 'slate-react'
 
 import { Title, Navbar, TextRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
@@ -12,9 +14,12 @@ export default function MISUserRouter() {
         <Route exact path="/平台内容/banner"><Banner /></Route>
         <Route exact path="/平台内容/banner/新增"><BannerDetail category="新增" /></Route>
         <Route path="/平台内容/banner/:id"><BannerDetail category="编辑" /></Route>
+        <Route exact path="/平台内容/首页推荐"><Recommend /></Route>
+        <Route exact path="/平台内容/首页推荐/新增"><RecommendDetail category="新增" /></Route>
+        <Route path="/平台内容/首页推荐/:id"><RecommendDetail category="编辑" /></Route>
         <Route exact path="/平台内容/校园招聘"><Campus /></Route>
         <Route exact path="/平台内容/校园招聘/新增"><CampusDetail category="新增" /></Route>
-        <Route path="/平台内容/校园招聘/:id"><CampusDetail category="编辑" /></Route>
+        <Route path="/平台内容/校园招聘/:id"><ecopusDetail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -37,6 +42,15 @@ function SideNav(props) {
           </span>
         </a>
 
+        <a href="#平台内容/首页推荐"
+          className={`text-small list-group-item list-group-item-action ${props.category === '首页推荐' ? 'active' : ''}`}
+        >
+          首页推荐
+          <span className="pull-right">
+            <i className="fa fa-fw fa-angle-right"></i>
+          </span>
+        </a>
+
         <a href="#平台内容/校园招聘"
           className={`text-small list-group-item list-group-item-action ${props.category === '校园招聘' ? 'active' : ''}`}
         >
@@ -45,7 +59,6 @@ function SideNav(props) {
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
         </a>
-
       </div>
     </div>
   )
@@ -366,6 +379,217 @@ function BannerDetail(props) {
   )
 }
 
+function RecommendToolbar() {
+  return (
+   <div className="mb-2">
+      <div className="btn-group">
+        <button type="button" className="btn btn-outline-success btn-sm shadow"
+          onClick={() => window.location = '#平台内容/首页推荐/新增'}
+        >
+          <i className="fa fa-fw fa-plus"></i>
+          新增
+        </button>
+      </div>
+
+      <div className="btn-group pull-right">
+        <button type="button" className="btn btn-outline-secondary btn-sm shadow"
+          onClick={() => window.location = '#平台内容/首页推荐'}
+        >
+          <i className="fa fa-fw fa-list"></i>
+          列表
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function Recommend() {
+  const [list, setList] = useState([])
+  const [filter_title, setFilterTitle] = useState('')
+  const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/api/content/recommend/`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setList(res.content)
+    })()
+  }, [])
+
+  const handleFilter = async () => {
+
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="平台内容" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav category="首页推荐" />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>首页推荐</h3>
+            <hr />
+
+            <RecommendToolbar />
+
+            <div className="card shadow">
+              <div className="card-header">
+                <div className="row">
+                  <div className="input-group col-4 col-lg-2">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">标题</span>
+                    </div>
+                    <input type="text" value={filter_title || ''} aria-label="标题"
+                      className="form-control"
+                      onChange={event => setFilterTitle(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="input-group col-4 col-lg-2">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">日期</span>
+                    </div>
+                    <input type="date" value={filter_date || ''} aria-label="日期"
+                      className="form-control"
+                      onChange={event => setFilterDate(event.target.value)}
+                    />
+                  </div>
+
+                  <button type="button" className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
+                    <i className="fa fa-fw fa-search"></i>
+                    查询
+                  </button>
+                </div>
+              </div>
+
+              <div className="card-body">
+                <div className="list-group">
+                  {
+                    list.map(it => (
+                      <a href={`#平台内容/首页推荐/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                        <div className="d-flex w-100 justify-content-between">
+                          <h5 className="mb-1">{it.title}</h5>
+                          <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
+                        </div>
+                        <p className="mb-1"></p>
+                        {/* <small></small> */}
+                      </a>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function RecommendDetail(props) {
+  const { id } = useParams()
+  const [title, setTitle] = useState('')
+
+  useEffect(() => {
+    if (props.category === '编辑') {
+      ;(async id => {
+        const response = await window.fetch(`/api/content/recommend/${id}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setTitle(res.content.title)
+      })(id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleSubmit = async () => {
+    if (props.category === '新增') {
+      const response = await window.fetch(`/api/content/recommend/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          title: title,
+          date: moment().format('YYYY-MM-DD'),
+          time: moment().format('HH:mm:ss')
+        })
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#平台内容/首页推荐'
+    } else if (props.category === '编辑') {
+      const response = await window.fetch(`/api/content/recommend/${id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          title: title,
+          date: moment().format('YYYY-MM-DD'),
+          time: moment().format('HH:mm:ss')
+        })
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.location = '#平台内容/首页推荐'
+    }
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="平台内容" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav category="首页推荐" />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>{props.category} 首页推荐</h3>
+            <hr />
+
+            <RecommendToolbar />
+
+            <div className="card shadow">
+              <div className="card-body">
+                <TextRowField caption="标题" value={title || ''}
+                  handleChange={event => setTitle(event.target.value)}
+                />
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                    <i className="fa fa-fw fa-check"></i>
+                    确定
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 function CampusToolbar() {
   return (
     <div className="mb-2">
@@ -499,11 +723,17 @@ function Campus() {
 function CampusDetail(props) {
   const { id, uuid } = useParams()
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState([
+    {
+      type: 'paragraph',
+      children: [{ text: '' }]
+    }
+  ])
+  const editor = useMemo(() => withReact(createEditor()), [])
 
   useEffect(() => {
     if (props.category === '编辑') {
-      ;(async () => {
+      ;(async id => {
         const response = await window.fetch(`/api/content/campus/${id}`)
         const res = await response.json()
         if (res.message) {
@@ -511,7 +741,7 @@ function CampusDetail(props) {
           return
         }
         setTitle(res.content.title)
-      })()
+      })(id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -564,7 +794,7 @@ function CampusDetail(props) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>校园招聘</h3>
+            <h3>{props.category} 校园招聘</h3>
             <hr />
 
             <CampusToolbar />
@@ -574,6 +804,15 @@ function CampusDetail(props) {
                 <TextRowField caption="标题" value={title || ''}
                   handleChange={event => setTitle(event.target.value)}
                 />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">内容</label>
+                  <div className="col-sm-10">
+                    <Slate editor={editor} value={content} onChange={value => setContent(value)}>
+                      <Editable />
+                    </Slate>
+                  </div>
+                </div>
               </div>
 
               <div className="card-footer">

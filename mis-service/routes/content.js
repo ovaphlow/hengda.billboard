@@ -96,6 +96,73 @@ router
   })
 
 router
+  .get('/recommend/:id', async ctx => {
+    const sql = `
+      select * from recommend where id = ? limit 1
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/recommend/:id', async ctx => {
+    const sql = `
+      update recommend set title = ?, date = ?, time = ? where id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.title,
+        ctx.request.body.date,
+        ctx.request.body.time
+      ])
+      console.info(11111111)
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
+router
+  .get('/recommend/', async ctx => {
+    const sql = `
+      select * from recommend order by id desc limit 100
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql)
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .post('/recommend/', async ctx => {
+    const sql = `
+      insert into
+        recommend (uuid, mis_user_id, title, date, time, content)
+        values (uuid(), 0, ?, ?, ?, '')
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.title,
+        ctx.request.body.date,
+        ctx.request.body.time
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
+router
   .get('/banner/:id', async ctx => {
     const sql = `
       select * from banner where id = ? limit 1

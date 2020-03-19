@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 import moment from 'moment'
 import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
@@ -19,7 +19,7 @@ export default function MISUserRouter() {
         <Route path="/平台内容/首页推荐/:id"><RecommendDetail category="编辑" /></Route>
         <Route exact path="/平台内容/校园招聘"><Campus /></Route>
         <Route exact path="/平台内容/校园招聘/新增"><CampusDetail category="新增" /></Route>
-        <Route path="/平台内容/校园招聘/:id"><ecopusDetail category="编辑" /></Route>
+        <Route path="/平台内容/校园招聘/:id"><CampusDetail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -721,7 +721,8 @@ function Campus() {
 }
 
 function CampusDetail(props) {
-  const { id, uuid } = useParams()
+  const { id } = useParams()
+  const location = useLocation()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState([
     {
@@ -733,8 +734,9 @@ function CampusDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
+      const uuid = new URLSearchParams(location.search).get('uuid')
       ;(async id => {
-        const response = await window.fetch(`/api/content/campus/${id}`)
+        const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.alert(res.message)

@@ -11,11 +11,14 @@ module.exports = router
 router
   .get('/campus/:id', async ctx => {
     const sql = `
-      select * from campus where id = ? limit 1
+      select * from campus where id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
       console.error(err)
@@ -32,7 +35,7 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
-        ctx.params.id
+        parseInt(ctx.params.id)
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

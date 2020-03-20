@@ -11,13 +11,14 @@ module.exports = router
 router
   .get('/:id/resume/:resume_id', async ctx => {
     const sql = `
-      select * from resume where id = ? and common_user_id = ? limit 1
+      select * from resume where id = ? and common_user_id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
       const [rows, fields] = await pool.query(sql, [
-        ctx.params.resume_id,
-        ctx.params.id
+        parseInt(ctx.params.resume_id),
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
@@ -32,7 +33,7 @@ router
       school = ?, education = ?, date_begin = ?, date_end = ?, major = ?,
       address1 = ?, address2 = ?, address3 = ?,
       qiwangzhiwei = ?, qiwanghangye = ?, yixiangchengshi = ?, ziwopingjia = ?
-      where id = ? and common_user_id = ?
+      where id = ? and common_user_id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -54,8 +55,9 @@ router
         ctx.request.body.qiwanghangye,
         ctx.request.body.yixiangchengshi,
         ctx.request.body.ziwopingjia,
-        ctx.params.resume_id,
-        ctx.params.id
+        parseInt(ctx.params.resume_id),
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -80,12 +82,14 @@ router
   .post('/:id/resume/', async ctx => {
     const sql = `
       insert into resume (
+        uuid,
         common_user_id, name, phone, email, gender, birthday,
         school, education, date_begin, date_end, major,
         address1, address2, address3,
         qiwangzhiwei, qiwanghangye, yixiangchengshi, ziwopingjia
       )
       values (
+        uuid(),
         ?, ?, ?, ?, ?, ?,
         ?, ?, ?, ?, ?,
         ?, ?, ?,
@@ -248,13 +252,16 @@ router
 router
   .get('/:id', async ctx => {
     const sql = `
-      select id, username, name, email, phone
+      select id, uuid, username, name, email, phone
       from common_user
-      where id = ?
+      where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
       console.error(err)
@@ -265,7 +272,7 @@ router
     const sql = `
       update common_user
       set username = ?, name = ?, email = ?, phone = ?
-      where id = ?
+      where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -274,7 +281,8 @@ router
         ctx.request.body.name,
         ctx.request.body.email,
         ctx.request.body.phone,
-        ctx.request.body.id
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -286,7 +294,7 @@ router
 router
   .put('/', async ctx => {
     const sql = `
-      select id, name, username, phone, email,
+      select id, uuid, name, username, phone, email,
         (select count(*) from favorite where user_id = cu.id) as qty_favorite
         -- 投递数量
         -- (select count(*) from favorite where common_user_id = cu.id) as qty_delivery
@@ -305,8 +313,8 @@ router
   })
   .post('/', async ctx => {
     const sql = `
-      insert into common_user (username, password, name, email, phone)
-      values (?, ?, ?, ?, ?)
+      insert into common_user (uuid, username, password, name, email, phone)
+      values (uuid(), ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 
@@ -15,7 +15,7 @@ export default function CommonUserRouter() {
 
   return (
     <Router>
-      <Switch>\
+      <Switch>
         <Route exact path="/普通用户"><List /></Route>
         <Route exact path="/普通用户/新增"><Detail category="新增" /></Route>
         <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
@@ -96,12 +96,17 @@ function List() {
             <div className="card shadow">
               <div className="card-header">
                 <div className="form-row align-items-center">
-                  <div className="col-auto mt-2">
-                    <label className="sr-only">姓名</label>
-                    <input type="text" value={filter_name} placeholder="姓名"
-                      className="form-control mb-2 input-borderless"
-                      onChange={e => setFilterName(e.target.value)}
-                    />
+                  <div className="col-auto">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">企业名称</span>
+                      </div>
+
+                      <input type="text" value={filter_name} aria-label="企业名称"
+                        className="form-control"
+                        onChange={event => setFilterName(event.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="col-auto">
@@ -116,7 +121,7 @@ function List() {
                 </div>
               </div>
 
-              <div className="card-body">
+              <div className="card-body table-responsive">
                 <table className="table table-hover">
                   <thead>
                     <tr>
@@ -135,7 +140,7 @@ function List() {
                     {data.map(it => (
                       <tr key={it.id}>
                         <td>
-                          <a href={`#普通用户/${it.id}`}>
+                          <a href={`#普通用户/${it.id}?uuid=${it.uuid}`}>
                             <i className="fa fa-fw fa-edit"></i>
                           </a>
                           <span className="pull-right">{it.id}</span>
@@ -174,6 +179,8 @@ function List() {
 
 function Detail(props) {
   const { id } = useParams()
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -183,26 +190,27 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async id => {
-        const response = await window.fetch(`/api/common-user/${id}`)
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
+      ;(async (id, uuid) => {
+        const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
           return
         }
-        // setData(res.content)
         setName(res.content.name)
         setUsername(res.content.username)
         setEmail(res.content.email)
         setPhone(res.content.phone)
-      })(id)
+      })(id, _uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async id => {
+      ;(async id => {
         const response = await window.fetch(`/api/common-user/${id}/resume/`)
         const res = await response.json()
         if (res.message) {
@@ -235,7 +243,7 @@ function Detail(props) {
       }
       window.location = '#普通用户'
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/common-user/${id}`, {
+      const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -325,7 +333,7 @@ function Detail(props) {
                         <div className="list-group">
                           {
                             resume_list.map(it => (
-                              <a href={`#普通用户/${id}/简历/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
+                              <a href={`#普通用户/${id}/简历/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.qiwangzhiwei}
                                 <span className="pull-right text-muted">{it.yixiangchengshi}</span>
                               </a>
@@ -365,6 +373,8 @@ function Detail(props) {
 
 function ResumeDetail(props) {
   const { common_user_id, resume_id } = useParams()
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
@@ -385,8 +395,10 @@ function ResumeDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async (common_user_id, resume_id) => {
-        const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}`)
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
+      ;(async (common_user_id, resume_id, uuid) => {
+        const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -408,7 +420,7 @@ function ResumeDetail(props) {
         setQiwangzhiwei(res.content.qiwangzhiwei)
         setQiwanghangye(res.content.qiwanghangye)
         setYixiangchengshi(res.content.yixiangchengshi)
-      })(common_user_id, resume_id)
+      })(common_user_id, resume_id, _uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -443,9 +455,9 @@ function ResumeDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = `#普通用户/${common_user_id}`
+      window.history.go(-1)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}`, {
+      const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -473,7 +485,7 @@ function ResumeDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = `#普通用户/${common_user_id}`
+      window.history.go(-1)
     }
   }
 
@@ -636,19 +648,28 @@ function DeliveryList() {
             <div className="card shadow">
               <div className="card-header">
                 <div className="form-row align-items-center">
-                  <div className="col-auto mt-2">
-                    <label className="sr-only">起止日期</label>
-                    <input type="date" value={filter_date_begin} placeholder="起始日期"
-                      className="form-control mb-2 input-borderless"
-                      onChange={event => setFilterDateBegin(event.target.value)}
-                    />
+                  <div className="col-auto">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">起始日期</span>
+                      </div>
+                      <input type="date" value={filter_date_begin} aria-label="起始日期"
+                        className="form-control"
+                        onChange={event => setFilterDateBegin(event.target.value)}
+                      />
+                    </div>
                   </div>
 
-                  <div className="col-auto mt-2">
-                    <input type="date" value={filter_date_end} placeholder="终止日期"
-                      className="form-control mb-2 input-borderless"
-                      onChange={event => setFilterDateEnd(event.target.value)}
-                    />
+                  <div className="col-auto">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">终止日期</span>
+                      </div>
+                      <input type="date" value={filter_date_end} aria-label="终止日期"
+                        className="form-control"
+                        onChange={event => setFilterDateEnd(event.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="col-auto">

@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
 
 import { Title, Navbar, TextRowField, BackwardButton, RefreshButton } from './Components'
 import { YUAN_GONG_SHU_LIANG } from './constant'
 
 export default function EnterpriseRouter() {
+  useEffect(() => {
+    const auth = sessionStorage.getItem('mis-auth')
+    if (!!!auth) {
+      window.location = '#登录'
+    }
+  }, [])
+
   return (
     <Router>
       <Switch>
@@ -87,12 +94,17 @@ function List() {
             <div className="card shadow">
               <div className="card-header">
                 <div className="form-row align-items-center">
-                  <div className="col-auto mt-2">
-                    <label className="sr-only">企业名称</label>
-                    <input type="text" value={filter_name} placeholder="企业名称"
-                      className="form-control mb-2 input-borderless"
-                      onChange={event => setFilterName(event.target.value)}
-                    />
+                  <div className="col-auto">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">企业名称</span>
+                      </div>
+
+                      <input type="text" value={filter_name} aria-label="企业名称"
+                        className="form-control"
+                        onChange={event => setFilterName(event.target.value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="col-auto">
@@ -113,6 +125,7 @@ function List() {
                     <tr>
                       <th className="text-right">序号</th>
                       <th>名称</th>
+                      <th>状态</th>
                       <th>法人</th>
                       <th>员工数量</th>
                       <th>操作</th>
@@ -124,12 +137,21 @@ function List() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>
-                            <a href={`#企业/${it.id}`}>
+                            <a href={`#企业/${it.id}?uuid=${it.uuid}`}>
                               <i className="fa fa-fw fa-edit"></i>
                             </a>
                             <span className="pull-right">{it.id}</span>
                           </td>
                           <td>{it.name}</td>
+                          <td>
+                            {
+                              it.status === '未认证' ? (
+                                <span className="text-danger">{it.status}</span>
+                              ) : (
+                                <>{it.status}</>
+                              )
+                            }
+                          </td>
                           <td>{it.faren}</td>
                           <td>{it.yuangongshuliang}</td>
                           <td>
@@ -154,8 +176,11 @@ function List() {
 
 function Detail(props) {
   const { id } = useParams()
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [name, setName] = useState('')
   const [yingyezhizhao, setYingyezhizhao] = useState('')
+  const [yingyezhizhao_tu, setYingyezhizhaoTu] = useState('')
   const [faren, setFaren] = useState('')
   const [zhuceriqi, setZhuceriqi] = useState('')
   const [zhuziguimo, setZhuziguimo] = useState('')
@@ -168,16 +193,18 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async id => {
-        const response = await fetch(`/api/enterprise/${id}`)
+      ;(async id => {
+        const _uuid = new URLSearchParams(location.search).get('uuid')
+        setUUID(_uuid)
+        const response = await fetch(`/api/enterprise/${id}?uuid=${_uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
           return
         }
-        // setData(res.content)
         setName(res.content.name)
         setYingyezhizhao(res.content.yingyezhizhao)
+        setYingyezhizhaoTu(res.content.yingyezhizhao_tu)
         setFaren(res.content.faren)
         setZhuceriqi(res.content.zhuceriqi)
         setZhuziguimo(res.content.zhuziguimo)
@@ -193,7 +220,7 @@ function Detail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async id => {
+      ;(async id => {
         const response = await fetch(`/api/enterprise/${id}/user/`)
         const res = await response.json()
         if (res.message) {
@@ -316,7 +343,7 @@ function Detail(props) {
                     <div className="form-group row">
                       <label className="col-sm-2 col-form-label text-right">员工数量</label>
                       <div className="col-sm-10">
-                        <select value={yuangongshuliang} className="form-control"
+                        <select value={yuangongshuliang} className="form-control input-borderless"
                           onChange={event => setYuangongshuliang(event.target.value)}
                         >
                           <option value="未选择">未选择</option>
@@ -328,6 +355,12 @@ function Detail(props) {
                         </select>
                       </div>
                     </div>
+
+                    <p className="text-muted text-center">
+                      营业执照
+                      <br />
+                      <img src={yingyezhizhao_tu} className="img-fluid" alt={name} />
+                    </p>
                   </div>
 
                   <div className="card-footer">

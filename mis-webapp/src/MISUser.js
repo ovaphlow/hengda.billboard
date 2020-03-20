@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
+import md5 from 'blueimp-md5'
 
 import { Title, Navbar, BackwardButton } from './Components'
 
 export default function MISUserRouter() {
+  useEffect(() => {
+    const auth = sessionStorage.getItem('mis-auth')
+    if (!!!auth) {
+      window.location = '#登录'
+    }
+  }, [])
+
   return (
     <Router>
       <Switch>
@@ -90,7 +98,7 @@ function List() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>
-                            <a href={`#管理端用户/${it.id}`}>
+                            <a href={`#管理端用户/${it.id}?uuid=${it.uuid}`}>
                               <i className="fa fa-fw fa-edit"></i>
                             </a>
                             <span className="pull-right">{it.id}</span>
@@ -112,14 +120,18 @@ function List() {
 }
 
 function Detail(props) {
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
   const { id } = useParams()
 
   useEffect(() => {
     if (props.caption === '编辑') {
-      (async id => {
-        const response = await fetch(`/api/mis-user/${id}`)
+      ;(async id => {
+        const uuid = new URLSearchParams(location.search).get('uuid')
+        setUUID(uuid)
+        const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`)
         const res = await response.json()
         setName(res.content.name)
         setUsername(res.content.username)
@@ -134,8 +146,9 @@ function Detail(props) {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          username: username
+          username: username,
+          password: md5('112332'),
+          name: name
         })
       })
       const res = await response.json()
@@ -145,7 +158,7 @@ function Detail(props) {
       }
       window.location = '#管理端用户'
     } else if (props.caption === '编辑') {
-      const response = await fetch(`/api/mis-user/${id}`, {
+      const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

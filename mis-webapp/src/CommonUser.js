@@ -6,6 +6,13 @@ import moment from 'moment'
 import { Title, Navbar, BackwardButton, TextRowField, RefreshButton } from './Components'
 
 export default function CommonUserRouter() {
+  useEffect(() => {
+    const auth = sessionStorage.getItem('mis-auth')
+    if (!!!auth) {
+      window.location = '#登录'
+    }
+  }, [])
+
   return (
     <Router>
       <Switch>\

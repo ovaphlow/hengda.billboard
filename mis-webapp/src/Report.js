@@ -4,6 +4,13 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import { Title, Navbar } from './Components'
 
 export default function ReportRouter() {
+  useEffect(() => {
+    const auth = sessionStorage.getItem('mis-auth')
+    if (!!!auth) {
+      window.location = '#登录'
+    }
+  }, [])
+
   return (
     <Router>
       <Switch>

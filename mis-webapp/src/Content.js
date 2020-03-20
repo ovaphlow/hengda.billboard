@@ -8,6 +8,13 @@ import { Title, Navbar, TextRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 
 export default function MISUserRouter() {
+  useEffect(() => {
+    const auth = sessionStorage.getItem('mis-auth')
+    if (!!!auth) {
+      window.location = '#登录'
+    }
+  }, [])
+
   return (
     <Router>
       <Switch>

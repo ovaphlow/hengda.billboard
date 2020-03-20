@@ -13,10 +13,10 @@ import RecruitmentRouter from './Recruitment'
 
 export default function App() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('auth')
-    if (!!!auth) {
-      // window.location = '#登录'
-    }
+    // const auth = sessionStorage.getItem('mis-auth')
+    // if (!!!auth) {
+    //   window.location = '#登录'
+    // }
   }, [])
 
   return (

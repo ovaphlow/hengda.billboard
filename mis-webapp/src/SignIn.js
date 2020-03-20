@@ -4,31 +4,25 @@ import md5 from 'blueimp-md5'
 import { Title, Navbar } from './Components'
 
 export default function SignIn() {
-  const [data, setData] = useState({
-    username: '',
-    password: ''
-  })
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
-    sessionStorage.removeItem('auth')
+    sessionStorage.removeItem('mis-auth')
   }, [])
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value}))
-  }
-
   const handleSignIn = async () => {
-    const response = await fetch(`/api/sign-in`, {
+    const response = await fetch(`/api/mis-user/sign-in`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ username: data.username, password: md5(data.password) })
+      body: JSON.stringify({ username: username, password: md5(password) })
     })
     const res = await response.json()
     if (res.message) {
       window.alert(res.message)
       return
     }
+    sessionStorage.setItem('mis-auth', JSON.stringify(res.content))
     window.location = '#/'
   }
 
@@ -49,21 +43,23 @@ export default function SignIn() {
           <div className="col-6 offset-3 col-lg-4 offset-lg-4">
             <div className="card shadow">
               <div className="card-body">
-                <div className="form-group">
-                  <label>用户名</label>
-                  <input type="text" name="username" value={data.username}
-                    className="form-control input-borderless"
-                    onChange={handleChange}
-                  />
-                </div>
+                <form>
+                  <div className="form-group">
+                    <label>用户名</label>
+                    <input type="text" value={username || ''} autoComplete="username"
+                      className="form-control input-borderless"
+                      onChange={event => setUsername(event.target.value)}
+                    />
+                  </div>
 
-                <div className="form-group">
-                  <label>密码</label>
-                  <input type="password" name="password" value={data.password}
-                    className="form-control input-borderless"
-                    onChange={handleChange}
-                  />
-                </div>
+                  <div className="form-group">
+                    <label>密码</label>
+                    <input type="password" value={password || ''} autoComplete="current-password"
+                      className="form-control input-borderless"
+                      onChange={event => setPassword(event.target.value)}
+                    />
+                  </div>
+                </form>
               </div>
 
               <div className="card-footer">

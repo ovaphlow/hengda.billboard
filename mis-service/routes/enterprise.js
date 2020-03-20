@@ -13,15 +13,14 @@ router
     const sql = `
       select *
       from recruitment
-      where id = ?
-        -- and enterprise_id = ? -- 由举报页面链接过来时无法提供企业ID，取消同时对比企业ID的查询条件
+      where id = ? and uuid = ?
       limit 1
     `
     const pool = mysql.promise()
     try {
       const [rows, fields] = await pool.query(sql, [
-        ctx.params.recruitment_id,
-        ctx.params.enterprise_id
+        parseInt(ctx.params.recruitment_id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
@@ -36,7 +35,7 @@ router
         address1 = ?, address2 = ?, address3 = ?,
         date = ?, salary1 = ?, salary2 = ?, education = ?, category = ?,
         description = ?, requirement = ?
-      where id = ? and enterprise_id = ?
+      where id = ? and enterprise_id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -53,8 +52,9 @@ router
         ctx.request.body.category,
         ctx.request.body.description,
         ctx.request.body.requirement,
-        ctx.params.recruitment_id,
-        ctx.params.enterprise_id
+        parseInt(ctx.params.recruitment_id),
+        parseInt(ctx.params.enterprise_id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -78,12 +78,13 @@ router
   .post('/:id/recruitment/', async ctx => {
     const sql = `
       insert into recruitment (
+        uuid,
         enterprise_id, name, qty,
         address1, address2, address3,
         date, salary1, salary2, education, category,
         description, requirement
       )
-      values (?, ?, ?, ?, ?)
+      values (uuid(), ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
@@ -114,12 +115,16 @@ router
     const sql = `
       select id, enterprise_id, username, name
       from enterprise_user
-      where id = ? and enterprise_id = ?
+      where id = ? and enterprise_id = ? and uuid = ?
       limit 1
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.user_id, ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        parseInt(ctx.params.user_id),
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0]: {} }
     } catch (err) {
       console.error(err)
@@ -130,15 +135,16 @@ router
     const sql = `
       update enterprise_user
       set username = ?, name = ?
-      where id = ? and enterprise_id = ?
+      where id = ? and enterprise_id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.username,
         ctx.request.body.name,
-        ctx.params.user_id,
-        ctx.params.id
+        parseInt(ctx.params.user_id),
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -148,7 +154,7 @@ router
   })
   .get('/:id/user/', async ctx => {
     const sql = `
-      select id, enterprise_id, username, name
+      select id, uuid, enterprise_id, username, name
       from enterprise_user
       where enterprise_id = ?
     `
@@ -163,8 +169,8 @@ router
   })
   .post('/:id/user/', async ctx => {
     const sql = `
-      insert into enterprise_user (enterprise_id, username, name)
-      values (?, ?, ?)
+      insert into enterprise_user (uuid, enterprise_id, username, name)
+      values (uuid(), ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
@@ -183,11 +189,11 @@ router
 router
   .get('/:id', async ctx => {
     const sql = `
-      select * from enterprise where id = ? limit 1
+      select * from enterprise where id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [parseInt(ctx.params.id), ctx.request.query.uuid])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
       console.error(err)
@@ -200,7 +206,7 @@ router
       set name = ?, yingyezhizhao = ?, faren = ?, zhuceriqi = ?,
         zhuziguimo = ?, yuangongshuliang = ?,
         address1 = ?, address2 = ?, address3 = ?, address4 = ?
-      where id = ?
+      where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -215,7 +221,8 @@ router
         ctx.request.body.address2,
         ctx.request.body.address3,
         ctx.request.body.address4,
-        ctx.params.id
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -225,29 +232,14 @@ router
   })
 
 router
-  .get('/', async ctx => {
-    const sql = `
-      select *
-      from enterprise
-      order by id desc
-      limit 200
-    `
-    const pool = mysql.promise()
-    try {
-      const [rows, fields] = await pool.query(sql)
-      ctx.response.body = { message: '', content: rows}
-    } catch (err) {
-      console.error(err)
-      ctx.response.body = { message: '服务器错误', content: '' }
-    }
-  })
   .post('/', async ctx => {
     const sql = `
       insert into enterprise (
+        uuid,
         name, yingyezhizhao, faren, zhuceriqi, zhuziguimo, yuangongshuliang,
         address1, address2, address3, address4
       )
-      values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      values (uuid(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
@@ -271,7 +263,7 @@ router
   })
   .put('/', async ctx => {
     const sql = `
-      select * from enterprise where position(? in name) > 0 limit 200
+      select * from enterprise where position(? in name) > 0 limit 100
     `
     const pool = mysql.promise()
     try {

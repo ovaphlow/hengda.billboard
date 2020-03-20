@@ -258,7 +258,7 @@ function Detail(props) {
       }
       window.location = '#企业'
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${id}`, {
+      const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -390,7 +390,7 @@ function Detail(props) {
                         <div className="list-group">
                           {
                             user_list.map(it => (
-                              <a href={`#企业/${id}/编辑用户/${it.id}`} className="list-group-item list-group-item-action" key={it.id}>
+                              <a href={`#企业/${id}/编辑用户/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.name}
                                 <span className="pull-right text-muted">{it.username}</span>
                               </a>
@@ -423,13 +423,17 @@ function Detail(props) {
 
 function UserDetail(props) {
   const { id, user_id } = useParams()
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async (id, user_id) => {
-        const response = await fetch(`/api/enterprise/${id}/user/${user_id}`)
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
+      ;(async (id, user_id, uuid) => {
+        const response = await fetch(`/api/enterprise/${id}/user/${user_id}?uuid=${_uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -437,7 +441,7 @@ function UserDetail(props) {
         }
         setName(res.content.name)
         setUsername(res.content.username)
-      })(id, user_id)
+      })(id, user_id, uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -457,9 +461,9 @@ function UserDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = `#企业/${id}`
+      window.history.go(-1)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${id}/user/${user_id}`, {
+      const response = await window.fetch(`/api/enterprise/${id}/user/${user_id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -472,7 +476,7 @@ function UserDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = `#企业/${id}`
+      window.history.go(-1)
     }
   }
 
@@ -523,7 +527,7 @@ function RecruitmentList() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    (async id => {
+    ;(async id => {
       const response = await window.fetch(`/api/enterprise/${id}/recruitment/`)
       const res = await response.json()
       if (res.message) {
@@ -579,7 +583,7 @@ function RecruitmentList() {
                       data.map(it => (
                         <tr key={it.id}>
                           <td>
-                            <a href={`#企业/${id}/职位/${it.id}`}>
+                            <a href={`#企业/${id}/职位/${it.id}?uuid=${it.uuid}`}>
                               <i className="fa fa-fw fa-edit"></i>
                             </a>
                             <span className="pull-right">{it.id}</span>
@@ -602,6 +606,8 @@ function RecruitmentList() {
 
 export function RecruitmentDetail(props) {
   const { enterprise_id, recruitment_id } = useParams()
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [name, setName] = useState('')
   const [qty, setQty] = useState('')
   const [description, setDescription] = useState('')
@@ -617,8 +623,10 @@ export function RecruitmentDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async (enterprise_id, recruitment_id) => {
-        const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`)
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
+      ;(async (enterprise_id, recruitment_id) => {
+        const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}?uuid=${_uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -666,9 +674,9 @@ export function RecruitmentDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = `#企业/${enterprise_id}/职位`
+      window.history.go(-1)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}`, {
+      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -691,7 +699,7 @@ export function RecruitmentDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = `#企业/${enterprise_id}/职位`
+      window.history.go(-1)
     }
   }
 

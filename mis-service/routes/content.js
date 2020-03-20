@@ -101,11 +101,14 @@ router
 router
   .get('/recommend/:id', async ctx => {
     const sql = `
-      select * from recommend where id = ? limit 1
+      select * from recommend where id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
       console.error(err)
@@ -114,7 +117,7 @@ router
   })
   .put('/recommend/:id', async ctx => {
     const sql = `
-      update recommend set title = ?, date = ?, time = ? where id = ?
+      update recommend set title = ?, date = ?, time = ? where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -122,7 +125,8 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
-        ctx.params.id
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -168,11 +172,14 @@ router
 router
   .get('/banner/:id', async ctx => {
     const sql = `
-      select * from banner where id = ? limit 1
+      select * from banner where id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
     } catch (err) {
       console.error(err)
@@ -184,6 +191,7 @@ router
       update banner
       set status = ?, category = ?, title = ?, comment = ?, datime = ?, data_url = ?
       where id = ?
+        and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -194,7 +202,8 @@ router
         ctx.request.body.comment,
         ctx.request.body.datime,
         ctx.request.body.data_url,
-        ctx.params.id
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

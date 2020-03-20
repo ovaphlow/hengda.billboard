@@ -186,7 +186,7 @@ function Banner() {
                         </div>
 
                         <div className="card-footer text-center">
-                          <a href={`#平台内容/banner/${it.id}`} className="btn btn-outline-info btn-sm">
+                          <a href={`#平台内容/banner/${it.id}?uuid=${it.uuid}`} className="btn btn-outline-info btn-sm">
                             查看
                           </a>
                         </div>
@@ -205,6 +205,7 @@ function Banner() {
 
 function BannerDetail(props) {
   const { id } = useParams()
+  const location = useLocation()
   const [status, setStatus] = useState('')
   const [category, setCategory] = useState('')
   const [title, setTitle] = useState('')
@@ -213,8 +214,9 @@ function BannerDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      (async id => {
-        const response = await window.fetch(`/api/content/banner/${id}`)
+      const uuid = new URLSearchParams(location.search).get('uuid')
+      ;(async id => {
+        const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -264,7 +266,8 @@ function BannerDetail(props) {
       }
       window.location = '#平台内容/banner'
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/content/banner/${id}`, {
+      const uuid = new URLSearchParams(location.search).get('uuid')
+      const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -497,12 +500,16 @@ function Recommend() {
 
 function RecommendDetail(props) {
   const { id } = useParams()
+  const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [title, setTitle] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
+      const uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(uuid)
       ;(async id => {
-        const response = await window.fetch(`/api/content/recommend/${id}`)
+        const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -532,7 +539,7 @@ function RecommendDetail(props) {
       }
       window.location = '#平台内容/首页推荐'
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/content/recommend/${id}`, {
+      const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

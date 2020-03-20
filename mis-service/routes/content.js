@@ -149,6 +149,22 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
+  .put('/recommend/', async ctx => {
+    const sql = `
+      select * from recommend where date = ? and position(? in title) > 0
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.request.body.date,
+        ctx.request.body.title
+      ])
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
   .post('/recommend/', async ctx => {
     const sql = `
       insert into

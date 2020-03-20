@@ -424,7 +424,21 @@ function Recommend() {
   }, [])
 
   const handleFilter = async () => {
-
+    setList([])
+    const response = await window.fetch(`/api/content/recommend/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        date: filter_date,
+        title: filter_title
+      })
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setList(res.content)
   }
 
   return (
@@ -627,7 +641,7 @@ function Campus() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const response = await window.fetch(`/api/content/campus/`)
       const res = await response.json()
       if (res.message) {

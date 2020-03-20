@@ -9,6 +9,34 @@ const router = new Router({
 module.exports = router
 
 router
+  .get('/certificate/qty', async ctx => {
+    const sql = `
+      select count(*) as qty from enterprise where status = '未认证'
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql)
+      ctx.response.body = { message: '', content: rows[0] }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .get('/certificate/', async ctx => {
+    const sql = `
+      select * from enterprise where status = '未认证' limit 10
+    `
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql)
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
+router
   .get('/:enterprise_id/recruitment/:recruitment_id', async ctx => {
     const sql = `
       select *

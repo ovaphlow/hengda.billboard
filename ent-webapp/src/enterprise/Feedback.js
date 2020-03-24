@@ -52,7 +52,7 @@ const Feedback = () => {
           <div className="card-body">
             <div className="row">
               <div className="col">
-                <h3 className="pull-left">问题反馈/投诉</h3>
+                <h3 className="pull-left">意见反馈/投诉</h3>
               </div>
             </div>
             <hr />
@@ -62,7 +62,7 @@ const Feedback = () => {
                   id="category"
                   className="form-control"
                   category="类别">
-                  <option>问题反馈</option>
+                  <option>意见反馈</option>
                   <option>内容投诉</option>
                 </SelectField>
               </div>

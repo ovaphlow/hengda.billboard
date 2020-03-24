@@ -25,7 +25,7 @@ const Feeback = () => {
       <div className="row bg-white shadow" >
         <div className="col card rounded-0">
           <div className="card-body">
-            <h3 className="pull-left">(问题反馈/投诉)记录</h3>
+            <h3 className="pull-left">(意见反馈/投诉)记录</h3>
             <table className="table table-hover">
               <thead>
                 <tr>

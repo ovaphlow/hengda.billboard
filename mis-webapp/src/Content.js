@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 import moment from 'moment'
-import { createEditor } from 'slate'
-import { Slate, Editable, withReact } from 'slate-react'
 
 import { Title, Navbar, TextRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
@@ -223,8 +221,8 @@ function BannerDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const uuid = new URLSearchParams(location.search).get('uuid')
-      ;(async id => {
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      ;(async (id, uuid) => {
         const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
@@ -236,7 +234,7 @@ function BannerDetail(props) {
         setTitle(res.content.title)
         setComment(res.content.comment)
         setDataUrl(res.content.data_url)
-      })(id)
+      })(id, _uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -754,13 +752,6 @@ function CampusDetail(props) {
   const { id } = useParams()
   const location = useLocation()
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState([
-    {
-      type: 'paragraph',
-      children: [{ text: '' }]
-    }
-  ])
-  const editor = useMemo(() => withReact(createEditor()), [])
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -840,9 +831,6 @@ function CampusDetail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>
                   <div className="col-sm-10">
-                    <Slate editor={editor} value={content} onChange={value => setContent(value)}>
-                      <Editable />
-                    </Slate>
                   </div>
                 </div>
               </div>

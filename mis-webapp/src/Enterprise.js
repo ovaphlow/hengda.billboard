@@ -223,7 +223,18 @@ function CertificateList() {
   }, [])
 
   const handleFilter = async () => {
-
+    setList([])
+    const response = await window.fetch(`/api/enterprise/certificate/filter/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ name: filter_name })
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setList(res.content)
   }
 
   const handleCertificate = async event => {
@@ -241,13 +252,13 @@ function CertificateList() {
       window.alert(res.message)
       return
     }
-    window.location.refresh(true)
+    window.location.reload(true)
   }
 
   return (
     <>
       <Title />
-      <Navbar />
+      <Navbar category="企业" />
 
       <div className="container-fluid mt-3 mb-5">
         <div className="row">

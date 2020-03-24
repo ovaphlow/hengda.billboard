@@ -66,6 +66,6 @@ app.on('error', (err, ctx) => {
   const router = require('./routes/settings')
   app.use(router.routes())
   app.use(router.allowedMethods())
-})
+})()
 
 module.exports = app

@@ -10,6 +10,7 @@ import CommonUserRouter from './CommonUser'
 import FeedbackRouter from './Feedback'
 import ReportRouter from './Report'
 import RecruitmentRouter from './Recruitment'
+import SettingsRouter from './Settings'
 
 export default function App() {
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/投诉及反馈"><FeedbackRouter /></Route>
         <Route path="/举报"><ReportRouter /></Route>
         <Route path="/岗位"><RecruitmentRouter /></Route>
+        <Route path="/系统设置"><SettingsRouter /></Route>
       </Switch>
     </Router>
   )

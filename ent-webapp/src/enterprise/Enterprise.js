@@ -43,11 +43,11 @@ const Enterprise = () => {
                     <h4 className="pull-left">
                       {data.name}({data.yingyezhizhao})&nbsp;
                       <span className="badge badge-secondary">
-                      未认证
+                      {data.status}
                       </span>
                     </h4>
                     <div className="pull-right">
-                      <a href="#信息/编辑/">
+                      <a href="#我的/信息/编辑/">
                         <i className="fa fa-pencil-square-o"></i>
                         编辑
                       </a>

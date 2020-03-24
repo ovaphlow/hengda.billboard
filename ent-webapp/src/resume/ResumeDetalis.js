@@ -21,7 +21,7 @@ export const SearchFavorite = body => new Promise((resolve, reject) => {
 
 const ResumeDetalis = () => {
 
-  const { id } = useParams()
+  const { id, category } = useParams()
 
   const { search } = useLocation()
 
@@ -134,7 +134,9 @@ const ResumeDetalis = () => {
         recruitment_id: data.recruitment_id,
         common_user_id: data.common_user_id,
         address: document.getElementById('address').value,
-        phone: document.getElementById('phone').value,
+        phone1: document.getElementById('phone1').value,
+        phone2: document.getElementById('phone2').value,
+        luxian: document.getElementById('luxian').value,
         mianshishijian: document.getElementById('datime').value,
         remark: document.getElementById('remark').value
       })
@@ -198,7 +200,7 @@ const ResumeDetalis = () => {
             )} {...data} />
             <div className="row">
               <div className="col">
-                <a href={`#简历/收藏/`} className="btn btn-primary">返回</a>
+                <a href={`#简历/${category}/`} className="btn btn-primary">返回</a>
               </div>
             </div>
           </div>
@@ -230,8 +232,12 @@ const ResumeDetalis = () => {
           )}
         </SelectField>
         <div className="form-group">
-          <label>联系电话</label>
-          <input id="phone" type="text" className="form-control" />
+          <label>联系电话1</label>
+          <input id="phone1" type="text" className="form-control" />
+        </div>
+        <div className="form-group">
+          <label>联系电话2</label>
+          <input id="phone2" type="text" className="form-control" />
         </div>
         <div className="form-group">
           <label>面试时间</label>
@@ -244,6 +250,12 @@ const ResumeDetalis = () => {
           <label>面试地点</label>
           <textarea
             id="address"
+            className="form-control" />
+        </div>
+        <div className="form-group">
+          <label>交通路线</label>
+          <textarea
+            id="luxian"
             className="form-control" />
         </div>
         <div className="form-group">

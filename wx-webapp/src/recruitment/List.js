@@ -78,7 +78,7 @@ const List = () => {
     <>
       <div className="container-fluid">
         <Title category="岗位" />
-        <PlayImg />
+        <PlayImg category="小程序-岗位" />
         <div className="row mt-1 mb-1" >
           <div className="col">
             <CityDropdowns handleChange={handleChange} key={0}/>

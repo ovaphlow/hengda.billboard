@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
 import { View } from './Components'
 import { TextField, SelectField } from '../components/InputField'
 
-const Favorite = () => {
+const Retrieval = () => {
 
   const [list, setList] = useState([])
-
-  const [auth, setAuth] = useState(0)
 
   const [param, setParam] = useState({
     name: '',
     qiwanghangye: '',
     qiwangzhiwei: '',
     yixiangchengshi: '',
-    education: ''
+    education: '',
+    day:0
   })
 
-
   useEffect(() => {
-    const _auth = JSON.parse(sessionStorage.getItem('auth'))
+    const _auth = JSON.parse(sessionStorage.getItem('auth')) 
     if (_auth !== null) {
-      setAuth(_auth)
-      fetch(`./api/favorite/search/resume/`, {
+      fetch(`./api/resume/retrieval/`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          user_id: _auth.id
+          day: 0
         })
       })
         .then(res => res.json())
@@ -37,7 +35,6 @@ const Favorite = () => {
           }
         })
     }
-
   }, [])
 
   const handleChange = e => {
@@ -46,13 +43,10 @@ const Favorite = () => {
   }
 
   const search = () => {
-    fetch(`./api/favorite/search/resume/`, {
+    fetch(`./api/resume/retrieval/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        ...param,
-        user_id: auth.id
-      })
+      body: JSON.stringify(param)
     })
       .then(res => res.json())
       .then(res => {
@@ -65,8 +59,19 @@ const Favorite = () => {
   }
 
   return (
-    <View category="收藏">
+    <View category="检索">
       <div className="row px-5 pt-2 bg-white shadow" >
+        <div className="col">
+          <SelectField
+            category="活跃度"
+            name="day"
+            value={param.day}
+            handleChange={handleChange}>
+            <option value="0">近24小时</option>
+            <option value="2">近3天</option>
+            <option value="6">近7天</option>
+          </SelectField>
+        </div>
         <div className="col">
           <TextField
             category="姓名"
@@ -120,7 +125,7 @@ const Favorite = () => {
       <div className="row mt-3 bg-white shadow">
         <div className="col card rounded-0">
           <div className="card-body">
-            <h3 className="pull-left">我的收藏</h3>
+            <h3 className="pull-left">简历检索</h3>
             <table className="table table-hover">
               <thead>
                 <tr>
@@ -144,7 +149,7 @@ const Favorite = () => {
                     <td>{item.education}</td>
                     <td>
                       <div className="btn-group btn-group-sm">
-                        <a className="btn btn-primary" href={`#简历/收藏/详情/${item.resume_id}?u_id=${item.uuid}`}>
+                        <a className="btn btn-primary" href={`#简历/检索/详情/${item.id}?u_id=${item.uuid}`}>
                           查看
                       </a>
                       </div>
@@ -158,6 +163,6 @@ const Favorite = () => {
       </div>
     </View>
   )
-}
+} 
 
-export default Favorite
+export default Retrieval

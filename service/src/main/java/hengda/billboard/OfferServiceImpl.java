@@ -107,15 +107,17 @@ public class OfferServiceImpl extends OfferGrpc.OfferImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into offer (recruitment_id, common_user_id, address, mianshishijian, remark, phone, datime) value (?,?,?,?,?,?,?)";
+      String sql = "insert into offer (recruitment_id, common_user_id, address, mianshishijian, luxian, remark, phone1, phone2, datime) value (?,?,?,?,?,?,?,?,?)";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("recruitment_id").toString());
       ps.setString(2, body.get("common_user_id").toString());
       ps.setString(3, body.get("address").toString());
       ps.setString(4, body.get("mianshishijian").toString());
-      ps.setString(5, body.get("remark").toString()); 
-      ps.setString(6, body.get("phone").toString());
-      ps.setString(7, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+      ps.setString(5, body.get("luxian").toString());
+      ps.setString(6, body.get("remark").toString()); 
+      ps.setString(7, body.get("phone1").toString());
+      ps.setString(8, body.get("phone2").toString());
+      ps.setString(9, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
       ps.execute();
       resp.put("content", true);
       conn.close();

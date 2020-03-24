@@ -23,7 +23,7 @@ export default function App() {
         <Route path="/简历/"><ResumeRouter /></Route>
         <Route path="/消息/"><MessageRouter /></Route>
         <Route path="/记录/"><JournalRouter /></Route>
-        <Route path="/信息/"><EnterpriseRouter /></Route>
+        <Route path="/我的/"><EnterpriseRouter /></Route>
       </Switch>
     </Router>
   )

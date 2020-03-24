@@ -3,7 +3,7 @@ import React from 'react'
 const Sidebar = props => (
   <div className="list-group bg-white shadow sidebar" >
     <a
-      href="#信息"
+      href="#/我的/信息"
       className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '企业信息' && 'text-primary'}`}
     >
       企业信息
@@ -12,7 +12,16 @@ const Sidebar = props => (
       </span>
     </a>
     <a
-      href="#信息"
+      href="#/我的/投诉"
+      className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '投诉' && 'text-primary'}`}
+    >
+      问题反馈/投诉
+      <span className="pull-right">
+        <i className="fa fa-fw fa-angle-right"></i>
+      </span>
+    </a>
+    <a
+      href="#/我的/资产"
       className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '我的资产' && 'text-primary'}`}
     >
       我的资产

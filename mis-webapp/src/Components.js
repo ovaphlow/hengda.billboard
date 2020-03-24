@@ -29,6 +29,12 @@ export function Navbar(props) {
             </a>
           </li>
 
+          <li className={`nav-item ${props.category === '平台内容' ? 'active' : ''}`}>
+            <a href="#平台内容/banner" className="nav-link">
+              平台内容
+            </a>
+          </li>
+
           <li className={`nav-item ${props.category === '管理端用户' ? 'active' : ''}`}>
             <a href="#管理端用户" className="nav-link">
               管理端用户
@@ -95,8 +101,8 @@ export function TextRowField(props) {
     <div className="form-group row">
       <label className="col-sm-2 col-form-label text-right">{props.caption || ''}</label>
       <div className="col-sm-10">
-        <input type="text" name={props.name} value={props.value}
-          className="form-control"
+        <input type="text" value={props.value}
+          className="form-control input-borderless"
           onChange={props.handleChange}
         />
       </div>

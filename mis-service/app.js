@@ -26,39 +26,40 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 })
 
-function initMISUserRouter() {
+;(() => {
+  const router = require('./routes/content')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
   const router = require('./routes/mis-user')
   app.use(router.routes())
   app.use(router.allowedMethods())
-}
-initMISUserRouter()
+})()
 
-function initEnterpriseRouter() {
+;(() => {
   const router = require('./routes/enterprise')
   app.use(router.routes())
   app.use(router.allowedMethods())
-}
-initEnterpriseRouter()
+})()
 
-function initCommonUserRouter() {
+;(() => {
   const router = require('./routes/common-user')
   app.use(router.routes())
   app.use(router.allowedMethods())
-}
-initCommonUserRouter()
+})()
 
-function initFeedbackRouter() {
+;(() => {
   const router = require('./routes/feedback')
   app.use(router.routes())
   app.use(router.allowedMethods())
-}
-initFeedbackRouter()
+})()
 
-function initReportRouter() {
+;(() => {
   const router = require('./routes/report')
   app.use(router.routes())
   app.use(router.allowedMethods())
-}
-initReportRouter()
+})()
 
 module.exports = app

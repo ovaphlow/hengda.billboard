@@ -6,6 +6,8 @@ import { Slate, Editable, withReact } from 'slate-react'
 
 import { Title, Navbar, TextRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 export default function MISUserRouter() {
   useEffect(() => {

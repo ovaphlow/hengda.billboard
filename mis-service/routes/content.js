@@ -27,7 +27,7 @@ router
   })
   .put('/campus/:id', async ctx => {
     const sql = `
-      update campus set title = ?, date = ?, time = ? where id = ?
+      update campus set title = ?, date = ?, time = ?, content=?  where id = ?
     `
     const pool = mysql.promise()
     try {
@@ -35,6 +35,7 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
+        ctx.request.body.content,
         parseInt(ctx.params.id)
       ])
       ctx.response.body = { message: '', content: '' }
@@ -82,14 +83,15 @@ router
     const sql = `
       insert into
         campus (uuid, mis_user_id, title, date, time, content)
-        values (uuid(), 0, ?, ?, ?, '')
+        values (uuid(), 0, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.title,
         ctx.request.body.date,
-        ctx.request.body.time
+        ctx.request.body.time,
+        ctx.request.body.content
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -117,7 +119,7 @@ router
   })
   .put('/recommend/:id', async ctx => {
     const sql = `
-      update recommend set title = ?, date = ?, time = ? where id = ? and uuid = ?
+      update recommend set title = ?, date = ?, time = ?, content=? where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -125,6 +127,7 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
+        ctx.request.body.content,
         parseInt(ctx.params.id),
         ctx.request.query.uuid
       ])
@@ -169,14 +172,15 @@ router
     const sql = `
       insert into
         recommend (uuid, mis_user_id, title, date, time, content)
-        values (uuid(), 0, ?, ?, ?, '')
+        values (uuid(), 0, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.title,
         ctx.request.body.date,
-        ctx.request.body.time
+        ctx.request.body.time,
+        ctx.request.body.content
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

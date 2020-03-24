@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "BannerProto";
+
+package banner;
+
+service Banner {
+
+  rpc get(BannerRequest) returns (BannerReply) {}
+
+}
+
+message BannerRequest { string data = 1; }
+
+message BannerReply { string data = 1; }

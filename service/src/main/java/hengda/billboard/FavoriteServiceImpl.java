@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -95,8 +96,32 @@ public class FavoriteServiceImpl extends FavoriteGrpc.FavoriteImplBase {
           + "r.yixiangchengshi, r.qiwanghangye,  r.qiwangzhiwei from "
           + "favorite f left join resume r on f.data_id = r.id " 
           + "where f.category1 = '企业用户' and f.category2 = '简历' and user_id = ?";
+      List<String> list = new ArrayList<>();
+      list.add(body.get("user_id").toString());
+      if (body.get("name") != null&& !"".equals(body.get("name").toString())) {
+        sql += " and r.name like CONCAT(?,'%') ";
+        list.add(body.get("name").toString());
+      }
+      if (body.get("qiwanghangye") != null&& !"".equals(body.get("qiwanghangye").toString())) {
+        sql += " and r.qiwanghangye like CONCAT(?,'%') ";
+        list.add(body.get("qiwanghangye").toString());
+      }
+      if (body.get("qiwangzhiwei") != null&& !"".equals(body.get("qiwangzhiwei").toString())) {
+        sql += " and r.qiwangzhiwei like CONCAT(?,'%') ";
+        list.add(body.get("qiwangzhiwei").toString());
+      }
+      if (body.get("yixiangchengshi") != null&& !"".equals(body.get("yixiangchengshi").toString())) {
+        sql += " and r.yixiangchengshi like CONCAT(?,'%') ";
+        list.add(body.get("yixiangchengshi").toString());
+      }
+      if (body.get("education") != null&& !"".equals(body.get("education").toString())) {
+        sql += " and r.education = ? ";
+        list.add(body.get("education").toString());
+      }
       PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("user_id").toString());
+      for(int inx=0; inx < list.size(); inx ++) {
+        ps.setString(inx+1, list.get(inx));
+      }
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

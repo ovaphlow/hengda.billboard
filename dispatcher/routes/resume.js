@@ -66,6 +66,25 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
+  .put('/retrieval/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.retrieval({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
   .put('/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.update({ data: JSON.stringify(body) }, (err, response) => {
@@ -88,6 +107,28 @@ router
     }
   })
 
+router.post('/status/:id/', async ctx => {
+  const grpcFetch = body => new Promise((resolve, reject) =>
+    grpcClient.status({ data: JSON.stringify(body) }, (err, response) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+        return
+      } else {
+        resolve(JSON.parse(response.data))
+      }
+    })
+  )
+  try {
+    ctx.request.body.uuid = ctx.query.u_id
+    ctx.request.body.id = ctx.params.id
+    ctx.response.body = await grpcFetch(ctx.request.body)
+  } catch (err) {
+    console.error(err)
+    ctx.response.body = { message: '服务器错误' }
+  }
+})
+
 
 router.post('/init/', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
@@ -102,10 +143,12 @@ router.post('/init/', async ctx => {
     })
   )
   try {
-    ctx.params.uuid = ctx.query.u_id
+    ctx.request.body.uuid = ctx.query.u_id
     ctx.response.body = await grpcFetch(ctx.request.body)
   } catch (err) {
     console.error(err)
     ctx.response.body = { message: '服务器错误' }
   }
 })
+
+

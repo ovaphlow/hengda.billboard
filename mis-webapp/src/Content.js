@@ -4,6 +4,8 @@ import moment from 'moment'
 
 import { Title, Navbar, TextRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 export default function MISUserRouter() {
   useEffect(() => {
@@ -182,8 +184,8 @@ function Banner() {
                                 it.status === '启用' ? (
                                   <span className="badge badge-success">{it.status}</span>
                                 ) : (
-                                  <span className="badge badge-danger">{it.status}</span>
-                                )
+                                    <span className="badge badge-danger">{it.status}</span>
+                                  )
                               }
                             </span>
                           </h5>
@@ -220,21 +222,21 @@ function BannerDetail(props) {
   useEffect(() => {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
-      ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setStatus(res.content.status)
-        setCategory(res.content.category)
-        setTitle(res.content.title)
-        setComment(res.content.comment)
-        setDataUrl(res.content.data_url)
-      })(id, _uuid)
+        ; (async (id, uuid) => {
+          const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
+          const res = await response.json()
+          if (res.message) {
+            window.console.error(res.message)
+            return
+          }
+          setStatus(res.content.status)
+          setCategory(res.content.category)
+          setTitle(res.content.title)
+          setComment(res.content.comment)
+          setDataUrl(res.content.data_url)
+        })(id, _uuid)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const convertImg2Data = event => {
@@ -389,7 +391,7 @@ function BannerDetail(props) {
 
 function RecommendToolbar() {
   return (
-   <div className="mb-2">
+    <div className="mb-2">
       <div className="btn-group">
         <button type="button" className="btn btn-outline-success btn-sm shadow"
           onClick={() => window.location = '#平台内容/首页推荐/新增'}
@@ -417,7 +419,7 @@ function Recommend() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/api/content/recommend/`)
       const res = await response.json()
       if (res.message) {
@@ -522,22 +524,24 @@ function RecommendDetail(props) {
   const location = useLocation()
   const [uuid, setUUID] = useState('')
   const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
       const uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(uuid)
-      ;(async id => {
-        const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setTitle(res.content.title)
-      })(id)
+        ; (async id => {
+          const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`)
+          const res = await response.json()
+          if (res.message) {
+            window.console.error(res.message)
+            return
+          }
+          setTitle(res.content.title)
+          setContent(res.content.content)
+        })(id)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
@@ -547,6 +551,7 @@ function RecommendDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: title,
+          content: content,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -563,6 +568,7 @@ function RecommendDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: title,
+          content: content,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -598,6 +604,26 @@ function RecommendDetail(props) {
                 <TextRowField caption="标题" value={title || ''}
                   handleChange={event => setTitle(event.target.value)}
                 />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">内容</label>
+                  <div className="col-sm-10">
+                    <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote', 'link', 'image']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                          ['link', 'image'],
+                        ]
+                      }}
+                      placeholder="请填写内容"
+                      value={content}
+                      onChange={setContent} />
+                  </div>
+                </div>
               </div>
 
               <div className="card-footer">
@@ -646,7 +672,7 @@ function Campus() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/api/content/campus/`)
       const res = await response.json()
       if (res.message) {
@@ -750,21 +776,24 @@ function CampusDetail(props) {
   const { id } = useParams()
   const location = useLocation()
   const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+
 
   useEffect(() => {
     if (props.category === '编辑') {
       const uuid = new URLSearchParams(location.search).get('uuid')
-      ;(async id => {
-        const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
-        const res = await response.json()
-        if (res.message) {
-          window.alert(res.message)
-          return
-        }
-        setTitle(res.content.title)
-      })(id)
+        ; (async id => {
+          const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
+          const res = await response.json()
+          if (res.message) {
+            window.alert(res.message)
+            return
+          }
+          setTitle(res.content.title)
+          setContent(res.content.content)
+        })(id)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
@@ -774,6 +803,7 @@ function CampusDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: title,
+          content: content,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -790,6 +820,7 @@ function CampusDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           title: title,
+          content: content,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -802,6 +833,11 @@ function CampusDetail(props) {
       window.location = '#平台内容/校园招聘'
     }
   }
+
+
+
+
+
 
   return (
     <>
@@ -829,6 +865,21 @@ function CampusDetail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>
                   <div className="col-sm-10">
+                    <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote', 'link', 'image']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                          ['link', 'image'],
+                        ]
+                      }}
+                      placeholder="请填写内容"
+                      value={content}
+                      onChange={setContent} />
                   </div>
                 </div>
               </div>

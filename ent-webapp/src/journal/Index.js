@@ -7,6 +7,8 @@ import Title from '../components/Title'
 import Edit from './Edit'
 import Login from './Login'
 import Report from './Report'
+import Feeback from './Feeback'
+
 
 const Index = () => {
   useEffect(() => {
@@ -25,6 +27,7 @@ const Index = () => {
           <Route exact path="/记录/登录/" ><Login/></Route>
           <Route exact path="/记录/操作/" ><Edit/></Route>
           <Route exact path="/记录/举报/" ><Report/></Route>
+          <Route exact path="/记录/投诉/" ><Feeback/></Route>
         </Switch>
       </Router>
       <Footer />

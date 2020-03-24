@@ -29,6 +29,15 @@ const Sidebar = props => (
         <i className="fa fa-fw fa-angle-right"></i>
       </span>
     </a>
+    <a
+      href="#记录/投诉"
+      className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '投诉' && 'text-primary'}`}
+    >
+      (意见反馈/投诉)记录
+      <span className="pull-right">
+        <i className="fa fa-fw fa-angle-right"></i>
+      </span>
+    </a>
   </div>
 )
 

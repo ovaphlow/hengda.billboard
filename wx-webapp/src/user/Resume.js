@@ -25,28 +25,12 @@ const UserRouter = () => (
 
 const Resume = () => {
 
-  const [data, setData] = useState({
-    name: '',
-    gender: '',
-    birthday: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    address4: '',
-    phone: '',
-    email: '',
-    school: '',
-    education: '',
-    major: '',
-    date_begin: '',
-    date_end: '',
-    qiwangzhiwei: '',
-    qiwanghangye: '',
-    yixiangchengshi: '',
-    ziwopingjia: ''
-  })
+  const [data, setData] = useState(0)
 
   const [auth, setAuth] = useState(0)
+
+  const [file, setFile] = useState([])
+
 
   useState(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'))
@@ -70,15 +54,40 @@ const Resume = () => {
               .then(res1 => res1.json())
               .then(res1 => {
                 setData(p => ({
-                  ...p,
                   phone: _auth.phone,
                   email: _auth.email,
-                  name: _auth.name
+                  name: _auth.name,
+                  gender: '',
+                  birthday: '',
+                  address1: '',
+                  address2: '',
+                  address3: '',
+                  address4: '',
+                  school: '',
+                  education: '',
+                  major: '',
+                  date_begin: '',
+                  date_end: '',
+                  qiwangzhiwei: '',
+                  qiwanghangye: '',
+                  yixiangchengshi: '',
+                  ziwopingjia: '',
+                  status: '保密'
                 }))
               })
           } else {
             alert(res.message)
           }
+        }
+      })
+
+    fetch(`./api/common-user-file/${_auth.id}/简历/`)
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          setFile(res.content)
         }
       })
   }, [])
@@ -91,120 +100,246 @@ const Resume = () => {
     }
   }
 
-  return (
-    <>
-      <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack category="我的简历"/>
-        <div className="row mt-2">
-          <div className="col">
-            <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
-          </div>
-          <div className="col-9 " style={{ paddingLeft: 0 }}>
-            <div className="pull-left">
-              <span style={{ fontSize: 18 }}>{data.name}</span>
-              <span>/{!data.gender||(data.gender === '男' ? '先生' : '女士')}</span>
-              <br />
-              {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
+  const changeStatus = status => {
+    fetch(`./api/resume/status/${data.common_user_id}/?u_id=${data.uuid}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ status: status })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (!res.message) {
+          setData(p => ({
+            ...p,
+            status: status
+          }))
+        }
+      })
+  }
+
+  const handleFileChange = e => {
+    if (e.target.files.length === 0) {
+      return
+    }
+
+    const list = e.target.files
+
+    for (let i = 0; i < list.length; i++) {
+      const reader = new FileReader()
+      reader.readAsDataURL(list[i])
+      reader.onloadend = () => {
+        const f = reader.result
+        fetch(`./api/common-user-file/`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            file: f,
+            common_user_id: auth.id,
+            category: '简历'
+          })
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.message) {
+              window.alert(res.message)
+            } else {
+              setFile(p => p.concat({
+                id: res.content,
+                file: f,
+                common_user_id: auth.id,
+                category: '简历',
+                editType: '编辑我的证书'
+              }))
+            }
+          })
+      }
+    }
+  }
+
+  const handleUpload = () => {
+    document.getElementById('file').click()
+  }
+
+  const handleFileDelete = id => {
+    fetch(`./api/common-user-file/${id}?editType=编辑我的证书`, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          setFile(p => p.filter(it => it.id !== id))
+        }
+      })
+  }
+
+
+  if (data) {
+    return (
+      <>
+        <div className="container-fluid" style={{ fontSize: 14 }}>
+          <ToBack category="我的简历" />
+          <div className="row mt-2">
+            <div className="col" >
+              <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
             </div>
-            <div className="pull-right">
-              <a href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
+            <div className="col-9 " style={{ paddingLeft: 0 }}>
+              <div className="pull-left">
+                <span style={{ fontSize: 18 }}>{data.name}</span>
+                <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
+                <br />
+                {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
+              </div>
+              <div className="pull-right">
+                <a href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
+                  <i className="fa fa-pencil-square-o fa-fw"></i>
+                  编辑
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="row mt-3">
+            <div className="col">
+              <i className="fa fa-phone fa-fw"></i>
+              &nbsp;&nbsp;&nbsp;{data.phone}
+            </div>
+          </div>
+          <div className="row mt-1">
+            <div className="col">
+              <i className="fa fa-envelope fa-fw"></i>
+              &nbsp;&nbsp;&nbsp;{data.email}
+            </div>
+          </div>
+
+          <hr />
+
+          <div className="row">
+            <div className="col">
+              <h5>毕业院校</h5>
+            </div>
+            <div className="col">
+              <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
                 <i className="fa fa-pencil-square-o fa-fw"></i>
                 编辑
               </a>
             </div>
           </div>
-        </div>
-        <div className="row mt-3">
-          <div className="col">
-            <i className="fa fa-phone fa-fw"></i>
-            &nbsp;&nbsp;&nbsp;{data.phone}
-          </div>
-        </div>
-        <div className="row mt-1">
-          <div className="col">
-            <i className="fa fa-envelope fa-fw"></i>
-            &nbsp;&nbsp;&nbsp;{data.email}
-          </div>
-        </div>
 
-        <hr />
-
-        <div className="row">
-          <div className="col">
-            <h5>毕业院校</h5>
-          </div>
-          <div className="col">
-            <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
-              <i className="fa fa-pencil-square-o fa-fw"></i>
-              编辑
-            </a>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col">
-            <i className="fa fa-book fa-fw"></i>
-            <strong style={{ fontSize: 15 }}>{data.school}</strong>
-            <br />
-            &nbsp;
-            <span className="text-muted" style={{ fontSize: 12 }}>
-              {data.date_begin} - {data.date_end}
-            </span>
-            <br />
-            {data.education} | {data.major}
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="row">
-          <div className="col">
-            <h5>求职意向</h5>
-          </div>
-          <div className="col">
-            <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
-              <i className="fa fa-pencil-square-o fa-fw"></i>
-              编辑
-            </a>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col">
-            <div>
-              <i className="fa fa-map-marker fa-fw"></i>
-              &nbsp;&nbsp;&nbsp; {data.yixiangchengshi}
-            </div>
-
-            <div className="mt-1">
-              <i className="fa fa-briefcase fa-fw"></i>
-              &nbsp;&nbsp;&nbsp; {data.qiwanghangye}/{data.qiwangzhiwei}
+          <div className="row">
+            <div className="col">
+              <i className="fa fa-book fa-fw"></i>
+              <strong style={{ fontSize: 15 }}>{data.school}</strong>
+              <br />
+              &nbsp;
+              <span className="text-muted" style={{ fontSize: 12 }}>
+                {data.date_begin} - {data.date_end}
+              </span>
+              <br />
+              {data.education} | {data.major}
             </div>
           </div>
-        </div>
 
-        <hr />
+          <hr />
 
-        <div className="row">
-          <div className="col">
-            <h5>自我评价</h5>
+          <div className="row">
+            <div className="col">
+              <h5>求职意向</h5>
+            </div>
+            <div className="col">
+              <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
+                <i className="fa fa-pencil-square-o fa-fw"></i>
+                编辑
+              </a>
+            </div>
           </div>
-          <div className="col">
-            <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
-              <i className="fa fa-pencil-square-o fa-fw"></i>
-              编辑
-            </a>
+
+          <div className="row">
+            <div className="col">
+              <div>
+                <i className="fa fa-map-marker fa-fw"></i>
+                &nbsp;&nbsp;&nbsp; {data.yixiangchengshi}
+              </div>
+
+              <div className="mt-1">
+                <i className="fa fa-briefcase fa-fw"></i>
+                &nbsp;&nbsp;&nbsp; {data.qiwanghangye}/{data.qiwangzhiwei}
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div className="row">
+            <div className="col">
+              <h5>自我评价</h5>
+            </div>
+            <div className="col">
+              <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
+                <i className="fa fa-pencil-square-o fa-fw"></i>
+                编辑
+              </a>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col">
+              {data.ziwopingjia}
+            </div>
+          </div>
+          <hr />
+          <div className="row mb-2">
+            <div className="col flex-start">
+              <h5>我的证书</h5>
+            </div>
+            <div className="col">
+              <button className="btn btn-primary btn-sm pull-right" onClick={handleUpload}>
+                <i className="fa fa-plus"></i>
+                添加
+              </button>
+              <input type="file"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+                id="file"
+                accept="image/png, image/jpeg" />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              {file && file.map((item, inx) =>
+                <div className="card mb-2 shadow" key={inx}>
+                  <img className="card-img-top" alt="" src={item.file} />
+                  <div className="card-body p-1">
+                    <button
+                      onClick={() => handleFileDelete(item.id)}
+                      className="btn btn-danger w-100">
+                      删除
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        <div className="row">
-          <div className="col">
-            {data.ziwopingjia}
+        <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
+          <div className="row text-center nav-row">
+            {
+              data.status === '保密' ? (
+                <button className="btn btn-primary nav-btn" onClick={() => changeStatus('公开')}>
+                  公开简历
+                </button>
+              ) : (
+                  <button className="btn btn-danger nav-btn" onClick={() => changeStatus('保密')}>
+                    停止公开
+                </button>
+                )
+            }
           </div>
-        </div>
-      </div>
-    </>
-  )
+        </ul>
+      </>)
+  } else {
+    return <></>
+  }
 }
 
 const Personal = () => {
@@ -225,7 +360,7 @@ const Personal = () => {
           alert(res.message)
         }
       })
-  }, [id,search])
+  }, [id, search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -238,7 +373,7 @@ const Personal = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...data,
-        editType:'修改简历个人信息'
+        editType: '修改简历个人信息'
       })
     })
       .then(res => res.json())
@@ -259,7 +394,7 @@ const Personal = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历"/>
+        <ToBack category="我的简历" />
         <div className="mt-2">
           <h4>个人信息</h4>
         </div>
@@ -356,7 +491,7 @@ const School = () => {
           alert(res.message)
         }
       })
-  }, [id,search])
+  }, [id, search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -369,7 +504,7 @@ const School = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...data,
-        editType:'修改简历毕业院校'
+        editType: '修改简历毕业院校'
       })
     })
       .then(res => res.json())
@@ -385,7 +520,7 @@ const School = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历"/>
+        <ToBack category="我的简历" />
         <div className="mt-2">
           <h4>毕业院校</h4>
         </div>
@@ -474,7 +609,7 @@ const Intention = () => {
           alert(res.message)
         }
       })
-  }, [id,search])
+  }, [id, search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -487,7 +622,7 @@ const Intention = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...data,
-        editType:'修改简历求职意向'
+        editType: '修改简历求职意向'
       })
     })
       .then(res => res.json())
@@ -504,7 +639,7 @@ const Intention = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历"/>
+        <ToBack category="我的简历" />
         <div className="mt-2">
           <h4>求职意向</h4>
         </div>
@@ -563,7 +698,7 @@ const Evaluation = () => {
           alert(res.message)
         }
       })
-  }, [id,search])
+  }, [id, search])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -576,7 +711,7 @@ const Evaluation = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...data,
-        editType:'修改简历自我评价'
+        editType: '修改简历自我评价'
       })
     })
       .then(res => res.json())
@@ -592,7 +727,7 @@ const Evaluation = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历"/>
+        <ToBack category="我的简历" />
 
         <div className="mt-2">
           <h4>自我评价</h4>

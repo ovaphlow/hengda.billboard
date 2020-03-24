@@ -52,6 +52,11 @@ p {
   align-items: center;
 }
 
+.flex-start {
+  display: flex;
+  align-items: center;
+}
+
 .flex-end {
   display: flex;
   flex-direction: row;

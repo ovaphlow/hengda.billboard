@@ -53,7 +53,7 @@ const Recruit = () => {
     <>
       <div className="container-fluid">
         <Title category="校园招聘" />
-        <PlayImg />
+        <PlayImg category="小程序-校园招聘"/>
         <div className="row mt-2 mb-2" style={{fontSize:12}}>
           <div className="col">
             城市

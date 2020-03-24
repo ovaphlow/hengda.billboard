@@ -67,7 +67,7 @@ const Feedback = () => {
                 onChange={e => setCategory(e.target.value)}
               >
                 <option>意见反馈</option>
-                <option>问题投诉</option>
+                <option>投诉</option>
               </select>
             </div>
           </div>

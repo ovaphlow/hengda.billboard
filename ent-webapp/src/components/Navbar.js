@@ -75,8 +75,8 @@ const Navbar = props => {
           操作记录
         </a>
       </div>
-      <div className={`col ${props.category === '信息' && 'nav-bar-active'}`}>
-        <a className="nav-link text-dark" href="#/信息/">
+      <div className={`col ${props.category === '我的' && 'nav-bar-active'}`}>
+        <a className="nav-link text-dark" href="#/我的/信息/">
           我的
         </a>
       </div>

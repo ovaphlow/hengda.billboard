@@ -6,6 +6,7 @@ import Title from '../components/Title'
 import Footer from '../components/Footer'
 import Enterprise from './Enterprise'
 import Update from './Update'
+import Feedback from './Feedback'
 
 const Index = () => {
   useEffect(() => {
@@ -18,11 +19,12 @@ const Index = () => {
   return (
     <div className="container-fluid">
       <Title />
-      <Navbar category="信息" totalFlg />
+      <Navbar category="我的" totalFlg />
       <Router>
         <Switch>
-          <Route exact path="/信息/" ><Enterprise /></Route>
-          <Route exact path="/信息/编辑/" ><Update /></Route>
+          <Route exact path="/我的/信息/" ><Enterprise /></Route>
+          <Route exact path="/我的/信息/编辑/" ><Update /></Route>
+          <Route exact path="/我的/投诉/"><Feedback /></Route>
         </Switch>
       </Router>
       <Footer />

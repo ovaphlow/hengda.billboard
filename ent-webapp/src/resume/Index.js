@@ -8,6 +8,7 @@ import List from './List'
 import Favorite from './Favorite'
 import ListDetails from './ListDetails'
 import ResumeDetalis from './ResumeDetalis'
+import Retrieval from './Retrieval'
 
 const Index = () => {
   useEffect(() => {
@@ -26,7 +27,8 @@ const Index = () => {
           <Route exact path="/简历/列表/" ><List /></Route>
           <Route exact path="/简历/列表/详情/:id/"><ListDetails /></Route>
           <Route exact path="/简历/收藏/"><Favorite /></Route>
-          <Route exact path="/简历/详情/:id/"><ResumeDetalis /></Route>
+          <Route path="/简历/:category/详情/:id/"><ResumeDetalis /></Route>
+          <Route exact path="/简历/检索/"><Retrieval /></Route>
         </Switch>
       </Router>
       <Footer />

@@ -11,7 +11,7 @@ const List = () => {
 
   const [param, setParam] = useState({
     name: '',
-    category: '',
+    recruitment_name: '',
     date: '',
     status: '',
     education: ''
@@ -46,7 +46,7 @@ const List = () => {
   }
 
   const search = () => {
-    fetch(`./api/delivery/search/`, {
+    fetch(`./api/delivery/search?u_id=${auth.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -70,22 +70,17 @@ const List = () => {
       <div className="row px-5 pt-2 bg-white shadow" >
         <div className="col">
           <TextField
-            category="职位名称"
+            category="求职者姓名"
             name="name"
             value={param.name}
             handleChange={handleChange} />
         </div>
         <div className="col">
-          <SelectField
-            category="职位类型"
-            name="category"
-            value={param.category}
-            handleChange={handleChange}>
-            <option></option>
-            <option>全职</option>
-            <option>兼职</option>
-            <option>实习</option>
-          </SelectField>
+          <TextField
+            category="投递职位名称"
+            name="recruitment_name"
+            value={param.recruitment}
+            handleChange={handleChange} />
         </div>
         <div className="col">
           <DateField
@@ -112,9 +107,8 @@ const List = () => {
             value={param.education}
             handleChange={handleChange}>
             <option></option>
-            <option>不限</option>
             <option>高中</option>
-            <option>专科</option>
+            <option>大专</option>
             <option>本科</option>
             <option>研究生</option>
             <option>博士</option>
@@ -141,6 +135,7 @@ const List = () => {
                   <th scope="col">毕业院校</th>
                   <th scope="col">学历</th>
                   <th scope="col">投递时间</th>
+                  <th scope="col">状态</th>
                   <th scope="col">操作</th>
                 </tr>
               </thead>
@@ -153,6 +148,7 @@ const List = () => {
                     <td>{item.school}</td>
                     <td>{item.education}</td>
                     <td>{item.datime}</td>
+                    <td>{item.status}</td>
                     <td>
                       <div className="btn-group btn-group-sm">
                         <a className="btn btn-primary" href={`#简历/列表/详情/${item.id}?u_id=${item.uuid}`}>

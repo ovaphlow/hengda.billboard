@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views'
+import { autoPlay } from 'react-swipeable-views-utils'
+import moment from 'moment'
+import PropTypes from 'prop-types'
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
 
@@ -61,16 +62,16 @@ const PaginationDot = props => {
   }
 
   const handleClick = event => {
-    props.onClick(event, props.index);
-  };
+    props.onClick(event, props.index)
+  }
 
   return (
     <button type="button" style={styles.root} onClick={handleClick}>
-      <div style={props.active?Object.assign({}, styles.dot, styles.active):styles.dot } />
+      <div style={props.active ? Object.assign({}, styles.dot, styles.active) : styles.dot} />
     </button>
   )
 
-  
+
 }
 
 PaginationDot.propTypes = {
@@ -80,32 +81,64 @@ PaginationDot.propTypes = {
 }
 
 
-const PlayImg = () => {
+const PlayImg = props => {
 
   const [index, setIndex] = useState(0)
+
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    if (props.category) {
+      const file = JSON.parse(localStorage.getItem(props.category))
+      const fun = () => {
+        fetch(`./api/banner/${props.category}/`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            localStorage.setItem(props.category,JSON.stringify({
+              date:parseInt(moment().add(7, 'days').format('YYYYMMDD')) ,
+              banner:res.content
+            })) 
+            setList(res.content)
+          }
+        })
+      }
+      if (file === null) {
+        fun()
+      } else {
+        if (file.date-moment().format('YYYYMMDD')<1) {
+          fun()
+        } else {
+          setList(file.banner)
+        } 
+      }
+    }
+  }, [props.category])
+
 
   const handleChangeIndex = index => {
     setIndex(index)
   }
 
-
   return (
     <div className="row img-box" >
-      <AutoPlaySwipeableViews index={index} onChangeIndex={handleChangeIndex}>
-        <div>
-          <img className="img-fluid img-box-item" alt="" src="lib/img/u1.png">
-          </img>
-        </div>
-        <div>
-          <img className="img-fluid img-box-item" alt="" src="lib/img/u2.png">
-          </img>
-        </div>
-        <div>
-          <img className="img-fluid img-box-item" alt="" src="lib/img/u3.png">
-          </img>
-        </div>
-      </AutoPlaySwipeableViews>
-      <Pagination dots={3} index={index} onChangeIndex={handleChangeIndex} />
+      {
+        (list && list.length > 0) && (
+          <AutoPlaySwipeableViews style={{width:'100vh'}} index={index} onChangeIndex={handleChangeIndex}>
+            {
+              list.map((item, inx) => (
+                <div key={inx}>
+                  <img className="img-fluid img-box-item" alt="" src={item.data_url}>
+                  </img>
+                </div>
+              ))
+            }
+          </AutoPlaySwipeableViews>
+        )
+      }
+      <Pagination dots={list.length} index={index} onChangeIndex={handleChangeIndex} />
     </div>
   )
 }

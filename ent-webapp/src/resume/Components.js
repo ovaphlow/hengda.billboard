@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 
 const Sidebar = props => (
@@ -12,6 +12,16 @@ const Sidebar = props => (
         <i className="fa fa-fw fa-angle-right"></i>
       </span>
     </a>
+    <a
+      href="#/简历/检索"
+      className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '检索' && 'text-primary'}`}
+    >
+      简历检索
+      <span className="pull-right">
+        <i className="fa fa-fw fa-angle-right"></i>
+      </span>
+    </a>
+
     {/* <a
       href="#简历/推荐"
       className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '推荐' && 'text-primary'}`}
@@ -47,6 +57,22 @@ export const View = props => (
 
 export const ResumeView = props => {
 
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    if (props.common_user_id) {
+      fetch(`./api/common-user-file/${props.common_user_id}/简历/`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            setList(p => res.content)
+          }
+        })
+    }
+  }, [props.common_user_id])
+
   const age = birthday => {
     if (birthday && birthday !== '') {
       return `${parseInt(moment().format('YYYY')) - parseInt(birthday.slice(0, 4))}岁`
@@ -70,9 +96,9 @@ export const ResumeView = props => {
               {props.gender}&nbsp;|&nbsp;{age(props.birthday)}&nbsp;|&nbsp;{props.address2}
               <br />
               <i className="fa fa-phone fa-fw"></i>
-                {props.phone} &nbsp;
+              {props.phone} &nbsp;
               <i className="fa fa-envelope fa-fw"></i>
-                {props.email}
+              {props.email}
             </span>
           </div>
         </div>
@@ -111,6 +137,15 @@ export const ResumeView = props => {
           <span className="text-muted">
             {props.ziwopingjia}
           </span>
+        </div>
+      </div>
+      <hr />
+      <div className="row mb-2">
+        <div className="col">
+          <h4>相关证书</h4>
+          {list && list.map((item, inx) =>
+            <img className="img col-3" alt="" src={item.file} />
+          )}
         </div>
       </div>
       <hr />

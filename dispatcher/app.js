@@ -35,13 +35,21 @@ function EnterpriseUserRouter() {
 EnterpriseUserRouter()
 
 
-function CommonUserRouter() {
+function commonUserRouter() {
   const router = require('./routes/commonUser')
   app.use(router.routes())
   app.use(router.allowedMethods())
 }
 
-CommonUserRouter()
+commonUserRouter()
+
+function commonUserFileRouter() {
+  const router = require('./routes/commonUserFile')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+commonUserFileRouter()
 
 function resumeRouter() {
   const router = require('./routes/resume')
@@ -50,6 +58,14 @@ function resumeRouter() {
 }
 
 resumeRouter()
+
+function bannerRouter() {
+  const router = require('./routes/banner')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+bannerRouter()
 
 function recruitmentRouter() {
   const router = require('./routes/recruitment')
@@ -98,7 +114,6 @@ function feedbackRouter() {
 }
 
 feedbackRouter()
-
 
 function messageRouter() {
   const router = require('./routes/message')

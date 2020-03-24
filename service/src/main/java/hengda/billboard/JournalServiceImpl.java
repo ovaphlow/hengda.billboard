@@ -28,8 +28,8 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select t.datime as journal_date, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category,\n"
-          + "   (select name from enterprise) as enterprise_name from "
+      String sql = "select t.datime as journal_date, r.id, r.uuid, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category,\n"
+          + "   (select name from enterprise where id = r.enterprise_id) as enterprise_name from "
           + "(select data_id, datime, category from browse_journal where category = '岗位' and common_user_id =?) as t "
           + "join recruitment as r on data_id = r.id order by t.datime desc ";
       PreparedStatement ps = conn.prepareStatement(sql);
@@ -121,7 +121,7 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
       ps.setString(3, body.get("category").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() != 0) {
+      if (result.size() == 0) {
         sql = "insert into browse_journal (common_user_id, data_id, category, datime) value (?, ?, ?, ?)";
         ps = conn.prepareStatement(sql);
         ps.setString(1, body.get("common_user_id").toString());

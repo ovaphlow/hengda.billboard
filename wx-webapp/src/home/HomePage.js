@@ -93,7 +93,7 @@ const HomePage = () => {
           )
         }
 
-        <PlayImg />
+        <PlayImg category={'小程序-首页'} />
         <div className="mt-2 border-0">
           <div style={{ borderLeft: ".25rem solid#007bff", fontSize: 13 }}>
             <span >&nbsp;&nbsp;热门话题</span>

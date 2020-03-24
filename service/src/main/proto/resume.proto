@@ -15,6 +15,10 @@ service Resume {
   rpc update(ResumeRequest) returns (ResumeReply) {}
 
   rpc init(ResumeRequest) returns (ResumeReply) {}
+
+  rpc status(ResumeRequest) returns (ResumeReply) {}
+
+  rpc retrieval(ResumeRequest) returns (ResumeReply) {}
     
 }
 

@@ -20,7 +20,7 @@ const MessageRow = props => {
         }}
         className="col-2">
         {
-          props.total !== 0 ? (<span className="badge badge-pill badge-danger">{props.total}</span>) : (<></>)
+
         } &nbsp;
       </div>
       <div className="col">
@@ -28,11 +28,9 @@ const MessageRow = props => {
           <div className="col">
             <h6 className="pull-left">
               <strong>{props.name}</strong>
+              &nbsp;
+              {props.total !== 0 ? (<span className="badge badge-danger">{props.total}</span>) : (<></>)}
             </h6>
-
-            {/* <span className="pull-right">
-              15:34
-            </span> */}
           </div>
         </div>
         <span className="text-muted">
@@ -140,15 +138,17 @@ const List = () => {
               paddingRight: 0
             }}
             className="col-2">
-            {
-              offerTotal !== 0 ? (<span className="badge badge-pill badge-danger pull-right">{offerTotal}</span>) : (<></>)
-            }
+
           </div>
           <div className="col">
             <div className="row " onClick={handleClick}>
               <div className="col">
                 <h6 className="pull-left text-primary">
                   <strong>面试邀请</strong>
+                  &nbsp;
+                  {
+                    offerTotal !== 0 ? (<span className="badge badge-pill badge-danger pull-right">{offerTotal}</span>) : (<></>)
+                  }
                 </h6>
               </div>
             </div>
@@ -158,7 +158,7 @@ const List = () => {
         </div>
         {chatList && chatList.map((item, inx) =>
           <MessageRow key={inx} {...item}
-            total={chatTotal.length > 0 && chatTotal.find(it => it.ent_user_id === item.common_user_id).count} />)}
+            total={chatTotal.length > 0 && chatTotal.find(it => it.ent_user_id === item.ent_user_id).count} />)}
       </div>
       <Navbar category="消息" />
     </>

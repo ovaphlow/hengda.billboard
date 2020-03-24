@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -166,6 +167,39 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
   }
 
   @Override
+  public void status(ResumeRequest req, StreamObserver<ResumeReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "update resume set status=? where common_user_id=? and uuid=?";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("status").toString());
+      ps.setString(2, body.get("id").toString());
+      ps.setString(3, body.get("uuid").toString());
+      ps.execute();
+      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
+      ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("id").toString());
+      ps.setString(2, "个人用户");
+      ps.setString(3, "设置简历状态-"+body.get("status").toString());
+      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+      ps.execute();
+      resp.put("content", true);
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    ResumeReply reply = ResumeReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
   public void init(ResumeRequest req, StreamObserver<ResumeReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
@@ -190,5 +224,61 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
+
+  @Override
+  public void retrieval(ResumeRequest req, StreamObserver<ResumeReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = 
+      " select r.* from (select distinct * from "+
+      " (select  user_id from ( "+
+      "   select common_user_id as user_id, datime from browse_journal where TO_DAYS(NOW())-TO_DAYS(datime)  <= ? union "+
+      "   select user_id, datime from edit_journal where category1 = '个人用户' and TO_DAYS(NOW())-TO_DAYS(datime) <= ? union "+
+      "   select user_id , datime from login_journal where category = '个人用户' and TO_DAYS(NOW())-TO_DAYS(datime)  <= ?) as t ORDER BY  datime desc) as t2 "+
+      " ) as t3 join resume r on user_id = r.common_user_id where r.status = '公开'";
+      List<String> list = new ArrayList<>();
+      list.add(body.get("day").toString());
+      list.add(body.get("day").toString());
+      list.add(body.get("day").toString());
+      if (body.get("name") != null&& !"".equals(body.get("name").toString())) {
+        sql += " and r.name like CONCAT(?,'%') ";
+        list.add(body.get("name").toString());
+      }
+      if (body.get("qiwanghangye") != null&& !"".equals(body.get("qiwanghangye").toString())) {
+        sql += " and r.qiwanghangye like CONCAT(?,'%') ";
+        list.add(body.get("qiwanghangye").toString());
+      }
+      if (body.get("qiwangzhiwei") != null&& !"".equals(body.get("qiwangzhiwei").toString())) {
+        sql += " and r.qiwangzhiwei like CONCAT(?,'%') ";
+        list.add(body.get("qiwangzhiwei").toString());
+      }
+      if (body.get("yixiangchengshi") != null&& !"".equals(body.get("yixiangchengshi").toString())) {
+        sql += " and r.yixiangchengshi like CONCAT(?,'%') ";
+        list.add(body.get("yixiangchengshi").toString());
+      }
+      if (body.get("education") != null&& !"".equals(body.get("education").toString())) {
+        sql += " and r.education = ? ";
+        list.add(body.get("education").toString());
+      }
+      PreparedStatement ps = conn.prepareStatement(sql);
+      for(int inx=0; inx < list.size(); inx ++) {
+        ps.setString(inx+1, list.get(inx));
+      }
+      resp.put("content", DBUtil.getList(ps.executeQuery()));
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    ResumeReply reply = ResumeReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
 
 }

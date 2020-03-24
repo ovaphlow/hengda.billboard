@@ -222,7 +222,7 @@ function BannerDetail(props) {
   useEffect(() => {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
-        ; (async (id, uuid) => {
+        ;(async (id, uuid) => {
           const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
           const res = await response.json()
           if (res.message) {
@@ -419,7 +419,7 @@ function Recommend() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const response = await window.fetch(`/api/content/recommend/`)
       const res = await response.json()
       if (res.message) {
@@ -528,9 +528,9 @@ function RecommendDetail(props) {
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const uuid = new URLSearchParams(location.search).get('uuid')
-      setUUID(uuid)
-        ; (async id => {
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
+        ;(async (id, uuid) => {
           const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`)
           const res = await response.json()
           if (res.message) {
@@ -539,7 +539,7 @@ function RecommendDetail(props) {
           }
           setTitle(res.content.title)
           setContent(res.content.content)
-        })(id)
+        })(id, _uuid)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -672,7 +672,7 @@ function Campus() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const response = await window.fetch(`/api/content/campus/`)
       const res = await response.json()
       if (res.message) {
@@ -680,7 +680,6 @@ function Campus() {
         return
       }
       setList(res.content)
-      console.info(res)
     })()
   }, [])
 

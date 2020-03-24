@@ -258,7 +258,7 @@ function CertificateList() {
   return (
     <>
       <Title />
-      <Navbar />
+      <Navbar category="企业" />
 
       <div className="container-fluid mt-3 mb-5">
         <div className="row">

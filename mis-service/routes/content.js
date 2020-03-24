@@ -27,7 +27,7 @@ router
   })
   .put('/campus/:id', async ctx => {
     const sql = `
-      update campus set title = ?, date = ?, time = ?, content=?  where id = ?
+      update campus set title = ?, date = ?, time = ?, school = ?, content=?  where id = ?
     `
     const pool = mysql.promise()
     try {
@@ -35,6 +35,7 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
+        ctx.request.body.school,
         ctx.request.body.content,
         parseInt(ctx.params.id)
       ])

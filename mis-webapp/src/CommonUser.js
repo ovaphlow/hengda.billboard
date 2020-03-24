@@ -305,27 +305,27 @@ function Detail(props) {
 
                   <div className="card-body">
                     <TextRowField caption="姓名" value={name || ''}
-                      handleChange={event => setName(event.target.value)}
+                      onChange={event => setName(event.target.value)}
                     />
 
                     <TextRowField caption="用户名" value={username || ''}
-                      handleChange={event => setUsername(event.target.value)}
+                      onChange={event => setUsername(event.target.value)}
                     />
 
                     {
                       props.category === '新增' && (
                         <TextRowField caption="密码" value={password || ''}
-                          handleChange={event => setPassword(event.target.value)}
+                          onChange={event => setPassword(event.target.value)}
                         />
                       )
                     }
 
                     <TextRowField caption="EMAIL" value={email || ''}
-                      handleChange={event => setEmail(event.target.value)}
+                      onChange={event => setEmail(event.target.value)}
                     />
 
                     <TextRowField caption="电话" value={phone || ''}
-                      handleChange={event => setPhone(event.target.value)}
+                      onChange={event => setPhone(event.target.value)}
                     />
                   </div>
 
@@ -528,55 +528,55 @@ function ResumeDetail(props) {
             <div className="card shadow">
               <div className="card-body">
                 <TextRowField caption="姓名" value={name || ''}
-                  handleChange={event => setName(event.target.value)}
+                  onChange={event => setName(event.target.value)}
                 />
 
                 <TextRowField caption="电话" value={phone || ''}
-                  handleChange={event => setPhone(event.target.value)}
+                  onChange={event => setPhone(event.target.value)}
                 />
 
                 <TextRowField caption="EMAIL" value={email || ''}
-                  handleChange={event => setEmail(event.target.value)}
+                  onChange={event => setEmail(event.target.value)}
                 />
 
                 <TextRowField caption="性别" value={gender || ''}
-                  handleChange={event => setGender(event.target.value)}
+                  onChange={event => setGender(event.target.value)}
                 />
 
                 <TextRowField caption="出生日期" value={birthday || ''}
-                  handleChange={event => setBirthday(event.target.value)}
+                  onChange={event => setBirthday(event.target.value)}
                 />
 
                 <TextRowField caption="毕业院校" value={school || ''}
-                  handleChange={event => setSchool(event.target.value)}
+                  onChange={event => setSchool(event.target.value)}
                 />
 
                 <TextRowField caption="专业" value={major || ''}
-                  handleChange={event => setMajor(event.target.value)}
+                  onChange={event => setMajor(event.target.value)}
                 />
 
                 <TextRowField caption="学历" value={education || ''}
-                  handleChange={event => setEducation(event.target.value)}
+                  onChange={event => setEducation(event.target.value)}
                 />
 
                 <TextRowField caption="开始日期" value={date_begin || ''}
-                  handleChange={event => setDateBegin(event.target.value)}
+                  onChange={event => setDateBegin(event.target.value)}
                 />
 
                 <TextRowField caption="结束日期" value={date_end || ''}
-                  handleChange={event => setDateEnd(event.target.value)}
+                  onChange={event => setDateEnd(event.target.value)}
                 />
 
                 <TextRowField caption="地址" value={address1 || ''}
-                  handleChange={event => setAddress1(event.target.value)}
+                  onChange={event => setAddress1(event.target.value)}
                 />
 
                 <TextRowField caption="" value={address2 || ''}
-                  handleChange={event => setAddress2(event.target.value)}
+                  onChange={event => setAddress2(event.target.value)}
                 />
 
                 <TextRowField caption="" value={address3 || ''}
-                  handleChange={event => setAddress3(event.target.value)}
+                  onChange={event => setAddress3(event.target.value)}
                 />
 
                 <hr />
@@ -592,15 +592,15 @@ function ResumeDetail(props) {
                 </div>
 
                 <TextRowField caption="期望职位" value={qiwangzhiwei || ''}
-                  handleChange={event => setQiwangzhiwei(event.target.value)}
+                  onChange={event => setQiwangzhiwei(event.target.value)}
                 />
 
                 <TextRowField caption="期望行业" value={qiwanghangye || ''}
-                  handleChange={event => setQiwanghangye(event.target.value)}
+                  onChange={event => setQiwanghangye(event.target.value)}
                 />
 
                 <TextRowField caption="意向城市" value={yixiangchengshi || ''}
-                  handleChange={event => setYixiangchengshi(event.target.value)}
+                  onChange={event => setYixiangchengshi(event.target.value)}
                 />
               </div>
 

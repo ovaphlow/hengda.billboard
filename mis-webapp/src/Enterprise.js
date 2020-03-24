@@ -477,38 +477,38 @@ function Detail(props) {
                   </div>
 
                   <div className="card-body">
-                    <TextRowField caption="名称" value={name || ''} handleChange={event => setName(event.target.value)} />
+                    <TextRowField caption="名称" value={name || ''} onChange={event => setName(event.target.value)} />
 
                     <TextRowField caption="营业执照" value={yingyezhizhao || ''}
-                      handleChange={event => setYingyezhizhao(event.target.value)}
+                      onChange={event => setYingyezhizhao(event.target.value)}
                     />
 
                     <TextRowField caption="法人" value={faren || ''}
-                      handleChange={event => setFaren(event.target.value)}
+                      onChange={event => setFaren(event.target.value)}
                     />
 
                     <TextRowField caption="注册日期" value={zhuceriqi || ''}
-                      handleChange={event => setZhuceriqi(event.target.value)}
+                      onChange={event => setZhuceriqi(event.target.value)}
                     />
 
                     <TextRowField caption="注资规模" value={zhuziguimo || ''}
-                      handleChange={event => setZhuziguimo(event.target.value)}
+                      onChange={event => setZhuziguimo(event.target.value)}
                     />
 
                     <TextRowField caption="地址" value={address1 || ''}
-                      handleChange={event => setAddress1(event.target.value)}
+                      onChange={event => setAddress1(event.target.value)}
                     />
 
                     <TextRowField caption="" value={address2 || ''}
-                      handleChange={event => setAddress2(event.target.value)}
+                      onChange={event => setAddress2(event.target.value)}
                     />
 
                     <TextRowField caption="" value={address3 || ''}
-                      handleChange={event => setAddress3(event.target.value)}
+                      onChange={event => setAddress3(event.target.value)}
                     />
 
                     <TextRowField caption="" value={address4 || ''}
-                      handleChange={event => setAddress4(event.target.value)}
+                      onChange={event => setAddress4(event.target.value)}
                     />
 
                     <div className="form-group row">
@@ -668,9 +668,9 @@ function UserDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="姓名" value={name || ''} handleChange={event => setName(event.target.value)} />
+                <TextRowField caption="姓名" value={name || ''} onChange={event => setName(event.target.value)} />
 
-                <TextRowField caption="用户名" value={username || ''} handleChange={e => setUsername(e.target.value)} />
+                <TextRowField caption="用户名" value={username || ''} onChange={e => setUsername(e.target.value)} />
               </div>
 
               <div className="card-footer">
@@ -891,25 +891,25 @@ export function RecruitmentDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="职位" value={name || ''} handleChange={e => setName(e.target.value)} />
+                <TextRowField caption="职位" value={name || ''} onChange={e => setName(e.target.value)} />
 
-                <TextRowField caption="人数" value={qty || ''} handleChange={e => setQty(e.target.value)} />
+                <TextRowField caption="人数" value={qty || ''} onChange={e => setQty(e.target.value)} />
 
-                <TextRowField caption="地址" value={address1 || ''} handleChange={e => setAddress1(e.target.value)} />
+                <TextRowField caption="地址" value={address1 || ''} onChange={e => setAddress1(e.target.value)} />
 
-                <TextRowField caption="" value={address2 || ''} handleChange={e => setAddress2(e.target.value)} />
+                <TextRowField caption="" value={address2 || ''} onChange={e => setAddress2(e.target.value)} />
 
-                <TextRowField caption="" value={address3 || ''} handleChange={e => setAddress3(e.target.value)} />
+                <TextRowField caption="" value={address3 || ''} onChange={e => setAddress3(e.target.value)} />
 
-                <TextRowField caption="发布日期" value={date || ''} handleChange={e => setDate(e.target.date)} />
+                <TextRowField caption="发布日期" value={date || ''} onChange={e => setDate(e.target.date)} />
 
-                <TextRowField caption="薪资范围" value={salary1 || ''} handleChange={e => setSalary1(e.target.salary1)} />
+                <TextRowField caption="薪资范围" value={salary1 || ''} onChange={e => setSalary1(e.target.salary1)} />
 
-                <TextRowField caption="" value={salary2 || ''} handleChange={e => setSalary2(e.target.salary2)} />
+                <TextRowField caption="" value={salary2 || ''} onChange={e => setSalary2(e.target.salary2)} />
 
-                <TextRowField caption="学历" value={education || ''} handleChange={e => setEducation(e.target.education)} />
+                <TextRowField caption="学历" value={education || ''} onChange={e => setEducation(e.target.education)} />
 
-                <TextRowField caption="类别" value={category || ''} handleChange={e => setCategory(e.target.category)} />
+                <TextRowField caption="类别" value={category || ''} onChange={e => setCategory(e.target.category)} />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">工作职责</label>

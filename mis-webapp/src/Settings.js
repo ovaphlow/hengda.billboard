@@ -257,11 +257,11 @@ function SchoolDetail(props) {
             <div className="card shadow">
               <div className="card-body">
                 <TextRowField caption="名称" value={name || ''}
-                  handleChange={event => setName(event.target.value)}
+                  onChange={event => setName(event.target.value)}
                 />
 
                 <TextRowField caption="备注" value={comment || ''}
-                  handleChange={event => setComment(event.target.value)}
+                  onChange={event => setComment(event.target.value)}
                 />
               </div>
 

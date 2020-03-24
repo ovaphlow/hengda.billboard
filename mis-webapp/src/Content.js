@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 import moment from 'moment'
 
-import { Title, Navbar, TextRowField } from './Components'
+import { Title, Navbar, TextRowField, SchoolPickerRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -326,11 +326,11 @@ function BannerDetail(props) {
 
               <div className="card-body">
                 <TextRowField caption="标题" value={title || ''}
-                  handleChange={event => setTitle(event.target.value)}
+                  onChange={event => setTitle(event.target.value)}
                 />
 
                 <TextRowField caption="内容" value={comment || ''}
-                  handleChange={event => setComment(event.target.value)}
+                  onChange={event => setComment(event.target.value)}
                 />
 
                 <div className="form-group row">
@@ -602,7 +602,7 @@ function RecommendDetail(props) {
             <div className="card shadow">
               <div className="card-body">
                 <TextRowField caption="标题" value={title || ''}
-                  handleChange={event => setTitle(event.target.value)}
+                  onChange={event => setTitle(event.target.value)}
                 />
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>
@@ -680,6 +680,7 @@ function Campus() {
         return
       }
       setList(res.content)
+      console.info(res)
     })()
   }, [])
 
@@ -757,7 +758,9 @@ function Campus() {
                           <h5 className="mb-1">{it.title}</h5>
                           <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
                         </div>
-                        <p className="mb-1"></p>
+                        <p className="mb-1">
+                          <span className="badge badge-info">{it.school}</span>
+                        </p>
                         {/* <small></small> */}
                       </a>
                     ))
@@ -778,6 +781,7 @@ function CampusDetail(props) {
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [title, setTitle] = useState('')
+  const [school, setSchool] = useState('')
   const [content, setContent] = useState('')
 
   useEffect(() => {
@@ -794,6 +798,7 @@ function CampusDetail(props) {
         setContent(res.content.content)
         setDate(res.content.date)
         setTime(res.content.time)
+        setSchool(res.content.school)
       })(id, _uuid)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -808,7 +813,8 @@ function CampusDetail(props) {
           title: title,
           content: content,
           date: date,
-          time: time
+          time: time,
+          school: school
         })
       })
       const res = await response.json()
@@ -825,7 +831,8 @@ function CampusDetail(props) {
           title: title,
           content: content,
           date: date,
-          time: time
+          time: time,
+          school: school
         })
       })
       const res = await response.json()
@@ -857,7 +864,7 @@ function CampusDetail(props) {
             <div className="card shadow">
               <div className="card-body">
                 <TextRowField caption="标题" value={title || ''}
-                  handleChange={event => setTitle(event.target.value)}
+                  onChange={event => setTitle(event.target.value)}
                 />
 
                 <div className="form-group row">
@@ -879,6 +886,10 @@ function CampusDetail(props) {
                     />
                   </div>
                 </div>
+
+                <SchoolPickerRowField value={school || ''}
+                  onChange={event => setSchool(event.target.value)}
+                />
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>

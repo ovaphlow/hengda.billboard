@@ -775,23 +775,26 @@ function Campus() {
 function CampusDetail(props) {
   const { id } = useParams()
   const location = useLocation()
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-
   useEffect(() => {
     if (props.category === '编辑') {
-      const uuid = new URLSearchParams(location.search).get('uuid')
-        ; (async id => {
-          const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
-          const res = await response.json()
-          if (res.message) {
-            window.alert(res.message)
-            return
-          }
-          setTitle(res.content.title)
-          setContent(res.content.content)
-        })(id)
+      const _uuid = new URLSearchParams(location.search).get('uuid')
+      ;(async (id, uuid) => {
+        const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
+        const res = await response.json()
+        if (res.message) {
+          window.alert(res.message)
+          return
+        }
+        setTitle(res.content.title)
+        setContent(res.content.content)
+        setDate(res.content.date)
+        setTime(res.content.time)
+      })(id, _uuid)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -804,8 +807,8 @@ function CampusDetail(props) {
         body: JSON.stringify({
           title: title,
           content: content,
-          date: moment().format('YYYY-MM-DD'),
-          time: moment().format('HH:mm:ss')
+          date: date,
+          time: time
         })
       })
       const res = await response.json()
@@ -821,8 +824,8 @@ function CampusDetail(props) {
         body: JSON.stringify({
           title: title,
           content: content,
-          date: moment().format('YYYY-MM-DD'),
-          time: moment().format('HH:mm:ss')
+          date: date,
+          time: time
         })
       })
       const res = await response.json()
@@ -833,11 +836,6 @@ function CampusDetail(props) {
       window.location = '#平台内容/校园招聘'
     }
   }
-
-
-
-
-
 
   return (
     <>
@@ -861,6 +859,26 @@ function CampusDetail(props) {
                 <TextRowField caption="标题" value={title || ''}
                   handleChange={event => setTitle(event.target.value)}
                 />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">日期</label>
+                  <div className="col-sm-10">
+                    <input type="date" value={date || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setDate(event.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">时间</label>
+                  <div className="col-sm-10">
+                    <input type="time" value={time || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setTime(event.target.value)}
+                    />
+                  </div>
+                </div>
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>

@@ -99,7 +99,7 @@ function List() {
                   <div className="col-auto">
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">企业名称</span>
+                        <span className="input-group-text">姓名</span>
                       </div>
 
                       <input type="text" value={filter_name} aria-label="企业名称"
@@ -152,6 +152,7 @@ function List() {
                         <td>{it.qty_delivery}</td>
                         <td>{it.qty_favorite}</td>
                         <td className="text-right">
+                          {/**
                           <ul className="list-inline">
                             <li className="list-inline-item">
                               <a href={`#普通用户/${it.id}/登录记录`}>登录记录</a>
@@ -163,6 +164,26 @@ function List() {
                               <a href={`#普通用户/${it.id}/编辑记录`}>编辑记录</a>
                             </li>
                           </ul>
+                          **/}
+                          <div className="btn-group">
+                            <button type="button" className="btn btn-outline-warning btn-sm"
+                              onClick={() => window.location = `#普通用户/${it.id}/登录记录`}
+                            >
+                              登录记录
+                            </button>
+
+                            <button type="button" className="btn btn-outline-info btn-sm"
+                              onClick={() => window.location = `#普通用户/${it.id}/浏览记录`}
+                            >
+                              浏览记录
+                            </button>
+
+                            <button type="button" className="btn btn-outline-success btn-sm"
+                              onClick={() => window.location = `#普通用户/${it.id}/编辑记录`}
+                            >
+                              编辑记录
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}

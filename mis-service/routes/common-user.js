@@ -151,7 +151,7 @@ router
 router
   .get('/:id/journal/sign-in/', async ctx => {
     const sql = `
-      select * from login_journal where user_id = ? order by id desc limit 200
+      select * from login_journal where user_id = ? order by id desc limit 100
     `
     const pool = mysql.promise()
     try {
@@ -184,7 +184,7 @@ router
   })
   .get('/:id/journal/browse/', async ctx => {
     const sql = `
-      select * from browse_journal where common_user_id = ? order by id desc limit 200
+      select * from browse_journal where common_user_id = ? order by id desc limit 100
     `
     const pool = mysql.promise()
     try {
@@ -217,7 +217,7 @@ router
   })
   .get('/:id/journal/edit/', async ctx => {
     const sql = `
-      select * from edit_journal where user_id = ? order by id desc limit 200
+      select * from edit_journal where user_id = ? order by id desc limit 100
     `
     const pool = mysql.promise()
     try {

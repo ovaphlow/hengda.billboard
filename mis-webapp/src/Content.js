@@ -6,7 +6,6 @@ import { Title, Navbar, TextRowField, SchoolPickerRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import address from 'address'
 
 export default function MISUserRouter() {
   useEffect(() => {
@@ -778,19 +777,19 @@ function Campus() {
 function CampusDetail(props) {
   const { id } = useParams()
   const location = useLocation()
+  const [address_keys, setAddressKeys] = useState([])
+  const [address_values, setAddressValues] = useState([])
+  const [arr1, setArr1] = useState([])
+  const [arr2, setArr2] = useState([])
+  const [arr3, setArr3] = useState([])
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
+  const [address_level1, setAddressLevel1] = useState('')
+  const [address_level2, setAddressLevel2] = useState('')
+  const [address_level3, setAddressLevel3] = useState('')
   const [title, setTitle] = useState('')
   const [school, setSchool] = useState('')
   const [content, setContent] = useState('')
-
-  useEffect(() => {
-    ;(async () => {
-      const response = await window.fetch(`/lib/address.json`)
-      const res = await response.json()
-      console.info(res)
-    })()
-  }, [])
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -811,6 +810,61 @@ function CampusDetail(props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/lib/address.json`)
+      const res = await response.json()
+      const keys = Object.keys(res)
+      setAddressKeys(keys)
+      const values = Object.values(res)
+      setAddressValues(values)
+      let _arr = []
+      keys.forEach((e, index) => {
+        if (e.slice(-4) === '0000') {
+          _arr.push(values[index])
+        }
+      })
+      setArr1(_arr)
+    })()
+  }, [])
+
+  useEffect(() => {
+    let _arr = []
+    setArr2(_arr)
+    address_values.forEach((e, index) => {
+      if (e === address_level1) {
+        const code = address_keys[index]
+        address_keys.forEach((e, i) => {
+          if (e.slice(0, 2) === code.slice(0, 2) && e.slice(-2) === '00') {
+            if (e.slice(-4) !== '0000') _arr.push(address_values[i])
+            // 判断直辖市
+          }
+        })
+        return
+      }
+    })
+    setArr2(_arr)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address_level1])
+
+  useEffect(() => {
+    let _arr = []
+    setArr3(_arr)
+    address_values.forEach((e, index) => {
+      if (e === address_level2) {
+        const code = address_keys[index]
+        address_keys.forEach((e, i) => {
+          if (e.slice(0, 4) === code.slice(0, 4) && e.slice(-2) !== '00') {
+            _arr.push(address_values[i])
+          }
+        })
+        return
+      }
+    })
+    setArr3(_arr)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address_level2])
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
@@ -892,6 +946,57 @@ function CampusDetail(props) {
                       className="form-control input-borderless"
                       onChange={event => setTime(event.target.value)}
                     />
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">地址</label>
+                  <div className="col-sm-10">
+                    <select value={address_level1 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddressLevel1(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr1.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right"></label>
+                  <div className="col-sm-10">
+                    <select value={address_level2 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddressLevel2(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr2.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right"></label>
+                  <div className="col-sm-10">
+                    <select value={address_level3 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddressLevel3(event.target.vaue)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr3.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
                   </div>
                 </div>
 

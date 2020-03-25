@@ -6,6 +6,7 @@ import { Title, Navbar, TextRowField, SchoolPickerRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import address from 'address'
 
 export default function MISUserRouter() {
   useEffect(() => {
@@ -782,6 +783,14 @@ function CampusDetail(props) {
   const [title, setTitle] = useState('')
   const [school, setSchool] = useState('')
   const [content, setContent] = useState('')
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/lib/address.json`)
+      const res = await response.json()
+      console.info(res)
+    })()
+  }, [])
 
   useEffect(() => {
     if (props.category === '编辑') {

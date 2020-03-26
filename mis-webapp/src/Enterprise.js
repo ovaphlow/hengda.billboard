@@ -327,7 +327,7 @@ function CertificateList() {
                                 data-id={it.id} data-uuid={it.uuid}
                                 onClick={handleCertificate}
                               >
-                                <i className="fa fa-fw fa-check" data-id={it.id} data-uuid={it.uuid}></i>
+                                <i className="fa fa-fw fa-save" data-id={it.id} data-uuid={it.uuid}></i>
                               </button>
                             </div>
                           </td>
@@ -541,8 +541,8 @@ function Detail(props) {
 
                     <div className="btn-group pull-right">
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                        <i className="fa fa-fw fa-check"></i>
-                        确定
+                        <i className="fa fa-fw fa-save"></i>
+                        保存
                       </button>
                     </div>
                   </div>
@@ -681,7 +681,7 @@ function UserDetail(props) {
                 <div className="btn-group pull-right">
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-edit"></i>
-                    确定
+                    保存
                   </button>
                 </div>
               </div>
@@ -933,8 +933,8 @@ export function RecruitmentDetail(props) {
 
                 <div className="btn-group pull-right">
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                    <i className="fa fa-fw fa-check"></i>
-                    确定
+                    <i className="fa fa-fw fa-save"></i>
+                    保存
                   </button>
                 </div>
               </div>

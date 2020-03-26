@@ -832,18 +832,18 @@ function CampusDetail(props) {
   useEffect(() => {
     let _arr = []
     setArr2(_arr)
-    address_values.forEach((e, index) => {
-      if (e === address_level1) {
-        const code = address_keys[index]
-        address_keys.forEach((e, i) => {
-          if (e.slice(0, 2) === code.slice(0, 2) && e.slice(-2) === '00') {
-            if (e.slice(-4) !== '0000') _arr.push(address_values[i])
-            // 判断直辖市
+    setArr3(_arr)
+    for (let i = 0; i < address_values.length; i++) {
+      if (address_values[i] === address_level1) {
+        const code = address_keys[i]
+        for (let j = 0; j < address_keys.length; j++) {
+          if (address_keys[j].slice(0, 2) === code.slice(0, 2) && address_keys[j].slice(-2) === '00') {
+            if (address_keys[j].slice(-4) !== '0000') _arr.push(address_values[j])
           }
-        })
+        }
         return
       }
-    })
+    }
     setArr2(_arr)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level1])
@@ -988,7 +988,7 @@ function CampusDetail(props) {
                   <div className="col-sm-10">
                     <select value={address_level3 || ''}
                       className="form-control input-borderless"
-                      onChange={event => setAddressLevel3(event.target.vaue)}
+                      onChange={event => setAddressLevel3(event.target.value)}
                     >
                       <option value="">未选择</option>
                       {

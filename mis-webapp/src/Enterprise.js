@@ -152,8 +152,8 @@ function List() {
               </div>
 
               <div className="card-body">
-                <table className="table table-hover">
-                  <thead>
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
                       <th>名称</th>
@@ -299,8 +299,8 @@ function CertificateList() {
               </div>
 
               <div className="card-body">
-                <table className="table table-hover">
-                  <thead>
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
                       <th>名称</th>
@@ -327,7 +327,8 @@ function CertificateList() {
                                 data-id={it.id} data-uuid={it.uuid}
                                 onClick={handleCertificate}
                               >
-                                <i className="fa fa-fw fa-save" data-id={it.id} data-uuid={it.uuid}></i>
+                                <i className="fa fa-fw fa-check" data-id={it.id} data-uuid={it.uuid}></i>
+                                认证
                               </button>
                             </div>
                           </td>
@@ -404,6 +405,19 @@ function Detail(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定删除当前数据？')) return
+    const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
+
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/enterprise/`, {
@@ -427,7 +441,7 @@ function Detail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#企业'
+      window.history.go(-1)
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
         method: 'PUT',
@@ -450,7 +464,7 @@ function Detail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#企业'
+      window.history.go(-1)
     }
   }
 
@@ -540,6 +554,15 @@ function Detail(props) {
                     </div>
 
                     <div className="btn-group pull-right">
+                      {props.category === '编辑' && (
+                        <button type="button" className="btn btn-outline-danger"
+                          onClick={handleRemove}
+                        >
+                          <i className="fa fa-fw fa-trash-o"></i>
+                          删除
+                        </button>
+                      )}
+
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                         <i className="fa fa-fw fa-save"></i>
                         保存
@@ -740,8 +763,8 @@ function RecruitmentList() {
 
             <div className="card shadow mt-3">
               <div className="card-body">
-                <table className="table table-hover">
-                  <thead>
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
                       <th>职位</th>

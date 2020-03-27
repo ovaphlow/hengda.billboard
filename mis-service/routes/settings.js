@@ -138,7 +138,21 @@ router
     }
   })
   .delete('/industry/2nd/:id', async ctx => {
-
+    const sql = `
+      delete from common_data where id = ? and uuid = ? and master_id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid,
+        parseInt(ctx.request.query.master_id)
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
   })
   .get('/industry/2nd/', async ctx => {
     const sql = `

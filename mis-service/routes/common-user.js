@@ -65,6 +65,23 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
+  .delete('/:id/resume/:resume_id', async ctx => {
+    const sql = `
+      delete from resume where id = ? and uuid = ? and common_user_id = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        parseInt(ctx.params.resume_id),
+        ctx.request.query.uuid,
+        parseInt(ctx.params.id)
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
   .get('/:id/resume/', async ctx => {
     const sql = `
       select * from resume where common_user_id = ?
@@ -284,6 +301,20 @@ router
         parseInt(ctx.params.id),
         ctx.request.query.uuid
       ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .delete('/:id', async ctx => {
+    // 需要处理用户的简历？
+    const sql = `
+      delete from common_user where id = ? and uuid = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [parseInt(ctx.params.id), ctx.request.query.uuid])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
       console.error(err)

@@ -27,7 +27,11 @@ router
   })
   .put('/campus/:id', async ctx => {
     const sql = `
-      update campus set title = ?, date = ?, time = ?, school = ?, content=?  where id = ?
+      update campus
+      set title = ?, date = ?, time = ?,
+        address_level1 = ?, address_level2 = ?, address_level3 = ?, address_level4 = ?,
+        school = ?, content=?
+      where id = ?
     `
     const pool = mysql.promise()
     try {
@@ -35,9 +39,29 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
+        ctx.request.body.address_level1,
+        ctx.request.body.address_level2,
+        ctx.request.body.address_level3,
+        ctx.request.body.address_level4,
         ctx.request.body.school,
         ctx.request.body.content,
         parseInt(ctx.params.id)
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .delete('/campus/:id', async ctx => {
+    const sql = `
+      delete from campus where id = ? and uuid = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -83,8 +107,10 @@ router
   .post('/campus/', async ctx => {
     const sql = `
       insert into
-        campus (uuid, mis_user_id, title, date, time, content)
-        values (uuid(), 0, ?, ?, ?, ?)
+        campus (uuid, mis_user_id, title, date, time,
+          address_level1, address_level2, address_level3, address_level4,
+          school, content)
+        values (uuid(), 0, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
@@ -92,6 +118,11 @@ router
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
+        ctx.request.body.address_level1,
+        ctx.request.body.address_level2,
+        ctx.request.body.address_level3,
+        ctx.request.body.address_level4,
+        ctx.request.body.school,
         ctx.request.body.content
       ])
       ctx.response.body = { message: '', content: '' }
@@ -132,6 +163,19 @@ router
         parseInt(ctx.params.id),
         ctx.request.query.uuid
       ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .delete('/recommend/:id', async ctx => {
+    const sql = `
+      delete from recommend where id = ? and uuid = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [parseInt(ctx.params.id), ctx.request.query.uuid])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
       console.error(err)
@@ -226,6 +270,19 @@ router
         parseInt(ctx.params.id),
         ctx.request.query.uuid
       ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .delete('/banner/:id', async ctx => {
+    const sql = `
+      delete from banner where id = ? and uuid = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [parseInt(ctx.params.id), ctx.request.query.uuid])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
       console.error(err)

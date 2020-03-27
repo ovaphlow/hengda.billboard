@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import SignIn from './SignIn'
@@ -13,13 +13,6 @@ import RecruitmentRouter from './Recruitment'
 import SettingsRouter from './Settings'
 
 export default function App() {
-  useEffect(() => {
-    // const auth = sessionStorage.getItem('mis-auth')
-    // if (!!!auth) {
-    //   window.location = '#登录'
-    // }
-  }, [])
-
   return (
     <Router>
       <Switch>

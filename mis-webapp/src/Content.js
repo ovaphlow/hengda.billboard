@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 import moment from 'moment'
 
-import { Title, Navbar, TextRowField, SchoolPickerRowField } from './Components'
+import { Title, Navbar, BackwardButton, TextRowField, SchoolPickerRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -213,6 +213,7 @@ function Banner() {
 function BannerDetail(props) {
   const { id } = useParams()
   const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [status, setStatus] = useState('')
   const [category, setCategory] = useState('')
   const [title, setTitle] = useState('')
@@ -222,6 +223,7 @@ function BannerDetail(props) {
   useEffect(() => {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
         ;(async (id, uuid) => {
           const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
           const res = await response.json()
@@ -248,6 +250,19 @@ function BannerDetail(props) {
     reader.readAsDataURL(event.target.files[0])
   }
 
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除当前数据？')) return
+    const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
+
   const handleSubmit = async () => {
     if (!!!title || !!!comment || !!!data_url) {
       window.alert('请完整填写所需信息')
@@ -271,7 +286,7 @@ function BannerDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#平台内容/banner'
+      window.history.go(-1)
     } else if (props.category === '编辑') {
       const uuid = new URLSearchParams(location.search).get('uuid')
       const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`, {
@@ -291,7 +306,7 @@ function BannerDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#平台内容/banner'
+      window.history.go(-1)
     }
   }
 
@@ -374,7 +389,22 @@ function BannerDetail(props) {
               </div>
 
               <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
                 <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
+
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-save"></i>
                     保存
@@ -544,6 +574,19 @@ function RecommendDetail(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除当前数据？')) return
+    const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
+
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/content/recommend/`, {
@@ -561,7 +604,7 @@ function RecommendDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#平台内容/首页推荐'
+      window.history.go(-1)
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`, {
         method: 'PUT',
@@ -578,7 +621,7 @@ function RecommendDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#平台内容/首页推荐'
+      window.history.go(-1)
     }
   }
 
@@ -627,7 +670,20 @@ function RecommendDetail(props) {
               </div>
 
               <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
                 <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger" onClick={handleRemove}>
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
+
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-save"></i>
                     保存
@@ -777,6 +833,7 @@ function Campus() {
 function CampusDetail(props) {
   const { id } = useParams()
   const location = useLocation()
+  const [uuid, setUUID] = useState('')
   const [address_keys, setAddressKeys] = useState([])
   const [address_values, setAddressValues] = useState([])
   const [arr1, setArr1] = useState([])
@@ -787,6 +844,7 @@ function CampusDetail(props) {
   const [address_level1, setAddressLevel1] = useState('')
   const [address_level2, setAddressLevel2] = useState('')
   const [address_level3, setAddressLevel3] = useState('')
+  const [address_level4, setAddressLevel4] = useState('')
   const [title, setTitle] = useState('')
   const [school, setSchool] = useState('')
   const [content, setContent] = useState('')
@@ -794,6 +852,7 @@ function CampusDetail(props) {
   useEffect(() => {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
+      setUUID(_uuid)
       ;(async (id, uuid) => {
         const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
         const res = await response.json()
@@ -805,6 +864,10 @@ function CampusDetail(props) {
         setContent(res.content.content)
         setDate(res.content.date)
         setTime(res.content.time)
+        setAddressLevel1(res.content.address_level1)
+        setAddressLevel2(res.content.address_level2)
+        setAddressLevel3(res.content.address_level3)
+        setAddressLevel4(res.content.address_level4)
         setSchool(res.content.school)
       })(id, _uuid)
     }
@@ -866,6 +929,19 @@ function CampusDetail(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level2])
 
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除当前数据？')) return
+    const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
+
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/content/campus/`, {
@@ -876,6 +952,10 @@ function CampusDetail(props) {
           content: content,
           date: date,
           time: time,
+          address_level1: address_level1,
+          address_level2: address_level2,
+          address_level3: address_level3,
+          address_level4: address_level4,
           school: school
         })
       })
@@ -884,7 +964,7 @@ function CampusDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#平台内容/校园招聘'
+      window.history.go(-1)
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/content/campus/${id}`, {
         method: 'PUT',
@@ -894,6 +974,10 @@ function CampusDetail(props) {
           content: content,
           date: date,
           time: time,
+          address_level1: address_level1,
+          address_level2: address_level2,
+          address_level3: address_level3,
+          address_level4: address_level4,
           school: school
         })
       })
@@ -902,7 +986,7 @@ function CampusDetail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#平台内容/校园招聘'
+      window.history.go(-1)
     }
   }
 
@@ -1000,6 +1084,10 @@ function CampusDetail(props) {
                   </div>
                 </div>
 
+                <TextRowField value={address_level4 || ''}
+                  onChange={event => setAddressLevel4(event.target.value)}
+                />
+
                 <SchoolPickerRowField value={school || ''}
                   onChange={event => setSchool(event.target.value)}
                 />
@@ -1027,7 +1115,18 @@ function CampusDetail(props) {
               </div>
 
               <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
                 <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-outline-danger"
+                    onClick={handleRemove}
+                  >
+                    <i className="fa fa-fw fa-trash-o"></i>
+                    删除
+                  </button>
+
                   <button type="button" className="btn btn-primary"
                     onClick={handleSubmit}
                   >

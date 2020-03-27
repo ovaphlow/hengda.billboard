@@ -93,6 +93,17 @@ function List() {
             <h3>普通用户 列表</h3>
             <hr />
 
+            <div className="alert alert-warning" role="alert">
+              <ul>
+                <li>修改简历的url</li>
+                <li>简历中的毕业院校数据由common_data中选择</li>
+                <li>简历中的地址由地址组件选择</li>
+                <li>简历中的自我评价改为RTE</li>
+                <li>简历中的期望行业由common_data中选择</li>
+                <li>简历中的意向城市由地址组件选择</li>
+              </ul>
+            </div>
+
             <div className="card shadow">
               <div className="card-header">
                 <div className="form-row align-items-center">
@@ -122,8 +133,8 @@ function List() {
               </div>
 
               <div className="card-body table-responsive">
-                <table className="table table-hover">
-                  <thead>
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
                       <th>姓名</th>
@@ -244,6 +255,19 @@ function Detail(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定删除当前数据？')) return
+    const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
+
   const handleSubmit = async () => {
     if (props.category === '新增') {
       const response = await window.fetch(`/api/common-user/`, {
@@ -262,7 +286,7 @@ function Detail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#普通用户'
+      window.history.go(-1)
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
@@ -279,7 +303,7 @@ function Detail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#普通用户'
+      window.history.go(-1)
     }
   }
 
@@ -335,6 +359,17 @@ function Detail(props) {
                     </div>
 
                     <div className="btn-group pull-right">
+                      {
+                        props.category === '编辑' && (
+                          <button type="button" className="btn btn-outline-danger"
+                            onClick={handleRemove}
+                          >
+                            <i className="fa fa-fw fa-trash-o"></i>
+                            删除
+                          </button>
+                        )
+                      }
+
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                         <i className="fa fa-fw fa-save"></i>
                         保存
@@ -445,6 +480,19 @@ function ResumeDetail(props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定删除当前数据？')) return
+    const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
@@ -610,6 +658,17 @@ function ResumeDetail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
+
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-save"></i>
                     保存

@@ -23,7 +23,8 @@ export default function SignIn() {
       return
     }
     sessionStorage.setItem('mis-auth', JSON.stringify(res.content))
-    window.location = '#/'
+    // window.location = '#/'
+    window.history.go(-1)
   }
 
   return (

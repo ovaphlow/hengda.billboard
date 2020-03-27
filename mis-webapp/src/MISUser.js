@@ -16,8 +16,8 @@ export default function MISUserRouter() {
     <Router>
       <Switch>
         <Route exact path="/管理端用户"><List /></Route>
-        <Route exact path="/管理端用户/新增"><Detail caption="新增" /></Route>
-        <Route path="/管理端用户/:id"><Detail caption="编辑" /></Route>
+        <Route exact path="/管理端用户/新增"><Detail category="新增" /></Route>
+        <Route path="/管理端用户/:id"><Detail category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -57,7 +57,7 @@ function List() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const response = await fetch(`/api/mis-user/`)
       const res = await response.json()
       if (res.message) {
@@ -85,8 +85,8 @@ function List() {
 
             <div className="card shadow">
               <div className="card-body">
-                <table className="table table-hover">
-                  <thead>
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
                       <th>姓名</th>
@@ -120,14 +120,14 @@ function List() {
 }
 
 function Detail(props) {
+  const { id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
-  const { id } = useParams()
 
   useEffect(() => {
-    if (props.caption === '编辑') {
+    if (props.category === '编辑') {
       ;(async id => {
         const uuid = new URLSearchParams(location.search).get('uuid')
         setUUID(uuid)
@@ -140,8 +140,21 @@ function Detail(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定删除当前数据？')) return
+    const response = await window.fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+  }
+
   const handleSubmit = async () => {
-    if (props.caption === '新增') {
+    if (props.category === '新增') {
       const response = await fetch(`/api/mis-user/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -156,8 +169,8 @@ function Detail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#管理端用户'
-    } else if (props.caption === '编辑') {
+      window.history.go(-1)
+    } else if (props.category === '编辑') {
       const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -171,7 +184,7 @@ function Detail(props) {
         window.alert(res.message)
         return
       }
-      window.location = '#管理端用户'
+      window.history.go(-1)
     }
   }
 
@@ -183,11 +196,11 @@ function Detail(props) {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category={props.caption} />
+            <SideNav category={props.category} />
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>{props.caption} 管理端用户</h3>
+            <h3>{props.category} 管理端用户</h3>
             <hr />
 
             <div className="card shadow">
@@ -219,6 +232,16 @@ function Detail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-save"></i>
                     保存

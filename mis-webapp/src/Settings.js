@@ -156,7 +156,7 @@ function School() {
               </div>
 
               <div className="card-body">
-                <table className="table table-hover">
+                <table className="table table-hover table-bordered">
                   <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
@@ -350,7 +350,7 @@ function Industry() {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category="院校" />
+            <SideNav category="行业" />
           </div>
 
           <div className="col-9 col-lg-10">
@@ -513,12 +513,16 @@ function IndustryDetail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-outline-danger"
-                    onClick={handleRemove}
-                  >
-                    <i className="fa fa-fw fa-trash-o"></i>
-                    删除
-                  </button>
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
                   <button type="button" className="btn btn-primary"
                     onClick={handleSubmit}
                   >
@@ -533,7 +537,7 @@ function IndustryDetail(props) {
               <div className="card-header">
                 二级分类
                 <span className="pull-right">
-                  <a href={`#系统设置/二级行业/新增?id=${id}&uuid=${uuid}`}>
+                  <a href={`#系统设置/二级行业/新增?master_id=${id}&uuid=${uuid}`}>
                     <i className="fa fa-fw fa-plus"></i>
                     新增
                   </a>
@@ -566,7 +570,7 @@ function Industry2Detail(props) {
   const { id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
-  const [master_id, setMasterID] = useState('')
+  const [master_id, setMasterID] = useState(0)
   const [name, setName] = useState('')
   const [comment, setComment] = useState('')
 
@@ -587,11 +591,17 @@ function Industry2Detail(props) {
         setComment(res.content.comment)
       })(id, _uuid, _master_id)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
+    if (!!!name) {
+      window.alert('请完整填写所需信息')
+      return
+    }
     if (props.category === '新增') {
-      const response = await window.fetch(`/api/settings/industry/2nd/?master_id=${id}`, {
+      const _master_id = new URLSearchParams(location.search).get('master_id')
+      const response = await window.fetch(`/api/settings/industry/2nd/?master_id=${_master_id}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -669,12 +679,16 @@ function Industry2Detail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-outline-danger"
-                    onClick={handleRemove}
-                  >
-                    <i className="fa fa-fw fa-trash-o"></i>
-                    删除
-                  </button>
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
 
                   <button type="button" className="btn btn-primary"
                     onClick={handleSubmit}

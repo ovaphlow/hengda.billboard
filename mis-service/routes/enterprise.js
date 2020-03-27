@@ -293,6 +293,19 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
+  .delete('/:id', async ctx => {
+    const sql = `
+      delete from enterprise where id = ? and uuid = ?
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [parseInt(ctx.params.id), ctx.request.query.uuid])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
 
 router
   .post('/', async ctx => {

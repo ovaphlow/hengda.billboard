@@ -51,6 +51,12 @@ app.on('error', (err, ctx) => {
 })()
 
 ;(() => {
+  const router = require('./routes/favorite')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
   const router = require('./routes/feedback')
   app.use(router.routes())
   app.use(router.allowedMethods())

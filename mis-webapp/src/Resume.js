@@ -206,6 +206,10 @@ function ResumeDetail(props) {
             <h3>普通用户 {props.category} 简历</h3>
             <hr />
 
+            <div className="btn-group mb-2">
+              <BackwardButton />
+            </div>
+
             <div className="card shadow">
               <div className="card-body">
                 <InputRowField caption="姓名" value={name || ''} autocomplete="name"

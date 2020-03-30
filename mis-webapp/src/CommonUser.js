@@ -3,9 +3,7 @@ import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'rea
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 
-import {
-  Title, Navbar, BackwardButton, InputRowField, RefreshButton
-} from './Components'
+import { Title, Navbar, BackwardButton, InputRowField, RefreshButton } from './Components'
 
 export default function CommonUserRouter() {
   useEffect(() => {
@@ -409,6 +407,18 @@ function Detail(props) {
                           </button>
                         </div>
                       </div>
+                    </div>
+                  )
+                }
+
+                {
+                  props.category === '编辑' && (
+                    <div className="mt-3">
+                      <button type="button" className="btn btn-block btn-outline-secondary"
+                        onClick={() => window.location = `#收藏?master_id=${id}`}
+                      >
+                        用户收藏
+                      </button>
                     </div>
                   )
                 }

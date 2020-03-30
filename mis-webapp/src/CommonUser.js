@@ -3,7 +3,10 @@ import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'rea
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 
-import { Title, Navbar, BackwardButton, TextRowField, RefreshButton } from './Components'
+import {
+  Title, Navbar, BackwardButton, TextRowField, RefreshButton,
+  SchoolPickerRowField, IndustryPickerRowField
+} from './Components'
 
 export default function CommonUserRouter() {
   useEffect(() => {
@@ -576,27 +579,27 @@ function ResumeDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="姓名" value={name || ''}
+                <TextRowField caption="姓名" value={name || ''} autocomplete="name"
                   onChange={event => setName(event.target.value)}
                 />
 
-                <TextRowField caption="电话" value={phone || ''}
+                <TextRowField caption="电话" value={phone || ''} autocomplete="tel"
                   onChange={event => setPhone(event.target.value)}
                 />
 
-                <TextRowField caption="EMAIL" value={email || ''}
+                <TextRowField caption="EMAIL" value={email || ''} autocomplete="email"
                   onChange={event => setEmail(event.target.value)}
                 />
 
-                <TextRowField caption="性别" value={gender || ''}
+                <TextRowField caption="性别" value={gender || ''} autocomplete="sex"
                   onChange={event => setGender(event.target.value)}
                 />
 
-                <TextRowField caption="出生日期" value={birthday || ''}
+                <TextRowField caption="出生日期" value={birthday || ''} autocomplete="bday"
                   onChange={event => setBirthday(event.target.value)}
                 />
 
-                <TextRowField caption="毕业院校" value={school || ''}
+                <SchoolPickerRowField caption="毕业院校" value={school || ''}
                   onChange={event => setSchool(event.target.value)}
                 />
 
@@ -616,15 +619,15 @@ function ResumeDetail(props) {
                   onChange={event => setDateEnd(event.target.value)}
                 />
 
-                <TextRowField caption="地址" value={address1 || ''}
+                <TextRowField caption="地址" value={address1 || ''} autocomplete="address-level1"
                   onChange={event => setAddress1(event.target.value)}
                 />
 
-                <TextRowField caption="" value={address2 || ''}
+                <TextRowField caption="" value={address2 || ''} autocomplete="address-level2"
                   onChange={event => setAddress2(event.target.value)}
                 />
 
-                <TextRowField caption="" value={address3 || ''}
+                <TextRowField caption="" value={address3 || ''} autocomplete="address-level3"
                   onChange={event => setAddress3(event.target.value)}
                 />
 
@@ -644,7 +647,7 @@ function ResumeDetail(props) {
                   onChange={event => setQiwangzhiwei(event.target.value)}
                 />
 
-                <TextRowField caption="期望行业" value={qiwanghangye || ''}
+                <IndustryPickerRowField caption="期望行业" value={qiwanghangye || ''}
                   onChange={event => setQiwanghangye(event.target.value)}
                 />
 

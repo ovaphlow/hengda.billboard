@@ -53,9 +53,7 @@ export default function Home() {
           输入组件的autocomplete属性
         </div>
 
-        <h1>HOME</h1>
-
-        <h3 className="text-center text-muted">TODO: 简单数据统计</h3>
+        <h1>#SLOGAN#</h1>
 
         <div className="row">
           <div className="col">

@@ -108,7 +108,7 @@ export function TextRowField(props) {
     <div className="form-group row">
       <label className="col-sm-2 col-form-label text-right">{props.caption || ''}</label>
       <div className="col-sm-10">
-        <input type="text" value={props.value}
+        <input type="text" value={props.value} autoComplete={props.autocomplete || ''}
           className="form-control input-borderless"
           onChange={props.onChange}
         />
@@ -135,6 +135,40 @@ export function SchoolPickerRowField(props) {
   return (
     <div className="form-group row">
       <label className="col-sm-2 col-form-label text-right">{props.caption || '院校'}</label>
+      <div className="col-sm-10">
+        <select value={props.value} className="form-control input-borderless"
+          onChange={props.onChange}
+        >
+          <option value="">未选择</option>
+          {
+            list.map(it => (
+              <option value={it.name} key={it.id}>{it.name}</option>
+            ))
+          }
+        </select>
+      </div>
+    </div>
+  )
+}
+
+export function IndustryPickerRowField(props) {
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/api/settings/industry/`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setList(res.content)
+    })()
+  }, [])
+
+  return (
+    <div className="form-group row">
+      <label className="col-sm-2 col-form-label text-right">{props.caption || '行业'}</label>
       <div className="col-sm-10">
         <select value={props.value} className="form-control input-borderless"
           onChange={props.onChange}

@@ -19,8 +19,8 @@ export default function CommonUserRouter() {
         <Route exact path="/普通用户"><List /></Route>
         <Route exact path="/普通用户/新增"><Detail category="新增" /></Route>
         <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
-        <Route path="/普通用户/:common_user_id/新增简历"><ResumeDetail category="新增" /></Route>
-        <Route path="/普通用户/:common_user_id/简历/:resume_id"><ResumeDetail category="编辑" /></Route>
+        <Route exact path="/普通用户/简历/新增"><ResumeDetail category="新增" /></Route>
+        <Route path="/普通用户/简历/:resume_id"><ResumeDetail category="编辑" /></Route>
         <Route path="/普通用户/:id/投递记录"><DeliveryList /></Route>
         <Route path="/普通用户/:id/登录记录"><Journal category="登录" /></Route>
         <Route path="/普通用户/:id/浏览记录"><Journal category="浏览" /></Route>
@@ -137,8 +137,7 @@ function List() {
                   <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
-                      <th>姓名</th>
-                      <th>用户名</th>
+                      <th>用户</th>
                       <th>EMAIL</th>
                       <th>电话</th>
                       <th>投递</th>
@@ -156,8 +155,7 @@ function List() {
                           </a>
                           <span className="pull-right">{it.id}</span>
                         </td>
-                        <td>{it.name}</td>
-                        <td>{it.username}</td>
+                        <td>{it.name}<br />({it.username})</td>
                         <td>{it.email}</td>
                         <td>{it.phone}</td>
                         <td>{it.qty_delivery}</td>
@@ -389,7 +387,7 @@ function Detail(props) {
                         <div className="list-group">
                           {
                             resume_list.map(it => (
-                              <a href={`#普通用户/${id}/简历/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                              <a href={`#普通用户/简历/${it.id}?master_id=${id}&uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.qiwangzhiwei}
                                 <span className="pull-right text-muted">{it.yixiangchengshi}</span>
                               </a>
@@ -401,7 +399,7 @@ function Detail(props) {
                       <div className="card-footer text-center">
                         <div className="btn-group">
                           <button type="button" className="btn btn-sm btn-outline-success"
-                            onClick={() => window.location = `#普通用户/${id}/新增简历`}
+                            onClick={() => window.location = `#普通用户/简历/新增?master_id=${id}`}
                           >
                             <i className="fa fa-fw fa-plus"></i>
                             添加简历
@@ -428,9 +426,10 @@ function Detail(props) {
 }
 
 function ResumeDetail(props) {
-  const { common_user_id, resume_id } = useParams()
+  const { resume_id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
+  const [master_id, setMasterID] = useState(0)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
@@ -450,6 +449,8 @@ function ResumeDetail(props) {
   const [yixiangchengshi, setYixiangchengshi] = useState('')
 
   useEffect(() => {
+    const _master_id = new URLSearchParams(location.search).get('master_id')
+    setMasterID(_master_id)
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
@@ -476,14 +477,14 @@ function ResumeDetail(props) {
         setQiwangzhiwei(res.content.qiwangzhiwei)
         setQiwanghangye(res.content.qiwanghangye)
         setYixiangchengshi(res.content.yixiangchengshi)
-      })(common_user_id, resume_id, _uuid)
+      })(_master_id, resume_id, _uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleRemove = async () => {
     if (!!!window.confirm('确定删除当前数据？')) return
-    const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}?uuid=${uuid}`, {
+    const response = await window.fetch(`/api/common-user/${master_id}/resume/${resume_id}?uuid=${uuid}`, {
       method: 'DELETE'
     })
     const res = await response.json()
@@ -496,7 +497,7 @@ function ResumeDetail(props) {
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      const response = await window.fetch(`/api/common-user/${common_user_id}/resume/`, {
+      const response = await window.fetch(`/api/common-user/${master_id}/resume/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -526,7 +527,7 @@ function ResumeDetail(props) {
       }
       window.history.go(-1)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/common-user/${common_user_id}/resume/${resume_id}?uuid=${uuid}`, {
+      const response = await window.fetch(`/api/common-user/${master_id}/resume/${resume_id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

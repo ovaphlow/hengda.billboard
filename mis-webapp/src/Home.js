@@ -1,14 +1,54 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Title, Navbar } from './Components'
 
 export default function Home() {
+  const [user_qty, setUserQty] = useState(0)
+  const [enterprise_qty, setEnterpriseQty] = useState(0)
+  const [delivery_qty, setDeliveryQty] = useState(0)
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/api/stats/user/qty`)
+      const res = await response.json()
+      if (res.message) {
+        console.error(res.message)
+        return
+      }
+      setUserQty(res.content.qty)
+    })()
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/api/stats/enterprise/qty`)
+      const res = await response.json()
+      if (res.message) {
+        console.error(res.message)
+        return
+      }
+      setEnterpriseQty(res.content.qty)
+    })()
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/api/stats/delivery/qty`)
+      const res = await response.json()
+      if (res.message) {
+        console.error(res.message)
+        return
+      }
+      setDeliveryQty(res.content.qty)
+    })()
+  }, [])
+
   return (
     <>
       <Title />
       <Navbar category="首页" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container mt-3 mb-5">
         <div className="alert alert-warning">
           输入组件的autocomplete属性
         </div>
@@ -16,6 +56,35 @@ export default function Home() {
         <h1>HOME</h1>
 
         <h3 className="text-center text-muted">TODO: 简单数据统计</h3>
+
+        <div className="row">
+          <div className="col">
+            <div className="card shadow">
+              <div className="card-body">
+                <p className="lead">用户数量</p>
+                <h1 className="display-1 text-center">{user_qty}</h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card shadow">
+              <div className="card-body">
+                <p className="lead">企业数量</p>
+                <h1 className="display-1 text-center">{enterprise_qty}</h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="card shadow">
+              <div className="card-body">
+                <p className="lead">简历投递次数</p>
+                <h1 className="display-1 text-center">{delivery_qty}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )

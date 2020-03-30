@@ -31,7 +31,7 @@ router
       update resume
       set name = ?, phone = ?, email = ?, gender = ?, birthday = ?,
       school = ?, education = ?, date_begin = ?, date_end = ?, major = ?,
-      address1 = ?, address2 = ?, address3 = ?,
+      address1 = ?, address2 = ?,
       qiwangzhiwei = ?, qiwanghangye = ?, yixiangchengshi = ?, ziwopingjia = ?
       where id = ? and common_user_id = ? and uuid = ?
     `
@@ -50,7 +50,6 @@ router
         ctx.request.body.major,
         ctx.request.body.address1,
         ctx.request.body.address2,
-        ctx.request.body.address3,
         ctx.request.body.qiwangzhiwei,
         ctx.request.body.qiwanghangye,
         ctx.request.body.yixiangchengshi,
@@ -102,14 +101,14 @@ router
         uuid,
         common_user_id, name, phone, email, gender, birthday,
         school, education, date_begin, date_end, major,
-        address1, address2, address3,
+        address1, address2,
         qiwangzhiwei, qiwanghangye, yixiangchengshi, ziwopingjia
       )
       values (
         uuid(),
         ?, ?, ?, ?, ?, ?,
         ?, ?, ?, ?, ?,
-        ?, ?, ?,
+        ?, ?,
         ?, ?, ?, ?
       )
     `
@@ -129,7 +128,6 @@ router
         ctx.request.body.major,
         ctx.request.body.address1,
         ctx.request.body.address2,
-        ctx.request.body.address3,
         ctx.request.body.qiwangzhiwei,
         ctx.request.body.qiwanghangye,
         ctx.request.body.yixiangchengshi,

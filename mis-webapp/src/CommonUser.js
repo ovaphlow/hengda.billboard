@@ -99,12 +99,8 @@ function List() {
 
             <div className="alert alert-warning" role="alert">
               <ul>
-                <li>修改简历的url</li>
-                <li>简历中的毕业院校数据由common_data中选择</li>
                 <li>简历中的地址由地址组件选择</li>
                 <li>简历中的自我评价改为RTE</li>
-                <li>简历中的期望行业由common_data中选择</li>
-                <li>简历中的意向城市由地址组件选择</li>
               </ul>
             </div>
 
@@ -433,6 +429,10 @@ function ResumeDetail(props) {
   const { resume_id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
+  const [address_keys, setAddressKeys] = useState([])
+  const [address_values, setAddressValues] = useState([])
+  const [arr1, setArr1] = useState([])
+  const [arr2, setArr2] = useState([])
   const [master_id, setMasterID] = useState(0)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -446,7 +446,6 @@ function ResumeDetail(props) {
   const [date_end, setDateEnd] = useState('')
   const [address1, setAddress1] = useState('')
   const [address2, setAddress2] = useState('')
-  const [address3, setAddress3] = useState('')
   const [ziwopingjia, setZiwopingjia] = useState('')
   const [qiwangzhiwei, setQiwangzhiwei] = useState('')
   const [qiwanghangye, setQiwanghangye] = useState('')
@@ -477,7 +476,6 @@ function ResumeDetail(props) {
         setDateEnd(res.content.date_end)
         setAddress1(res.content.address1)
         setAddress2(res.content.address2)
-        setAddress3(res.content.address3)
         setZiwopingjia(res.content.ziwopingjia)
         setQiwangzhiwei(res.content.qiwangzhiwei)
         setQiwanghangye(res.content.qiwanghangye)
@@ -486,6 +484,42 @@ function ResumeDetail(props) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/lib/address.json`)
+      const res = await response.json()
+      const keys = Object.keys(res)
+      setAddressKeys(keys)
+      const values = Object.values(res)
+      setAddressValues(values)
+      let _arr = []
+      keys.forEach((e, index) => {
+        if (e.slice(-4) === '0000') {
+          _arr.push(values[index])
+        }
+      })
+      setArr1(_arr)
+    })()
+  }, [])
+
+  useEffect(() => {
+    let _arr = []
+    setArr2(_arr)
+    for (let i = 0; i < address_values.length; i++) {
+      if (address_values[i] === address1) {
+        const code = address_keys[i]
+        for (let j = 0; j < address_keys.length; j++) {
+          if (address_keys[j].slice(0, 2) === code.slice(0, 2) && address_keys[j].slice(-2) === '00') {
+            if (address_keys[j].slice(-4) !== '0000') _arr.push(address_values[j])
+          }
+        }
+        return
+      }
+    }
+    setArr2(_arr)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address1])
 
   const handleRemove = async () => {
     if (!!!window.confirm('确定删除当前数据？')) return
@@ -518,7 +552,6 @@ function ResumeDetail(props) {
           date_end: date_end,
           address1: address1,
           address2: address2,
-          address3: address3,
           ziwopingjia: ziwopingjia,
           qiwangzhiwei: qiwangzhiwei,
           qiwanghangye: qiwanghangye,
@@ -548,7 +581,6 @@ function ResumeDetail(props) {
           date_end: date_end,
           address1: address1,
           address2: address2,
-          address3: address3,
           ziwopingjia: ziwopingjia,
           qiwangzhiwei: qiwangzhiwei,
           qiwanghangye: qiwanghangye,
@@ -621,17 +653,39 @@ function ResumeDetail(props) {
                   onChange={event => setDateEnd(event.target.value)}
                 />
 
-                <InputRowField caption="地址" value={address1 || ''} autocomplete="address-level1"
-                  onChange={event => setAddress1(event.target.value)}
-                />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">地址</label>
+                  <div className="col-sm-10">
+                    <select value={address1 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddress1(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr1.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
 
-                <InputRowField caption="" value={address2 || ''} autocomplete="address-level2"
-                  onChange={event => setAddress2(event.target.value)}
-                />
-
-                <InputRowField caption="" value={address3 || ''} autocomplete="address-level3"
-                  onChange={event => setAddress3(event.target.value)}
-                />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right"></label>
+                  <div className="col-sm-10">
+                    <select value={address2 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddress2(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr2.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
 
                 <hr />
 

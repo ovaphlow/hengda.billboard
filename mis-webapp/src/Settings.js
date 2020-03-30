@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 
-import { Title, Navbar, TextRowField, BackwardButton, RefreshButton } from './Components'
+import { Title, Navbar, InputRowField, BackwardButton, RefreshButton } from './Components'
 
 export default function SettingsRouter() {
   useEffect(() => {
@@ -272,11 +272,11 @@ function SchoolDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="名称" value={name || ''}
+                <InputRowField caption="名称" value={name || ''}
                   onChange={event => setName(event.target.value)}
                 />
 
-                <TextRowField caption="备注" value={comment || ''}
+                <InputRowField caption="备注" value={comment || ''}
                   onChange={event => setComment(event.target.value)}
                 />
               </div>
@@ -498,11 +498,11 @@ function IndustryDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="名称" value={name || ''}
+                <InputRowField caption="名称" value={name || ''}
                   onChange={event => setName(event.target.value)}
                 />
 
-                <TextRowField caption="备注" value={comment || ''}
+                <InputRowField caption="备注" value={comment || ''}
                   onChange={event => setComment(event.target.value)}
                 />
               </div>
@@ -664,11 +664,11 @@ function Industry2Detail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="名称" value={name || ''}
+                <InputRowField caption="名称" value={name || ''}
                   onChange={event => setName(event.target.value)}
                 />
 
-                <TextRowField caption="备注" value={comment || ''}
+                <InputRowField caption="备注" value={comment || ''}
                   onChange={event => setComment(event.target.value)}
                 />
               </div>

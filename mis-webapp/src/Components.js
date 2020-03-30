@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import { EDUCATION } from './constant'
+
 export function Title() {
   return (
     <h1 className="text-light title-color" style={{ marginTop: -48 }}>
@@ -103,12 +105,12 @@ export function RefreshButton(props) {
   )
 }
 
-export function TextRowField(props) {
+export function InputRowField(props) {
   return (
     <div className="form-group row">
       <label className="col-sm-2 col-form-label text-right">{props.caption || ''}</label>
       <div className="col-sm-10">
-        <input type="text" value={props.value} autoComplete={props.autocomplete || ''}
+        <input type={props.type || 'text'} value={props.value} autoComplete={props.autocomplete || ''}
           className="form-control input-borderless"
           onChange={props.onChange}
         />
@@ -180,6 +182,66 @@ export function IndustryPickerRowField(props) {
             ))
           }
         </select>
+      </div>
+    </div>
+  )
+}
+
+export function EducationPickerRowField(props) {
+  return (
+    <div className="form-group row">
+      <label className="col-sm-2 col-form-label text-right">{props.caption || '学历'}</label>
+      <div className="col-sm-10">
+        <select value={props.value} className="form-control input-borderless"
+          onChange={props.onChange}
+        >
+          <option value="">未选择</option>
+          {
+            EDUCATION.map((it, index) => (
+              <option value={it} key={index}>{it}</option>
+            ))
+          }
+        </select>
+      </div>
+    </div>
+  )
+}
+
+export function AddressLevel3PickerRowField(props) {
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/lib/address.json`)
+      const res = await response.json()
+      const keys = Object.keys(res)
+      const values = Object.values(res)
+      let _arr = []
+      for (let i = 0; i < keys.length; i++) {
+        if (keys[i].slice(-2) === '00' && keys[i].slice(-4) !== '0000') {
+          _arr.push(values[i])
+        }
+      }
+      setList(_arr)
+    })()
+  }, [])
+
+  return (
+    <div className="form-group row">
+      <label className="col-sm-2 col-form-label text-right">{props.caption || '城市'}</label>
+      <div className="col-sm-10">
+        <input type="text" value={props.value} autoComplete={props.autocomplete || 'address-level3'}
+          list="component.address-level3.list"
+          className="form-control input-borderless"
+          onChange={props.onChange}
+        />
+        <datalist id="component.address-level3.list">
+          {
+            list.map((it, index) => (
+              <option value={it} key={index} />
+            ))
+          }
+        </datalist>
       </div>
     </div>
   )

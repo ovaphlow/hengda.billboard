@@ -4,8 +4,9 @@ import md5 from 'blueimp-md5'
 import moment from 'moment'
 
 import {
-  Title, Navbar, BackwardButton, TextRowField, RefreshButton,
-  SchoolPickerRowField, IndustryPickerRowField
+  Title, Navbar, BackwardButton, InputRowField, RefreshButton,
+  SchoolPickerRowField, IndustryPickerRowField, EducationPickerRowField,
+  AddressLevel3PickerRowField
 } from './Components'
 
 export default function CommonUserRouter() {
@@ -329,27 +330,27 @@ function Detail(props) {
                   <div className="card-header">用户信息</div>
 
                   <div className="card-body">
-                    <TextRowField caption="姓名" value={name || ''}
+                    <InputRowField caption="姓名" value={name || ''}
                       onChange={event => setName(event.target.value)}
                     />
 
-                    <TextRowField caption="用户名" value={username || ''}
+                    <InputRowField caption="用户名" value={username || ''}
                       onChange={event => setUsername(event.target.value)}
                     />
 
                     {
                       props.category === '新增' && (
-                        <TextRowField caption="密码" value={password || ''}
+                        <InputRowField caption="密码" value={password || ''}
                           onChange={event => setPassword(event.target.value)}
                         />
                       )
                     }
 
-                    <TextRowField caption="EMAIL" value={email || ''}
+                    <InputRowField caption="EMAIL" value={email || ''}
                       onChange={event => setEmail(event.target.value)}
                     />
 
-                    <TextRowField caption="电话" value={phone || ''}
+                    <InputRowField caption="电话" value={phone || ''}
                       onChange={event => setPhone(event.target.value)}
                     />
                   </div>
@@ -471,6 +472,7 @@ function ResumeDetail(props) {
         setBirthday(res.content.birthday)
         setSchool(res.content.school)
         setMajor(res.content.major)
+        setEducation(res.content.education)
         setDateBegin(res.content.date_begin)
         setDateEnd(res.content.date_end)
         setAddress1(res.content.address1)
@@ -579,23 +581,23 @@ function ResumeDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="姓名" value={name || ''} autocomplete="name"
+                <InputRowField caption="姓名" value={name || ''} autocomplete="name"
                   onChange={event => setName(event.target.value)}
                 />
 
-                <TextRowField caption="电话" value={phone || ''} autocomplete="tel"
+                <InputRowField caption="电话" type="tel" value={phone || ''} autocomplete="tel"
                   onChange={event => setPhone(event.target.value)}
                 />
 
-                <TextRowField caption="EMAIL" value={email || ''} autocomplete="email"
+                <InputRowField caption="EMAIL" type="email" value={email || ''} autocomplete="email"
                   onChange={event => setEmail(event.target.value)}
                 />
 
-                <TextRowField caption="性别" value={gender || ''} autocomplete="sex"
+                <InputRowField caption="性别" value={gender || ''} autocomplete="sex"
                   onChange={event => setGender(event.target.value)}
                 />
 
-                <TextRowField caption="出生日期" value={birthday || ''} autocomplete="bday"
+                <InputRowField caption="出生日期" type="date" value={birthday || ''} autocomplete="bday"
                   onChange={event => setBirthday(event.target.value)}
                 />
 
@@ -603,31 +605,31 @@ function ResumeDetail(props) {
                   onChange={event => setSchool(event.target.value)}
                 />
 
-                <TextRowField caption="专业" value={major || ''}
+                <InputRowField caption="专业" value={major || ''}
                   onChange={event => setMajor(event.target.value)}
                 />
 
-                <TextRowField caption="学历" value={education || ''}
+                <EducationPickerRowField caption="学历" value={education || ''}
                   onChange={event => setEducation(event.target.value)}
                 />
 
-                <TextRowField caption="开始日期" value={date_begin || ''}
+                <InputRowField caption="开始日期" type="date" value={date_begin || ''}
                   onChange={event => setDateBegin(event.target.value)}
                 />
 
-                <TextRowField caption="结束日期" value={date_end || ''}
+                <InputRowField caption="结束日期" type="date" value={date_end || ''}
                   onChange={event => setDateEnd(event.target.value)}
                 />
 
-                <TextRowField caption="地址" value={address1 || ''} autocomplete="address-level1"
+                <InputRowField caption="地址" value={address1 || ''} autocomplete="address-level1"
                   onChange={event => setAddress1(event.target.value)}
                 />
 
-                <TextRowField caption="" value={address2 || ''} autocomplete="address-level2"
+                <InputRowField caption="" value={address2 || ''} autocomplete="address-level2"
                   onChange={event => setAddress2(event.target.value)}
                 />
 
-                <TextRowField caption="" value={address3 || ''} autocomplete="address-level3"
+                <InputRowField caption="" value={address3 || ''} autocomplete="address-level3"
                   onChange={event => setAddress3(event.target.value)}
                 />
 
@@ -643,7 +645,7 @@ function ResumeDetail(props) {
                   </div>
                 </div>
 
-                <TextRowField caption="期望职位" value={qiwangzhiwei || ''}
+                <InputRowField caption="期望职位" value={qiwangzhiwei || ''}
                   onChange={event => setQiwangzhiwei(event.target.value)}
                 />
 
@@ -651,7 +653,7 @@ function ResumeDetail(props) {
                   onChange={event => setQiwanghangye(event.target.value)}
                 />
 
-                <TextRowField caption="意向城市" value={yixiangchengshi || ''}
+                <AddressLevel3PickerRowField caption="意向城市" value={yixiangchengshi || ''}
                   onChange={event => setYixiangchengshi(event.target.value)}
                 />
               </div>

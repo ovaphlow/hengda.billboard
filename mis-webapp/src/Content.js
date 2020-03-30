@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 import moment from 'moment'
 
-import { Title, Navbar, BackwardButton, TextRowField, SchoolPickerRowField } from './Components'
+import { Title, Navbar, BackwardButton, InputRowField, SchoolPickerRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -340,11 +340,11 @@ function BannerDetail(props) {
               </div>
 
               <div className="card-body">
-                <TextRowField caption="标题" value={title || ''}
+                <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
 
-                <TextRowField caption="内容" value={comment || ''}
+                <InputRowField caption="内容" value={comment || ''}
                   onChange={event => setComment(event.target.value)}
                 />
 
@@ -644,7 +644,7 @@ function RecommendDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="标题" value={title || ''}
+                <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
                 <div className="form-group row">
@@ -1009,7 +1009,7 @@ function CampusDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <TextRowField caption="标题" value={title || ''}
+                <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
 
@@ -1084,7 +1084,7 @@ function CampusDetail(props) {
                   </div>
                 </div>
 
-                <TextRowField value={address_level4 || ''}
+                <InputRowField value={address_level4 || ''}
                   onChange={event => setAddressLevel4(event.target.value)}
                 />
 

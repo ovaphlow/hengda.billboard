@@ -21,9 +21,9 @@ export default function MISUserRouter() {
         <Route exact path="/平台内容/banner"><Banner /></Route>
         <Route exact path="/平台内容/banner/新增"><BannerDetail category="新增" /></Route>
         <Route path="/平台内容/banner/:id"><BannerDetail category="编辑" /></Route>
-        <Route exact path="/平台内容/首页推荐"><Recommend /></Route>
-        <Route exact path="/平台内容/首页推荐/新增"><RecommendDetail category="新增" /></Route>
-        <Route path="/平台内容/首页推荐/:id"><RecommendDetail category="编辑" /></Route>
+        <Route exact path="/平台内容/热门话题"><Recommend /></Route>
+        <Route exact path="/平台内容/热门话题/新增"><RecommendDetail category="新增" /></Route>
+        <Route path="/平台内容/热门话题/:id"><RecommendDetail category="编辑" /></Route>
         <Route exact path="/平台内容/校园招聘"><Campus /></Route>
         <Route exact path="/平台内容/校园招聘/新增"><CampusDetail category="新增" /></Route>
         <Route path="/平台内容/校园招聘/:id"><CampusDetail category="编辑" /></Route>
@@ -49,10 +49,19 @@ function SideNav(props) {
           </span>
         </a>
 
-        <a href="#平台内容/首页推荐"
-          className={`text-small list-group-item list-group-item-action ${props.category === '首页推荐' ? 'active' : ''}`}
+        <a href="#平台内容/热门话题"
+          className={`text-small list-group-item list-group-item-action ${props.category === '热门话题' ? 'active' : ''}`}
         >
-          首页推荐
+          热门话题
+          <span className="pull-right">
+            <i className="fa fa-fw fa-angle-right"></i>
+          </span>
+        </a>
+
+        <a href="#平台内容/推荐信息"
+          className={`text-small list-group-item list-group-item-action ${props.category === '推荐信息' ? 'active' : ''}`}
+        >
+          推荐信息
           <span className="pull-right">
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
@@ -424,7 +433,7 @@ function RecommendToolbar() {
     <div className="mb-2">
       <div className="btn-group">
         <button type="button" className="btn btn-outline-success btn-sm shadow"
-          onClick={() => window.location = '#平台内容/首页推荐/新增'}
+          onClick={() => window.location = '#平台内容/热门话题/新增'}
         >
           <i className="fa fa-fw fa-plus"></i>
           新增
@@ -433,7 +442,7 @@ function RecommendToolbar() {
 
       <div className="btn-group pull-right">
         <button type="button" className="btn btn-outline-secondary btn-sm shadow"
-          onClick={() => window.location = '#平台内容/首页推荐'}
+          onClick={() => window.location = '#平台内容/热门话题'}
         >
           <i className="fa fa-fw fa-list"></i>
           列表
@@ -486,11 +495,11 @@ function Recommend() {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category="首页推荐" />
+            <SideNav category="热门话题" />
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>首页推荐</h3>
+            <h3>热门话题</h3>
             <hr />
 
             <RecommendToolbar />
@@ -529,7 +538,7 @@ function Recommend() {
                 <div className="list-group">
                   {
                     list.map(it => (
-                      <a href={`#平台内容/首页推荐/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                      <a href={`#平台内容/热门话题/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1">{it.title}</h5>
                           <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
@@ -633,11 +642,11 @@ function RecommendDetail(props) {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category="首页推荐" />
+            <SideNav category="热门话题" />
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>{props.category} 首页推荐</h3>
+            <h3>{props.category} 热门话题</h3>
             <hr />
 
             <RecommendToolbar />

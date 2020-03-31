@@ -133,9 +133,9 @@ router
   })
 
 router
-  .get('/recommend/:id', async ctx => {
+  .get('/topic/:id', async ctx => {
     const sql = `
-      select * from recommend where id = ? and uuid = ? limit 1
+      select * from topic where id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
@@ -149,9 +149,9 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
-  .put('/recommend/:id', async ctx => {
+  .put('/topic/:id', async ctx => {
     const sql = `
-      update recommend set title = ?, date = ?, time = ?, content=? where id = ? and uuid = ?
+      update topic set title = ?, date = ?, time = ?, content=? where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -169,9 +169,9 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
-  .delete('/recommend/:id', async ctx => {
+  .delete('/topic/:id', async ctx => {
     const sql = `
-      delete from recommend where id = ? and uuid = ?
+      delete from topic where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -184,9 +184,9 @@ router
   })
 
 router
-  .get('/recommend/', async ctx => {
+  .get('/topic/', async ctx => {
     const sql = `
-      select * from recommend order by id desc limit 100
+      select * from topic order by id desc limit 100
     `
     const pool = mysql.promise()
     try {
@@ -197,9 +197,9 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
-  .put('/recommend/', async ctx => {
+  .put('/topic/', async ctx => {
     const sql = `
-      select * from recommend where date = ? and position(? in title) > 0
+      select * from topic where date = ? and position(? in title) > 0
     `
     const pool = mysql.promise()
     try {
@@ -213,10 +213,10 @@ router
       ctx.response.body = { message: '服务器错误', content: '' }
     }
   })
-  .post('/recommend/', async ctx => {
+  .post('/topic/', async ctx => {
     const sql = `
       insert into
-        recommend (uuid, mis_user_id, title, date, time, content)
+        topic (uuid, mis_user_id, title, date, time, content)
         values (uuid(), 0, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
@@ -226,6 +226,43 @@ router
         ctx.request.body.date,
         ctx.request.body.time,
         ctx.request.body.content
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+
+router
+  .get('/recommend/', async ctx => {})
+  .post('/recommend/', async ctx => {
+    console.info(ctx.request.body)
+    let sql = `
+      insert into
+        topic (uuid)
+        -- , category)
+          -- , date1, date2, address_level1, address_level2,
+          -- qty, baomingfangshi, content)
+        values (uuid())
+        -- , ?)
+        --, ?, ?, ?, ?, ?, ?, '')
+    `
+    sql = `
+      insert into
+        recommend (uuid, category, content)
+        values (uuid(), ?, '')
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.category,
+      //   ctx.request.body.date1,
+      //   ctx.request.body.date2,
+      //   ctx.request.body.address_level1,
+      //   ctx.request.body.address_level2,
+      //   ctx.request.body.qty,
+      //   ctx.request.body.baomingfandshi
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

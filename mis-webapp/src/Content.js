@@ -21,9 +21,12 @@ export default function MISUserRouter() {
         <Route exact path="/平台内容/banner"><Banner /></Route>
         <Route exact path="/平台内容/banner/新增"><BannerDetail category="新增" /></Route>
         <Route path="/平台内容/banner/:id"><BannerDetail category="编辑" /></Route>
-        <Route exact path="/平台内容/热门话题"><Recommend /></Route>
-        <Route exact path="/平台内容/热门话题/新增"><RecommendDetail category="新增" /></Route>
-        <Route path="/平台内容/热门话题/:id"><RecommendDetail category="编辑" /></Route>
+        <Route exact path="/平台内容/推荐信息"><Recommend /></Route>
+        <Route exact path="/平台内容/推荐信息/新增"><RecommendDetail category="新增" /></Route>
+        <Route path="/平台内容/推荐信息/:id"><RecommendDetail category="编辑" /></Route>
+        <Route exact path="/平台内容/热门话题"><Topic /></Route>
+        <Route exact path="/平台内容/热门话题/新增"><TopicDetail category="新增" /></Route>
+        <Route path="/平台内容/热门话题/:id"><TopicDetail category="编辑" /></Route>
         <Route exact path="/平台内容/校园招聘"><Campus /></Route>
         <Route exact path="/平台内容/校园招聘/新增"><CampusDetail category="新增" /></Route>
         <Route path="/平台内容/校园招聘/:id"><CampusDetail category="编辑" /></Route>
@@ -49,19 +52,19 @@ function SideNav(props) {
           </span>
         </a>
 
-        <a href="#平台内容/热门话题"
-          className={`text-small list-group-item list-group-item-action ${props.category === '热门话题' ? 'active' : ''}`}
+        <a href="#平台内容/推荐信息"
+          className={`text-small list-group-item list-group-item-action ${props.category === '推荐信息' ? 'active' : ''}`}
         >
-          热门话题
+          推荐信息
           <span className="pull-right">
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
         </a>
 
-        <a href="#平台内容/推荐信息"
-          className={`text-small list-group-item list-group-item-action ${props.category === '推荐信息' ? 'active' : ''}`}
+        <a href="#平台内容/热门话题"
+          className={`text-small list-group-item list-group-item-action ${props.category === '热门话题' ? 'active' : ''}`}
         >
-          推荐信息
+          热门话题
           <span className="pull-right">
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
@@ -433,6 +436,240 @@ function RecommendToolbar() {
     <div className="mb-2">
       <div className="btn-group">
         <button type="button" className="btn btn-outline-success btn-sm shadow"
+          onClick={() => window.location = '#平台内容/推荐信息/新增'}
+        >
+          <i className="fa fa-fw fa-plus"></i>
+          新增
+        </button>
+      </div>
+
+      <div className="btn-group pull-right">
+        <button type="button" className="btn btn-outline-secondary btn-sm shadow"
+          onClick={() => window.location = '#平台内容/推荐信息'}
+        >
+          <i className="fa fa-fw fa-list"></i>
+          列表
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function Recommend() {
+  return (
+    <>
+      <Title />
+      <Navbar category="平台内容" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav category="推荐信息" />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>推荐信息</h3>
+            <hr />
+
+            <RecommendToolbar />
+
+            <div className="card shadow">
+              <div className="card-body">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function RecommendDetail(props) {
+  const [address_keys, setAddressKeys] = useState([])
+  const [address_values, setAddressValues] = useState([])
+  const [arr1, setArr1] = useState([])
+  const [arr2, setArr2] = useState([])
+
+  const [category, setCategory] = useState('')
+  const [date1, setDate1] = useState(moment().format('YYYY-MM-DD'))
+  const [date2, setDate2] = useState(moment().format('YYYY-MM-DD'))
+  const [address_level1, setAddressLevel1] = useState('')
+  const [address_level2, setAddressLevel2] = useState('')
+  const [qty, setQty] = useState(1)
+  const [baomingfangshi, setBaomingfangshi] = useState('')
+  const [content, setContent] = useState('')
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await window.fetch(`/lib/address.json`)
+      const res = await response.json()
+      const keys = Object.keys(res)
+      setAddressKeys(keys)
+      const values = Object.values(res)
+      setAddressValues(values)
+      let _arr = []
+      keys.forEach((e, index) => {
+        if (e.slice(-4) === '0000') {
+          _arr.push(values[index])
+        }
+      })
+      setArr1(_arr)
+    })()
+  }, [])
+
+  useEffect(() => {
+    let _arr = []
+    setArr2(_arr)
+    for (let i = 0; i < address_values.length; i++) {
+      if (address_values[i] === address_level1) {
+        const code = address_keys[i]
+        for (let j = 0; j < address_keys.length; j++) {
+          if (address_keys[j].slice(0, 2) === code.slice(0, 2) && address_keys[j].slice(-2) === '00') {
+            if (address_keys[j].slice(-4) !== '0000') _arr.push(address_values[j])
+          }
+        }
+        return
+      }
+    }
+    setArr2(_arr)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address_level1])
+
+  const handleSave = async () => {
+    if (props.category === '新增') {
+      const response = await window.fetch(`/api/content/recommend/`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          category: category,
+          date1: date1,
+          date2: date2,
+          address_level1: address_level1,
+          address_level2: address_level2,
+          qty: qty,
+          baomingfangshi: baomingfangshi
+        })
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.history.go(-1)
+    }
+  }
+
+  return (
+    <>
+      <Title />
+      <Navbar category="平台内容" />
+
+      <div className="container-fluid mt-3 mb-5">
+        <div className="row">
+          <div className="col-3 col-lg-2">
+            <SideNav category="推荐信息" />
+          </div>
+
+          <div className="col-9 col-lg-10">
+            <h3>{props.category} 推荐信息</h3>
+            <hr />
+
+            <RecommendToolbar />
+
+            <div className="card shadow">
+              <div className="card-body">
+                <InputRowField caption="栏目分类" value={category || ''}
+                  onChange={event => setCategory(event.target.value)}
+                />
+
+                <InputRowField caption="发布日期" type="date" value={date1 || ''}
+                  onChange={event => setDate1(event.target.value)}
+                />
+
+                <InputRowField caption="截止日期" type="date" value={date2 || ''}
+                  onChange={event => setDate2(event.target.value)}
+                />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">所属省份</label>
+                  <div className="col-sm-10">
+                    <select value={address_level1 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddressLevel1(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr1.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">工作地点</label>
+                  <div className="col-sm-10">
+                    <select value={address_level2 || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setAddressLevel2(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      {
+                        arr2.map((it, index) => (
+                          <option value={it} key={index}>{it}</option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <InputRowField caption="招聘人数" type="number" value={qty || ''}
+                  onChange={event => setQty(event.target.value)}
+                />
+
+                <InputRowField caption="报名方式" value={baomingfangshi || ''}
+                  onChange={event => setBaomingfangshi(event.target.value)}
+                />
+
+                {/* 内容 */}
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group">
+                  <BackwardButton />
+                </div>
+
+                <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger">
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
+                  <button type="button" className="btn btn-primary"
+                    onClick={handleSave}
+                  >
+                    <i className="fa fa-fw fa-save"></i>
+                    保存
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function TopicToolbar() {
+  return (
+    <div className="mb-2">
+      <div className="btn-group">
+        <button type="button" className="btn btn-outline-success btn-sm shadow"
           onClick={() => window.location = '#平台内容/热门话题/新增'}
         >
           <i className="fa fa-fw fa-plus"></i>
@@ -452,14 +689,14 @@ function RecommendToolbar() {
   )
 }
 
-function Recommend() {
+function Topic() {
   const [list, setList] = useState([])
   const [filter_title, setFilterTitle] = useState('')
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
     ;(async () => {
-      const response = await window.fetch(`/api/content/recommend/`)
+      const response = await window.fetch(`/api/content/topic/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -471,7 +708,7 @@ function Recommend() {
 
   const handleFilter = async () => {
     setList([])
-    const response = await window.fetch(`/api/content/recommend/`, {
+    const response = await window.fetch(`/api/content/topic/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -499,10 +736,10 @@ function Recommend() {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>热门话题</h3>
+            <h3>推荐信息</h3>
             <hr />
 
-            <RecommendToolbar />
+            <TopicToolbar />
 
             <div className="card shadow">
               <div className="card-header">
@@ -538,7 +775,7 @@ function Recommend() {
                 <div className="list-group">
                   {
                     list.map(it => (
-                      <a href={`#平台内容/热门话题/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                      <a href={`#平台内容/推荐信息/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1">{it.title}</h5>
                           <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
@@ -558,7 +795,7 @@ function Recommend() {
   )
 }
 
-function RecommendDetail(props) {
+function TopicDetail(props) {
   const { id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
@@ -570,7 +807,7 @@ function RecommendDetail(props) {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
         ;(async (id, uuid) => {
-          const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`)
+          const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`)
           const res = await response.json()
           if (res.message) {
             window.console.error(res.message)
@@ -585,7 +822,7 @@ function RecommendDetail(props) {
 
   const handleRemove = async () => {
     if (!!!window.confirm('确定要删除当前数据？')) return
-    const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`, {
+    const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`, {
       method: 'DELETE'
     })
     const res = await response.json()
@@ -598,7 +835,7 @@ function RecommendDetail(props) {
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      const response = await window.fetch(`/api/content/recommend/`, {
+      const response = await window.fetch(`/api/content/topic/`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -615,7 +852,7 @@ function RecommendDetail(props) {
       }
       window.history.go(-1)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/content/recommend/${id}?uuid=${uuid}`, {
+      const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

@@ -30,7 +30,6 @@ function List() {
         return
       }
       setList(res.content)
-      console.info(res)
     })(_master_id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -52,6 +51,44 @@ function List() {
 
             <div className="btn-group">
               <BackwardButton />
+            </div>
+
+            <div className="card shadow">
+              <div className="card-body">
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
+                    <tr>
+                      <th className="text-right">序号</th>
+                      <th>用户类型</th>
+                      <th>用户</th>
+                      <th>收藏类型</th>
+                      <th>收藏内容</th>
+                      <th>收藏时间</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {
+                      list.map(it => (
+                        <tr key={it.id}>
+                          <td>
+                            <span className="pull-right">{it.id}</span>
+                          </td>
+                          <td>{it.category1}</td>
+                          <td>{it.user_id}</td>
+                          <td>{it.category2}</td>
+                          <td>
+                            <button type="button" className="btn btn-link">
+                              {it.data_id}
+                            </button>
+                          </td>
+                          <td>{it.datime}</td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

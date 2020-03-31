@@ -10,7 +10,7 @@ module.exports = router
 
 router.get('/', async ctx => {
   const sql = `
-    select * from favorite where user_id = ? order by id desc
+    select * from favorite where user_id = ? and category1 = '个人用户' order by id desc
   `
   const pool = mysql.promise()
   try {

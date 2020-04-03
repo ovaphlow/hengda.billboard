@@ -17,28 +17,30 @@ const ToBack = props => {
   return (
     <div className="row p-2 bg-white ">
       <div className="col" style={{ padding: 0 }}>
-        <span onClick={toPrevious} className="text-left text-dark">
-          <i 
+        <span onClick={toPrevious} className=" text-dark">
+          <i
             className="fa fa-fw fa-chevron-left fa-lg text-muted"></i>
           {props.category}
         </span>
       </div>
-      <div className="col flex-end" style={{ padding: 0 }}>
-        {
-          props.report && (
-            <a className="text-danger" href={`#/我的/举报/${props.dataId}/${props.dataType}${props.search}`}>
-              举报
+      {(props.report && props.complaint) && (
+        <div className="col flex-end" style={{ padding: 0 }}>
+          {
+            props.report && (
+              <a className="text-danger" href={`#/我的/举报/${props.dataId}/${props.dataType}${props.search}`}>
+                举报
             </a>
-          )
-        }
-        {
-          props.complaint && (
-            <a className="text-danger" href="#/举报">
-              投诉
+            )
+          }
+          {
+            props.complaint && (
+              <a className="text-danger" href="#/举报">
+                投诉
             </a>
-          )
-        }
-      </div>
+            )
+          }
+        </div>
+      )}
     </div>
   )
 }

@@ -4,16 +4,16 @@ import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
 import { TextCheckbox } from '../components/Button'
-import { MessageRow, TopicCards } from './Components'
+import { RecommendRow, TopicCards } from './Components'
 
 
 const HomePage = () => {
 
-  const [messageList, setMessageList] = useState([])
+  const [recommendList, setRecommendList] = useState([])
 
   const [topicList, setTopicList] = useState([])
 
-  const [messageTypes, setMessageTypes] = useState({})
+  const [recommendTypes, setRecommendTypes] = useState({})
 
   const [auth, setAuth] = useState(0)
 
@@ -22,58 +22,47 @@ const HomePage = () => {
     if (_auth !== null) {
       setAuth(JSON.parse(_auth))
     }
-
-    setMessageList([
-      {
-        id: 0,
-        title: '黑龙江职业学院2019年公开招聘工作人员公告',
-        address: '哈尔滨',
-        num: '若干',
-        org: '黑龙江职业学院',
-        type: '教师'
-      },
-      {
-        id: 1,
-        title: '国家信息中心2019年公开招聘工作人员公告',
-        address: '各地',
-        num: '若干',
-        org: '国家信息中心',
-        type: '公务员'
-      },
-      {
-        id: 2,
-        title: '2019年北京市石景山区事业单位公开招聘工作',
-        address: '北京',
-        num: '2',
-        org: '北京市石景山区人力资源和社会保障局',
-        type: '事业单位'
-      },
-      {
-        id: 3,
-        title: '天津市大数据管理中心公开招聘工作人员公告',
-        address: '天津',
-        num: '若干',
-        org: '天津市人才服务中心',
-        type: '国企'
-      }
-    ])
-    fetch('./api/topic')
+    fetch('./api/topic/')
       .then(res => res.json())
       .then(res => {
         if (res.content) {
           setTopicList(res.content)
         }
       })
+    fetch('./api/recommend/', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({})
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setRecommendList(res.content)
+        }
+      })
   }, [])
 
-  useEffect(() => {
-  }, [messageTypes])
-
   const _onCheckboxChange = ({ value, checked }) => {
-    setMessageTypes(types => ({
+    setRecommendTypes(types => ({
       ...types,
       [value]: checked
     }))
+    fetch(`./api/recommend/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        ...recommendTypes,
+        [value]: checked
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.content) {
+          setRecommendList(res.content)
+        } else {
+          alert(res.message)
+        }
+      })
   }
 
   return (
@@ -123,8 +112,8 @@ const HomePage = () => {
           </div>
           <br></br>
           {
-            messageList && messageList.map(item =>
-              <MessageRow key={item.id} toDetails={(() => { })} {...item} />
+            recommendList && recommendList.map(item =>
+              <RecommendRow key={item.id} {...item} />
             )
           }
         </div>

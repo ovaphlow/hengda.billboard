@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import watermark from 'watermarkjs'
 
 import { View } from './Components'
-import level from '../components/level.json'
+
 import { TextField, SelectField } from '../components/InputField'
 
 const Update = () => {
@@ -21,6 +21,10 @@ const Update = () => {
   })
 
   const [auth, setAuth] = useState(0)
+
+  const [level, setLevel] = useState([])
+
+  const [address, setAddress] = useState([])
 
   const [city, setCity] = useState([])
 
@@ -43,7 +47,52 @@ const Update = () => {
           }
         })
     }
+    fetch(`/lib/address.json`)
+      .then(res => res.json())
+      .then(res => {
+        setAddress(res)
+        setLevel(
+          Object.getOwnPropertyNames(res)
+            .filter(item => item.slice(2, 7) === '0000')
+            .map(code => ({
+              code: code,
+              name: res[code]
+            }))
+        )
+      })
   }, [])
+
+
+  useEffect(() => {
+    if (level.length > 0) {
+      const a1 = level.find(item => item.name === data.address1)
+      if (a1) {
+        setCity(Object.getOwnPropertyNames(address)
+          .filter(it => a1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== a1.code)
+          .map(code => ({
+            code: code,
+            name: address[code]
+          })))
+      }
+    }
+  }, [data, level, address])
+
+
+  useEffect(() => {
+    if (city.length > 0) {
+      const a2 = city.find(item => item.name === data.address2)
+      if (a2) {
+        setArea(
+          Object.getOwnPropertyNames(address)
+            .filter(it => a2.code.slice(0, 4) === it.slice(0, 4) && it !== a2.code)
+            .map(code => ({
+              code: code,
+              name: address[code]
+            }))
+        )
+      }
+    }
+  }, [data, city, address])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -72,13 +121,13 @@ const Update = () => {
       return
     }
     watermark([e.target.files[0]])
-    .dataUrl(watermark.text.center('仅用于公示,其他用途无效', '100px Josefin Slab', '#FE0000', 0.5))
-    .then(url => {
-      setData({
-        ...data,
-        yingyezhizhao_tu: url
+      .dataUrl(watermark.text.center('仅用于公示,其他用途无效', '100px Josefin Slab', '#FE0000', 0.5))
+      .then(url => {
+        setData({
+          ...data,
+          yingyezhizhao_tu: url
+        })
       })
-    })
   }
 
   const handleUpload = () => {
@@ -89,28 +138,22 @@ const Update = () => {
   const handleProvince = e => {
     const value = e.target.value
     if (value !== '') {
-      switch (value) {
-        case '北京市':
-        case '上海市':
-        case '天津市':
-        case '重庆市':
-          setData({
-            ...data,
-            address1: value,
-            address2: value
-          })
-          const item = level.find(item => item.name === value)
-          setCity([item])
-          setArea(item.children.filter(it => it.province === item.code.slice(0, 2)))
-          break
-        default:
-          setData({
-            ...data,
-            address1: value
-          })
-          setCity(level.find(item => item.name === value).children)
-          setArea([])
+      const a1 = level.find(item => item.name === value)
+      if (a1) {
+        setCity(Object.getOwnPropertyNames(address)
+          .filter(it => a1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== a1.code)
+          .map(code => ({
+            code: code,
+            name: address[code]
+          })))
       }
+      setData({
+        ...data,
+        address1: value,
+        address2: '',
+        address3: ''
+      })
+      setArea([])
     } else {
       setData({
         ...data,
@@ -128,10 +171,20 @@ const Update = () => {
     if (value !== '') {
       setData({
         ...data,
-        address2: value
+        address2: value,
+        address3: ''
       })
-      const item = city.find(it => it.name === value)
-      setArea(item.children.filter(it => it.province === item.code.slice(0, 2)))
+      const a2 = city.find(item => item.name === value)
+      if (a2) {
+        setArea(
+          Object.getOwnPropertyNames(address)
+            .filter(it => a2.code.slice(0, 4) === it.slice(0, 4) && it !== a2.code)
+            .map(code => ({
+              code: code,
+              name: address[code]
+            }))
+        )
+      }
     } else {
       setData({
         ...data,

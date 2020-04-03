@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "TopicProto";
+
+package topic;
+
+service Topic {
+  
+  rpc list(TopicRequest) returns (TopicReply) {}
+    
+  rpc get(TopicRequest) returns (TopicReply) {}
+  
+}
+
+message TopicRequest { string data = 1; }
+
+message TopicReply { string data = 1; }

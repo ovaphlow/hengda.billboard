@@ -9,7 +9,8 @@ export function InputField(props) {
         </span>
         <input type="text"
           name={props.name}
-          value={props.value}
+          value={props.value||''}
+          defaultValue={props.defaultValue}
           placeholder={props.placeholder}
           className="input-control"
           onChange={props.handleChange}
@@ -28,7 +29,7 @@ export function SelectField(props) {
         </span>
         <select type="text"
           name={props.name}
-          value={props.value}
+          value={props.value||''}
           className="input-control"
           onChange={props.handleChange}>
           {props.children}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "CommonDataProto";
+
+package commonData;
+
+service CommonData {
+  
+  rpc hangye(CommonDataRequest) returns (CommonDataReply) {}
+
+}
+
+message CommonDataRequest { string data = 1; }
+
+message CommonDataReply { string data = 1; }

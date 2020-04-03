@@ -19,6 +19,8 @@ service Resume {
   rpc status(ResumeRequest) returns (ResumeReply) {}
 
   rpc retrieval(ResumeRequest) returns (ResumeReply) {}
+
+  rpc recommend(ResumeRequest) returns (ResumeReply) {}
     
 }
 

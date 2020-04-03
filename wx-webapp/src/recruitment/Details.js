@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
-
-
 import ToBack from '../components/ToBack'
 
 
-const searchFavorite = body => new Promise((resolve, reject) => {
+export const searchFavorite = body => new Promise((resolve, reject) => {
   fetch(`./api/favorite/search/one/`, {
     method: 'PUT',
     headers: { 'content-type': 'application/json' },
@@ -120,7 +118,7 @@ const Details = () => {
                 category2: '岗位',
               }).then(res1 => {
                 if (res1.content) {
-                  setDelivery(p => res1.content)
+                  setFavorite(p => res1.content)
                 }
               })
             } else {

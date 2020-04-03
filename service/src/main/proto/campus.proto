@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "campusProto";
+
+package campus;
+
+service Campus {
+
+  rpc get(CampusRequest) returns (CampusReply) {}
+
+  rpc search(CampusRequest) returns (CampusReply) {}
+
+}
+
+message CampusRequest { string data = 1; }
+
+message CampusReply { string data = 1; }

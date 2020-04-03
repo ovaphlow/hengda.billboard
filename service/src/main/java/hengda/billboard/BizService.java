@@ -30,6 +30,11 @@ public class BizService {
                 .addService(new EnterpriseUserServiceImpl())
                 .addService(new MessageServiceImpl())
                 .addService(new OfferServiceImpl())
+                .addService(new CampusServiceImpl())
+                .addService(new TopicServiceImpl())
+                .addService(new CommonUserScheduleImpl())
+                .addService(new CommonDataImpl())
+                .addService(new RecommendServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

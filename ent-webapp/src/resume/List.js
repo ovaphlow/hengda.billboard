@@ -130,7 +130,7 @@ const List = () => {
               <thead>
                 <tr>
                   <th scope="col">职位名称</th>
-                  <th scope="col">所属行业</th>
+                  {/* <th scope="col">所属行业</th> */}
                   <th scope="col">求职者姓名</th>
                   <th scope="col">毕业院校</th>
                   <th scope="col">学历</th>
@@ -143,7 +143,7 @@ const List = () => {
                 {list && list.map(item => (
                   <tr key={item.id}>
                     <td>{item.recruitment_name}</td>
-                    <td>{item.industry}</td>
+                    {/* <td>{item.industry}</td> */}
                     <td>{item.name}</td>
                     <td>{item.school}</td>
                     <td>{item.education}</td>

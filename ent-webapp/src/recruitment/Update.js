@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
-import { TextField, SelectField } from '../components/InputField'
+import { TextField, SelectField, IndustryField } from '../components/InputField'
 import RichEditor from '../components/RichEditor'
-import level from '../components/level.json'
 import { View } from './Components'
-
 
 const Update = () => {
 
@@ -36,6 +34,10 @@ const Update = () => {
 
   const { search } = useLocation()
 
+  const [level, setLevel] = useState([])
+
+  const [address, setAddress] = useState([])
+
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
@@ -43,43 +45,62 @@ const Update = () => {
       window.location = '#登录'
       return
     }
-    setAuth(_auth) 
+    setAuth(_auth)
     fetch(`./api/recruitment/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
           setName(res.content.name)
-          if (res.content.address1) {
-            const l1 = level.find(item => item.name === res.content.address1)
-            switch (res.content.address1) {
-              case '北京市':
-              case '上海市':
-              case '天津市':
-              case '重庆市':
-                setCity([l1])
-                setArea(
-                  l1.children.filter(
-                    it => it.province === l1.code.slice(0, 2))
-                )
-                break
-              default:
-                if (l1) {
-                  setCity(l1.children)
-                  const l2 = l1.children.find(
-                    item => item.name === res.content.address2)
-                  if (l2 && l2.children) {
-                    setArea(l2.children.filter(it => it.province === l2.code.slice(0, 2)))
-                  }
-                }
-            }
-
-          }
-          setData(p=> res.content)
+          setData(p => res.content)
         } else {
           alert(res.message)
         }
       })
-  }, [id,search])
+    fetch(`/lib/address.json`)
+      .then(res => res.json())
+      .then(res => {
+        setAddress(res)
+        setLevel(
+          Object.getOwnPropertyNames(res)
+            .filter(item => item.slice(2, 7) === '0000')
+            .map(code => ({
+              code: code,
+              name: res[code]
+            }))
+        )
+      })
+  }, [id, search])
+
+  useEffect(() => {
+    if (level.length > 0) {
+      const a1 = level.find(item => item.name === data.address1)
+      if (a1) {
+        setCity(Object.getOwnPropertyNames(address)
+          .filter(it => a1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== a1.code)
+          .map(code => ({
+            code: code,
+            name: address[code]
+          })))
+      }
+    }
+  }, [data, level, address])
+
+
+  useEffect(() => {
+    if (city && city.length > 0) {
+      const a2 = city.find(item => item.name === data.address2)
+      if (a2) {
+        setArea(
+          Object.getOwnPropertyNames(address)
+            .filter(it => a2.code.slice(0, 4) === it.slice(0, 4) && it !== a2.code)
+            .map(code => ({
+              code: code,
+              name: address[code]
+            }))
+        )
+      }
+    }
+  }, [data, city, address])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -109,28 +130,22 @@ const Update = () => {
   const handleProvince = e => {
     const value = e.target.value
     if (value !== '') {
-      switch (value) {
-        case '北京市':
-        case '上海市':
-        case '天津市':
-        case '重庆市':
-          setData({
-            ...data,
-            address1: value,
-            address2: value
-          })
-          const item = level.find(item => item.name === value)
-          setCity([item])
-          setArea(item.children.filter(it => it.province === item.code.slice(0, 2)))
-          break
-        default:
-          setData({
-            ...data,
-            address1: value
-          })
-          setCity(level.find(item => item.name === value).children)
-          setArea([])
+      const a1 = level.find(item => item.name === value)
+      if (a1) {
+        setCity(Object.getOwnPropertyNames(address)
+          .filter(it => a1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== a1.code)
+          .map(code => ({
+            code: code,
+            name: address[code]
+          })))
       }
+      setData({
+        ...data,
+        address1: value,
+        address2: '',
+        address3: ''
+      })
+      setArea([])
     } else {
       setData({
         ...data,
@@ -148,10 +163,20 @@ const Update = () => {
     if (value !== '') {
       setData({
         ...data,
-        address2: value
+        address2: value,
+        address3: ''
       })
-      const item = city.find(it => it.name === value)
-      setArea(item.children.filter(it => it.province === item.code.slice(0, 2)))
+      const a2 = city.find(item => item.name === value)
+      if (a2) {
+        setArea(
+          Object.getOwnPropertyNames(address)
+            .filter(it => a2.code.slice(0, 4) === it.slice(0, 4) && it !== a2.code)
+            .map(code => ({
+              code: code,
+              name: address[code]
+            }))
+        )
+      }
     } else {
       setData({
         ...data,
@@ -167,8 +192,8 @@ const Update = () => {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        status:v,
-        user_id:auth.id,
+        status: v,
+        user_id: auth.id,
         name: name
       })
     })
@@ -206,7 +231,7 @@ const Update = () => {
                         className="pull-right btn btn-link btn-lg text-success"
                         onClick={() => handleDataStatus('在招')} >
                         复招
-                    </button>
+                      </button>
                     )
                 }
 
@@ -221,18 +246,15 @@ const Update = () => {
                   value={data.name}
                   handleChange={handleChange} />
               </div>
-              <div className="col">
-                <TextField
-                  category="所属行业"
-                  name="industry"
-                  value={data.industry||''}
-                  handleChange={handleChange} />
-              </div>
+              <IndustryField
+                industry={data.industry}
+                position={data.position}
+                handleChange={handleChange} />
               <div className="col">
                 <SelectField
                   category="职位类型"
                   name="category"
-                  value={data.category||''}
+                  value={data.category || ''}
                   handleChange={handleChange}>
                   <option></option>
                   <option>全职</option>
@@ -252,13 +274,6 @@ const Update = () => {
                   <option>专科以上</option>
                   <option>本科以上</option>
                 </SelectField>
-              </div>
-              <div className="col">
-                <TextField
-                  category="招聘人数"
-                  name="qty"
-                  value={data.qty||''}
-                  handleChange={handleChange} />
               </div>
             </div>
             <div className="row">
@@ -283,7 +298,7 @@ const Update = () => {
                   handleChange={handleCity}>
                   <option></option>
                   {
-                    city.map((item, inx) =>
+                    city && city.map((item, inx) =>
                       <option key={inx}>{item.name}</option>)
                   }
                 </SelectField>
@@ -315,6 +330,19 @@ const Update = () => {
                   value={data.salary2}
                   handleChange={handleChange} />
               </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <TextField
+                  category="招聘人数"
+                  name="qty"
+                  value={data.qty}
+                  handleChange={handleChange} />
+              </div>
+              <div className="col" />
+              <div className="col" />
+              <div className="col" />
+              <div className="col" />
             </div>
             <div className="row">
               <div className="col">

@@ -23,8 +23,8 @@ const Sidebar = props => (
       </span>
     </a>
     <a
-      href="#消息/平台"
-      className={`list-group-item list-group-item-action border-0 ${props.category === '推送' && 'text-primary'}`}
+      href="#消息/系统"
+      className={`list-group-item list-group-item-action border-0 ${props.category === '系统' && 'text-primary'}`}
     >
       平台消息
       <span className="pull-right">

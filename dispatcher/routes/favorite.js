@@ -25,7 +25,7 @@ const router = new Router({
 module.exports = router
 
 router
-  .get('/category1/:user_id/', async ctx => {
+  .get('/:category1/:user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.list({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {

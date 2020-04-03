@@ -127,3 +127,7 @@ p {
 .modal-show {
   display: block
 }
+
+.editor-body img {
+  width: 100%;
+}

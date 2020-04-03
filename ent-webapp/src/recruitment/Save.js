@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, SelectField } from '../components/InputField'
+import { TextField, SelectField, IndustryField } from '../components/InputField'
 import RichEditor from '../components/RichEditor'
-import level from '../components/level.json'
 import { View } from './Components'
 
 const Save = () => {
@@ -10,10 +9,12 @@ const Save = () => {
     name: '',
     category: '',
     industry: '',
+    position: '',
     status: '',
     education: '',
     salary1: '',
     salary2: '',
+    qty: '',
     address1: '',
     address2: '',
     address3: '',
@@ -25,19 +26,33 @@ const Save = () => {
 
   const [area, setArea] = useState([])
 
+  const [level, setLevel] = useState([])
 
-
+  const [address, setAddress] = useState([])
 
   useEffect(() => {
     const auth = JSON.parse(sessionStorage.getItem('auth'))
     if (auth !== null) {
-      setData(p=> ({
+      setData(p => ({
         ...p,
         enterprise_id: auth.enterprise_id,
-        user_id:auth.id
+        user_id: auth.id
       }))
-    } 
-  },[])
+    }
+    fetch(`/lib/address.json`)
+      .then(res => res.json())
+      .then(res => {
+        setAddress(res)
+        setLevel(
+          Object.getOwnPropertyNames(res)
+            .filter(item => item.slice(2, 7) === '0000')
+            .map(code => ({
+              code: code,
+              name: res[code]
+            }))
+        )
+      })
+  }, [])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -64,28 +79,22 @@ const Save = () => {
   const handleProvince = e => {
     const value = e.target.value
     if (value !== '') {
-      switch (value) {
-        case '北京市':
-        case '上海市':
-        case '天津市':
-        case '重庆市':
-          setData({
-            ...data,
-            address1: value,
-            address2: value
-          })
-          const item = level.find(item => item.name === value)
-          setCity([item])
-          setArea(item.children.filter(it => it.province === item.code.slice(0, 2)))
-          break
-        default:
-          setData({
-            ...data,
-            address1: value
-          })
-          setCity(level.find(item => item.name === value).children)
-          setArea([])
+      setData({
+        ...data,
+        address1: value,
+        address2: '',
+        address3: ''
+      })
+      const a1 = level.find(item => item.name === value)
+      if (a1) {
+        setCity(Object.getOwnPropertyNames(address)
+          .filter(it => a1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== a1.code)
+          .map(code => ({
+            code: code,
+            name: address[code]
+          })))
       }
+      setArea([])
     } else {
       setData({
         ...data,
@@ -103,10 +112,20 @@ const Save = () => {
     if (value !== '') {
       setData({
         ...data,
-        address2: value
+        address2: value,
+        address3: ''
       })
-      const item = city.find(it => it.name === value)
-      setArea(item.children.filter(it => it.province === item.code.slice(0, 2)))
+      const a2 = city.find(item => item.name === value)
+      if (a2) {
+        setArea(
+          Object.getOwnPropertyNames(address)
+            .filter(it => a2.code.slice(0, 4) === it.slice(0, 4) && it !== a2.code)
+            .map(code => ({
+              code: code,
+              name: address[code]
+            }))
+        )
+      }
     } else {
       setData({
         ...data,
@@ -116,7 +135,6 @@ const Save = () => {
       setArea([])
     }
   }
-
 
   return (
     <View category="我的职位">
@@ -133,13 +151,10 @@ const Save = () => {
                   value={data.name}
                   handleChange={handleChange} />
               </div>
-              <div className="col">
-                <TextField
-                  category="所属行业"
-                  name="industry"
-                  value={data.industry}
-                  handleChange={handleChange} />
-              </div>
+              <IndustryField
+                industry={data.industry}
+                position={data.position}
+                handleChange={handleChange} />
               <div className="col">
                 <SelectField
                   category="职位类型"
@@ -165,18 +180,11 @@ const Save = () => {
                   <option>本科以上</option>
                 </SelectField>
               </div>
-              <div className="col">
-                <TextField
-                  category="招聘人数"
-                  name="qty"
-                  value={data.qty}
-                  handleChange={handleChange} />
-              </div>
             </div>
             <div className="row">
               <div className="col">
                 <SelectField
-                  category="省/直辖市"
+                  category="省"
                   name="address1"
                   value={data.address1}
                   handleChange={handleProvince}>
@@ -228,6 +236,20 @@ const Save = () => {
                   handleChange={handleChange} />
               </div>
             </div>
+            <div className="row">
+              <div className="col">
+                <TextField
+                  category="招聘人数"
+                  name="qty"
+                  value={data.qty}
+                  handleChange={handleChange} />
+              </div>
+              <div className="col" />
+              <div className="col" />
+              <div className="col" />
+              <div className="col" />
+            </div>
+
             <div className="row">
               <div className="col">
                 <div className="form-group">

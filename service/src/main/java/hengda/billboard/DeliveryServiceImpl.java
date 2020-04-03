@@ -108,7 +108,7 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
       Connection conn = DBUtil.getConn();
       String sql = "select r.*, d.status, d.datime from delivery d  join "
           + "    recruitment r on d.recruitment_id = r.id  where "
-          + "     (select re.id from resume re where re.common_user_id= ?) = d.resume_id";
+          + "     (select re.id from resume re where re.common_user_id= ? limit 1) = d.resume_id";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
       ResultSet rs = ps.executeQuery();

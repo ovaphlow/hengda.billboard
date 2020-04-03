@@ -7,10 +7,18 @@ const User = () => {
 
   const [auth, setAuth] = useState(0)
 
+  const [schedule, setSchedule] = useState(0)
+
+
   useEffect(() => {
-    const _auth = localStorage.getItem('auth')
+    const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth !== null) {
-      setAuth(JSON.parse(_auth))
+      setAuth(_auth)
+      fetch(`./api/common-user-schedule/count/${_auth.id}`)
+      .then(res => res.json())
+      .then(res => {
+        setSchedule(res.content)
+      })
     }
   }, [])
 
@@ -92,12 +100,14 @@ const User = () => {
         <hr style={{ marginTop: '0', marginBottom: '0' }} />
         <div className="row p-2 mt-2" >
           <div className="col">
-            <a className="text-dark" href="#/登录" >
+            <a className="text-dark" href="#/我的/日程" >
               <h6 className="pull-left" >
                 <strong>日程</strong>
               </h6>
               <span className="pull-right text-muted">
-                提示即将进行的日程
+                {
+                  auth?(schedule===0?'':`今天有${schedule}个日程`):'提示即将进行的日程'
+                }
                 <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
               </span>
             </a>

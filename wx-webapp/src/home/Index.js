@@ -2,13 +2,15 @@ import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import HomePage from './HomePage'
-import MessageDetails from './MessageDetails'
+import RecommendDetails from './RecommendDetails'
+import TopicDetails from './TopicDetails'
 
 const HomeRouter = () => (
   <Router>
     <Switch>
       <Route exact path="/"><HomePage /></Route>
-      <Route path="/主页/消息详情/:id"><MessageDetails /></Route>
+      <Route path="/主页/消息详情/:id"><RecommendDetails /></Route>
+      <Route path="/主页/话题详情/:id"><TopicDetails /></Route>
     </Switch>
   </Router>
 )

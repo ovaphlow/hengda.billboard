@@ -1,6 +1,4 @@
-import React from 'react'
-
-import level from '../components/level.json'
+import React, { useEffect } from 'react'
 
 const CityDropdowns = props => {
 
@@ -11,6 +9,24 @@ const CityDropdowns = props => {
   const [province, setProvince] = React.useState('')
 
   const [value, setValue] = React.useState('')
+
+  const [level, setLevel] = React.useState([])
+
+  const [address, setAddress] = React.useState([])
+
+  useEffect(() => {
+    fetch(`/lib/address.json`)
+      .then(res => res.json())
+      .then(res => {
+        setAddress(res)
+        setLevel(Object.getOwnPropertyNames(res)
+          .filter(item => item.slice(2, 7) === '0000')
+          .map(code => ({
+            code: code,
+            name: res[code]
+          })))
+      })
+  }, [])
 
   const menuShow = () => {
     setShow(!show)
@@ -28,7 +44,13 @@ const CityDropdowns = props => {
       }
     } else {
       setProvince(item.name)
-      setChildMenu(item.children.filter(it => it.province === item.code.slice(0, 2)))
+      setChildMenu(Object.getOwnPropertyNames(address)
+          .filter(it => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
+          .map(code => ({
+            code: code,
+            name: address[code]
+          }))
+      )
     }
   }
 

@@ -9,6 +9,7 @@ import JournalRouter from './journal/Index'
 import Favorite from './Favorite'
 import Delivery from './Delivery'
 import Report from './Report'
+import Schedule from './Schedule'
 
 const UserRouter = () => (
   <Router>
@@ -20,6 +21,7 @@ const UserRouter = () => (
       <Route exact path="/我的/收藏"><Favorite /></Route>
       <Route exact path="/我的/投递"><Delivery /></Route>
       <Route exact path="/我的/反馈"><Feedback /></Route>
+      <Route exact path="/我的/日程"><Schedule /></Route>
       <Route exact path="/我的/举报/:id/:category"><Report /></Route>
     </Switch>
   </Router>

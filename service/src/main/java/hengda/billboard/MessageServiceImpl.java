@@ -252,4 +252,28 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
     responseObserver.onCompleted();
   }
 
+  @Override
+  public void sys(MessageRequest req, StreamObserver<MessageReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from sys_message where user_id = ? and user_category = ? ORDER BY datime desc ";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("id").toString());
+      ps.setString(2, body.get("user_category").toString());
+      resp.put("content", DBUtil.getList(ps.executeQuery()));
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    MessageReply reply = MessageReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
 }

@@ -40,6 +40,15 @@ const Sidebar = props => (
         <i className="fa fa-fw fa-angle-right"></i>
       </span>
     </a>
+    <a
+      href="#简历/推荐"
+      className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '推荐' && 'text-primary'}`}
+    >
+      系统推荐
+      <span className="pull-right">
+        <i className="fa fa-fw fa-angle-right"></i>
+      </span>
+    </a>
   </div>
 )
 
@@ -134,9 +143,7 @@ export const ResumeView = props => {
       <div className="row">
         <div className="col">
           <h4>自我评价</h4>
-          <span className="text-muted">
-            {props.ziwopingjia}
-          </span>
+          <span className="text-muted" dangerouslySetInnerHTML={{ __html: props.ziwopingjia }} />
         </div>
       </div>
       <hr />
@@ -144,7 +151,7 @@ export const ResumeView = props => {
         <div className="col">
           <h4>相关证书</h4>
           {list && list.map((item, inx) =>
-            <img className="img col-3" alt="" src={item.file} />
+            <img key={inx} className="img col-3" alt="" src={item.file} />
           )}
         </div>
       </div>

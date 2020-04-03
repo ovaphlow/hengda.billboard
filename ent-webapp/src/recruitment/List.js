@@ -133,8 +133,10 @@ const List = () => {
               <thead>
                 <tr>
                   <th scope="col">编号</th>
-                  <th scope="col">职位名称</th>
-                  <th scope="col">职位类型</th>
+                  <th scope="col">岗位名称</th>
+                  <th scope="col">岗位类型</th>
+                  <th scope="col">所属行业</th>
+                  <th scope="col">所属职位</th>
                   <th scope="col">学历要求</th>
                   <th scope="col">招聘人数</th>
                   <th scope="col">工作地点</th>
@@ -149,6 +151,8 @@ const List = () => {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>{item.category}</td>
+                    <td>{item.industry}</td>
+                    <td>{item.position}</td>
                     <td>{item.education}</td>
                     <td>{item.qty}</td>
                     <td>{item.address1}-{item.address2}-{item.address3}</td>

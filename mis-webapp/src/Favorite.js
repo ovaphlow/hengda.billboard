@@ -34,6 +34,10 @@ function List() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleRedirect2Resource = async event => {
+    console.info(event.target.getAttribute('data-id'), event.target.getAttribute('data-category'))
+  }
+
   return (
     <>
       <Title />
@@ -49,7 +53,7 @@ function List() {
             <h3>用户收藏</h3>
             <hr />
 
-            <div className="btn-group">
+            <div className="btn-group mb-3">
               <BackwardButton />
             </div>
 
@@ -59,7 +63,6 @@ function List() {
                   <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
-                      <th>用户类型</th>
                       <th>用户</th>
                       <th>收藏类型</th>
                       <th>收藏内容</th>
@@ -74,11 +77,19 @@ function List() {
                           <td>
                             <span className="pull-right">{it.id}</span>
                           </td>
-                          <td>{it.category1}</td>
-                          <td>{it.user_id}</td>
+                          <td>
+                            <span className="badge badge-info">{it.category1}</span>
+                            &nbsp;
+                            {it.username}
+                            ({it.user_id})
+                          </td>
                           <td>{it.category2}</td>
                           <td>
-                            <button type="button" className="btn btn-link">
+                            <button type="button" className="btn btn-link"
+                              data-id={it.data_id}
+                              data-category={it.category2}
+                              onClick={handleRedirect2Resource}
+                            >
                               {it.data_id}
                             </button>
                           </td>

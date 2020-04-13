@@ -10,7 +10,12 @@ module.exports = router
 
 router.get('/', async ctx => {
   const sql = `
-    select * from favorite where user_id = ? and category1 = '个人用户' order by id desc
+    select f.*,
+      (select username from common_user where id = f.user_id) as username
+    from favorite as f
+    where user_id = ?
+      and category1 = '个人用户'
+    order by id desc
   `
   const pool = mysql.promise()
   try {

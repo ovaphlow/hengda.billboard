@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ToBack from '../components/ToBack'
-import { RecruitmentRow } from '../components/DataRow'
-
+import { RecruitmentRow, RecruitRow, RecommendRow } from '../components/DataRow'
 
 const Favorite = () => {
 
@@ -25,19 +24,20 @@ const Favorite = () => {
   }, [])
 
   const dateRow = (item,inx) => {
-    if (item.category === '岗位') {
+    if (item.category2 === '岗位') {
       return (<RecruitmentRow key={inx} {...item} />)
+    } else if (item.category2 === '校园招聘') {
+      return (<RecruitRow key={inx} {...item}/>)
+    } else if (item.category2 === '推荐信息') {
+      return (<RecommendRow key={inx} {...item} />)
     }
   }
 
-
   return (
-    <div className="container-fluid" style={{ fontSize: 14 }}>
+    <div className="container-fluid" style={{ fontSize: 12 }}>
       <ToBack category="我的收藏" />
       <div className="mt-1"></div>
-      {
-        list && list.map((item,inx) => dateRow(item,inx))
-      }
+      {list && list.map((item,inx) => dateRow(item,inx))}
     </div>
   )
 

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "RecommendProto";
+
+package recommend;
+
+service Recommend {
+  
+  rpc list(RecommendRequest) returns (RecommendReply) {}
+    
+  rpc get(RecommendRequest) returns (RecommendReply) {}
+  
+}
+
+message RecommendRequest { string data = 1; }
+
+message RecommendReply { string data = 1; }

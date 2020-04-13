@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "CommonUserScheduleProto";
+
+package commonUserSchedule;
+
+service CommonUserSchedule {
+  
+  rpc user(CommonUserScheduleRequest) returns (CommonUserScheduleReply) {}
+
+  rpc get(CommonUserScheduleRequest) returns (CommonUserScheduleReply) {}
+
+  rpc count(CommonUserScheduleRequest) returns (CommonUserScheduleReply) {}
+
+  rpc insert(CommonUserScheduleRequest) returns (CommonUserScheduleReply) {}
+
+  rpc delete(CommonUserScheduleRequest) returns (CommonUserScheduleReply) {}
+
+}
+
+message CommonUserScheduleRequest { string data = 1; }
+
+message CommonUserScheduleReply { string data = 1; }

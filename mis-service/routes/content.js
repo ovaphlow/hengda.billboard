@@ -235,34 +235,111 @@ router
   })
 
 router
-  .get('/recommend/', async ctx => {})
-  .post('/recommend/', async ctx => {
-    console.info(ctx.request.body)
+  .get('/recommend/', async ctx => {
     let sql = `
-      insert into
-        topic (uuid)
-        -- , category)
-          -- , date1, date2, address_level1, address_level2,
-          -- qty, baomingfangshi, content)
-        values (uuid())
-        -- , ?)
-        --, ?, ?, ?, ?, ?, ?, '')
-    `
-    sql = `
-      insert into
-        recommend (uuid, category, content)
-        values (uuid(), ?, '')
+      select 
+        id, uuid, category, title, date1, date2, 
+        address_level1, address_level2, publisher, 
+        qty, baomignfangshi 
+      from 
+        recommend limit 100`
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql)
+      ctx.response.body = { message: '', content: rows }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .get('/recommend/:id/', async ctx => {
+    let sql = `select * from recommend where id = ? and uuid = ?`
+    const pool = mysql.promise()
+    try {
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.id,
+        ctx.query.uuid
+      ])
+      ctx.response.body = { message: '', content: rows[0] }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .put('/recommend/:id', async ctx => {
+    let sql = `
+      update recommend 
+      set
+        category = ?, 
+        title = ?, 
+        date1 = ?, 
+        date2 = ?, 
+        address_level1 = ?, 
+        address_level2 = ?, 
+        publisher = ?, 
+        qty = ?, 
+        baomignfangshi = ?, 
+        content = ?
+      where
+        id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.category,
-      //   ctx.request.body.date1,
-      //   ctx.request.body.date2,
-      //   ctx.request.body.address_level1,
-      //   ctx.request.body.address_level2,
-      //   ctx.request.body.qty,
-      //   ctx.request.body.baomingfandshi
+        ctx.request.body.title,
+        ctx.request.body.date1,
+        ctx.request.body.date2,
+        ctx.request.body.address_level1,
+        ctx.request.body.address_level2,
+        ctx.request.body.publisher,
+        ctx.request.body.qty,
+        ctx.request.body.baomingfangshi,
+        ctx.request.body.content,
+        ctx.params.id,
+        ctx.query.uuid
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .post('/recommend/', async ctx => {
+    let sql = `
+      insert into recommend 
+        (uuid, category, title, date1, date2, address_level1, 
+          address_level2, publisher, qty, baomignfangshi, content) 
+      value 
+        (uuid(),?,?,?,?,?,?,?,?,?,?)
+    `
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.request.body.category,
+        ctx.request.body.title,
+        ctx.request.body.date1,
+        ctx.request.body.date2,
+        ctx.request.body.address_level1,
+        ctx.request.body.address_level2,
+        ctx.request.body.publisher,
+        ctx.request.body.qty,
+        ctx.request.body.baomingfangshi,
+        ctx.request.body.content
+      ])
+      ctx.response.body = { message: '', content: '' }
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误', content: '' }
+    }
+  })
+  .delete('/recommend/:id/',async ctx => {
+    let sql = `delete from recommend where id = ? and uuid = ?`
+    const pool = mysql.promise()
+    try {
+      await pool.execute(sql, [
+        ctx.params.id,
+        ctx.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -364,7 +441,7 @@ router
         ctx.request.body.datime,
         ctx.request.body.data_url
       ])
-      ctx.response.body = { message: '', content: ''}
+      ctx.response.body = { message: '', content: '' }
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误', content: '' }

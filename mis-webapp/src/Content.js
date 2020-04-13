@@ -236,7 +236,7 @@ function BannerDetail(props) {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-        ;(async (id, uuid) => {
+        ; (async (id, uuid) => {
           const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`)
           const res = await response.json()
           if (res.message) {
@@ -456,6 +456,24 @@ function RecommendToolbar() {
 }
 
 function Recommend() {
+
+  const [list, setList] = useState([])
+
+
+  useEffect(() => {
+    window.fetch(`/api/content/recommend/`)
+      .then(response => response.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+          return
+        } else {
+          setList(res.content)
+        }
+      })
+  }, [])
+
+
   return (
     <>
       <Title />
@@ -475,6 +493,20 @@ function Recommend() {
 
             <div className="card shadow">
               <div className="card-body">
+                <div className="list-group">
+                  {
+                    list.map(it => (
+                      <a href={`#平台内容/推荐信息/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                        <div className="d-flex w-100 justify-content-between">
+                          <h5 className="mb-1">{it.title}</h5>
+                          <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
+                        </div>
+                        <p className="mb-1"></p>
+                        {/* <small></small> */}
+                      </a>
+                    ))
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -485,22 +517,29 @@ function Recommend() {
 }
 
 function RecommendDetail(props) {
+
   const [address_keys, setAddressKeys] = useState([])
   const [address_values, setAddressValues] = useState([])
   const [arr1, setArr1] = useState([])
   const [arr2, setArr2] = useState([])
 
   const [category, setCategory] = useState('')
+  const [title, setTitle] = useState('')
   const [date1, setDate1] = useState(moment().format('YYYY-MM-DD'))
   const [date2, setDate2] = useState(moment().format('YYYY-MM-DD'))
   const [address_level1, setAddressLevel1] = useState('')
   const [address_level2, setAddressLevel2] = useState('')
+  const [publisher, setPublisher] = useState('')
   const [qty, setQty] = useState(1)
   const [baomingfangshi, setBaomingfangshi] = useState('')
   const [content, setContent] = useState('')
 
+  const { id } = useParams()
+
+  const { search } = useLocation()
+
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/lib/address.json`)
       const res = await response.json()
       const keys = Object.keys(res)
@@ -514,8 +553,22 @@ function RecommendDetail(props) {
         }
       })
       setArr1(_arr)
+      if (props.category === '编辑') {
+        const response = await window.fetch(`/api/content/recommend/${id}${search}`)
+        const res = await response.json()
+        setCategory(res.content.category)
+        setTitle(res.content.title)
+        setDate1(res.content.date1)
+        setDate2(res.content.date2)
+        setAddressLevel1(res.content.address_level1)
+        setAddressLevel2(res.content.address_level2)
+        setPublisher(res.content.publisher)
+        setQty(res.content.qty)
+        setBaomingfangshi(res.content.baomignfangshi)
+        setContent(res.content.content)
+      }
     })()
-  }, [])
+  }, [id,search,props])
 
   useEffect(() => {
     let _arr = []
@@ -532,8 +585,22 @@ function RecommendDetail(props) {
       }
     }
     setArr2(_arr)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level1])
+
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除当前数据？')) return
+    const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
+}
+
 
   const handleSave = async () => {
     if (props.category === '新增') {
@@ -542,12 +609,38 @@ function RecommendDetail(props) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           category: category,
+          title: title,
           date1: date1,
           date2: date2,
           address_level1: address_level1,
           address_level2: address_level2,
           qty: qty,
-          baomingfangshi: baomingfangshi
+          publisher: publisher,
+          baomingfangshi: baomingfangshi,
+          content: content
+        })
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      window.history.go(-1)
+    } else {
+      const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          category: category,
+          title: title,
+          date1: date1,
+          date2: date2,
+          address_level1: address_level1,
+          address_level2: address_level2,
+          qty: qty,
+          publisher: publisher,
+          baomingfangshi: baomingfangshi,
+          content: content
         })
       })
       const res = await response.json()
@@ -578,9 +671,25 @@ function RecommendDetail(props) {
 
             <div className="card shadow">
               <div className="card-body">
-                <InputRowField caption="栏目分类" value={category || ''}
-                  onChange={event => setCategory(event.target.value)}
+
+                <InputRowField caption="栏目标题" value={title || ''}
+                  onChange={event => setTitle(event.target.value)}
                 />
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">栏目分类</label>
+                  <div className="col-sm-10">
+                    <select value={category || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setCategory(event.target.value)}>
+                      <option value="">未选择</option>
+                      <option>国企</option>
+                      <option>公务员</option>
+                      <option>事业单位</option>
+                      <option>教师</option>
+                    </select>
+                  </div>
+                </div>
 
                 <InputRowField caption="发布日期" type="date" value={date1 || ''}
                   onChange={event => setDate1(event.target.value)}
@@ -624,6 +733,10 @@ function RecommendDetail(props) {
                   </div>
                 </div>
 
+                <InputRowField caption="招聘单位" value={publisher || ''}
+                  onChange={event => setPublisher(event.target.value)}
+                />
+
                 <InputRowField caption="招聘人数" type="number" value={qty || ''}
                   onChange={event => setQty(event.target.value)}
                 />
@@ -632,7 +745,27 @@ function RecommendDetail(props) {
                   onChange={event => setBaomingfangshi(event.target.value)}
                 />
 
-                {/* 内容 */}
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">
+                    栏目内容
+                  </label>
+                  <div className="col-sm-10">
+                    <ReactQuill
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }], [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote']
+                        ]
+                      }}
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote'
+                      ]}
+                      placeholder="请填写内容"
+                      value={content || ''}
+                      onChange={setContent} />
+                  </div>
+                </div>
               </div>
 
               <div className="card-footer">
@@ -643,7 +776,7 @@ function RecommendDetail(props) {
                 <div className="btn-group pull-right">
                   {
                     props.category === '编辑' && (
-                      <button type="button" className="btn btn-outline-danger">
+                      <button type="button" className="btn btn-outline-danger" onClick={handleRemove}>
                         <i className="fa fa-fw fa-trash-o"></i>
                         删除
                       </button>
@@ -695,7 +828,7 @@ function Topic() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/api/content/topic/`)
       const res = await response.json()
       if (res.message) {
@@ -736,7 +869,7 @@ function Topic() {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>推荐信息</h3>
+            <h3>热门话题</h3>
             <hr />
 
             <TopicToolbar />
@@ -775,7 +908,7 @@ function Topic() {
                 <div className="list-group">
                   {
                     list.map(it => (
-                      <a href={`#平台内容/推荐信息/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                      <a href={`#平台内容/热门话题/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                         <div className="d-flex w-100 justify-content-between">
                           <h5 className="mb-1">{it.title}</h5>
                           <small>{moment(it.date).format('YYYY-MM-DD')} {it.time}</small>
@@ -806,7 +939,7 @@ function TopicDetail(props) {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-        ;(async (id, uuid) => {
+        ; (async (id, uuid) => {
           const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`)
           const res = await response.json()
           if (res.message) {
@@ -974,7 +1107,7 @@ function Campus() {
   const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/api/content/campus/`)
       const res = await response.json()
       if (res.message) {
@@ -1099,29 +1232,29 @@ function CampusDetail(props) {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-      ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
-        const res = await response.json()
-        if (res.message) {
-          window.alert(res.message)
-          return
-        }
-        setTitle(res.content.title)
-        setContent(res.content.content)
-        setDate(res.content.date)
-        setTime(res.content.time)
-        setAddressLevel1(res.content.address_level1)
-        setAddressLevel2(res.content.address_level2)
-        setAddressLevel3(res.content.address_level3)
-        setAddressLevel4(res.content.address_level4)
-        setSchool(res.content.school)
-      })(id, _uuid)
+        ; (async (id, uuid) => {
+          const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`)
+          const res = await response.json()
+          if (res.message) {
+            window.alert(res.message)
+            return
+          }
+          setTitle(res.content.title)
+          setContent(res.content.content)
+          setDate(res.content.date)
+          setTime(res.content.time)
+          setAddressLevel1(res.content.address_level1)
+          setAddressLevel2(res.content.address_level2)
+          setAddressLevel3(res.content.address_level3)
+          setAddressLevel4(res.content.address_level4)
+          setSchool(res.content.school)
+        })(id, _uuid)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/lib/address.json`)
       const res = await response.json()
       const keys = Object.keys(res)
@@ -1154,7 +1287,7 @@ function CampusDetail(props) {
       }
     }
     setArr2(_arr)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level1])
 
   useEffect(() => {
@@ -1172,7 +1305,7 @@ function CampusDetail(props) {
       }
     })
     setArr3(_arr)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level2])
 
   const handleRemove = async () => {

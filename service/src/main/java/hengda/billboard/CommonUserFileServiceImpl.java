@@ -94,6 +94,8 @@ public class CommonUserFileServiceImpl extends CommonUserFileGrpc.CommonUserFile
       if (rs.next()) {
         resp.put("content", rs.getInt(1));
       }
+      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
+      ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
       ps.setString(2, "个人用户");
       ps.setString(3, body.get("editType").toString());

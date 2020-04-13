@@ -42,16 +42,18 @@ const Enterprise = () => {
                   <div className="col">
                     <h4 className="pull-left">
                       {data.name}({data.yingyezhizhao})&nbsp;
-                      <span className="badge badge-secondary">
-                      {data.status}
+                      <span className={`badge ${data.status === '未认证' ? 'badge-secondary' : 'badge-success'} `}>
+                        {data.status === '未认证' ? data.status : '已认证'}
                       </span>
                     </h4>
-                    <div className="pull-right">
-                      <a href="#我的/信息/编辑/">
-                        <i className="fa fa-pencil-square-o"></i>
+                    {data.status === '未认证'?(
+                      <div className="pull-right">
+                        <a href="#我的/信息/编辑/">
+                          <i className="fa fa-pencil-square-o"></i>
                         编辑
                       </a>
-                    </div>
+                      </div>
+                    ):(<></>)}
                   </div>
                 </div>
                 <span className="text-muted">
@@ -77,7 +79,7 @@ const Enterprise = () => {
             </div>
             <div className="row">
               <div className="col">
-                <img className="w-50" alt=""  src={data.yingyezhizhao_tu} />
+                <img className="w-50" alt="" src={data.yingyezhizhao_tu} />
               </div>
             </div>
           </div>

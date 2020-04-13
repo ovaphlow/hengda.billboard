@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ToBack from '../../components/ToBack'
-import { RecruitmentRow } from '../../components/DataRow'
+import { RecruitmentRow, RecruitRow, RecommendRow } from '../../components/DataRow'
 import { JournalTabs, DateTitle } from '../Components'
 import moment from 'moment'
 
@@ -39,8 +39,12 @@ const BrowseJournal = () => {
   }, [])
 
   const dataRow = (item, inx) => {
-    if (item.category === '岗位') {
+    if (item.data_category === '岗位') {
       return (<RecruitmentRow key={inx} {...item} />)
+    } else if (item.data_category === '校园招聘') {
+      return (<RecruitRow key={inx} {...item} />)
+    } else if (item.data_category === '推荐信息') {
+      return (<RecommendRow key={inx} {...item} />)
     }
   }
 

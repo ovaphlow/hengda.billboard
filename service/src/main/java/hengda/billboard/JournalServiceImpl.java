@@ -28,12 +28,25 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select t.datime as journal_date, r.id, r.uuid, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category,\n"
-          + "   (select name from enterprise where id = r.enterprise_id) as enterprise_name from "
-          + "(select data_id, datime, category from browse_journal where category = '岗位' and common_user_id =?) as t "
-          + "join recruitment as r on data_id = r.id order by t.datime desc ";
+      String sql = "(select t.datime as journal_date, r.id, r.uuid, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category, t.category as data_category,\n" +
+              "             (select name from enterprise where id = r.enterprise_id) as enterprise_name from \n" +
+              "          (select data_id, datime, category from browse_journal where category = '岗位' and common_user_id =?) as t\n" +
+              "          join recruitment as r on data_id = r.id\n" +
+              "union\n" +
+              "select t.datime as journal_date, c.id, c.uuid, c.title, c.address_level1, c.address_level2, c.address_level3, '', '', '', c.date, c.category,  t.category as data_category,\n" +
+              "         c.school as enterprise_name from\n" +
+              "          (select data_id, datime, category from browse_journal where category = '校园招聘' and common_user_id =?) as t\n" +
+              "          join campus as c on data_id = c.id\n" +
+              "union\n" +
+              "select t.datime as journal_date, re.id, re.uuid, re.title, re.address_level1, re.address_level2, '', re.qty, '', '', re.date1, re.category,  t.category as data_category,\n" +
+              "         re.publisher as enterprise_name from\n" +
+              "          (select data_id, datime, category from browse_journal where category = '推荐信息' and common_user_id =?) as t\n" +
+              "          join recommend as re on data_id = re.id)\n" +
+              "ORDER BY journal_date desc";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
+      ps.setString(2, body.get("common_user_id").toString());
+      ps.setString(3, body.get("common_user_id").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

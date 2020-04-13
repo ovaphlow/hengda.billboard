@@ -16,7 +16,6 @@ const List = () => {
 
   const [city, setCity] = useState('')
 
-
   useEffect(() => {
     fetch(`./api/recruitment/search/`, {
       method: 'PUT',
@@ -34,8 +33,6 @@ const List = () => {
         }
       })
   }, [])
-
-
 
   const _onCheckboxChange = ({ value, checked }) => {
     search({
@@ -79,12 +76,12 @@ const List = () => {
       <div className="container-fluid">
         <Title category="岗位" />
         <PlayImg category="小程序-岗位" />
-        <div className="row mt-1 mb-1" >
+        <div className="row mt-1 mb-1" style={{ fontSize: 12 }} >
           <div className="col">
-            <CityDropdowns handleChange={handleChange} key={0}/>
+            <CityDropdowns handleChange={handleChange}/>
           </div>
           <div className="col flex-end">
-            <div className="pull-right text-primary" style={{ fontSize: '.875rem' }}>
+            <div className="pull-right text-primary">
               <TextCheckbox value="兼职" onChange={_onCheckboxChange}>
                 兼职
               </TextCheckbox>

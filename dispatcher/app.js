@@ -147,5 +147,36 @@ function topicRouter() {
 
 topicRouter()
 
+function campusRouter() {
+  const router = require('./routes/campus')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+
+campusRouter()
+
+function commonUserScheduleRouter() {
+  const router = require('./routes/commonUserSchedule')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+} 
+
+commonUserScheduleRouter()
+
+function commonDataRouter() {
+  const router = require('./routes/commonData')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+} 
+
+commonDataRouter()
+
+function recommendRouter() {
+  const router = require('./routes/recommend')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+} 
+
+recommendRouter()
 
 module.exports = app

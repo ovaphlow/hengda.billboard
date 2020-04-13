@@ -31,13 +31,21 @@ public class FavoriteServiceImpl extends FavoriteGrpc.FavoriteImplBase {
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select r.id, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category,\n"
-          + "   (select name from enterprise) as enterprise_name from "
-          + "(select data_id, category from favorite where category1 = ? and category2 = '岗位'  and user_id =?) as t "
-          + "join recruitment as r on data_id = r.id";
+      String sql = "select r.id, r.uuid, r.name, r.address1, r.address2, r.address3, r.qty, r.salary1, r.salary2, r.date, t.category2,(select name from enterprise where id = r.id)\n" +
+              "as enterprise_name from (select data_id, category2 from favorite where category1 = ? and category2 = '岗位'  and user_id =?) as t  join recruitment as r on data_id = r.id\n" +
+              "union\n" +
+              "select  c.id, c.uuid, c.title,  c.address_level1, c.address_level2, c.address_level3, '', '', '', c.date,   t.category2, c.school as enterprise_name from\n" +
+              "(select data_id, category2 from favorite where category1 = ? and category2 = '校园招聘'  and user_id =? ) as t join campus as c on data_id = c.id\n"+
+              "union\n" +
+              "select  re.id, re.uuid, re.title, re.address_level1, re.address_level2, '', re.qty, '', '', re.date1,   t.category2, re.publisher as enterprise_name from\n" +
+              "(select data_id, category2 from favorite where category1 = ? and category2 = '推荐信息'  and user_id =? ) as t join recommend as re on data_id = re.id";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("category1").toString());
       ps.setString(2, body.get("user_id").toString());
+      ps.setString(3, body.get("category1").toString());
+      ps.setString(4, body.get("user_id").toString());
+      ps.setString(5, body.get("category1").toString());
+      ps.setString(6, body.get("user_id").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

@@ -20,11 +20,20 @@ const Sidebar = props => (
         <i className="fa fa-fw fa-angle-right"></i>
       </span>
     </a>
-    <a
+    {/* <a
       href="#/我的/资产"
       className={`list-group-item list-group-item-action border-0 font-weight-bold ${props.category === '我的资产' && 'text-primary'}`}
     >
       我的资产
+      <span className="pull-right">
+        <i className="fa fa-fw fa-angle-right"></i>
+      </span>
+    </a> */}
+    <a
+      href="#/登录"
+      className={`list-group-item list-group-item-action border-0 font-weight-bold text-danger`}
+    >
+      退出登录
       <span className="pull-right">
         <i className="fa fa-fw fa-angle-right"></i>
       </span>

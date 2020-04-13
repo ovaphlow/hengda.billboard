@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { View } from './Components'
-import { TextField, SelectField } from '../components/InputField'
+import { TextField, SelectField, IndustrySearchField } from '../components/InputField'
 
 const Retrieval = () => {
 
@@ -79,20 +79,10 @@ const Retrieval = () => {
             value={param.name}
             handleChange={handleChange} />
         </div>
-        <div className="col">
-          <TextField
-            category="期望行业"
-            name="qiwanghangye"
-            value={param.qiwanghangye}
-            handleChange={handleChange} />
-        </div>
-        <div className="col">
-          <TextField
-            category="期望职位"
-            name="qiwangzhiwei"
-            value={param.qiwangzhiwei}
-            handleChange={handleChange} />
-        </div>
+        <IndustrySearchField 
+          industry={param.qiwanghangye}
+          position={param.qiwangzhiwei}
+          handleChange= {handleChange}/>
         <div className="col">
           <TextField
             category="期望地点"

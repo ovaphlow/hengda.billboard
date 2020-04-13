@@ -58,7 +58,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       Connection conn = DBUtil.getConn();
       String sql = "insert into recruitment ( enterprise_id, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
-          + " industry, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
+          + " industry, position, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
       PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
       ps.setString(1, body.get("enterprise_id").toString());
       ps.setString(2, body.get("name").toString());
@@ -74,6 +74,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(12, body.get("education").toString());
       ps.setString(13, body.get("category").toString());
       ps.setString(14, body.get("industry").toString());
+      ps.setString(15, body.get("position").toString());
       ps.executeUpdate();
       ResultSet rs = ps.getGeneratedKeys();
       if (rs.next()) {
@@ -108,7 +109,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       Connection conn = DBUtil.getConn();
       String sql = "update recruitment set name = ?, qty = ?, description = ?,"
           + "requirement = ?, address1 = ?, address2 = ?, address3 = ?, salary1 = ?,"
-          + "salary2 = ?, education = ?, category = ?,  industry = ? where id = ? and uuid = ?";
+          + "salary2 = ?, education = ?, category = ?,  industry = ?, position = ? where id = ? and uuid = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("name").toString());
       ps.setString(2, body.get("qty").toString());
@@ -122,8 +123,9 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(10, body.get("education").toString());
       ps.setString(11, body.get("category").toString());
       ps.setString(12, body.get("industry").toString());
-      ps.setString(13, body.get("id").toString());
-      ps.setString(14, body.get("uuid").toString());
+      ps.setString(13, body.get("position").toString());
+      ps.setString(14, body.get("id").toString());
+      ps.setString(15, body.get("uuid").toString());
       ps.execute();
       sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','编辑岗位',?,?,?)";
       ps = conn.prepareStatement(sql);
@@ -219,7 +221,6 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("content", "");
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      logger.info(req.getData());
       Connection conn = DBUtil.getConn();
       String sql = "select * from recruitment ";
       List<String> list = new ArrayList<>();
@@ -261,8 +262,6 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
           list.add(body.get("status").toString());
         }
       }
-
-      logger.info(sql);
       PreparedStatement ps = conn.prepareStatement(sql);
       for (int inx = 0; inx < list.size(); inx++) {
         ps.setString(inx + 1, list.get(inx));

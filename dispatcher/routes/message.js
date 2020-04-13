@@ -24,6 +24,25 @@ const router = new Router({
 module.exports = router
 
 router
+  .get('/sys/:user_category/:id', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.sys({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
   .get('/:user_category/:user_id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.messageList({ data: JSON.stringify(body) }, (err, response) => {

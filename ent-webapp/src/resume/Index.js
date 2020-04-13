@@ -9,6 +9,7 @@ import Favorite from './Favorite'
 import ListDetails from './ListDetails'
 import ResumeDetalis from './ResumeDetalis'
 import Retrieval from './Retrieval'
+import Recommend from './Recommend'
 
 const Index = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const Index = () => {
           <Route exact path="/简历/收藏/"><Favorite /></Route>
           <Route path="/简历/:category/详情/:id/"><ResumeDetalis /></Route>
           <Route exact path="/简历/检索/"><Retrieval /></Route>
+          <Route exact path="/简历/推荐/"><Recommend /></Route>
         </Switch>
       </Router>
       <Footer />

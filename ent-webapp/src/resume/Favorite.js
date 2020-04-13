@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View } from './Components'
-import { TextField, SelectField } from '../components/InputField'
+import { TextField, SelectField, IndustrySearchField } from '../components/InputField'
 
 const Favorite = () => {
 
@@ -64,6 +64,8 @@ const Favorite = () => {
       })
   }
 
+
+  
   return (
     <View category="收藏">
       <div className="row px-5 pt-2 bg-white shadow" >
@@ -74,20 +76,12 @@ const Favorite = () => {
             value={param.name}
             handleChange={handleChange} />
         </div>
-        <div className="col">
-          <TextField
-            category="期望行业"
-            name="qiwanghangye"
-            value={param.qiwanghangye}
-            handleChange={handleChange} />
-        </div>
-        <div className="col">
-          <TextField
-            category="期望职位"
-            name="qiwangzhiwei"
-            value={param.qiwangzhiwei}
-            handleChange={handleChange} />
-        </div>
+        
+        <IndustrySearchField 
+          industry={param.qiwanghangye}
+          position={param.qiwangzhiwei}
+          handleChange= {handleChange}/>
+
         <div className="col">
           <TextField
             category="期望地点"

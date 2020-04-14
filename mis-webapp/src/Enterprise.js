@@ -125,13 +125,12 @@ function List() {
 
             <div className="card shadow">
               <div className="card-header">
-                <div className="form-row align-items-center">
-                  <div className="col-auto">
-                    <div className="input-group">
+                <div className="row">
+                  <div className="col row">
+                    <div className="input-group col">
                       <div className="input-group-prepend">
                         <span className="input-group-text">企业名称</span>
                       </div>
-
                       <input type="text" value={filter_name} aria-label="企业名称"
                         className="form-control"
                         onChange={event => setFilterName(event.target.value)}
@@ -139,8 +138,8 @@ function List() {
                     </div>
                   </div>
 
-                  <div className="col-auto">
-                    <div className="btn-group">
+                  <div className="col-3">
+                    <div className="btn-group pull-right">
                       <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
                         查询
                       </button>
@@ -160,7 +159,7 @@ function List() {
                       <th>状态</th>
                       <th>法人</th>
                       <th>员工数量</th>
-                      <th>操作</th>
+                      <th className="text-right">操作</th>
                     </tr>
                   </thead>
 
@@ -186,10 +185,10 @@ function List() {
                           </td>
                           <td>{it.faren}</td>
                           <td>{it.yuangongshuliang}</td>
-                          <td>
+                          <td className="text-right">
                             <a href={`#企业/${it.id}/职位`}>
                               <i className="fa fa-fw fa-list"></i>
-                              查看发布的职位
+                              职位
                             </a>
                           </td>
                         </tr>

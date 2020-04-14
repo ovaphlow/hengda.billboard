@@ -667,25 +667,31 @@ function Journal(props) {
 
             <div className="card shadow">
               <div className="card-header">
-                <div className="form-row align-items-center">
-                  <div className="col-auto mt-2">
-                    <label className="sr-only">时间</label>
-                    <input type="date" value={filter_date_begin} placeholder="起始时间"
-                      className="form-control mb-2 input-borderless"
-                      onChange={event => setFilterDateBegin(event.target.value)}
-                    />
+                <div className="row">
+                  <div className="col row">
+                    <div className="input-group col">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">起</span>
+                      </div>
+                      <input type="date" value={filter_date_begin || ''} aria-label="起"
+                        className="form-control"
+                        onChange={event => setFilterDateBegin(event.target.value)}
+                      />
+                    </div>
+
+                    <div className="input-group col">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">止</span>
+                      </div>
+                      <input type="date" value={filter_date_end || ''} aria-label="止"
+                        className="form-control"
+                        onChange={event => setFilterDateEnd(event.target.value)}
+                      />
+                    </div>
                   </div>
 
-                  <div className="col-auto mt-2">
-                    <label className="sr-only"></label>
-                    <input type="date" value={filter_date_end} placeholder="终止时间"
-                      className="form-control mb-2 input-borderless"
-                      onChange={event => setFilterDateEnd(event.target.value)}
-                    />
-                  </div>
-
-                  <div className="col-auto">
-                    <div className="btn-group">
+                  <div className="col-3">
+                    <div className="btn-group pull-right">
                       <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
                         查询
                       </button>
@@ -697,8 +703,8 @@ function Journal(props) {
               </div>
 
               <div className="card-body">
-                <table className="table table-hover">
-                  <thead>
+                <table className="table table-hover table-bordered">
+                  <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
                       {

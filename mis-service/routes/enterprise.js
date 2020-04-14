@@ -176,7 +176,7 @@ router
 router
   .get('/:id/user/:user_id', async ctx => {
     const sql = `
-      select id, enterprise_id, username, name
+      select id, enterprise_id, username, name, phone
       from enterprise_user
       where id = ? and enterprise_id = ? and uuid = ?
       limit 1
@@ -197,7 +197,7 @@ router
   .put('/:id/user/:user_id', async ctx => {
     const sql = `
       update enterprise_user
-      set username = ?, name = ?
+      set username = ?, name = ?, phone = ?
       where id = ? and enterprise_id = ? and uuid = ?
     `
     const pool = mysql.promise()
@@ -205,6 +205,7 @@ router
       await pool.execute(sql, [
         ctx.request.body.username,
         ctx.request.body.name,
+        ctx.request.body.phone,
         parseInt(ctx.params.user_id),
         parseInt(ctx.params.id),
         ctx.request.query.uuid
@@ -217,7 +218,7 @@ router
   })
   .get('/:id/user/', async ctx => {
     const sql = `
-      select id, uuid, enterprise_id, username, name
+      select id, uuid, enterprise_id, username, name, phone
       from enterprise_user
       where enterprise_id = ?
     `
@@ -232,15 +233,19 @@ router
   })
   .post('/:id/user/', async ctx => {
     const sql = `
-      insert into enterprise_user (uuid, enterprise_id, username, name)
-      values (uuid(), ?, ?, ?)
+      insert into
+        enterprise_user (uuid, enterprise_id, enterprise_uuid, username, name, password, phone)
+        values (uuid(), ?, ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.params.id,
+        ctx.request.body.enterprise_uuid,
         ctx.request.body.username,
-        ctx.request.body.name
+        ctx.request.body.name,
+        ctx.request.body.password,
+        ctx.request.body.phone
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

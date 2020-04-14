@@ -587,7 +587,7 @@ function Detail(props) {
                         <div className="list-group">
                           {
                             user_list.map(it => (
-                              <a href={`#企业/${id}/编辑用户/${it.id}?uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                              <a href={`#企业用户/${it.id}?uuid=${it.uuid}&enterprise_id=${id}&enterprise_uuid=${uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                                 {it.name}
                                 <span className="pull-right text-muted">{it.username}</span>
                               </a>

@@ -9,6 +9,7 @@ CREATE TABLE `banner` (
   `comment` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `data_url` mediumtext COLLATE utf8mb4_general_ci NOT NULL,
+  `source_url` varchar(250) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '来源网址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useLocation } from 'react-router-dom'
 
-import { Title, Navbar, BackwardButton, InputRowField } from './Components'
+import { Title, Navbar, BackwardButton } from './Components'
 
 import { SideNav } from './CommonUser'
 
@@ -17,7 +17,7 @@ export default function FavoriteRouter() {
 
 function List() {
   const location = useLocation()
-  const [master_id, setMasterID] = useState(0)
+  // const [master_id, setMasterID] = useState(0)
   const [list, setList] = useState([])
 
   useEffect(() => {
@@ -35,7 +35,18 @@ function List() {
   }, [])
 
   const handleRedirect2Resource = async event => {
-    console.info(event.target.getAttribute('data-id'), event.target.getAttribute('data-category'))
+    const _cat = event.target.getAttribute('data-category')
+    // const _id = event.target.getAttribute('data-id')
+    if (_cat === '推荐信息') {
+      window.alert('推荐信息，施工中。')
+      // window.location = `#平台内容/推荐信息/${_id}?uuid=`
+    } else if (_cat === '校园招聘') {
+      window.alert('校园招聘，施工中。')
+    } else if (_cat === '岗位') {
+      window.alert('岗位，施工中。')
+    } else {
+      window.alert('未知类型，施工中。')
+    }
   }
 
   return (
@@ -53,7 +64,7 @@ function List() {
             <h3>用户收藏</h3>
             <hr />
 
-            <div className="btn-group mb-3">
+            <div className="btn-group mb-2">
               <BackwardButton />
             </div>
 

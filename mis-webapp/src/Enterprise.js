@@ -29,7 +29,7 @@ export default function EnterpriseRouter() {
   )
 }
 
-function SideNav(props) {
+export function SideNav(props) {
   const [qty, setQty] = useState(0)
 
   useEffect(() => {
@@ -563,7 +563,10 @@ function Detail(props) {
                         </button>
                       )}
 
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                      <button type="button" className="btn btn-primary"
+                        style={{ display: 'none' }}
+                        onClick={handleSubmit}
+                      >
                         <i className="fa fa-fw fa-save"></i>
                         保存
                       </button>
@@ -596,7 +599,7 @@ function Detail(props) {
                       <div className="card-footer text-center">
                         <div className="btn-group">
                           <button type="button" className="btn btn-sm btn-outline-success"
-                            onClick={() => window.location = `#企业/${id}/新增用户`}
+                            onClick={() => window.location = `#企业用户/新增?enterprise_id=${id}&enterprise_uuid=${uuid}`}
                           >
                             <i className="fa fa-fw fa-plus"></i>
                             添加用户

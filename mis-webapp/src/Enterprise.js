@@ -704,7 +704,10 @@ function UserDetail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                  <button type="button" className="btn btn-primary"
+                    style={{ display: 'none' }}
+                    onClick={handleSubmit}
+                  >
                     <i className="fa fa-fw fa-edit"></i>
                     保存
                   </button>
@@ -957,7 +960,10 @@ export function RecruitmentDetail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                  <button type="button" className="btn btn-primary"
+                    style={{ display: 'none' }}
+                    onClick={handleSubmit}
+                  >
                     <i className="fa fa-fw fa-save"></i>
                     保存
                   </button>

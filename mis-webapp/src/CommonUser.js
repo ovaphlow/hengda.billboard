@@ -346,7 +346,10 @@ function Detail(props) {
                         )
                       }
 
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                      <button type="button" className="btn btn-primary"
+                        style={{ display: 'none' }}
+                        onClick={handleSubmit}
+                      >
                         <i className="fa fa-fw fa-save"></i>
                         保存
                       </button>

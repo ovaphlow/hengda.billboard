@@ -199,11 +199,18 @@ router
   })
   .get('/:id/journal/browse/', async ctx => {
     const sql = `
-      select * from browse_journal where common_user_id = ? order by id desc limit 100
+      select *
+      from browse_journal
+      where common_user_id = ?
+        and common_user_uuid = ?
+      order by id desc limit 100
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.id,
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)
@@ -232,11 +239,19 @@ router
   })
   .get('/:id/journal/edit/', async ctx => {
     const sql = `
-      select * from edit_journal where user_id = ? order by id desc limit 100
+      select *
+      from edit_journal
+      where user_id = ?
+        and user_uuid = ?
+        and category1 = '个人用户'
+      order by id desc limit 100
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [ctx.params.id])
+      const [rows, fields] = await pool.query(sql, [
+        ctx.params.id,
+        ctx.request.query.uuid
+      ])
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)

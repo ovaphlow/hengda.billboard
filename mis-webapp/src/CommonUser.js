@@ -20,9 +20,6 @@ export default function CommonUserRouter() {
         <Route exact path="/普通用户/新增"><Detail category="新增" /></Route>
         <Route exact path="/普通用户/:id"><Detail category="编辑" /></Route>
         <Route path="/普通用户/:id/投递记录"><DeliveryList /></Route>
-        <Route path="/普通用户/:id/登录记录"><Journal category="登录" /></Route>
-        <Route path="/普通用户/:id/浏览记录"><Journal category="浏览" /></Route>
-        <Route path="/普通用户/:id/编辑记录"><Journal category="编辑" /></Route>
       </Switch>
     </Router>
   )
@@ -155,34 +152,21 @@ function List() {
                         <td>{it.qty_delivery}</td>
                         <td>{it.qty_favorite}</td>
                         <td className="text-right">
-                          {/**
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              <a href={`#普通用户/${it.id}/登录记录`}>登录记录</a>
-                            </li>
-                            <li className="list-inline-item">
-                              <a href={`#普通用户/${it.id}/浏览记录`}>浏览记录</a>
-                            </li>
-                            <li className="list-inline-item">
-                              <a href={`#普通用户/${it.id}/编辑记录`}>编辑记录</a>
-                            </li>
-                          </ul>
-                          **/}
                           <div className="btn-group">
                             <button type="button" className="btn btn-outline-warning btn-sm"
-                              onClick={() => window.location = `#普通用户/${it.id}/登录记录`}
+                              onClick={() => window.location = `#登录记录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`}
                             >
                               登录记录
                             </button>
 
                             <button type="button" className="btn btn-outline-info btn-sm"
-                              onClick={() => window.location = `#普通用户/${it.id}/浏览记录`}
+                              onClick={() => window.location = `#浏览记录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`}
                             >
                               浏览记录
                             </button>
 
                             <button type="button" className="btn btn-outline-success btn-sm"
-                              onClick={() => window.location = `#普通用户/${it.id}/编辑记录`}
+                              onClick={() => window.location = `#编辑记录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`}
                             >
                               编辑记录
                             </button>
@@ -542,238 +526,6 @@ function DeliveryList() {
                           </td>
                           <td>{it.datime}</td>
                           <td>{it.status}</td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
-
-function Journal(props) {
-  const { id } = useParams()
-  const [data, setData] = useState([])
-  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-DD'))
-  const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'))
-
-  useEffect(() => {
-    if (props.category === '登录') {
-      (async id => {
-        const response = await window.fetch(`/api/common-user/${id}/journal/sign-in/`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setData(res.content)
-      })(id)
-    } else if (props.category === '浏览') {
-      (async id => {
-        const response = await window.fetch(`/api/common-user/${id}/journal/browse/`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setData(res.content)
-      })(id)
-    } else if (props.category === '编辑') {
-      (async id => {
-        const response = await window.fetch(`/api/common-user/${id}/journal/edit/`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setData(res.content)
-      })(id)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleFilter = async () => {
-    if (props.category === '登录') {
-      const response = await window.fetch(`/api/common-user/${id}/journal/sign-in/`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          date_begin: filter_date_begin,
-          date_end: filter_date_end
-        })
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      setData(res.content)
-    } else if (props.category === '浏览') {
-      const response = await window.fetch(`/api/common-user/${id}/journal/browse/`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          date_begin: filter_date_begin,
-          date_end: filter_date_end
-        })
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      setData(res.content)
-    } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/common-user/${id}/journal/edit/`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          date_begin: filter_date_begin,
-          date_end: filter_date_end
-        })
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      setData(res.content)
-    }
-  }
-
-  return (
-    <>
-      <Title />
-      <Navbar category="普通用户" />
-
-      <div className="container-fluid mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
-          </div>
-
-          <div className="col-9 col-lg-10">
-            <h3>普通用户 {props.category}记录</h3>
-            <hr />
-
-            <div className="btn-group mb-3">
-              <BackwardButton />
-            </div>
-
-            <div className="card shadow">
-              <div className="card-header">
-                <div className="row">
-                  <div className="col row">
-                    <div className="input-group col">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">起</span>
-                      </div>
-                      <input type="date" value={filter_date_begin || ''} aria-label="起"
-                        className="form-control"
-                        onChange={event => setFilterDateBegin(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="input-group col">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">止</span>
-                      </div>
-                      <input type="date" value={filter_date_end || ''} aria-label="止"
-                        className="form-control"
-                        onChange={event => setFilterDateEnd(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-3">
-                    <div className="btn-group pull-right">
-                      <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
-                        查询
-                      </button>
-
-                      <RefreshButton caption="重置" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card-body">
-                <table className="table table-hover table-bordered">
-                  <thead className="thead-light">
-                    <tr>
-                      <th className="text-right">序号</th>
-                      {
-                        props.category === '登录' && (
-                          <>
-                            <th>时间</th>
-                            <th>IP地址</th>
-                            <th>大概位置</th>
-                            <th>用户类别</th>
-                          </>
-                        )
-                      }
-                      {
-                        props.category === '浏览' && (
-                          <>
-                            <th>时间</th>
-                            <th>数据类别</th>
-                            <th className="text-right">操作</th>
-                          </>
-                        )
-                      }
-                      {
-                        props.category === '编辑' && (
-                          <>
-                            <th>时间</th>
-                            <th>用户类别</th>
-                            <th>操作内容</th>
-                          </>
-                        )
-                      }
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {
-                      props.category === '登录' && data.map(it => (
-                        <tr key={it.id}>
-                          <td className="text-right">{it.id}</td>
-                          <td>{it.datime}</td>
-                          <td>{it.ip}</td>
-                          <td>{it.address}</td>
-                          <td>{it.category}</td>
-                        </tr>
-                      ))
-                    }
-                    {
-                      props.category === '浏览' && data.map(it => (
-                        <tr key={it.id}>
-                          <td className="text-right">{it.id}</td>
-                          <td>{it.datime}</td>
-                          <td>{it.category}</td>
-                          <td className="text-right">
-                            <button type="button" data-id={it.data_id}
-                              className="btn btn-sm btn-outline-info"
-                              onClick={() => window.location = `#岗位/${it.data-id}`}
-                            >
-                              查看
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    }
-                    {
-                      props.category === '编辑' && data.map(it => (
-                        <tr key={it.id}>
-                          <td className="text-right">{it.id}</td>
-                          <td>{it.datime}</td>
-                          <td>{it.category1}</td>
-                          <td>{it.category2}</td>
                         </tr>
                       ))
                     }

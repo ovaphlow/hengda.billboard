@@ -10,6 +10,7 @@ import EnterpriseUserRouter from './EnterpriseUser'
 import CommonUserRouter from './CommonUser'
 import ResumeRouter from './Resume'
 import FavoriteRouter from './Favorite'
+import JournalRouter from './Journal'
 import FeedbackRouter from './Feedback'
 import ReportRouter from './Report'
 import RecruitmentRouter from './Recruitment'
@@ -29,6 +30,9 @@ export default function App() {
         <Route path="/普通用户"><CommonUserRouter /></Route>
         <Route path="/简历"><ResumeRouter /></Route>
         <Route path="/收藏"><FavoriteRouter /></Route>
+        <Route path="/浏览记录"><JournalRouter /></Route>
+        <Route path="/编辑记录"><JournalRouter /></Route>
+        <Route path="/登录记录"><JournalRouter /></Route>
         <Route path="/投诉及反馈"><FeedbackRouter /></Route>
         <Route path="/举报"><ReportRouter /></Route>
         <Route path="/岗位"><RecruitmentRouter /></Route>

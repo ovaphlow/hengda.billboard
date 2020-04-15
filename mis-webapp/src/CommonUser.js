@@ -384,7 +384,7 @@ function Detail(props) {
                           </button>
 
                           <button type="button" className="btn btn-sm btn-outline-info"
-                            onClick={() => window.location = `#普通用户/${id}/投递记录`}
+                            onClick={() => window.location = `#投递记录?user_id=${id}&user_uuid=${uuid}`}
                           >
                             <i className="fa fa-fw fa-list"></i>
                             投递记录

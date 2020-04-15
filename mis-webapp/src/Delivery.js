@@ -70,6 +70,10 @@ function List() {
             <h3>普通用户 简历投递记录</h3>
             <hr />
 
+            <div className="alert alert-warning">
+              TODO: 调整简历及岗位的链接
+            </div>
+
             <div className="btn-group mb-3">
               <BackwardButton />
             </div>

@@ -158,7 +158,6 @@ function List() {
                       <th>状态</th>
                       <th>法人</th>
                       <th>员工数量</th>
-                      <th className="text-right">操作</th>
                     </tr>
                   </thead>
 
@@ -184,12 +183,6 @@ function List() {
                           </td>
                           <td>{it.faren}</td>
                           <td>{it.yuangongshuliang}</td>
-                          <td className="text-right">
-                            <a href={`#岗位?enterprise_id=${it.id}&enterprise_uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-list"></i>
-                              职位
-                            </a>
-                          </td>
                         </tr>
                       ))
                     }

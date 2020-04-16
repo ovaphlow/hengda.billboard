@@ -39,7 +39,8 @@ function List() {
   }, [])
 
   const handleFilter = async () => {
-    const response = await window.fetch(`/api/common-user/${user_id}/delivery/?uuid=${user_uuid}`, {
+    // const response = await window.fetch(`/api/common-user/${user_id}/delivery/?uuid=${user_uuid}`, {
+    const response = await window.fetch(`/api/delivery/?user_id=${user_id}&user_uuid=${user_uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({

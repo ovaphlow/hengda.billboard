@@ -42,7 +42,7 @@ function List(props) {
     setUserUUID(_user_uuid)
     if (props.category === '登录') {
       ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/common-user/${id}/journal/sign-in/?uuid=${uuid}`)
+        const response = await window.fetch(`/api/journal/sign-in/?user_id=${id}&user_uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -52,7 +52,7 @@ function List(props) {
       })(_user_id, _user_uuid)
     } else if (props.category === '浏览') {
       ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/common-user/${id}/journal/browse/?uuid=${uuid}`)
+        const response = await window.fetch(`/api/journal/browse/?user_id=${id}&user_uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -62,7 +62,7 @@ function List(props) {
       })(_user_id, _user_uuid)
     } else if (props.category === '编辑') {
       ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/common-user/${id}/journal/edit/?uuid=${uuid}`)
+        const response = await window.fetch(`/api/journal/edit/?user_id=${id}&user_uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -76,7 +76,7 @@ function List(props) {
 
   const handleFilter = async () => {
     if (props.category === '登录') {
-      const response = await window.fetch(`/api/common-user/${user_id}/journal/sign-in/`, {
+      const response = await window.fetch(`/api/journal/sign-in/?user_id=${user_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -91,7 +91,7 @@ function List(props) {
       }
       setData(res.content)
     } else if (props.category === '浏览') {
-      const response = await window.fetch(`/api/common-user/${user_id}/journal/browse/`, {
+      const response = await window.fetch(`/api/journal/browse/?user_id=${user_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -106,7 +106,7 @@ function List(props) {
       }
       setData(res.content)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/common-user/${user_id}/journal/edit/?uuid=${user_uuid}&user_category=${user_category}`, {
+      const response = await window.fetch(`/api/journal/edit/?user_id=${user_id}&user_uuid=${user_uuid}&user_category=${user_category}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

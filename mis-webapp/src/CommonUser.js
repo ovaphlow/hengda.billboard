@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
 import md5 from 'blueimp-md5'
-import moment from 'moment'
 
 import { Title, Navbar, BackwardButton, InputRowField, RefreshButton } from './Components'
 
@@ -218,7 +217,7 @@ function Detail(props) {
   useEffect(() => {
     if (props.category === '编辑') {
       ;(async id => {
-        const response = await window.fetch(`/api/common-user/${id}/resume/`)
+        const response = await window.fetch(`/api/resume?user_id=${id}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)

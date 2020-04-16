@@ -51,7 +51,25 @@ app.on('error', (err, ctx) => {
 })()
 
 ;(() => {
+  const router = require('./routes/resume')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
+  const router = require('./routes/delivery')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
   const router = require('./routes/favorite')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
+  const router = require('./routes/journal')
   app.use(router.routes())
   app.use(router.allowedMethods())
 })()

@@ -380,6 +380,7 @@ function Detail(props) {
                       <div className="card-footer text-center">
                         <div className="btn-group">
                           <button type="button" className="btn btn-sm btn-outline-success"
+                            style={{ display: 'none' }}
                             onClick={() => window.location = `#简历/新增?master_id=${id}`}
                           >
                             <i className="fa fa-fw fa-plus"></i>
@@ -404,6 +405,7 @@ function Detail(props) {
                       <button type="button" className="btn btn-block btn-outline-secondary"
                         onClick={() => window.location = `#收藏?master_id=${id}`}
                       >
+                        <i className="fa fa-fw fa-list"></i>
                         用户收藏
                       </button>
                     </div>

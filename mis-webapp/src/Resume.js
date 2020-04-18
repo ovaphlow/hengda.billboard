@@ -53,7 +53,7 @@ function ResumeDetail(props) {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
       ;(async (master_id, id, uuid) => {
-        const response = await window.fetch(`/api/common-user/${master_id}/resume/${id}?uuid=${uuid}`)
+        const response = await window.fetch(`/api/resume/${id}?user_id=${master_id}&uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -118,7 +118,7 @@ function ResumeDetail(props) {
 
   const handleRemove = async () => {
     if (!!!window.confirm('确定删除当前数据？')) return
-    const response = await window.fetch(`/api/common-user/${master_id}/resume/${id}?uuid=${uuid}`, {
+    const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}&user_id=${master_id}`, {
       method: 'DELETE'
     })
     const res = await response.json()
@@ -130,37 +130,8 @@ function ResumeDetail(props) {
   }
 
   const handleSubmit = async () => {
-    if (props.category === '新增') {
-      const response = await window.fetch(`/api/common-user/${master_id}/resume/`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          phone: phone,
-          email: email,
-          gender: gender,
-          birthday: birthday,
-          school: school,
-          major: major,
-          education: education,
-          date_begin: date_begin,
-          date_end: date_end,
-          address1: address1,
-          address2: address2,
-          ziwopingjia: ziwopingjia,
-          qiwangzhiwei: qiwangzhiwei,
-          qiwanghangye: qiwanghangye,
-          yixiangchengshi: yixiangchengshi
-        })
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.history.go(-1)
-    } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/common-user/${master_id}/resume/${id}?uuid=${uuid}`, {
+    if (props.category === '编辑') {
+      const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}&user_id=${master_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -328,7 +299,10 @@ function ResumeDetail(props) {
                     )
                   }
 
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                  <button type="button" className="btn btn-primary"
+                    style={{ display: 'none' }}
+                    onClick={handleSubmit}
+                  >
                     <i className="fa fa-fw fa-save"></i>
                     保存
                   </button>

@@ -417,7 +417,9 @@ function BannerDetail(props) {
                     )
                   }
 
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                  <button type="button" className="btn btn-primary"
+                    onClick={handleSubmit}
+                  >
                     <i className="fa fa-fw fa-save"></i>
                     保存
                   </button>

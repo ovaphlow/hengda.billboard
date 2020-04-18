@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, useLocation } from 'react-router-dom'
 
-import { Title, Navbar, BackwardButton, InputRowField } from './Components'
+import { Title, Navbar, BackwardButton } from './Components'
 
 import { SideNav } from './CommonUser'
 
@@ -17,7 +17,7 @@ export default function FavoriteRouter() {
 
 function List() {
   const location = useLocation()
-  const [master_id, setMasterID] = useState(0)
+  // const [master_id, setMasterID] = useState(0)
   const [list, setList] = useState([])
 
   useEffect(() => {
@@ -34,6 +34,21 @@ function List() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleRedirect2Resource = async event => {
+    const _cat = event.target.getAttribute('data-category')
+    // const _id = event.target.getAttribute('data-id')
+    if (_cat === '推荐信息') {
+      window.alert('推荐信息，施工中。')
+      // window.location = `#平台内容/推荐信息/${_id}?uuid=`
+    } else if (_cat === '校园招聘') {
+      window.alert('校园招聘，施工中。')
+    } else if (_cat === '岗位') {
+      window.alert('岗位，施工中。')
+    } else {
+      window.alert('未知类型，施工中。')
+    }
+  }
+
   return (
     <>
       <Title />
@@ -49,7 +64,7 @@ function List() {
             <h3>用户收藏</h3>
             <hr />
 
-            <div className="btn-group">
+            <div className="btn-group mb-2">
               <BackwardButton />
             </div>
 
@@ -59,7 +74,6 @@ function List() {
                   <thead className="thead-light">
                     <tr>
                       <th className="text-right">序号</th>
-                      <th>用户类型</th>
                       <th>用户</th>
                       <th>收藏类型</th>
                       <th>收藏内容</th>
@@ -74,11 +88,19 @@ function List() {
                           <td>
                             <span className="pull-right">{it.id}</span>
                           </td>
-                          <td>{it.category1}</td>
-                          <td>{it.user_id}</td>
+                          <td>
+                            <span className="badge badge-info">{it.category1}</span>
+                            &nbsp;
+                            {it.username}
+                            ({it.user_id})
+                          </td>
                           <td>{it.category2}</td>
                           <td>
-                            <button type="button" className="btn btn-link">
+                            <button type="button" className="btn btn-link"
+                              data-id={it.data_id}
+                              data-category={it.category2}
+                              onClick={handleRedirect2Resource}
+                            >
                               {it.data_id}
                             </button>
                           </td>

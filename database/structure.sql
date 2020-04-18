@@ -9,6 +9,7 @@ CREATE TABLE `banner` (
   `comment` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `datime` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `data_url` mediumtext COLLATE utf8mb4_general_ci NOT NULL,
+  `source_url` varchar(250) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '来源网址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -24,7 +25,7 @@ CREATE TABLE `browse_journal` (
   PRIMARY KEY (`id`),
   KEY `browse_journal_common_user_id_IDX` (`common_user_id`) USING BTREE,
   KEY `browse_journal_data_id_IDX` (`data_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户浏览记录';
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户浏览记录';
 
 
 -- `hengda-billboard`.campus definition
@@ -34,15 +35,15 @@ CREATE TABLE `campus` (
   `uuid` char(36) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `mis_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `category` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '校园招聘类型(宣讲会/双选会)',
-  `title` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `title` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '标题',
   `date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `time` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `address_level1` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `address_level2` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `address_level3` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `address_level4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `school` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `address_level4` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '详细地址',
+  `school` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '院校',
+  `content` mediumtext COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容',
   PRIMARY KEY (`id`),
   KEY `campus_date_IDX` (`date`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='校园招聘';
@@ -125,7 +126,7 @@ CREATE TABLE `edit_journal` (
   `remark` varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `edit_journal_user_id_IDX` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='编辑记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='编辑记录表';
 
 
 -- `hengda-billboard`.enterprise definition
@@ -179,7 +180,7 @@ CREATE TABLE `favorite` (
   PRIMARY KEY (`id`),
   KEY `favorite_common_user_id_IDX` (`user_id`) USING BTREE,
   KEY `favorite_data_id_IDX` (`data_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户收藏';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='普通用户收藏';
 
 
 -- `hengda-billboard`.feedback definition
@@ -208,7 +209,7 @@ CREATE TABLE `login_journal` (
   `datime` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0000-01-01 00:01' COMMENT '登录时间',
   PRIMARY KEY (`id`),
   KEY `login_journal_user_id_IDX` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 -- `hengda-billboard`.message definition
@@ -237,7 +238,7 @@ CREATE TABLE `mis_user` (
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `mis_user_username_IDX` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理端用户';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理端用户';
 
 
 -- `hengda-billboard`.offer definition
@@ -258,19 +259,23 @@ CREATE TABLE `offer` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- `hengda-billboard`.topic definition
+-- `hengda-billboard`.recommend definition
 
-CREATE TABLE `topic` (
+CREATE TABLE `recommend` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uuid` char(36) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `mis_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `title` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `date` date NOT NULL DEFAULT '0000-01-01',
-  `time` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `content` mediumtext COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `recommend_date_IDX` (`date`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='热门话题';
+  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '栏目分类',
+  `title` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '标题',
+  `date1` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发布时间',
+  `date2` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '截止日期',
+  `address_level1` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `address_level2` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `publisher` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '单位',
+  `qty` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘人数',
+  `baomignfangshi` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '报名方式',
+  `content` text COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='推荐信息';
 
 
 -- `hengda-billboard`.recruitment definition
@@ -363,18 +368,17 @@ CREATE TABLE `sys_message` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
--- `hengda-billboard`.recommend definition
+-- `hengda-billboard`.topic definition
 
-CREATE TABLE `recommend` (
+CREATE TABLE `topic` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uuid` char(36) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `category` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '栏目分类',
-  `date1` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发布时间',
-  `date2` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '截止日期',
-  `address_level1` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `address_level2` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `qty` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '招聘人数',
-  `baomignfangshi` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `content` text COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='推荐信息';
+  `mis_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `tag` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `title` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `date` date NOT NULL DEFAULT '0000-01-01',
+  `time` varchar(10) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `content` mediumtext COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `recommend_date_IDX` (`date`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='热门话题';

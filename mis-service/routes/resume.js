@@ -11,13 +11,12 @@ module.exports = router
 router
   .get('/:id', async ctx => {
     const sql = `
-      select * from resume where id = ? and common_user_id = ? and uuid = ? limit 1
+      select * from resume where id = ? and uuid = ? limit 1
     `
     const pool = mysql.promise()
     try {
       const [rows, _] = await pool.query(sql, [
         parseInt(ctx.params.id),
-        parseInt(ctx.request.query.user_id),
         ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} }
@@ -33,7 +32,7 @@ router
       school = ?, education = ?, date_begin = ?, date_end = ?, major = ?,
       address1 = ?, address2 = ?,
       qiwangzhiwei = ?, qiwanghangye = ?, yixiangchengshi = ?, ziwopingjia = ?
-      where id = ? and common_user_id = ? and uuid = ?
+      where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -55,7 +54,6 @@ router
         ctx.request.body.yixiangchengshi,
         ctx.request.body.ziwopingjia,
         parseInt(ctx.params.id),
-        parseInt(ctx.request.query.user_id),
         ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
@@ -66,14 +64,13 @@ router
   })
   .delete('/:id', async ctx => {
     const sql = `
-      delete from resume where id = ? and uuid = ? and common_user_id = ?
+      delete from resume where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         parseInt(ctx.params.id),
-        ctx.request.query.uuid,
-        parseInt(ctx.request.query.user_id)
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

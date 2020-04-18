@@ -24,7 +24,6 @@ function ResumeDetail(props) {
   const { id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
-  const [master_id, setMasterID] = useState(0)
   const [address_keys, setAddressKeys] = useState([])
   const [address_values, setAddressValues] = useState([])
   const [arr1, setArr1] = useState([])
@@ -47,13 +46,11 @@ function ResumeDetail(props) {
   const [yixiangchengshi, setYixiangchengshi] = useState('')
 
   useEffect(() => {
-    const _master_id = new URLSearchParams(location.search).get('master_id')
-    setMasterID(_master_id)
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-      ;(async (master_id, id, uuid) => {
-        const response = await window.fetch(`/api/resume/${id}?user_id=${master_id}&uuid=${uuid}`)
+      ;(async (id, uuid) => {
+        const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -75,7 +72,7 @@ function ResumeDetail(props) {
         setQiwangzhiwei(res.content.qiwangzhiwei)
         setQiwanghangye(res.content.qiwanghangye)
         setYixiangchengshi(res.content.yixiangchengshi)
-      })(_master_id, id, _uuid)
+      })(id, _uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -118,7 +115,7 @@ function ResumeDetail(props) {
 
   const handleRemove = async () => {
     if (!!!window.confirm('确定删除当前数据？')) return
-    const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}&user_id=${master_id}`, {
+    const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`, {
       method: 'DELETE'
     })
     const res = await response.json()
@@ -131,7 +128,7 @@ function ResumeDetail(props) {
 
   const handleSubmit = async () => {
     if (props.category === '编辑') {
-      const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}&user_id=${master_id}`, {
+      const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

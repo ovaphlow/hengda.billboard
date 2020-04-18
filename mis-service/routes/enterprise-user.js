@@ -12,15 +12,14 @@ router.get('/:id', async ctx => {
   const sql = `
     select id, enterprise_id, username, name, phone
     from enterprise_user
-    where id = ? and uuid = ? and enterprise_id = ?
+    where id = ? and uuid = ?
     limit 1
   `
   const pool = mysql.promise()
   try {
     const [rows, _] = await pool.query(sql, [
       parseInt(ctx.params.id),
-      ctx.request.query.uuid,
-      parseInt(ctx.request.query.enterprise_id)
+      ctx.request.query.uuid
     ])
     ctx.response.body = { message: '', content: rows.length === 1 ? rows[0]: {} }
   } catch (err) {
@@ -33,7 +32,7 @@ router.put('/:id', async ctx => {
   const sql = `
     update enterprise_user
     set username = ?, name = ?, phone = ?
-    where id = ? and uuid = ? and enterprise_id = ?
+    where id = ? and uuid = ?
   `
   const pool = mysql.promise()
   try {
@@ -42,8 +41,7 @@ router.put('/:id', async ctx => {
       ctx.request.body.name,
       ctx.request.body.phone,
       parseInt(ctx.params.id),
-      ctx.request.query.uuid,
-      parseInt(ctx.request.query.enterprise_id)
+      ctx.request.query.uuid
     ])
     ctx.response.body = { message: '', content: '' }
   } catch (err) {
@@ -54,14 +52,13 @@ router.put('/:id', async ctx => {
 
 router.delete('/:id', async ctx => {
   const sql = `
-    delete from enterprise_user where id = ? and uuid = ? and enterprise_id = ?
+    delete from enterprise_user where id = ? and uuid = ?
   `
   const pool = mysql.promise()
   try {
     await pool.execute(sql, [
       parseInt(ctx.params.id),
-      ctx.request.query.uuid,
-      parseInt(ctx.request.query.enterprise_id)
+      ctx.request.query.uuid
     ])
     ctx.response.body = { message: '', content: '' }
   } catch (err) {

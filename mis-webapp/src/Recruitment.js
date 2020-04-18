@@ -150,8 +150,6 @@ function Detail(props) {
   const { recruitment_id } = useParams()
   const location = useLocation()
   const [uuid, setUUID] = useState('')
-  const [enterprise_id, setEnterpriseID] = useState(0)
-  const [enterprise_uuid, setEnterpriseUUID] = useState('')
   const [name, setName] = useState('')
   const [qty, setQty] = useState('')
   const [description, setDescription] = useState('')
@@ -166,15 +164,11 @@ function Detail(props) {
   const [category, setCategory] = useState('')
 
   useEffect(() => {
-    const _ent_id = new URLSearchParams(location.search).get('enterprise_id')
-    setEnterpriseID(_ent_id)
-    const _ent_uuid = new URLSearchParams(location.search).get('enterprise_uuid')
-    setEnterpriseUUID(_ent_uuid)
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-      ;(async (recruitment_id, recruitment_uuid, enterprise_id, enterprise_uuid) => {
-        const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${recruitment_uuid}&enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`)
+      ;(async (recruitment_id, recruitment_uuid) => {
+        const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${recruitment_uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -192,14 +186,14 @@ function Detail(props) {
         setSalary2(res.content.salary2)
         setEducation(res.content.education)
         setCategory(res.content.category)
-      })(recruitment_id, _uuid, _ent_id, _ent_uuid)
+      })(recruitment_id, _uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
     if (props.category === '编辑') {
-      const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}&enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`, {
+      const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -228,7 +222,7 @@ function Detail(props) {
 
   const handleRemove = async () => {
     if (!!!window.confirm('确定要删除当前数据？')) return
-    const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}&enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`, {
+    const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}`, {
       method: 'DELETE'
     })
     const res = await response.json()

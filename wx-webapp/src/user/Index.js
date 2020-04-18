@@ -17,7 +17,7 @@ const UserRouter = () => (
       <Route exact path="/我的"><User /></Route>
       <Route path="/我的/简历"><Resume /></Route>
       <Route path="/我的/记录"><JournalRouter /></Route>
-      <Route exact path="/我的/设置"><Settings /></Route>
+      <Route exact path="/我的/设置/:category"><Settings /></Route>
       <Route exact path="/我的/收藏"><Favorite /></Route>
       <Route exact path="/我的/投递"><Delivery /></Route>
       <Route exact path="/我的/反馈"><Feedback /></Route>

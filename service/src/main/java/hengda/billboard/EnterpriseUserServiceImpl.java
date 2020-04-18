@@ -17,7 +17,8 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUserImplBase {
 
-  // private static final Logger logger = LoggerFactory.getLogger(EnterpriseUserServiceImpl.class);
+  // private static final Logger logger =
+  // LoggerFactory.getLogger(EnterpriseUserServiceImpl.class);
 
   @Override
   public void signIn(EnterpriseUserRequest req, StreamObserver<EnterpriseUserReply> responseObserver) {
@@ -71,15 +72,55 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
+  public void recover(EnterpriseUserRequest req, StreamObserver<EnterpriseUserReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from captcha where user_category=? and code=? and email=? "
+          + "and str_to_date(datime,'%Y-%m-%d %H:%i:%s') >= now()-interval 10 minute ORDER BY datime DESC limit 1";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("user_category").toString());
+      ps.setString(2, body.get("code").toString());
+      ps.setString(3, body.get("email").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      Map<String, String> err = new HashMap<>();
+      if (result.size() != 0) {
+        err.put("code", "0");
+      }
+      if (err.keySet().size() != 0) {
+        resp.put("message", err);
+      } else {
+        sql = "update enterprise_user set password =? where enterprise_id="
+            + "(select id from enterprise where email = ? ) ";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, body.get("password").toString());
+        ps.setString(2, body.get("email").toString());
+        ps.execute();
+        resp.put("content", true);
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseUserReply reply = EnterpriseUserReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
   public void logIn(EnterpriseUserRequest req, StreamObserver<EnterpriseUserReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try {
-
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-
       Connection conn = DBUtil.getConn();
       String sql = "select * from enterprise_user where phone = ? and password = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
@@ -100,6 +141,103 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
         ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
         ps.execute();
         resp.put("content", userData);
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseUserReply reply = EnterpriseUserReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void updatePassword(EnterpriseUserRequest req, StreamObserver<EnterpriseUserReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from enterprise_user where password = ? and id = ? and uuid = ?";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("old_password").toString());
+      ps.setString(2, body.get("id").toString());
+      ps.setString(3, body.get("uuid").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      Map<String, String> err = new HashMap<>();
+      if (result.size() == 0) {
+        err.put("old_password", "0");
+        resp.put("message", err);
+      } else {
+        sql = "update enterprise_user set password = ? where id = ? and uuid = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, body.get("password1").toString());
+        ps.setString(2, body.get("id").toString());
+        ps.setString(3, body.get("uuid").toString());
+        ps.execute();
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseUserReply reply = EnterpriseUserReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void checkEmail(EnterpriseUserRequest req, StreamObserver<EnterpriseUserReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from enterprise where email = ? and id != ?";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("email").toString());
+      ps.setString(2, body.get("id").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      if (result.size() != 0) {
+        resp.put("message", "该邮箱已被使用!");
+      } else {
+        resp.put("content", true);
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseUserReply reply = EnterpriseUserReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void checkRecover(EnterpriseUserRequest req, StreamObserver<EnterpriseUserReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select * from enterprise where email = ?";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("email").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      if (result.size() == 0) {
+        resp.put("message", "该邮箱不存在!");
+      } else {
+        resp.put("content", true);
       }
       conn.close();
     } catch (Exception e) {

@@ -35,6 +35,7 @@ public class BizService {
                 .addService(new CommonUserScheduleImpl())
                 .addService(new CommonDataImpl())
                 .addService(new RecommendServiceImpl())
+                .addService(new EmailServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

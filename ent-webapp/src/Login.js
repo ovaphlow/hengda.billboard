@@ -111,7 +111,7 @@ const Login = () => {
 
                 </div>
                 <div className="col">
-                  <a className="text-dark pull-right" href="#/" style={{ fontSize: 'small' }}>
+                  <a className="text-dark pull-right" href="#忘记密码" style={{ fontSize: 'small' }}>
                     忘记密码?
                       </a>
                 </div>

@@ -12,6 +12,14 @@ service EnterpriseUser {
 
   rpc logIn(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
 
+  rpc updatePassword(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
+  rpc recover(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
+  rpc checkEmail(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
+  rpc checkRecover(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
 }
 
 message EnterpriseUserRequest { string data = 1; }

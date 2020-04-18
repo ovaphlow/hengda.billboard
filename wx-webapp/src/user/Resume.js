@@ -36,60 +36,66 @@ const Resume = () => {
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth === null) {
       window.location = '#/登录'
-    }
-    setAuth(_auth)
+    } else {
 
-    fetch(`./api/resume/user/${_auth.id}?u_id=${_auth.uuid}`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.content) {
-          setData(res.content)
-        } else {
-          if (res.content !== undefined) {
-            fetch(`./api/resume/init?u_id=${_auth.uuid}`, {
-              method: 'POST',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ common_user_id: _auth.id })
-            })
-              .then(res1 => res1.json())
-              .then(res1 => {
-                setData(p => ({
-                  phone: _auth.phone,
-                  email: _auth.email,
-                  name: _auth.name,
-                  gender: '',
-                  birthday: '',
-                  address1: '',
-                  address2: '',
-                  address3: '',
-                  address4: '',
-                  school: '',
-                  education: '',
-                  major: '',
-                  date_begin: '',
-                  date_end: '',
-                  qiwangzhiwei: '',
-                  qiwanghangye: '',
-                  yixiangchengshi: '',
-                  ziwopingjia: '',
-                  status: '保密'
-                }))
-              })
+      if (!_auth.email || _auth.email === '') {
+        window.location = '#/我的/设置/完善信息'
+      }
+
+      setAuth(_auth)
+      fetch(`./api/resume/user/${_auth.id}?u_id=${_auth.uuid}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.content) {
+            setData(res.content)
           } else {
-            alert(res.message)
+            if (res.content !== undefined) {
+              fetch(`./api/resume/init?u_id=${_auth.uuid}`, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ common_user_id: _auth.id })
+              })
+                .then(res1 => res1.json())
+                .then(res1 => {
+                  setData(p => ({
+                    phone: _auth.phone,
+                    email: _auth.email,
+                    name: _auth.name,
+                    gender: '',
+                    birthday: '',
+                    address1: '',
+                    address2: '',
+                    address3: '',
+                    address4: '',
+                    school: '',
+                    education: '',
+                    major: '',
+                    date_begin: '',
+                    date_end: '',
+                    qiwangzhiwei: '',
+                    qiwanghangye: '',
+                    yixiangchengshi: '',
+                    ziwopingjia: '',
+                    status: '保密'
+                  }))
+                })
+            } else {
+              alert(res.message)
+            }
           }
-        }
-      })
+        })
 
-    fetch(`./api/common-user-file/${_auth.id}/简历/`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.message) {
-          window.alert(res.message)
-        } else {
-          setFile(res.content)
-        }
-      })
+      fetch(`./api/common-user-file/${_auth.id}/简历/`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            setFile(res.content)
+          }
+        })
+    }
+
   }, [])
 
   const age = birthday => {
@@ -680,7 +686,7 @@ const Evaluation = () => {
 
   const { search } = useLocation()
 
-  const [content, setContent ] = useState('') 
+  const [content, setContent] = useState('')
 
   useEffect(() => {
     fetch(`./api/resume/user/${id}${search}`)
@@ -688,7 +694,7 @@ const Evaluation = () => {
       .then(res => {
         if (res.content) {
           setData(res.content)
-          setContent(res.content.ziwopingjia) 
+          setContent(res.content.ziwopingjia)
         } else {
           alert(res.message)
         }

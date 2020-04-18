@@ -9,6 +9,7 @@ import JournalRouter from './journal/Index'
 
 import Login from './Login'
 import SignIn from './SignIn'
+import Recover from './Recover'
 
 export default function App() {
 
@@ -19,6 +20,7 @@ export default function App() {
         <Route exact path="/"><HomeRouter /></Route>
         <Route exact path="/登录"><Login /></Route>
         <Route exact path="/注册"><SignIn /></Route>
+        <Route exact path="/忘记密码"><Recover /></Route>
         <Route path="/岗位/"><RecruitmentRouter /></Route>
         <Route path="/简历/"><ResumeRouter /></Route>
         <Route path="/消息/"><MessageRouter /></Route>

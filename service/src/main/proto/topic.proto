@@ -8,9 +8,11 @@ package topic;
 
 service Topic {
   
-  rpc list(TopicRequest) returns (TopicReply) {}
+  rpc common(TopicRequest) returns (TopicReply) {}
     
   rpc get(TopicRequest) returns (TopicReply) {}
+
+  rpc ent(TopicRequest) returns (TopicReply) {}  
 
 }
 

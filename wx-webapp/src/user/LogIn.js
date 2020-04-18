@@ -94,9 +94,9 @@ export default function LogIn() {
                   </a>
                 </div>
                 <div className="col">
-                  <a className="pull-right text-muted" href="#/">
+                  <a className="pull-right text-muted" href="#/忘记密码">
                     忘记密码
-                </a>
+                  </a>
                 </div>
               </div>
             </div>

@@ -1,25 +1,74 @@
 import React, { useState, useEffect } from 'react'
 
 import ToBack from '../components/ToBack'
+import { useParams } from 'react-router-dom'
 
 const Setting = () => {
 
   const [data, setData] = useState({
     name: '',
-    email: ''
+    email: '',
+    code: '',
+    user_category: '个人用户',
+    id: ''
   })
+
+  const [auth, setAuth] = useState(0)
+
+  const { category } = useParams()
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth !== null) {
+      setAuth(_auth)
       setData({
         name: _auth.name,
         email: _auth.email,
+        code: '',
+        user_category: '个人用户',
         id: _auth.id
       })
     }
-  },[])
+  }, [])
 
+  const handleCode = () => {
+    fetch(`./api/common-user/checkEmail/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        id: auth.id
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          fetch(`./api/email/`, {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              email: data.email,
+              user_category: '个人用户'
+            })
+          })
+            .then(res => res.json())
+            .then(res => {
+              if (res.message) {
+                window.alert(res.message)
+              } else {
+                window.alert('验证码已发送到您的邮箱')
+              }
+            })
+        }
+      })
+  }
+
+  const checkEmail = () => {
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+    return reg.test(data.email)
+  }
 
 
   const handleChange = e => {
@@ -45,45 +94,68 @@ const Setting = () => {
         return
       } else {
         localStorage.setItem('auth', JSON.stringify(res2.content))
-        window.location = '#/我的'
+        if(category === '完善信息')  {
+          window.location = '#/我的/简历'
+        } else {
+          window.alert('操作成功')
+        }        
       }
     }
   }
 
   return (
     <>
-    <div className="container-fluid">
-      <ToBack />
-      <div className="row mt-3">
-        <div className="col">
-          <div className="form-group ">
-            <input type="text"
-              name="name"
-              value={data.name}
-              className="input-control"
-              placeholder="用户名称"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group ">
-            <input type="text"
-              name="email"
-              value={data.email}
-              className="input-control"
-              placeholder="邮箱地址"
-              onChange={handleChange}
-            />
+      <div className="container-fluid">
+        <ToBack />
+        <div className="row mt-3">
+          <div className="col">
+            <div className="form-group row ">
+              <div className="col">
+                <input type="text"
+                  name="name"
+                  value={data.name}
+                  className="input-control"
+                  placeholder="用户名称"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col">
+                <input type="text"
+                  name="email"
+                  value={data.email}
+                  className="input-control"
+                  placeholder="邮箱地址"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col">
+                <input type="text" name="code" value={data.code}
+                  className="input-control"
+                  placeholder="验证码"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-4">
+                <button className="btn rounded-0 btn-secondary btn-sm" 
+                   disabled={!checkEmail()} onClick={handleCode} >
+                  发送验证码
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
-      <div className="row text-center nav-row">
-        <button className="btn btn-primary nav-btn" onClick={handleSave}>
-          保存
+      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
+        <div className="row text-center nav-row">
+          <button className="btn btn-primary nav-btn" onClick={handleSave}>
+            保存
         </button>
-      </div>
-    </ul>
+        </div>
+      </ul>
     </>
   )
 }

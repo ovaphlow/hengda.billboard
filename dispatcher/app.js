@@ -179,4 +179,12 @@ function recommendRouter() {
 
 recommendRouter()
 
+function emailRouter() {
+  const router = require('./routes/email')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+} 
+
+emailRouter()
+
 module.exports = app

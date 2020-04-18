@@ -22,7 +22,7 @@ const HomePage = () => {
     if (_auth !== null) {
       setAuth(JSON.parse(_auth))
     }
-    fetch('./api/topic/')
+    fetch('./api/topic/common/')
       .then(res => res.json())
       .then(res => {
         if (res.content) {

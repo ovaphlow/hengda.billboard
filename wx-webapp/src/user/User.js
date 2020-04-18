@@ -28,7 +28,7 @@ const User = () => {
         <Title category="我的" />
         <div className="row ">
           <div className="col-2 ">
-            <img className="img-circle" style={{ height: 50 }} src="lib/img/u868.png" alt="" />
+            <img className="img-circle" style={{ height: 60 }} src="lib/img/u868.png" alt="" />
           </div>
           {
             auth === 0 ? (
@@ -44,11 +44,14 @@ const User = () => {
               </div>
             ) : (
                 <div className="col">
-                  <a href="#/我的/设置">
+                  <a href="#/我的/设置/基本信息">
                     <h6>{auth.username}</h6>
                   </a>
                   <span className="text-muted">
                     {auth.phone}
+                  </span><br/>
+                  <span className="text-muted">
+                    {auth.email}
                   </span>
                 </div>
               )

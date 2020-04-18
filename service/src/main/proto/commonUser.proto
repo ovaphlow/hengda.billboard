@@ -18,6 +18,13 @@ service CommonUser {
      
   rpc journal(CommonUserRequest) returns (CommonUserReply) {}
 
+  rpc recover(CommonUserRequest) returns (CommonUserReply) {}
+
+  rpc checkEmail (CommonUserRequest) returns (CommonUserReply) {}
+
+  rpc checkRecover (CommonUserRequest) returns (CommonUserReply) {}
+
+
 }
 
 message CommonUserRequest { string data = 1; }

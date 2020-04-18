@@ -46,14 +46,20 @@ const Enterprise = () => {
                         {data.status === '未认证' ? data.status : '已认证'}
                       </span>
                     </h4>
-                    {data.status === '未认证'?(
+                    <div className="pull-right">
+                      <a href="#我的/信息/编辑/">
+                        <i className="fa fa-pencil-square-o"></i>
+                        编辑
+                      </a>
+                    </div>
+                    {/* {data.status === '未认证'?(
                       <div className="pull-right">
                         <a href="#我的/信息/编辑/">
                           <i className="fa fa-pencil-square-o"></i>
                         编辑
                       </a>
                       </div>
-                    ):(<></>)}
+                    ):(<></>)} */}
                   </div>
                 </div>
                 <span className="text-muted">
@@ -61,7 +67,11 @@ const Enterprise = () => {
                   {data.yuangongshuliang && (<>员工数量:{data.yuangongshuliang}&nbsp;&nbsp;&nbsp;</>)}
                   {data.zhuziguimo && (<>注资规模:{data.zhuziguimo}&nbsp;&nbsp;&nbsp;</>)}
                   {data.zhuceriqi && (<>注册日期:{data.zhuceriqi}</>)}
+
                 </span><br />
+                <span className="text-muted">
+                  {data.email && (<>企业邮箱:{data.email}</>)}<br />
+                </span>
                 <span className="text-muted">
                   公司地址:
                   {data.address1 && (<>{data.address1}-</>)}

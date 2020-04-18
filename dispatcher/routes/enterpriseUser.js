@@ -64,6 +64,84 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
+  .put('/updatePassword/:id', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.updatePassword({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.request.body.uuid = ctx.query.u_id 
+      ctx.request.body.id = ctx.params.id 
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .put('/checkEmail/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.checkEmail({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .put('/checkRecover/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.checkRecover({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .put('/recover/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.recover({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
 
 router
   .post('/log-in/', async ctx => {

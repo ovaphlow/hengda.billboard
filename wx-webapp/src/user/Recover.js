@@ -3,22 +3,22 @@ import md5 from 'blueimp-md5'
 
 import ToBack from '../components/ToBack'
 
-export default function SignIn() {
+const Recover = () => {
+  
   const [data, setData] = useState({
-    phone: '',
     password1: '',
     password2: '',
     code: '',
-    username: ''
+    email: ''
   })
 
 
   const [err, setErr] = useState({
-    phone: false,
+    
     password1: false,
     password2: false,
     code: false,
-    username: false
+    email: false
   })
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function SignIn() {
     setData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSignIn = async () => {
+  const handleRecover = async () => {
 
     const errData = {}
 
@@ -53,15 +53,14 @@ export default function SignIn() {
       return
     }
 
-    const response = await fetch(`/api/common-user/sign-in`, {
-      method: 'POST',
+    const response = await fetch(`/api/common-user/recover/`, {
+      method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        phone: data.phone,
         password: md5(data.password1),
         code: data.code,
-        username: data.username,
-        email: data.email
+        email: data.email,
+        user_category: '个人用户'
       })
     })
     const res = await response.json()
@@ -71,11 +70,8 @@ export default function SignIn() {
         Object.getOwnPropertyNames(res.message)
           .forEach(key => {
             switch (key) {
-              case 'phone':
-                errData[key] = '该电话号已注册'
-                break
-              case 'username':
-                errData[key] = '用户名已被使用'
+              case 'code':
+                errData[key] = '验证码错误'
                 break
               default:
                 alertFlg = true
@@ -89,9 +85,48 @@ export default function SignIn() {
       }
       setErr(errData)
     } else {
-      window.alert('注册成功')
-      window.history.go(-1)
+      window.alert('密码已重置')
+      window.location='#/登录'
     }
+  }
+
+
+  const handleCode = () => {
+    fetch(`./api/common-user/checkRecover`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          fetch(`./api/email/`, {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              email: data.email,
+              user_category: '个人用户'
+            })
+          })
+            .then(res => res.json())
+            .then(res => {
+              if (res.message) {
+                window.alert(res.message)
+              } else {
+                window.alert('验证码已发送到您的邮箱')
+              }
+            })
+        }
+      })
+  }
+
+  const checkEmail = () => {
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+    return reg.test(data.email)
   }
 
   return (
@@ -101,9 +136,7 @@ export default function SignIn() {
         <div className="row mt-3">
           <div className="col">
             <h4 className="text-center">
-              <span className="text-primary">hi</span>
-              &nbsp;
-              欢迎来到龙江学子就业平台
+              密码重置
             </h4>
           </div>
         </div>
@@ -113,31 +146,11 @@ export default function SignIn() {
             <div className="card border-0">
               <div className="card-body">
                 <form>
-                  {err.phone && <small className="form-text text-danger">{err.phone}</small>}
+                  {err.email && <small className="form-text text-danger">{err.email}</small>}
                   <div className="form-group row">
-                    <input type="text" name="phone" value={data.phone}
+                    <input type="text" name="email" value={data.email}
                       className="input-control col"
-                      placeholder="手机号码"
-                      onChange={handleChange}
-                    />
-                  </div>
-                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
-                  <div className="form-group row">
-                    <input type="password"
-                      name="password1"
-                      value={data.password1}
-                      autoComplete="off"
-                      className="input-control col"
-                      placeholder="登陆密码"
-                      onChange={handleChange}
-                    />
-                  </div>
-                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
-                  <div className="form-group row">
-                    <input type="password" name="password2" value={data.password2}
-                      className="input-control col"
-                      autoComplete="off"
-                      placeholder="确认密码"
+                      placeholder="电子邮箱"
                       onChange={handleChange}
                     />
                   </div>
@@ -150,16 +163,31 @@ export default function SignIn() {
                         onChange={handleChange}
                       />
                     </div>
-                    <button className="col-3 btn rounded-0 btn-secondary btn-sm" style={{ fontSize: 12 }}>
+                    <button
+                    type="button" 
+                    className="col-3 btn rounded-0 btn-secondary btn-sm" 
+                    disabled={!checkEmail()}
+                    onClick={handleCode} style={{ fontSize: 12 }}>
                       发送验证码
                     </button>
                   </div>
-
-                  {err.username && <small className="form-text text-danger">{err.username}</small>}
+                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
                   <div className="form-group row">
-                    <input type="text" name="username" value={data.username}
+                    <input type="password"
+                      name="password1"
+                      value={data.password1}
+                      autoComplete="off"
                       className="input-control col"
-                      placeholder="请输入用户名称"
+                      placeholder="密码"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
+                  <div className="form-group row">
+                    <input type="password" name="password2" value={data.password2}
+                      className="input-control col"
+                      autoComplete="off"
+                      placeholder="确认密码"
                       onChange={handleChange}
                     />
                   </div>
@@ -171,8 +199,8 @@ export default function SignIn() {
                   type="button"
                   style={{ width: '80%' }}
                   className="btn btn-block btn-primary mx-auto"
-                  onClick={handleSignIn}>
-                  注册
+                  onClick={handleRecover}>
+                  确定
                 </button>
               </div>
             </div>
@@ -181,4 +209,8 @@ export default function SignIn() {
       </div>
     </>
   )
+
 }
+
+
+export default Recover

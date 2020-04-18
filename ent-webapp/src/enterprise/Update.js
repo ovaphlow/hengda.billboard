@@ -17,7 +17,9 @@ const Update = () => {
     address1: '',
     address2: '',
     address3: '',
-    address4: ''
+    address4: '',
+    email: '',
+    code: ''
   })
 
   const [auth, setAuth] = useState(0)
@@ -100,18 +102,40 @@ const Update = () => {
   }
 
   const handleSave = () => {
-    fetch(`./api/enterprise/${auth.enterprise_id}?u_id=${auth.uuid}`, {
+
+    fetch(`./api/email/check/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        email: data.email,
+        user_id: auth.id,
+        code: data.code ? data.code : '',
+        user_category: '企业用户'
+      })
     })
       .then(res => res.json())
       .then(res => {
         if (res.message) {
           window.alert(res.message)
         } else {
-          window.alert('操作成功')
-          window.location = '#信息'
+          if (res.content) {
+            fetch(`./api/enterprise/${auth.enterprise_id}?u_id=${data.uuid}`, {
+              method: 'PUT',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(data)
+            })
+              .then(res => res.json())
+              .then(res => {
+                if (res.message) {
+                  window.alert(res.message)
+                } else {
+                  window.alert('操作成功')
+                  window.location = '#我的/信息'
+                }
+              })
+          } else {
+            window.alert('验证码错误!')
+          }
         }
       })
   }
@@ -195,6 +219,46 @@ const Update = () => {
     }
   }
 
+  const checkEmail = () => {
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+    return reg.test(data.email)
+  }
+
+  const handleCode = () => {
+    fetch(`./api/ent-user/checkEmail`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        user_id: data.id
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          fetch(`./api/email/`, {
+            method: 'PUT',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              email: data.email,
+              user_id: auth.id,
+              user_category: '企业用户'
+            })
+          })
+            .then(res => res.json())
+            .then(res => {
+              if (res.message) {
+                window.alert(res.message)
+              } else {
+                window.alert('验证码已发送到公司邮箱')
+              }
+            })
+        }
+      })
+  }
+
 
   return (
     <View category="企业信息">
@@ -203,7 +267,7 @@ const Update = () => {
           <div className="card-body">
             <div className="row">
               <div className="col">
-                <h3 className="pull-left">工商信息</h3>
+                <h3 className="pull-left">基本信息</h3>
               </div>
             </div>
             <hr />
@@ -247,6 +311,29 @@ const Update = () => {
                   name="yuangongshuliang"
                   value={data.yuangongshuliang}
                   handleChange={handleChange} />
+              </div>
+              <div className="col-3 col-md-4">
+                <TextField
+                  category="公司邮箱"
+                  name="email"
+                  value={data.email}
+                  handleChange={handleChange} />
+              </div>
+              <div className="col-3 col-md-4">
+                <div className="form-group">
+                  <label>验证码</label>
+                  <div className="input-group mb-3">
+                    <input type="text" value={data.code || ''} name="code"
+                      onChange={handleChange}
+                      className="form-control form-control-sm rounded-0" />
+                    <div className="input-group-append">
+                      <button className="btn btn-sm btn-primary rounded-0"
+                        onClick={handleCode} disabled={!checkEmail()}>
+                        发送验证码
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row mt-2">

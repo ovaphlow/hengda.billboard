@@ -1,5 +1,7 @@
 body {
   background-color: #f2f2f2;
+  /* min-width: 1508px; */
+  overflow-x: auto;
 }
 
 .logo {
@@ -146,4 +148,31 @@ body {
 
 .modal-show {
   display: block
+}
+
+.text-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.img-box {
+  position: relative;
+  align-items: center;
+  justify-content: center
+}
+
+.img-box-item {
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
+
+.pagination {
+  position: absolute;
+  bottom: 1px;
+  display: flex;
+  flex-direction: row;
 }

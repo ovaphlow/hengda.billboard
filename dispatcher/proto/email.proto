@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "EmailProto";
+
+package email;
+
+service Email {
+
+  rpc insert(EmailRequest) returns (EmailReply) {}
+
+  rpc code(EmailRequest) returns (EmailReply) {}
+
+  rpc checkRecover(EmailRequest) returns (EmailReply) {}
+  
+}
+
+message EmailRequest { string data = 1; }
+
+message EmailReply { string data = 1; }

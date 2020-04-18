@@ -9,6 +9,13 @@ const config = {
   grpcServer: {
     host: '127.0.0.1',
     port: '5001'
+  },
+  email: {
+    service: '163',
+    auth: {
+      user: 'qiangxiazhanling@163.com',
+      pass: 'RWWFGNCNCPQXVOXC'
+    }
   }
 }
 

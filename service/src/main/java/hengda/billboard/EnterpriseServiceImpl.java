@@ -58,7 +58,7 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
       String sql = "update enterprise set yingyezhizhao = ?, faren= ?, zhuceriqi= ?, zhuziguimo= ?, "
-          + "yuangongshuliang= ?, yingyezhizhao_tu= ?, address1= ?, address2= ?, address3= ?, address4= ? where id=? and uuid=?";
+          + "yuangongshuliang= ?, yingyezhizhao_tu= ?, email=?, address1= ?, address2= ?, address3= ?, address4= ? where id=? and uuid=?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("yingyezhizhao").toString());
       ps.setString(2, body.get("faren").toString());
@@ -66,12 +66,13 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
       ps.setString(4, body.get("zhuziguimo").toString());
       ps.setString(5, body.get("yuangongshuliang").toString());
       ps.setString(6, body.get("yingyezhizhao_tu").toString());
-      ps.setString(7, body.get("address1").toString());
-      ps.setString(8, body.get("address2").toString());
-      ps.setString(9, body.get("address3").toString());
-      ps.setString(10, body.get("address4").toString());
-      ps.setString(11, body.get("id").toString());
-      ps.setString(12, body.get("uuid").toString());
+      ps.setString(7, body.get("email").toString());
+      ps.setString(8, body.get("address1").toString());
+      ps.setString(9, body.get("address2").toString());
+      ps.setString(10, body.get("address3").toString());
+      ps.setString(11, body.get("address4").toString());
+      ps.setString(12, body.get("id").toString());
+      ps.setString(13, body.get("uuid").toString());
       ps.execute();
       resp.put("content", true);
       conn.close();

@@ -47,7 +47,7 @@ router
   })
 
 router
-  .post('/log-in', async ctx => {
+  .post('/log-in/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.logIn({ data: JSON.stringify(body) }, (err, response) => {
         if (err) {
@@ -66,6 +66,72 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
+
+router
+  .put('/recover/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.recover({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+
+
+router
+  .put('/checkEmail/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.checkEmail({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+
+
+router
+  .put('/checkRecover/', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.checkRecover({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+
 
 router
   .get('/:id', async ctx => {

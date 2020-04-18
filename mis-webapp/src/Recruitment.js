@@ -26,15 +26,15 @@ export function DataList(props) {
   const [data_list, setDataList] = useState([])
 
   useEffect(() => {
-    ;(async id => {
-      const response = await window.fetch(`/api/enterprise/${id}/recruitment/`)
+    ;(async (enterprise_id, enterprise_uuid) => {
+      const response = await window.fetch(`/api/recruitment/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
         return
       }
       setDataList(res.content)
-    })(props.enterprise_id)
+    })(props.enterprise_id, props.enterprise_uuid)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -69,7 +69,7 @@ function List() {
     const _ent_uuid = new URLSearchParams(location.search).get('enterprise_uuid')
     setEnterpriseUUID(_ent_uuid)
     ;(async (id, uuid) => {
-      const response = await window.fetch(`/api/enterprise/${id}/recruitment/?uuid=${uuid}`)
+      const response = await window.fetch(`/api/recruitment?enterprise_id=${id}&uuid=${uuid}`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -173,8 +173,8 @@ function Detail(props) {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-      ;(async (enterprise_id, recruitment_id) => {
-        const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}?uuid=${_uuid}`)
+      ;(async (recruitment_id, recruitment_uuid, enterprise_id, enterprise_uuid) => {
+        const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${recruitment_uuid}&enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -192,39 +192,14 @@ function Detail(props) {
         setSalary2(res.content.salary2)
         setEducation(res.content.education)
         setCategory(res.content.category)
-      })(_ent_id, recruitment_id)
+      })(recruitment_id, _uuid, _ent_id, _ent_uuid)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
-    if (props.category === '新增') {
-      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/?enterprise_uuid=${enterprise_uuid}`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name: name,
-          qty: qty,
-          description: description,
-          requirement: requirement,
-          address1: address1,
-          address2: address2,
-          address3: address3,
-          date: date,
-          salary1: salary1,
-          salary2: salary2,
-          education: education,
-          category: category
-        })
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.history.go(-1)
-    } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${enterprise_id}/recruitment/${recruitment_id}?uuid=${uuid}`, {
+    if (props.category === '编辑') {
+      const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}&enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -249,6 +224,19 @@ function Detail(props) {
       }
       window.history.go(-1)
     }
+  }
+
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除当前数据？')) return
+    const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}&enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
   }
 
   return (
@@ -309,6 +297,17 @@ function Detail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
+
                   <button type="button" className="btn btn-primary"
                     style={{ display: 'none' }}
                     onClick={handleSubmit}

@@ -30,7 +30,7 @@ function List(props) {
   const [user_id, setUserID] = useState(0)
   const [user_uuid, setUserUUID] = useState('')
   const [data, setData] = useState([])
-  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-DD'))
+  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-01'))
   const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'))
 
   useEffect(() => {
@@ -139,7 +139,7 @@ function List(props) {
             <hr />
 
             <div className="alert alert-warning">
-              产生操作记录是要同时记录用户的uuid
+              产生操作记录时要同时记录用户的uuid
             </div>
 
             <div className="btn-group mb-3">

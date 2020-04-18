@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
-import md5 from 'blueimp-md5'
 
 import { Title, Navbar, InputRowField, BackwardButton } from './Components'
 import { SideNav } from './Enterprise'
@@ -27,15 +26,15 @@ export function List(props) {
   const [data_list, setDataList] = useState([])
 
   useEffect(() => {
-    ;(async enterprise_id => {
-      const response = await fetch(`/api/enterprise/${enterprise_id}/user/`)
+    ;(async (enterprise_id, enterprise_uuid) => {
+      const response = await fetch(`/api/enterprise-user/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
         return
       }
       setDataList(res.content)
-    })(props.enterprise_id)
+    })(props.enterprise_id, props.enterprise_uuid)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -73,7 +72,7 @@ function Detail(props) {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
       ;(async (enterprise_id, id, uuid) => {
-        const response = await fetch(`/api/enterprise/${enterprise_id}/user/${id}?uuid=${uuid}`)
+        const response = await fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`)
         const res = await response.json()
         if (res.message) {
           window.console.error(res.message)
@@ -88,26 +87,8 @@ function Detail(props) {
   }, [])
 
   const handleSubmit = async () => {
-    if (props.category === '新增') {
-      const response = await window.fetch(`/api/enterprise/${enterprise_id}/user/`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          enterprise_uuid: enterprise_uuid,
-          name: name,
-          username: username,
-          password: md5(password),
-          phone: phone
-        })
-      })
-      const res = await response.json()
-      if (res.message) {
-        window.alert(res.message)
-        return
-      }
-      window.history.go(-1)
-    } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${enterprise_id}/user/${id}?uuid=${uuid}`, {
+    if (props.category === '编辑') {
+      const response = await window.fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -123,6 +104,19 @@ function Detail(props) {
       }
       window.history.go(-1)
     }
+  }
+
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除当前数据？')) return
+    const response = await window.fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`, {
+      method: 'DELETE'
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.history.go(-1)
   }
 
   return (
@@ -165,6 +159,17 @@ function Detail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
+                  {
+                    props.category === '编辑' && (
+                      <button type="button" className="btn btn-outline-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o"></i>
+                        删除
+                      </button>
+                    )
+                  }
+
                   <button type="button" className="btn btn-primary"
                     style={{ display: 'none' }}
                     onClick={handleSubmit}

@@ -559,7 +559,11 @@ function Detail(props) {
                       </div>
 
                       <div className="card-body">
-                        <EnterpriseUserList enterprise_id={id} enterprrise_uuid={uuid} />
+                        {
+                          id && uuid && (
+                            <EnterpriseUserList enterprise_id={id} enterprise_uuid={uuid} />
+                          )
+                        }
                       </div>
 
                       <div className="card-footer text-center" style={{ display: 'none' }}>

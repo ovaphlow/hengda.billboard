@@ -45,6 +45,12 @@ app.on('error', (err, ctx) => {
 })()
 
 ;(() => {
+  const router = require('./routes/enterprise-user')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
   const router = require('./routes/recruitment')
   app.use(router.routes())
   app.use(router.allowedMethods())

@@ -57,7 +57,6 @@ function Detail(props) {
   const location = useLocation()
   const [uuid, setUUID] = useState('')
   const [enterprise_id, setEnterpriseID] = useState(0)
-  const [enterprise_uuid, setEnterpriseUUID] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -66,8 +65,6 @@ function Detail(props) {
   useEffect(() => {
     const _master_id = new URLSearchParams(location.search).get('enterprise_id')
     setEnterpriseID(_master_id)
-    const _master_uuid = new URLSearchParams(location.search).get('enterprise_uuid')
-    setEnterpriseUUID(_master_uuid)
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)

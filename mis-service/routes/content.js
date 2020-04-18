@@ -30,8 +30,8 @@ router
       update campus
       set title = ?, date = ?, time = ?,
         address_level1 = ?, address_level2 = ?, address_level3 = ?, address_level4 = ?,
-        school = ?, content=?
-      where id = ?
+        school = ?, content = ?
+      where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
@@ -45,7 +45,8 @@ router
         ctx.request.body.address_level4,
         ctx.request.body.school,
         ctx.request.body.content,
-        parseInt(ctx.params.id)
+        parseInt(ctx.params.id),
+        ctx.request.query.uuid
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {
@@ -369,8 +370,7 @@ router
     const sql = `
       update banner
       set status = ?, category = ?, title = ?, comment = ?, datime = ?, data_url = ?
-      where id = ?
-        and uuid = ?
+      where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {

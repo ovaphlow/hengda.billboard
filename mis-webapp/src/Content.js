@@ -1347,7 +1347,7 @@ function CampusDetail(props) {
       }
       window.history.go(-1)
     } else if (props.category === '编辑') {
-      const response = await window.fetch(`/api/content/campus/${id}`, {
+      const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

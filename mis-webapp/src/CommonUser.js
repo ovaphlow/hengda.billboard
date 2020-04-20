@@ -129,7 +129,6 @@ function List() {
                       <th>用户</th>
                       <th>EMAIL</th>
                       <th>电话</th>
-                      <th>投递</th>
                       <th>收藏</th>
                       <th className="text-right">查看</th>
                     </tr>
@@ -147,7 +146,6 @@ function List() {
                         <td>{it.name}<br />({it.username})</td>
                         <td>{it.email}</td>
                         <td>{it.phone}</td>
-                        <td>{it.qty_delivery}</td>
                         <td>{it.qty_favorite}</td>
                         <td className="text-right">
                           <div className="btn-group">

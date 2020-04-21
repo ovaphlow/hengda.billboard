@@ -88,7 +88,6 @@ function List() {
 
             <div className="alert alert-warning" role="alert">
               <ul>
-                <li>简历中的地址由地址组件选择</li>
                 <li>简历中的自我评价改为RTE</li>
               </ul>
             </div>

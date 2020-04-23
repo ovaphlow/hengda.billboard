@@ -141,10 +141,10 @@ function List() {
                         <tr key={it.id}>
                           <td className="text-right">{it.id}</td>
                           <td>
-                            <a href={`#普通用户/${user_id}/简历/${it.resume_id}`}>{it.resume_name}</a>
+                            <a href={`#简历/${it.resume_id}?uuid=${it.resume_uuid}`}>{it.resume_name}</a>
                           </td>
                           <td>
-                            <a href={`#岗位/${it.recruitment_id}`}>{it.recruitment_name}</a>
+                            <a href={`#岗位/${it.recruitment_id}?uuid=${it.recruitment_uuid}`}>{it.recruitment_name}</a>
                           </td>
                           <td>{it.datime}</td>
                           <td className="text-right">{it.status}</td>

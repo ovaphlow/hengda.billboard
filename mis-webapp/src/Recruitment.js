@@ -42,7 +42,7 @@ export function DataList(props) {
     <div className="list-group">
       {
         data_list.map(it => (
-          <a href={`#岗位/${it.id}?uuid=${it.uuid}&enterprise_id=${props.enterprise_id}&enterprise_uuid=${props.enterprise_uuid}`}
+          <a href={`#岗位/${it.id}?uuid=${it.uuid}`}
             className="list-group-item list-group-item-action"
             key={it.id}
           >

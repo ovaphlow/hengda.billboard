@@ -231,7 +231,7 @@ const ResumeDetalis = () => {
         close={() => setModalShow1(false)} >
         <SelectField
           id="recruitment"
-          className="form-control"
+          className="form-control form-control-sm"
           category="面试职位">
           {recruitmentList && recruitmentList.map((item, inx) =>
             <option value={item.id} key={inx}>{item.name}</option>
@@ -239,36 +239,36 @@ const ResumeDetalis = () => {
         </SelectField>
         <div className="form-group">
           <label>联系电话1</label>
-          <input id="phone1" type="text" className="form-control" />
+          <input id="phone1" type="text" className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>联系电话2</label>
-          <input id="phone2" type="text" className="form-control" />
+          <input id="phone2" type="text" className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>面试时间</label>
           <input
             id="datime"
             type="datetime-local"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>面试地点</label>
           <textarea
             id="address"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>交通路线</label>
           <textarea
             id="luxian"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>备注</label>
           <textarea
             id="remark"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
       </Modal>
     </View>

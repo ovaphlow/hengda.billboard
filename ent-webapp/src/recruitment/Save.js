@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TextField, SelectField, IndustryField } from '../components/InputField'
 import RichEditor from '../components/RichEditor'
 import { View } from './Components'
+import { EditJournal } from '../commonFetch'
 
 const Save = () => {
 
@@ -36,7 +37,7 @@ const Save = () => {
       setData(p => ({
         ...p,
         enterprise_id: auth.enterprise_id,
-        user_id: auth.id
+        user_id: auth.id,
       }))
     }
     fetch(`/lib/address.json`)
@@ -70,6 +71,11 @@ const Save = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
+          EditJournal({
+            category2:'岗位',
+            data_id:res.content,
+            remark:`新增岗位<${data.name}>`
+          }, res => {})
           window.alert('操作成功')
           window.location = '#岗位/列表'
         }

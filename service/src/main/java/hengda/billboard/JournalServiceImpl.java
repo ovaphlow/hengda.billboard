@@ -163,6 +163,36 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
     responseObserver.onCompleted();
   }
 
+  @Override
+  public void insertEdit(JournalRequest req, StreamObserver<JournalReply> responseObserver ) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "insert into edit_journal (user_id, user_uuid, category1, category2, datime, data_id, remark) " +
+      "value (?,?,?,?,?,?,?)";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("user_id").toString());
+      ps.setString(2, body.get("user_uuid").toString());
+      ps.setString(3, body.get("category1").toString());
+      ps.setString(4, body.get("category2").toString());
+      ps.setString(5, body.get("datime").toString());
+      ps.setString(6, body.get("data_id").toString());
+      ps.setString(7, body.get("remark").toString());
+      ps.execute();
+      resp.put("content", true);
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    JournalReply reply = JournalReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
 
   @Override
   public void editList(JournalRequest req, StreamObserver<JournalReply> responseObserver) {

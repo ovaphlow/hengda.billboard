@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 import ToBack from '../components/ToBack'
-
+import { EditJournal } from '../commonFetch'
 
 export const searchFavorite = body => new Promise((resolve, reject) => {
   fetch(`./api/favorite/search/one/`, {
@@ -51,6 +51,7 @@ const Details = () => {
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
             common_user_id: _auth.id,
+            user_uuid: _auth.uuid,
             data_id: data.id,
             category: '岗位',
             datime: moment().format('YYYY-MM-DD HH:mm')
@@ -140,6 +141,7 @@ const Details = () => {
         body: JSON.stringify({
           common_user_id: auth.id,
           recruitment_id: data.id,
+          recruitment_uuid: data.uuid,
           datime: moment().format('YYYY-MM-DD HH:mm'),
         })
       })
@@ -150,6 +152,11 @@ const Details = () => {
               .then(res1 => res1.json())
               .then(res1 => {
                 if (res1.content) {
+                  EditJournal({
+                    category2:'岗位',
+                    data_id:data.id,
+                    remark:`将简历到岗位<${data.name}>`
+                  },re => {})
                   setDelivery(res1.content)
                 }
               })

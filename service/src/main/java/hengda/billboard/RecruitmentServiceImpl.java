@@ -78,15 +78,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.executeUpdate();
       ResultSet rs = ps.getGeneratedKeys();
       if (rs.next()) {
-        sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','发布岗位',?,?,?)";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, body.get("user_id").toString());
-        ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-        ps.setInt(3, rs.getInt(1));
-        ps.setString(4, "发布岗位<" + body.get("name").toString() + ">");
-        ps.execute();
+        resp.put("content", rs.getInt(1));
       }
-      resp.put("content", true);
       conn.close();
     } catch (Exception e) {
       e.printStackTrace();
@@ -127,13 +120,6 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(14, body.get("id").toString());
       ps.setString(15, body.get("uuid").toString());
       ps.execute();
-      sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','编辑岗位',?,?,?)";
-      ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("user_id").toString());
-      ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-      ps.setString(3, body.get("id").toString());
-      ps.setString(4, "修改岗位<" + body.get("name").toString() + ">");
-      ps.execute();
       resp.put("content", true);
       conn.close();
     } catch (Exception e) {
@@ -160,14 +146,6 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       ps.setString(1, body.get("status").toString());
       ps.setString(2, body.get("id").toString());
       ps.setString(3, body.get("uuid").toString());
-      ps.execute();
-      sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户',?,?,?,?)";
-      ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("user_id").toString());
-      ps.setString(2, ("在招".equals(body.get("status").toString())?"复招":"停招")+"岗位");
-      ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-      ps.setString(4, body.get("id").toString());
-      ps.setString(5, ("在招".equals(body.get("status").toString())?"复招":"停招")+"岗位<" + body.get("name").toString() + ">");
       ps.execute();
       resp.put("content", true);
       conn.close();

@@ -139,8 +139,8 @@ router.post('/status/:id/', async ctx => {
     })
   )
   try {
-    ctx.request.body.uuid = ctx.query.u_id
     ctx.request.body.id = ctx.params.id
+    ctx.request.body.uuid = ctx.query.u_id
     ctx.response.body = await grpcFetch(ctx.request.body)
   } catch (err) {
     console.error(err)

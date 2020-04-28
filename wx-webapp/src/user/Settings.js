@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import ToBack from '../components/ToBack'
-import { useParams } from 'react-router-dom'
+import { EditJournal } from '../commonFetch'
 
 const Setting = () => {
 
@@ -9,7 +10,6 @@ const Setting = () => {
     name: '',
     email: '',
     code: '',
-    user_category: '个人用户',
     id: ''
   })
 
@@ -25,8 +25,7 @@ const Setting = () => {
         name: _auth.name,
         email: _auth.email,
         code: '',
-        user_category: '个人用户',
-        id: _auth.id
+        id: _auth.id,
       })
     }
   }, [])
@@ -97,6 +96,11 @@ const Setting = () => {
         if(category === '完善信息')  {
           window.location = '#/我的/简历'
         } else {
+          EditJournal({
+            category2:'个人信息',
+            data_id:auth.id,
+            remark:'编辑个人信息'
+          },re => {})
           window.alert('操作成功')
         }        
       }

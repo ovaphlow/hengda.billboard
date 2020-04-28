@@ -8,6 +8,9 @@ import {
   AddressLevel3PickerRowField
 } from './Components'
 import { SideNav } from './CommonUser'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+
 
 export default function ResumeRouter() {
   return (
@@ -49,36 +52,36 @@ function ResumeDetail(props) {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-      ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setName(res.content.name)
-        setPhone(res.content.phone)
-        setEmail(res.content.email)
-        setGender(res.content.gender)
-        setBirthday(res.content.birthday)
-        setSchool(res.content.school)
-        setMajor(res.content.major)
-        setEducation(res.content.education)
-        setDateBegin(res.content.date_begin)
-        setDateEnd(res.content.date_end)
-        setAddress1(res.content.address1)
-        setAddress2(res.content.address2)
-        setZiwopingjia(res.content.ziwopingjia)
-        setQiwangzhiwei(res.content.qiwangzhiwei)
-        setQiwanghangye(res.content.qiwanghangye)
-        setYixiangchengshi(res.content.yixiangchengshi)
-      })(id, _uuid)
+        ; (async (id, uuid) => {
+          const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`)
+          const res = await response.json()
+          if (res.message) {
+            window.console.error(res.message)
+            return
+          }
+          setName(res.content.name)
+          setPhone(res.content.phone)
+          setEmail(res.content.email)
+          setGender(res.content.gender)
+          setBirthday(res.content.birthday)
+          setSchool(res.content.school)
+          setMajor(res.content.major)
+          setEducation(res.content.education)
+          setDateBegin(res.content.date_begin)
+          setDateEnd(res.content.date_end)
+          setAddress1(res.content.address1)
+          setAddress2(res.content.address2)
+          setZiwopingjia(res.content.ziwopingjia)
+          setQiwangzhiwei(res.content.qiwangzhiwei)
+          setQiwanghangye(res.content.qiwanghangye)
+          setYixiangchengshi(res.content.yixiangchengshi)
+        })(id, _uuid)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await window.fetch(`/lib/address.json`)
       const res = await response.json()
       const keys = Object.keys(res)
@@ -110,7 +113,7 @@ function ResumeDetail(props) {
       }
     }
     setArr2(_arr)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address1])
 
   const handleRemove = async () => {
@@ -259,10 +262,25 @@ function ResumeDetail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">自我评价</label>
                   <div className="col-sm-10">
-                    <textarea value={ziwopingjia || ''} className="form-control input-borderless"
+                    <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                        ]
+                      }}
+                      readOnly
+                      placeholder="请填写内容"
+                      value={ziwopingjia || ''}
+                      onChange={setZiwopingjia} />
+                    {/* <textarea value={ziwopingjia || ''} className="form-control input-borderless"
                       onChange={event => setZiwopingjia(event.target.value)}
                     >
-                    </textarea>
+                    </textarea> */}
                   </div>
                 </div>
 

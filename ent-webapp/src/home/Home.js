@@ -38,7 +38,7 @@ const TopicRow = item => {
           <span className="text-muted text-hidden">{reg(item.content)}</span>
         </div>
         <div className="col">
-          {item.id ? <a className="text-muted">阅读全文>>></a> : <span className="text-white">x</span>}
+          {item.id ? <a className="text-muted" href={item.source_url}>阅读全文>>></a> : <span className="text-white">x</span>}
         </div>
       </div>
       {item.id && <hr />}

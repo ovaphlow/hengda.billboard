@@ -3,6 +3,7 @@ import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'rea
 import moment from 'moment'
 
 import ToBack from '../components/ToBack'
+import { EditJournal } from '../commonFetch'
 import { InputField, SelectField } from './Components'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -110,7 +111,7 @@ const Resume = () => {
     fetch(`./api/resume/status/${data.common_user_id}/?u_id=${data.uuid}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ status: status })
+      body: JSON.stringify({status: status})
     })
       .then(res => res.json())
       .then(res => {
@@ -119,6 +120,11 @@ const Resume = () => {
             ...p,
             status: status
           }))
+          EditJournal({
+            category2:'简历',
+            data_id:data.id,
+            remark:'修改简历状态'
+          },res => {})
         }
       })
   }
@@ -141,7 +147,7 @@ const Resume = () => {
           body: JSON.stringify({
             file: f,
             common_user_id: auth.id,
-            category: '简历'
+            category: '简历',
           })
         })
           .then(res => res.json())
@@ -149,12 +155,16 @@ const Resume = () => {
             if (res.message) {
               window.alert(res.message)
             } else {
+              EditJournal({
+                category2:'简历',
+                data_id:data.id,
+                remark:'编辑我的证书'
+              },res => {})
               setFile(p => p.concat({
                 id: res.content,
                 file: f,
                 common_user_id: auth.id,
                 category: '简历',
-                editType: '编辑我的证书'
               }))
             }
           })
@@ -167,7 +177,7 @@ const Resume = () => {
   }
 
   const handleFileDelete = id => {
-    fetch(`./api/common-user-file/${id}?editType=编辑我的证书`, {
+    fetch(`./api/common-user-file/${id}?user_id=${auth.id}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
@@ -175,6 +185,11 @@ const Resume = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:data.id,
+            remark:'编辑我的证书'
+          },res => {})
           setFile(p => p.filter(it => it.id !== id))
         }
       })
@@ -375,16 +390,18 @@ const Personal = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        editType: '修改简历个人信息'
-      })
+      body: JSON.stringify(data)
     })
       .then(res => res.json())
       .then(res => {
         if (res.message) {
           alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:data.id,
+            remark:'修改简历个人信息'
+          },re => {})
           window.history.go(-1)
         }
       })
@@ -504,16 +521,18 @@ const School = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        editType: '修改简历毕业院校'
-      })
+      body: JSON.stringify(data)
     })
       .then(res => res.json())
       .then(res => {
         if (res.message) {
           alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:data.id,
+            remark:'修改简历毕业院校'
+          },re => {})
           window.history.go(-1)
         }
       })
@@ -622,16 +641,18 @@ const Intention = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        editType: '修改简历求职意向'
-      })
+      body: JSON.stringify(data)
     })
       .then(res => res.json())
       .then(res => {
         if (res.message) {
           alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:data.id,
+            remark:'修改简历求职意向'
+          },re => {})
           window.history.go(-1)
         }
       })
@@ -707,8 +728,7 @@ const Evaluation = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...data,
-        ziwopingjia: content,
-        editType: '修改简历自我评价'
+        ziwopingjia: content
       })
     })
       .then(res => res.json())
@@ -716,6 +736,11 @@ const Evaluation = () => {
         if (res.message) {
           alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:data.id,
+            remark:'修改简历自我评价'
+          },re => {})
           window.history.go(-1)
         }
       })
@@ -877,8 +902,7 @@ const ProvinceCity = () => {
         ...resume,
         address1: level1,
         address2: level2,
-        address3: level3,
-        editType: '修改简历个人信息'
+        address3: level3
       })
     })
       .then(res => res.json())
@@ -886,6 +910,11 @@ const ProvinceCity = () => {
         if (res.message) {
           alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:resume.id,
+            remark:'修改简历个人信息'
+          },re => {})
           window.history.go(-1)
         }
       })
@@ -1026,8 +1055,7 @@ const Industry = () => {
       body: JSON.stringify({
         ...resume,
         qiwangzhiwei: qiwangzhiwei,
-        qiwanghangye: qiwanghangye,
-        editType: '修改简历求职意向'
+        qiwanghangye: qiwanghangye
       })
     })
       .then(res => res.json())
@@ -1035,6 +1063,11 @@ const Industry = () => {
         if (res.message) {
           alert(res.message)
         } else {
+          EditJournal({
+            category2:'简历',
+            data_id:resume.id,
+            remark:'修改简历求职意向'
+          },re => {})
           window.history.go(-1)
         }
       })

@@ -20,6 +20,8 @@ service Journal {
 
   rpc editList(JournalRequest) returns (JournalReply) {}
   
+  rpc insertEdit(JournalRequest) returns (JournalReply) {}
+
 }
 
 message JournalRequest { string data = 1; }

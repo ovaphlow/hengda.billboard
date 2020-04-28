@@ -45,6 +45,7 @@ const RecommendDetails = props => {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           common_user_id: _auth.id,
+          user_uuid: _auth.uuid,
           data_id: id,
           category: '推荐信息',
           datime: moment().format('YYYY-MM-DD HH:mm')
@@ -152,7 +153,7 @@ const RecommendDetails = props => {
           <div className="col nav-col"></div>
           <div className="col-2 nav-col"></div>
           <div className="col-5 nav-col">
-            <button className="btn btn-success nav-btn" onClick={handleFavorite}>
+            <button className="btn btn-primary nav-btn" onClick={handleFavorite}>
               {
                 favorite ?
                   (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :

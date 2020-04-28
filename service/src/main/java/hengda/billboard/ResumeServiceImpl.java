@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,14 +39,6 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       if (result.size() == 0) {
         resp.put("content", false);
       } else {
-        if (body.get("user_id")!=null)
-        sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','查看简历',?,?,?)";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, body.get("user_id").toString());
-        ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-        ps.setString(3, result.get(0).get("id").toString());
-        ps.setString(4, "查看<" + result.get(0).get("name").toString()+ ">的简历");
-        ps.execute();
         resp.put("content", result.get(0));
       }
       conn.close();
@@ -151,13 +141,6 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       ps.setString(18, body.get("common_user_id").toString());
       ps.setString(19, body.get("uuid").toString());
       ps.execute();
-      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
-      ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, "个人用户");
-      ps.setString(3, body.get("editType").toString());
-      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-      ps.execute();
       resp.put("content", true);
       conn.close();
     } catch (Exception e) {
@@ -183,13 +166,6 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
       ps.setString(1, body.get("status").toString());
       ps.setString(2, body.get("id").toString());
       ps.setString(3, body.get("uuid").toString());
-      ps.execute();
-      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
-      ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, "个人用户");
-      ps.setString(3, "设置简历状态-"+body.get("status").toString());
-      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
       ps.execute();
       resp.put("content", true);
       conn.close();

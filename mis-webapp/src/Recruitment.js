@@ -3,6 +3,10 @@ import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'rea
 
 import { Title, Navbar, InputRowField, BackwardButton } from './Components'
 import { SideNav } from './Enterprise'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+
+
 
 export default function RecruitmentRouter() {
   useEffect(() => {
@@ -26,7 +30,7 @@ export function DataList(props) {
   const [data_list, setDataList] = useState([])
 
   useEffect(() => {
-    ;(async (enterprise_id, enterprise_uuid) => {
+    ; (async (enterprise_id, enterprise_uuid) => {
       const response = await window.fetch(`/api/recruitment/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`)
       const res = await response.json()
       if (res.message) {
@@ -35,7 +39,7 @@ export function DataList(props) {
       }
       setDataList(res.content)
     })(props.enterprise_id, props.enterprise_uuid)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -68,16 +72,16 @@ function List() {
     setEnterpriseID(_ent_id)
     const _ent_uuid = new URLSearchParams(location.search).get('enterprise_uuid')
     setEnterpriseUUID(_ent_uuid)
-    ;(async (id, uuid) => {
-      const response = await window.fetch(`/api/recruitment?enterprise_id=${id}&uuid=${uuid}`)
-      const res = await response.json()
-      if (res.message) {
-        window.console.error(res.message)
-        return
-      }
-      setDataList(res.content)
-    })(_ent_id, _ent_uuid)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      ; (async (id, uuid) => {
+        const response = await window.fetch(`/api/recruitment?enterprise_id=${id}&uuid=${uuid}`)
+        const res = await response.json()
+        if (res.message) {
+          window.console.error(res.message)
+          return
+        }
+        setDataList(res.content)
+      })(_ent_id, _ent_uuid)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -167,28 +171,28 @@ function Detail(props) {
     if (props.category === '编辑') {
       const _uuid = new URLSearchParams(location.search).get('uuid')
       setUUID(_uuid)
-      ;(async (recruitment_id, recruitment_uuid) => {
-        const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${recruitment_uuid}`)
-        const res = await response.json()
-        if (res.message) {
-          window.console.error(res.message)
-          return
-        }
-        setName(res.content.name)
-        setQty(res.content.qty)
-        setDescription(res.content.description)
-        setRequirement(res.content.requirement)
-        setAddress1(res.content.address1)
-        setAddress2(res.content.address2)
-        setAddress3(res.content.address3)
-        setDate(res.content.date)
-        setSalary1(res.content.salary1)
-        setSalary2(res.content.salary2)
-        setEducation(res.content.education)
-        setCategory(res.content.category)
-      })(recruitment_id, _uuid)
+        ; (async (recruitment_id, recruitment_uuid) => {
+          const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${recruitment_uuid}`)
+          const res = await response.json()
+          if (res.message) {
+            window.console.error(res.message)
+            return
+          }
+          setName(res.content.name)
+          setQty(res.content.qty)
+          setDescription(res.content.description)
+          setRequirement(res.content.requirement)
+          setAddress1(res.content.address1)
+          setAddress2(res.content.address2)
+          setAddress3(res.content.address3)
+          setDate(res.content.date)
+          setSalary1(res.content.salary1)
+          setSalary2(res.content.salary2)
+          setEducation(res.content.education)
+          setCategory(res.content.category)
+        })(recruitment_id, _uuid)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async () => {
@@ -273,14 +277,44 @@ function Detail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">工作职责</label>
                   <div className="col-sm-10">
-                    <textarea value={description || ''} className="form-control input-borderless" onChange={e => setDescription(e.target.value)}></textarea>
+                    <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                        ]
+                      }}
+                      readOnly
+                      placeholder="请填写内容"
+                      value={description}
+                      onChange={setDescription} />
+                    {/* <textarea  value={description || ''} className="form-control input-borderless" ></textarea> */}
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">岗位要求</label>
                   <div className="col-sm-10">
-                    <textarea value={requirement || ''} className="form-control input-borderless" onChange={e => setRequirement(e.target.value)}></textarea>
+                  <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                        ]
+                      }}
+                      readOnly
+                      placeholder="请填写内容"
+                      value={requirement || ''}
+                      onChange={setRequirement} />
+                    {/* <textarea  value={requirement || ''} className="form-control input-borderless" onChange={e => (e.target.value)}></textarea> */}
                   </div>
                 </div>
               </div>

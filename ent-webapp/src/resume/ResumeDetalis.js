@@ -5,6 +5,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
 import { SelectField } from '../components/InputField'
+import { EditJournal } from '../commonFetch'
 import moment from 'moment'
 
 
@@ -43,7 +44,7 @@ const ResumeDetalis = () => {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/resume/${id}${search}&u_i=${_auth.id}`)
+      fetch(`./api/resume/${id}${search}&u_i=${_auth.id}&user_uuid=${_auth.uuid}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -145,6 +146,11 @@ const ResumeDetalis = () => {
       .then(res => {
         if (res.content) {
           window.alert('已发出面试邀请,请到消息确认')
+          EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            remark: `邀请<${data.name}面试>`
+          }, res => { })
           setModalShow1(false)
         }
       })

@@ -11,9 +11,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 @SuppressWarnings("unchecked")
 public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
@@ -76,13 +74,6 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
       if (result.size() == 0) {
         resp.put("content", false);
       } else {
-        sql = "insert into edit_journal (user_id, category1, category2, datime, data_id, remark) value (?,'企业用户','发布岗位',?,?,?)";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, body.get("user_id").toString());
-        ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-        ps.setString(3, result.get(0).get("resume_id").toString());
-        ps.setString(4, "查看<" + result.get(0).get("name").toString()+ ">的简历");
-        ps.execute();
         resp.put("content", result.get(0));
       }
       conn.close();
@@ -165,12 +156,15 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into " + "delivery (resume_id, recruitment_id, datime)"
-          + "value ((select id from resume where common_user_id = ? limit 1),?,?)";
+      String sql = "insert into " + "delivery (resume_id, resume_uuid, recruitment_id, recruitment_uuid datime)"
+          + "value ( (select id from resume where common_user_id = ? limit 1),"
+          + "(select uuid from resume where common_user_id = ? limit 1)," + "?,?,?)";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, body.get("recruitment_id").toString());
-      ps.setString(3, body.get("datime").toString());
+      ps.setString(2, body.get("common_user_id").toString());
+      ps.setString(3, body.get("recruitment_id").toString());
+      ps.setString(4, body.get("recruitment_uuid").toString());
+      ps.setString(5, body.get("datime").toString());
       boolean rs = ps.execute();
       resp.put("content", rs);
       conn.close();
@@ -192,7 +186,7 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select re.name as recruitment_name, re.industry, d.status," 
+      String sql = "select re.name as recruitment_name, re.industry, d.status,"
           + "r.education, r.uuid, r.name as name, r.school,d.datime,  d.id, d.recruitment_id, d.resume_id "
           + "from delivery d left join resume r on d.resume_id = r.id left join recruitment re on d.recruitment_id = re.id "
           + "where re.enterprise_id = ? and (select u.enterprise_id from enterprise_user u where u.uuid = ?) = re.enterprise_id ";
@@ -209,12 +203,12 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
         list.add(body.get("recruitment_name").toString());
         sql += " and re.name like CONCAT(?,'%') ";
       }
-      
+
       if (body.get("date") != null && !"".equals(body.get("date").toString())) {
-        list.add(body.get("date").toString()); 
+        list.add(body.get("date").toString());
         sql += " and SUBSTRING_INDEX(d.datime,' ',1) = ? ";
       }
-      
+
       if (body.get("status") != null && !"".equals(body.get("status").toString())) {
         list.add(body.get("status").toString());
         sql += " and d.status = ? ";
@@ -224,10 +218,10 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
         list.add(body.get("education").toString());
         sql += " and re.name = ? ";
       }
-      sql+=" ORDER BY d.datime DESC";
+      sql += " ORDER BY d.datime DESC";
       PreparedStatement ps = conn.prepareStatement(sql);
-      for (int inx = 0; inx<list.size(); inx++) {
-        ps.setString(inx+1, list.get(inx));  
+      for (int inx = 0; inx < list.size(); inx++) {
+        ps.setString(inx + 1, list.get(inx));
       }
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);

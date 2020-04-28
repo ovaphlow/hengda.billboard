@@ -59,7 +59,7 @@ router
       })
     )
     try {
-      ctx.params.editType = ctx.query.et
+      ctx.params.common_user_id= ctx.query.user_id
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
 import { TextField, SelectField, IndustryField } from '../components/InputField'
+import { EditJournal } from '../commonFetch'
 import RichEditor from '../components/RichEditor'
 import { View } from './Components'
 
@@ -121,6 +122,11 @@ const Update = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
+          EditJournal({
+            category2:'岗位',
+            data_id:data.id,
+            remark:`修改岗位<${data.name}>`
+          }, res => {})
           window.alert('操作成功')
           window.location = '#岗位/列表'
         }
@@ -202,6 +208,11 @@ const Update = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
+          EditJournal({
+            category2:'岗位',
+            data_id:data.id,
+            remark:`修改岗位状态为-<${data.status}>`
+          }, res => {})
           setData({
             ...data,
             status: v

@@ -161,13 +161,6 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
         ps.setString(2, body.get("email").toString());
         ps.setString(3, body.get("id").toString());
         ps.execute();
-        sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, body.get("id").toString());
-        ps.setString(2, "个人用户");
-        ps.setString(3, "编辑用户信息");
-        ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-        ps.execute();
         resp.put("content", true);
       }
       conn.close();

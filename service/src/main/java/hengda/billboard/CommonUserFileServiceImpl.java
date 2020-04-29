@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,13 +55,6 @@ public class CommonUserFileServiceImpl extends CommonUserFileGrpc.CommonUserFile
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("id").toString());
       ps.execute();
-      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
-      ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, "个人用户");
-      ps.setString(3, body.get("editType").toString());
-      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-      ps.execute();
       resp.put("content", true);
       conn.close();
     } catch (Exception e) {
@@ -94,13 +85,6 @@ public class CommonUserFileServiceImpl extends CommonUserFileGrpc.CommonUserFile
       if (rs.next()) {
         resp.put("content", rs.getInt(1));
       }
-      sql = "insert into edit_journal (user_id, category1, category2, datime) value (?,?,?,?)";
-      ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, "个人用户");
-      ps.setString(3, body.get("editType").toString());
-      ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
-      ps.execute();
       conn.close();
     } catch (Exception e) {
       e.printStackTrace();

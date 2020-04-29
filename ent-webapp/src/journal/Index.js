@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+// import Footer from '../components/Footer'
 import Title from '../components/Title'
 import Edit from './Edit'
 import Login from './Login'
@@ -19,7 +19,7 @@ const Index = () => {
   }, [])
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid pb-5">
       <Title />
       <Navbar category="记录" totalFlg />
       <Router>
@@ -30,7 +30,7 @@ const Index = () => {
           <Route exact path="/记录/投诉/" ><Feeback/></Route>
         </Switch>
       </Router>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

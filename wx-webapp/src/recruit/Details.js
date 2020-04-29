@@ -4,6 +4,7 @@ import moment from 'moment'
 import ToBack from '../components/ToBack'
 import { useParams, useLocation } from 'react-router-dom'
 import { searchFavorite } from '../recruitment/Details'
+import { EditJournal } from '../commonFetch'
 
 
 const Details = () => {
@@ -57,6 +58,7 @@ const Details = () => {
         body: JSON.stringify({
           common_user_id: _auth.id,
           data_id: id,
+          user_uuid: _auth.uuid,
           category: '校园招聘',
           datime: moment().format('YYYY-MM-DD HH:mm')
         })
@@ -128,16 +130,26 @@ const Details = () => {
     })
       .then(res => res.json())
       .then(res => {
+        EditJournal({
+          category2:'日程',
+          data_id:item.id,
+          remark:`将<${item.title}>加入日程`
+        },re => {})
         setSchedule({ id: res.content })
       })
   }
 
   const deleteSchedule = () => {
-    fetch(`./api/common-user-schedule/${schedule.id}?d=${id}&u=${auth.id}`, {
+    fetch(`./api/common-user-schedule/${schedule.id}?d=${id}&uuid=${auth.uuid}&u=${auth.id}`, {
       method: 'DELETE'
     })
       .then(res => res.json())
       .then(res => {
+        EditJournal({
+          category2:'日程',
+          data_id:item.id,
+          remark:`将<${item.title}>移出日程`
+        },re => {})
         setSchedule(false)
       })
   }

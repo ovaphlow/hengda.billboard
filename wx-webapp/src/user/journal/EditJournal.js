@@ -10,7 +10,7 @@ const DataRow = props => (
     <div className="row">
       <div className="col">
         <div className="pull-left">
-          <strong>{props.category2}</strong>
+          <strong>{props.category2}-{props.remark}</strong>
         </div>
         <br />
         <div className="text-muted" style={{ fontSize: 11 }}>
@@ -64,7 +64,7 @@ const EditJournal = () => {
       <JournalTabs category="编辑" />
       <div className="tab-content mt-1">
         <div className="tab-pane fade show active">
-        {
+          {
             Object.getOwnPropertyNames(list).map((key, inx) => (
               <React.Fragment key={inx}>
                 <DateTitle text={key} />

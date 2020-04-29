@@ -4,6 +4,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
 import { SearchFavorite } from './ResumeDetalis'
+import { EditJournal } from '../commonFetch'
 import moment from 'moment'
 
 const ListDetails = () => {
@@ -28,7 +29,7 @@ const ListDetails = () => {
       window.location = '#登录'
     } else {
       setAuth(_auth)
-      fetch(`./api/delivery/details/${id}${search}&u_i=${_auth.id}`)
+      fetch(`./api/delivery/details/${id}${search}&user_uuid=${_auth.id}&u_i=${_auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.content) {
@@ -44,6 +45,11 @@ const ListDetails = () => {
               }
             })
             if (res.content.status === '已投递')
+              EditJournal({
+                category2: '简历',
+                data_id: res.content.id,
+                remark: `查看<${res.content.name}投递的简历>`
+              }, res => { })
               fetch(`./api/delivery/status/`, {
                 method: 'PUT',
                 headers: { 'content-type': 'application/json' },
@@ -59,7 +65,7 @@ const ListDetails = () => {
 
 
     }
-  }, [id,search])
+  }, [id, search])
 
   const handleFavorite = () => {
     if (favorite) {
@@ -126,6 +132,11 @@ const ListDetails = () => {
       .then(res => {
         if (res.content) {
           window.alert('已发出面试邀请,请到消息确认')
+          EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            remark: `邀请<${data.name}面试>`
+          }, res => { })
           fetch(`./api/delivery/status/`, {
             method: 'PUT',
             headers: { 'content-type': 'application/json' },
@@ -214,41 +225,41 @@ const ListDetails = () => {
         <div className="form-group">
           <label>面试职位</label>
           <input type="text"
-            className="form-control"
+            className="form-control form-control-sm"
             defaultValue={data.recruitment_name} readOnly />
         </div>
         <div className="form-group">
           <label>联系电话1</label>
-          <input id="phone1" type="text" className="form-control" />
+          <input id="phone1" type="text" className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>联系电话2</label>
-          <input id="phone2" type="text" className="form-control" />
+          <input id="phone2" type="text" className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>面试时间</label>
           <input
             id="datime"
             type="datetime-local"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>面试地点</label>
           <textarea
             id="address"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>交通路线</label>
           <textarea
             id="luxian"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
         <div className="form-group">
           <label>备注</label>
           <textarea
             id="remark"
-            className="form-control" />
+            className="form-control form-control-sm" />
         </div>
       </Modal>
     </View>

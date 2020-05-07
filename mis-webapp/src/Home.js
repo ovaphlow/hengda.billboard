@@ -49,10 +49,6 @@ export default function Home() {
       <Navbar category="首页" />
 
       <div className="container mt-3 mb-5">
-        <div className="alert alert-warning">
-          输入组件的autocomplete属性
-        </div>
-
         <h1>#SLOGAN#</h1>
 
         <div className="row">

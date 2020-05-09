@@ -27,14 +27,14 @@ const User = () => {
       <div className="container-fluid">
         <Title category="我的" />
         <div className="row ">
-          <div className="col-2 ">
-            <img className="img-circle" style={{ height: 60 }} src="lib/img/u868.png" alt="" />
+          <div className="col-2">
+            <img className="img-circle" style={{ height: 65 }} src="lib/img/u868.png" alt="" />
           </div>
           {
             auth === 0 ? (
-              <div className="col">
+              <div className="col" style={{paddingLeft:30}}>
                 <h6>
-                  <a href="#/登录">
+                  <a href="#/登录" style={{top: 5, position: 'inherit'}}>
                     未登录
                   </a>
                 </h6>
@@ -43,8 +43,8 @@ const User = () => {
                 </span>
               </div>
             ) : (
-                <div className="col">
-                  <a href="#/我的/设置/基本信息">
+                <div className="col" style={{paddingLeft:30}}>
+                  <a href="#/我的/设置/基本信息" style={{top: 5, position: 'inherit'}}>
                     <h6>{auth.username}</h6>
                   </a>
                   <span className="text-muted">

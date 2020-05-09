@@ -7,7 +7,7 @@ const Modal = props => {
   }
 
   return (
-    <div className={`modal fade ${props.show && 'show modal-show'}`} style={{position: 'absolute'}} tabIndex="-1" >
+    <div className={`modal fade ${props.show && 'show modal-show'}`} style={{ position: 'absolute' }} tabIndex="-1" >
       <div className="modal-dialog" >
         <div className="modal-content shadow border-1 rounded-0" >
           <div className="modal-header">
@@ -20,9 +20,9 @@ const Modal = props => {
             {props.children}
           </div>
           <div className="modal-footer">
-            <button 
-            onClick={props.handleSave}
-            className="btn btn-primary w-100">确定</button>
+            <button
+              onClick={props.handleSave}
+              className="btn btn-primary w-100">确定</button>
           </div>
         </div>
       </div>

@@ -56,25 +56,26 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into recruitment ( enterprise_id, name, qty, description, requirement,"
+      String sql = "insert into recruitment ( enterprise_id, enterprise_uuid, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
-          + " industry, position, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
+          + " industry, position, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
       PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
       ps.setString(1, body.get("enterprise_id").toString());
-      ps.setString(2, body.get("name").toString());
-      ps.setString(3, body.get("qty").toString());
-      ps.setString(4, body.get("description").toString());
-      ps.setString(5, body.get("requirement").toString());
-      ps.setString(6, body.get("address1").toString());
-      ps.setString(7, body.get("address2").toString());
-      ps.setString(8, body.get("address3").toString());
-      ps.setString(9, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-      ps.setString(10, body.get("salary1").toString());
-      ps.setString(11, body.get("salary2").toString());
-      ps.setString(12, body.get("education").toString());
-      ps.setString(13, body.get("category").toString());
-      ps.setString(14, body.get("industry").toString());
-      ps.setString(15, body.get("position").toString());
+      ps.setString(2, body.get("enterprise_uuid").toString());
+      ps.setString(3, body.get("name").toString());
+      ps.setString(4, body.get("qty").toString());
+      ps.setString(5, body.get("description").toString());
+      ps.setString(6, body.get("requirement").toString());
+      ps.setString(7, body.get("address1").toString());
+      ps.setString(8, body.get("address2").toString());
+      ps.setString(9, body.get("address3").toString());
+      ps.setString(10, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+      ps.setString(11, body.get("salary1").toString());
+      ps.setString(12, body.get("salary2").toString());
+      ps.setString(13, body.get("education").toString());
+      ps.setString(14, body.get("category").toString());
+      ps.setString(15, body.get("industry").toString());
+      ps.setString(16, body.get("position").toString());
       ps.executeUpdate();
       ResultSet rs = ps.getGeneratedKeys();
       if (rs.next()) {
@@ -295,8 +296,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from recruitment where enterprise_id = ? and "
-          + "(select uuid  from enterprise_user u where u.enterprise_id = enterprise_id limit 1) = ?";
+      String sql = "select * from recruitment where enterprise_id = ? and enterprise_uuid = ?";
       List<String> list = new ArrayList<>();
       list.add(body.get("enterprise_id").toString());
       list.add(body.get("uuid").toString());

@@ -150,7 +150,7 @@ export default function SignIn() {
                         onChange={handleChange}
                       />
                     </div>
-                    <button className="col-3 btn rounded-0 btn-secondary btn-sm" style={{ fontSize: 12 }}>
+                    <button className="col-3 btn rounded-0 btn-secondary btn-sm" style={{ fontSize: 14 }}>
                       发送验证码
                     </button>
                   </div>

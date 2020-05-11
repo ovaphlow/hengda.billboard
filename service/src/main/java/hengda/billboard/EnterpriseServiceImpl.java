@@ -49,6 +49,36 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
   }
 
   @Override
+  public void check(EnterpriseRequest req, StreamObserver<EnterpriseReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      Connection conn = DBUtil.getConn();
+      String sql = "select status from enterprise where id = ? and uuid = ?  and status = '认证'";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, body.get("id").toString());
+      ps.setString(2, body.get("uuid").toString());
+      ResultSet rs = ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      if (result.size() == 0) {
+        resp.put("content", false);
+      } else {
+        resp.put("content", true);
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseReply reply = EnterpriseReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
   public void update(EnterpriseRequest req, StreamObserver<EnterpriseReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();

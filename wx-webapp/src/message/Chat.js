@@ -39,7 +39,7 @@ const RightMessage = props => (
 //       </div>
 //     </div>
 //     <hr className="m-1" />
-//     <div className="row p-2  mt-2" style={{ fontSize: 12 }}>
+//     <div className="row p-2  mt-2" style={{ fontSize: 14 }}>
 //       <div className="col" >
 //         {props.remark}
 //       </div>

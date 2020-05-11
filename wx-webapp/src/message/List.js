@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Title from '../components/Title'
+// import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 
 
@@ -54,6 +54,7 @@ const List = () => {
   const [auth, setAuth] = useState(0)
 
   useEffect(() => {
+    document.title = '消息'
     const _auth = JSON.parse(localStorage.getItem('auth'))
     let jobId1 = -1
     let jobId2 = -1
@@ -129,7 +130,7 @@ const List = () => {
   return (
     <>
       <div className="container-fluid">
-        <Title category="消息" />
+        {/* <Title category="消息" /> */}
         <div className="row">
           <div
             style={{

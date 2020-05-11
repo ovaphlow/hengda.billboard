@@ -253,7 +253,7 @@ const Resume = () => {
               <strong style={{ fontSize: 15 }}>{data.school}</strong>
               <br />
               &nbsp;
-              <span className="text-muted" style={{ fontSize: 12 }}>
+              <span className="text-muted" style={{ fontSize: 14 }}>
                 {data.date_begin} - {data.date_end}
               </span>
               <br />

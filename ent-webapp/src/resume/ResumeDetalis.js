@@ -38,12 +38,24 @@ const ResumeDetalis = () => {
 
   const [recruitmentList, setRecruitmentList] = useState([])
 
+  const [entStatus, setEntStatus] = useState(false)
+
+
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth === null) {
       window.location = '#登录'
     } else {
       setAuth(_auth)
+      fetch(`./api/enterprise/check/${_auth.enterprise_id}?uuid=${_auth.enterprise_uuid}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            setEntStatus(res.content)
+          }
+        })
       fetch(`./api/resume/${id}${search}&u_i=${_auth.id}&user_uuid=${_auth.uuid}`)
         .then(res => res.json())
         .then(res => {
@@ -194,7 +206,7 @@ const ResumeDetalis = () => {
                   }
                   收藏
                 </button>
-                <button className="btn btn-light rounded-0 text-muted" onClick={() => setModalShow1(true)} >
+                <button className="btn btn-light rounded-0 text-muted" disabled={!entStatus} onClick={() => setModalShow1(true)} >
                   <i className="fa fa-comment-o fa-fw" aria-hidden="true"></i>
                   邀请面试
                   </button>

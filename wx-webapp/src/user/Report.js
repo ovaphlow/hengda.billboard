@@ -12,14 +12,14 @@ const RecruitmentDetail = props => (
         <h6>{props.name}</h6>
       </div>
       <div className="col-5">
-        <span className="pull-right text-muted" style={{ fontSize: 12 }}>
+        <span className="pull-right text-muted" style={{ fontSize: 14 }}>
           {props.date}
         </span>
       </div>
     </div>
     <div className="row">
       <div className="col">
-        <span className="text-muted" style={{ fontSize: 12 }}>
+        <span className="text-muted" style={{ fontSize: 14 }}>
           {props.enterprise_name}<br />
           {props.address2 ? props.address2 : props.address1} |{props.education}|{props.category}
         </span>

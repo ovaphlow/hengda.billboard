@@ -58,7 +58,7 @@ const User = () => {
           }
         </div>
         <hr />
-        <div className="row pb-2 text-center">
+        <div className="row pb-2 text-center" style={{fontSize:11}}>
           <div className="col">
             <a href="#/我的/简历" className="text-muted">
               <i className="fa fa-fw fa-3x fa-file-text" aria-hidden="true"></i>
@@ -90,7 +90,7 @@ const User = () => {
         </div>
         <div className="row" style={{ height: 7, backgroundColor: 'rgb(228, 238, 249)' }}>
         </div>
-        <div className="row p-2 mt-2" >
+        {/* <div className="row p-2 mt-2" >
           <div className="col">
             <a className="text-dark" href="#/登录" >
               <h6 className="pull-left" >
@@ -100,7 +100,7 @@ const User = () => {
             </a>
           </div>
         </div>
-        <hr style={{ marginTop: '0', marginBottom: '0' }} />
+        <hr style={{ marginTop: '0', marginBottom: '0' }} /> */}
         <div className="row p-2 mt-2" >
           <div className="col">
             <a className="text-dark" href="#/我的/日程" >

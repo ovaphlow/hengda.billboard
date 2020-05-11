@@ -23,12 +23,26 @@ const ListDetails = () => {
 
   const [modalShow2, setModalShow2] = useState(false)
 
+  const [entStatus, setEntStatus] = useState(false)
+
+
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth === null) {
       window.location = '#登录'
     } else {
       setAuth(_auth)
+      fetch(`./api/enterprise/check/${_auth.enterprise_id}?uuid=${_auth.enterprise_uuid}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            setEntStatus(res.content)
+          }
+        })
+
+
       fetch(`./api/delivery/details/${id}${search}&user_uuid=${_auth.id}&u_i=${_auth.id}`)
         .then(res => res.json())
         .then(res => {
@@ -50,14 +64,14 @@ const ListDetails = () => {
                 data_id: res.content.id,
                 remark: `查看<${res.content.name}投递的简历>`
               }, res => { })
-              fetch(`./api/delivery/status/`, {
-                method: 'PUT',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({
-                  id: id,
-                  status: '已查看'
-                })
+            fetch(`./api/delivery/status/`, {
+              method: 'PUT',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({
+                id: id,
+                status: '已查看'
               })
+            })
           } else {
             window.alert(res.message)
           }
@@ -187,7 +201,9 @@ const ListDetails = () => {
                   }
                   收藏
                 </button>
-                <button className="btn btn-light rounded-0 text-muted" onClick={() => setModalShow1(true)} >
+                <button className="btn btn-light rounded-0 text-muted" 
+                disabled={!entStatus}
+                onClick={() => setModalShow1(true)} >
                   <i className="fa fa-comment-o fa-fw" aria-hidden="true"></i>
                   邀请面试
                   </button>

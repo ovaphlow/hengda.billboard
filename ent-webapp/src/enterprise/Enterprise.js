@@ -46,20 +46,20 @@ const Enterprise = () => {
                         {data.status === '未认证' ? data.status : '已认证'}
                       </span>
                     </h4>
-                    <div className="pull-right">
+                    {/* <div className="pull-right">
                       <a href="#我的/信息/编辑/">
                         <i className="fa fa-pencil-square-o"></i>
                         编辑
                       </a>
-                    </div>
-                    {/* {data.status === '未认证'?(
+                    </div> */}
+                    {data.status === '未认证'?(
                       <div className="pull-right">
                         <a href="#我的/信息/编辑/">
                           <i className="fa fa-pencil-square-o"></i>
                         编辑
                       </a>
                       </div>
-                    ):(<></>)} */}
+                    ):(<></>)}
                   </div>
                 </div>
                 <span className="text-muted">

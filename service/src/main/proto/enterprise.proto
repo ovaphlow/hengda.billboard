@@ -10,6 +10,8 @@ service Enterprise {
 
   rpc get(EnterpriseRequest) returns (EnterpriseReply) {}
 
+  rpc check(EnterpriseRequest) returns (EnterpriseReply) {}
+
   rpc update(EnterpriseRequest) returns (EnterpriseReply) {}
 }
 

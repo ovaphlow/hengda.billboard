@@ -107,7 +107,7 @@ const RecommendDetails = props => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack category={item.title}/>
         <div className="row mt-2">
           <div className="col">
             发布时间：{item.date1}

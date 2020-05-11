@@ -4,6 +4,7 @@ import watermark from 'watermarkjs'
 import { View } from './Components'
 
 import { TextField, SelectField } from '../components/InputField'
+import { EditJournal } from '../commonFetch'
 
 const Update = () => {
 
@@ -129,6 +130,11 @@ const Update = () => {
                 if (res.message) {
                   window.alert(res.message)
                 } else {
+                  EditJournal({
+                    category2:'企业信息',
+                    data_id:data.id,
+                    remark:`编辑企业信息`
+                  }, res => {})
                   window.alert('操作成功')
                   window.location = '#我的/信息'
                 }
@@ -230,7 +236,7 @@ const Update = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         email: data.email,
-        user_id: data.id
+        id: data.id
       })
     })
       .then(res => res.json())

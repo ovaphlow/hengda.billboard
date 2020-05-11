@@ -69,7 +69,7 @@ const TopicDetails = () => {
   ) : (
       <div className="container-fluid">
         <ToBack category={item.title} />
-        <div className="row mt-2">
+        <div className="row mt-2" style={{fontSize:14}}>
           <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.content }} />
         </div>
       </div>

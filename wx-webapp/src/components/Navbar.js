@@ -59,7 +59,7 @@ const Navbar = props => {
 
   return (
     <>
-      <ul className="nav bg-light nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center">
+      <ul className="nav bg-light nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center" style={{fontSize:11}}>
         <li className="nav-item">
           <a href="#/" className={`nav-link ${props.category === '首页' ? 'text-primary' : 'text-muted'} `}>
             <i className="fa fa-fw fa-2x fa-home"></i>

@@ -18,6 +18,7 @@ export default function App() {
     <Router>
       <Switch>
         <Route exact path="/"><HomeRouter /></Route>
+        <Route path="/首页"><HomeRouter /></Route>
         <Route exact path="/登录"><Login /></Route>
         <Route exact path="/注册"><SignIn /></Route>
         <Route exact path="/忘记密码"><Recover /></Route>

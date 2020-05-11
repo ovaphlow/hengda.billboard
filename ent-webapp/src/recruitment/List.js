@@ -44,7 +44,7 @@ const List = () => {
   }
 
   const search = () => {
-    fetch(`./api/recruitment/enterprise/${auth.enterprise_id}?u_id=${auth.uuid}`, {
+    fetch(`./api/recruitment/enterprise/${auth.enterprise_id}?u_id=${auth.enterprise_uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(param)
@@ -113,7 +113,7 @@ const List = () => {
             <option>本科以上</option>
           </SelectField>
         </div>
-        <div className="col-1">
+        <div className="col">
           <br />
           <button onClick={search} className="btn btn-primary rounded-0">
             查询

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
-const Topic = () => {
+const Banner = () => {
 
   const { id } = useParams()
 
@@ -10,7 +10,7 @@ const Topic = () => {
   const [data, setData] = useState(0)
 
   useEffect(() => {
-    fetch(`./api/topic/${id}${search}`)
+    fetch(`./api/banner/detail/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.content) {
@@ -34,7 +34,7 @@ const Topic = () => {
               </h2>
             </a>
             <hr />
-            <div className="px-5" dangerouslySetInnerHTML={{__html: data.content }}/>
+            <div className="px-5" dangerouslySetInnerHTML={{__html: data.comment }}/>
           </div>
         )}
       </div>
@@ -42,4 +42,4 @@ const Topic = () => {
   )
 }
 
-export default Topic
+export default Banner

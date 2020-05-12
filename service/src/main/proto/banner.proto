@@ -10,6 +10,8 @@ service Banner {
 
   rpc get(BannerRequest) returns (BannerReply) {}
 
+  rpc detail(BannerRequest) returns (BannerReply) {}
+
 }
 
 message BannerRequest { string data = 1; }

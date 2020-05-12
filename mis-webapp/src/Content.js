@@ -355,10 +355,28 @@ function BannerDetail(props) {
                 <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
-
-                <InputRowField caption="内容" value={comment || ''}
-                  onChange={event => setComment(event.target.value)}
-                />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">
+                    内容
+                  </label>
+                  <div className="col-sm-10">
+                    <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote', 'link', 'image']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                          ['link', 'image'],
+                        ]
+                      }}
+                      placeholder="请填写内容"
+                      value={comment || ''}
+                      onChange={setComment} />
+                  </div>
+                </div>
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">类别</label>
@@ -936,6 +954,7 @@ function TopicDetail(props) {
   const [uuid, setUUID] = useState('')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [tag, setTag] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -948,6 +967,7 @@ function TopicDetail(props) {
             window.console.error(res.message)
             return
           }
+          setTag(res.content.tag)
           setTitle(res.content.title)
           setContent(res.content.content)
         })(id, _uuid)
@@ -976,6 +996,7 @@ function TopicDetail(props) {
         body: JSON.stringify({
           title: title,
           content: content,
+          tag: tag,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -993,6 +1014,7 @@ function TopicDetail(props) {
         body: JSON.stringify({
           title: title,
           content: content,
+          tag: tag,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -1028,6 +1050,21 @@ function TopicDetail(props) {
                 <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">tag</label>
+                  <div className="col-sm-10">
+                    <select value={tag || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setTag(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      <option value="热门话题">小程序首页</option>
+                      <option value="职业发展">职业发展</option>
+                      <option value="面试问题">面试问题</option>
+                      <option value="职业规划">职业规划</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>
                   <div className="col-sm-10">

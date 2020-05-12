@@ -157,7 +157,7 @@ const Details = () => {
 
   return item === 0 ? (
     <div className="container-fluid" style={{ fontSize: 14 }}>
-      <ToBack report/>
+      <ToBack />
     </div>) : (
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>

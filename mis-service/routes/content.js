@@ -154,12 +154,13 @@ router
   })
   .put('/topic/:id', async ctx => {
     const sql = `
-      update topic set title = ?, date = ?, time = ?, content=? where id = ? and uuid = ?
+      update topic set title = ?, tag = ?, date = ?, time = ?, content=? where id = ? and uuid = ?
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
         ctx.request.body.title,
+        ctx.request.body.tag,
         ctx.request.body.date,
         ctx.request.body.time,
         ctx.request.body.content,
@@ -219,12 +220,13 @@ router
   .post('/topic/', async ctx => {
     const sql = `
       insert into
-        topic (uuid, mis_user_id, title, date, time, content)
-        values (uuid(), 0, ?, ?, ?, ?)
+        topic (uuid, mis_user_id, tag, title, date, time, content)
+        values (uuid(), 0, ?,  ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
+        ctx.request.body.tag,
         ctx.request.body.title,
         ctx.request.body.date,
         ctx.request.body.time,
@@ -431,12 +433,13 @@ router
   .post('/banner/', async ctx => {
     const sql = `
       insert into
-        banner (status, category, title, comment, datime, data_url)
-        values ('未启用', ?, ?, ?, ?, ?)
+        banner (uuid, status, category, title, comment, datime, data_url)
+        values (uuid(), ?, ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
       await pool.execute(sql, [
+        ctx.request.body.status,
         ctx.request.body.category,
         ctx.request.body.title,
         ctx.request.body.comment,

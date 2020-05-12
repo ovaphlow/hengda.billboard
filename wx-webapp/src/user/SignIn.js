@@ -8,7 +8,7 @@ export default function SignIn() {
     phone: '',
     password1: '',
     password2: '',
-    code: '',
+    // code: '',
     username: ''
   })
 
@@ -121,6 +121,15 @@ export default function SignIn() {
                       onChange={handleChange}
                     />
                   </div>
+                  
+                  {err.username && <small className="form-text text-danger">{err.username}</small>}
+                  <div className="form-group row">
+                    <input type="text" name="username" value={data.username}
+                      className="input-control col"
+                      placeholder="用户名称"
+                      onChange={handleChange}
+                    />
+                  </div>
                   {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
                   <div className="form-group row">
                     <input type="password"
@@ -141,7 +150,7 @@ export default function SignIn() {
                       onChange={handleChange}
                     />
                   </div>
-                  {err.code && <small className="form-text text-danger">{err.code}</small>}
+                  {/* {err.code && <small className="form-text text-danger">{err.code}</small>}
                   <div className="form-group row">
                     <div className="col">
                       <input type="text" name="code" value={data.code}
@@ -153,16 +162,8 @@ export default function SignIn() {
                     <button className="col-3 btn rounded-0 btn-secondary btn-sm" style={{ fontSize: 14 }}>
                       发送验证码
                     </button>
-                  </div>
+                  </div> */}
 
-                  {err.username && <small className="form-text text-danger">{err.username}</small>}
-                  <div className="form-group row">
-                    <input type="text" name="username" value={data.username}
-                      className="input-control col"
-                      placeholder="请输入用户名称"
-                      onChange={handleChange}
-                    />
-                  </div>
                 </form>
               </div>
 

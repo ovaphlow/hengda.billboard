@@ -46,7 +46,7 @@ const Details = () => {
       const _auth = JSON.parse(localStorage.getItem('auth'))
       if (_auth !== null) {
         setAuth(p => _auth)
-        fetch(`./api/journal/`, {
+        fetch(`./api/journal?uuid=${_auth.uuid}`, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({

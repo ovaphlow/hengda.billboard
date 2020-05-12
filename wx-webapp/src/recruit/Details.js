@@ -52,7 +52,7 @@ const Details = () => {
           setSchedule(res.content)
         })
 
-      fetch(`./api/journal/`, {
+      fetch(`./api/journal?uuid=${_auth.uuid}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -157,7 +157,7 @@ const Details = () => {
 
   return item === 0 ? (
     <div className="container-fluid" style={{ fontSize: 14 }}>
-      <ToBack />
+      <ToBack report/>
     </div>) : (
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>

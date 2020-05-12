@@ -52,7 +52,7 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
     resp.put("content", "");
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select id, uuid, title, address_level3, date, school, category from campus where 1=1 ";
+      String sql = "select id, uuid, title, address_level3, address_level2, date, school, category from campus where date >= curdate() ";
       List<String> list = new ArrayList<>();
       
       if (body.get("city")!=null &&  !"".equals(body.get("city").toString())) {

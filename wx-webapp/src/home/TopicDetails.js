@@ -14,9 +14,9 @@ const TopicDetails = () => {
   const [item, setItem] = useState(0)
 
   useEffect(() => {
-    const _auth = JSON.parse(sessionStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth === null) {
-      fetch(`./api/journal`,{
+      fetch(`./api/journal?uuid=0`,{
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -33,7 +33,7 @@ const TopicDetails = () => {
           } 
         })
     } else {
-      fetch(`./api/journal`,{
+      fetch(`./api/journal?uuid=${_auth.uuid}`,{
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

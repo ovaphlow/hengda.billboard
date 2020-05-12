@@ -17,13 +17,13 @@ const ToBack = props => {
   return (
     <div className="row p-2 bg-white ">
       <div className="col" style={{ padding: 0 }}>
-        <span onClick={toPrevious} className=" text-dark">
+        <span onClick={toPrevious} className="text-dark">
           <i
             className="fa fa-fw fa-chevron-left fa-lg text-muted"></i>
           {props.category}
         </span>
       </div>
-      {(props.report && props.complaint) && (
+      {(props.report || props.complaint) && (
         <div className="col flex-end" style={{ padding: 0 }}>
           {
             props.report && (

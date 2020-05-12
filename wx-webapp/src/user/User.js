@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import Title from '../components/Title'
+// import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 
 const User = () => {
@@ -9,32 +9,40 @@ const User = () => {
 
   const [schedule, setSchedule] = useState(0)
 
+  const [offer, setOffer] = useState(0)
 
   useEffect(() => {
+    document.title = '我的'
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth !== null) {
       setAuth(_auth)
       fetch(`./api/common-user-schedule/count/${_auth.id}`)
-      .then(res => res.json())
-      .then(res => {
-        setSchedule(res.content)
-      })
+        .then(res => res.json())
+        .then(res => {
+          setSchedule(res.content)
+        })
+
+      fetch(`./api/offer/common/total/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          setOffer(res.content)
+        })
     }
   }, [])
 
   return (
     <>
       <div className="container-fluid">
-        <Title category="我的" />
+        {/* <Title category="我的" /> */}
         <div className="row ">
           <div className="col-2">
             <img className="img-circle" style={{ height: 65 }} src="lib/img/u868.png" alt="" />
           </div>
           {
             auth === 0 ? (
-              <div className="col" style={{paddingLeft:30}}>
+              <div className="col" style={{ paddingLeft: 30 }}>
                 <h6>
-                  <a href="#/登录" style={{top: 5, position: 'inherit'}}>
+                  <a href="#/登录" style={{ top: 5, position: 'inherit' }}>
                     未登录
                   </a>
                 </h6>
@@ -43,13 +51,13 @@ const User = () => {
                 </span>
               </div>
             ) : (
-                <div className="col" style={{paddingLeft:30}}>
-                  <a href="#/我的/设置/基本信息" style={{top: 5, position: 'inherit'}}>
+                <div className="col" style={{ paddingLeft: 30 }}>
+                  <a href="#/我的/设置/基本信息" style={{ top: 5, position: 'inherit' }}>
                     <h6>{auth.username}</h6>
                   </a>
                   <span className="text-muted">
                     {auth.phone}
-                  </span><br/>
+                  </span><br />
                   <span className="text-muted">
                     {auth.email}
                   </span>
@@ -58,7 +66,7 @@ const User = () => {
           }
         </div>
         <hr />
-        <div className="row pb-2 text-center" style={{fontSize:11}}>
+        <div className="row pb-2 text-center" style={{ fontSize: 11 }}>
           <div className="col">
             <a href="#/我的/简历" className="text-muted">
               <i className="fa fa-fw fa-3x fa-file-text" aria-hidden="true"></i>
@@ -101,6 +109,7 @@ const User = () => {
           </div>
         </div>
         <hr style={{ marginTop: '0', marginBottom: '0' }} /> */}
+
         <div className="row p-2 mt-2" >
           <div className="col">
             <a className="text-dark" href="#/我的/日程" >
@@ -109,10 +118,27 @@ const User = () => {
               </h6>
               <span className="pull-right text-muted">
                 {
-                  auth?(schedule===0?'':`今天有${schedule}个日程`):'提示即将进行的日程'
+                  auth ? (schedule === 0 ? '' : `今天有${schedule}个日程`) : '提示即将进行的日程'
                 }
                 <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
               </span>
+            </a>
+          </div>
+        </div>
+        <hr style={{ marginTop: '0', marginBottom: '0' }} />
+        <div className="row p-2 mt-2" >
+          <div className="col">
+            <a className="text-dark" href="#/我的/面试" >
+              <h6 className="pull-left" >
+                <strong>面试邀请</strong>
+              </h6>
+              <span className="pull-right text-muted">
+                {
+                  auth ? (offer === 0 ? '' : `您有${offer}个面试邀请未查看`) : ''
+                }
+                <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+              </span>
+
             </a>
           </div>
         </div>

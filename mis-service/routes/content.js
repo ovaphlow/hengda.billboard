@@ -30,7 +30,7 @@ router
       update campus
       set title = ?, date = ?, time = ?,
         address_level1 = ?, address_level2 = ?, address_level3 = ?, address_level4 = ?,
-        school = ?, content = ?
+        school = ?, content = ?, category = ?
       where id = ? and uuid = ?
     `
     const pool = mysql.promise()
@@ -45,6 +45,7 @@ router
         ctx.request.body.address_level4,
         ctx.request.body.school,
         ctx.request.body.content,
+        ctx.request.body.category,
         parseInt(ctx.params.id),
         ctx.request.query.uuid
       ])
@@ -110,8 +111,8 @@ router
       insert into
         campus (uuid, mis_user_id, title, date, time,
           address_level1, address_level2, address_level3, address_level4,
-          school, content)
-        values (uuid(), 0, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          school, content, category)
+        values (uuid(), 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     const pool = mysql.promise()
     try {
@@ -124,7 +125,8 @@ router
         ctx.request.body.address_level3,
         ctx.request.body.address_level4,
         ctx.request.body.school,
-        ctx.request.body.content
+        ctx.request.body.content,
+        ctx.request.body.category
       ])
       ctx.response.body = { message: '', content: '' }
     } catch (err) {

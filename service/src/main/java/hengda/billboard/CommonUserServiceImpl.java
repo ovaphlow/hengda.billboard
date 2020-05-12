@@ -45,7 +45,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
       if (err.keySet().size() != 0) {
         resp.put("message", err);
       } else {
-        sql = "insert into common_user (phone,password,username) value (?,?,?)";
+        sql = "insert into common_user (uuid,phone,password,username) value (uuid(),?,?,?)";
         ps = conn.prepareStatement(sql);
         ps.setString(1, body.get("phone").toString());
         ps.setString(2, body.get("password").toString());
@@ -155,9 +155,9 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
       if (result.size() == 0) {
         resp.put("message", "验证码错误!");  
       } else {
-        sql = "update common_user set name = ?, email=?  where id=?";
+        sql = "update common_user set username = ?, email=?  where id=?";
         ps = conn.prepareStatement(sql);
-        ps.setString(1, body.get("name").toString());
+        ps.setString(1, body.get("username").toString());
         ps.setString(2, body.get("email").toString());
         ps.setString(3, body.get("id").toString());
         ps.execute();

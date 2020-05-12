@@ -21,7 +21,7 @@ const RecruitRow = props => (
         </div>
         <br></br>
         <span className="text-muted">
-          举办地点:{props.address_level3} | 开始时间:{props.date}
+          举办地点:{`${props.address_level2}-${props.address_level3}`} | 开始时间:{props.date}
         </span>
         <br></br>
         <span>

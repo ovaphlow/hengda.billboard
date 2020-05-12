@@ -134,13 +134,14 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
       ps.setString(3, body.get("category").toString());
       ResultSet rs = ps.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        sql = "insert into browse_journal (common_user_id, data_id, category, datime) value (?, ?, ?, ?)";
+      if (result.size() == 0 || "0".equals(body.get("common_user_id").toString())) {
+        sql = "insert into browse_journal (common_user_id, common_user_uuid, data_id, category, datime) value (?, ?, ?, ?, ?)";
         ps = conn.prepareStatement(sql);
         ps.setString(1, body.get("common_user_id").toString());
-        ps.setString(2, body.get("data_id").toString());
-        ps.setString(3, body.get("category").toString());
-        ps.setString(4, body.get("datime").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ps.setString(3, body.get("data_id").toString());
+        ps.setString(4, body.get("category").toString());
+        ps.setString(5, body.get("datime").toString());
         ps.execute();
         resp.put("content", true);
       } else {

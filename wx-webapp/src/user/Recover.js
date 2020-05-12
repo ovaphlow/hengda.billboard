@@ -165,7 +165,7 @@ const Recover = () => {
                     </div>
                     <button
                     type="button" 
-                    className="col-3 btn rounded-0 btn-secondary btn-sm" 
+                    className="col-4 btn rounded-0 btn-secondary btn-sm" 
                     disabled={!checkEmail()}
                     onClick={handleCode} style={{ fontSize: 14 }}>
                       发送验证码

@@ -355,10 +355,28 @@ function BannerDetail(props) {
                 <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
-
-                <InputRowField caption="内容" value={comment || ''}
-                  onChange={event => setComment(event.target.value)}
-                />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">
+                    内容
+                  </label>
+                  <div className="col-sm-10">
+                    <ReactQuill
+                      formats={[
+                        'header', 'align', 'bold', 'italic',
+                        'underline', 'blockquote', 'link', 'image']}
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, 3, false] }],
+                          [{ 'align': [] }],
+                          ['bold', 'italic', 'underline', 'blockquote'],
+                          ['link', 'image'],
+                        ]
+                      }}
+                      placeholder="请填写内容"
+                      value={comment || ''}
+                      onChange={setComment} />
+                  </div>
+                </div>
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">类别</label>
@@ -570,7 +588,7 @@ function RecommendDetail(props) {
         setContent(res.content.content)
       }
     })()
-  }, [id,search,props])
+  }, [id, search, props])
 
   useEffect(() => {
     let _arr = []
@@ -601,7 +619,7 @@ function RecommendDetail(props) {
       return
     }
     window.history.go(-1)
-}
+  }
 
 
   const handleSave = async () => {
@@ -936,6 +954,7 @@ function TopicDetail(props) {
   const [uuid, setUUID] = useState('')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [tag, setTag] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -948,6 +967,7 @@ function TopicDetail(props) {
             window.console.error(res.message)
             return
           }
+          setTag(res.content.tag)
           setTitle(res.content.title)
           setContent(res.content.content)
         })(id, _uuid)
@@ -976,6 +996,7 @@ function TopicDetail(props) {
         body: JSON.stringify({
           title: title,
           content: content,
+          tag: tag,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -993,6 +1014,7 @@ function TopicDetail(props) {
         body: JSON.stringify({
           title: title,
           content: content,
+          tag: tag,
           date: moment().format('YYYY-MM-DD'),
           time: moment().format('HH:mm:ss')
         })
@@ -1028,6 +1050,21 @@ function TopicDetail(props) {
                 <InputRowField caption="标题" value={title || ''}
                   onChange={event => setTitle(event.target.value)}
                 />
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">tag</label>
+                  <div className="col-sm-10">
+                    <select value={tag || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setTag(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      <option value="热门话题">小程序首页</option>
+                      <option value="职业发展">职业发展</option>
+                      <option value="面试问题">面试问题</option>
+                      <option value="职业规划">职业规划</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">内容</label>
                   <div className="col-sm-10">
@@ -1229,6 +1266,7 @@ function CampusDetail(props) {
   const [title, setTitle] = useState('')
   const [school, setSchool] = useState('')
   const [content, setContent] = useState('')
+  const [category, setCategory] = useState('')
 
   useEffect(() => {
     if (props.category === '编辑') {
@@ -1250,6 +1288,7 @@ function CampusDetail(props) {
           setAddressLevel3(res.content.address_level3)
           setAddressLevel4(res.content.address_level4)
           setSchool(res.content.school)
+          setCategory(res.content.category)
         })(id, _uuid)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1337,7 +1376,8 @@ function CampusDetail(props) {
           address_level2: address_level2,
           address_level3: address_level3,
           address_level4: address_level4,
-          school: school
+          school: school,
+          category: category
         })
       })
       const res = await response.json()
@@ -1359,7 +1399,8 @@ function CampusDetail(props) {
           address_level2: address_level2,
           address_level3: address_level3,
           address_level4: address_level4,
-          school: school
+          school: school,
+          category: category
         })
       })
       const res = await response.json()
@@ -1468,6 +1509,21 @@ function CampusDetail(props) {
                 <InputRowField value={address_level4 || ''}
                   onChange={event => setAddressLevel4(event.target.value)}
                 />
+
+
+                <div className="form-group row">
+                  <label className="col-sm-2 col-form-label text-right">类型</label>
+                  <div className="col-sm-10">
+                    <select value={category || ''}
+                      className="form-control input-borderless"
+                      onChange={event => setCategory(event.target.value)}
+                    >
+                      <option value="">未选择</option>
+                      <option>双选会</option>
+                      <option>宣讲会</option>
+                    </select>
+                  </div>
+                </div>
 
                 <SchoolPickerRowField value={school || ''}
                   onChange={event => setSchool(event.target.value)}

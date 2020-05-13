@@ -92,27 +92,27 @@ const PlayImg = props => {
       const file = JSON.parse(localStorage.getItem(props.category))
       const fun = () => {
         fetch(`./api/banner/${props.category}/`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.message) {
-            window.alert(res.message)
-          } else {
-            localStorage.setItem(props.category,JSON.stringify({
-              date:parseInt(moment().add(7, 'days').format('YYYYMMDD')) ,
-              banner:res.content
-            })) 
-            setList(res.content)
-          }
-        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.message) {
+              window.alert(res.message)
+            } else {
+              localStorage.setItem(props.category, JSON.stringify({
+                date: parseInt(moment().add(7, 'days').format('YYYYMMDD')),
+                banner: res.content
+              }))
+              setList(res.content)
+            }
+          })
       }
       if (file === null) {
         fun()
       } else {
-        if (file.date-moment().format('YYYYMMDD')<1) {
+        if (file.date - moment().format('YYYYMMDD') < 1) {
           fun()
         } else {
           setList(file.banner)
-        } 
+        }
       }
     }
   }, [props.category])
@@ -126,12 +126,14 @@ const PlayImg = props => {
     <div className="row img-box" >
       {
         (list && list.length > 0) && (
-          <AutoPlaySwipeableViews style={{width:'100vh'}} index={index} onChangeIndex={handleChangeIndex}>
+          <AutoPlaySwipeableViews style={{ width: '100vh' }} index={index} onChangeIndex={handleChangeIndex}>
             {
               list.map((item, inx) => (
                 <div key={inx}>
-                  <img className="img-fluid img-box-item" alt="" src={item.data_url}>
-                  </img>
+                  <a href={item.source_url ? item.source_url : `#主页/banner/${item.id}?uuid=${item.uuid}`}>
+                    <img className="img-fluid img-box-item" alt="" src={item.data_url}>
+                    </img>
+                  </a>
                 </div>
               ))
             }

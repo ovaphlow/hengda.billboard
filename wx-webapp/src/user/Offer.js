@@ -83,7 +83,7 @@ const Offer = () => {
         <ToBack category="面试邀请" />
         {list && list.map((item, inx) => <DataRow key={inx} {...item} />)}
       </div>
-      <Navbar category="消息" totalFlg={totalFlg} />
+      <Navbar category="我的" totalFlg={totalFlg} />
     </>
   )
 

@@ -7,18 +7,21 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
 export const RecommendRow = props => (
   <>
-    <div className="row" style={{ fontSize: 11 }} >
+    <div className="row" >
       <div className="col">
-        <div className="pull-left">
-          <strong>{props.title}</strong>
+        <div className="row">
+          <div className="col-9 text-hidden">
+            <strong>{props.title}</strong>
+          </div>
+          <div className="col">
+            <div className="pull-right ">
+              <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
+                详情
+              <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="pull-right">
-          <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
-            详情
-          <i className="fa fa-fw fa-lg  fa-angle-right"></i>
-          </a>
-        </div>
-        <br></br>
         <span className="text-muted">
           工作地点：{props.address_level1}-{props.address_level2} | 招聘人数: {props.qty}
         </span>
@@ -44,7 +47,7 @@ export const TopicCards = props => {
   }
 
   const toDetails = it => {
-    window.location=`#主页/话题详情/${it.id}?u_id=${it.uuid}`
+    window.location = `#主页/话题详情/${it.id}?u_id=${it.uuid}`
   }
 
   useEffect(() => {

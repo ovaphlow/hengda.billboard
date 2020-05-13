@@ -156,9 +156,9 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "insert into " + "delivery (resume_id, resume_uuid, recruitment_id, recruitment_uuid datime)"
-          + "value ( (select id from resume where common_user_id = ? limit 1),"
-          + "(select uuid from resume where common_user_id = ? limit 1)," + "?,?,?)";
+      String sql = "insert into delivery (resume_id, resume_uuid, recruitment_id, recruitment_uuid, datime)"
+          + " value ( (select id from resume where common_user_id = ? limit 1),"
+          + "(select uuid from resume where common_user_id = ? limit 1),?,?,?)";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("common_user_id").toString());
       ps.setString(2, body.get("common_user_id").toString());

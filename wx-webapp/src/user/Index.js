@@ -10,6 +10,7 @@ import Favorite from './Favorite'
 import Delivery from './Delivery'
 import Report from './Report'
 import Schedule from './Schedule'
+import Offer from './Offer'
 
 const UserRouter = () => (
   <Router>
@@ -22,6 +23,7 @@ const UserRouter = () => (
       <Route exact path="/我的/投递"><Delivery /></Route>
       <Route exact path="/我的/反馈"><Feedback /></Route>
       <Route exact path="/我的/日程"><Schedule /></Route>
+      <Route exact path="/我的/面试"><Offer /></Route>
       <Route exact path="/我的/举报/:id/:category"><Report /></Route>
     </Switch>
   </Router>

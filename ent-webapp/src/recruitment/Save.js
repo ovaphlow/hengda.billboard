@@ -37,6 +37,7 @@ const Save = () => {
       setData(p => ({
         ...p,
         enterprise_id: auth.enterprise_id,
+        enterprise_uuid: auth.enterprise_uuid,
         user_id: auth.id,
       }))
     }
@@ -84,6 +85,7 @@ const Save = () => {
 
   const handleProvince = e => {
     const value = e.target.value
+    console.info(value)
     if (value !== '') {
       setData({
         ...data,

@@ -40,7 +40,7 @@ const RecommendDetails = props => {
           setFavorite(p => res.content)
         }
       })
-      fetch(`./api/journal/`, {
+      fetch(`./api/journal?uuid=${_auth.uuid}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -53,7 +53,7 @@ const RecommendDetails = props => {
       })
         .then(res => res.json())
         .then(res => { })
-    }
+    } 
   }, [id,search])
 
   const handleFavorite = () => {
@@ -107,7 +107,7 @@ const RecommendDetails = props => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack category={item.title}/>
         <div className="row mt-2">
           <div className="col">
             发布时间：{item.date1}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Title from '../components/Title'
+// import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 
 
@@ -54,6 +54,7 @@ const List = () => {
   const [auth, setAuth] = useState(0)
 
   useEffect(() => {
+    document.title = '消息'
     const _auth = JSON.parse(localStorage.getItem('auth'))
     let jobId1 = -1
     let jobId2 = -1
@@ -78,18 +79,6 @@ const List = () => {
                 .then(res => res.json())
                 .then(res => {
                   setChatTotal(res.content)
-                })
-            }, 900000)
-            fetch(`./api/offer/common/total/${_auth.id}`)
-              .then(res => res.json())
-              .then(res => {
-                setOfferTotal(res.content)
-              })
-            jobId2 = setInterval(() => {
-              fetch(`./api/offer/common/total/${_auth.id}`)
-                .then(res => res.json())
-                .then(res => {
-                  setOfferTotal(res.content)
                 })
             }, 900000)
             setChatList(res.content)
@@ -129,8 +118,8 @@ const List = () => {
   return (
     <>
       <div className="container-fluid">
-        <Title category="消息" />
-        <div className="row">
+        {/* <Title category="消息" /> */}
+        {/* <div className="row">
           <div
             style={{
               background: 'url(lib/img/u679.svg)',
@@ -155,7 +144,7 @@ const List = () => {
             <br />
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
           </div>
-        </div>
+        </div> */}
         {chatList && chatList.map((item, inx) =>
           <MessageRow key={inx} {...item}
             total={chatTotal.length > 0 && chatTotal.find(it => it.ent_user_id === item.ent_user_id).count} />)}

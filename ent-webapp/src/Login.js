@@ -54,17 +54,17 @@ const Login = () => {
         </div>
       </div>
 
-      <div className="row  login-body px-5" style={{
+      <div className="row login-body px-5" style={{
         height: '70%',
         minHeight: '459px'
       }}>
-        <div className="col mt-5" >
+        <div className="col w-25 mt-5" >
           <div className="card pull-right rounded-0">
             <div className="card-body text-center">
               <h5>登录</h5>
               <hr />
               <form>
-                <div className="row px-4 ">
+                <div className="row px-4">
                   <div className="col form-group">
                     <input className="mt-3 form-control rounded-0"
                       type="text"
@@ -85,14 +85,14 @@ const Login = () => {
                       onChange={handleChange} />
                   </div>
                 </div>
-                <div className="row px-4">
+                <div className="row px-4" style={{visibility:'hidden'}}>
                   <div className="col-7">
                     <input type="text" className="col form-control rounded-0" />
                   </div>
                   <div className="col">
                     <button className="btn btn-secondary rounded-0" style={{ height: '100%', fontSize: 'small' }}>
                       发送验证码
-                      </button>
+                    </button>
                   </div>
                 </div>
               </form>

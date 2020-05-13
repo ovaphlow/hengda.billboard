@@ -34,7 +34,7 @@ const Favorite = () => {
   }
 
   return (
-    <div className="container-fluid" style={{ fontSize: 12 }}>
+    <div className="container-fluid" style={{ fontSize: 14 }}>
       <ToBack category="我的收藏" />
       <div className="mt-1"></div>
       {list && list.map((item,inx) => dateRow(item,inx))}

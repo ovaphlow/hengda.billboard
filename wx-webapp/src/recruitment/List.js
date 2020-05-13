@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import Title from '../components/Title'
+// import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
 import { TextCheckbox } from '../components/Button'
@@ -17,6 +17,7 @@ const List = () => {
   const [city, setCity] = useState('')
 
   useEffect(() => {
+    document.title = '岗位'
     fetch(`./api/recruitment/search/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
@@ -74,9 +75,9 @@ const List = () => {
   return (
     <>
       <div className="container-fluid">
-        <Title category="岗位" />
+        {/* <Title category="岗位" /> */}
         <PlayImg category="小程序-岗位" />
-        <div className="row mt-1 mb-1" style={{ fontSize: 12 }} >
+        <div className="row mt-1 mb-1" style={{ fontSize: 14 }} >
           <div className="col">
             <CityDropdowns handleChange={handleChange}/>
           </div>

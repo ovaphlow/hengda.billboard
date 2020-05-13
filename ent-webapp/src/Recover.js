@@ -161,7 +161,7 @@ const Recover = () => {
                   <h3>忘记密码</h3>
                 </div>
               </div>
-              {/* <form> */}
+              <form>
                 <div className="form-group">
                   <label>企业邮箱</label>
                   <input className="form-control rounded-0"
@@ -182,7 +182,7 @@ const Recover = () => {
                       onChange={handleChange}
                       className="form-control rounded-0" />
                     <div className="input-group-append">
-                      <button className="btn btn-primary rounded-0"
+                      <button className="btn btn-primary rounded-0" type="button"
                         onClick={handleCode} disabled={!checkEmail()}>
                         发送验证码
                       </button>
@@ -213,10 +213,10 @@ const Recover = () => {
                     onChange={handleChange} />
                   {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
                 </div>
-              {/* </form> */}
+              </form>
               <div className="row mt-3 px-4 ">
                 <div className="col">
-                  <button className="mt-2 btn btn-login rounded-0" onClick={handleSigin}>
+                  <button type="button" className="mt-2 btn btn-login rounded-0" onClick={handleSigin}>
                     提交
                   </button>
                 </div>

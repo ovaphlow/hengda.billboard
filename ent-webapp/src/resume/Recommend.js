@@ -28,7 +28,7 @@ const Recommend = () => {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           day: 0,
-          enterprise_id: _auth.id
+          enterprise_id: _auth.enterprise_id
         })
       })
         .then(res => res.json())
@@ -52,7 +52,7 @@ const Recommend = () => {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        enterprise_id: auth.id,
+        enterprise_id: auth.enterprise_id,
         ...param
       })
     })
@@ -112,7 +112,7 @@ const Recommend = () => {
             <option>博士</option>
           </SelectField>
         </div>
-        <div className="col-1">
+        <div className="col">
           <br />
           <button onClick={search} className="btn btn-primary rounded-0">
             查询

@@ -57,7 +57,7 @@ public class CommonUserScheduleImpl extends CommonUserScheduleGrpc.CommonUserSch
       Connection conn = DBUtil.getConn();
       String sql = "select c.date,c.title,c.uuid,c.address_level1,c.address_level2,c.address_level3,c.address_level4, "+
       "c.category,c.time, c.id, c.school from common_user_schedule s left join campus c on c.id = s.campus_id "+
-      "where common_user_id = ? and date>=curdate() order by time";
+      "where common_user_id = ? and date>=curdate() order by date,time";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("user_id").toString());
       ResultSet rs = ps.executeQuery();

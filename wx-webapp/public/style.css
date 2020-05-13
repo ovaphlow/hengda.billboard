@@ -1,7 +1,7 @@
 body {
   /* margin-top: 3rem; */
   padding-bottom: 50px;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .text-small {
@@ -130,4 +130,12 @@ p {
 
 .editor-body img {
   width: 100%;
+}
+
+.text-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }

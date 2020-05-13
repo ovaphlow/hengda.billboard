@@ -6,12 +6,14 @@ import Title from '../components/Title'
 // import Footer from '../components/Footer'
 
 import Home from './Home'
+import Topic from './topic'
+import Banner from './Banner'
 
 const Index = () => {
   useEffect(() => {
     const auth = sessionStorage.getItem('auth')
     if (!!!auth) {
-      // window.location = '#登录'
+      window.location = '#登录'
     }
   }, [])
 
@@ -22,6 +24,8 @@ const Index = () => {
       <Router>
         <Switch>
           <Route exact path="/"><Home /></Route>
+          <Route exact path="/首页/banner/:id"><Banner /></Route>
+          <Route exact path="/首页/:id/"><Topic /></Route>
         </Switch>
       </Router>
       {/* <Footer /> */}

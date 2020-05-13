@@ -59,9 +59,9 @@ const Resume = () => {
                 .then(res1 => res1.json())
                 .then(res1 => {
                   setData(p => ({
-                    phone: _auth.phone,
-                    email: _auth.email,
-                    name: _auth.name,
+                    phone: '',
+                    email: '',
+                    name: '',
                     gender: '',
                     birthday: '',
                     address1: '',
@@ -200,7 +200,7 @@ const Resume = () => {
     return (
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>
-          <ToBack category="我的简历" />
+          <ToBack herf='#我的' category="我的简历" />
           <div className="row mt-2">
             <div className="col" >
               <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
@@ -253,7 +253,7 @@ const Resume = () => {
               <strong style={{ fontSize: 15 }}>{data.school}</strong>
               <br />
               &nbsp;
-              <span className="text-muted" style={{ fontSize: 12 }}>
+              <span className="text-muted" style={{ fontSize: 14 }}>
                 {data.date_begin} - {data.date_end}
               </span>
               <br />

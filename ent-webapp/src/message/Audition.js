@@ -216,7 +216,6 @@ const Audition = () => {
     <View category='会话' totalFlg={totalFlg}>
       <div className="row bg-white shadow " >
         <div className="col-2 border">
-
           <div className="row  border-bottom">
             <div className="col p-2">
               近期消息
@@ -239,12 +238,15 @@ const Audition = () => {
           </div>
         </div>
         <div className="col-10 border">
-          <div className="row  border-bottom">
-            <div className="col text-center p-2">
-              {nowUser.username}
+          {nowUser ? (
+            <div className="row  border-bottom">
+              <div className="col text-center p-2">
+                {nowUser.username}
+              </div>
             </div>
-          </div>
+          ) : ''}
           <div id="chat-body" className="row border-bottom chat-body" >
+
             <div className="col mt-3">
               {
                 contentList && contentList.map((item, inx) =>
@@ -255,28 +257,30 @@ const Audition = () => {
               }
             </div>
           </div>
-          <div className="row textarea-row border-bottom" >
-            <div className="col-12 textarea-col">
-              <textarea
-                value={text}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                className="message-textarea"
-                placeholder="请填写内容" />
-            </div>
+          {nowUser ? (
+            <div className="row textarea-row border-bottom" >
+              <div className="col-12 textarea-col">
+                <textarea
+                  value={text}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyDown}
+                  className="message-textarea"
+                  placeholder="请填写内容" />
+              </div>
 
-            <div className="col-12 ">
-              {text === '' ? (
-                <button className="btn btn-sm btn-secondary pull-right" disabled>
-                  发送
-                </button>
-              ) : (
-                  <button className="btn btn-sm btn-primary pull-right" onClick={handlePush}>
+              <div className="col-12 ">
+                {text === '' || !nowUser ? (
+                  <button className="btn btn-sm btn-secondary pull-right" disabled>
                     发送
                   </button>
-                )}
+                ) : (
+                    <button className="btn btn-sm btn-primary pull-right" onClick={handlePush}>
+                      发送
+                    </button>
+                  )}
+              </div>
             </div>
-          </div>
+          ) : ''}
         </div>
       </div>
     </View>

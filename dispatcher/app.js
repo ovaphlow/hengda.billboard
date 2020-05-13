@@ -187,4 +187,12 @@ function emailRouter() {
 
 emailRouter()
 
+function chartRouter() {
+  const router = require('./routes/chart')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+} 
+
+chartRouter()
+
 module.exports = app

@@ -52,7 +52,7 @@ const Details = () => {
           setSchedule(res.content)
         })
 
-      fetch(`./api/journal/`, {
+      fetch(`./api/journal?uuid=${_auth.uuid}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

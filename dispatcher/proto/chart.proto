@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.billboard";
+option java_outer_classname = "chartProto";
+
+package chart;
+
+service Chart {
+
+  rpc entHome(ChartRequest) returns (ChartReply) {}
+
+}
+
+message ChartRequest { string data = 1; }
+
+message ChartReply { string data = 1; }

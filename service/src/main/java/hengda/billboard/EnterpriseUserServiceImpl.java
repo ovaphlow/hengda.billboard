@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUserImplBase {
@@ -45,18 +46,23 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
       if (err.keySet().size() != 0) {
         resp.put("message", err);
       } else {
-        sql = "insert into enterprise (name) value (?)";
+        String entUUID = UUID.randomUUID().toString();
+        String entUserUUID = UUID.randomUUID().toString();
+        sql = "insert into enterprise (uuid,name,yingyezhizhao_tu) value (?,?,'')";
         ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, body.get("ent_name").toString());
+        ps.setString(1, entUUID);
+        ps.setString(2, body.get("ent_name").toString());
         ps.executeUpdate();
         rs = ps.getGeneratedKeys();
         if (rs.next()) {
-          sql = "insert into enterprise_user (enterprise_id, password, name, phone) value (?,?,?,?)";
+          sql = "insert into enterprise_user (uuid, enterprise_uuid ,enterprise_id, password, name, phone) value (?,?,?,?,?)";
           ps = conn.prepareStatement(sql);
-          ps.setInt(1, rs.getInt(1));
-          ps.setString(2, body.get("password").toString());
-          ps.setString(3, body.get("ent_name").toString());
-          ps.setString(4, body.get("phone").toString());
+          ps.setString(1, entUserUUID);
+          ps.setString(2, entUUID);
+          ps.setInt(3, rs.getInt(1));
+          ps.setString(4, body.get("password").toString());
+          ps.setString(5, body.get("ent_name").toString());
+          ps.setString(6, body.get("phone").toString());
           ps.executeUpdate();
         }
         resp.put("content", true);
@@ -122,7 +128,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
     try {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       Connection conn = DBUtil.getConn();
-      String sql = "select * from enterprise_user where phone = ? and password = ?";
+      String sql = "select id, uuid,enterprise_id,enterprise_uuid,username,name,phone from enterprise_user where phone = ? and password = ?";
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setString(1, body.get("phone").toString());
       ps.setString(2, body.get("password").toString());

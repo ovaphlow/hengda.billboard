@@ -104,7 +104,7 @@ const Retrieval = () => {
             <option>博士</option>
           </SelectField>
         </div>
-        <div className="col-1">
+        <div className="col">
           <br />
           <button onClick={search} className="btn btn-primary rounded-0">
             查询

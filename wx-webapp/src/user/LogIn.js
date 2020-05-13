@@ -34,14 +34,14 @@ export default function LogIn() {
       return
     } else {
       localStorage.setItem('auth', JSON.stringify(res.content))
-      window.history.go(-1)
+      window.location='#'
     }
   }
 
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack href="#" />
         <div className="row mt-5">
           <div className="col">
             <h4 className="text-center">

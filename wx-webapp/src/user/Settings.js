@@ -22,10 +22,11 @@ const Setting = () => {
     if (_auth !== null) {
       setAuth(_auth)
       setData({
-        name: _auth.name,
+        username: _auth.username,
         email: _auth.email,
         code: '',
         id: _auth.id,
+        user_category: '个人用户'
       })
     }
   }, [])
@@ -110,14 +111,14 @@ const Setting = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
+        <ToBack herf='#我的' />
         <div className="row mt-3">
           <div className="col">
             <div className="form-group row ">
               <div className="col">
                 <input type="text"
-                  name="name"
-                  value={data.name}
+                  name="username"
+                  value={data.username}
                   className="input-control"
                   placeholder="用户名称"
                   onChange={handleChange}
@@ -145,7 +146,7 @@ const Setting = () => {
               </div>
               <div className="col-4">
                 <button className="btn rounded-0 btn-secondary btn-sm" 
-                   disabled={!checkEmail()} onClick={handleCode} >
+                  disabled={!checkEmail()} onClick={handleCode} >
                   发送验证码
                 </button>
               </div>

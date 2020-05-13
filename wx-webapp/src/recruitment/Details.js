@@ -46,7 +46,7 @@ const Details = () => {
       const _auth = JSON.parse(localStorage.getItem('auth'))
       if (_auth !== null) {
         setAuth(p => _auth)
-        fetch(`./api/journal/`, {
+        fetch(`./api/journal?uuid=${_auth.uuid}`, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
@@ -179,14 +179,14 @@ const Details = () => {
                 <h4>{data.name}</h4>
               </div>
               <div className="col-5">
-                <span className="pull-right text-muted" style={{ fontSize: 12 }}>
+                <span className="pull-right text-muted" style={{ fontSize: 14 }}>
                   {data.date}
                 </span>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <span className="text-muted" style={{ fontSize: 12 }}>
+                <span className="text-muted" style={{ fontSize: 14 }}>
                   {data.address2 ? data.address2 : data.address1} |{data.education}|{data.category}
                 </span>
               </div>
@@ -209,7 +209,7 @@ const Details = () => {
                   <h6 >{data.enterprise_name}</h6>
                 </a>
                 <div className="pull-right">
-                  <a className="text-success" href={`#消息/${data.enterprise_name}/企业用户/${data.ent_user_id}`}>
+                  <a className="text-success" href={`#消息/${data.enterprise_name}/${data.ent_user_id}`}>
                     咨询
                   </a>
                 </div>

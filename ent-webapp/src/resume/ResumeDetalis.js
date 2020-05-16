@@ -144,7 +144,7 @@ const ResumeDetalis = () => {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        recruitment_id: data.recruitment_id,
+        recruitment_id: document.getElementById('recruitment').value,
         common_user_id: data.common_user_id,
         address: document.getElementById('address').value,
         phone1: document.getElementById('phone1').value,

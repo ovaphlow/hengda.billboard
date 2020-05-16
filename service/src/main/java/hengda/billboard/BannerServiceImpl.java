@@ -20,17 +20,15 @@ public class BannerServiceImpl extends BannerGrpc.BannerImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select id, uuid,datime,data_url,source_url category from banner where category = ? and status = '启用'";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("category").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("category").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -46,22 +44,20 @@ public class BannerServiceImpl extends BannerGrpc.BannerImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
-      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
+    try (Connection conn = DBUtil.getConn()) {
       String sql = "select * from banner where id = ? and uuid = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("message", "未找到该内容");
-      } else {
-        resp.put("content", result.get(0));
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("message", "未找到该内容");
+        } else {
+          resp.put("content", result.get(0));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

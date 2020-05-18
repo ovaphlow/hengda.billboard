@@ -110,7 +110,8 @@ export function InputRowField(props) {
     <div className="form-group row">
       <label className="col-sm-2 col-form-label text-right">{props.caption || ''}</label>
       <div className="col-sm-10">
-        <input type={props.type || 'text'} value={props.value} autoComplete={props.autocomplete || ''}
+        <input type={props.type || 'text'} value={props.value}
+          autoComplete={props.autocomplete || ''} placeholder={props.placeholder || ''}
           className="form-control input-borderless"
           onChange={props.onChange}
         />

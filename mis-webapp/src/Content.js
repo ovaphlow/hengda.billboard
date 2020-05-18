@@ -1528,10 +1528,9 @@ function CampusDetail(props) {
                   </div>
                 </div>
 
-                <InputRowField value={address_level4 || ''}
+                <InputRowField value={address_level4 || ''} placeholder="详细地址"
                   onChange={event => setAddressLevel4(event.target.value)}
                 />
-
 
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">类型</label>

@@ -190,11 +190,14 @@ router
 router
   .get('/topic/', async ctx => {
     const sql = `
-      select * from topic order by id desc limit 100
+      select id, uuid, date, time, mis_user_id, tag, title
+      from topic
+      order by id desc
+      limit 20
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql)
+      const [rows, _] = await pool.query(sql)
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)
@@ -203,7 +206,7 @@ router
   })
   .put('/topic/', async ctx => {
     const sql = `
-      select * from topic where date = ? and position(? in title) > 0
+      select * from topic where position(? in date) > 0 and position(? in title) > 0
     `
     const pool = mysql.promise()
     try {

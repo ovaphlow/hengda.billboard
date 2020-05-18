@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import md5 from 'blueimp-md5'
 
-import { Title, Navbar, BackwardButton, InputRowField } from './Components'
+import { Title, Navbar, BackwardButton } from './Components'
 
 export default function CurrentUserRouter() {
   useEffect(() => {

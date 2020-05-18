@@ -16,6 +16,7 @@ import FeedbackRouter from './Feedback'
 import ReportRouter from './Report'
 import RecruitmentRouter from './Recruitment'
 import SettingsRouter from './Settings'
+import CurrentUserRouter from './CurrentUser'
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/举报"><ReportRouter /></Route>
         <Route path="/岗位"><RecruitmentRouter /></Route>
         <Route path="/系统设置"><SettingsRouter /></Route>
+        <Route path="/当前用户"><CurrentUserRouter /></Route>
       </Switch>
     </Router>
   )

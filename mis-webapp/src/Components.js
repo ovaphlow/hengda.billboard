@@ -77,7 +77,7 @@ export function Navbar(props) {
           </li>
 
           <li className={`nav-item ${props.category === '当前用户' ? 'active' : ''}`}>
-            <a href="#当前用户" className="nav-link text-dark">
+            <a href="#当前用户/修改密码" className="nav-link text-dark">
               <i className="fa fa-fw fa-user-o"></i>
               当前用户
             </a>

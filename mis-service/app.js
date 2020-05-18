@@ -105,6 +105,12 @@ app.on('error', (err, ctx) => {
 })()
 
 ;(() => {
+  const router = require('./routes/current-user')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+})()
+
+;(() => {
   const router = require('./routes/stats')
   app.use(router.routes())
   app.use(router.allowedMethods())

@@ -86,12 +86,6 @@ function List() {
             <h3>普通用户 列表</h3>
             <hr />
 
-            <div className="alert alert-warning" role="alert">
-              <ul>
-                <li>简历中的自我评价改为RTE</li>
-              </ul>
-            </div>
-
             <div className="card shadow">
               <div className="card-header">
                 <div className="form-row align-items-center">

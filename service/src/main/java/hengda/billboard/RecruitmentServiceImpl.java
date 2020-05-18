@@ -28,15 +28,13 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
-      Connection conn = DBUtil.getConn();
+    try (Connection conn = DBUtil.getConn()) {
       String sql = "select * from recruitment";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -52,36 +50,34 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "insert into recruitment ( enterprise_id, enterprise_uuid, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
           + " industry, position, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
-      PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-      ps.setString(1, body.get("enterprise_id").toString());
-      ps.setString(2, body.get("enterprise_uuid").toString());
-      ps.setString(3, body.get("name").toString());
-      ps.setString(4, body.get("qty").toString());
-      ps.setString(5, body.get("description").toString());
-      ps.setString(6, body.get("requirement").toString());
-      ps.setString(7, body.get("address1").toString());
-      ps.setString(8, body.get("address2").toString());
-      ps.setString(9, body.get("address3").toString());
-      ps.setString(10, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-      ps.setString(11, body.get("salary1").toString());
-      ps.setString(12, body.get("salary2").toString());
-      ps.setString(13, body.get("education").toString());
-      ps.setString(14, body.get("category").toString());
-      ps.setString(15, body.get("industry").toString());
-      ps.setString(16, body.get("position").toString());
-      ps.executeUpdate();
-      ResultSet rs = ps.getGeneratedKeys();
-      if (rs.next()) {
-        resp.put("content", rs.getInt(1));
+      try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        ps.setString(1, body.get("enterprise_id").toString());
+        ps.setString(2, body.get("enterprise_uuid").toString());
+        ps.setString(3, body.get("name").toString());
+        ps.setString(4, body.get("qty").toString());
+        ps.setString(5, body.get("description").toString());
+        ps.setString(6, body.get("requirement").toString());
+        ps.setString(7, body.get("address1").toString());
+        ps.setString(8, body.get("address2").toString());
+        ps.setString(9, body.get("address3").toString());
+        ps.setString(10, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        ps.setString(11, body.get("salary1").toString());
+        ps.setString(12, body.get("salary2").toString());
+        ps.setString(13, body.get("education").toString());
+        ps.setString(14, body.get("category").toString());
+        ps.setString(15, body.get("industry").toString());
+        ps.setString(16, body.get("position").toString());
+        ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+          resp.put("content", rs.getInt(1));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -97,32 +93,30 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "update recruitment set name = ?, qty = ?, description = ?,"
           + "requirement = ?, address1 = ?, address2 = ?, address3 = ?, salary1 = ?,"
           + "salary2 = ?, education = ?, category = ?,  industry = ?, position = ? where id = ? and uuid = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("name").toString());
-      ps.setString(2, body.get("qty").toString());
-      ps.setString(3, body.get("description").toString());
-      ps.setString(4, body.get("requirement").toString());
-      ps.setString(5, body.get("address1").toString());
-      ps.setString(6, body.get("address2").toString());
-      ps.setString(7, body.get("address3").toString());
-      ps.setString(8, body.get("salary1").toString());
-      ps.setString(9, body.get("salary2").toString());
-      ps.setString(10, body.get("education").toString());
-      ps.setString(11, body.get("category").toString());
-      ps.setString(12, body.get("industry").toString());
-      ps.setString(13, body.get("position").toString());
-      ps.setString(14, body.get("id").toString());
-      ps.setString(15, body.get("uuid").toString());
-      ps.execute();
-      resp.put("content", true);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("name").toString());
+        ps.setString(2, body.get("qty").toString());
+        ps.setString(3, body.get("description").toString());
+        ps.setString(4, body.get("requirement").toString());
+        ps.setString(5, body.get("address1").toString());
+        ps.setString(6, body.get("address2").toString());
+        ps.setString(7, body.get("address3").toString());
+        ps.setString(8, body.get("salary1").toString());
+        ps.setString(9, body.get("salary2").toString());
+        ps.setString(10, body.get("education").toString());
+        ps.setString(11, body.get("category").toString());
+        ps.setString(12, body.get("industry").toString());
+        ps.setString(13, body.get("position").toString());
+        ps.setString(14, body.get("id").toString());
+        ps.setString(15, body.get("uuid").toString());
+        ps.execute();
+        resp.put("content", true);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -138,18 +132,16 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "update recruitment set status = ? where id = ? and uuid=?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("status").toString());
-      ps.setString(2, body.get("id").toString());
-      ps.setString(3, body.get("uuid").toString());
-      ps.execute();
-      resp.put("content", true);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("status").toString());
+        ps.setString(2, body.get("id").toString());
+        ps.setString(3, body.get("uuid").toString());
+        ps.execute();
+        resp.put("content", true);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -165,24 +157,22 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select r.*, e.name as enterprise_name, e.uuid as enterprise_uuid, u.id as ent_user_id\n"
           + "from recruitment r left join enterprise e on e.id=r.enterprise_id\n"
           + "left join enterprise_user u on u.enterprise_id = e.id\n" + "where r.id = ? and r.uuid = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("content", false);
-      } else {
-        resp.put("content", result.get(0));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("content", false);
+        } else {
+          resp.put("content", result.get(0));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -198,9 +188,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from recruitment ";
       List<String> list = new ArrayList<>();
       if (body.keySet().size() != 0) {
@@ -241,14 +230,14 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
           list.add(body.get("status").toString());
         }
       }
-      PreparedStatement ps = conn.prepareStatement(sql);
-      for (int inx = 0; inx < list.size(); inx++) {
-        ps.setString(inx + 1, list.get(inx));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        for (int inx = 0; inx < list.size(); inx++) {
+          ps.setString(inx + 1, list.get(inx));
+        }
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
       }
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -264,19 +253,17 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from recruitment where enterprise_id = ? and "
           + "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招'";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -292,10 +279,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from recruitment where enterprise_id = ? and enterprise_uuid = ?";
       List<String> list = new ArrayList<>();
       list.add(body.get("enterprise_id").toString());
@@ -320,14 +305,14 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         sql += " and education = ? ";
         list.add(body.get("education").toString());
       }
-      PreparedStatement ps = conn.prepareStatement(sql);
-      for (int inx = 0; inx < list.size(); inx++) {
-        ps.setString(inx + 1, list.get(inx));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        for (int inx = 0; inx < list.size(); inx++) {
+          ps.setString(inx + 1, list.get(inx));
+        }
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
       }
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

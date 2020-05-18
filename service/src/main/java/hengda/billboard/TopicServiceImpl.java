@@ -20,14 +20,13 @@ public class TopicServiceImpl extends TopicGrpc.TopicImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-      Connection conn = DBUtil.getConn();
+    try (Connection conn = DBUtil.getConn()) {
       String sql = "select uuid,id,title from topic where tag='热门话题'  ORDER BY date desc limit 9";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -43,17 +42,16 @@ public class TopicServiceImpl extends TopicGrpc.TopicImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from topic where id = ? and uuid = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result.get(0));
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result.get(0));
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -69,14 +67,13 @@ public class TopicServiceImpl extends TopicGrpc.TopicImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-      Connection conn = DBUtil.getConn();
-      String sql = "select * from topic where tag != '热门话题' limit 3";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "select * from topic where tag != '热门话题' limit 5";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

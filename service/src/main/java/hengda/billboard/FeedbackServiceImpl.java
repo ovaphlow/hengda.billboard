@@ -19,24 +19,22 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
 
   @Override
   public void insert(FeedbackRequest req, StreamObserver<FeedbackReply> responseObserver) {
-    ;
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    logger.info(req.getData());
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "insert into feedback (user_id, user_category, content, datime, category, status) value (?, ?, ?, ?, ?, '未处理')";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("user_id").toString());
-      ps.setString(2, body.get("user_category").toString());
-      ps.setString(3, body.get("content").toString());
-      ps.setString(4, body.get("datime").toString());
-      ps.setString(5, body.get("category").toString());
-      ps.execute();
-      resp.put("content", true);
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("user_id").toString());
+        ps.setString(2, body.get("user_category").toString());
+        ps.setString(3, body.get("content").toString());
+        ps.setString(4, body.get("datime").toString());
+        ps.setString(5, body.get("category").toString());
+        ps.execute();
+        resp.put("content", true);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -53,18 +51,16 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from feedback where user_id = ? and user_category = ? ORDER BY datime DESC ";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("user_id").toString());
-      ps.setString(2, body.get("user_category").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("user_id").toString());
+        ps.setString(2, body.get("user_category").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -73,6 +69,5 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
-
 
 }

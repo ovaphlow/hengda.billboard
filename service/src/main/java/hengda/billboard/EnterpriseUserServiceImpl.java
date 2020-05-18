@@ -31,14 +31,14 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
     try (Connection conn = DBUtil.getConn()) {
       Map<String, String> err = new HashMap<>();
       List<Map<String, Object>> result = new ArrayList<>();
-      ResultSet rs;
+      int enterprise_id = 0;
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select " + "(select count(*) from enterprise_user where phone = ? ) as phone,"
           + "(select count(*) from enterprise where name = ? ) as ent_name";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, body.get("phone").toString());
         ps.setString(2, body.get("ent_name").toString());
-        rs = ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
         result = DBUtil.getList(rs);
         result.get(0).forEach((k, v) -> {
           if (!"0".equals(v.toString())) {
@@ -56,19 +56,20 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
           ps.setString(1, entUUID);
           ps.setString(2, body.get("ent_name").toString());
           ps.executeUpdate();
-          rs = ps.getGeneratedKeys();
+          ResultSet rs = ps.getGeneratedKeys();
+          if (rs.next()) {
+            enterprise_id  = rs.getInt(1);
+          } 
         }
         sql = "insert into enterprise_user (uuid, enterprise_uuid ,enterprise_id, password, name, phone) value (?,?,?,?,?,?)";
-        if (rs.next()) {
-          try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, entUserUUID);
-            ps.setString(2, entUUID);
-            ps.setInt(3, rs.getInt(1));
-            ps.setString(4, body.get("password").toString());
-            ps.setString(5, body.get("ent_name").toString());
-            ps.setString(6, body.get("phone").toString());
-            ps.executeUpdate();
-          }
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, entUserUUID);
+          ps.setString(2, entUUID);
+          ps.setInt(3, enterprise_id);
+          ps.setString(4, body.get("password").toString());
+          ps.setString(5, body.get("ent_name").toString());
+          ps.setString(6, body.get("phone").toString());
+          ps.executeUpdate();
         }
         resp.put("content", true);
       }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
 import moment from 'moment'
 
-import { Title, Navbar, BackwardButton, InputRowField, SchoolPickerRowField, RefreshButton } from './Components'
+import { Title, Navbar, BackwardButton, InputRowField, SchoolPickerRowField } from './Components'
 import { BANNER_CATEGORY } from './constant'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -1154,10 +1154,10 @@ function CampusToolbar() {
 function Campus() {
   const [list, setList] = useState([])
   const [filter_title, setFilterTitle] = useState('')
-  const [filter_date, setFilterDate] = useState(moment().format('YYYY-MM-DD'))
+  const [filter_date, setFilterDate] = useState()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const response = await window.fetch(`/api/content/campus/`)
       const res = await response.json()
       if (res.message) {
@@ -1206,7 +1206,7 @@ function Campus() {
             <div className="card shadow">
               <div className="card-header">
                 <div className="row">
-                  <div className="input-group col-4 col-lg-2">
+                  <div className="input-group col">
                     <div className="input-group-prepend">
                       <span className="input-group-text">标题</span>
                     </div>
@@ -1216,7 +1216,7 @@ function Campus() {
                     />
                   </div>
 
-                  <div className="input-group col-4 col-lg-2">
+                  <div className="input-group col">
                     <div className="input-group-prepend">
                       <span className="input-group-text">日期</span>
                     </div>
@@ -1225,6 +1225,17 @@ function Campus() {
                       onChange={event => setFilterDate(event.target.value)}
                     />
                   </div>
+                </div>
+
+                <div className="m-2"></div>
+              
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-outline-secondary btn-sm"
+                    onClick={() => window.location.reload(true)}
+                  >
+                    <i className="fa fa-fw fa-refresh"></i>
+                    重置
+                  </button>
 
                   <button type="button" className="btn btn-outline-primary btn-sm" onClick={handleFilter}>
                     <i className="fa fa-fw fa-search"></i>

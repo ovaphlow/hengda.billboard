@@ -107,6 +107,50 @@ function Complaint() {
 
             <div className="card shadow">
               <div className="card-body">
+                <ul className="list-group">
+                  {data.map(it => (
+                    <li key={it.id} className="list-group-item list-group-itme-action">
+                      <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                          {it.user_category === '企业用户' && (
+                            <span className="badge badge-success">{it.user_category}</span>
+                          )}
+                          {it.user_category === '个人用户' && (
+                            <span className="badge badge-info">{it.user_category}</span>
+                          )}
+                          &nbsp;
+                          {it.name}({it.username})
+                        </h5>
+                        <small className="text-muted">
+                          {it.status === '已处理' ? (
+                            <span className="badge badge-secondary">已处理</span>
+                          ) : (
+                            <span className="badge badge-danger">未处理</span>
+                          )}
+                        </small>
+                      </div>
+                      <p className="mb-1">{it.content}</p>
+                      <small className="text-muted">
+                        {moment(it.datime).format('YYYY-MM-DD HH:mm:ss')}
+                      </small>
+                      <div className="btn-group pull-right">
+                        <button type="button" className="btn btn-outline-success btn-sm"
+                          data-id={it.id} data-user-id={it.user_id} data-user-category={it.user_category}
+                          onClick={handleReply}
+                        >
+                          <i className="fa fa-fw fa-reply" data-id={it.id} data-user-id={it.user_id} data-user-category={it.user_category}></i>
+                          回复
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/*
+            <div className="card shadow">
+              <div className="card-body">
                 <table className="table table-hover">
                   <thead>
                     <tr>
@@ -151,6 +195,7 @@ function Complaint() {
                 </table>
               </div>
             </div>
+            */}
           </div>
         </div>
       </div>
@@ -212,6 +257,50 @@ function Feedback() {
 
             <div className="card shadow">
               <div className="card-body">
+                <ul className="list-group">
+                  {data.map(it => (
+                    <li key={it.id} className="list-group-item list-group-itme-action">
+                      <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                          {it.user_category === '企业用户' && (
+                            <span className="badge badge-success">{it.user_category}</span>
+                          )}
+                          {it.user_category === '个人用户' && (
+                            <span className="badge badge-info">{it.user_category}</span>
+                          )}
+                          &nbsp;
+                          {it.name}({it.username})
+                        </h5>
+                        <small>
+                          {it.status === '已处理' ? (
+                            <span className="badge badge-secondary">已处理</span>
+                          ) : (
+                            <span className="badge badge-danger">未处理</span>
+                          )}
+                        </small>
+                      </div>
+                      <p className="mb-1">{it.content}</p>
+                      <small className="text-muted">
+                        {moment(it.datime).format('YYYY-MM-DD HH:mm:ss')}
+                      </small>
+                      <div className="btn-group pull-right">
+                        <button type="button" className="btn btn-outline-success btn-sm"
+                          data-id={it.id} data-user-id={it.user_id} data-user-category={it.user_category}
+                          onClick={handleReply}
+                        >
+                          <i className="fa fa-fw fa-reply" data-id={it.id} data-user-id={it.user_id} data-user-category={it.user_category}></i>
+                          回复
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/*
+            <div className="card shadow">
+              <div className="card-body">
                 <table className="table table-hover">
                   <thead>
                     <tr>
@@ -256,6 +345,7 @@ function Feedback() {
                 </table>
               </div>
             </div>
+            */}
           </div>
         </div>
       </div>

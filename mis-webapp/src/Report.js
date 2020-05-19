@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import moment from 'moment'
 
 import { Title, Navbar } from './Components'
 
@@ -65,7 +66,7 @@ function List() {
     } else if (category === '企业') {
       window.location = `#企业/${id}?uuid=${uuid}`
     } else if (category === '简历') {
-      window.location = `#企业/${id}?uuid=${uuid}`
+      window.location = `#简历/${id}?uuid=${uuid}`
     }
   }
 
@@ -108,7 +109,7 @@ function List() {
                             {it.name}
                             ({it.username})
                           </td>
-                          <td>{it.datime}</td>
+                          <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
                           <td>{it.category}</td>
                           <td>{it.content}</td>
                           <td className="text-right">

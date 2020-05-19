@@ -57,10 +57,15 @@ function List() {
   }, [])
 
   const handleRedirect = event => {
-    if (event.target.getAttribute('data-category') === '岗位') {
-      window.location = `#岗位/${event.target.getAttribute('data-id')}`
-    } else if (event.target.getAttribute('data-category') === '企业') {
-      window.location = `#企业/${event.target.getAttribute('data-id')}`
+    const id = event.target.getAttribute('data-id')
+    const uuid = event.target.getAttribute('data-uuid')
+    const category = event.target.getAttribute('data-category')
+    if (category === '岗位') {
+      window.location = `#岗位/${id}?uuid=${uuid}`
+    } else if (category === '企业') {
+      window.location = `#企业/${id}?uuid=${uuid}`
+    } else if (category === '简历') {
+      window.location = `#企业/${id}?uuid=${uuid}`
     }
   }
 
@@ -107,7 +112,10 @@ function List() {
                           <td>{it.category}</td>
                           <td>{it.content}</td>
                           <td className="text-right">
-                            <button type="button" className="btn btn-sm btn-outline-danger" data-id={it.data_id} data-category={it.category} onClick={handleRedirect}>
+                            <button type="button" data-id={it.data_id} data-category={it.category} data-uuid={it.data_uuid}
+                              className="btn btn-sm btn-outline-danger"
+                              onClick={handleRedirect}
+                            >
                               <i className="fa fa-fw fa-link"></i>
                               查看
                             </button>

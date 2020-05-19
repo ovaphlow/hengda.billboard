@@ -76,6 +76,7 @@ export function SideNav(props) {
           </span>
         </a>
 
+        {/**
         <a href="#企业/新增"
           className={`text-small list-group-item list-group-item-action ${props.category === '新增' ? 'active' : ''}`}
         >
@@ -84,6 +85,7 @@ export function SideNav(props) {
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
         </a>
+        */}
       </div>
     </div>
   )

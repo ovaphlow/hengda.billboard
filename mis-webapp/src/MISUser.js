@@ -203,6 +203,12 @@ function Detail(props) {
             <h3>{props.category} 管理端用户</h3>
             <hr />
 
+            {props.category === '新增' && (
+              <div className="alert alert-warning">
+                新增用户的默认密码为112332
+              </div>
+            )}
+
             <div className="card shadow">
               <div className="card-body">
                 <div className="form-group row">

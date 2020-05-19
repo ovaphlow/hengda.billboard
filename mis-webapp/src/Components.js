@@ -77,7 +77,7 @@ export function Navbar(props) {
           </li>
 
           <li className={`nav-item ${props.category === '当前用户' ? 'active' : ''}`}>
-            <a href="#当前用户" className="nav-link text-dark">
+            <a href="#当前用户/修改密码" className="nav-link text-dark">
               <i className="fa fa-fw fa-user-o"></i>
               当前用户
             </a>
@@ -110,7 +110,8 @@ export function InputRowField(props) {
     <div className="form-group row">
       <label className="col-sm-2 col-form-label text-right">{props.caption || ''}</label>
       <div className="col-sm-10">
-        <input type={props.type || 'text'} value={props.value} autoComplete={props.autocomplete || ''}
+        <input type={props.type || 'text'} value={props.value}
+          autoComplete={props.autocomplete || ''} placeholder={props.placeholder || ''}
           className="form-control input-borderless"
           onChange={props.onChange}
         />

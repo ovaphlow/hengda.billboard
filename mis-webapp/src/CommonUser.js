@@ -40,6 +40,7 @@ export function SideNav(props) {
           </span>
         </a>
 
+        {/*
         <a href="#普通用户/新增"
           className={`text-small list-group-item list-group-item-action ${props.category === '新增' ? 'active' : ''}`}
         >
@@ -48,6 +49,7 @@ export function SideNav(props) {
             <i className="fa fa-fw fa-angle-right"></i>
           </span>
         </a>
+        */}
       </div>
     </div>
   )
@@ -85,12 +87,6 @@ function List() {
           <div className="col-9 col-lg-10">
             <h3>普通用户 列表</h3>
             <hr />
-
-            <div className="alert alert-warning" role="alert">
-              <ul>
-                <li>简历中的自我评价改为RTE</li>
-              </ul>
-            </div>
 
             <div className="card shadow">
               <div className="card-header">

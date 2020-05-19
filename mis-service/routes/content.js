@@ -75,11 +75,15 @@ router
 router
   .get('/campus/', async ctx => {
     const sql = `
-      select * from campus order by id desc limit 100
+      select id, uuid, category, mis_user_id, date, time, title, school,
+        address_level1, address_level2, address_level3, address_level4
+      from campus
+      order by id desc
+      limit 20
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql)
+      const [rows, _] = await pool.query(sql)
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.info(err)
@@ -88,15 +92,16 @@ router
   })
   .put('/campus/', async ctx => {
     const sql = `
-      select *
+      select id, uuid, category, mis_user_id, date, time, title, school,
+        address_level1, address_level2, address_level3, address_level4
       from campus
-      where date = ?
+      where position(? in date) > 0
         and position(? in title) > 0
-      limit 100
+      order by id desc
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql, [
+      const [rows, _] = await pool.query(sql, [
         ctx.request.body.date,
         ctx.request.body.title
       ])
@@ -190,11 +195,14 @@ router
 router
   .get('/topic/', async ctx => {
     const sql = `
-      select * from topic order by id desc limit 100
+      select id, uuid, date, time, mis_user_id, tag, title
+      from topic
+      order by id desc
+      limit 20
     `
     const pool = mysql.promise()
     try {
-      const [rows, fields] = await pool.query(sql)
+      const [rows, _] = await pool.query(sql)
       ctx.response.body = { message: '', content: rows }
     } catch (err) {
       console.error(err)
@@ -203,7 +211,11 @@ router
   })
   .put('/topic/', async ctx => {
     const sql = `
-      select * from topic where date = ? and position(? in title) > 0
+      select id, uuid, date, time, mis_user_id, tag, title
+      from topic
+      where position(? in date) > 0
+        and position(? in title) > 0
+      order by id desc
     `
     const pool = mysql.promise()
     try {

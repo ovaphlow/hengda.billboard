@@ -476,9 +476,7 @@ function RecommendToolbar() {
 }
 
 function Recommend() {
-
   const [list, setList] = useState([])
-
 
   useEffect(() => {
     window.fetch(`/api/content/recommend/`)
@@ -492,7 +490,6 @@ function Recommend() {
         }
       })
   }, [])
-
 
   return (
     <>
@@ -537,7 +534,6 @@ function Recommend() {
 }
 
 function RecommendDetail(props) {
-
   const [address_keys, setAddressKeys] = useState([])
   const [address_values, setAddressValues] = useState([])
   const [arr1, setArr1] = useState([])
@@ -559,7 +555,7 @@ function RecommendDetail(props) {
   const { search } = useLocation()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const response = await window.fetch(`/lib/address.json`)
       const res = await response.json()
       const keys = Object.keys(res)
@@ -620,7 +616,6 @@ function RecommendDetail(props) {
     }
     window.history.go(-1)
   }
-
 
   const handleSave = async () => {
     if (props.category === '新增') {

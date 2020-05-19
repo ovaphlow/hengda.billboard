@@ -56,7 +56,7 @@ function Complaint() {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const response = await window.fetch(`/api/feedback/complaint/`)
       const res = await response.json()
       if (res.message) {
@@ -75,6 +75,7 @@ function Complaint() {
       body: JSON.stringify({
         id: event.target.getAttribute('data-id'),
         user_id: event.target.getAttribute('data-user-id'),
+        user_category: event.target.getAttribute('data-user-category'),
         category: '系统消息',
         title: '对用户投诉内容的回复',
         content: content,
@@ -109,7 +110,8 @@ function Complaint() {
                 <table className="table table-hover">
                   <thead>
                     <tr>
-                      <th>序号</th>
+                      <th className="text-right">序号</th>
+                      <th>状态</th>
                       <th>用户</th>
                       <th>日期</th>
                       <th>内容</th>
@@ -121,21 +123,25 @@ function Complaint() {
                     {
                       data.map(it => (
                         <tr key={it.id}>
-                          <td>{it.id}</td>
+                          <td className="text-right">{it.id}</td>
+                          <td>
+                            {it.status === '已处理' ? '已处理' : (
+                              <span className="badge badge-danger">未处理</span>
+                            )}
+                          </td>
                           <td>
                             <span className="badge badge-info">{it.user_category}</span>
                             {it.name}
                             ({it.username})
                           </td>
-                          <td>{it.datime}</td>
+                          <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
                           <td>{it.content}</td>
                           <td className="text-right">
                             <button type="button" className="btn btn-outline-success btn-sm"
-                              data-id={it.id} data-user-id={it.user_id}
+                              data-id={it.id} data-user-id={it.user_id} data-user-category={it.user_category}
                               onClick={handleReply}
                             >
-                              <i className="fa fa-fw fa-reply" data-id={it.id} data-user-id={it.user_id}></i>
-                              回复
+                              <i className="fa fa-fw fa-reply" data-id={it.id} data-user-id={it.user_id} data-user-category={it.user_category}></i>
                             </button>
                           </td>
                         </tr>
@@ -209,7 +215,8 @@ function Feedback() {
                 <table className="table table-hover">
                   <thead>
                     <tr>
-                      <th>序号</th>
+                      <th className="text-right">序号</th>
+                      <th>状态</th>
                       <th>用户</th>
                       <th>日期</th>
                       <th>内容</th>
@@ -221,13 +228,18 @@ function Feedback() {
                     {
                       data.map(it => (
                         <tr key={it.id}>
-                          <td>{it.id}</td>
+                          <td className="text-right">{it.id}</td>
+                          <td>
+                            {it.status === '已处理' ? '已处理' : (
+                              <span className="badge badge-danger">{it.status}</span>
+                            )}
+                          </td>
                           <td>
                             <span className="badge badge-info">{it.user_category}</span>
                             {it.name}
                             ({it.username})
                           </td>
-                          <td>{it.datime}</td>
+                          <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
                           <td>{it.content}</td>
                           <td className="text-right">
                             <button type="button" className="btn btn-outline-success btn-sm"

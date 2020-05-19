@@ -144,7 +144,7 @@ const ResumeDetalis = () => {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        recruitment_id: data.recruitment_id,
+        recruitment_id: document.getElementById('recruitment').value,
         common_user_id: data.common_user_id,
         address: document.getElementById('address').value,
         phone1: document.getElementById('phone1').value,
@@ -174,7 +174,9 @@ const ResumeDetalis = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         user_id: auth.id,
+        user_uuid: auth.uuid,
         data_id: data.id,
+        data_uuid: data.uuid,
         user_category: '企业用户',
         content: document.getElementById('report').value,
         category: '简历',

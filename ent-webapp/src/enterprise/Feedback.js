@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import { View } from './Components'
-import { SelectField } from '../components/InputField'
+// import { SelectField } from '../components/InputField'
 
 const Feedback = () => {
 
@@ -13,7 +13,7 @@ const Feedback = () => {
     if (_auth === null) {
       return
     }
-    setAuth(_auth) 
+    setAuth(_auth)
   }, [])
 
 
@@ -23,25 +23,26 @@ const Feedback = () => {
       window.alert('请填写内容')
       return
     }
-    fetch(`./api/feedback/`,{
+    fetch(`./api/feedback/`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         user_id: auth.id,
+        user_uuid: auth.uuid,
         user_category: '企业用户',
         content: content,
         datime: moment().format('YYYY-MM-DD HH:mm'),
-        category:document.getElementById('category').value
+        category: document.getElementById('category').value
       })
     })
-    .then(res => res.json())
-    .then(res =>{
-      if (res.message) {
-        window.alert(res.message)
-      } else {
-        window.alert('已提交到后台,我们将尽快处理')
-      }
-    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          window.alert('已提交到后台,我们将尽快处理')
+        }
+      })
   }
 
 
@@ -58,13 +59,15 @@ const Feedback = () => {
             <hr />
             <div className="row">
               <div className="col">
-                <SelectField
-                  id="category"
-                  className="form-control"
-                  category="类别">
-                  <option>意见反馈</option>
-                  <option>内容投诉</option>
-                </SelectField>
+                <div className="form-group">
+                  <label>类别</label>
+                  <select type="text"
+                    id="category"
+                    className="form-control" >
+                    <option>意见反馈</option>
+                    <option value="投诉">内容投诉</option>
+                  </select>
+                </div>
               </div>
             </div>
             <div className="row">

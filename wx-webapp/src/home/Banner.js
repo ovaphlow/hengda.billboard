@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment'
 
 import ToBack from '../components/ToBack'
 import { useLocation, useParams } from 'react-router-dom'

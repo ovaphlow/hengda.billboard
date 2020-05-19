@@ -49,7 +49,7 @@ const List = () => {
 
   const [chatTotal, setChatTotal] = useState([])
 
-  const [offerTotal, setOfferTotal] = useState(0)
+  // const [offerTotal, setOfferTotal] = useState(0)
 
   const [auth, setAuth] = useState(0)
 
@@ -110,9 +110,9 @@ const List = () => {
 
   }, [chatTotal, auth])
 
-  const handleClick = () => {
-    window.location = `#消息/邀请/`
-  }
+  // const handleClick = () => {
+  //   window.location = `#消息/邀请/`
+  // }
 
 
   return (

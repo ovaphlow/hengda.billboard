@@ -170,6 +170,8 @@ const ListDetails = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         user_id: auth.id,
+        user_uuid: auth.uuid,
+        data_uuid: data.resume_uuid,
         data_id: data.resume_id,
         user_category: '企业用户',
         content: document.getElementById('report').value,

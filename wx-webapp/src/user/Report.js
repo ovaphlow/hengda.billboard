@@ -119,9 +119,11 @@ const Report = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         data_id: id,
+        data_uuid: data.uuid,
         content: content,
         category: category,
         user_id: auth.id,
+        user_uuid: auth.uuid,
         user_category: '个人用户',
         datime: moment().format('YYYY-MM-DD HH:mm')
       })

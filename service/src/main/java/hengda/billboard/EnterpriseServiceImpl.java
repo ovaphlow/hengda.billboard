@@ -22,23 +22,22 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
-      String sql = "select e.*,u.id as ent_user_id from enterprise e "+ 
-      "left join enterprise_user u on e.id = u.enterprise_id  where e.id = ? and (u.uuid=? or e.uuid=?)  ";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ps.setString(3, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("message", "该企业已不存在");
-      } else {
-        resp.put("content", result.get(0));
+      String sql = "select e.*,u.id as ent_user_id from enterprise e "
+          + "left join enterprise_user u on e.id = u.enterprise_id  where e.id = ? and (u.uuid=? or e.uuid=?)  ";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ps.setString(3, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("message", "该企业已不存在");
+        } else {
+          resp.put("content", result.get(0));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -54,21 +53,20 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select status from enterprise where id = ? and uuid = ?  and status = '认证'";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("content", false);
-      } else {
-        resp.put("content", true);
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("content", false);
+        } else {
+          resp.put("content", true);
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -84,28 +82,27 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "update enterprise set yingyezhizhao = ?, faren= ?, zhuceriqi= ?, zhuziguimo= ?, "
           + "yuangongshuliang= ?, yingyezhizhao_tu= ?, email=?, address1= ?, address2= ?, address3= ?, address4= ? where id=? and uuid=?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("yingyezhizhao").toString());
-      ps.setString(2, body.get("faren").toString());
-      ps.setString(3, body.get("zhuceriqi").toString());
-      ps.setString(4, body.get("zhuziguimo").toString());
-      ps.setString(5, body.get("yuangongshuliang").toString());
-      ps.setString(6, body.get("yingyezhizhao_tu").toString());
-      ps.setString(7, body.get("email").toString());
-      ps.setString(8, body.get("address1").toString());
-      ps.setString(9, body.get("address2").toString());
-      ps.setString(10, body.get("address3").toString());
-      ps.setString(11, body.get("address4").toString());
-      ps.setString(12, body.get("id").toString());
-      ps.setString(13, body.get("uuid").toString());
-      ps.execute();
-      resp.put("content", true);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("yingyezhizhao").toString());
+        ps.setString(2, body.get("faren").toString());
+        ps.setString(3, body.get("zhuceriqi").toString());
+        ps.setString(4, body.get("zhuziguimo").toString());
+        ps.setString(5, body.get("yuangongshuliang").toString());
+        ps.setString(6, body.get("yingyezhizhao_tu").toString());
+        ps.setString(7, body.get("email").toString());
+        ps.setString(8, body.get("address1").toString());
+        ps.setString(9, body.get("address2").toString());
+        ps.setString(10, body.get("address3").toString());
+        ps.setString(11, body.get("address4").toString());
+        ps.setString(12, body.get("id").toString());
+        ps.setString(13, body.get("uuid").toString());
+        ps.execute();
+        resp.put("content", true);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

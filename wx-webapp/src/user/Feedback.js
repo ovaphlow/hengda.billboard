@@ -33,6 +33,7 @@ const Feedback = () => {
         content: content,
         category:category,
         user_id: auth.id,
+        user_uuid: auth.uuid,
         user_category: '个人用户',
         datime: moment().format('YYYY-MM-DD HH:mm')
       })

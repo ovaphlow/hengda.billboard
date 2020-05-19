@@ -25,21 +25,19 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from delivery where id = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("content", false);
-      } else {
-        resp.put("content", result.get(0));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("content", false);
+        } else {
+          resp.put("content", result.get(0));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -56,27 +54,25 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn();) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select d.*,r.name as recruitment_name,re.common_user_id,re.name,"
           + "  re.phone,re.email,re.gender, re.birthday,re.school,re.education,"
           + "  re.date_begin,re.date_end,re.major,re.qiwangzhiwei,re.qiwanghangye,"
           + "  re.address1,re.address2,re.address3,re.yixiangchengshi,re.ziwopingjia \n" + "from delivery d\n"
           + "  left join recruitment r on d.recruitment_id = r.id\n" + "  left join resume re on d.resume_id = re.id\n"
           + " where d.id = ? and re.uuid = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("content", false);
-      } else {
-        resp.put("content", result.get(0));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("content", false);
+        } else {
+          resp.put("content", result.get(0));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -93,19 +89,17 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select r.*, d.status, d.datime from delivery d  join "
           + "    recruitment r on d.recruitment_id = r.id  where "
           + "     (select re.id from resume re where re.common_user_id= ? limit 1) = d.resume_id";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("common_user_id").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -121,23 +115,21 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
-
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select * from delivery"
           + " where resume_id = (select id from resume where common_user_id = ? limit 1 )" + " and recruitment_id=?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, body.get("recruitment_id").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size() == 0) {
-        resp.put("content", false);
-      } else {
-        resp.put("content", result.get(0));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("common_user_id").toString());
+        ps.setString(2, body.get("recruitment_id").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("content", false);
+        } else {
+          resp.put("content", result.get(0));
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -153,21 +145,20 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "insert into delivery (resume_id, resume_uuid, recruitment_id, recruitment_uuid, datime)"
           + " value ( (select id from resume where common_user_id = ? limit 1),"
           + "(select uuid from resume where common_user_id = ? limit 1),?,?,?)";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("common_user_id").toString());
-      ps.setString(2, body.get("common_user_id").toString());
-      ps.setString(3, body.get("recruitment_id").toString());
-      ps.setString(4, body.get("recruitment_uuid").toString());
-      ps.setString(5, body.get("datime").toString());
-      boolean rs = ps.execute();
-      resp.put("content", rs);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("common_user_id").toString());
+        ps.setString(2, body.get("common_user_id").toString());
+        ps.setString(3, body.get("recruitment_id").toString());
+        ps.setString(4, body.get("recruitment_uuid").toString());
+        ps.setString(5, body.get("datime").toString());
+        boolean rs = ps.execute();
+        resp.put("content", rs);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -183,9 +174,8 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "select re.name as recruitment_name, re.industry, d.status,"
           + "r.education, r.uuid, r.name as name, r.school,d.datime,  d.id, d.recruitment_id, d.resume_id "
           + "from delivery d left join resume r on d.resume_id = r.id left join recruitment re on d.recruitment_id = re.id "
@@ -219,14 +209,14 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
         sql += " and re.name = ? ";
       }
       sql += " ORDER BY d.datime DESC";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      for (int inx = 0; inx < list.size(); inx++) {
-        ps.setString(inx + 1, list.get(inx));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        for (int inx = 0; inx < list.size(); inx++) {
+          ps.setString(inx + 1, list.get(inx));
+        }
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
       }
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -242,16 +232,15 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      Connection conn = DBUtil.getConn();
       String sql = "update delivery set status = ? where id = ?";
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("status").toString());
-      ps.setString(2, body.get("id").toString());
-      ps.execute();
-      resp.put("content", true);
-      conn.close();
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("status").toString());
+        ps.setString(2, body.get("id").toString());
+        ps.execute();
+        resp.put("content", true);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

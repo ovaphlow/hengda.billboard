@@ -20,21 +20,21 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select * from campus where id = ? and uuid = ? ";
-      Connection conn = DBUtil.getConn();
-      PreparedStatement ps = conn.prepareStatement(sql);
-      ps.setString(1, body.get("id").toString());
-      ps.setString(2, body.get("uuid").toString());
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      if (result.size()>0) {
-        resp.put("content", result.get(0));
-      } else {
-        resp.put("message", "该信息已失效");
+
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() > 0) {
+          resp.put("content", result.get(0));
+        } else {
+          resp.put("message", "该信息已失效");
+        }
       }
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
@@ -50,18 +50,16 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
-    try {
+    try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select id, uuid, title, address_level3, address_level2, date, school, category from campus where date >= curdate() ";
       List<String> list = new ArrayList<>();
-      
-      if (body.get("city")!=null &&  !"".equals(body.get("city").toString())) {
+      if (body.get("city") != null && !"".equals(body.get("city").toString())) {
         sql += "and address_level3 = ? ";
         list.add(body.get("city").toString());
       }
 
-
-      if (body.get("city")!=null &&  !"".equals(body.get("city").toString())) {
+      if (body.get("city") != null && !"".equals(body.get("city").toString())) {
         sql += "and address_level3 = ? ";
         list.add(body.get("city").toString());
       }
@@ -85,16 +83,14 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
       if (flg) {
         sql += "and ( " + category + " )";
       }
-
-      Connection conn = DBUtil.getConn();
-      PreparedStatement ps = conn.prepareStatement(sql);
-      for(int inx=0; inx<list.size(); inx++) {
-        ps.setString(inx+1, list.get(inx));
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        for (int inx = 0; inx < list.size(); inx++) {
+          ps.setString(inx + 1, list.get(inx));
+        }
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
       }
-      ResultSet rs = ps.executeQuery();
-      List<Map<String, Object>> result = DBUtil.getList(rs);
-      resp.put("content", result);
-      conn.close();
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

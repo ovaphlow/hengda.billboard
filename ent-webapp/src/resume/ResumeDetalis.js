@@ -174,7 +174,9 @@ const ResumeDetalis = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         user_id: auth.id,
+        user_uuid: auth.uuid,
         data_id: data.id,
+        data_uuid: data.uuid,
         user_category: '企业用户',
         content: document.getElementById('report').value,
         category: '简历',

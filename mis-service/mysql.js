@@ -1,16 +1,16 @@
+const os = require('os');
+
 const mysql = require('mysql2');
 
-const config = require('./config')
-
 const pool = mysql.createPool({
-  user: config.mysql.username,
-  password: config.mysql.password,
-  host: config.mysql.host,
-  port: config.mysql.port,
-  database: config.mysql.database,
+  user: 'ovaphlow',
+  password: 'ovaph@HD.1123',
+  host: '211.159.150.3',
+  port: 3306,
+  database: 'hengda-billboard',
   waitForConnections: true,
-  connectionLimit: config.mysql.pool.size,
-  queueLimit: 0
-})
+  connectionLimit: os.cpus().length,
+  queueLimit: 0,
+});
 
-module.exports = pool
+module.exports = pool;

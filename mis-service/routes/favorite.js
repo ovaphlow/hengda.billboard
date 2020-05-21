@@ -1,14 +1,15 @@
-const Router = require('@koa/router')
+const Router = require('@koa/router');
 
-const mysql = require('../mysql')
+const logger = require('../logger');
+const mysql = require('../mysql');
 
 const router = new Router({
-  prefix: '/api/favorite'
-})
+  prefix: '/api/favorite',
+});
 
-module.exports = router
+module.exports = router;
 
-router.get('/', async ctx => {
+router.get('/', async (ctx) => {
   const sql = `
     select f.*,
       (select username from common_user where id = f.user_id) as username
@@ -16,13 +17,13 @@ router.get('/', async ctx => {
     where user_id = ?
       and category1 = '个人用户'
     order by id desc
-  `
-  const pool = mysql.promise()
+  `;
+  const pool = mysql.promise();
   try {
-    const [rows, _] = await pool.query(sql, [ctx.request.query.master_id])
-    ctx.response.body = { message: '', content: rows }
+    const [rows] = await pool.query(sql, [ctx.request.query.master_id]);
+    ctx.response.body = { message: '', content: rows };
   } catch (err) {
-    console.error(err)
-    ctx.response.body = { message: '服务器错误', content: '' }
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
   }
-})
+});

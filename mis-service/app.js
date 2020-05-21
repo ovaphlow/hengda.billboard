@@ -1,119 +1,120 @@
-const Koa = require('koa')
-const bodyParser = require('koa-bodyparser')
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
 
-const config = require('./config')
+const logger = require('./logger');
 
-const app = new Koa()
+const routerContent = require('./routes/content');
+const routerMisUser = require('./routes/mis-user');
+const routerEnterprise = require('./routes/enterprise');
+const routerEnterpriseUser = require('./routes/enterprise-user');
+const routerRecruitment = require('./routes/recruitment');
+const routerCommonUser = require('./routes/common-user');
+const routerResume = require('./routes/resume');
+const routerDelivery = require('./routes/delivery');
+const routerFavorite = require('./routes/favorite');
+const routerJournal = require('./routes/journal');
+const routerFeedback = require('./routes/feedback');
+const routerReport = require('./routes/report');
+const routerSettings = require('./routes/settings');
+const routerCurrentUser = require('./routes/current-user');
+const routerStats = require('./routes/stats');
 
-app.env = config.env
+const app = new Koa();
 
-app.use(bodyParser())
+app.env = 'production';
+
+app.use(bodyParser());
 
 app.use(async (ctx, next) => {
-  await next()
-  const rt = ctx.response.get('X-Response-Time')
-  console.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`)
-})
+  await next();
+  const rt = ctx.response.get('X-Response-Time');
+  logger.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`);
+});
 
 app.use(async (ctx, next) => {
-  const start = Date.now()
-  await next()
-  const ms = Date.now() - start
-  ctx.set('X-Response-Time', `${ms}ms`)
-})
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  ctx.set('X-Response-Time', `${ms}ms`);
+});
 
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-})
+  logger.error('server error', err, ctx);
+});
 
-;(() => {
-  const router = require('./routes/content')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerContent.routes());
+  app.use(routerContent.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/mis-user')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerMisUser.routes());
+  app.use(routerMisUser.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/enterprise')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerEnterprise.routes());
+  app.use(routerEnterprise.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/enterprise-user')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerEnterpriseUser.routes());
+  app.use(routerEnterpriseUser.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/recruitment')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerRecruitment.routes());
+  app.use(routerRecruitment.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/common-user')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerCommonUser.routes());
+  app.use(routerCommonUser.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/resume')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerResume.routes());
+  app.use(routerResume.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/delivery')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerDelivery.routes());
+  app.use(routerDelivery.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/favorite')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerFavorite.routes());
+  app.use(routerFavorite.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/journal')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerJournal.routes());
+  app.use(routerJournal.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/feedback')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerFeedback.routes());
+  app.use(routerFeedback.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/report')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerReport.routes());
+  app.use(routerReport.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/settings')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerSettings.routes());
+  app.use(routerSettings.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/current-user')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerCurrentUser.routes());
+  app.use(routerCurrentUser.allowedMethods());
+})();
 
-;(() => {
-  const router = require('./routes/stats')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-})()
+(() => {
+  app.use(routerStats.routes());
+  app.use(routerStats.allowedMethods());
+})();
 
-module.exports = app
+module.exports = app;

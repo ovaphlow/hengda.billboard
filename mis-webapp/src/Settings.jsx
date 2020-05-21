@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useLocation, useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import {
+  HashRouter as Router, Switch, Route, useLocation, useParams,
+} from 'react-router-dom';
 
-import { Title, Navbar, InputRowField, BackwardButton, RefreshButton } from './Components'
+import {
+  Title, Navbar, InputRowField, BackwardButton, RefreshButton,
+} from './Components';
 
 export default function SettingsRouter() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth')
-    if (!!!auth) {
-      window.location = '#登录'
+    const auth = sessionStorage.getItem('mis-auth');
+    if (!auth) {
+      window.location = '#登录';
     }
-  }, [])
+  }, []);
 
   return (
     <Router>
@@ -24,10 +28,12 @@ export default function SettingsRouter() {
         <Route path="/系统设置/二级行业/:id"><Industry2Detail category="编辑" /></Route>
       </Switch>
     </Router>
-  )
+  );
 }
 
 function SideNav(props) {
+  const { category } = props;
+
   return (
     <div className="list-group">
       <h6 className="text-muted">
@@ -35,80 +41,86 @@ function SideNav(props) {
       </h6>
 
       <div>
-        <a href="#系统设置/院校"
-          className={`text-small list-group-item list-group-item-action ${props.category === '院校' ? 'active' : ''}`}
+        <a
+          href="#系统设置/院校"
+          className={`text-small list-group-item list-group-item-action ${category === '院校' ? 'active' : ''}`}
         >
           院校
           <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
+            <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
       </div>
 
       <div>
-        <a href="#系统设置/行业"
-          className={`text-small list-group-item list-group-item-action ${props.category === '行业' ? 'active' : ''}`}
+        <a
+          href="#系统设置/行业"
+          className={`text-small list-group-item list-group-item-action ${category === '行业' ? 'active' : ''}`}
         >
           行业
           <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
+            <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
       </div>
     </div>
-  )
+  );
 }
 
 function SchoolToolbar() {
   return (
     <div className="mb-2">
       <div className="btn-group">
-        <button type="button" className="btn btn-outline-success btn-sm shadow"
-          onClick={() => window.location = `#系统设置/院校/新增`}
+        <button
+          type="button"
+          className="btn btn-outline-success btn-sm shadow"
+          onClick={() => { window.location = '#系统设置/院校/新增'; }}
         >
-          <i className="fa fa-fw fa-plus"></i>
+          <i className="fa fa-fw fa-plus" />
           新增
         </button>
       </div>
 
       <div className="btn-group pull-right">
-        <button type="button" className="btn btn-outline-secondary btn-sm shadow"
-          onClick={() => window.location = `#系统设置/院校`}
+        <button
+          type="button"
+          className="btn btn-outline-secondary btn-sm shadow"
+          onClick={() => { window.location = '#系统设置/院校'; }}
         >
-          <i className="fa fa-fw fa-list"></i>
+          <i className="fa fa-fw fa-list" />
           列表
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 function School() {
-  const [list, setList] = useState([])
-  const [filter_name, setFilterName] = useState('')
+  const [list, setList] = useState([]);
+  const [filter_name, setFilterName] = useState('');
 
   useEffect(() => {
-    ;(async () => {
-      const response = await window.fetch(`/api/settings/school/`)
-      const res = await response.json()
+    (async () => {
+      const response = await window.fetch('/api/settings/school/');
+      const res = await response.json();
       if (res.message) {
-        window.console.error(res.message)
-        return
+        window.console.error(res.message);
+        return;
       }
-      setList(res.content)
-    })()
-  }, [])
+      setList(res.content);
+    })();
+  }, []);
 
   const handleFilter = async () => {
-    setList([])
-    const response = await window.fetch(`/api/settings/school/?name=${filter_name}`)
-    const res = await response.json()
+    setList([]);
+    const response = await window.fetch(`/api/settings/school/?name=${filter_name}`);
+    const res = await response.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    setList(res.content)
-  }
+    setList(res.content);
+  };
 
   return (
     <>
@@ -136,9 +148,12 @@ function School() {
                         <span className="input-group-text">名称</span>
                       </div>
 
-                      <input type="text" value={filter_name} aria-label="名称"
+                      <input
+                        type="text"
+                        value={filter_name}
+                        aria-label="名称"
                         className="form-control"
-                        onChange={event => setFilterName(event.target.value)}
+                        onChange={(event) => setFilterName(event.target.value)}
                       />
                     </div>
                   </div>
@@ -167,11 +182,11 @@ function School() {
 
                   <tbody>
                     {
-                      list.map(it => (
+                      list.map((it) => (
                         <tr key={it.id}>
                           <td>
                             <a href={`#系统设置/院校/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit"></i>
+                              <i className="fa fa-fw fa-edit" />
                             </a>
 
                             <span className="pull-right">
@@ -191,67 +206,68 @@ function School() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 function SchoolDetail(props) {
-  const { id } = useParams()
-  const location = useLocation()
-  const [uuid, setUUID] = useState('')
-  const [name, setName] = useState('')
-  const [comment, setComment] = useState('')
+  const { category } = props;
+  const { id } = useParams();
+  const location = useLocation();
+  const [uuid, setUUID] = useState('');
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
-    if (props.category === '编辑') {
-      const _uuid = new URLSearchParams(location.search).get('uuid')
-      setUUID(_uuid)
-      ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/settings/school/${id}?uuid=${uuid}`)
-        const res = await response.json()
+    if (category === '编辑') {
+      const t_uuid = new URLSearchParams(location.search).get('uuid');
+      setUUID(t_uuid);
+      (async () => {
+        const response = await window.fetch(`/api/settings/school/${id}?uuid=${t_uuid}`);
+        const res = await response.json();
         if (res.message) {
-          window.console.error(res.message)
-          return
+          window.console.error(res.message);
+          return;
         }
-        setName(res.content.name)
-        setComment(res.content.comment)
-      })(id, _uuid)
+        setName(res.content.name);
+        setComment(res.content.comment);
+      })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      const response = await window.fetch(`/api/settings/school/`, {
+      const response = await window.fetch('/api/settings/school/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          comment: comment
-        })
-      })
-      const res = await response.json()
+          name,
+          comment,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/settings/school/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          comment: comment
-        })
-      })
-      const res = await response.json()
+          name,
+          comment,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     }
-  }
+  };
 
   return (
     <>
@@ -265,19 +281,27 @@ function SchoolDetail(props) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>{props.category} 院校</h3>
+            <h3>
+              {category}
+              {' '}
+              院校
+            </h3>
             <hr />
 
             <SchoolToolbar />
 
             <div className="card shadow">
               <div className="card-body">
-                <InputRowField caption="名称" value={name || ''}
-                  onChange={event => setName(event.target.value)}
+                <InputRowField
+                  caption="名称"
+                  value={name || ''}
+                  onChange={(event) => setName(event.target.value)}
                 />
 
-                <InputRowField caption="备注" value={comment || ''}
-                  onChange={event => setComment(event.target.value)}
+                <InputRowField
+                  caption="备注"
+                  value={comment || ''}
+                  onChange={(event) => setComment(event.target.value)}
                 />
               </div>
 
@@ -287,10 +311,12 @@ function SchoolDetail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-primary"
+                  <button
+                    type="button"
+                    className="btn btn-primary"
                     onClick={handleSubmit}
                   >
-                    <i className="fa fa-fw fa-save"></i>
+                    <i className="fa fa-fw fa-save" />
                     保存
                   </button>
                 </div>
@@ -300,47 +326,51 @@ function SchoolDetail(props) {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 function IndustryToolbar() {
   return (
     <div className="mb-2">
       <div className="btn-group">
-        <button type="button" className="btn btn-outline-success btn-sm shadow"
-          onClick={() => window.location = `#系统设置/行业/新增`}
+        <button
+          type="button"
+          className="btn btn-outline-success btn-sm shadow"
+          onClick={() => { window.location = '#系统设置/行业/新增'; }}
         >
-          <i className="fa fa-fw fa-plus"></i>
+          <i className="fa fa-fw fa-plus" />
           新增
         </button>
       </div>
 
       <div className="btn-group pull-right">
-        <button type="button" className="btn btn-outline-secondary btn-sm shadow"
-          onClick={() => window.location = `#系统设置/行业`}
+        <button
+          type="button"
+          className="btn btn-outline-secondary btn-sm shadow"
+          onClick={() => { window.location = '#系统设置/行业'; }}
         >
-          <i className="fa fa-fw fa-list"></i>
+          <i className="fa fa-fw fa-list" />
           列表
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 function Industry() {
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
 
   useEffect(() => {
-    ;(async () => {
-      const response = await window.fetch(`/api/settings/industry/`)
-      const res = await response.json()
+    (async () => {
+      const response = await window.fetch('/api/settings/industry/');
+      const res = await response.json();
       if (res.message) {
-        window.console.error(res.message)
-        return
+        window.console.error(res.message);
+        return;
       }
-      setList(res.content)
-    })()
-  }, [])
+      setList(res.content);
+    })();
+  }, []);
 
   return (
     <>
@@ -372,11 +402,11 @@ function Industry() {
 
                   <tbody>
                     {
-                      list.map(it => (
+                      list.map((it) => (
                         <tr key={it.id}>
                           <td>
                             <a href={`#系统设置/行业/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit"></i>
+                              <i className="fa fa-fw fa-edit" />
                             </a>
                             <span className="pull-right">{it.id}</span>
                           </td>
@@ -393,91 +423,91 @@ function Industry() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 function IndustryDetail(props) {
-  const { id } = useParams()
-  const location = useLocation()
-  const [uuid, setUUID] = useState('')
-  const [name, setName] = useState('')
-  const [comment, setComment] = useState('')
-  const [list, setList] = useState([])
+  const { category } = props;
+  const { id } = useParams();
+  const location = useLocation();
+  const [uuid, setUUID] = useState('');
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
+  const [list, setList] = useState([]);
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const _uuid = new URLSearchParams(location.search).get('uuid')
-      setUUID(_uuid)
-      ;(async (id, uuid) => {
-        const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`)
-        const res = await response.json()
+      const t_uuid = new URLSearchParams(location.search).get('uuid');
+      setUUID(t_uuid);
+      (async () => {
+        const response = await window.fetch(`/api/settings/industry/${id}?uuid=${t_uuid}`);
+        const res = await response.json();
         if (res.message) {
-          window.console.error(res.message)
-          return
+          window.console.error(res.message);
+          return;
         }
-        setName(res.content.name)
-        setComment(res.content.comment)
-      })(id, _uuid)
-
-      ;(async id => {
-        const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`)
-        const res = await response.json()
+        setName(res.content.name);
+        setComment(res.content.comment);
+      })();
+      (async () => {
+        const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
+        const res = await response.json();
         if (res.message) {
-          window.console.error(res.message)
-          return
+          window.console.error(res.message);
+          return;
         }
-        setList(res.content)
-      })(id)
+        setList(res.content);
+      })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      const response = await window.fetch(`/api/settings/industry/`, {
+      const response = await window.fetch('/api/settings/industry/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          comment: comment
-        })
-      })
-      const res = await response.json()
+          name,
+          comment,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          comment: comment
-        })
-      })
-      const res = await response.json()
+          name,
+          comment,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     }
-  }
+  };
 
   const handleRemove = async () => {
-    if (!!!window.confirm('确定要删除当前数据？')) return
+    if (!window.confirm('确定要删除当前数据？')) return;
     const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
-      method: 'DELETE'
-    })
-    const res = await response.json()
+      method: 'DELETE',
+    });
+    const res = await response.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    window.history.go(-1)
-  }
+    window.history.go(-1);
+  };
 
   return (
     <>
@@ -491,19 +521,27 @@ function IndustryDetail(props) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>{props.category} 行业</h3>
+            <h3>
+              {category}
+              {' '}
+              行业
+            </h3>
             <hr />
 
             <IndustryToolbar />
 
             <div className="card shadow">
               <div className="card-body">
-                <InputRowField caption="名称" value={name || ''}
-                  onChange={event => setName(event.target.value)}
+                <InputRowField
+                  caption="名称"
+                  value={name || ''}
+                  onChange={(event) => setName(event.target.value)}
                 />
 
-                <InputRowField caption="备注" value={comment || ''}
-                  onChange={event => setComment(event.target.value)}
+                <InputRowField
+                  caption="备注"
+                  value={comment || ''}
+                  onChange={(event) => setComment(event.target.value)}
                 />
               </div>
 
@@ -513,20 +551,22 @@ function IndustryDetail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  {
-                    props.category === '编辑' && (
-                      <button type="button" className="btn btn-outline-danger"
-                        onClick={handleRemove}
-                      >
-                        <i className="fa fa-fw fa-trash-o"></i>
-                        删除
-                      </button>
-                    )
-                  }
-                  <button type="button" className="btn btn-primary"
+                  {category === '编辑' && (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={handleRemove}
+                    >
+                      <i className="fa fa-fw fa-trash-o" />
+                      删除
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="btn btn-primary"
                     onClick={handleSubmit}
                   >
-                    <i className="fa fa-fw fa-save"></i>
+                    <i className="fa fa-fw fa-save" />
                     保存
                   </button>
                 </div>
@@ -538,7 +578,7 @@ function IndustryDetail(props) {
                 二级分类
                 <span className="pull-right">
                   <a href={`#系统设置/二级行业/新增?master_id=${id}&uuid=${uuid}`}>
-                    <i className="fa fa-fw fa-plus"></i>
+                    <i className="fa fa-fw fa-plus" />
                     新增
                   </a>
                 </span>
@@ -547,10 +587,10 @@ function IndustryDetail(props) {
               <div className="card-body">
                 <ul className="list-inline">
                   {
-                    list.map(it => (
+                    list.map((it) => (
                       <li className="list-inline-item" key={it.id}>
                         <a href={`#系统设置/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}>
-                          <i className="fa fa-fw fa-tag"></i>
+                          <i className="fa fa-fw fa-tag" />
                           {it.name}
                         </a>
                       </li>
@@ -563,89 +603,90 @@ function IndustryDetail(props) {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 function Industry2Detail(props) {
-  const { id } = useParams()
-  const location = useLocation()
-  const [uuid, setUUID] = useState('')
-  const [master_id, setMasterID] = useState(0)
-  const [name, setName] = useState('')
-  const [comment, setComment] = useState('')
+  const { category } = props;
+  const { id } = useParams();
+  const location = useLocation();
+  const [uuid, setUUID] = useState('');
+  const [master_id, setMasterID] = useState(0);
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     if (props.category === '编辑') {
-      const _uuid = new URLSearchParams(location.search).get('uuid')
-      setUUID(_uuid)
-      const _master_id = new URLSearchParams(location.search).get('master_id')
-      setMasterID(_master_id)
-      ;(async (id, uuid, master_id) => {
-        const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${uuid}&master_id=${master_id}`)
-        const res = await response.json()
+      const t_uuid = new URLSearchParams(location.search).get('uuid');
+      setUUID(t_uuid);
+      const t_master_id = new URLSearchParams(location.search).get('master_id');
+      setMasterID(t_master_id);
+      (async () => {
+        const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${t_uuid}&master_id=${t_master_id}`);
+        const res = await response.json();
         if (res.message) {
-          window.console.error(res.message)
-          return
+          window.console.error(res.message);
+          return;
         }
-        setName(res.content.name)
-        setComment(res.content.comment)
-      })(id, _uuid, _master_id)
+        setName(res.content.name);
+        setComment(res.content.comment);
+      })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleSubmit = async () => {
-    if (!!!name) {
-      window.alert('请完整填写所需信息')
-      return
+    if (!name) {
+      window.alert('请完整填写所需信息');
+      return;
     }
     if (props.category === '新增') {
-      const _master_id = new URLSearchParams(location.search).get('master_id')
-      const response = await window.fetch(`/api/settings/industry/2nd/?master_id=${_master_id}`, {
+      const t_master_id = new URLSearchParams(location.search).get('master_id');
+      const response = await window.fetch(`/api/settings/industry/2nd/?master_id=${t_master_id}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           master_id: id,
-          name: name,
-          comment: comment
-        })
-      })
-      const res = await response.json()
+          name,
+          comment,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     } else if (props.category === '编辑') {
       const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${uuid}&master_id=${master_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          comment: comment
-        })
-      })
-      const res = await response.json()
+          name,
+          comment,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     }
-  }
+  };
 
   const handleRemove = async () => {
-    if (!!!window.confirm('确定要删除当前数据？')) return
+    if (!window.confirm('确定要删除当前数据？')) return;
     const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${uuid}&master_id=${master_id}`, {
-      method: 'DELETE'
-    })
-    const res = await response.json()
+      method: 'DELETE',
+    });
+    const res = await response.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    window.history.go(-1)
-  }
+    window.history.go(-1);
+  };
 
   return (
     <>
@@ -659,17 +700,25 @@ function Industry2Detail(props) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>{props.category} 二级行业</h3>
+            <h3>
+              {category}
+              {' '}
+              二级行业
+            </h3>
             <hr />
 
             <div className="card shadow">
               <div className="card-body">
-                <InputRowField caption="名称" value={name || ''}
-                  onChange={event => setName(event.target.value)}
+                <InputRowField
+                  caption="名称"
+                  value={name || ''}
+                  onChange={(event) => setName(event.target.value)}
                 />
 
-                <InputRowField caption="备注" value={comment || ''}
-                  onChange={event => setComment(event.target.value)}
+                <InputRowField
+                  caption="备注"
+                  value={comment || ''}
+                  onChange={(event) => setComment(event.target.value)}
                 />
               </div>
 
@@ -679,21 +728,23 @@ function Industry2Detail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  {
-                    props.category === '编辑' && (
-                      <button type="button" className="btn btn-outline-danger"
-                        onClick={handleRemove}
-                      >
-                        <i className="fa fa-fw fa-trash-o"></i>
-                        删除
-                      </button>
-                    )
-                  }
+                  {category === '编辑' && (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={handleRemove}
+                    >
+                      <i className="fa fa-fw fa-trash-o" />
+                      删除
+                    </button>
+                  )}
 
-                  <button type="button" className="btn btn-primary"
+                  <button
+                    type="button"
+                    className="btn btn-primary"
                     onClick={handleSubmit}
                   >
-                    <i className="fa fa-fw fa-save"></i>
+                    <i className="fa fa-fw fa-save" />
                     保存
                   </button>
                 </div>
@@ -703,5 +754,5 @@ function Industry2Detail(props) {
         </div>
       </div>
     </>
-  )
+  );
 }

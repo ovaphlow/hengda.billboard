@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useLocation } from 'react-router-dom'
-import moment from 'moment'
+import React, { useState, useEffect } from 'react';
+import {
+  HashRouter as Router, Switch, Route, useLocation,
+} from 'react-router-dom';
+import moment from 'moment';
 
-import { Title, Navbar, BackwardButton, RefreshButton } from './Components'
-import { SideNav } from './CommonUser'
+import {
+  Title, Navbar, BackwardButton, RefreshButton,
+} from './Components';
+import { SideNav } from './CommonUser';
 
 export default function DeliveryRouter() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth')
-    if (!!!auth) {
-      window.location = '#登录'
+    const auth = sessionStorage.getItem('mis-auth');
+    if (!auth) {
+      window.location = '#登录';
     }
-  }, [])
+  }, []);
 
   return (
     <Router>
@@ -19,42 +23,39 @@ export default function DeliveryRouter() {
         <Route path="/投递记录"><List /></Route>
       </Switch>
     </Router>
-  )
+  );
 }
 
 function List() {
-  const location = useLocation()
-  const [user_id, setUserID] = useState(0)
-  const [user_uuid, setUserUUID] = useState('')
-  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-01'))
-  const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'))
-  const [list, setList] = useState([])
+  const location = useLocation();
+  const [user_id, setUserID] = useState(0);
+  const [user_uuid, setUserUUID] = useState('');
+  const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-01'));
+  const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'));
+  const [list, setList] = useState([]);
 
   useEffect(() => {
-    const _user_id = new URLSearchParams(location.search).get('user_id')
-    setUserID(_user_id)
-    const _user_uuid = new URLSearchParams(location.search).get('user_uuid')
-    setUserUUID(_user_uuid)
+    setUserID(new URLSearchParams(location.search).get('user_id'));
+    setUserUUID(new URLSearchParams(location.search).get('user_uuid'));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleFilter = async () => {
-    // const response = await window.fetch(`/api/common-user/${user_id}/delivery/?uuid=${user_uuid}`, {
     const response = await window.fetch(`/api/delivery/?user_id=${user_id}&user_uuid=${user_uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        filter_date_begin: filter_date_begin,
-        filter_date_end: filter_date_end
-      })
-    })
-    const res = await response.json()
+        filter_date_begin,
+        filter_date_end,
+      }),
+    });
+    const res = await response.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    setList(res.content)
-  }
+    setList(res.content);
+  };
 
   return (
     <>
@@ -83,9 +84,12 @@ function List() {
                       <div className="input-group-prepend">
                         <span className="input-group-text">起始日期</span>
                       </div>
-                      <input type="date" value={filter_date_begin} aria-label="起始日期"
+                      <input
+                        type="date"
+                        value={filter_date_begin}
+                        aria-label="起始日期"
                         className="form-control"
-                        onChange={event => setFilterDateBegin(event.target.value)}
+                        onChange={(event) => setFilterDateBegin(event.target.value)}
                       />
                     </div>
                   </div>
@@ -95,9 +99,12 @@ function List() {
                       <div className="input-group-prepend">
                         <span className="input-group-text">终止日期</span>
                       </div>
-                      <input type="date" value={filter_date_end} aria-label="终止日期"
+                      <input
+                        type="date"
+                        value={filter_date_end}
+                        aria-label="终止日期"
                         className="form-control"
-                        onChange={event => setFilterDateEnd(event.target.value)}
+                        onChange={(event) => setFilterDateEnd(event.target.value)}
                       />
                     </div>
                   </div>
@@ -133,7 +140,7 @@ function List() {
                       )
                     }
                     {
-                      list.map(it => (
+                      list.map((it) => (
                         <tr key={it.id}>
                           <td className="text-right">{it.id}</td>
                           <td>
@@ -155,5 +162,5 @@ function List() {
         </div>
       </div>
     </>
-  )
+  );
 }

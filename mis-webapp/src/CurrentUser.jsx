@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
-import md5 from 'blueimp-md5'
+import React, { useState, useEffect } from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import md5 from 'blueimp-md5';
 
-import { Title, Navbar, BackwardButton } from './Components'
+import { Title, Navbar, BackwardButton } from './Components';
 
 export default function CurrentUserRouter() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth')
-    if (!!!auth) {
-      window.location = '#登录'
+    const auth = sessionStorage.getItem('mis-auth');
+    if (!auth) {
+      window.location = '#登录';
     }
-  }, [])
+  }, []);
 
   return (
     <Router>
@@ -18,10 +18,12 @@ export default function CurrentUserRouter() {
         <Route exact path="/当前用户/修改密码"><ChangePassword /></Route>
       </Switch>
     </Router>
-  )
+  );
 }
 
 function SideNav(props) {
+  const { category } = props;
+
   return (
     <div className="list-group">
       <h6 className="text-muted">
@@ -29,54 +31,55 @@ function SideNav(props) {
       </h6>
 
       <div>
-        <a href="#当前用户/修改密码"
-          className={`text-small list-group-item list-group-item-action ${props.category === '修改密码' ? 'active' : ''}`}
+        <a
+          href="#当前用户/修改密码"
+          className={`text-small list-group-item list-group-item-action ${category === '修改密码' ? 'active' : ''}`}
         >
           修改密码
           <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
+            <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
       </div>
     </div>
-  )
+  );
 }
 
 function ChangePassword() {
-  const [password, setPassword] = useState('')
-  const [password1, setPassword1] = useState('')
-  const [password2, setPassword2] = useState('')
+  const [password, setPassword] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
 
   const handleChange = async () => {
-    if (!!!password || !!!password1 || !!!password2) {
-      window.alert('请完整填写所需信息')
-      return
+    if (!password || !password1 || !password2) {
+      window.alert('请完整填写所需信息');
+      return;
     }
     if (password1 !== password2) {
-      window.alert('两次输入的新密码不一致')
-      return
+      window.alert('两次输入的新密码不一致');
+      return;
     }
 
-    const auth = JSON.parse(sessionStorage.getItem('mis-auth'))
+    const auth = JSON.parse(sessionStorage.getItem('mis-auth'));
 
     const data = {
       id: auth.id,
       current_password: md5(password),
-      new_password: md5(password1)
-    }
-    let res = await window.fetch(`/api/current-user/change-password`, {
+      new_password: md5(password1),
+    };
+    let res = await window.fetch('/api/current-user/change-password', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    res = await res.json()
+      body: JSON.stringify(data),
+    });
+    res = await res.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    window.alert('数据已经提交至服务器，即将重定向至登录页面。')
-    window.location = '#登录'
-  }
+    window.alert('数据已经提交至服务器，即将重定向至登录页面。');
+    window.location = '#登录';
+  };
 
   return (
     <>
@@ -103,25 +106,34 @@ function ChangePassword() {
                   <div className="card-body">
                     <div className="form-group">
                       <label>当前密码</label>
-                      <input type="password" value={password || ''} autoComplete="current-password"
+                      <input
+                        type="password"
+                        value={password || ''}
+                        autoComplete="current-password"
                         className="form-control"
-                        onChange={event => setPassword(event.target.value)}
+                        onChange={(event) => setPassword(event.target.value)}
                       />
                     </div>
 
                     <div className="form-group">
                       <label>新密码</label>
-                      <input type="password" value={password1 || ''} autoComplete="new-password"
+                      <input
+                        type="password"
+                        value={password1 || ''}
+                        autoComplete="new-password"
                         className="form-control"
-                        onChange={event => setPassword1(event.target.value)}
+                        onChange={(event) => setPassword1(event.target.value)}
                       />
                     </div>
 
                     <div className="form-group">
                       <label>重复新密码</label>
-                      <input type="password" value={password2 || ''} autoComplete="new-password"
+                      <input
+                        type="password"
+                        value={password2 || ''}
+                        autoComplete="new-password"
                         className="form-control"
-                        onChange={event => setPassword2(event.target.value)}
+                        onChange={(event) => setPassword2(event.target.value)}
                       />
                     </div>
                   </div>
@@ -133,7 +145,7 @@ function ChangePassword() {
 
                     <div className="btn-group pull-right">
                       <button type="button" className="btn btn-primary" onClick={handleChange}>
-                        <i className="fa fa-fw fa-save"></i>
+                        <i className="fa fa-fw fa-save" />
                         更改密码
                       </button>
                     </div>
@@ -145,5 +157,5 @@ function ChangePassword() {
         </div>
       </div>
     </>
-  )
+  );
 }

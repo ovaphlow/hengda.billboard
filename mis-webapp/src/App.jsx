@@ -1,22 +1,22 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import SignIn from './SignIn'
-import Home from './Home'
-import ContentRouter from './Content'
-import MISUserRouter from './MISUser'
-import EnterpriseRouter from './Enterprise'
-import EnterpriseUserRouter from './EnterpriseUser'
-import CommonUserRouter from './CommonUser'
-import ResumeRouter from './Resume'
-import DeliveryRouter from './Delivery'
-import FavoriteRouter from './Favorite'
-import JournalRouter from './Journal'
-import FeedbackRouter from './Feedback'
-import ReportRouter from './Report'
-import RecruitmentRouter from './Recruitment'
-import SettingsRouter from './Settings'
-import CurrentUserRouter from './CurrentUser'
+import SignIn from './SignIn';
+import Home from './Home';
+import ContentRouter from './Content';
+import MISUserRouter from './MISUser';
+import EnterpriseRouter from './Enterprise';
+import EnterpriseUserRouter from './EnterpriseUser';
+import CommonUserRouter from './CommonUser';
+import ResumeRouter from './Resume';
+import DeliveryRouter from './Delivery';
+import FavoriteRouter from './Favorite';
+import JournalRouter from './Journal';
+import FeedbackRouter from './Feedback';
+import ReportRouter from './Report';
+import RecruitmentRouter from './Recruitment';
+import SettingsRouter from './Settings';
+import CurrentUserRouter from './CurrentUser';
 
 export default function App() {
   return (
@@ -43,5 +43,5 @@ export default function App() {
         <Route path="/当前用户"><CurrentUserRouter /></Route>
       </Switch>
     </Router>
-  )
+  );
 }

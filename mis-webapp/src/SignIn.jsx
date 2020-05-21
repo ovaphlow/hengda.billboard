@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import md5 from 'blueimp-md5'
+import React, { useState, useEffect } from 'react';
+import md5 from 'blueimp-md5';
 
-import { Title, Navbar } from './Components'
+import { Title, Navbar } from './Components';
 
 export default function SignIn() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
-    sessionStorage.removeItem('mis-auth')
-  }, [])
+    sessionStorage.removeItem('mis-auth');
+  }, []);
 
   const handleSignIn = async () => {
-    const response = await fetch(`/api/mis-user/sign-in`, {
+    const response = await fetch('/api/mis-user/sign-in', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ username: username, password: md5(password) })
-    })
-    const res = await response.json()
+      body: JSON.stringify({ username, password: md5(password) }),
+    });
+    const res = await response.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    sessionStorage.setItem('mis-auth', JSON.stringify(res.content))
+    sessionStorage.setItem('mis-auth', JSON.stringify(res.content));
     // window.location = '#/'
-    window.history.go(-1)
-  }
+    window.history.go(-1);
+  };
 
   return (
     <>
@@ -47,17 +47,23 @@ export default function SignIn() {
                 <form>
                   <div className="form-group">
                     <label>用户名</label>
-                    <input type="text" value={username || ''} autoComplete="username"
+                    <input
+                      type="text"
+                      value={username || ''}
+                      autoComplete="username"
                       className="form-control input-borderless"
-                      onChange={event => setUsername(event.target.value)}
+                      onChange={(event) => setUsername(event.target.value)}
                     />
                   </div>
 
                   <div className="form-group">
                     <label>密码</label>
-                    <input type="password" value={password || ''} autoComplete="current-password"
+                    <input
+                      type="password"
+                      value={password || ''}
+                      autoComplete="current-password"
                       className="form-control input-borderless"
-                      onChange={event => setPassword(event.target.value)}
+                      onChange={(event) => setPassword(event.target.value)}
                     />
                   </div>
                 </form>
@@ -65,7 +71,7 @@ export default function SignIn() {
 
               <div className="card-footer">
                 <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
-                  <i className="fa fa-fw fa-sign-in"></i>
+                  <i className="fa fa-fw fa-sign-in" />
                   确定
                 </button>
               </div>
@@ -74,5 +80,5 @@ export default function SignIn() {
         </div>
       </div>
     </>
-  )
+  );
 }

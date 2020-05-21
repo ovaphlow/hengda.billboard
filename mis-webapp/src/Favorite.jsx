@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import {
+  HashRouter as Router, Switch, Route, useLocation,
+} from 'react-router-dom';
 
-import { Title, Navbar, BackwardButton } from './Components'
+import { Title, Navbar, BackwardButton } from './Components';
 
-import { SideNav } from './CommonUser'
+import { SideNav } from './CommonUser';
 
 export default function FavoriteRouter() {
   return (
@@ -12,42 +14,39 @@ export default function FavoriteRouter() {
         <Route path="/收藏"><List /></Route>
       </Switch>
     </Router>
-  )
+  );
 }
 
 function List() {
-  const location = useLocation()
-  // const [master_id, setMasterID] = useState(0)
-  const [list, setList] = useState([])
+  const location = useLocation();
+  const [list, setList] = useState([]);
 
   useEffect(() => {
-    const _master_id = new URLSearchParams(location.search).get('master_id')
-    ;(async master_id => {
-      const response = await window.fetch(`/api/favorite/?master_id=${master_id}`)
-      const res = await response.json()
+    const t_master_id = new URLSearchParams(location.search).get('master_id');
+    (async () => {
+      const response = await window.fetch(`/api/favorite/?master_id=${t_master_id}`);
+      const res = await response.json();
       if (res.message) {
-        window.console.error(res.message)
-        return
+        window.console.error(res.message);
+        return;
       }
-      setList(res.content)
-    })(_master_id)
+      setList(res.content);
+    })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
-  const handleRedirect2Resource = async event => {
-    const _cat = event.target.getAttribute('data-category')
-    // const _id = event.target.getAttribute('data-id')
-    if (_cat === '推荐信息') {
-      window.alert('推荐信息，施工中。')
-      // window.location = `#平台内容/推荐信息/${_id}?uuid=`
-    } else if (_cat === '校园招聘') {
-      window.alert('校园招聘，施工中。')
-    } else if (_cat === '岗位') {
-      window.alert('岗位，施工中。')
+  const handleRedirect2Resource = async (event) => {
+    const t_cat = event.target.getAttribute('data-category');
+    if (t_cat === '推荐信息') {
+      window.alert('推荐信息，施工中。');
+    } else if (t_cat === '校园招聘') {
+      window.alert('校园招聘，施工中。');
+    } else if (t_cat === '岗位') {
+      window.alert('岗位，施工中。');
     } else {
-      window.alert('未知类型，施工中。')
+      window.alert('未知类型，施工中。');
     }
-  }
+  };
 
   return (
     <>
@@ -83,7 +82,7 @@ function List() {
 
                   <tbody>
                     {
-                      list.map(it => (
+                      list.map((it) => (
                         <tr key={it.id}>
                           <td>
                             <span className="pull-right">{it.id}</span>
@@ -92,11 +91,15 @@ function List() {
                             <span className="badge badge-info">{it.category1}</span>
                             &nbsp;
                             {it.username}
-                            ({it.user_id})
+                            (
+                            {it.user_id}
+                            )
                           </td>
                           <td>{it.category2}</td>
                           <td>
-                            <button type="button" className="btn btn-link"
+                            <button
+                              type="button"
+                              className="btn btn-link"
                               data-id={it.data_id}
                               data-category={it.category2}
                               onClick={handleRedirect2Resource}
@@ -116,5 +119,5 @@ function List() {
         </div>
       </div>
     </>
-  )
+  );
 }

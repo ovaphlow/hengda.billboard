@@ -1,47 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
-import { Title, Navbar } from './Components'
+import { Title, Navbar } from './Components';
 
 export default function Home() {
-  const [user_qty, setUserQty] = useState(0)
-  const [enterprise_qty, setEnterpriseQty] = useState(0)
-  const [delivery_qty, setDeliveryQty] = useState(0)
+  const [user_qty, setUserQty] = useState(0);
+  const [enterprise_qty, setEnterpriseQty] = useState(0);
+  const [delivery_qty, setDeliveryQty] = useState(0);
 
   useEffect(() => {
-    ;(async () => {
-      const response = await window.fetch(`/api/stats/user/qty`)
-      const res = await response.json()
-      if (res.message) {
-        console.error(res.message)
-        return
-      }
-      setUserQty(res.content.qty)
-    })()
-  }, [])
+    (async () => {
+      const response = await window.fetch('/api/stats/user/qty');
+      const res = await response.json();
+      setUserQty(res.content.qty);
+    })();
+  }, []);
 
   useEffect(() => {
-    ;(async () => {
-      const response = await window.fetch(`/api/stats/enterprise/qty`)
-      const res = await response.json()
-      if (res.message) {
-        console.error(res.message)
-        return
-      }
-      setEnterpriseQty(res.content.qty)
-    })()
-  }, [])
+    (async () => {
+      const response = await window.fetch('/api/stats/enterprise/qty');
+      const res = await response.json();
+      setEnterpriseQty(res.content.qty);
+    })();
+  }, []);
 
   useEffect(() => {
-    ;(async () => {
-      const response = await window.fetch(`/api/stats/delivery/qty`)
-      const res = await response.json()
-      if (res.message) {
-        console.error(res.message)
-        return
-      }
-      setDeliveryQty(res.content.qty)
-    })()
-  }, [])
+    (async () => {
+      const response = await window.fetch('/api/stats/delivery/qty');
+      const res = await response.json();
+      setDeliveryQty(res.content.qty);
+    })();
+  }, []);
 
   return (
     <>
@@ -81,5 +69,5 @@ export default function Home() {
         </div>
       </div>
     </>
-  )
+  );
 }

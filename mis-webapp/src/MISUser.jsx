@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
-import md5 from 'blueimp-md5'
+import React, { useState, useEffect } from 'react';
+import {
+  HashRouter as Router, Switch, Route, useParams, useLocation,
+} from 'react-router-dom';
+import md5 from 'blueimp-md5';
 
-import { Title, Navbar, BackwardButton } from './Components'
+import { Title, Navbar, BackwardButton } from './Components';
 
 export default function MISUserRouter() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth')
-    if (!!!auth) {
-      window.location = '#登录'
+    const auth = sessionStorage.getItem('mis-auth');
+    if (!auth) {
+      window.location = '#登录';
     }
-  }, [])
+  }, []);
 
   return (
     <Router>
@@ -20,10 +22,12 @@ export default function MISUserRouter() {
         <Route path="/管理端用户/:id"><Detail category="编辑" /></Route>
       </Switch>
     </Router>
-  )
+  );
 }
 
 function SideNav(props) {
+  const { category } = props;
+
   return (
     <div className="list-group">
       <h6 className="text-muted">
@@ -31,42 +35,44 @@ function SideNav(props) {
       </h6>
 
       <div>
-        <a href="#管理端用户"
-          className={`text-small list-group-item list-group-item-action ${props.category === '列表' ? 'active' : ''}`}
+        <a
+          href="#管理端用户"
+          className={`text-small list-group-item list-group-item-action ${category === '列表' ? 'active' : ''}`}
         >
           用户列表
           <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
+            <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
 
-        <a href="#管理端用户/新增"
-          className={`text-small list-group-item list-group-item-action ${props.category === '新增' ? 'active' : ''}`}
+        <a
+          href="#管理端用户/新增"
+          className={`text-small list-group-item list-group-item-action ${category === '新增' ? 'active' : ''}`}
         >
           新增用户
           <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right"></i>
+            <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
       </div>
     </div>
-  )
+  );
 }
 
 function List() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    ;(async () => {
-      const response = await fetch(`/api/mis-user/`)
-      const res = await response.json()
+    (async () => {
+      const response = await fetch('/api/mis-user/');
+      const res = await response.json();
       if (res.message) {
-        window.console.error(res.message)
-        return
+        window.console.error(res.message);
+        return;
       }
-      setData(res.content)
-    })()
-  }, [])
+      setData(res.content);
+    })();
+  }, []);
 
   return (
     <>
@@ -95,11 +101,11 @@ function List() {
                   </thead>
                   <tbody>
                     {
-                      data.map(it => (
+                      data.map((it) => (
                         <tr key={it.id}>
                           <td>
                             <a href={`#管理端用户/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit"></i>
+                              <i className="fa fa-fw fa-edit" />
                             </a>
                             <span className="pull-right">{it.id}</span>
                           </td>
@@ -116,77 +122,78 @@ function List() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 function Detail(props) {
-  const { id } = useParams()
-  const location = useLocation()
-  const [uuid, setUUID] = useState('')
-  const [username, setUsername] = useState('')
-  const [name, setName] = useState('')
+  const { category } = props;
+  const { id } = useParams();
+  const location = useLocation();
+  const [uuid, setUUID] = useState('');
+  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     if (props.category === '编辑') {
-      ;(async id => {
-        const uuid = new URLSearchParams(location.search).get('uuid')
-        setUUID(uuid)
-        const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`)
-        const res = await response.json()
-        setName(res.content.name)
-        setUsername(res.content.username)
-      })(id)
+      (async () => {
+        const t_uuid = new URLSearchParams(location.search).get('uuid');
+        setUUID(t_uuid);
+        const response = await fetch(`/api/mis-user/${id}?uuid=${t_uuid}`);
+        const res = await response.json();
+        setName(res.content.name);
+        setUsername(res.content.username);
+      })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const handleRemove = async () => {
-    if (!!!window.confirm('确定删除当前数据？')) return
+    if (!window.confirm('确定删除当前数据？')) return;
     const response = await window.fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
-      method: 'DELETE'
-    })
-    const res = await response.json()
+      method: 'DELETE',
+    });
+    const res = await response.json();
     if (res.message) {
-      window.alert(res.message)
-      return
+      window.alert(res.message);
+      return;
     }
-    window.history.go(-1)
-  }
+    window.history.go(-1);
+  };
 
   const handleSubmit = async () => {
     if (props.category === '新增') {
-      const response = await fetch(`/api/mis-user/`, {
+      const response = await fetch('/api/mis-user/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          username: username,
+          username,
           password: md5('112332'),
-          name: name
-        })
-      })
-      const res = await response.json()
+          name,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     } else if (props.category === '编辑') {
       const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name: name,
-          username: username
-        })
-      })
-      const res = await response.json()
+          name,
+          username,
+        }),
+      });
+      const res = await response.json();
       if (res.message) {
-        window.alert(res.message)
-        return
+        window.alert(res.message);
+        return;
       }
-      window.history.go(-1)
+      window.history.go(-1);
     }
-  }
+  };
 
   return (
     <>
@@ -196,14 +203,18 @@ function Detail(props) {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category={props.category} />
+            <SideNav category={category} />
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>{props.category} 管理端用户</h3>
+            <h3>
+              {category}
+              {' '}
+              管理端用户
+            </h3>
             <hr />
 
-            {props.category === '新增' && (
+            {category === '新增' && (
               <div className="alert alert-warning">
                 新增用户的默认密码为112332
               </div>
@@ -214,9 +225,11 @@ function Detail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">姓名</label>
                   <div className="col-sm-10">
-                    <input type="text" value={name || ''}
+                    <input
+                      type="text"
+                      value={name || ''}
                       className="form-control input-borderless"
-                      onChange={event => setName(event.target.value)}
+                      onChange={(event) => setName(event.target.value)}
                     />
                   </div>
                 </div>
@@ -224,9 +237,11 @@ function Detail(props) {
                 <div className="form-group row">
                   <label className="col-sm-2 col-form-label text-right">用户名</label>
                   <div className="col-sm-10">
-                    <input type="text" value={username || ''}
+                    <input
+                      type="text"
+                      value={username || ''}
                       className="form-control input-borderless"
-                      onChange={event => setUsername(event.target.value)}
+                      onChange={(event) => setUsername(event.target.value)}
                     />
                   </div>
                 </div>
@@ -238,18 +253,18 @@ function Detail(props) {
                 </div>
 
                 <div className="btn-group pull-right">
-                  {
-                    props.category === '编辑' && (
-                      <button type="button" className="btn btn-outline-danger"
-                        onClick={handleRemove}
-                      >
-                        <i className="fa fa-fw fa-trash-o"></i>
-                        删除
-                      </button>
-                    )
-                  }
+                  {category === '编辑' && (
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={handleRemove}
+                    >
+                      <i className="fa fa-fw fa-trash-o" />
+                      删除
+                    </button>
+                  )}
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                    <i className="fa fa-fw fa-save"></i>
+                    <i className="fa fa-fw fa-save" />
                     保存
                   </button>
                 </div>
@@ -259,5 +274,5 @@ function Detail(props) {
         </div>
       </div>
     </>
-  )
+  );
 }

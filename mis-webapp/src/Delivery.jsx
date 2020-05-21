@@ -7,7 +7,7 @@ import moment from 'moment';
 import {
   Title, Navbar, BackwardButton, RefreshButton,
 } from './Components';
-import { SideNav } from './CommonUser';
+import SideNav from './common-user/component/SideNav';
 
 export default function DeliveryRouter() {
   useEffect(() => {

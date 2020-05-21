@@ -3,11 +3,11 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import SignIn from './SignIn';
 import Home from './Home';
-import ContentRouter from './Content';
+import ContentRouter from './content';
 import MISUserRouter from './MISUser';
 import EnterpriseRouter from './Enterprise';
 import EnterpriseUserRouter from './EnterpriseUser';
-import CommonUserRouter from './CommonUser';
+import CommonUserRouter from './common-user';
 import ResumeRouter from './Resume';
 import DeliveryRouter from './Delivery';
 import FavoriteRouter from './Favorite';

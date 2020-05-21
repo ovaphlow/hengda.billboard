@@ -5,7 +5,7 @@ import {
 
 import { Title, Navbar, BackwardButton } from './Components';
 
-import { SideNav } from './CommonUser';
+import SideNav from './common-user/component/SideNav';
 
 export default function FavoriteRouter() {
   return (

@@ -10,7 +10,7 @@ import {
   SchoolPickerRowField, IndustryPickerRowField, EducationPickerRowField,
   AddressLevel3PickerRowField,
 } from './Components';
-import { SideNav } from './CommonUser';
+import SideNav from './common-user/component/SideNav';
 import 'react-quill/dist/quill.snow.css';
 
 

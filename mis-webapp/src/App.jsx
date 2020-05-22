@@ -6,7 +6,7 @@ import Home from './Home';
 import ContentRouter from './content';
 import MISUserRouter from './MISUser';
 import EnterpriseRouter from './enterprise';
-import EnterpriseUserRouter from './EnterpriseUser';
+import EnterpriseUserRouter from './enterprise-user';
 import CommonUserRouter from './common-user';
 import ResumeRouter from './Resume';
 import DeliveryRouter from './delivery';

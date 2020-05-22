@@ -6,7 +6,7 @@ import {
 } from '../Components';
 import SideNav from './component/SideNav';
 import { YUAN_GONG_SHU_LIANG } from '../constant';
-import { List as EnterpriseUserList } from '../EnterpriseUser';
+import EnterpriseUserList from '../enterprise-user/component/List';
 import { DataList as RecruitmentDataList } from '../Recruitment';
 
 export default function Detail(props) {

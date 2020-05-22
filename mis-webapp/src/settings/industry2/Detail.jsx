@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import {
-  Title, Navbar, InputRowField, BackwardButton,
-} from '../../Components';
+import Title from '../../component/Title';
+import Navbar from '../../component/Navbar';
 import SideNav from '../component/SideNav';
+import InputRowField from '../../component/InputRowField';
+import BackwardButton from '../../component/BackwardButton';
 
 export default function Detail2(props) {
   const { category } = props;

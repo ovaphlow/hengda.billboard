@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { Title, Navbar, RefreshButton } from '../Components';
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
+import RefreshButton from '../component/RefreshButton';
 import SideNav from './component/SideNav';
 
 export default function CertificateList() {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import { Title, Navbar } from './Components';
+import Title from './component/Title';
+import Navbar from './component/Navbar';
 
 export default function Home() {
   const [user_qty, setUserQty] = useState(0);

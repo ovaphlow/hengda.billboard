@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import md5 from 'blueimp-md5';
 
-import { Title, Navbar } from './Components';
+import Title from './component/Title';
+import Navbar from './component/Navbar';
 
 export default function SignIn() {
   const [username, setUsername] = useState('');
@@ -23,7 +24,6 @@ export default function SignIn() {
       return;
     }
     sessionStorage.setItem('mis-auth', JSON.stringify(res.content));
-    // window.location = '#/'
     window.history.go(-1);
   };
 

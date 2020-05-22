@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 
-import {
-  Title, Navbar, BackwardButton, RefreshButton,
-} from '../Components';
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
+import BackwardButton from '../component/BackwardButton';
+import RefreshButton from '../component/RefreshButton';
 import SideNav from '../common-user/component/SideNav';
 
 export default function List() {

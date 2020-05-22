@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { Title, Navbar, BackwardButton } from '../Components';
-
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
+import BackwardButton from '../component/BackwardButton';
 import SideNav from '../common-user/component/SideNav';
 
 export default function List() {

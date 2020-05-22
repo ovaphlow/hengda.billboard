@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-
 import { useParams, useLocation } from 'react-router-dom';
-
 import ReactQuill from 'react-quill';
-import {
-  Title, Navbar, BackwardButton, InputRowField,
-  SchoolPickerRowField, IndustryPickerRowField, EducationPickerRowField,
-  AddressLevel3PickerRowField,
-} from '../Components';
-import SideNav from '../common-user/component/SideNav';
 import 'react-quill/dist/quill.snow.css';
+
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
+import BackwardButton from '../component/BackwardButton';
+import InputRowField from '../component/InputRowField';
+import SchoolPickerRowField from '../component/SchoolPickerRowField';
+import IndustryPickerRowField from '../component/IndustryPickerRowField';
+import EducationPickerRowField from '../component/EducationPickerRowField';
+import AddressLevel3PickerRowField from '../component/AddressLevel3PickerRowField';
+import SideNav from '../common-user/component/SideNav';
 
 export default function Detail(props) {
   const { category } = props;

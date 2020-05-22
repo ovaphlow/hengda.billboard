@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import md5 from 'blueimp-md5';
 
-import { Title, Navbar, BackwardButton } from '../Components';
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
+import BackwardButton from '../component/BackwardButton';
 import SideNav from './component/SideNav';
 
 export default function Detail(props) {

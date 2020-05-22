@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-
 import ReactQuill from 'react-quill';
-import {
-  Title, Navbar, InputRowField, BackwardButton,
-} from '../Components';
-import SideNav from '../enterprise/component/SideNav';
 import 'react-quill/dist/quill.snow.css';
+
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
+import InputRowField from '../component/InputRowField';
+import BackwardButton from '../component/BackwardButton';
+import SideNav from '../enterprise/component/SideNav';
 
 export default function Detail(props) {
   const { cat } = props;

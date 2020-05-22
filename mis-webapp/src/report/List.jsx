@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
-import { Title, Navbar } from '../Components';
+import Title from '../component/Title';
+import Navbar from '../component/Navbar';
 import SideNav from './component/SideNav';
 
 export default function List() {

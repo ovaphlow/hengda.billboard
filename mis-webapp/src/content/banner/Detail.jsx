@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import moment from 'moment';
-
 import ReactQuill from 'react-quill';
-import {
-  Title, Navbar, BackwardButton, InputRowField,
-} from '../../Components';
-import { BANNER_CATEGORY } from '../../constant';
 import 'react-quill/dist/quill.snow.css';
+
+import Title from '../../component/Title';
+import Navbar from '../../component/Navbar';
+import BackwardButton from '../../component/BackwardButton';
+import InputRowField from '../../component/InputRowField';
+import { BANNER_CATEGORY } from '../../constant';
 
 import SideNav from '../component/SideNav';
 import Toolbar from './component/Toolbar';

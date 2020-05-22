@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { Title, Navbar } from '../../Components';
+import Title from '../../component/Title';
+import Navbar from '../../component/Navbar';
 import { BANNER_CATEGORY } from '../../constant';
 import SideNav from '../component/SideNav';
 import Toolbar from './component/Toolbar';

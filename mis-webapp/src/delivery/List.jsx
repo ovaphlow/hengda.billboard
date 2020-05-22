@@ -1,32 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-  HashRouter as Router, Switch, Route, useLocation,
-} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 import {
   Title, Navbar, BackwardButton, RefreshButton,
-} from './Components';
-import SideNav from './common-user/component/SideNav';
+} from '../Components';
+import SideNav from '../common-user/component/SideNav';
 
-export default function DeliveryRouter() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
-    if (!auth) {
-      window.location = '#登录';
-    }
-  }, []);
-
-  return (
-    <Router>
-      <Switch>
-        <Route path="/投递记录"><List /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-function List() {
+export default function List() {
   const location = useLocation();
   const [user_id, setUserID] = useState(0);
   const [user_uuid, setUserUUID] = useState('');

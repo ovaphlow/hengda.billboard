@@ -10,7 +10,7 @@ import EnterpriseUserRouter from './EnterpriseUser';
 import CommonUserRouter from './common-user';
 import ResumeRouter from './Resume';
 import DeliveryRouter from './delivery';
-import FavoriteRouter from './Favorite';
+import FavoriteRouter from './favorite';
 import JournalRouter from './Journal';
 import FeedbackRouter from './Feedback';
 import ReportRouter from './Report';

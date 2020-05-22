@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  HashRouter as Router, Switch, Route, useLocation,
-} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { Title, Navbar, BackwardButton } from './Components';
+import { Title, Navbar, BackwardButton } from '../Components';
 
-import SideNav from './common-user/component/SideNav';
+import SideNav from '../common-user/component/SideNav';
 
-export default function FavoriteRouter() {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/收藏"><List /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-function List() {
+export default function List() {
   const location = useLocation();
   const [list, setList] = useState([]);
 

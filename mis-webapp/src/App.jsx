@@ -8,7 +8,7 @@ import MISUserRouter from './mis-user';
 import EnterpriseRouter from './enterprise';
 import EnterpriseUserRouter from './enterprise-user';
 import CommonUserRouter from './common-user';
-import ResumeRouter from './Resume';
+import ResumeRouter from './resume';
 import DeliveryRouter from './delivery';
 import FavoriteRouter from './favorite';
 import JournalRouter from './journal';

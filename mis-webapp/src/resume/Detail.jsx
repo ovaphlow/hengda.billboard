@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-  HashRouter as Router, Switch, Route, useParams, useLocation,
-} from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import {
   Title, Navbar, BackwardButton, InputRowField,
   SchoolPickerRowField, IndustryPickerRowField, EducationPickerRowField,
   AddressLevel3PickerRowField,
-} from './Components';
-import SideNav from './common-user/component/SideNav';
+} from '../Components';
+import SideNav from '../common-user/component/SideNav';
 import 'react-quill/dist/quill.snow.css';
 
-
-export default function ResumeRouter() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/简历/新增"><ResumeDetail category="新增" /></Route>
-        <Route path="/简历/:id"><ResumeDetail category="编辑" /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-function ResumeDetail(props) {
+export default function Detail(props) {
   const { category } = props;
   const { id } = useParams();
   const location = useLocation();

@@ -16,7 +16,7 @@ import FeedbackRouter from './Feedback';
 import ReportRouter from './Report';
 import RecruitmentRouter from './Recruitment';
 import SettingsRouter from './Settings';
-import CurrentUserRouter from './CurrentUser';
+import CurrentUserRouter from './current-user';
 
 export default function App() {
   return (

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import BannerRouter from './banner'
-import RecommendRouter from './recommend'
-import TopicRouter from './topic'
-import CampusRouter from './campus'
+import BannerRouter from './banner';
+import RecommendRouter from './recommend';
+import TopicRouter from './topic';
+import CampusRouter from './campus';
 
 export default function ContentRouter() {
   useEffect(() => {

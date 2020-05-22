@@ -1,51 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import md5 from 'blueimp-md5';
 
-import { Title, Navbar, BackwardButton } from './Components';
+import { Title, Navbar, BackwardButton } from '../Components';
+import SideNav from './component/SideNav';
 
-export default function CurrentUserRouter() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
-    if (!auth) {
-      window.location = '#登录';
-    }
-  }, []);
-
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/当前用户/修改密码"><ChangePassword /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-function SideNav(props) {
-  const { category } = props;
-
-  return (
-    <div className="list-group">
-      <h6 className="text-muted">
-        <strong>选择功能</strong>
-      </h6>
-
-      <div>
-        <a
-          href="#当前用户/修改密码"
-          className={`text-small list-group-item list-group-item-action ${category === '修改密码' ? 'active' : ''}`}
-        >
-          修改密码
-          <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right" />
-          </span>
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function ChangePassword() {
+export default function ChangePassword() {
   const [password, setPassword] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');

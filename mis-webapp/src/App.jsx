@@ -12,7 +12,7 @@ import ResumeRouter from './Resume';
 import DeliveryRouter from './delivery';
 import FavoriteRouter from './favorite';
 import JournalRouter from './Journal';
-import FeedbackRouter from './Feedback';
+import FeedbackRouter from './feedback';
 import ReportRouter from './Report';
 import RecruitmentRouter from './Recruitment';
 import SettingsRouter from './Settings';

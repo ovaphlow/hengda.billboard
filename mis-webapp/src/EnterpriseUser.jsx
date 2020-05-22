@@ -6,7 +6,7 @@ import {
 import {
   Title, Navbar, InputRowField, BackwardButton,
 } from './Components';
-import { SideNav } from './Enterprise';
+import SideNav from './enterprise/component/SideNav';
 
 export default function EnterpriseUserRouter() {
   useEffect(() => {

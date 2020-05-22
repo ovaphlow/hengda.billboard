@@ -7,7 +7,7 @@ import ReactQuill from 'react-quill';
 import {
   Title, Navbar, InputRowField, BackwardButton,
 } from './Components';
-import { SideNav } from './Enterprise';
+import SideNav from './enterprise/component/SideNav';
 import 'react-quill/dist/quill.snow.css';
 
 export default function RecruitmentRouter() {

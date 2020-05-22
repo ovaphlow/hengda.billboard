@@ -15,7 +15,7 @@ import JournalRouter from './journal';
 import FeedbackRouter from './feedback';
 import ReportRouter from './report';
 import RecruitmentRouter from './recruitment';
-import SettingsRouter from './Settings';
+import SettingsRouter from './settings';
 import CurrentUserRouter from './current-user';
 
 export default function App() {

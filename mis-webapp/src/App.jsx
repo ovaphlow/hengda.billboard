@@ -13,7 +13,7 @@ import DeliveryRouter from './delivery';
 import FavoriteRouter from './favorite';
 import JournalRouter from './journal';
 import FeedbackRouter from './feedback';
-import ReportRouter from './Report';
+import ReportRouter from './report';
 import RecruitmentRouter from './recruitment';
 import SettingsRouter from './Settings';
 import CurrentUserRouter from './current-user';

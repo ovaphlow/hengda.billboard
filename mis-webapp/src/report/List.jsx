@@ -1,51 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import moment from 'moment';
 
-import { Title, Navbar } from './Components';
+import { Title, Navbar } from '../Components';
+import SideNav from './component/SideNav';
 
-export default function ReportRouter() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
-    if (!auth) {
-      window.location = '#登录';
-    }
-  }, []);
-
-  return (
-    <Router>
-      <Switch>
-        <Route path="/举报"><List /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-function SideNav(props) {
-  const { category } = props;
-
-  return (
-    <div className="list-group">
-      <h6 className="text-muted">
-        <strong>选择功能</strong>
-      </h6>
-
-      <div>
-        <a
-          href="#举报"
-          className={`text-small list-group-item list-group-item-action ${category === '举报' ? 'active' : ''}`}
-        >
-          举报
-          <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right" />
-          </span>
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function List() {
+export default function List() {
   const [data, setData] = useState([]);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ import CommonUserRouter from './common-user';
 import ResumeRouter from './Resume';
 import DeliveryRouter from './delivery';
 import FavoriteRouter from './favorite';
-import JournalRouter from './Journal';
+import JournalRouter from './journal';
 import FeedbackRouter from './feedback';
 import ReportRouter from './Report';
 import RecruitmentRouter from './Recruitment';

@@ -14,7 +14,7 @@ import FavoriteRouter from './favorite';
 import JournalRouter from './journal';
 import FeedbackRouter from './feedback';
 import ReportRouter from './Report';
-import RecruitmentRouter from './Recruitment';
+import RecruitmentRouter from './recruitment';
 import SettingsRouter from './Settings';
 import CurrentUserRouter from './current-user';
 

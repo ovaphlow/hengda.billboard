@@ -1,67 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {
-  HashRouter as Router, Switch, Route, useParams, useLocation,
-} from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import {
   Title, Navbar, InputRowField, BackwardButton,
-} from './Components';
-import SideNav from './enterprise/component/SideNav';
+} from '../Components';
+import SideNav from '../enterprise/component/SideNav';
 import 'react-quill/dist/quill.snow.css';
 
-export default function RecruitmentRouter() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
-    if (!auth) {
-      window.location = '#登录';
-    }
-  }, []);
-
-  return (
-    <Router>
-      <Switch>
-        <Route path="/岗位/:recruitment_id"><Detail cat="编辑" /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-export function DataList(props) {
-  const [data_list, setDataList] = useState([]);
-
-  useEffect(() => {
-    (async (enterprise_id, enterprise_uuid) => {
-      const response = await window.fetch(`/api/recruitment/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`);
-      const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
-      setDataList(res.content);
-    })(props.enterprise_id, props.enterprise_uuid);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <div className="list-group">
-      {
-        data_list.map((it) => (
-          <a
-            href={`#岗位/${it.id}?uuid=${it.uuid}`}
-            className="list-group-item list-group-item-action"
-            key={it.id}
-          >
-            {it.name}
-            <span className="pull-right text-muted">{it.qty}</span>
-          </a>
-        ))
-      }
-    </div>
-  );
-}
-
-function Detail(props) {
+export default function Detail(props) {
   const { cat } = props;
   const { recruitment_id } = useParams();
   const location = useLocation();

@@ -1,131 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  HashRouter as Router, Switch, Route, useParams, useLocation,
-} from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import md5 from 'blueimp-md5';
 
-import { Title, Navbar, BackwardButton } from './Components';
+import { Title, Navbar, BackwardButton } from '../Components';
+import SideNav from './component/SideNav';
 
-export default function MISUserRouter() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
-    if (!auth) {
-      window.location = '#登录';
-    }
-  }, []);
-
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/管理端用户"><List /></Route>
-        <Route exact path="/管理端用户/新增"><Detail category="新增" /></Route>
-        <Route path="/管理端用户/:id"><Detail category="编辑" /></Route>
-      </Switch>
-    </Router>
-  );
-}
-
-function SideNav(props) {
-  const { category } = props;
-
-  return (
-    <div className="list-group">
-      <h6 className="text-muted">
-        <strong>选择功能</strong>
-      </h6>
-
-      <div>
-        <a
-          href="#管理端用户"
-          className={`text-small list-group-item list-group-item-action ${category === '列表' ? 'active' : ''}`}
-        >
-          用户列表
-          <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right" />
-          </span>
-        </a>
-
-        <a
-          href="#管理端用户/新增"
-          className={`text-small list-group-item list-group-item-action ${category === '新增' ? 'active' : ''}`}
-        >
-          新增用户
-          <span className="pull-right">
-            <i className="fa fa-fw fa-angle-right" />
-          </span>
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function List() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch('/api/mis-user/');
-      const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
-      setData(res.content);
-    })();
-  }, []);
-
-  return (
-    <>
-      <Title />
-      <Navbar category="管理端用户" />
-
-      <div className="container-fluid mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav category="列表" />
-          </div>
-
-          <div className="col-9 col-lg-10">
-            <h3>管理端用户列表</h3>
-            <hr />
-
-            <div className="card shadow">
-              <div className="card-body">
-                <table className="table table-hover table-bordered">
-                  <thead className="thead-light">
-                    <tr>
-                      <th className="text-right">序号</th>
-                      <th>姓名</th>
-                      <th>用户名</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      data.map((it) => (
-                        <tr key={it.id}>
-                          <td>
-                            <a href={`#管理端用户/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit" />
-                            </a>
-                            <span className="pull-right">{it.id}</span>
-                          </td>
-                          <td>{it.name}</td>
-                          <td>{it.username}</td>
-                        </tr>
-                      ))
-                    }
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function Detail(props) {
+export default function Detail(props) {
   const { category } = props;
   const { id } = useParams();
   const location = useLocation();
@@ -134,7 +14,7 @@ function Detail(props) {
   const [name, setName] = useState('');
 
   useEffect(() => {
-    if (props.category === '编辑') {
+    if (category === '编辑') {
       (async () => {
         const t_uuid = new URLSearchParams(location.search).get('uuid');
         setUUID(t_uuid);
@@ -161,7 +41,7 @@ function Detail(props) {
   };
 
   const handleSubmit = async () => {
-    if (props.category === '新增') {
+    if (category === '新增') {
       const response = await fetch('/api/mis-user/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -177,7 +57,7 @@ function Detail(props) {
         return;
       }
       window.history.go(-1);
-    } else if (props.category === '编辑') {
+    } else if (category === '编辑') {
       const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },

@@ -4,7 +4,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import SignIn from './SignIn';
 import Home from './Home';
 import ContentRouter from './content';
-import MISUserRouter from './MISUser';
+import MISUserRouter from './mis-user';
 import EnterpriseRouter from './enterprise';
 import EnterpriseUserRouter from './enterprise-user';
 import CommonUserRouter from './common-user';

@@ -9,35 +9,34 @@ const router = new Router({
 
 module.exports = router;
 
-router
-  .post('/feedback/reply', async (ctx) => {
-    const sql1 = `
-      insert into
-        sys_message (user_id, category, title, content, datime, status)
-        values (?, ?, ?, ?, ?, '未读')
-    `;
-    const sql2 = `
-      update feedback
-      set status = '已处理'
-      where id = ?
-        and category = '意见反馈'
-    `;
-    const pool = mysql.promise();
-    try {
-      await pool.execute(sql1, [
-        parseInt(ctx.request.body.user_id, 10),
-        ctx.request.body.category,
-        ctx.request.body.title,
-        ctx.request.body.content,
-        ctx.request.body.datime,
-      ]);
-      await pool.execute(sql2, [parseInt(ctx.request.body.id, 10)]);
-      ctx.response.body = { message: '', content: '' };
-    } catch (err) {
-      logger.error(err);
-      ctx.response.body = { message: '服务器错误', content: '' };
-    }
-  });
+router.post('/feedback/reply', async (ctx) => {
+  const sql1 = `
+    insert into
+      sys_message (user_id, category, title, content, datime, status)
+      values (?, ?, ?, ?, ?, '未读')
+  `;
+  const sql2 = `
+    update feedback
+    set status = '已处理'
+    where id = ?
+      and category = '意见反馈'
+  `;
+  const pool = mysql.promise();
+  try {
+    await pool.execute(sql1, [
+      parseInt(ctx.request.body.user_id, 10),
+      ctx.request.body.category,
+      ctx.request.body.title,
+      ctx.request.body.content,
+      ctx.request.body.datime,
+    ]);
+    await pool.execute(sql2, [parseInt(ctx.request.body.id, 10)]);
+    ctx.response.body = { message: '', content: '' };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
 
 router.get('/feedback/', async (ctx) => {
   const sql = `

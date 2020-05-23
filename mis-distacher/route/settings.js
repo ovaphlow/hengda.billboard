@@ -82,10 +82,10 @@ router.get('/school/', async (ctx) => {
 
 router.post('/school/', async (ctx) => {
   const sql = `
-      insert into
-        common_data (uuid, master_id, category, name, comment)
-        values (uuid(), 0, '院校', ?, ?)
-    `;
+    insert into
+      common_data (uuid, master_id, category, name, comment)
+      values (uuid(), 0, '院校', ?, ?)
+  `;
   const pool = mysql.promise();
   try {
     await pool.execute(sql, [
@@ -108,7 +108,7 @@ router.get('/industry/2nd/:id', async (ctx) => {
     const [rows] = await pool.query(sql, [
       parseInt(ctx.params.id, 10),
       ctx.request.query.uuid,
-      ctx.request.query.master_id,
+      parseInt(ctx.request.query.master_id, 10),
     ]);
     ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} };
   } catch (err) {

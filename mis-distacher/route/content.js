@@ -319,7 +319,7 @@ router.put('/recommend/:id', async (ctx) => {
       ctx.request.body.qty,
       ctx.request.body.baomingfangshi,
       ctx.request.body.content,
-      ctx.params.id,
+      parseInt(ctx.params.id, 10),
       ctx.query.uuid,
     ]);
     ctx.response.body = { message: '', content: '' };

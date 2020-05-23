@@ -15,7 +15,7 @@ router.get('/sign-in/', async (ctx) => {
   `;
   const pool = mysql.promise();
   try {
-    const [rows] = await pool.query(sql, [ctx.request.query.user_id]);
+    const [rows] = await pool.query(sql, [parseInt(ctx.request.query.user_id, 10)]);
     ctx.response.body = { message: '', content: rows };
   } catch (err) {
     logger.error(err);
@@ -55,7 +55,7 @@ router.get('/browse/', async (ctx) => {
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
-      ctx.request.query.user_id,
+      parseInt(ctx.request.query.user_id, 10),
       ctx.request.query.user_uuid,
     ]);
     ctx.response.body = { message: '', content: rows };
@@ -75,7 +75,7 @@ router.put('/browse/', async (ctx) => {
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
-      ctx.request.query.user_id,
+      parseInt(ctx.request.query.user_id, 10),
       ctx.request.body.date_begin,
       ctx.request.body.date_end,
     ]);

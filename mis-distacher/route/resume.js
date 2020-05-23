@@ -11,8 +11,8 @@ module.exports = router;
 
 router.get('/:id', async (ctx) => {
   const sql = `
-      select * from resume where id = ? and uuid = ? limit 1
-    `;
+    select * from resume where id = ? and uuid = ? limit 1
+  `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
@@ -28,13 +28,13 @@ router.get('/:id', async (ctx) => {
 
 router.put('/:id', async (ctx) => {
   const sql = `
-      update resume
-      set name = ?, phone = ?, email = ?, gender = ?, birthday = ?,
-      school = ?, education = ?, date_begin = ?, date_end = ?, major = ?,
-      address1 = ?, address2 = ?,
-      qiwangzhiwei = ?, qiwanghangye = ?, yixiangchengshi = ?, ziwopingjia = ?
-      where id = ? and uuid = ?
-    `;
+    update resume
+    set name = ?, phone = ?, email = ?, gender = ?, birthday = ?,
+    school = ?, education = ?, date_begin = ?, date_end = ?, major = ?,
+    address1 = ?, address2 = ?,
+    qiwangzhiwei = ?, qiwanghangye = ?, yixiangchengshi = ?, ziwopingjia = ?
+    where id = ? and uuid = ?
+  `;
   const pool = mysql.promise();
   try {
     await pool.execute(sql, [
@@ -66,8 +66,8 @@ router.put('/:id', async (ctx) => {
 
 router.delete('/:id', async (ctx) => {
   const sql = `
-      delete from resume where id = ? and uuid = ?
-    `;
+    delete from resume where id = ? and uuid = ?
+  `;
   const pool = mysql.promise();
   try {
     await pool.execute(sql, [
@@ -83,8 +83,8 @@ router.delete('/:id', async (ctx) => {
 
 router.get('/', async (ctx) => {
   const sql = `
-      select * from resume where common_user_id = ?
-    `;
+    select * from resume where common_user_id = ?
+  `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [parseInt(ctx.request.query.user_id, 10)]);

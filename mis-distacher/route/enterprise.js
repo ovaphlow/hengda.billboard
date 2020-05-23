@@ -11,8 +11,8 @@ module.exports = router;
 
 router.get('/certificate/qty', async (ctx) => {
   const sql = `
-      select count(*) as qty from enterprise where status = '未认证'
-    `;
+    select count(*) as qty from enterprise where status = '未认证'
+  `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql);
@@ -25,11 +25,11 @@ router.get('/certificate/qty', async (ctx) => {
 
 router.put('/certificate/filter/', async (ctx) => {
   const sql = `
-      select *
-      from enterprise
-      where position(? in name) > 0
-        and status = '未认证'
-    `;
+    select *
+    from enterprise
+    where position(? in name) > 0
+      and status = '未认证'
+  `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [ctx.request.body.name]);
@@ -42,8 +42,8 @@ router.put('/certificate/filter/', async (ctx) => {
 
 router.get('/certificate/', async (ctx) => {
   const sql = `
-      select * from enterprise where status = '未认证' limit 10
-    `;
+    select * from enterprise where status = '未认证' limit 10
+  `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql);
@@ -56,11 +56,11 @@ router.get('/certificate/', async (ctx) => {
 
 router.put('/certificate/', async (ctx) => {
   const sql = `
-      update enterprise
-      set status = '认证'
-      where id = ?
-        and uuid = ?
-    `;
+    update enterprise
+    set status = '认证'
+    where id = ?
+      and uuid = ?
+  `;
   const pool = mysql.promise();
   try {
     await pool.execute(sql, [
@@ -76,8 +76,8 @@ router.put('/certificate/', async (ctx) => {
 
 router.get('/:id', async (ctx) => {
   const sql = `
-      select * from enterprise where id = ? and uuid = ? limit 1
-    `;
+    select * from enterprise where id = ? and uuid = ? limit 1
+  `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
@@ -93,12 +93,12 @@ router.get('/:id', async (ctx) => {
 
 router.put('/:id', async (ctx) => {
   const sql = `
-      update enterprise
-      set name = ?, yingyezhizhao = ?, faren = ?, zhuceriqi = ?,
-        zhuziguimo = ?, yuangongshuliang = ?,
-        address1 = ?, address2 = ?, address3 = ?, address4 = ?
-      where id = ? and uuid = ?
-    `;
+    update enterprise
+    set name = ?, yingyezhizhao = ?, faren = ?, zhuceriqi = ?,
+      zhuziguimo = ?, yuangongshuliang = ?,
+      address1 = ?, address2 = ?, address3 = ?, address4 = ?
+    where id = ? and uuid = ?
+  `;
   const pool = mysql.promise();
   try {
     await pool.execute(sql, [
@@ -141,13 +141,13 @@ router.delete('/:id', async (ctx) => {
 
 router.post('/', async (ctx) => {
   const sql = `
-      insert into enterprise (
-        uuid,
-        name, yingyezhizhao, faren, zhuceriqi, zhuziguimo, yuangongshuliang,
-        address1, address2, address3, address4
-      )
-      values (uuid(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    insert into enterprise (
+      uuid,
+      name, yingyezhizhao, faren, zhuceriqi, zhuziguimo, yuangongshuliang,
+      address1, address2, address3, address4
+    )
+    values (uuid(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
   const pool = mysql.promise();
   try {
     await pool.execute(sql, [

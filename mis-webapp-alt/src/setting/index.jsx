@@ -2,17 +2,18 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import SignIn from './SignIn';
-import ChangePassword from './ChangePassword';
+import SchoolRouter from './school';
+import IndustryRouter from './industry';
+import Industry2Router from './industry2';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CurrentUserRouter />
+    <SettingRouter />
   </React.StrictMode>,
   document.getElementById('app'),
 );
 
-function CurrentUserRouter() {
+function SettingRouter() {
   useEffect(() => {
     const auth = sessionStorage.getItem('mis-auth');
     if (!auth) {
@@ -23,8 +24,9 @@ function CurrentUserRouter() {
   return (
     <Router>
       <Switch>
-        <Route path="/登录"><SignIn /></Route>
-        <Route exact path="/修改密码"><ChangePassword /></Route>
+        <Route path="/院校"><SchoolRouter /></Route>
+        <Route path="/行业"><IndustryRouter /></Route>
+        <Route path="/二级行业"><Industry2Router /></Route>
       </Switch>
     </Router>
   );

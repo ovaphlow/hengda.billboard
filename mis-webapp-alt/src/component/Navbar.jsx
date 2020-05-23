@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 export default function Navbar({ category }) {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark sticky-top bg-dark" style={{ marginTop: '-8px' }}>
-      <a href="#/" className="navbar-brand">#TITLE#</a>
+    <nav className="navbar navbar-expand navbar-dark fix-top sticky-top bg-dark">
+      <a href="home.html" className="navbar-brand">#TITLE#</a>
       <button
         type="button"
         data-toggle="collapse"
@@ -66,7 +66,7 @@ export default function Navbar({ category }) {
 
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${category === '系统设置' ? 'active' : ''}`}>
-            <a href="#系统设置/院校" className="nav-link">
+            <a href="setting.html#/院校" className="nav-link">
               <i className="fa fa-fw fa-cogs" />
               系统设置
             </a>

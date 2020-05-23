@@ -20,6 +20,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    'react-hooks',
   ],
   rules: {
     'camelcase': 0,

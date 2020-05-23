@@ -18,7 +18,7 @@ const routerFavorite = require('./route/favorite');
 const routerJournal = require('./route/journal');
 const routerFeedback = require('./route/feedback');
 const routerReport = require('./route/report');
-const routerSettings = require('./route/settings');
+const routerSetting = require('./route/setting');
 const routerCurrentUser = require('./route/current-user');
 const routerStats = require('./route/stats');
 
@@ -111,8 +111,8 @@ app.on('error', (err, ctx) => {
 })();
 
 (() => {
-  app.use(routerSettings.routes());
-  app.use(routerSettings.allowedMethods());
+  app.use(routerSetting.routes());
+  app.use(routerSetting.allowedMethods());
 })();
 
 (() => {

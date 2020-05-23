@@ -44,7 +44,6 @@ export default function ChangePassword() {
 
   return (
     <>
-      <Title />
       <Navbar category="当前用户" />
 
       <div className="container-fluid mt-3 mb-5">
@@ -58,8 +57,8 @@ export default function ChangePassword() {
             <hr />
 
             <div className="row">
-              <div className="offset-lg-4 col-lg-4 offset-3 col-6">
-                <div className="card shadow">
+              <div className="offset-lg-3 col-lg-6 offset-2 col-8">
+                <div className="card bg-dark shadow">
                   <div className="card-header">
                     <span className="lead text-danger">修改密码后需要重新登录</span>
                   </div>

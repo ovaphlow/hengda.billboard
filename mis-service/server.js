@@ -1,6 +1,6 @@
 const cluster = require('cluster');
 const http = require('http');
-const os = require('os')
+const os = require('os');
 
 const app = require('./app');
 const logger = require('./logger');

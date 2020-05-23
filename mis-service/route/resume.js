@@ -9,23 +9,22 @@ const router = new Router({
 
 module.exports = router;
 
-router
-  .get('/:id', async (ctx) => {
-    const sql = `
+router.get('/:id', async (ctx) => {
+  const sql = `
       select * from resume where id = ? and uuid = ? limit 1
     `;
-    const pool = mysql.promise();
-    try {
-      const [rows] = await pool.query(sql, [
-        parseInt(ctx.params.id, 10),
-        ctx.request.query.uuid,
-      ]);
-      ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} };
-    } catch (err) {
-      logger.error(err);
-      ctx.response.body = { message: '服务器错误', content: '' };
-    }
-  });
+  const pool = mysql.promise();
+  try {
+    const [rows] = await pool.query(sql, [
+      parseInt(ctx.params.id, 10),
+      ctx.request.query.uuid,
+    ]);
+    ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
 
 router.put('/:id', async (ctx) => {
   const sql = `

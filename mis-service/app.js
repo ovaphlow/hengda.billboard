@@ -3,21 +3,21 @@ const bodyParser = require('koa-bodyparser');
 
 const logger = require('./logger');
 
-const routerContent = require('./routes/content');
-const routerMisUser = require('./routes/mis-user');
-const routerEnterprise = require('./routes/enterprise');
-const routerEnterpriseUser = require('./routes/enterprise-user');
-const routerRecruitment = require('./routes/recruitment');
-const routerCommonUser = require('./routes/common-user');
-const routerResume = require('./routes/resume');
-const routerDelivery = require('./routes/delivery');
-const routerFavorite = require('./routes/favorite');
-const routerJournal = require('./routes/journal');
-const routerFeedback = require('./routes/feedback');
-const routerReport = require('./routes/report');
-const routerSettings = require('./routes/settings');
-const routerCurrentUser = require('./routes/current-user');
-const routerStats = require('./routes/stats');
+const routerContent = require('./route/content');
+const routerMisUser = require('./route/mis-user');
+const routerEnterprise = require('./route/enterprise');
+const routerEnterpriseUser = require('./route/enterprise-user');
+const routerRecruitment = require('./route/recruitment');
+const routerCommonUser = require('./route/common-user');
+const routerResume = require('./route/resume');
+const routerDelivery = require('./route/delivery');
+const routerFavorite = require('./route/favorite');
+const routerJournal = require('./route/journal');
+const routerFeedback = require('./route/feedback');
+const routerReport = require('./route/report');
+const routerSettings = require('./route/settings');
+const routerCurrentUser = require('./route/current-user');
+const routerStats = require('./route/stats');
 
 const app = new Koa();
 

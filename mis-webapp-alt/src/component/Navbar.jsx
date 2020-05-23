@@ -46,7 +46,7 @@ export default function Navbar({ category }) {
           </li>
 
           <li className={`nav-item ${category === '普通用户' ? 'active' : ''}`}>
-            <a href="#普通用户" className="nav-link">
+            <a href="common-user.html#/" className="nav-link">
               普通用户
             </a>
           </li>

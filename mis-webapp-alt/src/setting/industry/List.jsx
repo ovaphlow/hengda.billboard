@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import Title from '../../component/Title';
 import Navbar from '../../component/Navbar';
 import SideNav from '../component/SideNav';
 import Toolbar from './component/Toolbar';
@@ -22,10 +21,9 @@ export default function List() {
 
   return (
     <>
-      <Title />
       <Navbar category="系统设置" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav category="行业" />
@@ -37,10 +35,10 @@ export default function List() {
 
             <Toolbar />
 
-            <div className="card shadow">
+            <div className="card bg-dark shadow">
               <div className="card-body">
-                <table className="table table-hover table-bordered">
-                  <thead className="thead-light">
+                <table className="table table-dark table-hover table-bordered table-striped">
+                  <thead>
                     <tr>
                       <th className="text-right">序号</th>
                       <th>名称</th>
@@ -49,20 +47,18 @@ export default function List() {
                   </thead>
 
                   <tbody>
-                    {
-                      list.map((it) => (
-                        <tr key={it.id}>
-                          <td>
-                            <a href={`#系统设置/行业/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit" />
-                            </a>
-                            <span className="pull-right">{it.id}</span>
-                          </td>
-                          <td>{it.name}</td>
-                          <td>{it.comment}</td>
-                        </tr>
-                      ))
-                    }
+                    {list.map((it) => (
+                      <tr key={it.id}>
+                        <td>
+                          <a href={`#/行业/${it.id}?uuid=${it.uuid}`}>
+                            <i className="fa fa-fw fa-edit" />
+                          </a>
+                          <span className="pull-right">{it.id}</span>
+                        </td>
+                        <td>{it.name}</td>
+                        <td>{it.comment}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

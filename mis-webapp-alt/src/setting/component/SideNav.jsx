@@ -1,8 +1,6 @@
 import React from 'react';
 
-export default function SideNav(props) {
-  const { category } = props;
-
+export default function SideNav() {
   return (
     <div className="list-group">
       <h6 className="text-muted">
@@ -11,8 +9,8 @@ export default function SideNav(props) {
 
       <div>
         <a
-          href="#系统设置/院校"
-          className={`text-small list-group-item list-group-item-action ${category === '院校' ? 'active' : ''}`}
+          href="#/院校"
+          className="text-small list-group-item list-group-item-dark list-group-item-action"
         >
           院校
           <span className="pull-right">
@@ -23,8 +21,8 @@ export default function SideNav(props) {
 
       <div>
         <a
-          href="#系统设置/行业"
-          className={`text-small list-group-item list-group-item-action ${category === '行业' ? 'active' : ''}`}
+          href="#/行业"
+          className="text-small list-group-item list-group-item-dark list-group-item-action"
         >
           行业
           <span className="pull-right">

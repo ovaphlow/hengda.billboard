@@ -11,7 +11,7 @@ export default function SideNav({ category }) {
       <div>
         <a
           href="#当前用户/修改密码"
-          className={`text-small list-group-item list-group-item-action ${category === '修改密码' ? 'active' : ''}`}
+          className={`text-small list-group-item list-group-item-dark list-group-item-action`}
         >
           修改密码
           <span className="pull-right">

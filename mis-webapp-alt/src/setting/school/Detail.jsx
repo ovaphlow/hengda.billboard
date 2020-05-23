@@ -13,24 +13,6 @@ export default function Detail({ category }) {
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
 
-  useEffect(() => {
-    if (category === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/settings/school/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
-        setName(res.content.name);
-        setComment(res.content.comment);
-      })();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSubmit = async () => {
     if (!name) {
       window.alert('请完整填写所需信息');
@@ -65,6 +47,38 @@ export default function Detail({ category }) {
       window.history.go(-1);
     }
   };
+
+  const handleRemove = async () => {
+    if (!window.confirm('确定要删除当前数据？')) return;
+
+    const response = await window.fetch(`/api/settings/school/${id}?uuid=${uuid}`, {
+      method: 'DELETE',
+    });
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    window.history.go(-1);
+  };
+
+  useEffect(() => {
+    if (category === '编辑') {
+      const t_uuid = new URLSearchParams(location.search).get('uuid');
+      setUUID(t_uuid);
+      (async () => {
+        const response = await window.fetch(`/api/settings/school/${id}?uuid=${t_uuid}`);
+        const res = await response.json();
+        if (res.message) {
+          window.console.error(res.message);
+          return;
+        }
+        setName(res.content.name);
+        setComment(res.content.comment);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -117,6 +131,12 @@ export default function Detail({ category }) {
                 </div>
 
                 <div className="btn-group pull-right">
+                  {category === '编辑' && (
+                    <button type="button" className="btn btn-danger" onClick={handleRemove}>
+                      <i className="fa fa-fw fa-trash" />
+                      删除
+                    </button>
+                  )}
                   <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                     <i className="fa fa-fw fa-save" />
                     保存

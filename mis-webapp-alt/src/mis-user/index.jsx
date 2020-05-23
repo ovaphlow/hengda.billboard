@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { SIGN_IN_URL } from '../constant';
-import Complaint from './Complaint';
-import Feedback from './Feedback';
+import List from './List';
+import Detail from './Detail';
 
 ReactDOM.render(
   <React.StrictMode>
-    <FeedbackRouter />
+    <MISUserRouter />
   </React.StrictMode>,
   document.getElementById('app'),
 );
 
-function FeedbackRouter() {
+function MISUserRouter() {
   useEffect(() => {
     const auth = sessionStorage.getItem('mis-auth');
     if (!auth) {
@@ -24,8 +24,9 @@ function FeedbackRouter() {
   return (
     <Router>
       <Switch>
-        <Route path="/投诉"><Complaint /></Route>
-        <Route path="/意见反馈"><Feedback /></Route>
+        <Route exact path="/"><List /></Route>
+        <Route exact path="/新增"><Detail category="新增" /></Route>
+        <Route path="/:id"><Detail category="编辑" /></Route>
       </Switch>
     </Router>
   );

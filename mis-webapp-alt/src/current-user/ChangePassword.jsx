@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import md5 from 'blueimp-md5';
 
 import Navbar from '../component/Navbar';
-import BackwardButton from '../component/BackwardButton';
 import SideNav from './component/SideNav';
 
 export default function ChangePassword() {
@@ -99,7 +98,13 @@ export default function ChangePassword() {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <BackwardButton />
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => { window.history.go(-1); }}
+                      >
+                        返回
+                      </button>
                     </div>
 
                     <div className="btn-group pull-right">

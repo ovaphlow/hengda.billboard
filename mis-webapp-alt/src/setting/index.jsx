@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
+import { SIGN_IN_URL } from '../constant';
 import SchoolRouter from './school';
 import IndustryRouter from './industry';
 import Industry2Router from './industry2';
@@ -17,7 +18,7 @@ function SettingRouter() {
   useEffect(() => {
     const auth = sessionStorage.getItem('mis-auth');
     if (!auth) {
-      window.location = 'current-user.html#/登录';
+      window.location = SIGN_IN_URL;
     }
   }, []);
 

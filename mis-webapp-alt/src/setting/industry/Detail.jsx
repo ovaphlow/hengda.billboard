@@ -95,7 +95,7 @@ export default function Detail({ category }) {
       <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category="行业" />
+            <SideNav />
           </div>
 
           <div className="col-9 col-lg-10">

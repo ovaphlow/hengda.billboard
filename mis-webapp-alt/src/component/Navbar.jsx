@@ -52,13 +52,13 @@ export default function Navbar({ category }) {
           </li>
 
           <li className={`nav-item ${category === '投诉及反馈' ? 'active' : ''}`}>
-            <a href="#投诉及反馈/投诉" className="nav-link">
+            <a href="feedback.html#/投诉" className="nav-link">
               投诉及反馈
             </a>
           </li>
 
           <li className={`nav-item ${category === '举报' ? 'active' : ''}`}>
-            <a href="#举报" className="nav-link">
+            <a href="report.html#/举报" className="nav-link">
               举报
             </a>
           </li>

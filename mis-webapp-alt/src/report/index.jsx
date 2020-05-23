@@ -3,17 +3,16 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { SIGN_IN_URL } from '../constant';
-import SignIn from './SignIn';
-import ChangePassword from './ChangePassword';
+import List from './List';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CurrentUserRouter />
+    <ReportRouter />
   </React.StrictMode>,
   document.getElementById('app'),
 );
 
-function CurrentUserRouter() {
+function ReportRouter() {
   useEffect(() => {
     const auth = sessionStorage.getItem('mis-auth');
     if (!auth) {
@@ -24,8 +23,7 @@ function CurrentUserRouter() {
   return (
     <Router>
       <Switch>
-        <Route path="/登录"><SignIn /></Route>
-        <Route exact path="/修改密码"><ChangePassword /></Route>
+        <Route path="/举报"><List /></Route>
       </Switch>
     </Router>
   );

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import md5 from 'blueimp-md5';
 
-import Title from '../component/Title';
 import Navbar from '../component/Navbar';
 import BackwardButton from '../component/BackwardButton';
 import SideNav from './component/SideNav';
@@ -49,7 +48,7 @@ export default function ChangePassword() {
       <div className="container-fluid mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav category="修改密码" />
+            <SideNav />
           </div>
 
           <div className="col-9 col-lg-10">

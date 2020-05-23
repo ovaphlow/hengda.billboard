@@ -1,5 +1,8 @@
+const path = require('path');
+
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const staticCache = require('koa-static-cache');
 
 const logger = require('./logger');
 
@@ -24,6 +27,11 @@ const app = new Koa();
 app.env = 'production';
 
 app.use(bodyParser());
+
+app.use(staticCache(path.join(__dirname, '../mis-webapp-alt/dist'), {
+  maxAge: 60 * 60 * 24 * 7,
+  gzip: true,
+}));
 
 app.use(async (ctx, next) => {
   await next();

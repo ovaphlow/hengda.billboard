@@ -108,7 +108,7 @@ export default function Detail({ category }) {
     <>
       <Navbar category="普通用户" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav />
@@ -124,7 +124,7 @@ export default function Detail({ category }) {
 
             <div className="row">
               <div className="col-8">
-                <div className="card shadow">
+                <div className="card bg-dark shadow">
                   <div className="card-header">用户信息</div>
 
                   <div className="card-body">
@@ -192,7 +192,7 @@ export default function Detail({ category }) {
                       {category === '编辑' && (
                         <button
                           type="button"
-                          className="btn btn-outline-danger"
+                          className="btn btn-danger"
                           onClick={handleRemove}
                         >
                           <i className="fa fa-fw fa-trash-o" />
@@ -216,13 +216,13 @@ export default function Detail({ category }) {
 
               <div className="col-4">
                 {category === '编辑' && (
-                  <div className="card shadow">
+                  <div className="card bg-dark shadow">
                     <div className="card-header">用户简历</div>
 
                     <div className="card-body">
                       <div className="list-group">
                         {resume_list.map((it) => (
-                          <a href={`#简历/${it.id}?master_id=${id}&uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                          <a href={`resume.html#/${it.id}?master_id=${id}&uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
                             {it.qiwangzhiwei}
                             <span className="pull-right text-muted">{it.yixiangchengshi}</span>
                           </a>
@@ -246,9 +246,9 @@ export default function Detail({ category }) {
 
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-info"
+                          className="btn btn-sm btn-info"
                           onClick={() => {
-                            window.location = `#投递记录?user_id=${id}&user_uuid=${uuid}`;
+                            window.location = `delivery.html#/?user_id=${id}&user_uuid=${uuid}`;
                           }}
                         >
                           <i className="fa fa-fw fa-list" />
@@ -263,8 +263,8 @@ export default function Detail({ category }) {
                   <div className="mt-3">
                     <button
                       type="button"
-                      className="btn btn-block btn-outline-secondary"
-                      onClick={() => { window.location = `#收藏?master_id=${id}`; }}
+                      className="btn btn-block btn-secondary"
+                      onClick={() => { window.location = `favorite.html#/?master_id=${id}`; }}
                     >
                       <i className="fa fa-fw fa-list" />
                       用户收藏

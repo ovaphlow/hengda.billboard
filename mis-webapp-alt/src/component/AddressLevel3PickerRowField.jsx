@@ -23,23 +23,21 @@ export default function AddressLevel3PickerRowField({
   }, []);
 
   return (
-    <div className="form-group row">
-      <label className="col-sm-2 col-form-label text-right">{caption || '城市'}</label>
-      <div className="col-sm-10">
-        <input
-          type="text"
-          value={value}
-          autoComplete={autoComplete || 'address-level3'}
-          list="component.address-level3.list"
-          className="form-control input-borderless"
-          onChange={onChange}
-        />
-        <datalist id="component.address-level3.list">
-          {list.map((it) => (
-            <option key={list.indexOf(it)} value={it} label={it} />
-          ))}
-        </datalist>
-      </div>
+    <div className="form-group">
+      <label>{caption || '城市'}</label>
+      <input
+        type="text"
+        value={value}
+        autoComplete={autoComplete || 'address-level3'}
+        list="component.address-level3.list"
+        className="form-control input-borderless"
+        onChange={onChange}
+      />
+      <datalist id="component.address-level3.list">
+        {list.map((it) => (
+          <option key={list.indexOf(it)} value={it} label={it} />
+        ))}
+      </datalist>
     </div>
   );
 }

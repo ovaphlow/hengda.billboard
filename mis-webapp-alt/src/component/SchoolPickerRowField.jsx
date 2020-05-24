@@ -17,22 +17,18 @@ export default function SchoolPickerRowField({ caption, value, onChange }) {
   }, []);
 
   return (
-    <div className="form-group row">
-      <label className="col-sm-2 col-form-label text-right">{caption || '院校'}</label>
-      <div className="col-sm-10">
-        <select
-          value={value}
-          className="form-control input-borderless"
-          onChange={onChange}
-        >
-          <option value="">未选择</option>
-          {
-            list.map((it) => (
-              <option value={it.name} key={it.id}>{it.name}</option>
-            ))
-          }
-        </select>
-      </div>
+    <div className="form-group">
+      <label>{caption || '院校'}</label>
+      <select
+        value={value}
+        className="form-control"
+        onChange={onChange}
+      >
+        <option value="">未选择</option>
+        {list.map((it) => (
+          <option value={it.name} key={it.id}>{it.name}</option>
+        ))}
+      </select>
     </div>
   );
 }

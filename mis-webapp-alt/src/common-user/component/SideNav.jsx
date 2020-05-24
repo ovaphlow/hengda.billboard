@@ -9,7 +9,7 @@ export default function SideNav() {
 
       <div>
         <a
-          href="#普通用户"
+          href="#/"
           className="text-small list-group-item list-group-item-dark list-group-item-action"
         >
           用户列表

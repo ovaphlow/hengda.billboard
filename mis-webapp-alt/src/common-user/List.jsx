@@ -108,7 +108,7 @@ export default function List() {
                             <button
                               type="button"
                               className="btn btn-outline-warning btn-sm"
-                              onClick={() => { window.location = `#登录记录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
+                              onClick={() => { window.location = `journal.html#/登录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
                             >
                               登录记录
                             </button>
@@ -118,7 +118,7 @@ export default function List() {
                             <button
                               type="button"
                               className="btn btn-outline-info btn-sm"
-                              onClick={() => {window.location = `#浏览记录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
+                              onClick={() => {window.location = `journal.html#/浏览?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
                             >
                               浏览记录
                             </button>
@@ -128,7 +128,7 @@ export default function List() {
                             <button
                               type="button"
                               className="btn btn-outline-success btn-sm"
-                              onClick={() => { window.location = `#编辑记录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
+                              onClick={() => { window.location = `journal.html#/编辑?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
                             >
                               编辑记录
                             </button>

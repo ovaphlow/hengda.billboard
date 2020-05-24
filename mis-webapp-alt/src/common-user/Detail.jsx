@@ -236,9 +236,7 @@ export default function Detail({ category }) {
                           type="button"
                           className="btn btn-sm btn-outline-success"
                           style={{ display: 'none' }}
-                          onClick={() => {
-                            window.location = `#简历/新增?master_id=${id}`;
-                          }}
+                          onClick={() => { window.location = `resume.html#/新增?master_id=${id}`; }}
                         >
                           <i className="fa fa-fw fa-plus" />
                           添加简历

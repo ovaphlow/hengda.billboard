@@ -28,7 +28,7 @@ export default function List() {
     } else if (category === '企业') {
       window.location = `#企业/${id}?uuid=${uuid}`;
     } else if (category === '简历') {
-      window.location = `#简历/${id}?uuid=${uuid}`;
+      window.location = `resume.html#/${id}?uuid=${uuid}`;
     }
   };
 

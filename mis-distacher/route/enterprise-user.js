@@ -68,6 +68,10 @@ router.delete('/:id', async (ctx) => {
   }
 });
 
+router.put('/filter', async (ctx) => {
+
+})
+
 router.put('/', async (ctx) => {
   const sql = `
     select eu.id, eu.uuid, enterprise_id, enterprise_uuid, username, eu.name, phone,

@@ -48,7 +48,7 @@ export default function SignIn() {
                       type="text"
                       value={username || ''}
                       autoComplete="username"
-                      className="form-control input-borderless"
+                      className="form-control"
                       onChange={(event) => setUsername(event.target.value)}
                     />
                   </div>
@@ -59,7 +59,7 @@ export default function SignIn() {
                       type="password"
                       value={password || ''}
                       autoComplete="current-password"
-                      className="form-control input-borderless"
+                      className="form-control"
                       onChange={(event) => setPassword(event.target.value)}
                     />
                   </div>

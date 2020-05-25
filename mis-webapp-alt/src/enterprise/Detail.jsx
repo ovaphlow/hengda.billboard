@@ -226,7 +226,7 @@ export default function Detail({ category }) {
                       <label>员工数量</label>
                       <select
                         value={yuangongshuliang}
-                        className="form-control input-borderless"
+                        className="form-control"
                         onChange={(event) => setYuangongshuliang(event.target.value)}
                       >
                         <option value="未选择">未选择</option>

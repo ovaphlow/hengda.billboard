@@ -273,7 +273,7 @@ export default function Detail({ category }) {
                   <label>地址</label>
                   <select
                     value={address1 || ''}
-                    className="form-control input-borderless"
+                    className="form-control"
                     onChange={(event) => setAddress1(event.target.value)}
                   >
                     <option value="">未选择</option>
@@ -287,7 +287,7 @@ export default function Detail({ category }) {
                   <label />
                   <select
                     value={address2 || ''}
-                    className="form-control input-borderless"
+                    className="form-control"
                     onChange={(event) => setAddress2(event.target.value)}
                   >
                     <option value="">未选择</option>

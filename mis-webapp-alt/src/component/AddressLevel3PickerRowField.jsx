@@ -30,7 +30,7 @@ export default function AddressLevel3PickerRowField({
         value={value}
         autoComplete={autoComplete || 'address-level3'}
         list="component.address-level3.list"
-        className="form-control input-borderless"
+        className="form-control"
         onChange={onChange}
       />
       <datalist id="component.address-level3.list">

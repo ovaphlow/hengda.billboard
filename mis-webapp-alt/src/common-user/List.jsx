@@ -37,7 +37,7 @@ export default function List() {
 
             <div className="card bg-dark shadow">
               <div className="card-header">
-                <div className="form-row align-items-center">
+                <div className="form-row">
                   <div className="col-auto">
                     <div className="input-group">
                       <div className="input-group-prepend">

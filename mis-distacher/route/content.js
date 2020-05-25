@@ -256,24 +256,6 @@ router.post('/topic/', async (ctx) => {
   }
 });
 
-router.get('/recommend/', async (ctx) => {
-  const sql = `
-    select
-      id, uuid, category, title, date1, date2,
-      address_level1, address_level2, publisher,
-      qty, baomignfangshi
-    from
-      recommend limit 100`;
-  const pool = mysql.promise();
-  try {
-    const [rows] = await pool.query(sql);
-    ctx.response.body = { message: '', content: rows };
-  } catch (err) {
-    logger.error(err);
-    ctx.response.body = { message: '服务器错误', content: '' };
-  }
-});
-
 router.get('/recommend/:id/', async (ctx) => {
   const sql = 'select * from recommend where id = ? and uuid = ?';
   const pool = mysql.promise();
@@ -329,6 +311,42 @@ router.put('/recommend/:id', async (ctx) => {
   }
 });
 
+router.delete('/recommend/:id/', async (ctx) => {
+  const sql = 'delete from recommend where id = ? and uuid = ?';
+  const pool = mysql.promise();
+  try {
+    await pool.execute(sql, [
+      ctx.params.id,
+      ctx.query.uuid,
+    ]);
+    ctx.response.body = { message: '', content: '' };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
+
+router.get('/recommend/', async (ctx) => {
+  const sql = `
+    select
+      id, uuid, category, title, date1, date2,
+      address_level1, address_level2, publisher,
+      qty, baomignfangshi
+    from
+      recommend
+    order by id desc
+    limit 100
+  `;
+  const pool = mysql.promise();
+  try {
+    const [rows] = await pool.query(sql);
+    ctx.response.body = { message: '', content: rows };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
+
 router.post('/recommend/', async (ctx) => {
   const sql = `
     insert into recommend
@@ -350,21 +368,6 @@ router.post('/recommend/', async (ctx) => {
       ctx.request.body.qty,
       ctx.request.body.baomingfangshi,
       ctx.request.body.content,
-    ]);
-    ctx.response.body = { message: '', content: '' };
-  } catch (err) {
-    logger.error(err);
-    ctx.response.body = { message: '服务器错误', content: '' };
-  }
-});
-
-router.delete('/recommend/:id/', async (ctx) => {
-  const sql = 'delete from recommend where id = ? and uuid = ?';
-  const pool = mysql.promise();
-  try {
-    await pool.execute(sql, [
-      ctx.params.id,
-      ctx.query.uuid,
     ]);
     ctx.response.body = { message: '', content: '' };
   } catch (err) {

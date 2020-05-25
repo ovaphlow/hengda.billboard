@@ -110,7 +110,7 @@ export default function Detail({ category }) {
                   <input
                     type="text"
                     value={name || ''}
-                    className="form-control input-borderless"
+                    className="form-control"
                     onChange={(event) => setName(event.target.value)}
                   />
                 </div>
@@ -120,7 +120,7 @@ export default function Detail({ category }) {
                   <input
                     type="text"
                     value={username || ''}
-                    className="form-control input-borderless"
+                    className="form-control"
                     onChange={(event) => setUsername(event.target.value)}
                   />
                 </div>

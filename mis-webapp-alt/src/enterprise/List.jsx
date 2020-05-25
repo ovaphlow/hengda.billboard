@@ -81,30 +81,26 @@ export default function List() {
                   </thead>
 
                   <tbody>
-                    {
-                      data.map((it) => (
-                        <tr key={it.id}>
-                          <td>
-                            <a href={`#企业/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit" />
-                            </a>
-                            <span className="pull-right">{it.id}</span>
-                          </td>
-                          <td>{it.name}</td>
-                          <td>
-                            {
-                              it.status === '未认证' ? (
-                                <span className="text-danger">{it.status}</span>
-                              ) : (
-                                <>{it.status}</>
-                              )
-                            }
-                          </td>
-                          <td>{it.faren}</td>
-                          <td>{it.yuangongshuliang}</td>
-                        </tr>
-                      ))
-                    }
+                    {data.map((it) => (
+                      <tr key={it.id}>
+                        <td>
+                          <a href={`#/${it.id}?uuid=${it.uuid}`}>
+                            <i className="fa fa-fw fa-edit" />
+                          </a>
+                          <span className="pull-right">{it.id}</span>
+                        </td>
+                        <td>{it.name}</td>
+                        <td>
+                          {it.status === '未认证' ? (
+                            <span className="text-danger">{it.status}</span>
+                          ) : (
+                            <>{it.status}</>
+                          )}
+                        </td>
+                        <td>{it.faren}</td>
+                        <td>{it.yuangongshuliang}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

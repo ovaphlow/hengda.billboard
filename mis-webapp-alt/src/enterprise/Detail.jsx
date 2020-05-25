@@ -6,7 +6,7 @@ import { YUAN_GONG_SHU_LIANG } from '../constant';
 import Navbar from '../component/Navbar';
 import SideNav from './component/SideNav';
 import EnterpriseUserList from '../enterprise-user/component/List';
-import RecruitmentDataList from '../recruitment/component/DataList';
+import RecruitmentList from '../recruitment/component/List';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -25,7 +25,7 @@ export default function Detail({ category }) {
   const [address4, setAddress4] = useState('');
 
   useEffect(() => {
-    if (props.category === '编辑') {
+    if (category === '编辑') {
       (async () => {
         const t_uuid = new URLSearchParams(location.search).get('uuid');
         setUUID(t_uuid);
@@ -65,22 +65,24 @@ export default function Detail({ category }) {
   };
 
   const handleSubmit = async () => {
-    if (props.category === '新增') {
+    const data = {
+      name,
+      yingyezhizhao,
+      faren,
+      zhuceriqi,
+      zhuziguimo,
+      yuangongshuliang,
+      address1,
+      address2,
+      address3,
+      address4,
+    };
+
+    if (category === '新增') {
       const response = await window.fetch('/api/enterprise/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          yingyezhizhao,
-          faren,
-          zhuceriqi,
-          zhuziguimo,
-          yuangongshuliang,
-          address1,
-          address2,
-          address3,
-          address4,
-        }),
+        body: JSON.stringify(data),
       });
       const res = await response.json();
       if (res.message) {
@@ -88,21 +90,11 @@ export default function Detail({ category }) {
         return;
       }
       window.history.go(-1);
-    } else if (props.category === '编辑') {
+    } else if (category === '编辑') {
       const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          name,
-          yingyezhizhao,
-          faren,
-          zhuceriqi,
-          zhuziguimo,
-          yuangongshuliang,
-          address1,
-          address2,
-          address3,
-          address4,
         }),
       });
       const res = await response.json();
@@ -118,7 +110,7 @@ export default function Detail({ category }) {
     <>
       <Navbar category="企业" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav />
@@ -134,76 +126,114 @@ export default function Detail({ category }) {
 
             <div className="row">
               <div className="col">
-                <div className="card shadow">
+                <div className="card bg-dark shadow">
                   <div className="card-header">
                     企业信息
                   </div>
 
                   <div className="card-body">
-                    <InputRowField caption="名称" value={name || ''} onChange={(event) => setName(event.target.value)} />
+                    <div className="form-group">
+                      <label>名称</label>
+                      <input
+                        type="text"
+                        value={name || ''}
+                        className="form-control"
+                        onChange={(event) => setName(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption="营业执照"
-                      value={yingyezhizhao || ''}
-                      onChange={(event) => setYingyezhizhao(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label>营业执照</label>
+                      <input
+                        type="text"
+                        value={yingyezhizhao || ''}
+                        className="form-control"
+                        onChange={(event) => setYingyezhizhao(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption="法人"
-                      value={faren || ''}
-                      onChange={(event) => setFaren(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label>法人</label>
+                      <input
+                        type="text"
+                        value={faren || ''}
+                        className="form-control"
+                        onChange={(event) => setFaren(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption="注册日期"
-                      value={zhuceriqi || ''}
-                      onChange={(event) => setZhuceriqi(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label>注册日期</label>
+                      <input
+                        type="text"
+                        value={zhuceriqi || ''}
+                        className="form-control"
+                        onChange={(event) => setZhuceriqi(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption="注资规模"
-                      value={zhuziguimo || ''}
-                      onChange={(event) => setZhuziguimo(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label>注资规模</label>
+                      <input
+                        type="text"
+                        value={zhuziguimo || ''}
+                        className="form-control"
+                        onChange={(event) => setZhuziguimo(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption="地址"
-                      value={address1 || ''}
-                      onChange={(event) => setAddress1(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label>地址</label>
+                      <input
+                        type="text"
+                        value={address1 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress1(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption=""
-                      value={address2 || ''}
-                      onChange={(event) => setAddress2(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label />
+                      <input
+                        type="text"
+                        value={address2 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress2(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption=""
-                      value={address3 || ''}
-                      onChange={(event) => setAddress3(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label />
+                      <input
+                        type="text"
+                        value={address3 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress3(event.target.value)}
+                      />
+                    </div>
 
-                    <InputRowField
-                      caption=""
-                      value={address4 || ''}
-                      onChange={(event) => setAddress4(event.target.value)}
-                    />
+                    <div className="form-group">
+                      <label />
+                      <input
+                        type="text"
+                        value={address4 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress4(event.target.value)}
+                      />
+                    </div>
 
-                    <div className="form-group row">
-                      <label className="col-sm-2 col-form-label text-right">员工数量</label>
-                      <div className="col-sm-10">
-                        <select
-                          value={yuangongshuliang}
-                          className="form-control input-borderless"
-                          onChange={(event) => setYuangongshuliang(event.target.value)}
-                        >
-                          <option value="未选择">未选择</option>
-                          {YUAN_GONG_SHU_LIANG.map((it) => (
-                            <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
-                          ))}
-                        </select>
-                      </div>
+                    <div className="form-group">
+                      <label>员工数量</label>
+                      <select
+                        value={yuangongshuliang}
+                        className="form-control input-borderless"
+                        onChange={(event) => setYuangongshuliang(event.target.value)}
+                      >
+                        <option value="未选择">未选择</option>
+                        {YUAN_GONG_SHU_LIANG.map((it) => (
+                          <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
+                        ))}
+                      </select>
                     </div>
 
                     <p className="text-muted text-center">
@@ -215,14 +245,16 @@ export default function Detail({ category }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <BackwardButton />
+                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                        返回
+                      </button>
                     </div>
 
                     <div className="btn-group pull-right">
                       {category === '编辑' && (
                         <button
                           type="button"
-                          className="btn btn-outline-danger"
+                          className="btn btn-danger"
                           onClick={handleRemove}
                         >
                           <i className="fa fa-fw fa-trash-o" />
@@ -246,17 +278,15 @@ export default function Detail({ category }) {
 
               {category === '编辑' && (
                 <div className="col-4">
-                  <div className="card shadow">
+                  <div className="card bg-dark shadow">
                     <div className="card-header">
                       企业用户
                     </div>
 
                     <div className="card-body">
-                      {
-                        id && uuid && (
-                          <EnterpriseUserList enterprise_id={id} enterprise_uuid={uuid} />
-                        )
-                      }
+                      {id && uuid && (
+                        <EnterpriseUserList enterprise_id={id} enterprise_uuid={uuid} />
+                      )}
                     </div>
 
                     <div className="card-footer text-center" style={{ display: 'none' }}>
@@ -273,10 +303,10 @@ export default function Detail({ category }) {
                     </div>
                   </div>
 
-                  <div className="card shadow mt-3">
+                  <div className="card bg-dark shadow mt-3">
                     <div className="card-header">发布的职位</div>
                     <div className="card-body">
-                      <RecruitmentDataList enterprise_id={id} enterprise_uuid={uuid} />
+                      <RecruitmentList enterprise_id={id} enterprise_uuid={uuid} />
                     </div>
                   </div>
                 </div>
@@ -291,4 +321,4 @@ export default function Detail({ category }) {
 
 Detail.propTypes = {
   category: PropTypes.string.isRequired,
-}
+};

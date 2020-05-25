@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
-export default function SideNav({ category }) {
+export default function SideNav() {
   const [qty, setQty] = useState(0);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function SideNav({ category }) {
       <div>
         <a
           href="#/"
-          className={`text-small list-group-item list-group-item-dark list-group-item-action`}
+          className="text-small list-group-item list-group-item-dark list-group-item-action"
         >
           企业列表
           <span className="pull-right">
@@ -35,7 +34,7 @@ export default function SideNav({ category }) {
 
         <a
           href="#/待认证"
-          className={`text-small list-group-item list-group-item-dark list-group-item-action`}
+          className="text-small list-group-item list-group-item-dark list-group-item-action"
         >
           待认证企业
           <span className="pull-right">
@@ -52,7 +51,3 @@ export default function SideNav({ category }) {
     </div>
   );
 }
-
-SideNav.propTypes = {
-  category: PropTypes.string.isRequired,
-};

@@ -171,7 +171,11 @@ router.post('/', async (ctx) => {
 
 router.put('/', async (ctx) => {
   const sql = `
-    select * from enterprise where position(? in name) > 0 limit 100
+    select *
+    from enterprise
+    where position(? in name) > 0
+    order by id desc
+    limit 100
   `;
   const pool = mysql.promise();
   try {

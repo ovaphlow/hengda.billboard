@@ -20,7 +20,7 @@ export default function Navbar({ category }) {
       <div className="collapse navbar-collapse" id="navbarContent">
         <ul className="navbar-nav mr-auto">
           <li className={`nav-item ${category === '首页' ? 'active' : ''}`}>
-            <a href="#/" className="nav-link">
+            <a href="home.html#/" className="nav-link">
               <i className="fa fa-fw fa-home" />
               首页
               <span className="sr-only">(current)</span>
@@ -28,7 +28,7 @@ export default function Navbar({ category }) {
           </li>
 
           <li className={`nav-item ${category === '平台内容' ? 'active' : ''}`}>
-            <a href="#平台内容/banner" className="nav-link">
+            <a href="content.html#/banner" className="nav-link">
               平台内容
             </a>
           </li>
@@ -40,7 +40,7 @@ export default function Navbar({ category }) {
           </li>
 
           <li className={`nav-item ${category === '企业' ? 'active' : ''}`}>
-            <a href="#企业" className="nav-link">
+            <a href="enterprise.html#/" className="nav-link">
               企业
             </a>
           </li>

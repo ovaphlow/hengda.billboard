@@ -56,7 +56,7 @@ export default function CertificateList() {
     <>
       <Navbar category="企业" />
 
-      <div className="container-fluid mt-3 mb-5">
+      <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
             <SideNav />
@@ -66,7 +66,7 @@ export default function CertificateList() {
             <h3>待认证企业</h3>
             <hr />
 
-            <div className="card shadow">
+            <div className="card bg-dark shadow">
               <div className="card-header">
                 <div className="form-row">
                   <div className="col-auto">
@@ -87,7 +87,7 @@ export default function CertificateList() {
 
                   <div className="col-auto">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
+                      <button type="button" className="btn btn-info" onClick={handleFilter}>
                         查询
                       </button>
 
@@ -101,8 +101,8 @@ export default function CertificateList() {
               </div>
 
               <div className="card-body">
-                <table className="table table-hover table-bordered">
-                  <thead className="thead-light">
+                <table className="table table-dark table-striped table-hover table-bordered">
+                  <thead>
                     <tr>
                       <th className="text-right">序号</th>
                       <th>名称</th>
@@ -112,34 +112,32 @@ export default function CertificateList() {
                   </thead>
 
                   <tbody>
-                    {
-                      list.map((it) => (
-                        <tr key={it.id}>
-                          <td>
-                            <a href={`#企业/${it.id}?uuid=${it.uuid}`}>
-                              <i className="fa fa-fw fa-edit" />
-                            </a>
-                            <span className="pull-right">{it.id}</span>
-                          </td>
-                          <td>{it.name}</td>
-                          <td>{it.faren}</td>
-                          <td>
-                            <div className="btn-group pull-right">
-                              <button
-                                type="button"
-                                className="btn btn-outline-success btn-sm"
-                                data-id={it.id}
-                                data-uuid={it.uuid}
-                                onClick={handleCertificate}
-                              >
-                                <i className="fa fa-fw fa-check" data-id={it.id} data-uuid={it.uuid} />
-                                认证
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    }
+                    {list.map((it) => (
+                      <tr key={it.id}>
+                        <td>
+                          <a href={`enterprise.html#/${it.id}?uuid=${it.uuid}`}>
+                            <i className="fa fa-fw fa-edit" />
+                          </a>
+                          <span className="pull-right">{it.id}</span>
+                        </td>
+                        <td>{it.name}</td>
+                        <td>{it.faren}</td>
+                        <td>
+                          <div className="btn-group pull-right">
+                            <button
+                              type="button"
+                              className="btn btn-outline-success btn-sm"
+                              data-id={it.id}
+                              data-uuid={it.uuid}
+                              onClick={handleCertificate}
+                            >
+                              <i className="fa fa-fw fa-check" data-id={it.id} data-uuid={it.uuid} />
+                              认证
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

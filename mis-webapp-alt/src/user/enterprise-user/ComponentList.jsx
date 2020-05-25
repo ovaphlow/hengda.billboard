@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function List({ enterprise_id, enterprise_uuid }) {
+export default function ComponentList({ enterprise_id, enterprise_uuid }) {
   const [data_list, setDataList] = useState([]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function List({ enterprise_id, enterprise_uuid }) {
   );
 }
 
-List.propTypes = {
+ComponentList.propTypes = {
   enterprise_id: PropTypes.string.isRequired,
   enterprise_uuid: PropTypes.string.isRequired,
 };

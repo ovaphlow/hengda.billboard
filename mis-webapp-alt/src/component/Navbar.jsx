@@ -33,21 +33,16 @@ export default function Navbar({ category }) {
             </a>
           </li>
 
-          <li className={`nav-item ${category === '管理端用户' ? 'active' : ''}`}>
-            <a href="mis-user.html#/" className="nav-link">
-              管理端用户
+          <li className={`nav-item ${category === '用户' ? 'active' : ''}`}>
+            <a href="user.html#/平台用户" className="nav-link">
+              <i className="fa fa-fw fa-users" />
+              用户
             </a>
           </li>
 
           <li className={`nav-item ${category === '企业' ? 'active' : ''}`}>
             <a href="enterprise.html#/" className="nav-link">
               企业
-            </a>
-          </li>
-
-          <li className={`nav-item ${category === '普通用户' ? 'active' : ''}`}>
-            <a href="common-user.html#/" className="nav-link">
-              普通用户
             </a>
           </li>
 

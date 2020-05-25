@@ -3,8 +3,8 @@ import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import md5 from 'blueimp-md5';
 
-import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
+import Navbar from '../../component/Navbar';
+import SideNav from '../ComponentSideNav';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -106,7 +106,7 @@ export default function Detail({ category }) {
 
   return (
     <>
-      <Navbar category="普通用户" />
+      <Navbar category="用户" />
 
       <div className="container mt-3 mb-5">
         <div className="row">

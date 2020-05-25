@@ -9,7 +9,7 @@ import SchoolPickerRowField from '../component/SchoolPickerRowField';
 import IndustryPickerRowField from '../component/IndustryPickerRowField';
 import EducationPickerRowField from '../component/EducationPickerRowField';
 import AddressLevel3PickerRowField from '../component/AddressLevel3PickerRowField';
-import SideNav from '../common-user/component/SideNav';
+import SideNav from '../user/ComponentSideNav';
 
 export default function Detail({ category }) {
   const { id } = useParams();

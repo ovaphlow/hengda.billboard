@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
+import Navbar from '../../component/Navbar';
+import SideNav from '../ComponentSideNav';
 
 export default function List() {
   const [data, setData] = useState([]);
@@ -23,7 +23,7 @@ export default function List() {
 
   return (
     <>
-      <Navbar category="普通用户" />
+      <Navbar category="用户" />
 
       <div className="container mt-3 mb-5">
         <div className="row">
@@ -32,7 +32,7 @@ export default function List() {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>普通用户 列表</h3>
+            <h3>普通用户</h3>
             <hr />
 
             <div className="card bg-dark shadow">
@@ -85,7 +85,7 @@ export default function List() {
                     {data.map((it) => (
                       <tr key={it.id}>
                         <td>
-                          <a href={`#/${it.id}?uuid=${it.uuid}`}>
+                          <a href={`#/普通用户/${it.id}?uuid=${it.uuid}`}>
                             <i className="fa fa-fw fa-edit" />
                           </a>
                           <span className="pull-right">{it.id}</span>
@@ -105,33 +105,33 @@ export default function List() {
                         <td>{it.qty_favorite}</td>
                         <td className="text-right">
                           {/* <div className="btn-group"> */}
-                            <button
-                              type="button"
-                              className="btn btn-outline-warning btn-sm"
-                              onClick={() => { window.location = `journal.html#/登录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
-                            >
-                              登录记录
-                            </button>
+                          <button
+                            type="button"
+                            className="btn btn-outline-warning btn-sm"
+                            onClick={() => { window.location = `journal.html#/登录?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
+                          >
+                            登录记录
+                          </button>
 
-                            <br />
+                          <br />
 
-                            <button
-                              type="button"
-                              className="btn btn-outline-info btn-sm"
-                              onClick={() => {window.location = `journal.html#/浏览?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
-                            >
-                              浏览记录
-                            </button>
+                          <button
+                            type="button"
+                            className="btn btn-outline-info btn-sm"
+                            onClick={() => { window.location = `journal.html#/浏览?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
+                          >
+                            浏览记录
+                          </button>
 
-                            <br />
+                          <br />
 
-                            <button
-                              type="button"
-                              className="btn btn-outline-success btn-sm"
-                              onClick={() => { window.location = `journal.html#/编辑?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
-                            >
-                              编辑记录
-                            </button>
+                          <button
+                            type="button"
+                            className="btn btn-outline-success btn-sm"
+                            onClick={() => { window.location = `journal.html#/编辑?user_category=个人用户&user_id=${it.id}&user_uuid=${it.uuid}`; }}
+                          >
+                            编辑记录
+                          </button>
                           {/* </div> */}
                         </td>
                       </tr>

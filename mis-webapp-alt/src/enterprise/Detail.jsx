@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { YUAN_GONG_SHU_LIANG } from '../constant';
 import Navbar from '../component/Navbar';
 import SideNav from './component/SideNav';
-import EnterpriseUserList from '../enterprise-user/component/List';
+import EnterpriseUserList from '../user/enterprise-user/ComponentList';
 import RecruitmentList from '../recruitment/component/List';
 
 export default function Detail({ category }) {

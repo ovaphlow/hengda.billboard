@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
-import SideNav from '../common-user/component/SideNav';
+import SideNav from '../user/ComponentSideNav';
 
 export default function List({ category }) {
   const location = useLocation();

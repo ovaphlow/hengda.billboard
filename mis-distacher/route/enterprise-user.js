@@ -68,11 +68,32 @@ router.delete('/:id', async (ctx) => {
   }
 });
 
+router.put('/', async (ctx) => {
+  const sql = `
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, username, eu.name, phone,
+      e.name as enterprise
+    from enterprise_user as eu
+      join enterprise as e on e.id = eu.enterprise_id
+    order by id desc
+    limit 100
+  `
+  const pool = mysql.promise();
+  try {
+    const [rows] = await pool.query(sql)
+    ctx.response.body = { message: '', content: rows };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+})
+
 router.get('/', async (ctx) => {
   const sql = `
-    select id, uuid, enterprise_id, username, name, phone
-    from enterprise_user
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, username, eu.name, eu.phone
+    from enterprise_user as eu
     where enterprise_id = ? and enterprise_uuid = ?
+    order by id desc
+    limit 100
   `;
   const pool = mysql.promise();
   try {

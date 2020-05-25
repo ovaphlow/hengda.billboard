@@ -5,6 +5,11 @@ import SideNav from '../ComponentSideNav';
 
 export default function List() {
   const [list, setList] = useState([]);
+  const [filter, setFilter] = useState('');
+
+  const handleFilter = async () => {
+    console.info(111)
+  }
 
   useEffect(() => {
     (async () => {
@@ -33,6 +38,31 @@ export default function List() {
             <hr />
 
             <div className="card bg-dark shadow">
+              <div className="card-header">
+                <div className="form-row">
+                  <div className="col-auto">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">姓名/用户名/电话</span>
+                      </div>
+                      <input type="text" value={filter} className="form-control" onChange={(event) => setFilter(event.target.value)} />
+                    </div>
+                  </div>
+
+                  <div className="btn-group col-auto">
+                    <button type="button" className="btn btn-info" onClick={handleFilter}>
+                      <i className="fa fa-fw fa-search" />
+                      查询
+                    </button>
+
+                    <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
+                      <i className="fa fa-fw fa-refresh" />
+                      重置
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div className="card-body">
                 <table className="table table-dark table-bordered table-striped table-hover">
                   <thead>

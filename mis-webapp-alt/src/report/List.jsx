@@ -24,9 +24,9 @@ export default function List() {
     const uuid = event.target.getAttribute('data-uuid');
     const category = event.target.getAttribute('data-category');
     if (category === '岗位') {
-      window.location = `#岗位/${id}?uuid=${uuid}`;
+      window.location = `recruitment.html#/${id}?uuid=${uuid}`;
     } else if (category === '企业') {
-      window.location = `#企业/${id}?uuid=${uuid}`;
+      window.location = `enterprise.html#/${id}?uuid=${uuid}`;
     } else if (category === '简历') {
       window.location = `resume.html#/${id}?uuid=${uuid}`;
     }

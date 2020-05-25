@@ -226,7 +226,7 @@ export default function List({ category }) {
                             type="button"
                             data-id={it.data_id}
                             className="btn btn-sm btn-outline-info"
-                            onClick={() => { window.location = `#岗位/${it.data_id}`; }}
+                            onClick={() => { window.location = `recruitment.html#/${it.data_id}`; }}
                           >
                             查看
                           </button>

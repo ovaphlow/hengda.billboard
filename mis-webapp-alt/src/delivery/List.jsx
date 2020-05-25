@@ -124,7 +124,7 @@ export default function List() {
                           <a href={`resume.html#/${it.resume_id}?uuid=${it.resume_uuid}`}>{it.resume_name}</a>
                         </td>
                         <td>
-                          <a href={`#岗位/${it.recruitment_id}?uuid=${it.recruitment_uuid}`}>{it.recruitment_name}</a>
+                          <a href={`recruitment.html#/${it.recruitment_id}?uuid=${it.recruitment_uuid}`}>{it.recruitment_name}</a>
                         </td>
                         <td>{it.datime}</td>
                         <td className="text-right">{it.status}</td>

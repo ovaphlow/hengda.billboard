@@ -48,7 +48,7 @@ export default function List() {
 
             <div className="card bg-dark shadow">
               <div className="card-body">
-                <table className="table table-dark table-bordered table-striped table-hover">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>
@@ -73,8 +73,6 @@ export default function List() {
                           )}
                           &nbsp;
                           {it.name}
-                          <br />
-                          <small className="text-muted">{it.username}</small>
                         </td>
                         <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
                         <td>{it.category}</td>

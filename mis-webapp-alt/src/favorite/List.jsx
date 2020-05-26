@@ -61,7 +61,7 @@ export default function List() {
 
             <div className="card bg-dark shadow">
               <div className="card-body">
-                <table className="table table-dark table-striped table-hover table-bordered">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>
@@ -81,7 +81,7 @@ export default function List() {
                         <td>
                           <span className="badge badge-info">{it.category1}</span>
                           &nbsp;
-                          {it.username}
+                          {it.name}
                           (
                           {it.user_id}
                           )

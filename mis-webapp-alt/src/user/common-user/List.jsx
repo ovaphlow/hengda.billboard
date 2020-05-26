@@ -70,7 +70,7 @@ export default function List() {
               </div>
 
               <div className="card-body table-responsive">
-                <table className="table table-dark table-striped table-hover table-bordered">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>
@@ -90,11 +90,7 @@ export default function List() {
                           </a>
                           <span className="pull-right">{it.id}</span>
                         </td>
-                        <td>
-                          {it.name}
-                          <br />
-                          <small className="text-muted">{it.username}</small>
-                        </td>
+                        <td>{it.name}</td>
                         <td>
                           <i className="fa fa-fw fa-envelope-o" />
                           {it.email}

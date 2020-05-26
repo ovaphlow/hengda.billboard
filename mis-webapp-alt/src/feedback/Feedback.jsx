@@ -57,7 +57,7 @@ export default function Feedback() {
 
             <div className="card bg-dark shadow">
               <div className="card-body">
-                <table className="table table-dark table-hover table-bordered table-striped">
+                <table className="table table-dark table-hover">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>
@@ -89,8 +89,6 @@ export default function Feedback() {
                           )}
                           &nbsp;
                           {it.name}
-                          <br />
-                          <small className="text-muted">{it.username}</small>
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}

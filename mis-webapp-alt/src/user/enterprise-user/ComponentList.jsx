@@ -26,7 +26,7 @@ export default function ComponentList({ enterprise_id, enterprise_uuid }) {
           className="list-group-item list-group-item-dark list-group-item-action"
         >
           {it.name}
-          <span className="pull-right text-muted">{it.username}</span>
+          <span className="pull-right text-muted">{it.name}</span>
         </a>
       ))}
     </div>

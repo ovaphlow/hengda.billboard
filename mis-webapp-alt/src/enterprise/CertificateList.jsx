@@ -101,7 +101,7 @@ export default function CertificateList() {
               </div>
 
               <div className="card-body">
-                <table className="table table-dark table-striped table-hover table-bordered">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>

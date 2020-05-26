@@ -58,7 +58,7 @@ export default function Complaint() {
 
             <div className="card bg-dark shadow">
               <div className="card-body">
-                <table className="table table-dark table-hover table-bordered table-striped">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>
@@ -90,8 +90,6 @@ export default function Complaint() {
                           )}
                           &nbsp;
                           {it.name}
-                          <br />
-                          <small className="text-muted">{it.username}</small>
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}

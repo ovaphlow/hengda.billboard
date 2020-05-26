@@ -104,7 +104,7 @@ export default function List() {
               </div>
 
               <div className="card-body">
-                <table className="table table-dark table-bordered table-striped table-hover">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>

@@ -43,7 +43,7 @@ export default function List() {
                   <div className="col-auto">
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">姓名/用户名/电话</span>
+                        <span className="input-group-text">姓名/电话</span>
                       </div>
                       <input type="text" value={filter} className="form-control" onChange={(event) => setFilter(event.target.value)} />
                     </div>
@@ -64,7 +64,7 @@ export default function List() {
               </div>
 
               <div className="card-body">
-                <table className="table table-dark table-bordered table-striped table-hover">
+                <table className="table table-dark table-striped">
                   <thead>
                     <tr>
                       <th className="text-right">序号</th>
@@ -85,11 +85,7 @@ export default function List() {
                           </span>
                           {it.id}
                         </td>
-                        <td>
-                          {it.name}
-                          <br />
-                          <small className="text-secondary">{it.username}</small>
-                        </td>
+                        <td>{it.name}</td>
                         <td>{it.phone}</td>
                         <td>
                           {it.enterprise}

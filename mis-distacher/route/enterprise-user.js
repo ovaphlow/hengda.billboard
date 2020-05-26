@@ -11,7 +11,7 @@ module.exports = router;
 
 router.get('/:id', async (ctx) => {
   const sql = `
-    select id, enterprise_id, username, name, phone
+    select id, enterprise_id, name, phone
     from enterprise_user
     where id = ? and uuid = ?
     limit 1
@@ -74,7 +74,7 @@ router.put('/filter', async (ctx) => {
 
 router.put('/', async (ctx) => {
   const sql = `
-    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, username, eu.name, phone,
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, phone,
       e.name as enterprise
     from enterprise_user as eu
       join enterprise as e on e.id = eu.enterprise_id
@@ -93,7 +93,7 @@ router.put('/', async (ctx) => {
 
 router.get('/', async (ctx) => {
   const sql = `
-    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, username, eu.name, eu.phone
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, eu.phone
     from enterprise_user as eu
     where enterprise_id = ? and enterprise_uuid = ?
     order by id desc

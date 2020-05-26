@@ -11,7 +11,6 @@ export default function Detail({ category }) {
   const location = useLocation();
   const [uuid, setUUID] = useState('');
   const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -29,7 +28,6 @@ export default function Detail({ category }) {
           return;
         }
         setName(res.content.name);
-        setUsername(res.content.username);
         setEmail(res.content.email);
         setPhone(res.content.phone);
       })();
@@ -72,7 +70,6 @@ export default function Detail({ category }) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           name,
-          username,
           password: md5(password),
           email,
           phone,
@@ -90,7 +87,6 @@ export default function Detail({ category }) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           name,
-          username,
           email,
           phone,
         }),
@@ -135,16 +131,6 @@ export default function Detail({ category }) {
                         value={name || ''}
                         className="form-control"
                         onChange={(event) => setName(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>用户名</label>
-                      <input
-                        type="text"
-                        value={username || ''}
-                        className="form-control"
-                        onChange={(event) => setUsername(event.target.value)}
                       />
                     </div>
 

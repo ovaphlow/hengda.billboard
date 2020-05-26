@@ -8,6 +8,7 @@ export default function List() {
   const [filter_name, setFilterName] = useState('');
 
   const handleFilter = async () => {
+    setData([]);
     const response = await window.fetch('/api/common-user/', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
@@ -41,7 +42,7 @@ export default function List() {
                   <div className="col-auto">
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">姓名</span>
+                        <span className="input-group-text">姓名/电话</span>
                       </div>
 
                       <input

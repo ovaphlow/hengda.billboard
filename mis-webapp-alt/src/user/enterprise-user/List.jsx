@@ -8,7 +8,18 @@ export default function List() {
   const [filter, setFilter] = useState('');
 
   const handleFilter = async () => {
-    console.info(111)
+    setList([]);
+    const response = await window.fetch(`/api/enterprise-user/filter`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ filter }),
+    })
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    setList(res.content);
   }
 
   useEffect(() => {
@@ -43,7 +54,7 @@ export default function List() {
                   <div className="col-auto">
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">姓名/电话</span>
+                        <span className="input-group-text">姓名/电话/企业</span>
                       </div>
                       <input type="text" value={filter} className="form-control" onChange={(event) => setFilter(event.target.value)} />
                     </div>

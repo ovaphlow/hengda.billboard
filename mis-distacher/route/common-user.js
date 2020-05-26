@@ -74,11 +74,16 @@ router.put('/', async (ctx) => {
       -- (select count(*) from favorite where common_user_id = cu.id) as qty_delivery
     from common_user as cu
     where position(? in name) > 0
-    limit 2000
+      or position(? in phone) > 0
+    order by id desc
+    limit 100
   `;
   const pool = mysql.promise();
   try {
-    const [rows] = await pool.query(sql, [ctx.request.body.filter_name]);
+    const [rows] = await pool.query(sql, [
+      ctx.request.body.filter_name,
+      ctx.request.body.filter_name,
+    ]);
     ctx.response.body = { message: '', content: rows };
   } catch (err) {
     logger.error(err);

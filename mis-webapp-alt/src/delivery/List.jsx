@@ -91,7 +91,7 @@ export default function List() {
 
                   <div className="col-auto">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-outline-info" onClick={handleFilter}>
+                      <button type="button" className="btn btn-info" onClick={handleFilter}>
                         查询
                       </button>
 

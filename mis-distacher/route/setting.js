@@ -66,7 +66,7 @@ router.delete('/school/:id', async (ctx) => {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
   }
-})
+});
 
 router.get('/school/', async (ctx) => {
   let sql = '';

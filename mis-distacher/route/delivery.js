@@ -15,11 +15,13 @@ router.put('/', async (ctx) => {
       (select name from resume where id = d.resume_id ) as resume_name,
       (select name from recruitment where id = d.recruitment_id ) as recruitment_name
     from delivery as d
-    where datime between ? and ?
+    where resume_id = (select id from resume where common_user_id = ? limit 1)
+      and datime between ? and ?
   `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
+      parseInt(ctx.request.query.user_id, 10),
       ctx.request.body.filter_date_begin,
       ctx.request.body.filter_date_end,
     ]);

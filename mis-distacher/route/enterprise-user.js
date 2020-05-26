@@ -9,6 +9,32 @@ const router = new Router({
 
 module.exports = router;
 
+router.put('/filter', async (ctx) => {
+  const sql = `
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, phone,
+      e.name as enterprise
+    from enterprise_user as eu
+      join enterprise as e on e.id = eu.enterprise_id
+    where position(? in eu.name) > 0
+      or position(? in eu.phone) > 0
+      or position(? in e.name) > 0
+    order by id desc
+    limit 100
+  `;
+  const pool = mysql.promise();
+  try {
+    const [rows] = await pool.query(sql, [
+      ctx.request.body.filter,
+      ctx.request.body.filter,
+      ctx.request.body.filter,
+    ]);
+    ctx.response.body = { message: '', content: rows };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
+
 router.get('/:id', async (ctx) => {
   const sql = `
     select id, enterprise_id, name, phone
@@ -68,10 +94,6 @@ router.delete('/:id', async (ctx) => {
   }
 });
 
-router.put('/filter', async (ctx) => {
-
-})
-
 router.put('/', async (ctx) => {
   const sql = `
     select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, phone,
@@ -80,16 +102,16 @@ router.put('/', async (ctx) => {
       join enterprise as e on e.id = eu.enterprise_id
     order by id desc
     limit 100
-  `
+  `;
   const pool = mysql.promise();
   try {
-    const [rows] = await pool.query(sql)
+    const [rows] = await pool.query(sql);
     ctx.response.body = { message: '', content: rows };
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
   }
-})
+});
 
 router.get('/', async (ctx) => {
   const sql = `

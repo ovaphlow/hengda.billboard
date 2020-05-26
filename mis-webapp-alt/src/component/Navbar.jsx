@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export default function Navbar({ category }) {
+  const [qty, setQty] = useState(0)
+
+  useEffect(() => {
+    // 待认证企业数量
+    (async () => {
+      const response = await window.fetch('/api/enterprise/certificate/qty');
+      const res = await response.json();
+      setQty((prev) => prev + res.content.qty);
+    })();
+  }, []);
+
   return (
     <nav className="navbar navbar-expand navbar-dark fix-top sticky-top bg-dark">
       <a href="home.html" className="navbar-brand">#TITLE#</a>
@@ -37,12 +48,12 @@ export default function Navbar({ category }) {
             <a href="user.html#/平台用户" className="nav-link">
               <i className="fa fa-fw fa-users" />
               用户
-            </a>
-          </li>
-
-          <li className={`nav-item ${category === '企业' ? 'active' : ''}`}>
-            <a href="enterprise.html#/" className="nav-link">
-              企业
+              {qty > 0 && (
+                <small>
+                  &nbsp;
+                  <span className="badge badge-pill badge-danger">{qty}</span>
+                </small>
+              )}
             </a>
           </li>
 

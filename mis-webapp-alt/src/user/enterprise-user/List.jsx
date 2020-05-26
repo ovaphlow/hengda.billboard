@@ -4,23 +4,24 @@ import Navbar from '../../component/Navbar';
 import SideNav from '../ComponentSideNav';
 
 export default function List() {
+  const [qty, setQty] = useState(0);
   const [list, setList] = useState([]);
   const [filter, setFilter] = useState('');
 
   const handleFilter = async () => {
     setList([]);
-    const response = await window.fetch(`/api/enterprise-user/filter`, {
+    const response = await window.fetch('/api/enterprise-user/filter', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ filter }),
-    })
+    });
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
       return;
     }
     setList(res.content);
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -31,6 +32,15 @@ export default function List() {
       });
       const res = await response.json();
       setList(res.content);
+    })();
+  }, []);
+
+  useEffect(() => {
+    // 待认证企业数量
+    (async () => {
+      const response = await window.fetch('/api/enterprise/certificate/qty');
+      const res = await response.json();
+      setQty(res.content.qty);
     })();
   }, []);
 
@@ -47,6 +57,18 @@ export default function List() {
           <div className="col-9 col-lg-10">
             <h3>企业用户</h3>
             <hr />
+
+            {parseInt(qty, 10) > 0 && (
+              <div className="alert alert-warning">
+                有
+                {' '}
+                {qty}
+                {' '}
+                个待认证企业需要
+                <a href="enterprise.html#/待认证">处理</a>
+                。
+              </div>
+            )}
 
             <div className="card bg-dark shadow">
               <div className="card-header">

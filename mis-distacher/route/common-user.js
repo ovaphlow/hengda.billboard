@@ -11,7 +11,7 @@ module.exports = router;
 
 router.get('/:id', async (ctx) => {
   const sql = `
-    select id, uuid, username, name, email, phone
+    select id, uuid, name, email, phone
     from common_user
     where id = ? and uuid = ?
   `;
@@ -68,7 +68,7 @@ router.delete('/:id', async (ctx) => {
 
 router.put('/', async (ctx) => {
   const sql = `
-    select id, uuid, name, username, phone, email,
+    select id, uuid, name, phone, email,
       (select count(*) from favorite where user_id = cu.id) as qty_favorite
       -- 投递数量
       -- (select count(*) from favorite where common_user_id = cu.id) as qty_delivery
@@ -80,27 +80,6 @@ router.put('/', async (ctx) => {
   try {
     const [rows] = await pool.query(sql, [ctx.request.body.filter_name]);
     ctx.response.body = { message: '', content: rows };
-  } catch (err) {
-    logger.error(err);
-    ctx.response.body = { message: '服务器错误', content: '' };
-  }
-});
-
-router.post('/', async (ctx) => {
-  const sql = `
-    insert into common_user (uuid, username, password, name, email, phone)
-    values (uuid(), ?, ?, ?, ?, ?)
-  `;
-  const pool = mysql.promise();
-  try {
-    await pool.execute(sql, [
-      ctx.request.body.username,
-      ctx.request.body.password,
-      ctx.request.body.name,
-      ctx.request.body.email,
-      ctx.request.body.phone,
-    ]);
-    ctx.response.body = { message: '', content: '' };
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };

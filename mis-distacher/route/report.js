@@ -12,8 +12,8 @@ module.exports = router;
 router.get('/', async (ctx) => {
   const sql = `
     select *,
-      (select username from common_user where id = r.user_id) as username,
-      (select name from common_user where id = r.user_id) as name
+      (select name from common_user where id = r.user_id) as name,
+      (select phone from common_user where id = r.user_id) as phone
     from report as r
     order by id desc
     limit 2000

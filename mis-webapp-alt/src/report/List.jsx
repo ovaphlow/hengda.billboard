@@ -73,6 +73,8 @@ export default function List() {
                           )}
                           &nbsp;
                           {it.name}
+                          <br />
+                          {it.phone}
                         </td>
                         <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
                         <td>{it.category}</td>

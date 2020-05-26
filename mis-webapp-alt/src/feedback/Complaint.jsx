@@ -90,6 +90,8 @@ export default function Complaint() {
                           )}
                           &nbsp;
                           {it.name}
+                          <br />
+                          {it.phone}
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}

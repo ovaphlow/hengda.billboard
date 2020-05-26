@@ -89,6 +89,8 @@ export default function Feedback() {
                           )}
                           &nbsp;
                           {it.name}
+                          <br />
+                          {it.phone}
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}

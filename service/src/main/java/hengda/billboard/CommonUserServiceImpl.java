@@ -246,7 +246,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from common_user where email = ? {and id != ?";
+      String sql = "select * from common_user where email = ? and id != ?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, body.get("email").toString());
         ps.setString(2, body.get("id").toString());

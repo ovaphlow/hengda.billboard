@@ -16,14 +16,15 @@ export default function List({ category }) {
   const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'));
 
   useEffect(() => {
-    setUserCategory(new URLSearchParams(location.search).get('user_category'));
+    const t_user_category = new URLSearchParams(location.search).get('user_category');
+    setUserCategory(t_user_category);
     const t_user_id = new URLSearchParams(location.search).get('user_id');
     setUserID(t_user_id);
     const t_user_uuid = new URLSearchParams(location.search).get('user_uuid');
     setUserUUID(t_user_uuid);
     if (category === '登录') {
       (async () => {
-        const response = await window.fetch(`/api/journal/sign-in/?user_id=${t_user_id}&user_uuid=${t_user_uuid}`);
+        const response = await window.fetch(`/api/journal/sign-in/?user_id=${t_user_id}&user_uuid=${t_user_uuid}?category=${t_user_category}`);
         const res = await response.json();
         if (res.message) {
           window.console.error(res.message);
@@ -33,7 +34,7 @@ export default function List({ category }) {
       })();
     } else if (category === '浏览') {
       (async () => {
-        const response = await window.fetch(`/api/journal/browse/?user_id=${t_user_id}&user_uuid=${t_user_uuid}`);
+        const response = await window.fetch(`/api/journal/browse/?user_id=${t_user_id}&user_uuid=${t_user_uuid}?category=${t_user_category}`);
         const res = await response.json();
         if (res.message) {
           window.console.error(res.message);
@@ -43,7 +44,7 @@ export default function List({ category }) {
       })();
     } else if (category === '编辑') {
       (async () => {
-        const response = await window.fetch(`/api/journal/edit/?user_id=${t_user_id}&user_uuid=${t_user_uuid}`);
+        const response = await window.fetch(`/api/journal/edit/?user_id=${t_user_id}&user_uuid=${t_user_uuid}&category=${t_user_category}`);
         const res = await response.json();
         if (res.message) {
           window.console.error(res.message);
@@ -57,7 +58,7 @@ export default function List({ category }) {
 
   const handleFilter = async () => {
     if (category === '登录') {
-      const response = await window.fetch(`/api/journal/sign-in/?user_id=${user_id}`, {
+      const response = await window.fetch(`/api/journal/sign-in/?user_id=${user_id}&user_uuid=${user_uuid}&category=${user_category}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -72,7 +73,7 @@ export default function List({ category }) {
       }
       setData(res.content);
     } else if (category === '浏览') {
-      const response = await window.fetch(`/api/journal/browse/?user_id=${user_id}`, {
+      const response = await window.fetch(`/api/journal/browse/?user_id=${user_id}&user_uuid=${user_uuid}&category=${user_category}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

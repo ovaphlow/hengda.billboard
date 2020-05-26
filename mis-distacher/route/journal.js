@@ -61,7 +61,8 @@ router.get('/browse/', async (ctx) => {
     from browse_journal
     where common_user_id = ?
       and common_user_uuid = ?
-    order by id desc limit 100
+    order by id desc
+    limit 100
   `;
   const pool = mysql.promise();
   try {
@@ -81,12 +82,14 @@ router.put('/browse/', async (ctx) => {
     select *
     from browse_journal
     where common_user_id = ?
+      and common_user_uuid = ?
       and datime between ? and ?
   `;
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
       parseInt(ctx.request.query.user_id, 10),
+      ctx.request.query.user_uuid,
       ctx.request.body.date_begin,
       ctx.request.body.date_end,
     ]);
@@ -125,6 +128,7 @@ router.put('/edit/', async (ctx) => {
     from edit_journal
     where user_id = ?
       and datime between ? and ?
+      and category1 = '个人用户'
   `;
   const pool = mysql.promise();
   try {

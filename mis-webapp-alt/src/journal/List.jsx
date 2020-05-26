@@ -26,30 +26,18 @@ export default function List({ category }) {
       (async () => {
         const response = await window.fetch(`/api/journal/sign-in/?user_id=${t_user_id}&user_uuid=${t_user_uuid}?category=${t_user_category}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setData(res.content);
       })();
     } else if (category === '浏览') {
       (async () => {
         const response = await window.fetch(`/api/journal/browse/?user_id=${t_user_id}&user_uuid=${t_user_uuid}?category=${t_user_category}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setData(res.content);
       })();
     } else if (category === '编辑') {
       (async () => {
         const response = await window.fetch(`/api/journal/edit/?user_id=${t_user_id}&user_uuid=${t_user_uuid}&category=${t_user_category}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setData(res.content);
       })();
     }
@@ -227,7 +215,7 @@ export default function List({ category }) {
                             type="button"
                             data-id={it.data_id}
                             className="btn btn-sm btn-outline-info"
-                            onClick={() => { window.location = `recruitment.html#/${it.data_id}`; }}
+                            onClick={() => { window.location = `recruitment.html#/${it.data_id}?uuid=${it.data_uuid}`; }}
                           >
                             查看
                           </button>

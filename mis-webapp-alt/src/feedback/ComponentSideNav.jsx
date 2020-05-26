@@ -27,6 +27,16 @@ export default function SideNav() {
             <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
+
+        <a
+          href="#/举报"
+          className="text-small list-group-item list-group-item-dark list-group-item-action"
+        >
+          举报
+          <span className="pull-right">
+            <i className="fa fa-fw fa-angle-right" />
+          </span>
+        </a>
       </div>
     </div>
   );

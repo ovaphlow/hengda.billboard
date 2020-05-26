@@ -5,7 +5,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
-import SideNav from '../enterprise/component/SideNav';
+import SideNav from '../user/ComponentSideNav';
 
 export default function Detail({ cat }) {
   const { recruitment_id } = useParams();

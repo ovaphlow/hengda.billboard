@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
+import SideNav from '../user/ComponentSideNav';
 
 export default function CertificateList() {
   const [list, setList] = useState([]);
@@ -54,7 +54,7 @@ export default function CertificateList() {
 
   return (
     <>
-      <Navbar category="企业" />
+      <Navbar category="用户" />
 
       <div className="container mt-3 mb-5">
         <div className="row">
@@ -62,9 +62,15 @@ export default function CertificateList() {
             <SideNav />
           </div>
 
-          <div className="col-9 col-lg-10">
+          <div className="col">
             <h3>待认证企业</h3>
             <hr />
+
+            <div className="btn-group mb-2">
+              <button type="button" className="btn btn-secondary btn-sm" onClick={() => { window.history.go(-1); }}>
+                返回
+              </button>
+            </div>
 
             <div className="card bg-dark shadow">
               <div className="card-header">

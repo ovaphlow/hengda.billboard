@@ -11,7 +11,7 @@ module.exports = router;
 
 router.put('/filter', async (ctx) => {
   const sql = `
-    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, phone,
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, eu.phone,
       e.name as enterprise
     from enterprise_user as eu
       join enterprise as e on e.id = eu.enterprise_id
@@ -96,7 +96,7 @@ router.delete('/:id', async (ctx) => {
 
 router.put('/', async (ctx) => {
   const sql = `
-    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, phone,
+    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, eu.phone,
       e.name as enterprise
     from enterprise_user as eu
       join enterprise as e on e.id = eu.enterprise_id

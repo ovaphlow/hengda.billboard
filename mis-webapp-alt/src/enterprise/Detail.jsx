@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 
 import { YUAN_GONG_SHU_LIANG } from '../constant';
 import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
-import EnterpriseUserList from '../user/enterprise-user/ComponentList';
+import SideNav from '../user/ComponentSideNav';
 import RecruitmentList from '../recruitment/component/List';
 
 export default function Detail({ category }) {
@@ -116,7 +115,7 @@ export default function Detail({ category }) {
             <SideNav />
           </div>
 
-          <div className="col-9 col-lg-10">
+          <div className="col">
             <h3>
               {category}
               {' '}
@@ -124,193 +123,160 @@ export default function Detail({ category }) {
             </h3>
             <hr />
 
-            <div className="row">
-              <div className="col">
-                <div className="card bg-dark shadow">
-                  <div className="card-header">
-                    企业信息
-                  </div>
-
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label>名称</label>
-                      <input
-                        type="text"
-                        value={name || ''}
-                        className="form-control"
-                        onChange={(event) => setName(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>营业执照</label>
-                      <input
-                        type="text"
-                        value={yingyezhizhao || ''}
-                        className="form-control"
-                        onChange={(event) => setYingyezhizhao(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>法人</label>
-                      <input
-                        type="text"
-                        value={faren || ''}
-                        className="form-control"
-                        onChange={(event) => setFaren(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>注册日期</label>
-                      <input
-                        type="text"
-                        value={zhuceriqi || ''}
-                        className="form-control"
-                        onChange={(event) => setZhuceriqi(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>注资规模</label>
-                      <input
-                        type="text"
-                        value={zhuziguimo || ''}
-                        className="form-control"
-                        onChange={(event) => setZhuziguimo(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>地址</label>
-                      <input
-                        type="text"
-                        value={address1 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress1(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label />
-                      <input
-                        type="text"
-                        value={address2 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress2(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label />
-                      <input
-                        type="text"
-                        value={address3 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress3(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label />
-                      <input
-                        type="text"
-                        value={address4 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress4(event.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>员工数量</label>
-                      <select
-                        value={yuangongshuliang}
-                        className="form-control"
-                        onChange={(event) => setYuangongshuliang(event.target.value)}
-                      >
-                        <option value="未选择">未选择</option>
-                        {YUAN_GONG_SHU_LIANG.map((it) => (
-                          <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <p className="text-muted text-center">
-                      营业执照
-                      <br />
-                      <img src={yingyezhizhao_tu} className="img-fluid" alt={name} />
-                    </p>
-                  </div>
-
-                  <div className="card-footer">
-                    <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                        返回
-                      </button>
-                    </div>
-
-                    <div className="btn-group pull-right">
-                      {category === '编辑' && (
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={handleRemove}
-                        >
-                          <i className="fa fa-fw fa-trash-o" />
-                          删除
-                        </button>
-                      )}
-
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        style={{ display: 'none' }}
-                        onClick={handleSubmit}
-                      >
-                        <i className="fa fa-fw fa-save" />
-                        保存
-                      </button>
-                    </div>
-                  </div>
-                </div>
+            <div className="card bg-dark shadow">
+              <div className="card-header">
+                企业信息
               </div>
 
-              {category === '编辑' && (
-                <div className="col-4">
-                  <div className="card bg-dark shadow">
-                    <div className="card-header">
-                      企业用户
-                    </div>
-
-                    <div className="card-body">
-                      {id && uuid && (
-                        <EnterpriseUserList enterprise_id={id} enterprise_uuid={uuid} />
-                      )}
-                    </div>
-
-                    <div className="card-footer text-center" style={{ display: 'none' }}>
-                      <div className="btn-group">
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-success"
-                          onClick={() => { window.location = `#企业用户/新增?enterprise_id=${id}&enterprise_uuid=${uuid}`; }}
-                        >
-                          <i className="fa fa-fw fa-plus" />
-                          添加用户
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="card bg-dark shadow mt-3">
-                    <div className="card-header">发布的职位</div>
-                    <div className="card-body">
-                      <RecruitmentList enterprise_id={id} enterprise_uuid={uuid} />
-                    </div>
-                  </div>
+              <div className="card-body">
+                <div className="form-group">
+                  <label>名称</label>
+                  <input
+                    type="text"
+                    value={name || ''}
+                    className="form-control"
+                    onChange={(event) => setName(event.target.value)}
+                  />
                 </div>
-              )}
+
+                <div className="form-group">
+                  <label>营业执照</label>
+                  <input
+                    type="text"
+                    value={yingyezhizhao || ''}
+                    className="form-control"
+                    onChange={(event) => setYingyezhizhao(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>法人</label>
+                  <input
+                    type="text"
+                    value={faren || ''}
+                    className="form-control"
+                    onChange={(event) => setFaren(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>注册日期</label>
+                  <input
+                    type="text"
+                    value={zhuceriqi || ''}
+                    className="form-control"
+                    onChange={(event) => setZhuceriqi(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>注资规模</label>
+                  <input
+                    type="text"
+                    value={zhuziguimo || ''}
+                    className="form-control"
+                    onChange={(event) => setZhuziguimo(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>地址</label>
+                  <input
+                    type="text"
+                    value={address1 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress1(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label />
+                  <input
+                    type="text"
+                    value={address2 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress2(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label />
+                  <input
+                    type="text"
+                    value={address3 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress3(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label />
+                  <input
+                    type="text"
+                    value={address4 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress4(event.target.value)}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>员工数量</label>
+                  <select
+                    value={yuangongshuliang}
+                    className="form-control"
+                    onChange={(event) => setYuangongshuliang(event.target.value)}
+                  >
+                    <option value="未选择">未选择</option>
+                    {YUAN_GONG_SHU_LIANG.map((it) => (
+                      <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <p className="text-muted text-center">
+                  营业执照
+                  <br />
+                  <img src={yingyezhizhao_tu} className="img-fluid" alt={name} />
+                </p>
+              </div>
+
+              <div className="card-footer">
+                <div className="btn-group">
+                  <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                    返回
+                  </button>
+                </div>
+
+                <div className="btn-group pull-right">
+                  {category === '编辑' && (
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={handleRemove}
+                    >
+                      <i className="fa fa-fw fa-trash-o" />
+                      删除
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    style={{ display: 'none' }}
+                    onClick={handleSubmit}
+                  >
+                    <i className="fa fa-fw fa-save" />
+                    保存
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="card bg-dark shadow mt-4">
+              <div className="card-header">发布的职位</div>
+              <div className="card-body">
+                <RecruitmentList enterprise_id={id} enterprise_uuid={uuid} />
+              </div>
             </div>
           </div>
         </div>

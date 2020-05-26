@@ -44,6 +44,30 @@ export default function Navbar({ category }) {
             </a>
           </li>
 
+          <li className={`nav-item ${category === 'BANNER' ? 'active' : ''}`}>
+            <a href="banner.html#/" className="nav-link">
+              BANNER
+            </a>
+          </li>
+
+          <li className={`nav-item ${category === '推荐信息' ? 'active' : ''}`}>
+            <a href="recommend.html#/" className="nav-link">
+              推荐信息
+            </a>
+          </li>
+
+          <li className={`nav-item ${category === '热门话题' ? 'active' : ''}`}>
+            <a href="topic.html#/" className="nav-link">
+              热门话题
+            </a>
+          </li>
+
+          <li className={`nav-item ${category === '校园招聘' ? 'active' : ''}`}>
+            <a href="campus.html#/" className="nav-link">
+              校园招聘
+            </a>
+          </li>
+
           <li className={`nav-item ${category === '用户' ? 'active' : ''}`}>
             <a href="user.html#/平台用户" className="nav-link">
               <i className="fa fa-fw fa-users" />

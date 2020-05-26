@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { SIGN_IN_URL } from '../constant';
-import BannerRouter from './banner';
-import RecommendRouter from './recommend';
-import TopicRouter from './topic';
-import CampusRouter from './campus';
+import List from './List';
+import Detail from './Detail';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -26,10 +24,9 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route path="/banner"><BannerRouter /></Route>
-        <Route path="/推荐信息"><RecommendRouter /></Route>
-        <Route path="/热门话题"><TopicRouter /></Route>
-        <Route path="/校园招聘"><CampusRouter /></Route>
+        <Route exact path="/"><List /></Route>
+        <Route exact path="/新增"><Detail cat="新增" /></Route>
+        <Route path="/:id"><Detail cat="编辑" /></Route>
       </Switch>
     </Router>
   );

@@ -96,7 +96,7 @@ export default function Detail({ cat }) {
 
   return (
     <>
-      <Navbar />
+      <Navbar category="企业" />
 
       <div className="container mt-3 mb-5">
         <div className="row">

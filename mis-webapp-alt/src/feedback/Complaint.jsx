@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
+import SideNav from './ComponentSideNav';
 
 export default function Complaint() {
   const [data, setData] = useState([]);
@@ -44,7 +44,7 @@ export default function Complaint() {
 
   return (
     <>
-      <Navbar category="投诉及反馈" />
+      <Navbar category="投诉反馈举报" />
 
       <div className="container mt-3 mb-5">
         <div className="row">

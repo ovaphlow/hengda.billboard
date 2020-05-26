@@ -82,9 +82,8 @@ export default function List() {
                           <span className="badge badge-info">{it.category1}</span>
                           &nbsp;
                           {it.name}
-                          (
-                          {it.user_id}
-                          )
+                          <br />
+                          <small className="text-muted">{it.phone}</small>
                         </td>
                         <td>{it.category2}</td>
                         <td>

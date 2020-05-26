@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
+import SideNav from './ComponentSideNav';
 
-export default function List() {
+export default function Report() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function List() {
 
   return (
     <>
-      <Navbar category="举报" />
+      <Navbar category="投诉反馈举报" />
 
       <div className="container mt-3 mb-5">
         <div className="row">
@@ -74,7 +74,7 @@ export default function List() {
                           &nbsp;
                           {it.name}
                           <br />
-                          {it.phone}
+                          <small className="text-muted">{it.phone}</small>
                         </td>
                         <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
                         <td>{it.category}</td>

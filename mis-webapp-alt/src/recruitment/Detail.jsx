@@ -115,104 +115,132 @@ export default function Detail({ cat }) {
 
             <div className="card bg-dark shadow">
               <div className="card-body">
-                <div className="form-group">
-                  <label>职位</label>
-                  <input
-                    type="text"
-                    value={name || ''}
-                    className="form-control"
-                    onChange={(event) => setName(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>职位</label>
+                      <input
+                        type="text"
+                        value={name || ''}
+                        className="form-control"
+                        onChange={(event) => setName(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label>人数</label>
+                      <input
+                        type="text"
+                        value={qty || ''}
+                        className="form-control"
+                        onChange={(event) => setQty(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label>人数</label>
-                  <input
-                    type="number"
-                    value={qty || ''}
-                    className="form-control"
-                    onChange={(event) => setQty(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>地址</label>
+                      <input
+                        type="text"
+                        value={address1 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress1(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>&nbsp;</label>
+                      <input
+                        type="text"
+                        value={address2 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress2(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>&nbsp;</label>
+                      <input
+                        type="text"
+                        value={address3 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress3(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label>地址</label>
-                  <input
-                    type="text"
-                    value={address1 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress1(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col-6">
+                    <div className="form-group">
+                      <label>发布日期</label>
+                      <input
+                        type="text"
+                        value={date || ''}
+                        className="form-control"
+                        onChange={(event) => setDate(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>薪资范围</label>
+                      <input
+                        type="text"
+                        value={salary1 || ''}
+                        className="form-control"
+                        onChange={(event) => setSalary1(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>&nbsp;</label>
+                      <input
+                        type="text"
+                        value={salary2 || ''}
+                        className="form-control"
+                        onChange={(event) => setSalary2(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label />
-                  <input
-                    type="text"
-                    value={address2 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress2(event.target.value)}
-                  />
-                </div>
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>学历</label>
+                      <input
+                        type="text"
+                        value={education || ''}
+                        className="form-control"
+                        onChange={(event) => setEducation(event.target.value)}
+                      />
+                    </div>
+                  </div>
 
-                <div className="form-group">
-                  <label />
-                  <input
-                    type="text"
-                    value={address3 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress3(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>发布日期</label>
-                  <input
-                    type="text"
-                    value={date || ''}
-                    className="form-control"
-                    onChange={(event) => setDate(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>薪资范围</label>
-                  <input
-                    type="text"
-                    value={salary1 || ''}
-                    className="form-control"
-                    onChange={(event) => setSalary1(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label />
-                  <input
-                    type="text"
-                    value={salary2 || ''}
-                    className="form-control"
-                    onChange={(event) => setSalary2(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>学历</label>
-                  <input
-                    type="text"
-                    value={education || ''}
-                    className="form-control"
-                    onChange={(event) => setEducation(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>类别</label>
-                  <input
-                    type="text"
-                    value={category || ''}
-                    className="form-control"
-                    onChange={(event) => setCategory(event.target.value)}
-                  />
+                  <div className="col">
+                    <div className="form-group">
+                      <label>类别</label>
+                      <input
+                        type="text"
+                        value={category || ''}
+                        className="form-control"
+                        onChange={(event) => setCategory(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="form-group">

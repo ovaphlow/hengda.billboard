@@ -19,7 +19,7 @@ const Update = () => {
     address2: '',
     address3: '',
     address4: '',
-    email: '',
+    phone: '',
     code: ''
   })
 
@@ -104,22 +104,22 @@ const Update = () => {
 
   const handleSave = () => {
 
-    fetch(`./api/email/check/`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        email: data.email,
-        user_id: auth.id,
-        code: data.code ? data.code : '',
-        user_category: '企业用户'
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.message) {
-          window.alert(res.message)
-        } else {
-          if (res.content) {
+    // fetch(`./api/email/check/`, {
+    //   method: 'PUT',
+    //   headers: { 'content-type': 'application/json' },
+    //   body: JSON.stringify({
+    //     email: data.email,
+    //     user_id: auth.id,
+    //     code: data.code ? data.code : '',
+    //     user_category: '企业用户'
+    //   })
+    // })
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     if (res.message) {
+    //       window.alert(res.message)
+    //     } else {
+    //       if (res.content) {
             fetch(`./api/enterprise/${auth.enterprise_id}?u_id=${data.uuid}`, {
               method: 'PUT',
               headers: { 'content-type': 'application/json' },
@@ -139,11 +139,11 @@ const Update = () => {
                   window.location = '#我的/信息'
                 }
               })
-          } else {
-            window.alert('验证码错误!')
-          }
-        }
-      })
+      //     } else {
+      //       window.alert('验证码错误!')
+      //     }
+      //   }
+      // })
   }
 
   const handleFileChange = e => {
@@ -225,45 +225,45 @@ const Update = () => {
     }
   }
 
-  const checkEmail = () => {
-    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
-    return reg.test(data.email)
-  }
+  // const checkEmail = () => {
+  //   const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+  //   return reg.test(data.email)
+  // }
 
-  const handleCode = () => {
-    fetch(`./api/ent-user/checkEmail`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        email: data.email,
-        id: data.id
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.message) {
-          window.alert(res.message)
-        } else {
-          fetch(`./api/email/`, {
-            method: 'PUT',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-              email: data.email,
-              user_id: auth.id,
-              user_category: '企业用户'
-            })
-          })
-            .then(res => res.json())
-            .then(res => {
-              if (res.message) {
-                window.alert(res.message)
-              } else {
-                window.alert('验证码已发送到公司邮箱')
-              }
-            })
-        }
-      })
-  }
+  // const handleCode = () => {
+  //   fetch(`./api/ent-user/checkEmail`, {
+  //     method: 'PUT',
+  //     headers: { 'content-type': 'application/json' },
+  //     body: JSON.stringify({
+  //       email: data.email,
+  //       id: data.id
+  //     })
+  //   })
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       if (res.message) {
+  //         window.alert(res.message)
+  //       } else {
+  //         fetch(`./api/email/`, {
+  //           method: 'PUT',
+  //           headers: { 'content-type': 'application/json' },
+  //           body: JSON.stringify({
+  //             email: data.email,
+  //             user_id: auth.id,
+  //             user_category: '企业用户'
+  //           })
+  //         })
+  //           .then(res => res.json())
+  //           .then(res => {
+  //             if (res.message) {
+  //               window.alert(res.message)
+  //             } else {
+  //               window.alert('验证码已发送到公司邮箱')
+  //             }
+  //           })
+  //       }
+  //     })
+  // }
 
 
   return (
@@ -320,12 +320,12 @@ const Update = () => {
               </div>
               <div className="col-3 col-md-4">
                 <TextField
-                  category="公司邮箱"
-                  name="email"
-                  value={data.email}
+                  category="电话号码"
+                  name="phone"
+                  value={data.phone}
                   handleChange={handleChange} />
               </div>
-              <div className="col-3 col-md-4">
+              {/* <div className="col-3 col-md-4">
                 <div className="form-group">
                   <label>验证码</label>
                   <div className="input-group mb-3">
@@ -340,7 +340,7 @@ const Update = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="row mt-2">
               <div className="col">

@@ -23,10 +23,9 @@ class RecommendServiceImpl extends RecommendGrpc.RecommendImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select id, uuid, category, title,  address_level1, address_level2, publisher, qty from recommend ";
+      String sql = "select id, uuid, category, title,  address_level1, address_level2, publisher, qty from recommend where now() between date1 and date2";
       List<String> list = new ArrayList<>();
       if (body.keySet().size() != 0) {
-        sql += " where 1=1 ";
         boolean flg = false;
         String category = "";
         if (body.get("国企") != null && Boolean.valueOf(body.get("国企").toString())) {
@@ -62,7 +61,7 @@ class RecommendServiceImpl extends RecommendGrpc.RecommendImplBase {
           sql += "and ( " + category + " ) ";
         }
       }
-      try (PreparedStatement ps = conn.prepareStatement(sql + " ORDER BY date1 desc limit 100")) {
+      try (PreparedStatement ps = conn.prepareStatement(sql + " ORDER BY date2 limit 100")) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));
         }

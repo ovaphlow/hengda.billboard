@@ -85,7 +85,7 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "update enterprise set yingyezhizhao = ?, faren= ?, zhuceriqi= ?, zhuziguimo= ?, "
-          + "yuangongshuliang= ?, yingyezhizhao_tu= ?, email=?, address1= ?, address2= ?, address3= ?, address4= ? where id=? and uuid=?";
+          + "yuangongshuliang= ?, yingyezhizhao_tu= ?, phone=?, address1= ?, address2= ?, address3= ?, address4= ? where id=? and uuid=?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, body.get("yingyezhizhao").toString());
         ps.setString(2, body.get("faren").toString());
@@ -93,7 +93,7 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
         ps.setString(4, body.get("zhuziguimo").toString());
         ps.setString(5, body.get("yuangongshuliang").toString());
         ps.setString(6, body.get("yingyezhizhao_tu").toString());
-        ps.setString(7, body.get("email").toString());
+        ps.setString(7, body.get("phone").toString());
         ps.setString(8, body.get("address1").toString());
         ps.setString(9, body.get("address2").toString());
         ps.setString(10, body.get("address3").toString());

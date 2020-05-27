@@ -222,7 +222,7 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String ent_sql = "select t2.*, username,"
+      String ent_sql = "select t2.*, name,"
           + " (select content from message m where t2.common_user_id=m.common_user_id and t2.ent_user_id=m.ent_user_id ORDER BY datime DESC limit 1) as content "
           + " from (select distinct * from (select common_user_id, ent_user_id "
           + " from message where ent_user_id = ? ORDER BY datime DESC ) as t) as t2"

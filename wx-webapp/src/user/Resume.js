@@ -39,8 +39,8 @@ const Resume = () => {
       window.location = '#/登录'
     } else {
 
-      if (!_auth.email || _auth.email === '') {
-        window.location = '#/我的/设置/完善信息'
+      if (!_auth.phone || _auth.phone === '') {
+        window.location = '#/我的/电话'
       }
 
       setAuth(_auth)

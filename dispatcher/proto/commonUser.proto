@@ -14,8 +14,10 @@ service CommonUser {
 
   rpc update(CommonUserRequest) returns (CommonUserReply) {}
 
+  rpc phone(CommonUserRequest) returns (CommonUserReply) {}
+
   rpc get(CommonUserRequest) returns (CommonUserReply) {}
-     
+
   rpc journal(CommonUserRequest) returns (CommonUserReply) {}
 
   rpc recover(CommonUserRequest) returns (CommonUserReply) {}

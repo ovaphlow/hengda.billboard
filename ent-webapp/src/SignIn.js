@@ -6,15 +6,17 @@ const Sigin = () => {
 
 
   const [data, setData] = useState({
-    phone: '',
+    email: '',
     ent_name: '',
+    code: '',
     password1: '',
     password2: ''
   })
 
   const [err, setErr] = useState({
-    phone: '',
+    email: '',
     ent_name: '',
+    code: '',
     password1: '',
     password2: ''
   })
@@ -41,7 +43,6 @@ const Sigin = () => {
 
     if (Object.getOwnPropertyNames(errData).length !== 0) {
       setErr(errData)
-      console.info(errData)
       return
     }
 
@@ -59,7 +60,8 @@ const Sigin = () => {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        phone: data.phone,
+        email: data.email,
+        code: data.code,
         ent_name: data.ent_name,
         password: md5(data.password1)
       })
@@ -71,8 +73,11 @@ const Sigin = () => {
         Object.getOwnPropertyNames(res.message)
           .forEach(key => {
             switch (key) {
+              case 'code':
+                errData[key] = '验证码错误'
+                break
               case 'phone':
-                errData[key] = '该电话号已注册'
+                errData[key] = '该邮箱已注册'
                 break
               case 'ent_name':
                 errData[key] = '公司名已被使用'
@@ -95,6 +100,29 @@ const Sigin = () => {
     }
   }
 
+  const checkEmail = () => {
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+    return reg.test(data.email)
+  }
+
+  const handleCode = () => {
+    fetch(`./api/email/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        user_category: '企业用户'
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          window.alert('验证码已发送到公司邮箱')
+        }
+      })
+  }
 
   return (
     <div className="container-fluid bg-white" style={{
@@ -139,14 +167,30 @@ const Sigin = () => {
                   {err.ent_name && <small className="form-text text-danger">{err.ent_name}</small>}
                 </div>
                 <div className="form-group">
-                  <label>电话号码</label>
+                  <label>邮箱地址</label>
                   <input className="form-control rounded-0"
-                    type="text"
-                    placeholder="电话号码"
-                    name="phone"
-                    value={data.phone}
+                    type="email"
+                    placeholder=""
+                    name="email"
+                    value={data.email}
                     onChange={handleChange} />
-                  {err.phone && <small className="form-text text-danger">{err.phone}</small>}
+                  {err.email && <small className="form-text text-danger">{err.email}</small>}
+                </div>
+                <div className="form-group">
+                  <label>验证码</label>
+                  <div className="input-group mb-3">
+                    <input type="text" value={data.code || ''} name="code"
+                      placeholder="验证码"
+                      onChange={handleChange}
+                      className="form-control rounded-0" />
+                    <div className="input-group-append">
+                      <button className="btn btn-primary rounded-0" type="button"
+                        onClick={handleCode} disabled={!checkEmail()}>
+                        发送验证码
+                      </button>
+                    </div>
+                  </div>
+                  {err.code && <small className="form-text text-danger">{err.code}</small>}
                 </div>
                 <div className="form-group">
                   <label>登录密码</label>
@@ -192,7 +236,7 @@ const Sigin = () => {
           </div>
           <div className="row flex-center">
             <h5>销售热线:0451-xxxxxxxx
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             客服热线:0451-xxxxxxxx</h5>
           </div>
         </div>

@@ -29,30 +29,45 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select " + "(select count(*) from common_user where phone = ? ) as phone,"
-          + "(select count(*) from common_user where username = ? ) as username";
       Map<String, String> err = new HashMap<>();
+      String sql = "select * from captcha where user_category='个人用户' and code=? and email=? "
+          + "and str_to_date(datime,'%Y-%m-%d %H:%i:%s') >= now()-interval 10 minute ORDER BY datime DESC limit 1";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, body.get("phone").toString());
-        ps.setString(2, body.get("username").toString());
+        ps.setString(1, body.get("code").toString());
+        ps.setString(2, body.get("email").toString());
         ResultSet rs = ps.executeQuery();
         List<Map<String, Object>> result = DBUtil.getList(rs);
-        result.get(0).forEach((k, v) -> {
-          if (!"0".equals(v.toString())) {
-            err.put(k, v.toString());
-          }
-        });
+        if (result.size() == 0) {
+          err.put("code", "0");
+        }
       }
       if (err.keySet().size() != 0) {
         resp.put("message", err);
       } else {
-        sql = "insert into common_user (uuid,phone,password,username) value (uuid(),?,?,?)";
+        sql = "select " + "(select count(*) from common_user where email = ? ) as email,"
+            + "(select count(*) from common_user where name = ? ) as name";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-          ps.setString(1, body.get("phone").toString());
-          ps.setString(2, body.get("password").toString());
-          ps.setString(3, body.get("username").toString());
-          ps.execute();
-          resp.put("content", true);
+          ps.setString(1, body.get("email").toString());
+          ps.setString(2, body.get("name").toString());
+          ResultSet rs = ps.executeQuery();
+          List<Map<String, Object>> result = DBUtil.getList(rs);
+          result.get(0).forEach((k, v) -> {
+            if (!"0".equals(v.toString())) {
+              err.put(k, v.toString());
+            }
+          });
+        }
+        if (err.keySet().size() != 0) {
+          resp.put("message", err);
+        } else {
+          sql = "insert into common_user (uuid,email,password,name) value (uuid(),?,?,?)";
+          try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, body.get("email").toString());
+            ps.setString(2, body.get("password").toString());
+            ps.setString(3, body.get("name").toString());
+            ps.execute();
+            resp.put("content", true);
+          }
         }
       }
     } catch (Exception e) {
@@ -72,11 +87,12 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from common_user" + " where phone = ? and password = ?";
+      String sql = "select * from common_user where (phone = ? or email = ?) and password = ?";
       List<Map<String, Object>> result = new ArrayList<>();
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, body.get("phone").toString());
-        ps.setString(2, body.get("password").toString());
+        ps.setString(1, body.get("phone_email").toString());
+        ps.setString(2, body.get("phone_email").toString());
+        ps.setString(3, body.get("password").toString());
         ResultSet rs = ps.executeQuery();
         result = DBUtil.getList(rs);
       }
@@ -140,6 +156,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
+      Map<String, String> err = new HashMap<>();
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select * from captcha where user_category=? and code=? and email=? "
           + "and str_to_date(datime,'%Y-%m-%d %H:%i:%s') >= now()-interval 10 minute ORDER BY datime DESC limit 1";
@@ -154,11 +171,69 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
       if (result.size() == 0) {
         resp.put("message", "验证码错误!");
       } else {
-        sql = "update common_user set username = ?, email=?  where id=?";
+        sql = "select (select count(*) from common_user where email = ? and id !=? ) as email,"
+            + "(select count(*) from common_user where name = ? and id !=? ) as name,"
+            + "(select count(*) from common_user where phone = ? and id !=? ) as phone";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-          ps.setString(1, body.get("username").toString());
-          ps.setString(2, body.get("email").toString());
-          ps.setString(3, body.get("id").toString());
+          ps.setString(1, body.get("email").toString());
+          ps.setString(2, body.get("id").toString());
+          ps.setString(3, body.get("name").toString());
+          ps.setString(4, body.get("id").toString());
+          ps.setString(5, body.get("phone").toString());
+          ps.setString(6, body.get("id").toString());
+          ResultSet rs = ps.executeQuery();
+          result = DBUtil.getList(rs);
+          result.get(0).forEach((k, v) -> {
+            if (!"0".equals(v.toString())) {
+              err.put(k, v.toString());
+            }
+          });
+        }
+        if (err.keySet().size() != 0) {
+          resp.put("message", err);
+        } else {
+          sql = "update common_user set name = ?, phone=?, email=?  where id=?";
+          try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, body.get("name").toString());
+            ps.setString(2, body.get("phone").toString());
+            ps.setString(3, body.get("email").toString());
+            ps.setString(4, body.get("id").toString());
+            ps.execute();
+            resp.put("content", true);
+          }
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    CommonUserReply reply = CommonUserReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void phone(CommonUserRequest req, StreamObserver<CommonUserReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      List<Map<String, Object>> result = new ArrayList<>();
+      String sql = "select * as count from common_user where phone=?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("phone").toString());
+        ResultSet rs = ps.executeQuery();
+        result = DBUtil.getList(rs);
+      }
+      if (result.size() == 0) {
+        resp.put("message", "该电话号已使用");
+      } else {
+        sql = "update common_user set phone=? where id=?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, body.get("phone").toString());
+          ps.setString(2, body.get("id").toString());
           ps.execute();
           resp.put("content", true);
         }

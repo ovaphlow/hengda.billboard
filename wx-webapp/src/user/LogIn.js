@@ -5,7 +5,7 @@ import ToBack from '../components/ToBack'
 
 export default function LogIn() {
   const [data, setData] = useState({
-    phone: '',
+    phone_email: '',
     password: ''
   })
 
@@ -25,7 +25,8 @@ export default function LogIn() {
       body: JSON.stringify({ 
         ip: window.returnCitySN.cip,
         address: window.returnCitySN.cname,
-        phone: data.phone, password: md5(data.password) 
+        phone_email: data.phone_email, 
+        password: md5(data.password) 
       })
     })
     const res = await response.json()
@@ -58,10 +59,10 @@ export default function LogIn() {
               <div className="card-body">
                 <div className="form-group ">
                   <input type="text"
-                    name="phone"
-                    value={data.phone}
+                    name="phone_email"
+                    value={data.phone_email}
                     className="input-control"
-                    placeholder="手机号码"
+                    placeholder="手机号码/邮箱"
                     onChange={handleChange}
                   />
                 </div>

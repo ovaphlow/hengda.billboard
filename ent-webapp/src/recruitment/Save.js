@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TextField, SelectField, IndustryField } from '../components/InputField'
 import RichEditor from '../components/RichEditor'
 import { View } from './Components'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal } from '../commonFetch'
 
 const Save = () => {
 
@@ -72,9 +72,10 @@ const Save = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
-          EditJournal({
+          _EditJournal({
             category2:'岗位',
-            data_id:res.content,
+            data_id:res.content.id,
+            data_uuid: res.content.uuid,
             remark:`新增岗位<${data.name}>`
           }, res => {})
           window.alert('操作成功')
@@ -183,9 +184,11 @@ const Save = () => {
                   handleChange={handleChange}>
                   <option></option>
                   <option>不限</option>
-                  <option>高中以上</option>
-                  <option>专科以上</option>
-                  <option>本科以上</option>
+                  <option>高中及以上</option>
+                  <option>大专及以上</option>
+                  <option>本科及以上</option>
+                  <option>硕士及以上</option>
+                  <option>硕士</option>
                 </SelectField>
               </div>
             </div>

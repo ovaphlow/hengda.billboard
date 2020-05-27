@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import moment from 'moment'
 
 import ToBack from '../components/ToBack'
 import { useParams, useLocation } from 'react-router-dom'
 import { searchFavorite } from '../recruitment/Details'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal, FavoriteJournal, _BrowseJournal } from '../commonFetch'
 
 
 const Details = () => {
@@ -27,6 +26,11 @@ const Details = () => {
       .then(res => {
         if (res.content) {
           setItem(res.content)
+          _BrowseJournal({
+            data_id: id,
+            data_uuid: res.content.uuid,
+            category: '校园招聘',
+          }, res => { })
         } else {
           alert(res.message)
         }
@@ -51,20 +55,6 @@ const Details = () => {
         .then(res => {
           setSchedule(res.content)
         })
-
-      fetch(`./api/journal?uuid=${_auth.uuid}`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          common_user_id: _auth.id,
-          data_id: id,
-          user_uuid: _auth.uuid,
-          category: '校园招聘',
-          datime: moment().format('YYYY-MM-DD HH:mm')
-        })
-      })
-        .then(res => res.json())
-        .then(res => { })
     }
   }, [id, search])
 
@@ -84,33 +74,26 @@ const Details = () => {
             }
           })
       } else {
-        fetch(`./api/favorite/`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            user_id: auth.id,
-            data_id: id,
-            category1: '个人用户',
-            category2: '校园招聘',
-          })
+        FavoriteJournal({
+          data_id: id,
+          data_uuid: item.uuid,
+          category2: '校园招聘'
+        }, res => {
+          if (res.message === '') {
+            searchFavorite({
+              user_id: auth.id,
+              data_id: id,
+              category1: '个人用户',
+              category2: '校园招聘',
+            }).then(res1 => {
+              if (res1.content) {
+                setFavorite(p => res1.content)
+              }
+            })
+          } else {
+            alert(res.message)
+          }
         })
-          .then(res => res.json())
-          .then(res => {
-            if (res.message === '') {
-              searchFavorite({
-                user_id: auth.id,
-                data_id: id,
-                category1: '个人用户',
-                category2: '校园招聘',
-              }).then(res1 => {
-                if (res1.content) {
-                  setFavorite(p => res1.content)
-                }
-              })
-            } else {
-              alert(res.message)
-            }
-          })
       }
     } else {
       window.location = '#登录'
@@ -130,11 +113,12 @@ const Details = () => {
     })
       .then(res => res.json())
       .then(res => {
-        EditJournal({
-          category2:'日程',
-          data_id:item.id,
-          remark:`将<${item.title}>加入日程`
-        },re => {})
+        _EditJournal({
+          category2: '日程',
+          data_id: item.id,
+          data_uuid: item.uuid,
+          remark: `将<${item.title}>加入日程`
+        }, re => { })
         setSchedule({ id: res.content })
       })
   }
@@ -145,11 +129,12 @@ const Details = () => {
     })
       .then(res => res.json())
       .then(res => {
-        EditJournal({
-          category2:'日程',
-          data_id:item.id,
-          remark:`将<${item.title}>移出日程`
-        },re => {})
+        _EditJournal({
+          category2: '日程',
+          data_id: item.id,
+          data_uuid: item.uuid,
+          remark: `将<${item.title}>移出日程`
+        }, re => { })
         setSchedule(false)
       })
   }
@@ -207,7 +192,7 @@ const Details = () => {
                   </button>) : (
                     <button className="btn btn-primary nav-btn" onClick={handleSchedule}>
                       加入日程
-                  </button>)
+                    </button>)
               }
             </div>
           </div>

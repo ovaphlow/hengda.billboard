@@ -5,7 +5,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
 import { SelectField } from '../components/InputField'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal, FavoriteJournal } from '../commonFetch'
 import moment from 'moment'
 
 
@@ -107,33 +107,26 @@ const ResumeDetalis = () => {
           }
         })
     } else {
-      fetch(`./api/favorite/`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          user_id: auth.id,
-          data_id: data.id,
-          category1: '企业用户',
-          category2: '简历',
-        })
+      FavoriteJournal({
+        data_id: data.id,
+        data_uuid: data.uuid,
+        category2: '简历'
+      },res => {
+        if (res.message === '') {
+          SearchFavorite({
+            user_id: auth.id,
+            data_id: id,
+            category1: '企业用户',
+            category2: '简历',
+          }).then(res1 => {
+            if (res1.content) {
+              setFavorite(p => res1.content)
+            }
+          })
+        } else {
+          alert(res.message)
+        }
       })
-        .then(res => res.json())
-        .then(res => {
-          if (res.message === '') {
-            SearchFavorite({
-              user_id: auth.id,
-              data_id: id,
-              category1: '企业用户',
-              category2: '简历',
-            }).then(res1 => {
-              if (res1.content) {
-                setFavorite(p => res1.content)
-              }
-            })
-          } else {
-            alert(res.message)
-          }
-        })
     }
   }
 
@@ -158,9 +151,10 @@ const ResumeDetalis = () => {
       .then(res => {
         if (res.content) {
           window.alert('已发出面试邀请,请到消息确认')
-          EditJournal({
+          _EditJournal({
             category2: '简历',
             data_id: data.id,
+            data_uuid: data.uuid,
             remark: `邀请<${data.name}面试>`
           }, res => { })
           setModalShow1(false)

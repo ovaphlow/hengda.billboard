@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
 import { TextCheckbox } from '../components/Button'
 import { RecommendRow, TopicCards } from './Components'
-
+import { RECOMMEND_TYPE } from '../constant'
 
 const HomePage = () => {
 
@@ -19,7 +19,7 @@ const HomePage = () => {
 
   useEffect(() => {
     document.title = '龙江学子就业平台'
-    const _auth = localStorage.getItem('auth') 
+    const _auth = localStorage.getItem('auth')
     if (_auth !== null) {
       setAuth(JSON.parse(_auth))
     }
@@ -84,30 +84,22 @@ const HomePage = () => {
 
         <PlayImg category={'小程序-首页'} />
         <div className="mt-2 border-0">
-          <div style={{ borderLeft: ".25rem solid#007bff"}}>
+          <div style={{ borderLeft: ".25rem solid#007bff" }}>
             <span >&nbsp;&nbsp;热门话题</span>
           </div>
           <TopicCards list={topicList} />
         </div>
         <div className="mt-2 border-0">
-          <div style={{ width: "100%", borderLeft: ".25rem solid#007bff"}}>
+          <div style={{ width: "100%", borderLeft: ".25rem solid#007bff" }}>
             <span>&nbsp;&nbsp;推荐信息</span>
             <p className="pull-right text-primary" >
-              <TextCheckbox value="国企" onChange={_onCheckboxChange}>
-                国企
-              </TextCheckbox>
-              |
-              <TextCheckbox value="公务员" onChange={_onCheckboxChange}>
-                公务员
-              </TextCheckbox>
-              |
-              <TextCheckbox value="事业单位" onChange={_onCheckboxChange}>
-                事业单位
-              </TextCheckbox>
-              |
-              <TextCheckbox value="教师" onChange={_onCheckboxChange}>
-                教师
-              </TextCheckbox>
+              {RECOMMEND_TYPE.map((item, inx) => (
+                <>
+                  <TextCheckbox value={item} onChange={_onCheckboxChange}>
+                    {item}
+                  </TextCheckbox>{inx === RECOMMEND_TYPE.length - 1 ? '' : '|'}
+                </>
+              ))}
             </p>
           </div>
           <br></br>

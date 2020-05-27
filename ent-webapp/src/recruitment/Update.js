@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
 import { TextField, SelectField, IndustryField } from '../components/InputField'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal } from '../commonFetch'
 import RichEditor from '../components/RichEditor'
 import { View } from './Components'
 
@@ -122,11 +122,12 @@ const Update = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
-          EditJournal({
-            category2:'岗位',
-            data_id:data.id,
-            remark:`修改岗位<${data.name}>`
-          }, res => {})
+          _EditJournal({
+            category2: '岗位',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: `修改岗位<${data.name}>`
+          }, res => { })
           window.alert('操作成功')
           window.location = '#岗位/列表'
         }
@@ -208,11 +209,12 @@ const Update = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
-          EditJournal({
-            category2:'岗位',
-            data_id:data.id,
-            remark:`修改岗位状态为-<${data.status}>`
-          }, res => {})
+          _EditJournal({
+            category2: '岗位',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: `修改岗位状态为-<${data.status}>`
+          }, res => { })
           setData({
             ...data,
             status: v
@@ -281,9 +283,11 @@ const Update = () => {
                   handleChange={handleChange}>
                   <option></option>
                   <option>不限</option>
-                  <option>高中以上</option>
-                  <option>专科以上</option>
-                  <option>本科以上</option>
+                  <option>高中及以上</option>
+                  <option>大专及以上</option>
+                  <option>本科及以上</option>
+                  <option>硕士及以上</option>
+                  <option>硕士</option>
                 </SelectField>
               </div>
             </div>

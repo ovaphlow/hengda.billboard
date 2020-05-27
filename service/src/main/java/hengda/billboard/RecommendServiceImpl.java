@@ -23,7 +23,7 @@ class RecommendServiceImpl extends RecommendGrpc.RecommendImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select id, uuid, category, title,  address_level1, address_level2, publisher, qty from recommend where now() between date1 and date2";
+      String sql = "select id, uuid, category, title,  address_level1, address_level2, publisher, qty from recommend where now() between date1 and date2 ";
       List<String> list = new ArrayList<>();
       if (body.keySet().size() != 0) {
         boolean flg = false;

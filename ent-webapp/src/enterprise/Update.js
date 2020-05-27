@@ -4,7 +4,7 @@ import watermark from 'watermarkjs'
 import { View } from './Components'
 
 import { TextField, SelectField } from '../components/InputField'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal } from '../commonFetch'
 
 const Update = () => {
 
@@ -120,30 +120,31 @@ const Update = () => {
     //       window.alert(res.message)
     //     } else {
     //       if (res.content) {
-            fetch(`./api/enterprise/${auth.enterprise_id}?u_id=${data.uuid}`, {
-              method: 'PUT',
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify(data)
-            })
-              .then(res => res.json())
-              .then(res => {
-                if (res.message) {
-                  window.alert(res.message)
-                } else {
-                  EditJournal({
-                    category2:'企业信息',
-                    data_id:data.id,
-                    remark:`编辑企业信息`
-                  }, res => {})
-                  window.alert('操作成功')
-                  window.location = '#我的/信息'
-                }
-              })
-      //     } else {
-      //       window.alert('验证码错误!')
-      //     }
-      //   }
-      // })
+    fetch(`./api/enterprise/${auth.enterprise_id}?u_id=${data.uuid}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          _EditJournal({
+            category2: '企业信息',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: `编辑企业信息`
+          }, res => { })
+          window.alert('操作成功')
+          window.location = '#我的/信息'
+        }
+      })
+    //     } else {
+    //       window.alert('验证码错误!')
+    //     }
+    //   }
+    // })
   }
 
   const handleFileChange = e => {
@@ -312,11 +313,18 @@ const Update = () => {
                 />
               </div>
               <div className="col-3 col-md-4">
-                <TextField
+                <SelectField
                   category="员工数量"
                   name="yuangongshuliang"
                   value={data.yuangongshuliang}
-                  handleChange={handleChange} />
+                  handleChange={handleChange} >
+                  <option></option>
+                  <option>50 人以下</option>
+                  <option>50-100 人</option>
+                  <option>100-200 人</option>
+                  <option>200-500 人</option>
+                  <option>500 人以上</option>
+                </SelectField>
               </div>
               <div className="col-3 col-md-4">
                 <TextField

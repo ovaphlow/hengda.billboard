@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment'
 
 import ToBack from '../components/ToBack'
 import { useLocation, useParams } from 'react-router-dom'
+import { _BrowseJournal } from '../commonFetch'
 
 
 const TopicDetails = () => {
@@ -14,48 +14,17 @@ const TopicDetails = () => {
   const [item, setItem] = useState(0)
 
   useEffect(() => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
-    if (_auth === null) {
-      fetch(`./api/journal?uuid=0`,{
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          common_user_id: 0,
-          data_id: id,
-          category: '热门话题',
-          datime: moment().format('YYYY-MM-DD HH:mm')
-        })
-      })
-        .then(res => res.json())
-        .then(res => {
-          if (res.message) {
-            window.alert(res.message)
-          } 
-        })
-    } else {
-      fetch(`./api/journal?uuid=${_auth.uuid}`,{
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          common_user_id: _auth.id,
-          data_id: id,
-          category: '热门话题',
-          datime: moment().format('YYYY-MM-DD HH:mm')
-        })
-      })
-        .then(res => res.json())
-        .then(res => {
-          if (res.message) {
-            window.alert(res.message)
-          } 
-        })
-    }
     fetch(`./api/topic/${id}${search}`)
       .then(res => res.json())
       .then(res => {
         if (res.message) {
           window.alert(res.message)
         } else {
+          _BrowseJournal({
+            data_id: id,
+            data_uuid: res.content.uuid,
+            category: '热门话题'
+          },res => {})
           setItem(res.content)
         }
       })

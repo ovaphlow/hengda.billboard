@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase {
@@ -51,6 +52,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
+      String uuid = UUID.randomUUID().toString();
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "insert into recruitment ( enterprise_id, enterprise_uuid, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
@@ -72,10 +74,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         ps.setString(14, body.get("category").toString());
         ps.setString(15, body.get("industry").toString());
         ps.setString(16, body.get("position").toString());
+        ps.setString(17, uuid);
         ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         if (rs.next()) {
-          resp.put("content", rs.getInt(1));
+          resp.put("content", Map.of("id", rs.getInt(1), "uuid", uuid) );
         }
       }
     } catch (Exception e) {

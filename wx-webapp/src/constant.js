@@ -1,0 +1,1 @@
+export const RECOMMEND_TYPE = ['国企','公务员','事业单位','教师']

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 import ToBack from '../components/ToBack'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal, FavoriteJournal, _BrowseJournal } from '../commonFetch'
 
 export const searchFavorite = body => new Promise((resolve, reject) => {
   fetch(`./api/favorite/search/one/`, {
@@ -46,19 +46,11 @@ const Details = () => {
       const _auth = JSON.parse(localStorage.getItem('auth'))
       if (_auth !== null) {
         setAuth(p => _auth)
-        fetch(`./api/journal?uuid=${_auth.uuid}`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            common_user_id: _auth.id,
-            user_uuid: _auth.uuid,
-            data_id: data.id,
-            category: '岗位',
-            datime: moment().format('YYYY-MM-DD HH:mm')
-          })
-        })
-          .then(res => res.json())
-          .then(res => { })
+        _BrowseJournal({
+          data_id: data.id,
+          data_uuid: data.uuid,
+          category: '岗位'
+        },res => {})
         searchFavorite({
           user_id: _auth.id,
           data_id: data.id,
@@ -99,33 +91,26 @@ const Details = () => {
             }
           })
       } else {
-        fetch(`./api/favorite/`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            user_id: auth.id,
-            data_id: data.id,
-            category1: '个人用户',
-            category2: '岗位',
-          })
+        FavoriteJournal({
+          data_id: data.id,
+          data_uuid: data.uuid,
+          category2: '岗位'
+        }, res => {
+          if (res.message === '') {
+            searchFavorite({
+              user_id: auth.id,
+              data_id: data.id,
+              category1: '个人用户',
+              category2: '岗位',
+            }).then(res1 => {
+              if (res1.content) {
+                setFavorite(p => res1.content)
+              }
+            })
+          } else {
+            alert(res.message)
+          }
         })
-          .then(res => res.json())
-          .then(res => {
-            if (res.message === '') {
-              searchFavorite({
-                user_id: auth.id,
-                data_id: data.id,
-                category1: '个人用户',
-                category2: '岗位',
-              }).then(res1 => {
-                if (res1.content) {
-                  setFavorite(p => res1.content)
-                }
-              })
-            } else {
-              alert(res.message)
-            }
-          })
       }
     }
   }
@@ -152,11 +137,12 @@ const Details = () => {
               .then(res1 => res1.json())
               .then(res1 => {
                 if (res1.content) {
-                  EditJournal({
-                    category2:'岗位',
-                    data_id:data.id,
-                    remark:`将简历到岗位<${data.name}>`
-                  },re => {})
+                  _EditJournal({
+                    category2: '岗位',
+                    data_id: data.id,
+                    data_uuid: data.uuid,
+                    remark: `将简历到岗位<${data.name}>`
+                  }, re => { })
                   setDelivery(res1.content)
                 }
               })

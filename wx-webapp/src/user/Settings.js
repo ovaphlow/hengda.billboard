@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 
 import ToBack from '../components/ToBack'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal } from '../commonFetch'
 
 const Setting = () => {
 
@@ -121,9 +120,10 @@ const Setting = () => {
         return
       } else {
         localStorage.setItem('auth', JSON.stringify(res2.content))
-        EditJournal({
+        _EditJournal({
           category2: '个人信息',
           data_id: auth.id,
+          data_uuid: auth.uuid,
           remark: '编辑个人信息'
         }, re => { })
         window.alert('操作成功')

@@ -14,18 +14,44 @@ export default function List({ enterprise_id, enterprise_uuid }) {
   }, []);
 
   return (
-    <div className="list-group">
-      {data_list.map((it) => (
-        <a
-          key={it.id}
-          href={`recruitment.html#/${it.id}?uuid=${it.uuid}`}
-          className="list-group-item list-group-item-dark list-group-item-action"
-        >
-          {it.name}
-          <span className="pull-right text-muted">{it.qty}</span>
-        </a>
-      ))}
-    </div>
+    <table className="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th className="text-right">序号</th>
+          <th>日期</th>
+          <th>岗位</th>
+          <th>人数</th>
+          <th>学历</th>
+          <th>地址</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {data_list.map((it) => (
+          <tr key={it.id}>
+            <td className="text-right">
+              <span className="pull-left">
+                <a href={`recruitment.html#/${it.id}?uuid=${it.uuid}`}>
+                  <i className="fa fa-fw fa-edit" />
+                </a>
+              </span>
+              {it.id}
+            </td>
+            <td>{it.date}</td>
+            <td>{it.name}</td>
+            <td>{it.qty}</td>
+            <td>{it.education}</td>
+            <td>
+              <ul className="list-inline">
+                <li className="list-inline-item">{it.address1}</li>
+                <li className="list-inline-item">{it.address2}</li>
+                <li className="list-inline-item">{it.address3}</li>
+              </ul>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

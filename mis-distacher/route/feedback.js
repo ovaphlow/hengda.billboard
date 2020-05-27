@@ -41,12 +41,20 @@ router.post('/feedback/reply', async (ctx) => {
 router.get('/feedback/', async (ctx) => {
   const sql = `
     select *,
-      (select name from common_user where id = f.user_id) as name,
-      (select phone from common_user where id = f.user_id) as phone
+      (case f.user_category
+        when '企业用户' then (select name from enterprise_user where id = f.user_id)
+        when '个人用户' then (select name from common_user where id = f.user_id)
+        end
+      ) as name,
+      (case f.user_category
+        when '企业用户' then (select phone from enterprise_user where id = f.user_id)
+        when '个人用户' then (select phone from common_user where id = f.user_id)
+        end
+      ) as phone
     from feedback as f
     where category = '意见反馈'
     order by id desc
-    limit 2000
+    limit 100
   `;
   const pool = mysql.promise();
   try {

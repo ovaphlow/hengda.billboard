@@ -9,7 +9,7 @@ export default function SideNav() {
 
       <div>
         <a
-          href="#当前用户/修改密码"
+          href="#/修改密码"
           className="text-small list-group-item list-group-item-dark list-group-item-action"
         >
           修改密码
@@ -17,6 +17,17 @@ export default function SideNav() {
             <i className="fa fa-fw fa-angle-right" />
           </span>
         </a>
+
+        <a
+          href="#/登录"
+          className="text-small list-group-item list-group-item-dark list-group-item-action"
+        >
+          退出登录
+          <span className="pull-right">
+            <i className="fa fa-fw fa-angle-right" />
+          </span>
+        </a>
+
       </div>
     </div>
   );

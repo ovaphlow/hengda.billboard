@@ -38,12 +38,6 @@ export default function Navbar({ category }) {
             </a>
           </li>
 
-          <li className={`nav-item ${category === '平台内容' ? 'active' : ''}`}>
-            <a href="content.html#/banner" className="nav-link">
-              平台内容
-            </a>
-          </li>
-
           <li className={`nav-item ${category === 'BANNER' ? 'active' : ''}`}>
             <a href="banner.html#/" className="nav-link">
               BANNER

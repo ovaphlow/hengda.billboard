@@ -129,84 +129,122 @@ export default function Detail({ category }) {
               </div>
 
               <div className="card-body">
-                <div className="form-group">
-                  <label>名称</label>
-                  <input
-                    type="text"
-                    value={name || ''}
-                    className="form-control"
-                    onChange={(event) => setName(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>名称</label>
+                      <input
+                        type="text"
+                        value={name || ''}
+                        className="form-control"
+                        onChange={(event) => setName(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label>法人</label>
+                      <input
+                        type="text"
+                        value={faren || ''}
+                        className="form-control"
+                        onChange={(event) => setFaren(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label>营业执照</label>
-                  <input
-                    type="text"
-                    value={yingyezhizhao || ''}
-                    className="form-control"
-                    onChange={(event) => setYingyezhizhao(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col-6">
+                    <div className="form-group">
+                      <label>营业执照</label>
+                      <input
+                        type="text"
+                        value={yingyezhizhao || ''}
+                        className="form-control"
+                        onChange={(event) => setYingyezhizhao(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>注册日期</label>
+                      <input
+                        type="text"
+                        value={zhuceriqi || ''}
+                        className="form-control"
+                        onChange={(event) => setZhuceriqi(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>注资规模</label>
+                      <input
+                        type="text"
+                        value={zhuziguimo || ''}
+                        className="form-control"
+                        onChange={(event) => setZhuziguimo(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>员工数量</label>
+                      <select
+                        value={yuangongshuliang}
+                        className="form-control"
+                        onChange={(event) => setYuangongshuliang(event.target.value)}
+                      >
+                        <option value="未选择">未选择</option>
+                        {YUAN_GONG_SHU_LIANG.map((it) => (
+                          <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label>法人</label>
-                  <input
-                    type="text"
-                    value={faren || ''}
-                    className="form-control"
-                    onChange={(event) => setFaren(event.target.value)}
-                  />
-                </div>
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>地址</label>
+                      <input
+                        type="text"
+                        value={address1 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress1(event.target.value)}
+                      />
+                    </div>
+                  </div>
 
-                <div className="form-group">
-                  <label>注册日期</label>
-                  <input
-                    type="text"
-                    value={zhuceriqi || ''}
-                    className="form-control"
-                    onChange={(event) => setZhuceriqi(event.target.value)}
-                  />
-                </div>
+                  <div className="col">
+                    <div className="form-group">
+                      <label>&nbsp;</label>
+                      <input
+                        type="text"
+                        value={address2 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress2(event.target.value)}
+                      />
+                    </div>
+                  </div>
 
-                <div className="form-group">
-                  <label>注资规模</label>
-                  <input
-                    type="text"
-                    value={zhuziguimo || ''}
-                    className="form-control"
-                    onChange={(event) => setZhuziguimo(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>地址</label>
-                  <input
-                    type="text"
-                    value={address1 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress1(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label />
-                  <input
-                    type="text"
-                    value={address2 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress2(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label />
-                  <input
-                    type="text"
-                    value={address3 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress3(event.target.value)}
-                  />
+                  <div className="col">
+                    <div className="form-group">
+                      <label>&nbsp;</label>
+                      <input
+                        type="text"
+                        value={address3 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress3(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="form-group">
@@ -217,20 +255,6 @@ export default function Detail({ category }) {
                     className="form-control"
                     onChange={(event) => setAddress4(event.target.value)}
                   />
-                </div>
-
-                <div className="form-group">
-                  <label>员工数量</label>
-                  <select
-                    value={yuangongshuliang}
-                    className="form-control"
-                    onChange={(event) => setYuangongshuliang(event.target.value)}
-                  >
-                    <option value="未选择">未选择</option>
-                    {YUAN_GONG_SHU_LIANG.map((it) => (
-                      <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
                 </div>
 
                 <p className="text-muted text-center">

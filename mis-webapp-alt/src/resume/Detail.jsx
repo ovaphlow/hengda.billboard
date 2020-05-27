@@ -187,114 +187,136 @@ export default function Detail({ category }) {
                   />
                 </div>
 
-                <div calssName="form-group">
-                  <label>电话</label>
-                  <input
-                    type="tel"
-                    value={phone || ''}
-                    className="form-control"
-                    onChange={(event) => setPhone(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>电话</label>
+                      <input
+                        type="tel"
+                        value={phone || ''}
+                        className="form-control"
+                        onChange={(event) => setPhone(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>EMAIL</label>
+                      <input
+                        type="email"
+                        value={email || ''}
+                        className="form-control"
+                        onChange={(event) => setEmail(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>性别</label>
+                      <input
+                        type="text"
+                        value={gender || ''}
+                        className="form-control"
+                        onChange={(event) => setGender(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>出生日期</label>
+                      <input
+                        type="date"
+                        value={birthday || ''}
+                        className="form-control"
+                        onChange={(event) => setBirthday(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div calssName="form-group">
-                  <label>EMAIL</label>
-                  <input
-                    type="email"
-                    value={email || ''}
-                    className="form-control"
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <SchoolPickerRowField
+                      caption="毕业院校"
+                      value={school || ''}
+                      onChange={(event) => setSchool(event.target.value)}
+                    />
+                  </div>
                 </div>
 
-                <div calssName="form-group">
-                  <label>性别</label>
-                  <input
-                    type="text"
-                    value={gender || ''}
-                    className="form-control"
-                    onChange={(event) => setGender(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>专业</label>
+                      <input
+                        type="text"
+                        value={major || ''}
+                        className="form-control"
+                        onChange={(event) => setMajor(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <EducationPickerRowField
+                      caption="学历"
+                      value={education || ''}
+                      onChange={(event) => setEducation(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>开始日期</label>
+                      <input
+                        type="date"
+                        value={date_begin || ''}
+                        className="form-control"
+                        onChange={(event) => setDateBegin(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>结束日期</label>
+                      <input
+                        type="date"
+                        value={date_end || ''}
+                        className="form-control"
+                        onChange={(event) => setDateEnd(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div calssName="form-group">
-                  <label>出生日期</label>
-                  <input
-                    type="date"
-                    value={birthday || ''}
-                    className="form-control"
-                    onChange={(event) => setBirthday(event.target.value)}
-                  />
-                </div>
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>住址</label>
+                      <input
+                        type="text"
+                        value={address1 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress1(event.target.value)}
+                      />
+                    </div>
+                  </div>
 
-                <SchoolPickerRowField
-                  caption="毕业院校"
-                  value={school || ''}
-                  onChange={(event) => setSchool(event.target.value)}
-                />
-
-                <div calssName="form-group">
-                  <label>专业</label>
-                  <input
-                    type="text"
-                    value={major || ''}
-                    className="form-control"
-                    onChange={(event) => setMajor(event.target.value)}
-                  />
-                </div>
-
-                <EducationPickerRowField
-                  caption="学历"
-                  value={education || ''}
-                  onChange={(event) => setEducation(event.target.value)}
-                />
-
-                <div calssName="form-group">
-                  <label>开始日期</label>
-                  <input
-                    type="date"
-                    value={date_begin || ''}
-                    className="form-control"
-                    onChange={(event) => setDateBegin(event.target.value)}
-                  />
-                </div>
-
-                <div calssName="form-group">
-                  <label>结束日期</label>
-                  <input
-                    type="date"
-                    value={date_end || ''}
-                    className="form-control"
-                    onChange={(event) => setDateEnd(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>地址</label>
-                  <select
-                    value={address1 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress1(event.target.value)}
-                  >
-                    <option value="">未选择</option>
-                    {arr1.map((it) => (
-                      <option key={arr1.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label />
-                  <select
-                    value={address2 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress2(event.target.value)}
-                  >
-                    <option value="">未选择</option>
-                    {arr2.map((it) => (
-                      <option key={arr2.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
+                  <div className="col">
+                    <div className="form-group">
+                      <label>&nbsp;</label>
+                      <input
+                        type="text"
+                        value={address2 || ''}
+                        className="form-control"
+                        onChange={(event) => setAddress2(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <hr />
@@ -319,27 +341,39 @@ export default function Detail({ category }) {
                   />
                 </div>
 
-                <div calssName="form-group">
-                  <label>期望职位</label>
-                  <input
-                    type="text"
-                    value={qiwangzhiwei || ''}
-                    className="form-control"
-                    onChange={(event) => setQiwangzhiwei(event.target.value)}
-                  />
+                <div className="row">
+                  <div className="col">
+                    <div calssName="form-group">
+                      <label>期望职位</label>
+                      <input
+                        type="text"
+                        value={qiwangzhiwei || ''}
+                        className="form-control"
+                        onChange={(event) => setQiwangzhiwei(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <IndustryPickerRowField
+                      caption="期望行业"
+                      value={qiwanghangye || ''}
+                      onChange={(event) => setQiwanghangye(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>意向城市</label>
+                      <input
+                        type="text"
+                        value={yixiangchengshi || ''}
+                        className="form-control"
+                        onChange={(event) => setYixiangchengshi(event.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
-
-                <IndustryPickerRowField
-                  caption="期望行业"
-                  value={qiwanghangye || ''}
-                  onChange={(event) => setQiwanghangye(event.target.value)}
-                />
-
-                <AddressLevel3PickerRowField
-                  caption="意向城市"
-                  value={yixiangchengshi || ''}
-                  onChange={(event) => setYixiangchengshi(event.target.value)}
-                />
               </div>
 
               <div className="card-footer">

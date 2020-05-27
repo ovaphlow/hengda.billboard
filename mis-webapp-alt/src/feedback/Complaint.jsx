@@ -91,12 +91,12 @@ export default function Complaint() {
                           &nbsp;
                           {it.name}
                           <br />
-                          {it.phone}
+                          <small className="text-muted">{it.phone}</small>
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}
                           <br />
-                          {moment(it.datime).format('HH:mm')}
+                          <small className="text-muted">{moment(it.datime).format('HH:mm')}</small>
                         </td>
                         <td>{it.content}</td>
                         <td>

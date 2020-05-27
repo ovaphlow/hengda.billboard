@@ -227,7 +227,7 @@ const Audition = () => {
                 chatList && chatList.map((item, inx) =>
                   <ChatRow
                     key={inx}
-                    name={item.username}
+                    name={item.name}
                     text={item.content}
                     total={chatTotal.length > 0 && chatTotal.find(it => it.common_user_id === item.common_user_id).count}
                     handleClick={() => handleClick(item)}
@@ -241,7 +241,7 @@ const Audition = () => {
           {nowUser ? (
             <div className="row  border-bottom">
               <div className="col text-center p-2">
-                {nowUser.username}
+                {nowUser.name}
               </div>
             </div>
           ) : ''}

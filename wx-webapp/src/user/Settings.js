@@ -1,29 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 
 import ToBack from '../components/ToBack'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal } from '../commonFetch'
 
 const Setting = () => {
 
   const [data, setData] = useState({
     name: '',
+    phone: '',
     email: '',
     code: '',
     id: ''
   })
 
-  const [auth, setAuth] = useState(0)
+  const [err, setErr] = useState({
+    email: false,
+    phone: false,
+    name: false
+  })
 
-  const { category } = useParams()
+  const [auth, setAuth] = useState(0)
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'))
     if (_auth !== null) {
       setAuth(_auth)
       setData({
-        username: _auth.username,
+        name: _auth.name,
         email: _auth.email,
+        phone: _auth.phone,
         code: '',
         id: _auth.id,
         user_category: '个人用户'
@@ -77,6 +82,7 @@ const Setting = () => {
   }
 
   const handleSave = async e => {
+    const errData = {}
     const response = await fetch(`/api/common-user/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
@@ -90,22 +96,40 @@ const Setting = () => {
       const response2 = await fetch(`/api/common-user/${data.id}`)
       const res2 = await response2.json()
       if (res.message) {
-        window.alert(res.message)
+        let alertFlg = false
+        if (typeof res.message === 'object') {
+          Object.getOwnPropertyNames(res.message)
+            .forEach(key => {
+              switch (key) {
+                case 'phone':
+                  errData[key] = '该邮箱已注册'
+                  break
+                case 'name':
+                  errData[key] = '用户名已被使用'
+                  break
+                default:
+                  alertFlg = true
+              }
+            })
+        } else {
+          alertFlg = true
+        }
+        if (alertFlg) {
+          window.alert(res.message)
+        }
         return
       } else {
         localStorage.setItem('auth', JSON.stringify(res2.content))
-        if(category === '完善信息')  {
-          window.location = '#/我的/简历'
-        } else {
-          EditJournal({
-            category2:'个人信息',
-            data_id:auth.id,
-            remark:'编辑个人信息'
-          },re => {})
-          window.alert('操作成功')
-        }        
+        _EditJournal({
+          category2: '个人信息',
+          data_id: auth.id,
+          data_uuid: auth.uuid,
+          remark: '编辑个人信息'
+        }, re => { })
+        window.alert('操作成功')
       }
     }
+    setErr(errData)
   }
 
   return (
@@ -114,17 +138,31 @@ const Setting = () => {
         <ToBack herf='#我的' />
         <div className="row mt-3">
           <div className="col">
+            {err.name && <small className="form-text text-danger">{err.name}</small>}
             <div className="form-group row ">
               <div className="col">
                 <input type="text"
-                  name="username"
-                  value={data.username}
+                  name="name"
+                  value={data.name}
                   className="input-control"
                   placeholder="用户名称"
                   onChange={handleChange}
                 />
               </div>
             </div>
+            {err.phone && <small className="form-text text-danger">{err.phone}</small>}
+            <div className="form-group row">
+              <div className="col">
+                <input type="text"
+                  name="phone"
+                  value={data.phone}
+                  className="input-control"
+                  placeholder="电话号码"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            {err.email && <small className="form-text text-danger">{err.email}</small>}
             <div className="form-group row">
               <div className="col">
                 <input type="text"
@@ -145,7 +183,7 @@ const Setting = () => {
                 />
               </div>
               <div className="col-4">
-                <button className="btn rounded-0 btn-secondary btn-sm" 
+                <button className="btn rounded-0 btn-secondary btn-sm"
                   disabled={!checkEmail()} onClick={handleCode} >
                   发送验证码
                 </button>

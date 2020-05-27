@@ -52,8 +52,8 @@ const User = () => {
               </div>
             ) : (
                 <div className="col" style={{ paddingLeft: 30 }}>
-                  <a href="#/我的/设置/基本信息" style={{ top: 5, position: 'inherit' }}>
-                    <h6>{auth.username}</h6>
+                  <a href="#/我的/设置" style={{ top: 5, position: 'inherit' }}>
+                    <h6>{auth.name}</h6>
                   </a>
                   <span className="text-muted">
                     {auth.phone}

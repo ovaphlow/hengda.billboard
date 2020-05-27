@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase {
@@ -51,6 +52,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
+      String uuid = UUID.randomUUID().toString();
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "insert into recruitment ( enterprise_id, enterprise_uuid, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
@@ -72,10 +74,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         ps.setString(14, body.get("category").toString());
         ps.setString(15, body.get("industry").toString());
         ps.setString(16, body.get("position").toString());
+        ps.setString(17, uuid);
         ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         if (rs.next()) {
-          resp.put("content", rs.getInt(1));
+          resp.put("content", Map.of("id", rs.getInt(1), "uuid", uuid) );
         }
       }
     } catch (Exception e) {
@@ -190,10 +193,9 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from recruitment ";
+      String sql = "select * from recruitment where status='在招' ";
       List<String> list = new ArrayList<>();
       if (body.keySet().size() != 0) {
-        sql += " where 1=1 ";
         if (body.get("city") != null && !body.get("city").toString().equals("")) {
           sql += " and (address1 = ? or  address2 = ?) ";
           list.add(body.get("city").toString());
@@ -230,6 +232,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
           list.add(body.get("status").toString());
         }
       }
+      sql+=" ORDER BY date DESC";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));
@@ -256,7 +259,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select * from recruitment where enterprise_id = ? and "
-          + "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招'";
+          + "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招' ORDER BY date DESC";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, body.get("id").toString());
         ps.setString(2, body.get("uuid").toString());
@@ -281,7 +284,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from recruitment where enterprise_id = ? and enterprise_uuid = ?";
+      String sql = "select * from recruitment where enterprise_id = ? and enterprise_uuid = ? ";
       List<String> list = new ArrayList<>();
       list.add(body.get("enterprise_id").toString());
       list.add(body.get("uuid").toString());
@@ -305,6 +308,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         sql += " and education = ? ";
         list.add(body.get("education").toString());
       }
+      sql+=" ORDER BY date DESC";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));

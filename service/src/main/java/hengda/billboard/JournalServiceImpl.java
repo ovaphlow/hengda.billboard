@@ -129,13 +129,14 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
         result = DBUtil.getList(rs);
       }
       if (result.size() == 0 || "0".equals(body.get("common_user_id").toString())) {
-        sql = "insert into browse_journal (common_user_id, common_user_uuid, data_id, category, datime) value (?, ?, ?, ?, ?)";
+        sql = "insert into browse_journal (common_user_id, common_user_uuid, data_id, data_uuid, category, datime) value (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
           ps.setString(1, body.get("common_user_id").toString());
           ps.setString(2, body.get("uuid").toString());
           ps.setString(3, body.get("data_id").toString());
-          ps.setString(4, body.get("category").toString());
-          ps.setString(5, body.get("datime").toString());
+          ps.setString(4, body.get("data_uuid").toString());
+          ps.setString(5, body.get("category").toString());
+          ps.setString(6, body.get("datime").toString());
           ps.execute();
           resp.put("content", true);
         }
@@ -167,8 +168,8 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "insert into edit_journal (user_id, user_uuid, category1, category2, datime, data_id, remark) "
-          + "value (?,?,?,?,?,?,?)";
+      String sql = "insert into edit_journal (user_id, user_uuid, category1, category2, datime, data_id, data_uuid, remark) "
+          + "value (?,?,?,?,?,?,?,?)";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, body.get("user_id").toString());
         ps.setString(2, body.get("user_uuid").toString());
@@ -176,7 +177,8 @@ public class JournalServiceImpl extends JournalGrpc.JournalImplBase {
         ps.setString(4, body.get("category2").toString());
         ps.setString(5, body.get("datime").toString());
         ps.setString(6, body.get("data_id").toString());
-        ps.setString(7, body.get("remark").toString());
+        ps.setString(7, body.get("data_uuid").toString());
+        ps.setString(8, body.get("remark").toString());
         ps.execute();
         resp.put("content", true);
       }

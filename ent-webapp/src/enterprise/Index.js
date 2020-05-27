@@ -7,6 +7,7 @@ import Title from '../components/Title'
 import Enterprise from './Enterprise'
 import Update from './Update'
 import Feedback from './Feedback'
+import User from './User'
 import UpdatePassword from './UpdatePassword'
 
 
@@ -27,6 +28,7 @@ const Index = () => {
           <Route exact path="/我的/信息/" ><Enterprise /></Route>
           <Route exact path="/我的/信息/编辑/" ><Update /></Route>
           <Route exact path="/我的/投诉/"><Feedback /></Route>
+          <Route exact path="/我的/用户/"><User /></Route>
           <Route exact path="/我的/修改密码"><UpdatePassword /></Route>
         </Switch>
       </Router>

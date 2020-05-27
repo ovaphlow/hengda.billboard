@@ -5,20 +5,20 @@ import ToBack from '../components/ToBack'
 
 export default function SignIn() {
   const [data, setData] = useState({
-    phone: '',
+    email: '',
     password1: '',
     password2: '',
-    // code: '',
-    username: ''
+    code: '',
+    name: ''
   })
 
 
   const [err, setErr] = useState({
-    phone: false,
+    email: false,
     password1: false,
     password2: false,
     code: false,
-    username: false
+    name: false
   })
 
   useEffect(() => {
@@ -57,10 +57,9 @@ export default function SignIn() {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        phone: data.phone,
         password: md5(data.password1),
         code: data.code,
-        username: data.username,
+        name: data.name,
         email: data.email
       })
     })
@@ -72,9 +71,9 @@ export default function SignIn() {
           .forEach(key => {
             switch (key) {
               case 'phone':
-                errData[key] = '该电话号已注册'
+                errData[key] = '该邮箱已注册'
                 break
-              case 'username':
+              case 'name':
                 errData[key] = '用户名已被使用'
                 break
               default:
@@ -92,6 +91,30 @@ export default function SignIn() {
       window.alert('注册成功')
       window.history.go(-1)
     }
+  }
+
+  const handleCode = () => {
+    fetch(`./api/email/`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        user_category: '个人用户'
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+        } else {
+          window.alert('验证码已发送到您的邮箱')
+        }
+      })
+  }
+
+  const checkEmail = () => {
+    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+    return reg.test(data.email)
   }
 
   return (
@@ -113,18 +136,18 @@ export default function SignIn() {
             <div className="card border-0">
               <div className="card-body">
                 <form>
-                  {err.phone && <small className="form-text text-danger">{err.phone}</small>}
+                  {err.email && <small className="form-text text-danger">{err.email}</small>}
                   <div className="form-group row">
-                    <input type="text" name="phone" value={data.phone}
+                    <input type="text" name="email" value={data.email}
                       className="input-control col"
-                      placeholder="手机号码"
+                      placeholder="邮箱地址"
                       onChange={handleChange}
                     />
                   </div>
-                  
-                  {err.username && <small className="form-text text-danger">{err.username}</small>}
+
+                  {err.name && <small className="form-text text-danger">{err.name}</small>}
                   <div className="form-group row">
-                    <input type="text" name="username" value={data.username}
+                    <input type="text" name="name" value={data.name}
                       className="input-control col"
                       placeholder="用户名称"
                       onChange={handleChange}
@@ -150,20 +173,19 @@ export default function SignIn() {
                       onChange={handleChange}
                     />
                   </div>
-                  {/* {err.code && <small className="form-text text-danger">{err.code}</small>}
+                  {err.code && <small className="form-text text-danger">{err.code}</small>}
                   <div className="form-group row">
-                    <div className="col">
-                      <input type="text" name="code" value={data.code}
-                        className="input-control"
-                        placeholder="验证码"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <button className="col-3 btn rounded-0 btn-secondary btn-sm" style={{ fontSize: 14 }}>
+                    <input type="text" name="code" value={data.code}
+                      className="input-control col"
+                      placeholder="验证码"
+                      onChange={handleChange}
+                    />
+                    <button type="button" style={{ fontSize: 14 }}
+                      disabled={!checkEmail()} onClick={handleCode}
+                      className="col-4 btn rounded-0 btn-secondary btn-sm">
                       发送验证码
                     </button>
-                  </div> */}
-
+                  </div>
                 </form>
               </div>
 

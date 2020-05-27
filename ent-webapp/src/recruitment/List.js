@@ -21,7 +21,7 @@ const List = () => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth !== null) {
       setAuth(_auth)
-      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}?u_id=${_auth.uuid}`, {
+      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}?u_id=${_auth.enterprise_uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({})

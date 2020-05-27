@@ -6,7 +6,7 @@ const Login = () => {
 
 
   const [data, setData] = useState({
-    phone: '',
+    phone_email: '',
     password: ''
   })
 
@@ -26,7 +26,7 @@ const Login = () => {
       body: JSON.stringify({
         ip: window.returnCitySN.cip,
         address: window.returnCitySN.cname,
-        phone: data.phone,
+        phone_email: data.phone_email,
         password: md5(data.password)
       })
     })
@@ -68,9 +68,9 @@ const Login = () => {
                   <div className="col form-group">
                     <input className="mt-3 form-control rounded-0"
                       type="text"
-                      placeholder="请输入手机号码"
-                      value={data.phone}
-                      name="phone"
+                      placeholder="请输入手机号码或邮箱"
+                      value={data.phone_email}
+                      name="phone_email"
                       onChange={handleChange} />
                   </div>
                 </div>
@@ -108,7 +108,6 @@ const Login = () => {
                   <a className="pull-left" href="#注册" style={{ fontSize: 'small' }}>
                     注册
                       </a>
-
                 </div>
                 <div className="col">
                   <a className="text-dark pull-right" href="#忘记密码" style={{ fontSize: 'small' }}>

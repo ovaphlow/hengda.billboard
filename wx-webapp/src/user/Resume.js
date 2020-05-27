@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'rea
 import moment from 'moment'
 
 import ToBack from '../components/ToBack'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal } from '../commonFetch'
 import { InputField, SelectField } from './Components'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -39,8 +39,8 @@ const Resume = () => {
       window.location = '#/登录'
     } else {
 
-      if (!_auth.email || _auth.email === '') {
-        window.location = '#/我的/设置/完善信息'
+      if (!_auth.phone || _auth.phone === '') {
+        window.location = '#/我的/电话'
       }
 
       setAuth(_auth)
@@ -111,7 +111,7 @@ const Resume = () => {
     fetch(`./api/resume/status/${data.common_user_id}/?u_id=${data.uuid}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({status: status})
+      body: JSON.stringify({ status: status })
     })
       .then(res => res.json())
       .then(res => {
@@ -120,11 +120,12 @@ const Resume = () => {
             ...p,
             status: status
           }))
-          EditJournal({
-            category2:'简历',
-            data_id:data.id,
-            remark:'修改简历状态'
-          },res => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: '修改简历状态'
+          }, res => { })
         }
       })
   }
@@ -155,11 +156,12 @@ const Resume = () => {
             if (res.message) {
               window.alert(res.message)
             } else {
-              EditJournal({
-                category2:'简历',
-                data_id:data.id,
-                remark:'编辑我的证书'
-              },res => {})
+              _EditJournal({
+                category2: '简历',
+                data_id: data.id,
+                data_uuid: data.uuid,
+                remark: '编辑我的证书'
+              }, res => { })
               setFile(p => p.concat({
                 id: res.content,
                 file: f,
@@ -185,11 +187,12 @@ const Resume = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:data.id,
-            remark:'编辑我的证书'
-          },res => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: '编辑我的证书'
+          }, res => { })
           setFile(p => p.filter(it => it.id !== id))
         }
       })
@@ -397,11 +400,12 @@ const Personal = () => {
         if (res.message) {
           alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:data.id,
-            remark:'修改简历个人信息'
-          },re => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: '修改简历个人信息'
+          }, re => { })
           window.history.go(-1)
         }
       })
@@ -528,11 +532,12 @@ const School = () => {
         if (res.message) {
           alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:data.id,
-            remark:'修改简历毕业院校'
-          },re => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: '修改简历毕业院校'
+          }, re => { })
           window.history.go(-1)
         }
       })
@@ -555,13 +560,19 @@ const School = () => {
           />
         </div>
         <div className="row">
-          <InputField
+          <SelectField
             name="education"
             category="学历"
             value={data.education}
             placeholder="请提供现学历,用于投递简历"
-            handleChange={handleChange}
-          />
+            handleChange={handleChange}>
+            <option></option>
+            <option>高中及以下</option>
+            <option>大专</option>
+            <option>本科</option>
+            <option>硕士</option>
+            <option>博士</option>
+          </SelectField>
         </div>
         <div className="row">
           <InputField
@@ -648,11 +659,12 @@ const Intention = () => {
         if (res.message) {
           alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:data.id,
-            remark:'修改简历求职意向'
-          },re => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: '修改简历求职意向'
+          }, re => { })
           window.history.go(-1)
         }
       })
@@ -736,11 +748,12 @@ const Evaluation = () => {
         if (res.message) {
           alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:data.id,
-            remark:'修改简历自我评价'
-          },re => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: data.id,
+            data_uuid: data.uuid,
+            remark: '修改简历自我评价'
+          }, re => { })
           window.history.go(-1)
         }
       })
@@ -910,11 +923,12 @@ const ProvinceCity = () => {
         if (res.message) {
           alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:resume.id,
-            remark:'修改简历个人信息'
-          },re => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: resume.id,
+            data_uuid: resume.uuid,
+            remark: '修改简历个人信息'
+          }, re => { })
           window.history.go(-1)
         }
       })
@@ -1063,11 +1077,12 @@ const Industry = () => {
         if (res.message) {
           alert(res.message)
         } else {
-          EditJournal({
-            category2:'简历',
-            data_id:resume.id,
-            remark:'修改简历求职意向'
-          },re => {})
+          _EditJournal({
+            category2: '简历',
+            data_id: resume.id,
+            data_uuid: resume.uuid,
+            remark: '修改简历求职意向'
+          }, re => { })
           window.history.go(-1)
         }
       })

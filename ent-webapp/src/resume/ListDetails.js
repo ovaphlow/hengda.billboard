@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
 import { SearchFavorite } from './ResumeDetalis'
-import { EditJournal } from '../commonFetch'
+import { _EditJournal, FavoriteJournal } from '../commonFetch'
 import moment from 'moment'
 
 const ListDetails = () => {
@@ -59,9 +59,10 @@ const ListDetails = () => {
               }
             })
             if (res.content.status === '已投递')
-              EditJournal({
+              _EditJournal({
                 category2: '简历',
                 data_id: res.content.id,
+                data_uuid: res.content.uuid,
                 remark: `查看<${res.content.name}投递的简历>`
               }, res => { })
             fetch(`./api/delivery/status/`, {
@@ -95,33 +96,26 @@ const ListDetails = () => {
           }
         })
     } else {
-      fetch(`./api/favorite/`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          user_id: auth.id,
-          data_id: data.resume_id,
-          category1: '企业用户',
-          category2: '简历',
-        })
+      FavoriteJournal({
+        data_id: data.resume_id,
+        data_uuid: data.resume_uuid,
+        category2: '简历'
+      }, res => {
+        if (res.message === '') {
+          SearchFavorite({
+            user_id: auth.id,
+            data_id: data.resume_id,
+            category1: '企业用户',
+            category2: '简历',
+          }).then(res1 => {
+            if (res1.content) {
+              setFavorite(p => res1.content)
+            }
+          })
+        } else {
+          alert(res.message)
+        }
       })
-        .then(res => res.json())
-        .then(res => {
-          if (res.message === '') {
-            SearchFavorite({
-              user_id: auth.id,
-              data_id: data.resume_id,
-              category1: '企业用户',
-              category2: '简历',
-            }).then(res1 => {
-              if (res1.content) {
-                setFavorite(p => res1.content)
-              }
-            })
-          } else {
-            alert(res.message)
-          }
-        })
     }
   }
 
@@ -146,9 +140,10 @@ const ListDetails = () => {
       .then(res => {
         if (res.content) {
           window.alert('已发出面试邀请,请到消息确认')
-          EditJournal({
+          _EditJournal({
             category2: '简历',
             data_id: data.id,
+            data_uuid: data.uuid,
             remark: `邀请<${data.name}面试>`
           }, res => { })
           fetch(`./api/delivery/status/`, {
@@ -203,9 +198,9 @@ const ListDetails = () => {
                   }
                   收藏
                 </button>
-                <button className="btn btn-light rounded-0 text-muted" 
-                disabled={!entStatus}
-                onClick={() => setModalShow1(true)} >
+                <button className="btn btn-light rounded-0 text-muted"
+                  disabled={!entStatus}
+                  onClick={() => setModalShow1(true)} >
                   <i className="fa fa-comment-o fa-fw" aria-hidden="true"></i>
                   邀请面试
                   </button>

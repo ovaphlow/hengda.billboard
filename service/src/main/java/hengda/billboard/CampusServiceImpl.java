@@ -83,6 +83,7 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
       if (flg) {
         sql += "and ( " + category + " )";
       }
+      sql += "ORDER BY date";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));

@@ -97,10 +97,10 @@ const Retrieval = () => {
             value={param.education}
             handleChange={handleChange}>
             <option></option>
-            <option>高中</option>
+            <option>高中及以下</option>
             <option>大专</option>
             <option>本科</option>
-            <option>研究生</option>
+            <option>硕士</option>
             <option>博士</option>
           </SelectField>
         </div>

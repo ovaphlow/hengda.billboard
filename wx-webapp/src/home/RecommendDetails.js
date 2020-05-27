@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment'
 import { useParams, useLocation } from 'react-router-dom'
 
 import ToBack from '../components/ToBack'
 import { searchFavorite } from '../recruitment/Details'
+import { FavoriteJournal, _BrowseJournal } from '../commonFetch'
 
 const RecommendDetails = props => {
 
@@ -23,6 +23,11 @@ const RecommendDetails = props => {
       .then(res => {
         if (res.content) {
           setItem(res.content)
+          _BrowseJournal({
+            data_id: id,
+            data_uuid: res.content.uuid,
+            category: '推荐信息'
+          },res => {})
         } else {
           alert(res.message)
         }
@@ -40,19 +45,7 @@ const RecommendDetails = props => {
           setFavorite(p => res.content)
         }
       })
-      fetch(`./api/journal?uuid=${_auth.uuid}`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          common_user_id: _auth.id,
-          user_uuid: _auth.uuid,
-          data_id: id,
-          category: '推荐信息',
-          datime: moment().format('YYYY-MM-DD HH:mm')
-        })
-      })
-        .then(res => res.json())
-        .then(res => { })
+     
     } 
   }, [id,search])
 
@@ -71,33 +64,26 @@ const RecommendDetails = props => {
             }
           })
       } else {
-        fetch(`./api/favorite/`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            user_id: auth.id,
-            data_id: id,
-            category1: '个人用户',
-            category2: '推荐信息',
-          })
+        FavoriteJournal({
+          data_id: id,
+          data_uuid: item.uuid,
+          category2: '推荐信息'
+        },res => {
+          if (res.message === '') {
+            searchFavorite({
+              user_id: auth.id,
+              data_id: id,
+              category1: '个人用户',
+              category2: '推荐信息',
+            }).then(res1 => {
+              if (res1.content) {
+                setFavorite(p => res1.content)
+              }
+            })
+          } else {
+            alert(res.message)
+          }
         })
-          .then(res => res.json())
-          .then(res => {
-            if (res.message === '') {
-              searchFavorite({
-                user_id: auth.id,
-                data_id: id,
-                category1: '个人用户',
-                category2: '推荐信息',
-              }).then(res1 => {
-                if (res1.content) {
-                  setFavorite(p => res1.content)
-                }
-              })
-            } else {
-              alert(res.message)
-            }
-          })
       }
     } else {
       window.location = '#登录'

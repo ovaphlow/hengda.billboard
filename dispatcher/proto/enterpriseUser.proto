@@ -12,11 +12,15 @@ service EnterpriseUser {
 
   rpc logIn(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
 
+  rpc update(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
   rpc updatePassword(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
 
   rpc recover(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
 
   rpc checkEmail(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+
+  rpc checkPhone(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
 
   rpc checkRecover(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
 

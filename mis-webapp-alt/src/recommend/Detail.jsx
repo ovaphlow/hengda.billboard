@@ -7,44 +7,38 @@ import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
 import Toolbar from './ComponentToolbar';
+import { RECOMMEND_CATEGORY } from '../constant';
+import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
   const { search } = useLocation();
-  const [address_keys, setAddressKeys] = useState([]);
-  const [address_values, setAddressValues] = useState([]);
   const [arr1, setArr1] = useState([]);
   const [arr2, setArr2] = useState([]);
+  const address_keys = useAddressKeys();
+  const address_values = useAddressValues();
+  const address_level1_values = useAddressLevel1ValueList();
 
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [date1, setDate1] = useState(moment().format('YYYY-MM-DD'));
   const [date2, setDate2] = useState(moment().format('YYYY-MM-DD'));
-  const [address_level1, setAddressLevel1] = useState('');
-  const [address_level2, setAddressLevel2] = useState('');
+  const [address_level1, setAddressLevel1] = useState('黑龙江省');
+  const [address_level2, setAddressLevel2] = useState('哈尔滨市');
   const [publisher, setPublisher] = useState('');
   const [qty, setQty] = useState(1);
   const [baomingfangshi, setBaomingfangshi] = useState('');
   const [content, setContent] = useState('');
 
   useEffect(() => {
+    setArr1(address_level1_values);
+  }, []);
+
+  useEffect(() => {
     (async () => {
-      let response = await window.fetch('/lib/address.json');
-      let res = await response.json();
-      const keys = Object.keys(res);
-      setAddressKeys(keys);
-      const values = Object.values(res);
-      setAddressValues(values);
-      const arr = [];
-      keys.forEach((e, index) => {
-        if (e.slice(-4) === '0000') {
-          arr.push(values[index]);
-        }
-      });
-      setArr1(arr);
       if (cat === '编辑') {
-        response = await window.fetch(`/api/content/recommend/${id}${search}`);
-        res = await response.json();
+        const response = await window.fetch(`/api/content/recommend/${id}${search}`);
+        const res = await response.json();
         setCategory(res.content.category);
         setTitle(res.content.title);
         setDate1(res.content.date1);
@@ -58,7 +52,7 @@ export default function Detail({ cat }) {
       }
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, search, cat]);
+  }, []);
 
   useEffect(() => {
     const arr = [];
@@ -158,10 +152,9 @@ export default function Detail({ cat }) {
                     onChange={(event) => setCategory(event.target.value)}
                   >
                     <option value="">未选择</option>
-                    <option>国企</option>
-                    <option>公务员</option>
-                    <option>事业单位</option>
-                    <option>教师</option>
+                    { RECOMMEND_CATEGORY.map((it) => (
+                      <option key={RECOMMEND_CATEGORY.indexOf(it)} value={it}>{it}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -203,12 +196,10 @@ export default function Detail({ cat }) {
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="row">
-              <div className="col-3">
+              <div className="col">
                 <div className="form-group">
-                  <label>所属省份</label>
+                  <label>地址</label>
                   <select
                     value={address_level1 || ''}
                     className="form-control"
@@ -224,7 +215,7 @@ export default function Detail({ cat }) {
 
               <div className="col">
                 <div className="form-group">
-                  <label>城市</label>
+                  <label>&nbsp;</label>
                   <select
                     value={address_level2 || ''}
                     className="form-control"

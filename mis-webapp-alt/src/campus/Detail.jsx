@@ -7,16 +7,19 @@ import 'react-quill/dist/quill.snow.css';
 import Navbar from '../component/Navbar';
 import SchoolPickerRowField from '../component/SchoolPickerRowField';
 import Toolbar from './ComponentToolbar';
+import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
-  const [address_keys, setAddressKeys] = useState([]);
-  const [address_values, setAddressValues] = useState([]);
+  const address_keys = useAddressKeys();
+  const address_values = useAddressValues();
+  const address_level1_values = useAddressLevel1ValueList();
   const [arr1, setArr1] = useState([]);
   const [arr2, setArr2] = useState([]);
   const [arr3, setArr3] = useState([]);
+
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [address_level1, setAddressLevel1] = useState('');
@@ -55,21 +58,7 @@ export default function Detail({ cat }) {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      const response = await window.fetch('/lib/address.json');
-      const res = await response.json();
-      const keys = Object.keys(res);
-      setAddressKeys(keys);
-      const values = Object.values(res);
-      setAddressValues(values);
-      const arr = [];
-      keys.forEach((e, index) => {
-        if (e.slice(-4) === '0000') {
-          arr.push(values[index]);
-        }
-      });
-      setArr1(arr);
-    })();
+    setArr1(address_level1_values);
   }, []);
 
   useEffect(() => {

@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function Navbar({ category }) {
-  const [qty, setQty] = useState(0)
+import useMessageQty from '../useMessageQty';
 
-  useEffect(() => {
-    // 待认证企业数量
-    (async () => {
-      const response = await window.fetch('/api/enterprise/certificate/qty');
-      const res = await response.json();
-      setQty((prev) => prev + res.content.qty);
-    })();
-  }, []);
+export default function Navbar({ category }) {
+  const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
 
   return (
     <nav className="navbar navbar-expand navbar-dark fix-top sticky-top bg-dark">
@@ -66,10 +59,10 @@ export default function Navbar({ category }) {
             <a href="user.html#/平台用户" className="nav-link">
               <i className="fa fa-fw fa-users" />
               用户
-              {qty > 0 && (
+              {message_qty > 0 && (
                 <small>
                   &nbsp;
-                  <span className="badge badge-pill badge-danger">{qty}</span>
+                  <span className="badge badge-pill badge-danger">{message_qty}</span>
                 </small>
               )}
             </a>

@@ -17,24 +17,16 @@ function Home() {
 
   useEffect(() => {
     (async () => {
-      let res = await window.fetch('/api/stats/user/qty');
-      res = await res.json();
+      let response = await window.fetch('/api/stats/user/qty');
+      let res = await response.json();
       setUserQty(res.content.qty);
-    })();
-  }, []);
 
-  useEffect(() => {
-    (async () => {
-      let res = await window.fetch('/api/stats/enterprise/qty');
-      res = await res.json();
+      response = await window.fetch('/api/stats/enterprise/qty');
+      res = await response.json();
       setEnterpriseQty(res.content.qty);
-    })();
-  }, []);
 
-  useEffect(() => {
-    (async () => {
-      let res = await window.fetch('/api/stats/delivery/qty');
-      res = await res.json();
+      response = await window.fetch('/api/stats/delivery/qty');
+      res = await response.json();
       setDeliveryQty(res.content.qty);
     })();
   }, []);

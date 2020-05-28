@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Navbar from '../../component/Navbar';
 import SideNav from '../ComponentSideNav';
-import ComponentEnterpriseUserFavoriteList from '../../favorite/CompomemtEnterpriseUserFavoriteList';
+import ComponentEnterpriseUserFavoriteList from '../../favorite/ComponentEnterpriseUserFavoriteList';
 
 export default function Detail({ category }) {
   const { id } = useParams();

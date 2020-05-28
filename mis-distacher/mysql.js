@@ -10,7 +10,7 @@ const pool = mysql.createPool({
   database: 'hengda-billboard',
   waitForConnections: true,
   connectionLimit: os.cpus().length,
-  queueLimit: 0,
+  queueLimit: os.cpus().length,
 });
 
 module.exports = pool;

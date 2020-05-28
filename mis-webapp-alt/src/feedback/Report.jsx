@@ -11,10 +11,6 @@ export default function Report() {
     (async () => {
       const response = await window.fetch('/api/report/');
       const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
       setData(res.content);
     })();
   }, []);

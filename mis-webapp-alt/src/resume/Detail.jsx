@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
 import SchoolPickerRowField from '../component/SchoolPickerRowField';
-import IndustryPickerRowField from '../component/IndustryPickerRowField';
+import IndustryPicker from '../component/IndustryPicker';
 import EducationPickerRowField from '../component/EducationPickerRowField';
 import AddressLevel3PickerRowField from '../component/AddressLevel3PickerRowField';
 import SideNav from '../user/ComponentSideNav';
@@ -43,10 +43,6 @@ export default function Detail({ category }) {
       (async () => {
         const response = await window.fetch(`/api/resume/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setPhone(res.content.phone);
         setEmail(res.content.email);
@@ -163,7 +159,6 @@ export default function Detail({ category }) {
           <div className="col-9 col-lg-10">
             <h3>
               普通用户
-              {category}
               {' '}
               简历
             </h3>
@@ -355,7 +350,7 @@ export default function Detail({ category }) {
                   </div>
 
                   <div className="col">
-                    <IndustryPickerRowField
+                    <IndustryPicker
                       caption="期望行业"
                       value={qiwanghangye || ''}
                       onChange={(event) => setQiwanghangye(event.target.value)}

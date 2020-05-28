@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-export default function IndustryPickerRowField({ caption, value, onChange }) {
+export default function IndustryPicker({ caption, value, onChange }) {
   const [list, setList] = useState([]);
 
   useEffect(() => {
     (async () => {
       const response = await window.fetch('/api/settings/industry/');
       const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
       setList(res.content);
     })();
   }, []);
@@ -33,7 +29,7 @@ export default function IndustryPickerRowField({ caption, value, onChange }) {
   );
 }
 
-IndustryPickerRowField.propTypes = {
+IndustryPicker.propTypes = {
   caption: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

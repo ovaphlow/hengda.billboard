@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { YUAN_GONG_SHU_LIANG } from '../constant';
 import Navbar from '../component/Navbar';
 import SideNav from '../user/ComponentSideNav';
+import IndustryPicker from '../component/IndustryPicker';
 import RecruitmentList from '../recruitment/component/List';
 
 export default function Detail({ category }) {
@@ -22,6 +23,9 @@ export default function Detail({ category }) {
   const [address2, setAddress2] = useState('');
   const [address3, setAddress3] = useState('');
   const [address4, setAddress4] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [intro, setIntro] = useState('');
+  const [url, setUrl] = useState('');
 
   useEffect(() => {
     if (category === '编辑') {
@@ -30,10 +34,6 @@ export default function Detail({ category }) {
         setUUID(t_uuid);
         const response = await fetch(`/api/enterprise/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setYingyezhizhao(res.content.yingyezhizhao);
         setYingyezhizhaoTu(res.content.yingyezhizhao_tu);
@@ -45,6 +45,9 @@ export default function Detail({ category }) {
         setAddress2(res.content.address2);
         setAddress3(res.content.address3);
         setAddress4(res.content.address4);
+        setIndustry(res.content.industry);
+        setIntro(res.content.intro);
+        setUrl(res.content.url);
       })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,6 +78,9 @@ export default function Detail({ category }) {
       address2,
       address3,
       address4,
+      industry,
+      intro,
+      url,
     };
 
     if (category === '新增') {
@@ -116,11 +122,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col">
-            <h3>
-              {category}
-              {' '}
-              企业
-            </h3>
+            <h3>企业</h3>
             <hr />
 
             <div className="card bg-dark shadow">
@@ -255,6 +257,28 @@ export default function Detail({ category }) {
                     className="form-control"
                     onChange={(event) => setAddress4(event.target.value)}
                   />
+                </div>
+
+                <div className="row">
+                  <div className="col-4">
+                    <IndustryPicker
+                      caption="所属行业"
+                      value={industry || ''}
+                      onChange={(event) => setIndustry(event.target.value)}
+                    />
+                  </div>
+
+                  <div className="col">
+                    <div className="form-group">
+                      <label>网址</label>
+                      <input type="text" value={url} placeholder="https://" className="form-control" onChange={(event) => setUrl(event.target.value)} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>简介</label>
+                  <textarea rows="5" value={intro} className="form-control" onChange={event => setIntro(event.target.value)} />
                 </div>
 
                 <p className="text-muted text-center">

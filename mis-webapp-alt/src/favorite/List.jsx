@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 
 import Navbar from '../component/Navbar';
 import SideNav from '../user/ComponentSideNav';
@@ -13,10 +14,6 @@ export default function List() {
     (async () => {
       const response = await window.fetch(`/api/favorite/?master_id=${t_master_id}`);
       const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
       setList(res.content);
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,9 +65,9 @@ export default function List() {
                     <tr>
                       <th className="text-right">序号</th>
                       <th>用户</th>
-                      <th>收藏类型</th>
-                      <th>收藏内容</th>
-                      <th>收藏时间</th>
+                      <th>类型</th>
+                      <th>时间</th>
+                      <th>内容</th>
                     </tr>
                   </thead>
 
@@ -89,18 +86,23 @@ export default function List() {
                         </td>
                         <td>{it.category2}</td>
                         <td>
+                          {moment(it.datime).format('YYYY-MM-DD')}
+                          &nbsp;
+                          <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
+                        </td>
+                        <td>
                           <button
                             type="button"
-                            className="btn btn-link"
+                            className="btn btn-outline-info btn-sm"
                             data-id={it.data_id}
                             data-uuid={it.data_uuid}
                             data-category={it.category2}
                             onClick={handleRedirect2Resource}
                           >
-                            {it.data_id}
+                            <i className="fa fa-fw fa-link" />
+                            查看
                           </button>
                         </td>
-                        <td>{it.datime}</td>
                       </tr>
                     ))}
                   </tbody>

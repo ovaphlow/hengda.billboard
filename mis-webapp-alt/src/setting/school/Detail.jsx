@@ -69,10 +69,6 @@ export default function Detail({ category }) {
       (async () => {
         const response = await window.fetch(`/api/settings/school/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setComment(res.content.comment);
       })();
@@ -92,8 +88,6 @@ export default function Detail({ category }) {
 
           <div className="col-9 col-lg-10">
             <h3>
-              {category}
-              {' '}
               院校
             </h3>
             <hr />

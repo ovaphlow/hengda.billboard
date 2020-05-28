@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Navbar from '../../component/Navbar';
 import SideNav from '../ComponentSideNav';
+import ComponentEnterpriseUserFavoriteList from '../../favorite/ComponentEnterpriseUserFavoriteList';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -57,7 +58,6 @@ export default function Detail({ category }) {
         const res = await response.json();
         setName(res.content.name);
         setPhone(res.content.phone);
-        window.console.info(res.content);
       })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,11 +74,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>
-              {category}
-              {' '}
-              企业用户
-            </h3>
+            <h3>企业用户</h3>
             <hr />
 
             <div className="card bg-dark shadow">
@@ -145,6 +141,16 @@ export default function Detail({ category }) {
                     保存
                   </button>
                 </div>
+              </div>
+            </div>
+
+            <div className="card bg-dark shadow mt-4">
+              <div className="card-header">
+                <span className="lead">收藏</span>
+              </div>
+
+              <div className="card-body">
+                <ComponentEnterpriseUserFavoriteList user_id={id} />
               </div>
             </div>
           </div>

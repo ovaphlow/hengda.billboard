@@ -26,10 +26,6 @@ export default function Detail({ cat }) {
       (async () => {
         const response = await window.fetch(`/api/content/banner/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setStatus(res.content.status);
         setCategory(res.content.category);
         setTitle(res.content.title);
@@ -110,8 +106,6 @@ export default function Detail({ cat }) {
 
       <div className="container mt-3 mb-5">
         <h3>
-          {category}
-          {' '}
           BANNER
         </h3>
         <hr />

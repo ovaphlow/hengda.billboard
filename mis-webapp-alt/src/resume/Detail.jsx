@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
 import SchoolPickerRowField from '../component/SchoolPickerRowField';
-import IndustryPickerRowField from '../component/IndustryPickerRowField';
+import IndustryPicker from '../component/IndustryPicker';
 import EducationPickerRowField from '../component/EducationPickerRowField';
 import AddressLevel3PickerRowField from '../component/AddressLevel3PickerRowField';
 import SideNav from '../user/ComponentSideNav';
@@ -351,7 +351,7 @@ export default function Detail({ category }) {
                   </div>
 
                   <div className="col">
-                    <IndustryPickerRowField
+                    <IndustryPicker
                       caption="期望行业"
                       value={qiwanghangye || ''}
                       onChange={(event) => setQiwanghangye(event.target.value)}

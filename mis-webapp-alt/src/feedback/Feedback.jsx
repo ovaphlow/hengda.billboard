@@ -91,6 +91,8 @@ export default function Feedback() {
                           {it.name}
                           <br />
                           <small className="text-muted">{it.phone}</small>
+                          <br />
+                          <small className="text-muted">{it.phone}</small>
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}

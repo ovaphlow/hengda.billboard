@@ -24,14 +24,16 @@ export default function List() {
 
   const handleRedirect2Resource = async (event) => {
     const t_cat = event.target.getAttribute('data-category');
+    const id = event.target.getAttribute('data-id');
+    const uuid = event.target.getAttribute('data-uuid');
     if (t_cat === '推荐信息') {
-      window.alert('推荐信息，施工中。');
+      window.location = `recommend.html#/${id}?uuid=${uuid}`;
     } else if (t_cat === '校园招聘') {
-      window.alert('校园招聘，施工中。');
+      window.location = `campus.html#/${id}?uuid=${uuid}`;
     } else if (t_cat === '岗位') {
-      window.alert('岗位，施工中。');
+      window.location = `recruitment.html#/${id}?uuid=${uuid}`;
     } else {
-      window.alert('未知类型，施工中。');
+      window.alert('未知类型，解析失败。');
     }
   };
 
@@ -91,6 +93,7 @@ export default function List() {
                             type="button"
                             className="btn btn-link"
                             data-id={it.data_id}
+                            data-uuid={it.data_uuid}
                             data-category={it.category2}
                             onClick={handleRedirect2Resource}
                           >

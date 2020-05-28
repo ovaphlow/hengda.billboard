@@ -59,7 +59,7 @@ export default function List() {
             <h3>企业用户</h3>
             <hr />
 
-            {parseInt(qty, 10) > 0 && (
+            {parseInt(message_qty, 10) > 0 && (
               <div className="alert alert-warning">
                 有
                 {' '}

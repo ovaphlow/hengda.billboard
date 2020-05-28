@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Navbar from '../../component/Navbar';
 import SideNav from '../ComponentSideNav';
+import ComponentEnterpriseUserFavoriteList from '../../favorite/CompomemtEnterpriseUserFavoriteList';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -144,6 +145,16 @@ export default function Detail({ category }) {
                     保存
                   </button>
                 </div>
+              </div>
+            </div>
+
+            <div className="card bg-dark shadow mt-4">
+              <div className="card-header">
+                <span className="lead">收藏</span>
+              </div>
+
+              <div className="card-body">
+                <ComponentEnterpriseUserFavoriteList user_id={id} />
               </div>
             </div>
           </div>

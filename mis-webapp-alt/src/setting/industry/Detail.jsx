@@ -21,20 +21,12 @@ export default function Detail({ category }) {
       (async () => {
         const response = await window.fetch(`/api/settings/industry/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setComment(res.content.comment);
       })();
       (async () => {
         const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setList(res.content);
       })();
     }

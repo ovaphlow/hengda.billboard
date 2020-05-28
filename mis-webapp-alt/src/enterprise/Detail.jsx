@@ -30,10 +30,6 @@ export default function Detail({ category }) {
         setUUID(t_uuid);
         const response = await fetch(`/api/enterprise/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setYingyezhizhao(res.content.yingyezhizhao);
         setYingyezhizhaoTu(res.content.yingyezhizhao_tu);

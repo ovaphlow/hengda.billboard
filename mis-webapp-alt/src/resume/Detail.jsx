@@ -43,10 +43,6 @@ export default function Detail({ category }) {
       (async () => {
         const response = await window.fetch(`/api/resume/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setPhone(res.content.phone);
         setEmail(res.content.email);

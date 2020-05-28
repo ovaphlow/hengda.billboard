@@ -8,10 +8,6 @@ export default function IndustryPickerRowField({ caption, value, onChange }) {
     (async () => {
       const response = await window.fetch('/api/settings/industry/');
       const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
       setList(res.content);
     })();
   }, []);

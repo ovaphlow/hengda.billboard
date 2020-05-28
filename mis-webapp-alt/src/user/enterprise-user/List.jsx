@@ -5,14 +5,9 @@ import SideNav from '../ComponentSideNav';
 import useMessageQty from '../../useMessageQty';
 
 export default function List() {
-  const [qty, setQty] = useState(0);
   const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
   const [list, setList] = useState([]);
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    window.console.info(message_qty);
-  }, []);
 
   const handleFilter = async () => {
     setList([]);
@@ -68,7 +63,7 @@ export default function List() {
               <div className="alert alert-warning">
                 有
                 {' '}
-                {qty}
+                {message_qty}
                 {' '}
                 个待认证企业需要
                 <a href="enterprise.html#/待认证">处理</a>

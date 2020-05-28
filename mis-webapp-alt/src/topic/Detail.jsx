@@ -23,10 +23,6 @@ export default function Detail({ cat }) {
       (async () => {
         const response = await window.fetch(`/api/content/topic/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setTag(res.content.tag);
         setTitle(res.content.title);
         setContent(res.content.content);

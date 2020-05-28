@@ -23,10 +23,6 @@ export default function Detail({ category }) {
       (async () => {
         const response = await window.fetch(`/api/common-user/${id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setEmail(res.content.email);
         setPhone(res.content.phone);
@@ -40,10 +36,6 @@ export default function Detail({ category }) {
       (async () => {
         const response = await window.fetch(`/api/resume?user_id=${id}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setResumeList(res.content);
       })();
     }

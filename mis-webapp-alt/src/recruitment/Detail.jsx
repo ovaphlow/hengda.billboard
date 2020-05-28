@@ -73,10 +73,6 @@ export default function Detail({ cat }) {
       (async () => {
         const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${t_uuid}`);
         const res = await response.json();
-        if (res.message) {
-          window.console.error(res.message);
-          return;
-        }
         setName(res.content.name);
         setQty(res.content.qty);
         setDescription(res.content.description);

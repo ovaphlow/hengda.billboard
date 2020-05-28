@@ -13,10 +13,6 @@ export default function List() {
     (async () => {
       const response = await window.fetch(`/api/favorite/?master_id=${t_master_id}`);
       const res = await response.json();
-      if (res.message) {
-        window.console.error(res.message);
-        return;
-      }
       setList(res.content);
     })();
   // eslint-disable-next-line react-hooks/exhaustive-deps

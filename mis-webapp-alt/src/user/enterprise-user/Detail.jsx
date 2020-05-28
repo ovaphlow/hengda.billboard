@@ -57,7 +57,6 @@ export default function Detail({ category }) {
         const res = await response.json();
         setName(res.content.name);
         setPhone(res.content.phone);
-        window.console.info(res.content);
       })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -157,11 +157,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>
-              普通用户
-              {' '}
-              简历
-            </h3>
+            <h3>普通用户 简历</h3>
             <hr />
 
             <div className="btn-group mb-2">

@@ -36,15 +36,6 @@ export default function List() {
     })();
   }, []);
 
-  useEffect(() => {
-    // 待认证企业数量
-    (async () => {
-      const response = await window.fetch('/api/enterprise/certificate/qty');
-      const res = await response.json();
-      setQty(res.content.qty);
-    })();
-  }, []);
-
   return (
     <>
       <Navbar category="用户" />

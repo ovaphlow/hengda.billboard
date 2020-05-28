@@ -74,11 +74,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>
-              {category}
-              {' '}
-              企业用户
-            </h3>
+            <h3>企业用户</h3>
             <hr />
 
             <div className="card bg-dark shadow">

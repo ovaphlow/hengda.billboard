@@ -122,11 +122,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col">
-            <h3>
-              {category}
-              {' '}
-              企业
-            </h3>
+            <h3>企业</h3>
             <hr />
 
             <div className="card bg-dark shadow">

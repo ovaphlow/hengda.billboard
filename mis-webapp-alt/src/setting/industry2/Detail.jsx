@@ -94,8 +94,6 @@ export default function Detail({ category }) {
 
           <div className="col-9 col-lg-10">
             <h3>
-              {category}
-              {' '}
               二级行业
             </h3>
             <hr />

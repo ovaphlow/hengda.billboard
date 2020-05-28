@@ -104,8 +104,6 @@ export default function Detail({ category }) {
 
           <div className="col-9 col-lg-10">
             <h3>
-              {category}
-              {' '}
               普通用户
             </h3>
             <hr />

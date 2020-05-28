@@ -106,8 +106,6 @@ export default function Detail({ cat }) {
 
       <div className="container mt-3 mb-5">
         <h3>
-          {category}
-          {' '}
           BANNER
         </h3>
         <hr />

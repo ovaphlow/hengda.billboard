@@ -159,7 +159,6 @@ export default function Detail({ category }) {
           <div className="col-9 col-lg-10">
             <h3>
               普通用户
-              {category}
               {' '}
               简历
             </h3>

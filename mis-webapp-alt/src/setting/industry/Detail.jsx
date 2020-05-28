@@ -91,11 +91,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>
-              {category}
-              {' '}
-              行业
-            </h3>
+            <h3>行业</h3>
             <hr />
 
             <Toolbar />

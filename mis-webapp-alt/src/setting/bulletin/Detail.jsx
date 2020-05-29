@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import { v5 as uuidv5 } from 'uuid';
 
+import { useEffect } from 'react/cjs/react.development';
 import Navbar from '../../component/Navbar';
 import SideNav from '../component/SideNav';
 import ComponentToolbar from './ComponentToolbar';
 import IndustryPicker from '../../component/IndustryPicker';
 import EducationPicker from '../../component/EducationPicker';
 
-export default function Detail() {
+export default function Detail({ cat }) {
+  const { id } = useParams();
+  const location = useLocation();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [dday, setDday] = useState('');
@@ -19,18 +26,71 @@ export default function Detail() {
   const handleSave = async () => {
     if (!title || !content || !dday || !receiver) {
       window.alert('请完整填写所需信息');
-      return
+      return;
+    }
+
+    let doc = {};
+    if (receiver === '企业用户') {
+      doc = {
+        content, address_level1, address_level2, industry,
+      };
+    } else if (receiver === '普通用户') {
+      doc = {
+        content, address_level1, address_level2, education,
+      };
+    } else {
+      window.alert('解析数据失败。');
+      return;
     }
 
     const data = {
-      title,
-      content,
-      dday,
-      receiver,
-    }
+      uuid: uuidv5(`${title}-${dday}`, uuidv5.DNS), title, dday, receiver, doc: JSON.stringify(doc),
+    };
 
-    window.console.info(data);
-  }
+    if (cat === '新增') {
+      const response = await window.fetch('/api/bulletin/', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    } else if (cat === '编辑') {
+      const response = await window.fetch(`/api/bulletin/${id}?uuid=${new URLSearchParams(location.search).get('uuid')}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    }
+  };
+
+  useEffect(() => {
+    if (cat === '编辑') {
+      (async () => {
+        const response = await window.fetch(`/api/bulletin/${id}?uuid=${new URLSearchParams(location.search).get('uuid')}`);
+        const res = await response.json();
+        setTitle(res.content.title);
+        setDday(moment(res.content.dday).format('YYYY-MM-DD'));
+        setReceiver(res.content.receiver);
+        setContent(res.content.doc.content);
+        setAddressLevel1(res.content.doc.address_level1);
+        setAddressLevel2(res.content.doc.address_level2);
+        setIndustry(res.content.doc.industry);
+        setEducation(res.content.doc.education);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -88,59 +148,37 @@ export default function Detail() {
                   </select>
                 </div>
 
-                {receiver === '企业用户' && (
-                  <div className="row">
+                <div className="row">
+                  <div className="col">
+                    <div className="form-group">
+                      <label>地址</label>
+                      <select value={address_level1} className="form-control" onChange={(event) => setAddressLevel1(event.target.value)}>
+                        <option value="">不限</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="col">
                     <div className="col">
                       <div className="form-group">
-                        <label>地址</label>
-                        <select value={address_level1} className="form-control" onChange={(event) => setAddressLevel1(event.target.value)}>
+                        <label>&nbsp;</label>
+                        <select value={address_level2} className="form-control" onChange={(event) => setAddressLevel2(event.target.value)}>
                           <option value="">不限</option>
                         </select>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="col">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
-                          <select value={address_level2} className="form-control" onChange={(event) => setAddressLevel2(event.target.value)}>
-                            <option value="">不限</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
+                  {receiver === '企业用户' && (
                     <div className="col">
                       <IndustryPicker caption="行业" value={industry} onChange={(event) => setIndustry(event.target.value)} />
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {receiver === '普通用户' && (
-                  <div className="row">
-                    <div className="col">
-                      <div className="form-group">
-                        <label>地址</label>
-                        <select value={address_level1} className="form-control" onChange={(event) => setAddressLevel1(event.target.value)}>
-                          <option value="">不限</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
-                          <select value={address_level2} className="form-control" onChange={(event) => setAddressLevel2(event.target.value)}>
-                            <option value="">不限</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
+                  {receiver === '普通用户' && (
                     <EducationPicker caption="学历" value={education} onChange={(event) => setEducation(event.target.value)} />
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
               <div className="card-footer">
@@ -164,3 +202,7 @@ export default function Detail() {
     </>
   );
 }
+
+Detail.propTypes = {
+  cat: PropTypes.string.isRequired,
+};

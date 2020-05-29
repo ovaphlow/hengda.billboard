@@ -20,14 +20,14 @@ const UpdatePassword = () => {
 
   const [auth, setAuth] = useState(0)
 
-  useEffect(() => { 
+  useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth != null) {
       setAuth(_auth)
     }
-  },[])
+  }, [])
 
-  const handleChange =  e => {
+  const handleChange = e => {
     const { value, name } = e.target
     setData(prev => ({ ...prev, [name]: value }))
   }
@@ -61,7 +61,7 @@ const UpdatePassword = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         id: auth.id,
-        old_password: md5(data.old_password), 
+        old_password: md5(data.old_password),
         password1: md5(data.password1)
       })
     })
@@ -106,43 +106,45 @@ const UpdatePassword = () => {
             <hr />
             <div className="row">
               <div className="col offset-3 col-lg-3 offset-lg-4">
-                <div className="form-group">
-                  <label>旧密码</label>
-                  <input className="form-control rounded-0"
-                    type="password"
-                    placeholder="旧密码"
-                    name="old_password"
-                    autoComplete="off"
-                    value={data.old_password}
-                    onChange={handleChange} />
-                  {err.old_password && <small className="form-text text-danger">{err.old_password}</small>}
-                </div>
-                <div className="form-group">
-                  <label>新密码</label>
-                  <input className="form-control rounded-0"
-                    type="password"
-                    placeholder="新密码"
-                    name="password1"
-                    autoComplete="off"
-                    value={data.password1}
-                    onChange={handleChange} />
-                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
-                </div>
-                <div className="form-group">
-                  <label>确认密码</label>
-                  <input className="form-control rounded-0"
-                    type="password"
-                    placeholder="确认密码"
-                    name="password2"
-                    autoComplete="off"
-                    value={data.password2}
-                    onChange={handleChange} />
-                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
-                </div>
+                <form>
+                  <div className="form-group">
+                    <label>旧密码</label>
+                    <input className="form-control rounded-0"
+                      type="password"
+                      placeholder="旧密码"
+                      name="old_password"
+                      autoComplete="off"
+                      value={data.old_password}
+                      onChange={handleChange} />
+                    {err.old_password && <small className="form-text text-danger">{err.old_password}</small>}
+                  </div>
+                  <div className="form-group">
+                    <label>新密码</label>
+                    <input className="form-control rounded-0"
+                      type="password"
+                      placeholder="新密码"
+                      name="password1"
+                      autoComplete="off"
+                      value={data.password1}
+                      onChange={handleChange} />
+                    {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
+                  </div>
+                  <div className="form-group">
+                    <label>确认密码</label>
+                    <input className="form-control rounded-0"
+                      type="password"
+                      placeholder="确认密码"
+                      name="password2"
+                      autoComplete="off"
+                      value={data.password2}
+                      onChange={handleChange} />
+                    {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
+                  </div>
+                </form>
               </div>
               <div className="mt-2 offset-3 col-lg-3 offset-lg-4">
                 <button className="w-100 btn btn-primary rounded-0"
-                  onClick={handleUpdate}>
+                  type="button" onClick={handleUpdate}>
                   保存
                 </button>
               </div>

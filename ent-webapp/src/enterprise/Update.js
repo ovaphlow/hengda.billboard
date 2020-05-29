@@ -5,6 +5,7 @@ import { View } from './Components'
 
 import { TextField, SelectField } from '../components/InputField'
 import { _EditJournal } from '../commonFetch'
+import moment from 'moment'
 
 const Update = () => {
 
@@ -20,7 +21,27 @@ const Update = () => {
     address3: '',
     address4: '',
     phone: '',
-    code: ''
+    code: '',
+    url: '',
+    industry: '',
+    intro: ''
+  })
+
+
+  const [required, setRequired] = useState({
+    yingyezhizhao: false,
+    faren: false,
+    zhuceriqi: false,
+    zhuziguimo: false,
+    yuangongshuliang: false,
+    yingyezhizhao_tu: false,
+    address1: false,
+    address2: false,
+    address3: false,
+    address4: false,
+    phone: false,
+    intro: false,
+    industry: false,
   })
 
   const [auth, setAuth] = useState(0)
@@ -32,6 +53,8 @@ const Update = () => {
   const [city, setCity] = useState([])
 
   const [area, setArea] = useState([])
+
+  const [industry, setIndustry] = useState([])
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
@@ -47,6 +70,19 @@ const Update = () => {
             window.alert(window.message)
           } else {
             setData(res.content)
+          }
+        })
+      fetch(`./api/common-data/hangye/`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            localStorage.setItem('industry', JSON.stringify({
+              date: parseInt(moment().add(7, 'days').format('YYYYMMDD')),
+              data: res.content
+            }))
+            setIndustry(p => res.content)
           }
         })
     }
@@ -120,6 +156,21 @@ const Update = () => {
     //       window.alert(res.message)
     //     } else {
     //       if (res.content) {
+    let flg = false
+    const _req = {}
+    Object.getOwnPropertyNames(required).forEach(key => {
+      if (!data[key] || data[key] === '') {
+        _req[key] = '请填写内容!'
+        flg = true
+      } else {
+        _req[key] = false
+      }
+    })
+
+    if (flg) {
+      setRequired(_req)
+      return
+    }
     fetch(`./api/enterprise/${auth.enterprise_id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
@@ -285,23 +336,32 @@ const Update = () => {
                   name="yingyezhizhao"
                   value={data.yingyezhizhao}
                   handleChange={handleChange}
-                />
+                  req={required.yingyezhizhao}
+                  required />
               </div>
               <div className="col-3 col-md-4">
                 <TextField
                   category="法人"
                   name="faren"
                   value={data.faren}
-                  handleChange={handleChange} />
+                  handleChange={handleChange}
+                  req={required.faren}
+                  required />
               </div>
               <div className="col-3 col-md-4">
                 <div className="form-group">
-                  <label>注册日期</label>
+                  <label>
+                    <span className="text-danger">*</span>
+                    注册日期
+                  </label>
                   <input type="date"
                     name="zhuceriqi"
                     value={data.zhuceriqi}
                     onChange={handleChange}
-                    className="form-control form-control-sm rounded-0" />
+                    className={`form-control form-control-sm rounded-0 ${required.zhuceriqi ? 'is-invalid' : ''}`} />
+                  <div className="invalid-feedback">
+                    {required.zhuceriqi}
+                  </div>
                 </div>
               </div>
               <div className="col-3 col-md-4">
@@ -310,14 +370,17 @@ const Update = () => {
                   name="zhuziguimo"
                   value={data.zhuziguimo}
                   handleChange={handleChange}
-                />
+                  req={required.zhuziguimo}
+                  required />
               </div>
               <div className="col-3 col-md-4">
                 <SelectField
                   category="员工数量"
                   name="yuangongshuliang"
                   value={data.yuangongshuliang}
-                  handleChange={handleChange} >
+                  handleChange={handleChange}
+                  req={required.yuangongshuliang}
+                  required>
                   <option></option>
                   <option>50 人以下</option>
                   <option>50-100 人</option>
@@ -327,12 +390,39 @@ const Update = () => {
                 </SelectField>
               </div>
               <div className="col-3 col-md-4">
+                <SelectField
+                  category="所属行业"
+                  name="industry"
+                  value={data.industry}
+                  handleChange={handleChange}
+                  req={required.industry}
+                  required >
+                  <option></option>
+                  {
+                    industry.filter(item => item.master_id === 0).map(item => (
+                      <option key={item.id}>{item.name}</option>
+                    ))
+                  }
+                </SelectField>
+              </div>
+
+              <div className="col-3 col-md-4">
                 <TextField
                   category="电话号码"
                   name="phone"
                   value={data.phone}
-                  handleChange={handleChange} />
+                  handleChange={handleChange}
+                  req={required.phone}
+                  required />
               </div>
+              {/* <div className="col-3 col-md-4">
+                <TextField
+                  category="所属行业" />
+              </div> */}
+              {/* <div className="col-3 col-md-4">
+                <TextField
+                  category="所属行业" />
+              </div> */}
               {/* <div className="col-3 col-md-4">
                 <div className="form-group">
                   <label>验证码</label>
@@ -350,6 +440,48 @@ const Update = () => {
                 </div>
               </div> */}
             </div>
+            <div className="row">
+              <div className="col">
+                <h3 className="pull-left">企业网址</h3>
+              </div>
+            </div>
+            <hr />
+            <div className="row">
+              <div className="col">
+                <div className="form-group">
+                  <input type="text"
+                    name='url'
+                    value={data.url || ''}
+                    onChange={handleChange}
+                    className="form-control form-control-sm rounded-0" />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <h3 className="pull-left">
+                  <span className="text-danger">*</span>
+                  公司简介
+                </h3>
+              </div>
+            </div>
+            <hr />
+            <div className="row">
+              <div className="col">
+                <div className="form-group">
+                  <textarea
+                    name="intro"
+                    value={data.intro}
+                    onChange={handleChange}
+                    rows="4"
+                    className={`form-control form-control-sm rounded-0 ${required.intro ? 'is-invalid' : ''}`} />
+                  <div className="invalid-feedback">
+                    {required.intro || ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="row mt-2">
               <div className="col">
                 <h3 className="pull-left">公司地址</h3>
@@ -362,7 +494,9 @@ const Update = () => {
                   category="省/直辖市"
                   name="address1"
                   value={data.address1}
-                  handleChange={handleProvince}>
+                  handleChange={handleProvince}
+                  req={required.address1 || ''}
+                  required>
                   <option></option>
                   {
                     level.map((item, inx) =>
@@ -375,7 +509,9 @@ const Update = () => {
                   category="市"
                   name="address2"
                   value={data.address2}
-                  handleChange={handleCity}>
+                  handleChange={handleCity}
+                  req={required.address2}
+                  required>
                   <option></option>
                   {
                     city.map((item, inx) =>
@@ -388,7 +524,9 @@ const Update = () => {
                   category="区"
                   name="address3"
                   value={data.address3}
-                  handleChange={handleChange}>
+                  handleChange={handleChange}
+                  req={required.address3}
+                  required>
                   <option></option>
                   {
                     area.map((item, inx) =>
@@ -397,26 +535,17 @@ const Update = () => {
                 </SelectField>
               </div>
             </div>
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>详细地址</label>
-                  <textarea
-                    name="address4"
-                    value={data.address4}
-                    onChange={handleChange}
-                    rows="1"
-                    className="form-control form-control-sm rounded-0" />
-                </div>
-              </div>
-            </div>
             <div className="row mt-2">
               <div className="col">
-                <h3 className="pull-left">营业执照</h3>
+                <h3 className="pull-left">
+                  <span className="text-danger">*</span>
+                  营业执照
+                  <span className="text-danger">{required.yingyezhizhao_tu?`(${required.yingyezhizhao_tu})`:''}</span>
+                </h3>
                 <div className="pull-right">
                   <button className="btn btn-primary" onClick={handleUpload} >
-                    <i className="fa fa-upload" ></i>
-                    上传图片
+                    <i className="fa fa-fw fa-upload" ></i>
+                    选择图片
                   </button>
                   <input type="file"
                     onChange={handleFileChange}
@@ -438,7 +567,7 @@ const Update = () => {
                   返回
                 </a>
                 <button className="pull-right btn btn-success" onClick={handleSave}>
-                  保存
+                  保存并提交审核
                 </button>
               </div>
             </div>

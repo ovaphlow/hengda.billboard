@@ -39,6 +39,8 @@ const Update = () => {
 
   const [address, setAddress] = useState([])
 
+  const [list, setList] = useState([])
+
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
@@ -53,10 +55,20 @@ const Update = () => {
         if (res.content) {
           setName(res.content.name)
           setData(p => res.content)
+          fetch(`./api/delivery/recruitment/${id}?recruitment_uuid=${res.content.uuid}`)
+            .then(res => res.json())
+            .then(res => {
+              if (res.content) {
+                setList(res.content)
+              } else {
+                alert(res.message)
+              }
+            })
         } else {
           alert(res.message)
         }
       })
+
     fetch(`/lib/address.json`)
       .then(res => res.json())
       .then(res => {
@@ -290,9 +302,16 @@ const Update = () => {
                   <option>硕士</option>
                 </SelectField>
               </div>
+              <div className="col">
+                <TextField
+                  category="招聘人数"
+                  name="qty"
+                  value={data.qty}
+                  handleChange={handleChange} />
+              </div>
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-2">
                 <SelectField
                   category="省/直辖市"
                   name="address1"
@@ -305,7 +324,7 @@ const Update = () => {
                   }
                 </SelectField>
               </div>
-              <div className="col">
+              <div className="col-2">
                 <SelectField
                   category="市"
                   name="address2"
@@ -318,7 +337,7 @@ const Update = () => {
                   }
                 </SelectField>
               </div>
-              <div className="col">
+              <div className="col-2">
                 <SelectField
                   category="区/县"
                   name="address3"
@@ -331,33 +350,22 @@ const Update = () => {
                   }
                 </SelectField>
               </div>
-              <div className="col">
-                <TextField
-                  category="薪资要求1"
-                  name="salary1"
-                  value={data.salary1}
-                  handleChange={handleChange} />
+              <div className="col-2">
+                <label>薪资要求</label>
+                <div className="row pl-3 pr-3">
+                  <input type="text"
+                    name="salary1"
+                    value={data.salary1}
+                    onChange={handleChange}
+                    className={`col form-control form-control-sm rounded-0`} />
+                  -
+                  <input type="text"
+                    name="salary2"
+                    value={data.salary2}
+                    onChange={handleChange}
+                    className={`col form-control form-control-sm rounded-0`} />
+                </div>
               </div>
-              <div className="col">
-                <TextField
-                  category="薪资要求2"
-                  name="salary2"
-                  value={data.salary2}
-                  handleChange={handleChange} />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <TextField
-                  category="招聘人数"
-                  name="qty"
-                  value={data.qty}
-                  handleChange={handleChange} />
-              </div>
-              <div className="col" />
-              <div className="col" />
-              <div className="col" />
-              <div className="col" />
             </div>
             <div className="row">
               <div className="col">
@@ -396,6 +404,47 @@ const Update = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="row bg-white shadow mt-4">
+        <div className="col card rounded-0">
+          <div className="card-body">
+            <div className="row">
+              <div className="col">
+                <h3 className="pull-left">已收到简历</h3>
+              </div>
+            </div>
+            <table className="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">求职者姓名</th>
+                  <th scope="col">毕业院校</th>
+                  <th scope="col">学历</th>
+                  <th scope="col">投递时间</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {list && list.map(item => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>{item.school}</td>
+                    <td>{item.education}</td>
+                    <td>{item.datime}</td>
+                    <td>{item.status}</td>
+                    <td>
+                      <div className="btn-group btn-group-sm">
+                        <a className="btn btn-primary" href={`#简历/列表/详情/${item.id}?u_id=${item.uuid}`}>
+                          查看
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -161,7 +161,7 @@ const List = () => {
                     <td>
                       <div className="btn-group btn-group-sm">
                         <a className="btn btn-primary" href={`#岗位/编辑/${item.id}?u_id=${item.uuid}`}>
-                          编辑
+                          详情
                         </a>
                       </div>
                     </td>

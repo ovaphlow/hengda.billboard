@@ -204,7 +204,7 @@ const Resume = () => {
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>
           <ToBack herf='#我的' category="我的简历" />
-          <div className="row mt-2">
+          {/* <div className="row mt-2">
             <div className="col" >
               <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
             </div>
@@ -222,8 +222,25 @@ const Resume = () => {
                 </a>
               </div>
             </div>
+          </div> */}
+          <div className="row mt-2">
+            <div className="col">
+              <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
+              <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
+            </div>
+            <div className="col">
+              <a className="pull-right" href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
+                <i className="fa fa-pencil-square-o fa-fw"></i>
+                  编辑
+                </a>
+            </div>
           </div>
-          <div className="row mt-3">
+          <div className="row">
+            <div className="col">
+              {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
+            </div>
+          </div>
+          <div className="row mt-2">
             <div className="col">
               <i className="fa fa-phone fa-fw"></i>
               &nbsp;&nbsp;&nbsp;{data.phone}

@@ -21,8 +21,8 @@ public class ChartServiceImpl extends ChartGrpc.ChartImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select zhiwei, count(zhiwei) as count from (select CONCAT(qiwanghangye,'-',qiwangzhiwei) as zhiwei  "
-          + "from resume where qiwanghangye != '' and  qiwangzhiwei != '' ) as t GROUP BY zhiwei ORDER BY count DESC limit 5";
+      String sql = "select zhiwei, count(zhiwei) as count from (select qiwangzhiwei as zhiwei  "
+          + "from resume where qiwanghangye != '' and  qiwangzhiwei != '' ) as t GROUP BY zhiwei ORDER BY count DESC limit 10";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ResultSet rs = ps.executeQuery();
         List<Map<String, Object>> result = DBUtil.getList(rs);

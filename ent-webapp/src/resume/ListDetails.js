@@ -25,6 +25,13 @@ const ListDetails = () => {
 
   const [entStatus, setEntStatus] = useState(false)
 
+  const [required, setRequired] = useState({
+    address: false,
+    phone1: false,
+    luxian: false,
+    mianshishijian: false
+  })
+
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
@@ -122,19 +129,43 @@ const ListDetails = () => {
 
   const handleInvite = () => {
 
+    const param = {
+      recruitment_id: data.recruitment_id,
+      common_user_id: data.common_user_id,
+      address: document.getElementById('address').value,
+      phone1: document.getElementById('phone1').value,
+      phone2: document.getElementById('phone2').value,
+      luxian: document.getElementById('luxian').value,
+      mianshishijian: document.getElementById('datime').value,
+      remark: document.getElementById('remark').value
+    }
+    let flg = false
+    const _req = {}
+    Object.getOwnPropertyNames(required).forEach(key => {
+      if (!param[key] || param[key] === '') {
+        _req[key] = '请填写内容!'
+        flg = true
+      } else {
+        _req[key] = false
+      }
+    })
+    
+    if (flg) {
+      setRequired(_req)
+      return
+    }
+
+    if(moment().isSameOrAfter(moment(param.mianshishijian))) {
+      _req['mianshishijian']= '无效的时间'
+      setRequired(_req)
+      return
+    }
+
+
     fetch(`./api/offer/`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        recruitment_id: data.recruitment_id,
-        common_user_id: data.common_user_id,
-        address: document.getElementById('address').value,
-        phone1: document.getElementById('phone1').value,
-        phone2: document.getElementById('phone2').value,
-        luxian: document.getElementById('luxian').value,
-        mianshishijian: document.getElementById('datime').value,
-        remark: document.getElementById('remark').value
-      })
+      body: JSON.stringify(param)
     })
       .then(res => res.json())
       .then(res => {
@@ -183,6 +214,7 @@ const ListDetails = () => {
       })
   }
 
+
   return (
     <View category='列表'>
       <div className="row bg-white shadow" >
@@ -212,7 +244,7 @@ const ListDetails = () => {
             )} {...data} />
             <div className="row">
               <div className="col">
-                <a href={`#简历/列表/`} className="btn btn-primary">返回</a>
+                <button onClick={() => window.history.go(-1)}  className="btn btn-primary">返回</button>
               </div>
             </div>
           </div>
@@ -236,37 +268,56 @@ const ListDetails = () => {
         handleSave={handleInvite}
         close={() => setModalShow1(false)} >
         <div className="form-group">
-          <label>面试职位</label>
+          <label>
+            面试职位
+          </label>
           <input type="text"
             className="form-control form-control-sm"
             defaultValue={data.recruitment_name} readOnly />
         </div>
         <div className="form-group">
+          <span className="text-danger">*</span>
           <label>联系电话1</label>
-          <input id="phone1" type="text" className="form-control form-control-sm" />
+          <input id="phone1" type="text" 
+            className={`form-control form-control-sm ${required['phone1'] ? 'is-invalid' : ''}`} />
+          <div className="invalid-feedback">
+            {required.phone1}
+          </div>
         </div>
         <div className="form-group">
           <label>联系电话2</label>
           <input id="phone2" type="text" className="form-control form-control-sm" />
         </div>
         <div className="form-group">
+          <span className="text-danger">*</span>
           <label>面试时间</label>
           <input
             id="datime"
             type="datetime-local"
-            className="form-control form-control-sm" />
+            className={`form-control form-control-sm ${required['mianshishijian'] ? 'is-invalid' : ''}`} />
+          <div className="invalid-feedback">
+            {required.mianshishijian}
+          </div>
         </div>
         <div className="form-group">
+          <span className="text-danger">*</span>
           <label>面试地点</label>
           <textarea
             id="address"
-            className="form-control form-control-sm" />
+            className={`form-control form-control-sm ${required['address'] ? 'is-invalid' : ''}`} />
+          <div className="invalid-feedback">
+            {required.address}
+          </div>
         </div>
         <div className="form-group">
+          <span className="text-danger">*</span>
           <label>交通路线</label>
           <textarea
             id="luxian"
-            className="form-control form-control-sm" />
+            className={`form-control form-control-sm ${required['luxian'] ? 'is-invalid' : ''}`} />
+          <div className="invalid-feedback">
+            {required.luxian}
+          </div>
         </div>
         <div className="form-group">
           <label>备注</label>

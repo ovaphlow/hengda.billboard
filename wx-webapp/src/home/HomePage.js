@@ -66,41 +66,67 @@ const HomePage = () => {
       })
   }
 
+  // const _οnkeypress = event => { 
+  //   const keyCode = event.which || event.keyCode
+  //   if(keyCode === 13 && event.target.value !== ''){
+  //     // window.location=`#主页/查询/${event.target.value}`
+  //   }
+  // }
+
+
   return (
     <>
       <div className="container-fluid">
-        {/* <Title category="龙江学子就业平台" /> */}
         {
-          auth !== 0 || (
-            <div className="row pb-2">
+          auth !== 0 ? (
+            <div className="row pb-2 pt-1">
               <div className="col text-center">
-                <a className="text-muted" href="#登录" >
-                  登录完善信息，为您精准推荐职位信息
+                <a className="text-black-50" href="#登录" >
+                  <strong className="text-primary">登录</strong>
+                  完善信息，为您精准推荐职位信息
                 </a>
+              </div>
+            </div>
+          ) : (
+            <div className="row pb-2 pt-1">
+              <div className="col">
+                <input type="text" 
+                className="w-100 border-0 text-center" 
+                placeholder="按照企业/职位名称查询"
+                onClick={()=>window.location=`#主页/查询/`}
+                style={{outline:0,backgroundColor:'rgba(0, 0, 0, 0)'}} />
               </div>
             </div>
           )
         }
 
         <PlayImg category={'小程序-首页'} />
-        <div className="mt-2 border-0">
-          <div style={{ borderLeft: ".25rem solid#007bff" }}>
-            <span >&nbsp;&nbsp;热门话题</span>
+        <div className="mt-2 p-2 border-0 bg-white rounded card-body shadow ">
+          <div >
+            <h6>
+              <i className="fa fa-fw fa-lg fa-fire text-danger" aria-hidden="true"></i>
+              热门话题
+            </h6>
           </div>
           <TopicCards list={topicList} />
         </div>
-        <div className="mt-2 border-0">
-          <div style={{ width: "100%", borderLeft: ".25rem solid#007bff" }}>
-            <span>&nbsp;&nbsp;推荐信息</span>
-            <p className="pull-right text-primary" >
+        <div className="mt-2 p-2 border-0 bg-white rounded card-body shadow ">
+          <div >
+            <h6 className="pull-left" >
+              <i className="fa fa-fw fa-lg fa-thumbs-up text-warning" aria-hidden="true"></i>
+                推荐信息
+            </h6>
+            <ul className="nav justify-content-end" >
               {RECOMMEND_TYPE.map((item, inx) => (
-                <>
-                  <TextCheckbox value={item} onChange={_onCheckboxChange}>
-                    {item}
-                  </TextCheckbox>{inx === RECOMMEND_TYPE.length - 1 ? '' : '|'}
-                </>
+                <React.Fragment key={inx}>
+                  <li className="nav-item">
+                    <TextCheckbox value={item} onChange={_onCheckboxChange}>
+                      {item}
+                    </TextCheckbox>
+                  </li>
+                </React.Fragment>
               ))}
-            </p>
+            </ul>
           </div>
           <br></br>
           {
@@ -109,7 +135,9 @@ const HomePage = () => {
             )
           }
         </div>
+        <br />
       </div>
+
       <Navbar category="首页" />
     </>
   )

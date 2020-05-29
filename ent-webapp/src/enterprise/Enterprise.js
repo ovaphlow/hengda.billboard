@@ -64,21 +64,24 @@ const Enterprise = () => {
                 </div>
                 <span className="text-muted">
                   {data.faren && (<>法人:{data.faren}&nbsp;&nbsp;&nbsp;</>)}
-                  {data.yuangongshuliang && (<>员工数量:{data.yuangongshuliang}&nbsp;&nbsp;&nbsp;</>)}
+                  {data.yuangongshuliang && (<>员工数量:{data.yuangongshuliang}&nbsp;&nbsp;&nbsp;</>)}<br />
                   {data.zhuziguimo && (<>注资规模:{data.zhuziguimo}&nbsp;&nbsp;&nbsp;</>)}
                   {data.zhuceriqi && (<>注册日期:{data.zhuceriqi}</>)}
-
                 </span><br />
-                <span className="text-muted">
-                  {data.email && (<>企业邮箱:{data.email}</>)}<br />
-                </span>
                 <span className="text-muted">
                   公司地址:
                   {data.address1 && (<>{data.address1}-</>)}
                   {data.address2 && (<>{data.address2}-</>)}
                   {data.address3 && (<>{data.address3}-</>)}
                   {data.address4 && (<>{data.address4}</>)}
-                </span>
+                </span><br />
+                <span className="text-muted">
+                  公司网址: {data.url}
+                </span><br />
+                <span className="text-muted">
+                  公司简介: 
+                </span><br/>
+                <span className="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;{data.intro}</span>
               </div>
             </div>
             <hr />

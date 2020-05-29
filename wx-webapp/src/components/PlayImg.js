@@ -123,7 +123,7 @@ const PlayImg = props => {
   }
 
   return (
-    <div className="row img-box" >
+    <div className="row img-box shadow-sm" >
       {
         (list && list.length > 0) && (
           <AutoPlaySwipeableViews style={{ width: '100vh' }} index={index} onChangeIndex={handleChangeIndex}>

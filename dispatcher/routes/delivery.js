@@ -44,6 +44,26 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
+  .get('/recruitment/:recruitment_id', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.recruitmentList({ data: JSON.stringify(body) }, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.params.recruitment_uuid = ctx.query.recruitment_uuid
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
   .get('/user/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.userDeliveryList({ data: JSON.stringify(body) }, (err, response) => {

@@ -191,9 +191,16 @@ const Save = () => {
                   <option>硕士</option>
                 </SelectField>
               </div>
+              <div className="col">
+                <TextField
+                  category="招聘人数"
+                  name="qty"
+                  value={data.qty}
+                  handleChange={handleChange} />
+              </div>
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-2">
                 <SelectField
                   category="省"
                   name="address1"
@@ -206,7 +213,7 @@ const Save = () => {
                   }
                 </SelectField>
               </div>
-              <div className="col">
+              <div className="col-2">
                 <SelectField
                   category="市"
                   name="address2"
@@ -219,7 +226,7 @@ const Save = () => {
                   }
                 </SelectField>
               </div>
-              <div className="col">
+              <div className="col-2">
                 <SelectField
                   category="区/县"
                   name="address3"
@@ -232,35 +239,23 @@ const Save = () => {
                   }
                 </SelectField>
               </div>
-              <div className="col">
-                <TextField
-                  category="薪资要求1"
-                  name="salary1"
-                  value={data.salary1}
-                  handleChange={handleChange} />
-              </div>
-              <div className="col">
-                <TextField
-                  category="薪资要求2"
-                  name="salary2"
-                  value={data.salary2}
-                  handleChange={handleChange} />
+              <div className="col-2">
+                <label>薪资要求</label>
+                <div className="row pl-3 pr-3">
+                  <input type="text"
+                    name="salary1"
+                    value={data.salary1}
+                    onChange={handleChange}
+                    className={`col form-control form-control-sm rounded-0`} />
+                  -
+                  <input type="text"
+                    name="salary2"
+                    value={data.salary2}
+                    onChange={handleChange}
+                    className={`col form-control form-control-sm rounded-0`} />
+                </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col">
-                <TextField
-                  category="招聘人数"
-                  name="qty"
-                  value={data.qty}
-                  handleChange={handleChange} />
-              </div>
-              <div className="col" />
-              <div className="col" />
-              <div className="col" />
-              <div className="col" />
-            </div>
-
             <div className="row">
               <div className="col">
                 <div className="form-group">

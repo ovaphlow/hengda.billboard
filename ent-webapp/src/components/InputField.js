@@ -4,28 +4,40 @@ import moment from 'moment'
 
 export const TextField = props => (
   <div className="form-group">
-    <label>{props.category}</label>
+    <label>
+      {<span className="text-danger">{props.required ? '*' : ''}</span>}
+      {props.category}
+    </label>
     <input type="text"
       id={props.id}
       name={props.name}
       value={props.value || ''}
       onChange={props.handleChange}
-      className="form-control form-control-sm rounded-0" />
+      className={`form-control form-control-sm rounded-0 ${props.req ? 'is-invalid' : ''}`} />
+    <div className="invalid-feedback">
+      {props.req||''}
+    </div>
   </div>
 )
 
 
 export const SelectField = props => (
   <div className="form-group">
-    <label>{props.category}</label>
+    <label>
+      {<span className="text-danger">{props.required ? '*' : ''}</span>}
+      {props.category}
+    </label>
     <select type="text"
       id={props.id}
       name={props.name}
       value={props.value || ''}
       onChange={props.handleChange}
-      className={props.className ? props.className : `form-control form-control-sm rounded-0`} >
+      className={props.className ? props.className : `form-control form-control-sm rounded-0 ${props.req ? 'is-invalid' : ''}`} >
       {props.children}
     </select>
+    <div className="invalid-feedback">
+      {props.req}
+    </div>
   </div>
 )
 
@@ -176,7 +188,7 @@ export const IndustryField = props => {
 }
 
 export const IndustrySearchField = props => {
-  
+
   const [industry, setIndustry] = useState([])
 
   const [position, setPosition] = useState([])
@@ -216,7 +228,7 @@ export const IndustrySearchField = props => {
     const { value, name } = e.target
     if (value === '') {
       setPosition([])
-    } else { 
+    } else {
       setPosition(industry.filter(item => item.master_id === industry.find(it => it.name === value).id))
     }
     props.handleChange({

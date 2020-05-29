@@ -18,6 +18,8 @@ service Recruitment {
 
   rpc search(RecruitmentRequest) returns (RecruitmentReply) {}
 
+  rpc keywordSearch(RecruitmentRequest) returns (RecruitmentReply) {}
+
   rpc status(RecruitmentRequest) returns (RecruitmentReply) {}
 
   rpc enterpriseList(RecruitmentRequest) returns (RecruitmentReply) {}

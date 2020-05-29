@@ -7,11 +7,13 @@ import ToBack from '../components/ToBack'
 const LetfMessage = props => (
   <div className="row p-2">
     <div className="col">
-      <div className="pull-left pr-2" >
+      {/* <div className="pull-left pr-2" >
         <img className="rounded-circle message-img" src="lib/img/u868.png" alt="" />
-      </div>
+      </div> */}
       <div className="pull-left message-text shadow border rounded p-2"  >
-        {props.text}
+        {props.name} {props.datime}
+        <br />
+        &nbsp;&nbsp;&nbsp;{props.content}
       </div>
     </div>
   </div>
@@ -20,11 +22,13 @@ const LetfMessage = props => (
 const RightMessage = props => (
   <div className="row p-2">
     <div className="col">
-      <div className="pull-right pl-2" >
+      {/* <div className="pull-right pl-2" >
         <img className="rounded-circle message-img" src="lib/img/u868.png" alt="" />
-      </div>
+      </div> */}
       <div className="pull-right message-text shadow border rounded p-2" >
-        {props.text}
+        {props.name} {props.datime}
+        <br />
+        &nbsp;&nbsp;&nbsp;{props.content}
       </div>
     </div>
   </div>
@@ -144,8 +148,8 @@ const Chat = () => {
             {
               contentList && contentList.map((item, inx) =>
                 item.category === 'common_to_ent' ?
-                  <RightMessage key={inx} text={item.content} /> :
-                  <LetfMessage key={inx} text={item.content} />
+                  <RightMessage key={inx}  name='我' {...item} /> :
+                  <LetfMessage key={inx} name={title} {...item} />
               )
             }
           </div>

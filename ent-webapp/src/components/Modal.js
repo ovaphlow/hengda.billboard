@@ -7,7 +7,7 @@ const Modal = props => {
   }
 
   return (
-    <div className={`modal fade ${props.show && 'show modal-show'}`} style={{ position: 'absolute' }} tabIndex="-1" >
+    <div className={`modal fade ${props.show && 'show modal-show'}`} style={{ position: 'absolute', overflow: 'inherit' }} tabIndex="-1" >
       <div className="modal-dialog" >
         <div className="modal-content shadow border-1 rounded-0" >
           <div className="modal-header">

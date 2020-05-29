@@ -12,7 +12,7 @@ const MessageRow = props => {
 
   return (
     <div className="row" onClick={handleClick}>
-      <div
+      {/* <div
         style={{
           background: 'url(lib/img/u679.svg)',
           backgroundSize: '100% 100%',
@@ -22,7 +22,7 @@ const MessageRow = props => {
         {
 
         } &nbsp;
-      </div>
+      </div> */}
       <div className="col">
         <div className="row ">
           <div className="col">

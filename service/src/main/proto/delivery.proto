@@ -10,6 +10,8 @@ service Delivery {
   
   rpc get(DeliveryRequest) returns (DeliveryReply) {}
 
+  rpc recruitmentList(DeliveryRequest) returns (DeliveryReply) {}
+
   rpc details(DeliveryRequest) returns (DeliveryReply) {}
 
   rpc userDeliveryList(DeliveryRequest) returns (DeliveryReply) {}

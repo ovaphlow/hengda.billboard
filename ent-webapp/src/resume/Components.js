@@ -94,12 +94,12 @@ export const ResumeView = props => {
     <>
       <div className="row">
         <div className="col item-middle">
-          <img
+          {/* <img
             className="img-fluid pull-left"
             style={{ height: 100 }}
             alt=""
-            src={require('../components/img/user.jpg')} />
-          <div style={{ paddingLeft: 20 }}>
+            src={require('../components/img/user.jpg')} /> */}
+          <div>
             <h3>{props.name}</h3>
             <span className="text-muted">
               {props.gender}&nbsp;|&nbsp;{age(props.birthday)}&nbsp;|&nbsp;{props.address2}

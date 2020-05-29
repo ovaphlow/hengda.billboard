@@ -6,7 +6,7 @@ import { SIGN_IN_URL } from '../constant';
 import SchoolRouter from './school';
 import IndustryRouter from './industry';
 import Industry2Router from './industry2';
-import MassMessage from './MassMessage';
+import BulletinRouter from './bulletin';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -29,7 +29,7 @@ function SettingRouter() {
         <Route path="/院校"><SchoolRouter /></Route>
         <Route path="/行业"><IndustryRouter /></Route>
         <Route path="/二级行业"><Industry2Router /></Route>
-        <Route path="/群发消息"><MassMessage /></Route>
+        <Route path="/通知公告"><BulletinRouter /></Route>
       </Switch>
     </Router>
   );

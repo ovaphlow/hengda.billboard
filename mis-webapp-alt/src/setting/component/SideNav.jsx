@@ -7,8 +7,8 @@ export default function SideNav() {
         <strong><em>选择功能</em></strong>
       </h6>
 
-      <a href="#/群发消息" className="text-small list-group-item list-group-item-dark list-group-item-action">
-        群发消息
+      <a href="#/通知公告" className="text-small list-group-item list-group-item-dark list-group-item-action">
+        通知/公告
         <span className="pull-right">
           <i className="fa fa-fw fa-angle-right" />
         </span>

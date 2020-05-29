@@ -21,6 +21,7 @@ const routerReport = require('./route/report');
 const routerSetting = require('./route/setting');
 const routerCurrentUser = require('./route/current-user');
 const routerStats = require('./route/stats');
+const routerBulletin = require('./route/bulletin');
 
 const app = new Koa();
 
@@ -123,6 +124,11 @@ app.on('error', (err, ctx) => {
 (() => {
   app.use(routerStats.routes());
   app.use(routerStats.allowedMethods());
+})();
+
+(() => {
+  app.use(routerBulletin.routes());
+  app.use(routerBulletin.allowedMethods());
 })();
 
 module.exports = app;

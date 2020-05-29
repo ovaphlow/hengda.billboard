@@ -20,7 +20,7 @@ export const TextCheckbox = props => {
   }
 
   return (
-    <span onClick={changeChecked} className={checked?'text-white bg-primary':'text-primary'}>
+    <span onClick={changeChecked} className={`pl-1 pr-1 ${checked?'text-success bg-light':'text-secondary'}` }>
       {props.children}
     </span>
   )

@@ -15,6 +15,9 @@ const CityDropdowns = props => {
   const [address, setAddress] = React.useState([])
 
   useEffect(() => {
+    if (props.defaultValue) {
+      setValue(props.defaultValue)
+    } 
     fetch(`/lib/address.json`)
       .then(res => res.json())
       .then(res => {

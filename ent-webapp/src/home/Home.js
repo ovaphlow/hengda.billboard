@@ -117,8 +117,8 @@ const Home = () => {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="zhiwei" />
-              <YAxis />
+              <XAxis dataKey="zhiwei"  type="category"/>
+              <YAxis type="number"  />
               <Bar dataKey="count" fill="#FCC802" />
             </BarChart>
           </div>

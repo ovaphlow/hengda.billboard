@@ -4,11 +4,11 @@ import { View } from './Components'
 
 
 const ChatRow = props => (
-  <div className={`row chat-item ${props.active && 'chat-item-active'}`} onClick={props.handleClick}>
+  <div className={`row chat-item border-bottom ${props.active && 'chat-item-active'} `} onClick={props.handleClick}>
     <div className="col p-3">
-      <div className="float-left">
+      {/* <div className="float-left">
         <img className="rounded-circle chat-img" src={require('../components/img/user.jpg')} alt="" />
-      </div>
+      </div> */}
 
       <div className="chat-text-box">
         {props.name}
@@ -28,10 +28,12 @@ const LetfMessage = props => (
   <div className="row p-2">
     <div className="col">
       <div className="pull-left pr-2" >
-        <img className="rounded-circle message-img" src={require('../components/img/user.jpg')} alt="" />
+        {/* <img className="rounded-circle message-img" src={require('../components/img/user.jpg')} alt="" /> */}
       </div>
       <div className="pull-left message-text shadow border rounded p-2"  >
-        {props.text}
+        {props.name} {props.datime} 
+        <br/>
+        &nbsp;&nbsp;&nbsp;{props.content}
       </div>
     </div>
   </div>
@@ -41,10 +43,12 @@ const RightMessage = props => (
   <div className="row p-2">
     <div className="col">
       <div className="pull-right pl-2" >
-        <img className="rounded-circle message-img" src={require('../components/img/user.jpg')} alt="" />
+        {/* <img className="rounded-circle message-img" src={require('../components/img/user.jpg')} alt="" /> */}
       </div>
       <div className="pull-right message-text shadow border rounded p-2" >
-        {props.text}
+      {props.name} {props.datime} 
+        <br/>
+        &nbsp;&nbsp;&nbsp;{props.content}
       </div>
     </div>
   </div>
@@ -251,8 +255,8 @@ const Audition = () => {
               {
                 contentList && contentList.map((item, inx) =>
                   item.category === 'common_to_ent' ?
-                    <LetfMessage key={inx} text={item.content} /> :
-                    <RightMessage key={inx} text={item.content} />
+                    <LetfMessage name={nowUser.name} {...item} key={inx} /> :
+                    <RightMessage key={inx} name={'我'} {...item} text={item.content} />
                 )
               }
             </div>

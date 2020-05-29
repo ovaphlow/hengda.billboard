@@ -48,6 +48,34 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
   }
 
   @Override
+  public void recruitmentList(DeliveryRequest req, StreamObserver<DeliveryReply> responseObserver) { 
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      String sql = "select d.status,r.education, r.uuid, "
+      +"r.name as name, r.school,d.datime, d.id, d.recruitment_id, d.resume_id "
+      +"from delivery d left join resume r on d.resume_id = r.id" +
+      " where recruitment_id = ? and recruitment_uuid = ?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("recruitment_id").toString());
+        ps.setString(2, body.get("recruitment_uuid").toString());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    DeliveryReply reply = DeliveryReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
   public void details(DeliveryRequest req, StreamObserver<DeliveryReply> responseObserver) {
     logger.info("details");
     Gson gson = new Gson();

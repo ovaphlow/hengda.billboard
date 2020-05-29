@@ -8,18 +8,10 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 export const RecommendRow = props => (
   <>
     <div className="row" >
-      <div className="col">
+      <div className="col-10">
         <div className="row">
-          <div className="col-9 text-hidden">
+          <div className="col text-hidden">
             <strong>{props.title}</strong>
-          </div>
-          <div className="col">
-            <div className="pull-right ">
-              <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
-                详情
-              <i className="fa fa-fw fa-lg  fa-angle-right"></i>
-              </a>
-            </div>
           </div>
         </div>
         <span className="text-muted">
@@ -29,6 +21,14 @@ export const RecommendRow = props => (
         <span>
           {props.publisher}
         </span>
+      </div>
+      <div className="col">
+        <br/>
+        <div className="pull-right ">
+          <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
+            <i className="fa fa-fw fa-chevron-circle-right fa-lg" aria-hidden="true"></i>
+          </a>
+        </div>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -54,12 +54,12 @@ export const TopicCards = props => {
     if (props.list) {
       const data = []
       const colors = [
-        'bg-primary',
-        'bg-secondary',
-        'bg-success',
-        'bg-danger',
         'bg-info',
-        'bg-dark',
+        'bg-success',
+        'bg-primary',
+        'bg-warning',
+        'bg-danger',
+        'bg-secondary',
       ]
       let colorInx = 0
       props.list.forEach((item, inx) => {
@@ -87,9 +87,9 @@ export const TopicCards = props => {
         list.map((item, inx) => (
           <div key={inx} className="row mx-0 mt-2 text-center" style={{ fontSize: 11 }}>
             {item.map((it, i) => (
-              <div key={i} onClick={() => toDetails(it)} className={`col${item.length < 3 ? '-4' : ''} ${it.color} text-light mx-1 flex-center rounded`}
-                style={{ height: 50 }}>
-                {it.title}
+              <div key={i} onClick={() => toDetails(it)} 
+                className={`col${item.length < 3 ? '-4' : ''} ${it.color} text-light mx-1 topic-card`}>
+                <span>{it.title}</span> 
               </div>
             ))}
           </div>

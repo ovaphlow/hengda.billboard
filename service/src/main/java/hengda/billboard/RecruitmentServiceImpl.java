@@ -250,6 +250,74 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     responseObserver.onCompleted();
   }
 
+
+  @Override
+  public void keywordSearch(RecruitmentRequest req, StreamObserver<RecruitmentReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      String sql = "select * from recruitment where status='在招' and (POSITION(? in name) or enterprise_id in (select id from enterprise where POSITION(? in name) ))";
+      List<String> list = new ArrayList<>();
+      list.add(body.get("keyword").toString());
+      list.add(body.get("keyword").toString());
+      if (body.keySet().size() != 0) {
+        if (body.get("city") != null && !body.get("city").toString().equals("")) {
+          sql += " and (address1 = ? or  address2 = ?) ";
+          list.add(body.get("city").toString());
+          list.add(body.get("city").toString());
+        }
+        boolean flg = false;
+        String category = "";
+        if (body.get("兼职") != null && Boolean.valueOf(body.get("兼职").toString())) {
+          category += " category = ? ";
+          list.add("兼职");
+          flg = true;
+        }
+        if (body.get("全职") != null && Boolean.valueOf(body.get("全职").toString())) {
+          if (flg) {
+            category += " or ";
+          }
+          category += "category = ? ";
+          list.add("全职");
+          flg = true;
+        }
+        if (body.get("实习") != null && Boolean.valueOf(body.get("实习").toString())) {
+          if (flg) {
+            category += " or ";
+          }
+          category += " category = ? ";
+          list.add("实习");
+          flg = true;
+        }
+        if (flg) {
+          sql += "and ( " + category + " )";
+        }
+        if (body.get("status") != null && !"".equals(body.get("status").toString())) {
+          sql += " and status=?";
+          list.add(body.get("status").toString());
+        }
+      }
+      sql+=" ORDER BY date DESC";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        for (int inx = 0; inx < list.size(); inx++) {
+          ps.setString(inx + 1, list.get(inx));
+        }
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    RecruitmentReply reply = RecruitmentReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
   @Override
   public void enterpriseList(RecruitmentRequest req, StreamObserver<RecruitmentReply> responseObserver) {
     Gson gson = new Gson();

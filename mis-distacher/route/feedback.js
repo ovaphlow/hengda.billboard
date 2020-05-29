@@ -12,8 +12,8 @@ module.exports = router;
 router.post('/feedback/reply', async (ctx) => {
   const sql1 = `
     insert into
-      sys_message (user_id, category, title, content, datime, status)
-      values (?, ?, ?, ?, ?, '未读')
+      sys_message (user_id, category, title, content, datime, status, user_category)
+      values (?, ?, ?, ?, ?, '未读', ?)
   `;
   const sql2 = `
     update feedback
@@ -29,6 +29,7 @@ router.post('/feedback/reply', async (ctx) => {
       ctx.request.body.title,
       ctx.request.body.content,
       ctx.request.body.datime,
+      ctx.request.body.user_category,
     ]);
     await pool.execute(sql2, [parseInt(ctx.request.body.id, 10)]);
     ctx.response.body = { message: '', content: '' };

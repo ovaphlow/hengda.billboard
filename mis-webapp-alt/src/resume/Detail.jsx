@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import Navbar from '../component/Navbar';
 import SchoolPickerRowField from '../component/SchoolPickerRowField';
 import IndustryPicker from '../component/IndustryPicker';
-import EducationPickerRowField from '../component/EducationPickerRowField';
+import EducationPicker from '../component/EducationPicker';
 import AddressLevel3PickerRowField from '../component/AddressLevel3PickerRowField';
 import SideNav from '../user/ComponentSideNav';
 
@@ -157,11 +157,7 @@ export default function Detail({ category }) {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h3>
-              普通用户
-              {' '}
-              简历
-            </h3>
+            <h3>普通用户 简历</h3>
             <hr />
 
             <div className="btn-group mb-2">
@@ -256,7 +252,7 @@ export default function Detail({ category }) {
                   </div>
 
                   <div className="col">
-                    <EducationPickerRowField
+                    <EducationPicker
                       caption="学历"
                       value={education || ''}
                       onChange={(event) => setEducation(event.target.value)}

@@ -27,6 +27,7 @@ export default function Feedback() {
         title: '对用户意见反馈内容的回复',
         content,
         datime: moment().format('YYYY-MM-DD'),
+        user_category: event.target.getAttribute('data-user-category'),
       }),
     });
     const res = await response.json();
@@ -87,13 +88,11 @@ export default function Feedback() {
                           {it.name}
                           <br />
                           <small className="text-muted">{it.phone}</small>
-                          <br />
-                          <small className="text-muted">{it.phone}</small>
                         </td>
                         <td>
                           {moment(it.datime).format('YYYY-MM-DD')}
                           <br />
-                          {moment(it.datime).format('HH:mm')}
+                          <span className="text-muted">{moment(it.datime).format('HH:mm')}</span>
                         </td>
                         <td>{it.content}</td>
                         <td>

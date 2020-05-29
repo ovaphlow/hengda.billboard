@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { EDUCATION } from '../constant';
 
-export default function EducationPickerRowField({ caption, value, onChange }) {
+export default function EducationPicker({ caption, value, onChange }) {
   return (
     <div className="form-group">
       <label>{caption || '学历'}</label>
@@ -21,7 +21,7 @@ export default function EducationPickerRowField({ caption, value, onChange }) {
   );
 }
 
-EducationPickerRowField.propTypes = {
+EducationPicker.propTypes = {
   caption: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

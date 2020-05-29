@@ -11,7 +11,7 @@ module.exports = router;
 
 router.get('/certificate/qty', async (ctx) => {
   const sql = `
-    select count(*) as qty from enterprise where status = '未认证'
+    select count(*) as qty from enterprise where status = '待认证'
   `;
   const pool = mysql.promise();
   try {
@@ -28,7 +28,7 @@ router.put('/certificate/filter/', async (ctx) => {
     select *
     from enterprise
     where position(? in name) > 0
-      and status = '未认证'
+      and status = '待认证'
   `;
   const pool = mysql.promise();
   try {
@@ -42,7 +42,7 @@ router.put('/certificate/filter/', async (ctx) => {
 
 router.get('/certificate/', async (ctx) => {
   const sql = `
-    select * from enterprise where status = '未认证' limit 10
+    select * from enterprise where status = '待认证' limit 100
   `;
   const pool = mysql.promise();
   try {

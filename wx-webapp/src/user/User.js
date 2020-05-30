@@ -11,6 +11,8 @@ const User = () => {
 
   const [offer, setOffer] = useState(0)
 
+  const [sys, setSys] = useState(0)
+
   useEffect(() => {
     document.title = '我的'
     const _auth = JSON.parse(localStorage.getItem('auth'))
@@ -138,7 +140,22 @@ const User = () => {
                 }
                 <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
               </span>
-
+            </a>
+          </div>
+        </div>
+        <hr style={{ marginTop: '0', marginBottom: '0' }} />
+        <div className="row p-2 mt-2" >
+          <div className="col">
+            <a className="text-dark" href="#/我的/系统消息" >
+              <h6 className="pull-left" >
+                <strong>系统消息</strong>
+              </h6>
+              <span className="pull-right text-muted">
+                {
+                  auth ? (sys === 0 ? '' : `您有${sys}个系统消息未查看`) : ''
+                }
+                <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+              </span>
             </a>
           </div>
         </div>

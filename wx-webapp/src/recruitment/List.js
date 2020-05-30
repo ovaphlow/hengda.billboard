@@ -74,7 +74,7 @@ const List = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid bg-white">
         {/* <Title category="岗位" /> */}
         <PlayImg category="小程序-岗位" />
         <div className="row mt-1 mb-1" style={{ fontSize: 14 }} >

@@ -47,7 +47,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
       if (err.keySet().size() != 0) {
         resp.put("message", err);
       } else {
-        sql = "select " + "(select count(*) from enterprise_user where email = ? ) as email,"
+        sql = "select (select count(*) from enterprise_user where email = ? ) as email,"
             + "(select count(*) from enterprise where name = ? ) as ent_name";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
           ps.setString(1, body.get("email").toString());

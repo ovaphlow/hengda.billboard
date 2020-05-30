@@ -78,7 +78,7 @@ const HomePage = () => {
     <>
       <div className="container-fluid">
         {
-          auth !== 0 ? (
+          auth === 0 ? (
             <div className="row pb-2 pt-1">
               <div className="col text-center">
                 <a className="text-black-50" href="#登录" >

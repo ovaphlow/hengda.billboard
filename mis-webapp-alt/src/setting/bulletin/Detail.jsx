@@ -10,10 +10,18 @@ import SideNav from '../component/SideNav';
 import ComponentToolbar from './ComponentToolbar';
 import IndustryPicker from '../../component/IndustryPicker';
 import EducationPicker from '../../component/EducationPicker';
+import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../../useAddress';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
   const location = useLocation();
+  const address_keys = useAddressKeys();
+  const address_values = useAddressValues();
+  const address_level1_values = useAddressLevel1ValueList();
+  const [arr1, setArr1] = useState([]);
+  const [arr2, setArr2] = useState([]);
+  const [arr3, setArr3] = useState([]);
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [dday, setDday] = useState('');
@@ -73,6 +81,29 @@ export default function Detail({ cat }) {
       window.history.go(-1);
     }
   };
+
+  useEffect(() => {
+    setArr1(address_level1_values);
+  }, []);
+
+  useEffect(() => {
+    const arr = [];
+    setArr2(arr);
+    setArr3(arr);
+    for (let i = 0; i < address_values.length; i += 1) {
+      if (address_values[i] === address_level1) {
+        const code = address_keys[i];
+        for (let j = 0; j < address_keys.length; j += 1) {
+          if (address_keys[j].slice(0, 2) === code.slice(0, 2) && address_keys[j].slice(-2) === '00') {
+            if (address_keys[j].slice(-4) !== '0000') arr.push(address_values[j]);
+          }
+        }
+        return;
+      }
+    }
+    setArr2(arr);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address_level1]);
 
   useEffect(() => {
     if (cat === '编辑') {
@@ -151,9 +182,13 @@ export default function Detail({ cat }) {
                 <div className="row">
                   <div className="col">
                     <div className="form-group">
-                      <label>地址?????????????</label>
+                      <label>地址</label>
                       <select value={address_level1} className="form-control" onChange={(event) => setAddressLevel1(event.target.value)}>
                         <option value="">不限</option>
+                        {arr1.map((it) => (
+                          <option key={arr1.indexOf(it)} value={it}>{it}</option>
+                        ))}
+
                       </select>
                     </div>
                   </div>
@@ -164,6 +199,9 @@ export default function Detail({ cat }) {
                         <label>&nbsp;</label>
                         <select value={address_level2} className="form-control" onChange={(event) => setAddressLevel2(event.target.value)}>
                           <option value="">不限</option>
+                          {arr2.map((it) => (
+                            <option key={arr2.indexOf(it)} value={it}>{it}</option>
+                          ))}
                         </select>
                       </div>
                     </div>

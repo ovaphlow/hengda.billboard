@@ -142,6 +142,8 @@ const List = () => {
                   <th scope="col">工作地点</th>
                   <th scope="col">状态</th>
                   <th scope="col">发布日期</th>
+                  <th scope="col">浏览人数</th>
+                  <th scope="col">投递人数</th>
                   <th scope="col">操作</th>
                 </tr>
               </thead>
@@ -158,6 +160,8 @@ const List = () => {
                     <td>{item.address1}-{item.address2}-{item.address3}</td>
                     <td>{item.status}</td>
                     <td>{item.date}</td>
+                    <td>{item.journal}</td>
+                    <td>{item.delivery}</td>
                     <td>
                       <div className="btn-group btn-group-sm">
                         <a className="btn btn-primary" href={`#岗位/编辑/${item.id}?u_id=${item.uuid}`}>

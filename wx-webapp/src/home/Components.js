@@ -25,7 +25,7 @@ export const RecommendRow = props => (
       <div className="col">
         <br/>
         <div className="pull-right ">
-          <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
+          <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`} style={{color:'#00a4ff'}}>
             <i className="fa fa-fw fa-chevron-circle-right fa-lg" aria-hidden="true"></i>
           </a>
         </div>

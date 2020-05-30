@@ -8,7 +8,7 @@ const Sys = () => {
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth !== null) {
-      fetch(`/api/message/sys/企业用户/${_auth.id}`)
+      fetch(`/api/message/sys/ent/${_auth.id}`)
         .then(res => res.json())
         .then(res => {
           if (res.message) {

@@ -247,19 +247,49 @@ public class MessageServiceImpl extends MessageGrpc.MessageImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
-
+  
   @Override
-  public void sys(MessageRequest req, StreamObserver<MessageReply> responseObserver) {
+  public void sysToEnt(MessageRequest req, StreamObserver<MessageReply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from sys_message where user_id = ? and user_category = ? ORDER BY datime desc ";
+      String sql = "select * from ((select b.id,b.uuid,title, b.doc ->> '$.content' as content, '系统推送', dday as datime "+
+      "from bulletin b left join enterprise e on e.industry = b.doc ->> '$.industry' and e.address1 = b.doc ->> '$.address_level1' and e.address2 = b.doc ->> '$.address_level2' "+
+      "where dday>=CURRENT_DATE and receiver='企业用户' and e.id = (select enterprise_id from enterprise_user where id = ?)  ORDER BY id desc) union "+
+      " (select id, '', title, content, category,  datime  from sys_message where user_category='企业用户' and user_id =? order by datime  desc)) as t ";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, body.get("id").toString());
-        ps.setString(2, body.get("user_category").toString());
+        ps.setString(2, body.get("id").toString());
+        resp.put("content", DBUtil.getList(ps.executeQuery()));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    MessageReply reply = MessageReply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+
+  @Override
+  public void sysToCommon(MessageRequest req, StreamObserver<MessageReply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+      String sql = "select * from ((select b.id,b.uuid,title, b.doc ->> '$.content' as content, '系统推送', dday as datime "+
+      "from bulletin b left join resume r on r.education = b.doc ->> '$.education' and r.address1 = b.doc ->> '$.address_level1' and r.address2 = b.doc ->> '$.address_level2' "+
+      "where dday>=CURRENT_DATE and receiver='个人用户' and r.common_user_id = ? ORDER BY id desc) union "+
+      "(select id, '', title, content, category,  datime  from sys_message where user_category='个人用户' and user_id =? order by datime  desc)) as t ";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, body.get("id").toString());
+        ps.setString(2, body.get("id").toString());
         resp.put("content", DBUtil.getList(ps.executeQuery()));
       }
     } catch (Exception e) {

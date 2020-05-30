@@ -193,7 +193,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from recruitment where status='在招' ";
+      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, "
+      +" salary1, salary2,education, category, status, industry, position, uuid from recruitment where status='在招' ";
       List<String> list = new ArrayList<>();
       if (body.keySet().size() != 0) {
         if (body.get("city") != null && !body.get("city").toString().equals("")) {
@@ -352,7 +353,9 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
-      String sql = "select * from recruitment where enterprise_id = ? and enterprise_uuid = ? ";
+      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, salary1, salary2, education, category, status, industry, position, uuid,"
+      +"(select count(*) from browse_journal where data_id=recruitment.id and data_uuid = recruitment.uuid ) as journal,"
+      +"(select count(*) from delivery where recruitment_id=recruitment.id and recruitment_uuid = recruitment.uuid ) as delivery from recruitment where enterprise_id = ? and enterprise_uuid = ? ";
       List<String> list = new ArrayList<>();
       list.add(body.get("enterprise_id").toString());
       list.add(body.get("uuid").toString());

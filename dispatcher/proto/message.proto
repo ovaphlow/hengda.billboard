@@ -24,8 +24,10 @@ service Message {
 
   rpc commonChatTotal(MessageRequest) returns (MessageReply) {}
 
-  rpc sys(MessageRequest) returns (MessageReply) {}
+  rpc sysToEnt(MessageRequest) returns (MessageReply) {}
 
+  rpc sysToCommon(MessageRequest) returns (MessageReply) {}
+  
 }
 
 message MessageRequest { string data = 1; }

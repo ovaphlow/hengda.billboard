@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import { useParams } from 'react-router-dom'
 import { TextCheckbox } from '../components/Button'
 import { RecruitmentRow } from '../components/DataRow'
 import CityDropdowns from '../components/CityDropdowns'
@@ -16,30 +15,7 @@ const KeywordSearch = props => {
   const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
-    const _keyword = props.keyword
-    if (!_keyword) {
-      return
-    }
-    document.getElementById('search').value = _keyword
-    setKeyword(_keyword)
     document.title = '岗位/企业查询'
-    fetch(`./api/recruitment/keyword-search/`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        status: '在招',
-        city: '哈尔滨市',
-        keyword: _keyword
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.content) {
-          setList(res.content)
-        } else {
-          alert(res.message)
-        }
-      })
   }, [])
 
   const _onCheckboxChange = ({ value, checked }) => {

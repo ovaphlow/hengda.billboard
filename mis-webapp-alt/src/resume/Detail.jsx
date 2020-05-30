@@ -5,20 +5,14 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
-import SchoolPickerRowField from '../component/SchoolPickerRowField';
 import IndustryPicker from '../component/IndustryPicker';
 import EducationPicker from '../component/EducationPicker';
-import AddressLevel3PickerRowField from '../component/AddressLevel3PickerRowField';
 import SideNav from '../user/ComponentSideNav';
 
 export default function Detail({ category }) {
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
-  const [address_keys, setAddressKeys] = useState([]);
-  const [address_values, setAddressValues] = useState([]);
-  const [arr1, setArr1] = useState([]);
-  const [arr2, setArr2] = useState([]);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -63,42 +57,6 @@ export default function Detail({ category }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch('/lib/address.json');
-      const res = await response.json();
-      const keys = Object.keys(res);
-      setAddressKeys(keys);
-      const values = Object.values(res);
-      setAddressValues(values);
-      const arr = [];
-      keys.forEach((e, index) => {
-        if (e.slice(-4) === '0000') {
-          arr.push(values[index]);
-        }
-      });
-      setArr1(arr);
-    })();
-  }, []);
-
-  useEffect(() => {
-    const arr = [];
-    setArr2(arr);
-    for (let i = 0; i < address_values.length; i += 1) {
-      if (address_values[i] === address1) {
-        const code = address_keys[i];
-        for (let j = 0; j < address_keys.length; j += 1) {
-          if (address_keys[j].slice(0, 2) === code.slice(0, 2) && address_keys[j].slice(-2) === '00') {
-            if (address_keys[j].slice(-4) !== '0000') arr.push(address_values[j]);
-          }
-        }
-        return;
-      }
-    }
-    setArr2(arr);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address1]);
 
   const handleRemove = async () => {
     if (!window.confirm('确定删除当前数据？')) return;
@@ -228,14 +186,14 @@ export default function Detail({ category }) {
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="col">
-                    <SchoolPickerRowField
-                      caption="毕业院校"
-                      value={school || ''}
-                      onChange={(event) => setSchool(event.target.value)}
-                    />
-                  </div>
+                <div className="form-group">
+                  <labe>毕业院校</labe>
+                  <input
+                    type="text"
+                    value={school}
+                    className="form-control"
+                    onChange={(event) => setSchool(event.target.value)}
+                  />
                 </div>
 
                 <div className="row">

@@ -20,7 +20,7 @@ function Index() {
     if (!auth) {
       window.location = SIGN_IN_URL;
     }
-  }, [])
+  }, []);
 
   return (
     <Router>

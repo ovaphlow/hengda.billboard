@@ -278,7 +278,7 @@ export default function Detail({ category }) {
 
                 <div className="form-group">
                   <label>简介</label>
-                  <textarea rows="5" value={intro} className="form-control" onChange={event => setIntro(event.target.value)} />
+                  <textarea rows="5" value={intro} className="form-control" onChange={(event) => setIntro(event.target.value)} />
                 </div>
 
                 <p className="text-muted text-center">

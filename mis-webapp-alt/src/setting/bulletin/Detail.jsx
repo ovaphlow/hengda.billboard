@@ -188,7 +188,6 @@ export default function Detail({ cat }) {
                         {arr1.map((it) => (
                           <option key={arr1.indexOf(it)} value={it}>{it}</option>
                         ))}
-
                       </select>
                     </div>
                   </div>

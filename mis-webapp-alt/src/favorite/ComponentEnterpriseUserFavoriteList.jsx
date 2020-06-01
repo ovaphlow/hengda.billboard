@@ -12,7 +12,7 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
     if (cat === '简历') {
       window.location = `resume.html#/${id}?uuid=${uuid}`;
     } else {
-      window.alert('未知类型，解析失败。')
+      window.alert('未知类型，解析失败。');
     }
   };
 

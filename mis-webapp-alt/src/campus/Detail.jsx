@@ -5,7 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
-import SchoolPickerRowField from '../component/SchoolPickerRowField';
 import Toolbar from './ComponentToolbar';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
 
@@ -282,10 +281,15 @@ export default function Detail({ cat }) {
               />
             </div>
 
-            <SchoolPickerRowField
-              value={school || ''}
-              onChange={(event) => setSchool(event.target.value)}
-            />
+            <div className="form-group">
+              <label>院校</label>
+              <input
+                type="text"
+                value={school}
+                className="form-control"
+                onChange={(event) => setSchool(event.target.value)}
+              />
+            </div>
 
             <div className="form-group">
               <label>内容</label>

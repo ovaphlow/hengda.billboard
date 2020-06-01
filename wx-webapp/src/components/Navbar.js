@@ -6,9 +6,41 @@ const Navbar = props => {
 
   const [offer, setOffer] = useState(0)
 
+  const [sys, setSys] = useState(0)
+
   const [totalFlg, setTotalFlg] = useState(true)
 
   useEffect(() => {
+    const _auth = JSON.parse(localStorage.getItem('auth'))
+    if (_auth !== null) {
+      fetch(`./api/message/common/total/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.content) {
+            setMessage(res.content)
+          } else {
+            setMessage(0)
+          }
+        })
+      fetch(`./api/offer/common/total/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.content) {
+            setOffer(res.content)
+          } else {
+            setOffer(0)
+          }
+        })
+      fetch(`./api/message/sys/total/个人用户/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.content) {
+            setSys(res.content)
+          } else {
+            setSys(0)
+          }
+        })
+    }
     const jobId = setInterval(() => {
       const _auth = JSON.parse(localStorage.getItem('auth'))
       if (_auth !== null) {
@@ -27,7 +59,16 @@ const Navbar = props => {
             if (res.content) {
               setOffer(res.content)
             } else {
-              setMessage(0)
+              setOffer(0)
+            }
+          })
+        fetch(`./api/message/sys/total/个人用户/${_auth.id}`)
+          .then(res => res.json())
+          .then(res => {
+            if (res.content) {
+              setSys(res.content)
+            } else {
+              setSys(0)
             }
           })
       }
@@ -51,6 +92,11 @@ const Navbar = props => {
             setMessage(0)
           }
         })
+      fetch(`./api/message/sys/total/个人用户/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          setSys(res.content)
+        })
     }
   }, [props, totalFlg])
 
@@ -59,7 +105,7 @@ const Navbar = props => {
 
   return (
     <>
-      <ul className="nav bg-light nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center" style={{fontSize:11}}>
+      <ul className="nav bg-light nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center" style={{ fontSize: 11 }}>
         <li className="nav-item">
           <a href="#/" className={`nav-link ${props.category === '首页' ? 'text-primary' : 'text-muted'} `}>
             <i className="fa fa-fw fa-2x fa-home"></i>
@@ -86,19 +132,20 @@ const Navbar = props => {
         <li className="nav-item">
 
           <a href="#消息" className={`nav-link ${props.category === '消息' ? 'text-primary' : 'text-muted'} `}>
-            <i className="fa fa-fw fa-2x fa-envelope" aria-hidden="true"></i>
+            <span className={`${message !== 0?'message-point':''}`}>
+              <i className="fa fa-fw fa-2x fa-envelope" aria-hidden="true"></i>
+            </span>
             <br></br>
             消息
-            {
-              (message + offer) !== 0 ? (<span className="badge badge-pill badge-danger">{message + offer}</span>) : (<></>)
-            }
           </a>
         </li>
         <li className="nav-item">
           <a href="#我的" className={`nav-link ${props.category === '我的' ? 'text-primary' : 'text-muted'} `}>
-            <i className="fa fa-fw fa-2x fa-user" aria-hidden="true"></i>
+            <span className={`${(offer + sys) !== 0?'message-point':''}`}>
+              <i className="fa fa-fw fa-2x fa-user" aria-hidden="true"></i>
+            </span>
             <br></br>
-            我的
+            <span className="">我的</span>
           </a>
         </li>
       </ul>

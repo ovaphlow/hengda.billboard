@@ -29,6 +29,12 @@ const User = () => {
         .then(res => {
           setOffer(res.content)
         })
+
+      fetch(`./api/message/sys/total/个人用户/${_auth.id}`)
+        .then(res => res.json())
+        .then(res => {
+          setSys(res.content)
+        })
     }
   }, [])
 
@@ -136,7 +142,7 @@ const User = () => {
               </h6>
               <span className="pull-right text-muted">
                 {
-                  auth ? (offer === 0 ? '' : `您有${offer}个面试邀请未查看`) : ''
+                  auth ? (offer === 0 ? '' : `您有${offer}条面试邀请未查看`) : ''
                 }
                 <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
               </span>
@@ -152,7 +158,7 @@ const User = () => {
               </h6>
               <span className="pull-right text-muted">
                 {
-                  auth ? (sys === 0 ? '' : `您有${sys}个系统消息未查看`) : ''
+                  auth ? (sys === 0 ? '' : `您有${sys}条系统消息未查看`) : ''
                 }
                 <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
               </span>

@@ -7,7 +7,7 @@ export default function SideNav() {
 
   return (
     <div className="list-group">
-      <h6 className="text-muted">
+      <h6 className="text-light">
         <strong>选择功能</strong>
       </h6>
 

@@ -13,11 +13,19 @@ const Navbar = props => {
         fetch(`./api/message/ent/total/${_auth.id}`)
           .then(res => res.json())
           .then(res => {
+            let total = 0
             if (res.content) {
-              setMessage(res.content)
-            } else {
-              setMessage(0)
+              total = res.content
+              setMessage(total)
             }
+            fetch(`./api/message/sys/total/企业用户/${_auth.id}`)
+              .then(res => res.json())
+              .then(res => {
+                if (res.content) {
+                  total += res.content
+                  setMessage(total)
+                }
+              })
           })
       }
     }, 900000)
@@ -34,11 +42,19 @@ const Navbar = props => {
       fetch(`./api/message/ent/total/${_auth.id}`)
         .then(res => res.json())
         .then(res => {
+          let total = 0
           if (res.content) {
-            setMessage(res.content)
-          } else {
-            setMessage(0)
+            total = res.content
+            setMessage(total)
           }
+          fetch(`./api/message/sys/total/企业用户/${_auth.id}`)
+            .then(res => res.json())
+            .then(res => {
+              if (res.content) {
+                total += res.content
+                setMessage(total)
+              }
+            })
         })
     }
   }, [props, totalFlg])

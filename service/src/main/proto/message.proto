@@ -28,6 +28,8 @@ service Message {
 
   rpc sysToCommon(MessageRequest) returns (MessageReply) {}
   
+  rpc sysTotal(MessageRequest) returns (MessageReply) {}
+  
 }
 
 message MessageRequest { string data = 1; }

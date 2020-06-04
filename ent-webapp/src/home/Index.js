@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Navbar from '../components/Navbar'
 import Title from '../components/Title'
-// import Footer from '../components/Footer'
+import Footer from '../components/Footer'
 
 import Home from './Home'
 import Topic from './topic'
@@ -18,18 +18,20 @@ const Index = () => {
   }, [])
 
   return (
-    <div className="container-fluid pb-5" >
-      <Title />
-      <Navbar category="首页" totalFlg />
-      <Router>
-        <Switch>
-          <Route exact path="/"><Home /></Route>
-          <Route exact path="/首页/banner/:id"><Banner /></Route>
-          <Route exact path="/首页/:id/"><Topic /></Route>
-        </Switch>
-      </Router>
-      {/* <Footer /> */}
-    </div>
+    <>
+      <div className="container-fluid pb-4" >
+        <Title />
+        <Navbar category="首页" totalFlg />
+        <Router>
+          <Switch>
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/首页/banner/:id"><Banner /></Route>
+            <Route exact path="/首页/:id/"><Topic /></Route>
+          </Switch>
+        </Router>
+      </div>
+      <Footer />
+    </>
   )
 }
 

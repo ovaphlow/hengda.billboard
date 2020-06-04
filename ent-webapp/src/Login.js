@@ -132,6 +132,11 @@ const Login = () => {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             客服热线:0451-xxxxxxxx</h5>
           </div>
+          <div className="row flex-center">
+            <a className="text-secondary" href="http://www.beian.miit.gov.cn/">
+              互联网ICP备案:黑ICP备20002542号
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -4,7 +4,6 @@ import { useParams, useLocation } from 'react-router-dom'
 
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
-import { SelectField } from '../components/InputField'
 import { _EditJournal, FavoriteJournal } from '../commonFetch'
 import moment from 'moment'
 

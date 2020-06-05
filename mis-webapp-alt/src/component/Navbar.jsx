@@ -77,7 +77,7 @@ export default function Navbar({ category }) {
 
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${category === '系统设置' ? 'active' : ''}`}>
-            <a href="setting.html#/院校" className="nav-link">
+            <a href="setting.html#/通知公告" className="nav-link">
               <i className="fa fa-fw fa-cogs" />
               系统设置
             </a>

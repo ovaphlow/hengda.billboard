@@ -51,6 +51,14 @@ app.on('error', (err, ctx) => {
   logger.error('server error', err, ctx);
 });
 
+app.use(async (ctx, next) => {
+  if (ctx.request.url === '/' && ctx.request.method === 'GET') {
+    ctx.redirect('/index.html');
+  } else {
+    next();
+  }
+});
+
 (() => {
   app.use(routerContent.routes());
   app.use(routerContent.allowedMethods());

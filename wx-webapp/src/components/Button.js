@@ -13,7 +13,7 @@ export const TextCheckbox = props => {
   const changeChecked = () => {
     if (props.onChange)
       props.onChange({
-        value:props.value,
+        name:props.name,
         checked:!checked 
       })
     setChecked(!checked)

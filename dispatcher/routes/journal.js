@@ -26,7 +26,7 @@ module.exports = router
 
 router.get('/edit/:category/:id/', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
-    grpcClient.editList({ data: JSON.stringify(body) }, (err, response) => {
+    grpcClient.editList(body, (err, response) => {
       if (err) {
         console.error(err)
         reject(err)
@@ -46,7 +46,7 @@ router.get('/edit/:category/:id/', async ctx => {
 
 router.get('/login/:category/:id/', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
-    grpcClient.loginList({ data: JSON.stringify(body) }, (err, response) => {
+    grpcClient.loginList(body, (err, response) => {
       if (err) {
         console.error(err)
         reject(err)
@@ -67,7 +67,7 @@ router.get('/login/:category/:id/', async ctx => {
 router
   .get('/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.list({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.list(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -86,7 +86,7 @@ router
   })
   .get('/:common_user_id/:data_id/:category/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -105,7 +105,7 @@ router
   })
   .post('/edit', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insertEdit({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insertEdit(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -124,7 +124,7 @@ router
   })
   .post('/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insert(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -144,7 +144,7 @@ router
   })
   .delete('/:common_user_id/:data_id/:category/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.delete({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.delete(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

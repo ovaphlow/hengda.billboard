@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "DemoProto";
 
@@ -10,6 +10,9 @@ service Demo {
     rpc test(DemoRequest) returns (DemoReply) {}
 }
 
-message DemoRequest { string data = 1; }
+message DemoRequest { 
+  string item1 = 1;
+  string item2 = 2; 
+}
 
 message DemoReply { string data = 1; }

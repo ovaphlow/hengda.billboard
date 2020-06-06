@@ -18,16 +18,16 @@ const KeywordSearch = props => {
     document.title = '岗位/企业查询'
   }, [])
 
-  const _onCheckboxChange = ({ value, checked }) => {
+  const _onCheckboxChange = ({ name, checked }) => {
     search({
       city: city,
       ...types,
       keyword: keyword,
-      [value]: checked
+      [name]: checked
     })
     setTypes(types => ({
       ...types,
-      [value]: checked
+      [name]: checked
     }))
   }
 
@@ -93,15 +93,15 @@ const KeywordSearch = props => {
           </div>
           <div className="col flex-end">
             <div className="pull-right text-primary">
-              <TextCheckbox value="兼职" onChange={_onCheckboxChange}>
+              <TextCheckbox name="兼职" onChange={_onCheckboxChange}>
                 兼职
             </TextCheckbox>
             |
-            <TextCheckbox value="全职" onChange={_onCheckboxChange}>
+            <TextCheckbox name="全职" onChange={_onCheckboxChange}>
                 全职
             </TextCheckbox>
             |
-            <TextCheckbox value="实习" onChange={_onCheckboxChange}>
+            <TextCheckbox name="实习" onChange={_onCheckboxChange}>
                 实习
             </TextCheckbox>
             </div>

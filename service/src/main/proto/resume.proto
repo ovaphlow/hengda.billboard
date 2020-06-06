@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "ResumeProto";
 
@@ -8,22 +8,81 @@ package resume;
 
 service Resume {
   
-  rpc get(ResumeRequest) returns (ResumeReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc user(ResumeRequest) returns (ResumeReply) {}
+  rpc user(UserRequest) returns (Reply) {}
 
-  rpc update(ResumeRequest) returns (ResumeReply) {}
+  rpc update(UpdateRequest) returns (Reply) {}
 
-  rpc init(ResumeRequest) returns (ResumeReply) {}
+  rpc init(InitRequest) returns (Reply) {}
 
-  rpc status(ResumeRequest) returns (ResumeReply) {}
+  rpc status(StatusRequest) returns (Reply) {}
 
-  rpc retrieval(ResumeRequest) returns (ResumeReply) {}
+  rpc retrieval(RetrievalRequest) returns (Reply) {}
 
-  rpc recommend(ResumeRequest) returns (ResumeReply) {}
+  rpc recommend(RecommendRequest) returns (Reply) {}
     
 }
 
-message ResumeRequest { string data = 1; }
+message GetRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
 
-message ResumeReply { string data = 1; }
+message UserRequest {
+  uint32 common_user_id = 1;
+  string uuid = 2;
+}
+
+message UpdateRequest {
+  string name = 1;
+  string phone = 2;
+  string email = 3;
+  string gender = 4;
+  string birthday = 5;
+  string school = 6;
+  string education = 7;
+  string date_begin = 8;
+  string date_end = 9;
+  string major = 10;
+  string qiwangzhiwei = 11;
+  string qiwanghangye = 12;
+  string address1 = 13;
+  string address2 = 14;
+  string address3 = 15;
+  string yixiangchengshi = 16;
+  string ziwopingjia = 17;
+  string common_user_id = 18;
+  string uuid = 19;
+}
+
+message StatusRequest {
+  string status = 1;
+  uint32 id = 2;
+  string uuid = 3;
+}
+
+message InitRequest {
+  uint32 common_user_id = 1;
+}
+
+message RetrievalRequest {
+  string day = 1;
+  string name = 2;
+  string qiwanghangye = 3;
+  string qiwangzhiwei = 4;
+  string yixiangchengshi = 5;
+  string education = 6;
+}
+
+message RecommendRequest {
+  string day = 1;
+  string enterprise_id = 2;
+  string name = 3;
+  string qiwanghangye = 4;
+  string qiwangzhiwei = 5;
+  string yixiangchengshi = 6;
+  string education = 7;
+}
+
+message Reply { string data = 1; }

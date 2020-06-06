@@ -26,7 +26,7 @@ module.exports = router
 
 router.get('/ent-home/', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
-    grpcClient.entHome({ data: JSON.stringify(body) }, (err, response) => {
+    grpcClient.entHome(body, (err, response) => {
       if (err) {
         console.error(err)
         reject(err)

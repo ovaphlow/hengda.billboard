@@ -35,15 +35,15 @@ const List = () => {
       })
   }, [])
 
-  const _onCheckboxChange = ({ value, checked }) => {
+  const _onCheckboxChange = ({ name, checked }) => {
     search({
       city: city,
       ...types,
-      [value]: checked
+      [name]: checked
     })
     setTypes(types => ({
       ...types,
-      [value]: checked
+      [name]: checked
     }))
   }
 
@@ -83,15 +83,15 @@ const List = () => {
           </div>
           <div className="col flex-end">
             <div className="pull-right text-primary">
-              <TextCheckbox value="兼职" onChange={_onCheckboxChange}>
+              <TextCheckbox name="category1" onChange={_onCheckboxChange}>
                 兼职
               </TextCheckbox>
               |
-              <TextCheckbox value="全职" onChange={_onCheckboxChange}>
+              <TextCheckbox name="category2" onChange={_onCheckboxChange}>
                 全职
               </TextCheckbox>
               |
-              <TextCheckbox value="实习" onChange={_onCheckboxChange}>
+              <TextCheckbox name="category3" onChange={_onCheckboxChange}>
                 实习
               </TextCheckbox>
             </div>

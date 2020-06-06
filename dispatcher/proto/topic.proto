@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "TopicProto";
 
@@ -8,14 +8,21 @@ package topic;
 
 service Topic {
   
-  rpc common(TopicRequest) returns (TopicReply) {}
+  rpc common(CommonRequest) returns (Reply) {}
     
-  rpc get(TopicRequest) returns (TopicReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc ent(TopicRequest) returns (TopicReply) {}  
+  rpc ent(EntRequest) returns (Reply) {}  
 
 }
 
-message TopicRequest { string data = 1; }
+message CommonRequest {}
 
-message TopicReply { string data = 1; }
+message GetRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
+
+message EntRequest {}
+
+message Reply { string data = 1; }

@@ -1,19 +1,28 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
-option java_outer_classname = "campusProto";
+option java_outer_classname = "CampusProto";
 
 package campus;
 
 service Campus {
 
-  rpc get(CampusRequest) returns (CampusReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc search(CampusRequest) returns (CampusReply) {}
+  rpc search(SearchRequest) returns (Reply) {}
 
 }
 
-message CampusRequest { string data = 1; }
+message GetRequest { 
+  uint32 id = 1; 
+  string uuid = 2;
+}
 
-message CampusReply { string data = 1; }
+message SearchRequest {
+  string city = 1;
+  bool category1 = 2;
+  bool category2 = 3;
+}
+
+message Reply { string data = 1; }

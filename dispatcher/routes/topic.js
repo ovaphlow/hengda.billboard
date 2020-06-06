@@ -46,7 +46,7 @@ router
   })
   .get('/ent/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.ent({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.ent(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -65,7 +65,7 @@ router
   })
   .get('/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

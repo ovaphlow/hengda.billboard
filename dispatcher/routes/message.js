@@ -26,7 +26,7 @@ module.exports = router
 router
   .get('/sys/ent/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.sysToEnt({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.sysToEnt(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -45,7 +45,7 @@ router
   })
   .get('/sys/common/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.sysToCommon({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.sysToCommon(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -64,7 +64,7 @@ router
   })
   .get('/common/content/:ent_user_id/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.commonContent({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.commonContent(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -83,7 +83,7 @@ router
   })
   .get('/:user_category/:user_id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.messageList({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.messageList(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -103,7 +103,7 @@ router
 
   .get('/ent/chat/total/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.entChatTotal({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.entChatTotal(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -122,7 +122,7 @@ router
   })
   .get('/common/chat/total/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.commonChatTotal({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.commonChatTotal(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -141,7 +141,7 @@ router
   })
   .get('/ent/content/:ent_user_id/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.entContent({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.entContent(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -160,7 +160,7 @@ router
   })
   .get('/ent/total/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.entTotal({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.entTotal(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -179,7 +179,7 @@ router
   })
   .get('/common/total/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.commonTotal({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.commonTotal(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -198,7 +198,7 @@ router
   })
   .get('/sys/total/:user_category/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.sysTotal({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.sysTotal(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -217,7 +217,7 @@ router
   })
   .post('/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insert(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

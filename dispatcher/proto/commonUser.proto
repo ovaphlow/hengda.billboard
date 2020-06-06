@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "CommonUserProto";
 
@@ -8,26 +8,71 @@ package commonUser;
 
 service CommonUser {
   
-  rpc signIn(CommonUserRequest) returns (CommonUserReply) {}
+  rpc signIn(SignInRequest) returns (Reply) {}
 
-  rpc logIn(CommonUserRequest) returns (CommonUserReply) {}
+  rpc logIn(LogInRequest) returns (Reply) {}
 
-  rpc update(CommonUserRequest) returns (CommonUserReply) {}
+  rpc update(UpdateRequest) returns (Reply) {}
 
-  rpc phone(CommonUserRequest) returns (CommonUserReply) {}
+  rpc phone(PhoneRequest) returns (Reply) {}
+  
+  rpc journal(JournalRequest) returns (Reply) {}
 
-  rpc get(CommonUserRequest) returns (CommonUserReply) {}
+  rpc recover(RecoverRequest) returns (Reply) {}
 
-  rpc journal(CommonUserRequest) returns (CommonUserReply) {}
+  rpc checkEmail (CheckEmailRequest) returns (Reply) {}
 
-  rpc recover(CommonUserRequest) returns (CommonUserReply) {}
-
-  rpc checkEmail(CommonUserRequest) returns (CommonUserReply) {}
-
-  rpc checkRecover(CommonUserRequest) returns (CommonUserReply) {}
+  rpc checkRecover (CheckRecoverRequest) returns (Reply) {}
 
 }
 
-message CommonUserRequest { string data = 1; }
+message SignInRequest {
+  string code =  1;
+  string email = 2;
+  string password = 3;
+  string name = 4;
+}
 
-message CommonUserReply { string data = 1; }
+message LogInRequest {
+  string phone_email = 1;
+  string password = 2;
+  string ip = 3;
+  string address = 4;
+}
+
+message UpdateRequest {
+  string user_category = 1;
+  string code = 2;
+  string email= 3;
+  uint32 id = 4;
+  string phone = 5;
+  string name = 6;
+}
+
+message PhoneRequest {
+  uint32 id = 1;
+  string phone = 2;
+}
+
+message JournalRequest {
+  uint32 user_id = 1;
+  string category = 2;
+}
+
+message RecoverRequest {
+  string user_category = 1;
+  string code = 2;
+  string email = 3;
+  string password = 4;
+}
+
+message CheckEmailRequest {
+  uint32 id = 1;
+  string email = 2;
+}
+
+message CheckRecoverRequest {
+  string email = 1;
+}
+
+message Reply { string data = 1; }

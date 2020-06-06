@@ -30,7 +30,7 @@ module.exports = router
 router
   .get('/user/:user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.user({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.user(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -49,7 +49,7 @@ router
   })
   .get('/count/:user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.count({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.count(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -68,7 +68,7 @@ router
   })
   .get('/user/:user_id/:campus_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -87,7 +87,7 @@ router
   })
   .post('/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insert(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -106,7 +106,7 @@ router
   })
   .delete('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.delete({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.delete(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

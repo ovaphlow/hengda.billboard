@@ -29,7 +29,7 @@ module.exports = router
 router
   .put('/check/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.code({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.code(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -48,7 +48,7 @@ router
   })
   .put('/checkRecover/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.checkRecover({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.checkRecover(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -85,7 +85,7 @@ router
     })
 
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insert(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

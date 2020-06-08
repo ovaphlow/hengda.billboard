@@ -8,27 +8,24 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 export const RecommendRow = props => (
   <>
     <div className="row" >
-      <div className="col-10">
+      <div className="col">
         <div className="row">
           <div className="col text-hidden">
             <strong>{props.title}</strong>
           </div>
         </div>
-        <span className="text-muted">
-          工作地点：{props.address_level1}-{props.address_level2} | 招聘人数: {props.qty}
+        <span className="text-muted pull-left">
+          工作地点:{props.address_level1}-{props.address_level2} | 招聘人数:{props.qty}
         </span>
-        <br></br>
-        <span>
-          {props.publisher}
-        </span>
-      </div>
-      <div className="col">
-        <br/>
         <div className="pull-right ">
           <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`} style={{color:'#00a4ff'}}>
             <i className="fa fa-fw fa-chevron-circle-right fa-lg" aria-hidden="true"></i>
           </a>
         </div>
+        <br></br>
+        <span>
+          {props.publisher}
+        </span>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />

@@ -10,6 +10,6 @@ module.exports = app => {
 
 // module.exports = app => {
 //   app.use(proxy('/api', {
-//     target: 'http://39.102.80.159:801'
+//     target: 'http://211.159.150.3'
 //   }))
 // }

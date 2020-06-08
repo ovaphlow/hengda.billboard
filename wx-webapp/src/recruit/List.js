@@ -42,15 +42,15 @@ const List = () => {
 
   const [city, setCity] = useState('')
 
-  const _onCheckboxChange = ({ value, checked }) => {
+  const _onCheckboxChange = ({ name, checked }) => {
     search({
       city: city,
       ...types,
-      [value]: checked
+      [name]: checked
     })
     setTypes(types => ({
       ...types,
-      [value]: checked
+      [name]: checked
     }))
   }
 
@@ -109,11 +109,11 @@ const List = () => {
           </div>
           <div className="col">
             <div className="pull-right text-primary">
-              <TextCheckbox value="宣讲会" onChange={_onCheckboxChange}>
+              <TextCheckbox value="宣讲会" name="category1" onChange={_onCheckboxChange}>
                 宣讲会
               </TextCheckbox>
               |
-              <TextCheckbox value="双选会" onChange={_onCheckboxChange}>
+              <TextCheckbox value="双选会" name="category2" onChange={_onCheckboxChange}>
                 双选会
               </TextCheckbox>
             </div>

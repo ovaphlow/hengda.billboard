@@ -43,17 +43,17 @@ const HomePage = () => {
       })
   }, [])
 
-  const _onCheckboxChange = ({ value, checked }) => {
+  const _onCheckboxChange = ({ name, checked }) => {
     setRecommendTypes(types => ({
       ...types,
-      [value]: checked
+      [name]: checked
     }))
     fetch(`./api/recommend/`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...recommendTypes,
-        [value]: checked
+        [name]: checked
       })
     })
       .then(res => res.json())
@@ -79,7 +79,7 @@ const HomePage = () => {
       <div className="container-fluid">
         {
           auth === 0 ? (
-            <div className="row pb-2 pt-1">
+            <div className="row pb-2 pt-1" style={{ backgroundColor: '#f5f5f5'}}>
               <div className="col text-center">
                 <a className="text-black-50" href="#登录" >
                   <strong className="text-primary">登录</strong>
@@ -88,20 +88,20 @@ const HomePage = () => {
               </div>
             </div>
           ) : (
-            <div className="row pb-2 pt-1">
+            <div className="row pb-2 pt-1" style={{ backgroundColor: '#f5f5f5'}}>
               <div className="col">
                 <input type="text" 
-                className="w-100 border-0 text-center" 
-                placeholder="按照企业/职位名称查询"
-                onClick={()=>window.location=`#主页/查询/`}
-                style={{outline:0,backgroundColor:'rgba(0, 0, 0, 0)'}} />
+                  className="w-100 border-0 text-center" 
+                  placeholder="按照企业/职位名称查询"
+                  onClick={()=>window.location=`#主页/查询/`}
+                  style={{outline:0,backgroundColor:'rgba(0, 0, 0, 0)'}} />
               </div>
             </div>
           )
         }
 
         <PlayImg category={'小程序-首页'} />
-        <div className="mt-2 p-2 border-0 bg-white rounded card-body shadow ">
+        <div className="mt-2 p-3 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6>
               <i className="fa fa-fw fa-lg fa-fire text-danger" aria-hidden="true"></i>
@@ -110,7 +110,7 @@ const HomePage = () => {
           </div>
           <TopicCards list={topicList} />
         </div>
-        <div className="mt-2 p-2 border-0 bg-white rounded card-body shadow ">
+        <div className="mt-2 p-3 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6 className="pull-left" >
               <i className="fa fa-fw fa-lg fa-thumbs-up text-warning" aria-hidden="true"></i>
@@ -120,8 +120,8 @@ const HomePage = () => {
               {RECOMMEND_TYPE.map((item, inx) => (
                 <React.Fragment key={inx}>
                   <li className="nav-item">
-                    <TextCheckbox value={item} onChange={_onCheckboxChange}>
-                      {item}
+                    <TextCheckbox name={item.name} onChange={_onCheckboxChange}>
+                      {item.value}
                     </TextCheckbox>
                   </li>
                 </React.Fragment>

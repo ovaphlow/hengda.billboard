@@ -27,7 +27,7 @@ module.exports = router
 router
   .get('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -46,7 +46,7 @@ router
   })
   .get('/recruitment/:recruitment_id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.recruitmentList({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.recruitmentList(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -66,7 +66,7 @@ router
   })
   .get('/user/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.userDeliveryList({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.userDeliveryList(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -85,7 +85,7 @@ router
   })
   .get('/details/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.details({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.details(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -106,7 +106,7 @@ router
   })
   .get('/:common_user_id/:recruitment_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.userDelivery({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.userDelivery(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -125,7 +125,7 @@ router
   })
   .post('/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insert(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -144,7 +144,7 @@ router
   })
   .put('/search/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.search({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.search(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -164,7 +164,7 @@ router
   })
   .put('/status/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.status({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.status(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

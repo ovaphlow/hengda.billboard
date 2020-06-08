@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package= "hengda.billboard";
 option java_outer_classname = "MessageProto";
 
@@ -8,30 +8,79 @@ package message;
 
 service Message {
 
-  rpc insert(MessageRequest) returns (MessageReply) {}
+  rpc insert(InsertRequest) returns (Reply) {}
 
-  rpc messageList(MessageRequest) returns (MessageReply) {}
+  rpc messageList(MessageListRequest) returns (Reply) {}
 
-  rpc entTotal(MessageRequest) returns (MessageReply) {}
+  rpc entTotal(EntTotalRequest) returns (Reply) {}
 
-  rpc commonTotal(MessageRequest) returns (MessageReply) {}
+  rpc commonTotal(CommonTotalRequest) returns (Reply) {}
 
-  rpc commonContent(MessageRequest) returns (MessageReply) {}
+  rpc commonContent(CommonContentRequest) returns (Reply) {}
 
-  rpc entContent(MessageRequest) returns (MessageReply) {}
+  rpc entContent(EntContentRequest) returns (Reply) {}
 
-  rpc entChatTotal(MessageRequest) returns (MessageReply) {}
+  rpc entChatTotal(EntChatTotalRequest) returns (Reply) {}
 
-  rpc commonChatTotal(MessageRequest) returns (MessageReply) {}
+  rpc commonChatTotal(CommonChatTotalRequest) returns (Reply) {}
 
-  rpc sysToEnt(MessageRequest) returns (MessageReply) {}
+  rpc sysToEnt(SysToEntRequest) returns (Reply) {}
 
-  rpc sysToCommon(MessageRequest) returns (MessageReply) {}
+  rpc sysToCommon(SysToCommonRequest) returns (Reply) {}
   
-  rpc sysTotal(MessageRequest) returns (MessageReply) {}
+  rpc sysTotal(SysTotalRequest) returns (Reply) {}
   
 }
 
-message MessageRequest { string data = 1; }
+message InsertRequest { 
+  uint32 common_user_id = 1;
+  uint32 ent_user_id = 2;
+  string content = 3;
+  string category = 4;
+}
 
-message MessageReply { string data = 1; }
+message CommonContentRequest {
+  uint32 common_user_id = 1;
+  uint32 ent_user_id = 2;
+}
+
+message EntContentRequest {
+  uint32 common_user_id = 1;
+  uint32 ent_user_id = 2;
+}
+
+message EntTotalRequest {
+  uint32 id = 1;
+}
+
+message CommonTotalRequest {
+  uint32 id = 1;
+}
+
+message EntChatTotalRequest {
+  uint32 id = 1;
+}
+
+message CommonChatTotalRequest {
+  uint32 id = 1;
+}
+
+message MessageListRequest {
+  uint32 user_id = 1;
+  string user_category = 2;
+}
+
+message SysToEntRequest {
+  uint32 id = 1;
+}
+
+message SysToCommonRequest {
+  uint32 id = 1;
+}
+
+message SysTotalRequest {
+  uint32 id = 1;
+  string user_category = 2;
+}
+
+message Reply { string data = 1; }

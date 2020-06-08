@@ -30,7 +30,7 @@ module.exports = router
 router
   .get('/ent/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.entList({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.entList(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -49,7 +49,7 @@ router
   })
   .get('/common/total/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.commonTotal({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.commonTotal(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -68,7 +68,7 @@ router
   })
   .get('/common/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.commonList({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.commonList(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -87,7 +87,7 @@ router
   })
   .post('/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.insert({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.insert(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

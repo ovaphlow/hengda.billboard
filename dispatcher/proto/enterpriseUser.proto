@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "EnterpriseUserProto";
 
@@ -8,24 +8,73 @@ package enterpriseUser;
 
 service EnterpriseUser {
   
-  rpc signIn(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc signIn(SignInRequest) returns (Reply) {}
 
-  rpc logIn(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc logIn(LogInRequest) returns (Reply) {}
 
-  rpc update(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc update(UpdateRequest) returns (Reply) {}
 
-  rpc updatePassword(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc updatePassword(UpdatePasswordRequest) returns (Reply) {}
 
-  rpc recover(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc recover(RecoverRequest) returns (Reply) {}
 
-  rpc checkEmail(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc checkEmail(CheckEmailRequest) returns (Reply) {}
 
-  rpc checkPhone(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc checkPhone(CheckPhoneRequest) returns (Reply) {}
 
-  rpc checkRecover(EnterpriseUserRequest) returns (EnterpriseUserReply) {}
+  rpc checkRecover(CheckRecoverRequest) returns (Reply) {}
 
 }
 
-message EnterpriseUserRequest { string data = 1; }
+message SignInRequest {
+  string code = 1;
+  string email = 2;
+  string ent_name = 3;
+  string password = 4;
+}
 
-message EnterpriseUserReply { string data = 1; }
+message RecoverRequest {
+  string user_category = 1;
+  string code = 2;
+  string email =3;
+  string password = 4;
+}
+
+message LogInRequest {
+  string phone_email = 1;
+  string password = 2;
+  string ip = 3;
+  string address = 4;
+}
+
+message UpdatePasswordRequest {
+  string old_password =1;
+  string password1 = 2;
+  uint32 id = 3;
+  string uuid = 4;
+}
+
+message UpdateRequest {
+  string code = 1;
+  string email = 2;
+  string phone = 3;
+  uint32 id = 4;
+  string uuid = 5;
+}
+
+message CheckPhoneRequest {
+  uint32 id = 1;
+  string phone = 2;
+}
+
+message CheckEmailRequest {
+  uint32 id = 1;
+  string email = 2;
+}
+
+message CheckRecoverRequest {
+  string email = 1;
+}
+
+
+message Reply { string data = 1; }

@@ -29,7 +29,7 @@ const CityDropdowns = props => {
             name: res[code]
           })))
       })
-  }, [])
+  }, [props.defaultValue])
 
   const menuShow = () => {
     setShow(!show)

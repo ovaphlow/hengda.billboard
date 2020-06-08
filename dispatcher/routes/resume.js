@@ -27,7 +27,7 @@ module.exports = router
 router
   .get('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -48,7 +48,7 @@ router
   })
   .get('/user/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.user({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.user(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -68,7 +68,7 @@ router
   })
   .put('/retrieval/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.retrieval({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.retrieval(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -87,7 +87,7 @@ router
   })
   .put('/recommend/', async ctx =>{
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.recommend({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.recommend(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -106,7 +106,7 @@ router
   })
   .put('/:common_user_id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.update({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.update(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -128,7 +128,7 @@ router
 
 router.post('/status/:id/', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
-    grpcClient.status({ data: JSON.stringify(body) }, (err, response) => {
+    grpcClient.status(body, (err, response) => {
       if (err) {
         console.error(err)
         reject(err)
@@ -151,7 +151,7 @@ router.post('/status/:id/', async ctx => {
 
 router.post('/init/', async ctx => {
   const grpcFetch = body => new Promise((resolve, reject) =>
-    grpcClient.init({ data: JSON.stringify(body) }, (err, response) => {
+    grpcClient.init(body, (err, response) => {
       if (err) {
         console.error(err)
         reject(err)

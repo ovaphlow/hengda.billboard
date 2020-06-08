@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "ReportProto";
 
@@ -8,12 +8,28 @@ package report;
 
 service Report {
 
-  rpc list(ReportRequest) returns (ReportReply) {}
+  rpc list(ListRequest) returns (Reply) {}
 
-  rpc insert(ReportRequest) returns (ReportReply) {}
+  rpc insert(InsertRequest) returns (Reply) {}
 
 }
 
-message ReportRequest { string data = 1; }
+message ListRequest {
+  uint32 user_id = 1;
+  string user_category = 2;
+}
 
-message ReportReply { string data = 1; }
+message InsertRequest {
+  uint32 user_id = 1;
+  string user_uuid = 2;
+  string user_category = 3;
+  uint32 data_id = 4;
+  string data_uuid = 5;
+  string category = 6;
+  string content = 7;
+  string datime = 8;
+}
+
+
+
+message Reply { string data = 1; }

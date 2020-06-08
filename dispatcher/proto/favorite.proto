@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "FavoriteProto";
 
@@ -8,18 +8,51 @@ package favorite;
 
 service Favorite {
   
-  rpc searchOne(FavoriteRequest) returns (FavoriteReply) {}
+  rpc searchOne(SearchOneRequest) returns (Reply) {}
 
-  rpc searchResume(FavoriteRequest) returns (FavoriteReply) {}
+  rpc searchResume(SearchResumeRequest) returns (Reply) {}
 
-  rpc list(FavoriteRequest) returns (FavoriteReply) {}
+  rpc list(ListRequest) returns (Reply) {}
 
-  rpc delete(FavoriteRequest) returns (FavoriteReply) {}
+  rpc delete(DeleteRequest) returns (Reply) {}
   
-  rpc insert(FavoriteRequest) returns (FavoriteReply) {}
+  rpc insert(InsertRequest) returns (Reply) {}
 
 }
 
-message FavoriteRequest { string data = 1; }
+message ListRequest {
+  string category1 = 1;
+  uint32 user_id =2;
+}
 
-message FavoriteReply { string data = 1; }
+message SearchOneRequest {
+  uint32 user_id = 1;
+  uint32 data_id = 2;
+  string category1 = 3;
+  string category2 = 4;
+}
+
+message SearchResumeRequest {
+  string user_id = 1;
+  string name = 2;
+  string qiwanghangye = 3;
+  string qiwangzhiwei = 4;
+  string yixiangchengshi = 5;
+  string education =6;
+}
+
+message DeleteRequest {
+  uint32 id = 1; 
+}
+
+message InsertRequest {
+  uint32 user_id = 1;
+  string user_uuid = 2;
+  uint32 data_id = 3;
+  string data_uuid = 4;
+  string category1 = 5;
+  string category2 = 6;
+}
+
+
+message Reply { string data = 1; }

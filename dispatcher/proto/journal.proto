@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "JournalProto";
 
@@ -8,22 +8,66 @@ package journal;
 
 service Journal {
   
-  rpc get(JournalRequest) returns (JournalReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc list(JournalRequest) returns (JournalReply) {}
+  rpc list(ListRequest) returns (Reply) {}
 
-  rpc delete(JournalRequest) returns (JournalReply) {}
+  rpc delete(DeleteRequest) returns (Reply) {}
     
-  rpc insert(JournalRequest) returns (JournalReply) {}
+  rpc insert(InsertRequest) returns (Reply) {}
 
-  rpc loginList(JournalRequest) returns (JournalReply) {}
+  rpc loginList(LoginListRequest) returns (Reply) {}
 
-  rpc editList(JournalRequest) returns (JournalReply) {}
-  
-  rpc insertEdit(JournalRequest) returns (JournalReply) {}
+  rpc editList(EditListRequest) returns (Reply) {}
+
+  rpc insertEdit(InsertEditRequest) returns (Reply) {}
 
 }
 
-message JournalRequest { string data = 1; }
+message GetRequest {
+  uint32 common_user_id = 1; 
+  uint32 data_id = 2;
+  string category = 3;
+}
 
-message JournalReply { string data = 1; }
+message ListRequest {
+  uint32 common_user_id = 1;
+}
+
+message DeleteRequest {
+  uint32 common_user_id = 1; 
+  uint32 data_id = 2;
+  string category = 3;
+}
+
+message InsertRequest {
+  uint32 common_user_id = 1; 
+  uint32 data_id = 2;
+  string category = 3;
+  string uuid = 4;
+  string data_uuid = 5;
+  string datime = 6;
+}
+
+message InsertEditRequest {
+  uint32 user_id = 1;
+  string user_uuid = 2;
+  string category1 = 3;
+  string category2 = 4;
+  string datime = 5;
+  uint32 data_id = 6;
+  string data_uuid = 7;
+  string remark = 8;
+}
+
+message EditListRequest {
+  uint32 id = 1;
+  string category = 2;
+}
+
+message LoginListRequest {
+  uint32 id = 1;
+  string category = 2;
+}
+
+message Reply { string data = 1; }

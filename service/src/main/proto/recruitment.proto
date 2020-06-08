@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "RecruitmentProto";
 
@@ -8,26 +8,103 @@ package recruitment;
 
 service Recruitment {
   
-  rpc get(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc list(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc list(ListRequest) returns (Reply) {}
 
-  rpc insert(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc insert(InsertRequest) returns (Reply) {}
 
-  rpc update(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc update(UpdateRequest) returns (Reply) {}
 
-  rpc search(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc search(SearchRequest) returns (Reply) {}
 
-  rpc keywordSearch(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc keywordSearch(KeywordSearchRequest) returns (Reply) {}
 
-  rpc status(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc status(StatusRequest) returns (Reply) {}
 
-  rpc enterpriseList(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc enterpriseList(EnterpriseListRequest) returns (Reply) {}
 
-  rpc enterpriseSearch(RecruitmentRequest) returns (RecruitmentReply) {}
+  rpc enterpriseSearch(EnterpriseSearchRequest) returns (Reply) {}
 
 }
 
-message RecruitmentRequest { string data = 1; }
+message ListRequest {}
 
-message RecruitmentReply { string data = 1; }
+message InsertRequest {
+  uint32 enterprise_id = 1;
+  string enterprise_uuid = 2;
+  string name = 3;
+  string qty = 4;
+  string description = 5;
+  string requirement = 6;
+  string address1 = 7;
+  string address2 = 8;
+  string address3 = 9;
+  string salary1 = 10;
+  string salary2 = 11;
+  string education = 12;
+  string category = 13;
+  string industry = 14;
+  string position = 15;
+}
+
+message UpdateRequest {
+  uint32 id = 1;
+  string uuid = 2;
+  string name = 3;
+  string qty = 4;
+  string description = 5;
+  string requirement = 6;
+  string address1 = 7;
+  string address2 = 8;
+  string address3 = 9;
+  string salary1 = 10;
+  string salary2 = 11;
+  string education = 12;
+  string category = 13;
+  string industry = 14;
+  string position = 15;
+}
+
+message StatusRequest {
+  string status = 1;
+  uint32 id = 2;
+  string uuid = 3; 
+}
+
+message GetRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
+
+message SearchRequest {
+  string city = 1;
+  bool category1 = 2;
+  bool category2 = 3;
+  bool category3 = 4;
+}
+
+message KeywordSearchRequest {
+  string keyword = 1;
+  string city = 2;
+  bool category1 = 3;
+  bool category2 = 4;
+  bool category3 = 5;
+}
+
+message EnterpriseListRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
+
+message EnterpriseSearchRequest {
+  string enterprise_id = 1;
+  string uuid = 2;
+  string name = 3;
+  string category = 4;
+  string date = 5;
+  string status = 6;
+  string education = 7;
+}
+
+message Reply { string data = 1; }

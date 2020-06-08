@@ -28,7 +28,7 @@ module.exports = router
 router
   .get('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -47,7 +47,7 @@ router
   })
   .post('/sign-in/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.signIn({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.signIn(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -66,7 +66,7 @@ router
   })
   .put('/updatePassword/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.updatePassword({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.updatePassword(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -87,7 +87,7 @@ router
   })
   .put('/checkEmail/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.checkEmail({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.checkEmail(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -106,7 +106,7 @@ router
   })
   .put('/checkPhone/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.checkPhone({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.checkPhone(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -125,7 +125,7 @@ router
   })
   .put('/checkRecover/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.checkRecover({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.checkRecover(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -144,7 +144,7 @@ router
   })
   .put('/recover/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.recover({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.recover(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -163,7 +163,7 @@ router
   })
   .put('/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.update({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.update(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -186,7 +186,7 @@ router
 router
   .post('/log-in/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.logIn({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.logIn(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

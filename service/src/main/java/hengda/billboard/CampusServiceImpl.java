@@ -11,22 +11,19 @@ import java.util.Map;
 import com.google.gson.Gson;
 import io.grpc.stub.StreamObserver;
 
-@SuppressWarnings("unchecked")
 public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
 
   @Override
-  public void get(CampusRequest req, StreamObserver<CampusReply> responseObserver) {
+  public void get(CampusProto.GetRequest req, StreamObserver<CampusProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select * from campus where id = ? and uuid = ? ";
-
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, body.get("id").toString());
-        ps.setString(2, body.get("uuid").toString());
+        ps.setInt(1, req.getId());
+        ps.setString(2, req.getUuid());
         ResultSet rs = ps.executeQuery();
         List<Map<String, Object>> result = DBUtil.getList(rs);
         if (result.size() > 0) {
@@ -39,39 +36,38 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    CampusReply reply = CampusReply.newBuilder().setData(gson.toJson(resp)).build();
+    CampusProto.Reply reply = CampusProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
-  public void search(CampusRequest req, StreamObserver<CampusReply> responseObserver) {
+  public void search(CampusProto.SearchRequest req, StreamObserver<CampusProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
       String sql = "select id, uuid, title, address_level3, address_level2, date, school, category from campus where date >= curdate() ";
       List<String> list = new ArrayList<>();
-      if (body.get("city") != null && !"".equals(body.get("city").toString())) {
+      if (req.getCity() != null && !"".equals(req.getCity())) {
         sql += "and address_level2 = ? ";
-        list.add(body.get("city").toString());
+        list.add(req.getCity());
       }
 
-      if (body.get("city") != null && !"".equals(body.get("city").toString())) {
+      if (req.getCity() != null && !"".equals(req.getCity())) {
         sql += "and address_level2 = ? ";
-        list.add(body.get("city").toString());
+        list.add(req.getCity());
       }
 
       boolean flg = false;
       String category = "";
-      if (body.get("宣讲会") != null && Boolean.valueOf(body.get("宣讲会").toString())) {
+      if (req.getCategory1()) {
         category += " category = ? ";
         list.add("宣讲会");
         flg = true;
       }
-      if (body.get("双选会") != null && Boolean.valueOf(body.get("双选会").toString())) {
+      if (req.getCategory2()) {
         if (flg) {
           category += " or ";
         }
@@ -96,7 +92,7 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    CampusReply reply = CampusReply.newBuilder().setData(gson.toJson(resp)).build();
+    CampusProto.Reply reply = CampusProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }

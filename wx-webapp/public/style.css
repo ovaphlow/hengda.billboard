@@ -140,9 +140,9 @@ p {
   -webkit-box-orient: vertical;
 }
 
-/* body {
+body {
   background-color: #f5f5f5
-} */
+}
 
 .topic-card {
   height: 50px;
@@ -172,4 +172,8 @@ p {
   z-index: 1000;
   right: 0;
   /* margin-right: -8px; */
+}
+
+.container-fluid> div {
+  background-color:white
 }

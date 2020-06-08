@@ -28,7 +28,7 @@ module.exports = router
 router
   .get('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.get({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.get(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -48,7 +48,7 @@ router
   })
   .get('/check/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.check({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.check(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)
@@ -69,7 +69,7 @@ router
 
   .put('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
-      grpcClient.update({ data: JSON.stringify(body) }, (err, response) => {
+      grpcClient.update(body, (err, response) => {
         if (err) {
           console.error(err)
           reject(err)

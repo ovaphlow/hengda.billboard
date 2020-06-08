@@ -16,12 +16,12 @@ public class DemoServiceImpl extends DemoGrpc.DemoImplBase {
   private static final Logger logger = LoggerFactory.getLogger(DemoServiceImpl.class);
 
   @Override
-  public void test(DemoRequest req, StreamObserver<DemoReply> responseObserver) {
+  public void test(DemoProto.DemoRequest req, StreamObserver<DemoProto.DemoReply> responseObserver) {
     logger.info("test");
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
-    resp.put("message", "");
-    resp.put("content", "");
+    System.out.println(req.getItem1());
+    System.out.println(req.getItem2());
     try (Connection conn = DBUtil.getConn()) {
       String sql = "show tables";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -33,7 +33,7 @@ public class DemoServiceImpl extends DemoGrpc.DemoImplBase {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
-    DemoReply reply = DemoReply.newBuilder().setData(gson.toJson(resp)).build();
+    DemoProto.DemoReply reply = DemoProto.DemoReply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }

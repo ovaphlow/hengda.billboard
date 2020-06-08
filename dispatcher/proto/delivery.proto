@@ -1,31 +1,74 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "DeliveryProto";
 
 package delivery;
 
 service Delivery {
-
-  rpc get(DeliveryRequest) returns (DeliveryReply) {}
-
-  rpc recruitmentList(DeliveryRequest) returns (DeliveryReply) {}
-
-  rpc details(DeliveryRequest) returns (DeliveryReply) {}
-
-  rpc userDeliveryList(DeliveryRequest) returns (DeliveryReply) {}
-
-  rpc userDelivery(DeliveryRequest) returns (DeliveryReply) {}
   
-  rpc insert(DeliveryRequest) returns (DeliveryReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc search(DeliveryRequest) returns (DeliveryReply) {}
+  rpc recruitmentList(RecruitmentListRequest) returns (Reply) {}
 
-  rpc status(DeliveryRequest) returns (DeliveryReply) {}
+  rpc details(DetailsRequest) returns (Reply) {}
+
+  rpc userDeliveryList(UserDeliveryListRequest) returns (Reply) {}
+
+  rpc userDelivery(UserDeliveryRequest) returns (Reply) {}
+  
+  rpc insert(InsertRequest) returns (Reply) {}
+
+  rpc search(SearchRequest) returns (Reply) {}
+
+  rpc status(StatusRequest) returns (Reply) {}
 
 }
 
-message DeliveryRequest { string data = 1; }
+message GetRequest {
+  uint32 id = 1; 
+}
 
-message DeliveryReply { string data = 1; }
+message RecruitmentListRequest {
+  uint32 recruitment_id = 1;
+  string recruitment_uuid = 2;
+}
+
+message DetailsRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
+
+message UserDeliveryListRequest {
+  uint32 common_user_id = 1;
+}
+
+message UserDeliveryRequest {
+  uint32 common_user_id = 1;
+  uint32 recruitment_id = 2;
+}
+
+message InsertRequest {
+  uint32 common_user_id = 1;
+  uint32 recruitment_id = 2;
+  string recruitment_uuid = 3;
+  string datime = 4;
+}
+
+message SearchRequest {
+  string enterprise_id = 1;
+  string uuid = 2;
+  string name = 3;
+  string recruitment_name = 4;
+  string date = 5;
+  string status = 6;
+  string education = 7;
+}
+
+message StatusRequest {
+  string status = 1;
+  uint32 id = 2;
+}
+
+message Reply { string data = 1; }

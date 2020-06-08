@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "EnterpriseProto";
 
@@ -8,13 +8,40 @@ package enterprise;
 
 service Enterprise {
 
-  rpc get(EnterpriseRequest) returns (EnterpriseReply) {}
+  rpc get(GetRequest) returns (Reply) {}
 
-  rpc check(EnterpriseRequest) returns (EnterpriseReply) {}
+  rpc check(CheckRequest) returns (Reply) {}
 
-  rpc update(EnterpriseRequest) returns (EnterpriseReply) {}
+  rpc update(UpdateRequest) returns (Reply) {}
 }
 
-message EnterpriseRequest { string data = 1; }
+message GetRequest { 
+  uint32 id = 1;
+  string uuid = 2; 
+}
 
-message EnterpriseReply { string data = 1; }
+message CheckRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
+
+message UpdateRequest {
+  string yingyezhizhao = 1;
+  string faren = 2;
+  string zhuceriqi = 3;
+  string zhuziguimo = 4;
+  string yuangongshuliang = 5;
+  string yingyezhizhao_tu = 6;
+  string phone = 7;
+  string address1 = 8;
+  string address2 = 9;
+  string address3 = 10;
+  string address4 = 11;
+  string industry = 12;
+  string intro = 13;
+  string url = 14;
+  uint32 id = 15;
+  string uuid = 16;
+}
+
+message Reply { string data = 1; }

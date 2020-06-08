@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+// option java_multiple_files = true;
 option java_package = "hengda.billboard";
 option java_outer_classname = "FeedbackProto";
 
@@ -8,12 +8,24 @@ package feedback;
 
 service Feedback {
 
-  rpc insert(FeedbackRequest) returns (FeedbackReply) {}
+  rpc insert(InsertRequest) returns (Reply) {}
 
-  rpc list(FeedbackRequest) returns (FeedbackReply) {}
+  rpc list(ListRequest) returns (Reply) {}
 
 }
 
-message FeedbackRequest { string data = 1; }
+message InsertRequest {
+  uint32 user_id = 1;
+  string user_uuid = 2;
+  string user_category = 3;
+  string content = 4;
+  string datime = 5;
+  string category = 6;
+}
 
-message FeedbackReply { string data = 1; }
+message ListRequest {
+  uint32 user_id = 1;
+  string user_category = 2;
+}
+
+message Reply { string data = 1; }

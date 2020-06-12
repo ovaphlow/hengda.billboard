@@ -5,13 +5,13 @@ const config = require('../config')
 const nodemailer = require('nodemailer');
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/email.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/email.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).email
 
 const grpcClient = new proto.Email(

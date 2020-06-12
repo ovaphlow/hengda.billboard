@@ -1,9 +1,5 @@
 syntax = "proto3";
 
-// option java_multiple_files = true;
-option java_package = "hengda.billboard";
-option java_outer_classname = "DeliveryProto";
-
 package delivery;
 
 service Delivery {
@@ -57,8 +53,8 @@ message InsertRequest {
 }
 
 message SearchRequest {
-  string enterprise_id = 1;
-  string uuid = 2;
+  string uuid = 1;
+  string id = 2;
   string name = 3;
   string recruitment_name = 4;
   string date = 5;

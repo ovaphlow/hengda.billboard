@@ -4,13 +4,13 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/commonUserFile.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/commonUserFile.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).commonUserFile
 
 const grpcClient = new proto.CommonUserFile(

@@ -4,13 +4,13 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/delivery.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/delivery.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).delivery
 
 const grpcClient = new proto.Delivery(
@@ -156,6 +156,7 @@ router
     )
     try {
       ctx.request.body.uuid = ctx.query.u_id
+      console.info(ctx.request.body)
       ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
       console.error(err)

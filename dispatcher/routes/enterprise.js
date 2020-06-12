@@ -5,13 +5,13 @@ const config = require('../config')
 
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/enterprise.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/enterprise.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).enterprise
 
 const grpcClient = new proto.Enterprise(

@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
 
   private static final Logger logger = LoggerFactory.getLogger(CommonUserServiceImpl.class);
@@ -68,6 +67,12 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
             ps.execute();
             resp.put("content", true);
           }
+          sql = "delete from captcha where user_category='个人用户' and code=? and email=? ";
+          try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, req.getCode());
+            ps.setString(2, req.getEmail());
+            ps.execute();
+          }
         }
       }
     } catch (Exception e) {
@@ -119,7 +124,6 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     responseObserver.onCompleted();
   }
 
-
   @Override
   public void update(CommonUserProto.UpdateRequest req, StreamObserver<CommonUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
@@ -170,6 +174,13 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
             ps.setInt(4, req.getId());
             ps.execute();
             resp.put("content", true);
+          }
+          sql = "delete from captcha where user_category=? and code=? and email=? ";
+          try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, req.getUserCategory());
+            ps.setString(2, req.getCode());
+            ps.setString(3, req.getEmail());
+            ps.execute();
           }
         }
       }
@@ -269,8 +280,15 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
           ps.setString(2, req.getSalt());
           ps.setString(3, req.getEmail());
           ps.execute();
-          resp.put("content", true);
         }
+        sql = "delete from captcha where user_category=? and code=? and email=? ";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, req.getUserCategory());
+          ps.setString(2, req.getCode());
+          ps.setString(3, req.getEmail());
+          ps.execute();
+        }
+        resp.put("content", true);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -282,7 +300,8 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
   }
 
   @Override
-  public void checkEmail(CommonUserProto.CheckEmailRequest req, StreamObserver<CommonUserProto.Reply> responseObserver) {
+  public void checkEmail(CommonUserProto.CheckEmailRequest req,
+      StreamObserver<CommonUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -310,7 +329,8 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
   }
 
   @Override
-  public void checkRecover(CommonUserProto.CheckRecoverRequest req, StreamObserver<CommonUserProto.Reply> responseObserver) {
+  public void checkRecover(CommonUserProto.CheckRecoverRequest req,
+      StreamObserver<CommonUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");

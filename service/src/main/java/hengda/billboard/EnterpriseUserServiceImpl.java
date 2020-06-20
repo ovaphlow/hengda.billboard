@@ -19,13 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
 public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUserImplBase {
 
-  // private static final Logger logger = LoggerFactory.getLogger(EnterpriseUserServiceImpl.class);
+  // private static final Logger logger =
+  // LoggerFactory.getLogger(EnterpriseUserServiceImpl.class);
 
   @Override
-  public void signIn(EnterpriseUserProto.SignInRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void signIn(EnterpriseUserProto.SignInRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -87,6 +88,12 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
             ps.setString(7, req.getSalt());
             ps.executeUpdate();
           }
+          sql = "delete from captcha where user_category='企业用户' and code=? and email=? ";
+          try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, req.getCode());
+            ps.setString(2, req.getEmail());
+            ps.execute();
+          }
           resp.put("content", true);
         }
       }
@@ -100,7 +107,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void recover(EnterpriseUserProto.RecoverRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void recover(EnterpriseUserProto.RecoverRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -126,6 +134,13 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
           ResultSet rs = ps.executeQuery();
           result = DBUtil.getList(rs);
         }
+        sql = "delete from captcha where user_category=? and code=? and email=? ";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, req.getUserCategory());
+          ps.setString(2, req.getCode());
+          ps.setString(3, req.getEmail());
+          ps.execute();
+        }
         resp.put("content", result.get(0));
       }
     } catch (Exception e) {
@@ -138,7 +153,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void updatePassword(EnterpriseUserProto.UpdatePasswordRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver){
+  public void updatePassword(EnterpriseUserProto.UpdatePasswordRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -153,7 +169,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
         ps.execute();
         resp.put("content", true);
       }
-    }catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");
     }
@@ -161,7 +177,6 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
-
 
   @Override
   public void logIn(EnterpriseUserProto.LogInRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
@@ -203,7 +218,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void upPasswordCheck(EnterpriseUserProto.UpPasswordCheckRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void upPasswordCheck(EnterpriseUserProto.UpPasswordCheckRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -234,7 +250,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void update(EnterpriseUserProto.UpdateRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void update(EnterpriseUserProto.UpdateRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -263,8 +280,14 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
           ps.setInt(3, req.getId());
           ps.setString(4, req.getUuid());
           ps.execute();
-          resp.put("content",true);
         }
+        sql = "delete from captcha where user_category='企业用户' and code=? and email=? ";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, req.getCode());
+          ps.setString(2, req.getEmail());
+          ps.execute();
+        }
+        resp.put("content", true);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -276,7 +299,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void checkPhone(EnterpriseUserProto.CheckPhoneRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void checkPhone(EnterpriseUserProto.CheckPhoneRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -304,7 +328,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void checkEmail(EnterpriseUserProto.CheckEmailRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void checkEmail(EnterpriseUserProto.CheckEmailRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
@@ -332,7 +357,8 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void checkRecover(EnterpriseUserProto.CheckRecoverRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void checkRecover(EnterpriseUserProto.CheckRecoverRequest req,
+      StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");

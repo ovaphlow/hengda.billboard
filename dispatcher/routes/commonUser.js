@@ -178,6 +178,7 @@ router
       })
     )
     try {
+      ctx.params.uuid = ctx.query.uuid
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)

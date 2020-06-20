@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
-import SideNav from './ComponentSideNav';
 
 export default function Complaint() {
   const [data, setData] = useState([]);
@@ -45,7 +44,6 @@ export default function Complaint() {
       <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-3 col-lg-2">
-            <SideNav />
           </div>
 
           <div className="col-9 col-lg-10">

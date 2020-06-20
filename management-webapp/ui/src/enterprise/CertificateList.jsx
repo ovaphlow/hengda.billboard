@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import Navbar from '../component/Navbar';
-import SideNav from '../user/ComponentSideNav';
 
 export default function CertificateList() {
   const [list, setList] = useState([]);
@@ -54,9 +53,7 @@ export default function CertificateList() {
 
       <div className="container mt-3 mb-5">
         <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
-          </div>
+          <div className="col-3 col-lg-2" />
 
           <div className="col">
             <h3>待认证企业</h3>

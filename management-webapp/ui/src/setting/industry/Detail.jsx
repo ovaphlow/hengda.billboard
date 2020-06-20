@@ -87,7 +87,7 @@ export default function Detail({ category }) {
           <h1>
             <ol className="breadcrumb bg-dark">
               <li className="breadcrumb-item">
-                <a href="#/行业">行业</a>
+                <a href="#/行业" className="text-light">行业</a>
               </li>
               <li className="breadcrumb-item active" aria-current="page">{category}</li>
             </ol>

@@ -5,7 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
-import SideNav from '../user/ComponentSideNav';
 
 export default function Detail({ cat }) {
   const { recruitment_id } = useParams();
@@ -94,222 +93,239 @@ export default function Detail({ cat }) {
     <>
       <Navbar category="企业" />
 
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">
+                <a href="user.html#/企业用户" className="text-light">企业用户</a>
+              </li>
+              <li className="breadcrumb-item active">岗位</li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="user.html#/平台用户" className="btn btn-sm btn-info">
+              平台用户
+            </a>
+            <a href="user.html#/企业用户" className="btn btn-sm btn-info">
+              企业用户
+            </a>
+            <a href="user.html#/普通用户" className="btn btn-sm btn-info">
+              普通用户
+            </a>
+          </div>
+        </div>
+
+        <div className="p-2" />
+      </div>
+
+      <div className="m-5" />
+
+      <div className="container-lg">
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <div className="row">
+              <div className="col">
+                <div className="form-group">
+                  <label>职位</label>
+                  <input
+                    type="text"
+                    value={name || ''}
+                    className="form-control"
+                    onChange={(event) => setName(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col-3">
+                <div className="form-group">
+                  <label>人数</label>
+                  <input
+                    type="text"
+                    value={qty || ''}
+                    className="form-control"
+                    onChange={(event) => setQty(event.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col">
+                <div className="form-group">
+                  <label>地址</label>
+                  <input
+                    type="text"
+                    value={address1 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress1(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col">
+                <div className="form-group">
+                  <label>&nbsp;</label>
+                  <input
+                    type="text"
+                    value={address2 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress2(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col">
+                <div className="form-group">
+                  <label>&nbsp;</label>
+                  <input
+                    type="text"
+                    value={address3 || ''}
+                    className="form-control"
+                    onChange={(event) => setAddress3(event.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-6">
+                <div className="form-group">
+                  <label>发布日期</label>
+                  <input
+                    type="text"
+                    value={date || ''}
+                    className="form-control"
+                    onChange={(event) => setDate(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col">
+                <div className="form-group">
+                  <label>薪资范围</label>
+                  <input
+                    type="text"
+                    value={salary1 || ''}
+                    className="form-control"
+                    onChange={(event) => setSalary1(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col">
+                <div className="form-group">
+                  <label>&nbsp;</label>
+                  <input
+                    type="text"
+                    value={salary2 || ''}
+                    className="form-control"
+                    onChange={(event) => setSalary2(event.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col">
+                <div className="form-group">
+                  <label>学历</label>
+                  <input
+                    type="text"
+                    value={education || ''}
+                    className="form-control"
+                    onChange={(event) => setEducation(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="col">
+                <div className="form-group">
+                  <label>类别</label>
+                  <input
+                    type="text"
+                    value={category || ''}
+                    className="form-control"
+                    onChange={(event) => setCategory(event.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>工作职责</label>
+              <ReactQuill
+                formats={[
+                  'header', 'align', 'bold', 'italic',
+                  'underline', 'blockquote']}
+                modules={{
+                  toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    [{ align: [] }],
+                    ['bold', 'italic', 'underline', 'blockquote'],
+                  ],
+                }}
+                readOnly
+                placeholder="请填写内容"
+                value={description}
+                onChange={setDescription}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>岗位要求</label>
+              <ReactQuill
+                formats={[
+                  'header', 'align', 'bold', 'italic',
+                  'underline', 'blockquote']}
+                modules={{
+                  toolbar: [
+                    [{ header: [1, 2, 3, false] }],
+                    [{ align: [] }],
+                    ['bold', 'italic', 'underline', 'blockquote'],
+                  ],
+                }}
+                readOnly
+                placeholder="请填写内容"
+                value={requirement || ''}
+                onChange={setRequirement}
+              />
+            </div>
           </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>
-              企业用户
-              {cat}
-              {' '}
-              职位
-            </h3>
-            <hr />
+          <div className="card-footer">
+            <div className="btn-group">
+              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                返回
+              </button>
+            </div>
 
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group">
-                      <label>职位</label>
-                      <input
-                        type="text"
-                        value={name || ''}
-                        className="form-control"
-                        onChange={(event) => setName(event.target.value)}
-                      />
-                    </div>
-                  </div>
+            <div className="btn-group pull-right">
+              {cat === '编辑' && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleRemove}
+              >
+                <i className="fa fa-fw fa-trash-o" />
+                删除
+              </button>
+              )}
 
-                  <div className="col-3">
-                    <div className="form-group">
-                      <label>人数</label>
-                      <input
-                        type="text"
-                        value={qty || ''}
-                        className="form-control"
-                        onChange={(event) => setQty(event.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group">
-                      <label>地址</label>
-                      <input
-                        type="text"
-                        value={address1 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress1(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col">
-                    <div className="form-group">
-                      <label>&nbsp;</label>
-                      <input
-                        type="text"
-                        value={address2 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress2(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col">
-                    <div className="form-group">
-                      <label>&nbsp;</label>
-                      <input
-                        type="text"
-                        value={address3 || ''}
-                        className="form-control"
-                        onChange={(event) => setAddress3(event.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>发布日期</label>
-                      <input
-                        type="text"
-                        value={date || ''}
-                        className="form-control"
-                        onChange={(event) => setDate(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col">
-                    <div className="form-group">
-                      <label>薪资范围</label>
-                      <input
-                        type="text"
-                        value={salary1 || ''}
-                        className="form-control"
-                        onChange={(event) => setSalary1(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col">
-                    <div className="form-group">
-                      <label>&nbsp;</label>
-                      <input
-                        type="text"
-                        value={salary2 || ''}
-                        className="form-control"
-                        onChange={(event) => setSalary2(event.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group">
-                      <label>学历</label>
-                      <input
-                        type="text"
-                        value={education || ''}
-                        className="form-control"
-                        onChange={(event) => setEducation(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col">
-                    <div className="form-group">
-                      <label>类别</label>
-                      <input
-                        type="text"
-                        value={category || ''}
-                        className="form-control"
-                        onChange={(event) => setCategory(event.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>工作职责</label>
-                  <ReactQuill
-                    formats={[
-                      'header', 'align', 'bold', 'italic',
-                      'underline', 'blockquote']}
-                    modules={{
-                      toolbar: [
-                        [{ header: [1, 2, 3, false] }],
-                        [{ align: [] }],
-                        ['bold', 'italic', 'underline', 'blockquote'],
-                      ],
-                    }}
-                    readOnly
-                    placeholder="请填写内容"
-                    value={description}
-                    onChange={setDescription}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>岗位要求</label>
-                  <ReactQuill
-                    formats={[
-                      'header', 'align', 'bold', 'italic',
-                      'underline', 'blockquote']}
-                    modules={{
-                      toolbar: [
-                        [{ header: [1, 2, 3, false] }],
-                        [{ align: [] }],
-                        ['bold', 'italic', 'underline', 'blockquote'],
-                      ],
-                    }}
-                    readOnly
-                    placeholder="请填写内容"
-                    value={requirement || ''}
-                    onChange={setRequirement}
-                  />
-                </div>
-              </div>
-
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                    返回
-                  </button>
-                </div>
-
-                <div className="btn-group pull-right">
-                  {cat === '编辑' && (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={handleRemove}
-                    >
-                      <i className="fa fa-fw fa-trash-o" />
-                      删除
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{ display: 'none' }}
-                    onClick={handleSubmit}
-                  >
-                    <i className="fa fa-fw fa-save" />
-                    保存
-                  </button>
-                </div>
-              </div>
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ display: 'none' }}
+                onClick={handleSubmit}
+              >
+                <i className="fa fa-fw fa-save" />
+                保存
+              </button>
             </div>
           </div>
         </div>

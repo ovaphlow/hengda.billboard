@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import md5 from 'blueimp-md5';
 
 import Navbar from '../../component/Navbar';
-import SideNav from '../ComponentSideNav';
-import Toolbar from './ComponentToolbar';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -84,75 +82,97 @@ export default function Detail({ category }) {
     <>
       <Navbar category="用户" />
 
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">
+                <a href="#/平台用户" className="text-light">平台用户</a>
+              </li>
+              <li className="breadcrumb-item active">{category}</li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="#/平台用户" className="btn btn-sm btn-info">
+              平台用户
+            </a>
+
+            <a href="#/企业用户" className="btn btn-sm btn-info">
+              企业用户
+            </a>
+
+            <a href="#/普通用户" className="btn btn-sm btn-info">
+              普通用户
+            </a>
+          </div>
+        </div>
+
+        <div className="p-2" />
+      </div>
+
+      <div className="m-5" />
+
+      <div className="container-lg">
+        {category === '新增' && (
+        <div className="alert alert-warning">
+          新增用户的默认密码为112332
+        </div>
+        )}
+
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <div className="form-group">
+              <label>姓名</label>
+              <input
+                type="text"
+                value={name || ''}
+                className="form-control"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>用户名</label>
+              <input
+                type="text"
+                value={username || ''}
+                className="form-control"
+                onChange={(event) => setUsername(event.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>平台用户</h3>
-            <hr />
+          <div className="card-footer">
+            <div className="btn-group">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => { window.history.go(-1); }}
+              >
+                返回
+              </button>
+            </div>
 
-            {category === '新增' && (
-              <div className="alert alert-warning">
-                新增用户的默认密码为112332
-              </div>
-            )}
-
-            <Toolbar />
-
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <div className="form-group">
-                  <label>姓名</label>
-                  <input
-                    type="text"
-                    value={name || ''}
-                    className="form-control"
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>用户名</label>
-                  <input
-                    type="text"
-                    value={username || ''}
-                    className="form-control"
-                    onChange={(event) => setUsername(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => { window.history.go(-1); }}
-                  >
-                    返回
-                  </button>
-                </div>
-
-                <div className="btn-group pull-right">
-                  {category === '编辑' && (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={handleRemove}
-                    >
-                      <i className="fa fa-fw fa-trash-o" />
-                      删除
-                    </button>
-                  )}
-                  <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                    <i className="fa fa-fw fa-save" />
-                    保存
-                  </button>
-                </div>
-              </div>
+            <div className="btn-group pull-right">
+              {category === '编辑' && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleRemove}
+              >
+                <i className="fa fa-fw fa-trash-o" />
+                删除
+              </button>
+              )}
+              <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                <i className="fa fa-fw fa-save" />
+                保存
+              </button>
             </div>
           </div>
         </div>

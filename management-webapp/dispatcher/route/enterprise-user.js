@@ -112,24 +112,3 @@ router.put('/', async (ctx) => {
     ctx.response.body = { message: '服务器错误', content: '' };
   }
 });
-
-router.get('/', async (ctx) => {
-  const sql = `
-    select eu.id, eu.uuid, enterprise_id, enterprise_uuid, eu.name, eu.phone
-    from enterprise_user as eu
-    where enterprise_id = ? and enterprise_uuid = ?
-    order by id desc
-    limit 100
-  `;
-  const pool = mysql.promise();
-  try {
-    const [rows] = await pool.query(sql, [
-      parseInt(ctx.request.query.enterprise_id, 10),
-      ctx.request.query.enterprise_uuid,
-    ]);
-    ctx.response.body = { message: '', content: rows };
-  } catch (err) {
-    logger.error(err);
-    ctx.response.body = { message: '服务器错误', content: '' };
-  }
-});

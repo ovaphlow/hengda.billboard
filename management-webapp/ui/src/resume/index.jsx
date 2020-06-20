@@ -15,7 +15,6 @@ function ResumeRouter() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/新增"><Detail category="新增" /></Route>
         <Route path="/:id"><Detail category="编辑" /></Route>
       </Switch>
     </Router>

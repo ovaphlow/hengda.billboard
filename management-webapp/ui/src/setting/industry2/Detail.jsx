@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Navbar from '../../component/Navbar';
-import SideNav from '../component/SideNav';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -86,70 +85,92 @@ export default function Detail({ category }) {
     <>
       <Navbar category="系统设置" />
 
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">
+                <a href="#/行业">行业</a>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                {category}
+                {' '}
+                二级行业
+              </li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="#/通知公告" className="btn btn-sm btn-info">
+              通知/公告
+            </a>
+
+            <a href="#/行业" className="btn btn-sm btn-success">
+              行业
+            </a>
+          </div>
+        </div>
+
+        <div className="p-2" />
+      </div>
+
+      <div className="m-5" />
+
+      <div className="container-lg">
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <div className="form-group">
+              <label>名称</label>
+              <input
+                type="text"
+                value={name || ''}
+                className="form-control"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>备注</label>
+              <input
+                type="text"
+                value={comment || ''}
+                className="form-control"
+                onChange={(event) => setComment(event.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>
-              二级行业
-            </h3>
-            <hr />
+          <div className="card-footer">
+            <div className="btn-group">
+              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                返回
+              </button>
+            </div>
 
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <div className="form-group">
-                  <label>名称</label>
-                  <input
-                    type="text"
-                    value={name || ''}
-                    className="form-control"
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                </div>
+            <div className="btn-group pull-right">
+              {category === '编辑' && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleRemove}
+              >
+                <i className="fa fa-fw fa-trash" />
+                删除
+              </button>
+              )}
 
-                <div className="form-group">
-                  <label>备注</label>
-                  <input
-                    type="text"
-                    value={comment || ''}
-                    className="form-control"
-                    onChange={(event) => setComment(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                    返回
-                  </button>
-                </div>
-
-                <div className="btn-group pull-right">
-                  {category === '编辑' && (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={handleRemove}
-                    >
-                      <i className="fa fa-fw fa-trash" />
-                      删除
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={handleSubmit}
-                  >
-                    <i className="fa fa-fw fa-save" />
-                    保存
-                  </button>
-                </div>
-              </div>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                <i className="fa fa-fw fa-save" />
+                保存
+              </button>
             </div>
           </div>
         </div>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import SwipeableViews from 'react-swipeable-views'
 import { autoPlay } from 'react-swipeable-views-utils'
-import moment from 'moment'
 import PropTypes from 'prop-types'
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
@@ -89,31 +88,15 @@ const AutoCards = props => {
 
   useEffect(() => {
     if (props.category) {
-      const file = JSON.parse(localStorage.getItem(props.category))
-      const fun = () => {
-        fetch(`./api/banner/${props.category}/`)
-          .then(res => res.json())
-          .then(res => {
-            if (res.message) {
-              window.alert(res.message)
-            } else {
-              localStorage.setItem(props.category, JSON.stringify({
-                date: parseInt(moment().add(7, 'days').format('YYYYMMDD')),
-                banner: res.content
-              }))
-              setList(res.content)
-            }
-          })
-      }
-      if (file === null) {
-        fun()
-      } else {
-        if (file.date - moment().format('YYYYMMDD') < 1) {
-          fun()
-        } else {
-          setList(file.banner)
-        }
-      }
+      fetch(`./api/banner/${props.category}/`)
+        .then(res => res.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+          } else {
+            setList(res.content)
+          }
+        })
     }
   }, [props.category])
 
@@ -130,7 +113,7 @@ const AutoCards = props => {
             {
               list.map((item, inx) => (
                 <div key={inx}>
-                  <a href={item.source_url?item.source_url:`#首页/banner/${item.id}?uuid=${item.uuid}`}>
+                  <a href={item.source_url ? item.source_url : `#首页/banner/${item.id}?uuid=${item.uuid}`}>
                     <img className="img-fluid img-box-item" alt="" src={item.data_url}>
                     </img>
                   </a>

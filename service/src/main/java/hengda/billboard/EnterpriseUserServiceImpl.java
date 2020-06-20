@@ -2,6 +2,9 @@ package hengda.billboard;
 
 import com.google.gson.Gson;
 
+// import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+
 import io.grpc.stub.StreamObserver;
 
 import java.sql.Connection;
@@ -19,8 +22,7 @@ import java.util.UUID;
 
 public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUserImplBase {
 
-  // private static final Logger logger =
-  // LoggerFactory.getLogger(EnterpriseUserServiceImpl.class);
+  // private static final Logger logger = LoggerFactory.getLogger(EnterpriseUserServiceImpl.class);
 
   @Override
   public void signIn(EnterpriseUserProto.SignInRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
@@ -74,7 +76,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
               enterprise_id = rs.getInt(1);
             }
           }
-          sql = "insert into enterprise_user (uuid, enterprise_uuid ,enterprise_id, password, name, email) value (?,?,?,?,?,?)";
+          sql = "insert into enterprise_user (uuid, enterprise_uuid ,enterprise_id, password, name, email, salt) value (?,?,?,?,?,?,?)";
           try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, entUserUUID);
             ps.setString(2, entUUID);
@@ -82,6 +84,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
             ps.setString(4, req.getPassword());
             ps.setString(5, req.getEntName());
             ps.setString(6, req.getEmail());
+            ps.setString(7, req.getSalt());
             ps.executeUpdate();
           }
           resp.put("content", true);
@@ -114,19 +117,16 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
         result = DBUtil.getList(rs);
       }
       Map<String, String> err = new HashMap<>();
-      if (result.size() != 0) {
+      if (result.size() == 0) {
         err.put("code", "0");
-      }
-      if (err.keySet().size() != 0) {
-        resp.put("message", err);
       } else {
-        sql = "update enterprise_user set password =? where email = ? ";
+        sql = "select * from enterprise_user where email = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-          ps.setString(1, req.getPassword());
-          ps.setString(2, req.getEmail());
-          ps.execute();
-          resp.put("content", true);
+          ps.setString(1, req.getEmail());
+          ResultSet rs = ps.executeQuery();
+          result = DBUtil.getList(rs);
         }
+        resp.put("content", result.get(0));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -138,6 +138,32 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
+  public void updatePassword(EnterpriseUserProto.UpdatePasswordRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver){
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "update enterprise_user set password = ? , salt = ? where id = ? and uuid = ?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, req.getPassword());
+        ps.setString(2, req.getSalt());
+        ps.setInt(3, req.getId());
+        ps.setString(4, req.getUuid());
+        ps.execute();
+        resp.put("content", true);
+      }
+    }catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseUserProto.Reply reply = EnterpriseUserProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+
+  @Override
   public void logIn(EnterpriseUserProto.LogInRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
@@ -145,11 +171,10 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       List<Map<String, Object>> result = new ArrayList<>();
-      String sql = "select id, uuid,enterprise_id,enterprise_uuid,email,name,phone from enterprise_user where (phone = ? or email = ?) and password = ?";
+      String sql = "select * from enterprise_user where (phone = ? or email = ?)";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getPhoneEmail());
         ps.setString(2, req.getPhoneEmail());
-        ps.setString(3, req.getPassword());
         ResultSet rs = ps.executeQuery();
         result = DBUtil.getList(rs);
       }
@@ -178,18 +203,17 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
   }
 
   @Override
-  public void updatePassword(EnterpriseUserProto.UpdatePasswordRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
+  public void upPasswordCheck(EnterpriseUserProto.UpPasswordCheckRequest req, StreamObserver<EnterpriseUserProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       List<Map<String, Object>> result = new ArrayList<>();
-      String sql = "select * from enterprise_user where password = ? and id = ? and uuid = ?";
+      String sql = "select * from enterprise_user where  id = ? and uuid = ?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, req.getOldPassword());
-        ps.setInt(2, req.getId());
-        ps.setString(3, req.getUuid());
+        ps.setInt(1, req.getId());
+        ps.setString(2, req.getUuid());
         ResultSet rs = ps.executeQuery();
         result = DBUtil.getList(rs);
       }
@@ -198,13 +222,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
         err.put("old_password", "0");
         resp.put("message", err);
       } else {
-        sql = "update enterprise_user set password = ? where id = ? and uuid = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-          ps.setString(1, req.getPassword1());
-          ps.setInt(2, req.getId());
-          ps.setString(3, req.getUuid());
-          ps.execute();
-        }
+        resp.put("content", result.get(0));
       }
     } catch (Exception e) {
       e.printStackTrace();

@@ -88,7 +88,7 @@ const UpdatePassword = () => {
       setErr(errData)
       return
     } else {
-      window.alert('操作成功,请重新登陆')
+      window.alert('操作成功,请重新登录')
       window.location = "#登录"
     }
   }

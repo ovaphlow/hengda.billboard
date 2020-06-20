@@ -98,7 +98,7 @@ const Login = () => {
               </form>
               <div className="row mt-3 px-4 ">
                 <div className="col">
-                  <button className="mt-2 btn btn-login rounded-0" onClick={handleLogIn}>
+                  <button type="button" className="mt-2 btn btn-login rounded-0" onClick={handleLogIn}>
                     登录
                     </button>
                 </div>

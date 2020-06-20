@@ -77,10 +77,13 @@ const Sigin = () => {
                 errData[key] = '验证码错误'
                 break
               case 'phone':
-                errData[key] = '该邮箱已注册'
+                errData[key] = '该电话已注册'
                 break
               case 'ent_name':
                 errData[key] = '公司名已被使用'
+                break
+              case 'email':
+                errData[key] = '该邮箱已注册'
                 break
               default:
                 alertFlg = true

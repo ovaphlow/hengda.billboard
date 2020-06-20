@@ -30,49 +30,69 @@ export default function SignIn() {
     <>
       <Navbar category="首页" />
 
-      <div className="container mt-5 mb-5">
-        <div className="row">
-          <div className="col-6 offset-3 col-lg-4 offset-lg-4">
-            <h1 className="text-center">用户 登录</h1>
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">当前用户</li>
+
+              <li className="breadcrumb-item active" aria-current="page">登录</li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="#/修改密码" className="btn btn-sm btn-warning">
+              修改密码
+            </a>
+
+            <a href="#/登录" className="btn btn-sm btn-danger">
+              退出登录
+            </a>
           </div>
         </div>
 
-        <div className="row mt-5">
-          <div className="col-6 offset-3 col-lg-4 offset-lg-4">
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <form>
-                  <div className="form-group">
-                    <label>用户名</label>
-                    <input
-                      type="text"
-                      value={username || ''}
-                      autoComplete="username"
-                      className="form-control"
-                      onChange={(event) => setUsername(event.target.value)}
-                    />
-                  </div>
+        <div className="p-2" />
+      </div>
 
-                  <div className="form-group">
-                    <label>密码</label>
-                    <input
-                      type="password"
-                      value={password || ''}
-                      autoComplete="current-password"
-                      className="form-control"
-                      onChange={(event) => setPassword(event.target.value)}
-                    />
-                  </div>
-                </form>
+      <div className="m-5" />
+
+      <div className="container-lg">
+        <div className="card bg-dark shadow col-8 offset-2 col-lg-6 offset-lg-3">
+          <div className="card-body">
+            <form>
+              <div className="form-group">
+                <label>用户名</label>
+                <input
+                  type="text"
+                  value={username || ''}
+                  autoComplete="username"
+                  className="form-control"
+                  onChange={(event) => setUsername(event.target.value)}
+                />
               </div>
 
-              <div className="card-footer">
-                <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
-                  <i className="fa fa-fw fa-sign-in" />
-                  确定
-                </button>
+              <div className="form-group">
+                <label>密码</label>
+                <input
+                  type="password"
+                  value={password || ''}
+                  autoComplete="current-password"
+                  className="form-control"
+                  onChange={(event) => setPassword(event.target.value)}
+                />
               </div>
-            </div>
+            </form>
+          </div>
+
+          <div className="card-footer">
+            <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
+              <i className="fa fa-fw fa-sign-in" />
+              确定
+            </button>
           </div>
         </div>
       </div>

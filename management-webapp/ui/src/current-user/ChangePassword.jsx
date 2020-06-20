@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import md5 from 'blueimp-md5';
 
 import Navbar from '../component/Navbar';
-import SideNav from './component/SideNav';
 
 export default function ChangePassword() {
   const [password, setPassword] = useState('');
@@ -44,78 +43,93 @@ export default function ChangePassword() {
     <>
       <Navbar category="当前用户" />
 
-      <div className="container-fluid mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">当前用户</li>
+
+              <li className="breadcrumb-item active" aria-current="page">修改密码</li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="#/修改密码" className="btn btn-sm btn-warning">
+              修改密码
+            </a>
+
+            <a href="#/登录" className="btn btn-sm btn-danger">
+              退出登录
+            </a>
+          </div>
+        </div>
+
+        <div className="p-2" />
+      </div>
+
+      <div className="m-5" />
+
+      <div className="container-lg">
+        <div className="card bg-dark shadow col-8 offset-2 col-lg-6 offset-lg-3">
+          <div className="card-header">
+            <span className="lead text-danger">修改密码后需要重新登录</span>
           </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>当前用户 - 修改密码</h3>
-            <hr />
+          <div className="card-body">
+            <div className="form-group">
+              <label>当前密码</label>
+              <input
+                type="password"
+                value={password || ''}
+                autoComplete="current-password"
+                className="form-control"
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
 
-            <div className="row">
-              <div className="offset-lg-3 col-lg-6 offset-2 col-8">
-                <div className="card bg-dark shadow">
-                  <div className="card-header">
-                    <span className="lead text-danger">修改密码后需要重新登录</span>
-                  </div>
+            <div className="form-group">
+              <label>新密码</label>
+              <input
+                type="password"
+                value={password1 || ''}
+                autoComplete="new-password"
+                className="form-control"
+                onChange={(event) => setPassword1(event.target.value)}
+              />
+            </div>
 
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label>当前密码</label>
-                      <input
-                        type="password"
-                        value={password || ''}
-                        autoComplete="current-password"
-                        className="form-control"
-                        onChange={(event) => setPassword(event.target.value)}
-                      />
-                    </div>
+            <div className="form-group">
+              <label>重复新密码</label>
+              <input
+                type="password"
+                value={password2 || ''}
+                autoComplete="new-password"
+                className="form-control"
+                onChange={(event) => setPassword2(event.target.value)}
+              />
+            </div>
+          </div>
 
-                    <div className="form-group">
-                      <label>新密码</label>
-                      <input
-                        type="password"
-                        value={password1 || ''}
-                        autoComplete="new-password"
-                        className="form-control"
-                        onChange={(event) => setPassword1(event.target.value)}
-                      />
-                    </div>
+          <div className="card-footer">
+            <div className="btn-group">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => { window.history.go(-1); }}
+              >
+                返回
+              </button>
+            </div>
 
-                    <div className="form-group">
-                      <label>重复新密码</label>
-                      <input
-                        type="password"
-                        value={password2 || ''}
-                        autoComplete="new-password"
-                        className="form-control"
-                        onChange={(event) => setPassword2(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="card-footer">
-                    <div className="btn-group">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => { window.history.go(-1); }}
-                      >
-                        返回
-                      </button>
-                    </div>
-
-                    <div className="btn-group pull-right">
-                      <button type="button" className="btn btn-primary" onClick={handleChange}>
-                        <i className="fa fa-fw fa-save" />
-                        更改密码
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="btn-group pull-right">
+              <button type="button" className="btn btn-primary" onClick={handleChange}>
+                <i className="fa fa-fw fa-save" />
+                更改密码
+              </button>
             </div>
           </div>
         </div>

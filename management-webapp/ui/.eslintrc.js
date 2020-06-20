@@ -15,8 +15,12 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks",
     ],
     "rules": {
+        "camelcase": 0,
+        "no-alert": 0,
+        "jsx-a11y/label-has-associated-control": 0,
     }
 };

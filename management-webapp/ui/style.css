@@ -16,6 +16,14 @@ code {
     monospace;
 }
 
+a {
+  text-decoration: none;
+}
+
+.container-fluid {
+  background-color: #343a40;
+}
+
 .text-small {
   font-size: 0.75rem;
 }

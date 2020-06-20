@@ -6,8 +6,6 @@ import { v5 as uuidv5 } from 'uuid';
 
 import { useEffect } from 'react/cjs/react.development';
 import Navbar from '../../component/Navbar';
-import SideNav from '../component/SideNav';
-import ComponentToolbar from './ComponentToolbar';
 import IndustryPicker from '../../component/IndustryPicker';
 import EducationPicker from '../../component/EducationPicker';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../../useAddress';
@@ -20,7 +18,6 @@ export default function Detail({ cat }) {
   const address_level1_values = useAddressLevel1ValueList();
   const [arr1, setArr1] = useState([]);
   const [arr2, setArr2] = useState([]);
-  const [arr3, setArr3] = useState([]);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -89,7 +86,6 @@ export default function Detail({ cat }) {
   useEffect(() => {
     const arr = [];
     setArr2(arr);
-    setArr3(arr);
     for (let i = 0; i < address_values.length; i += 1) {
       if (address_values[i] === address_level1) {
         const code = address_keys[i];
@@ -127,111 +123,131 @@ export default function Detail({ cat }) {
     <>
       <Navbar category="系统设置" />
 
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-            <SideNav />
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">
+                <a href="#/通知公告" className="text-light">通知公告</a>
+              </li>
+              <li className="breadcrumb-item active" aria-current="page">
+                {cat}
+              </li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="#/通知公告" className="btn btn-sm btn-info">
+              通知/公告
+            </a>
+
+            <a href="#/行业" className="btn btn-sm btn-success">
+              行业
+            </a>
           </div>
+        </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>通知公告</h3>
-            <hr />
+        <div className="p-2" />
+      </div>
 
-            <ComponentToolbar />
+      <div className="m-5" />
 
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group">
-                      <label>标题</label>
-                      <input
-                        type="text"
-                        value={title}
-                        className="form-control"
-                        onChange={(event) => setTitle(event.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-3">
-                    <label>有效期</label>
-                    <input
-                      type="date"
-                      value={dday}
-                      className="form-control"
-                      onChange={(event) => setDday(event.target.value)}
-                    />
-                  </div>
-                </div>
-
+      <div className="container">
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <div className="row">
+              <div className="col">
                 <div className="form-group">
-                  <label>内容</label>
-                  <textarea value={content} rows="3" className="form-control" onChange={(event) => setContent(event.target.value)} />
+                  <label>标题</label>
+                  <input
+                    type="text"
+                    value={title}
+                    className="form-control"
+                    onChange={(event) => setTitle(event.target.value)}
+                  />
                 </div>
+              </div>
 
+              <div className="col-3">
+                <label>有效期</label>
+                <input
+                  type="date"
+                  value={dday}
+                  className="form-control"
+                  onChange={(event) => setDday(event.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>内容</label>
+              <textarea value={content} rows="3" className="form-control" onChange={(event) => setContent(event.target.value)} />
+            </div>
+
+            <div className="form-group">
+              <label>发送对象</label>
+              <select value={receiver} className="form-control" onChange={(event) => setReceiver(event.target.value)}>
+                <option value="">未选择</option>
+                <option value="企业用户">企业用户</option>
+                <option value="普通用户">普通用户</option>
+              </select>
+            </div>
+
+            <div className="row">
+              <div className="col">
                 <div className="form-group">
-                  <label>发送对象</label>
-                  <select value={receiver} className="form-control" onChange={(event) => setReceiver(event.target.value)}>
-                    <option value="">未选择</option>
-                    <option value="企业用户">企业用户</option>
-                    <option value="普通用户">普通用户</option>
+                  <label>地址</label>
+                  <select value={address_level1} className="form-control" onChange={(event) => setAddressLevel1(event.target.value)}>
+                    <option value="">不限</option>
+                    {arr1.map((it) => (
+                      <option key={arr1.indexOf(it)} value={it}>{it}</option>
+                    ))}
                   </select>
                 </div>
+              </div>
 
-                <div className="row">
-                  <div className="col">
-                    <div className="form-group">
-                      <label>地址</label>
-                      <select value={address_level1} className="form-control" onChange={(event) => setAddressLevel1(event.target.value)}>
-                        <option value="">不限</option>
-                        {arr1.map((it) => (
-                          <option key={arr1.indexOf(it)} value={it}>{it}</option>
-                        ))}
-                      </select>
-                    </div>
+              <div className="col">
+                <div className="col">
+                  <div className="form-group">
+                    <label>&nbsp;</label>
+                    <select value={address_level2} className="form-control" onChange={(event) => setAddressLevel2(event.target.value)}>
+                      <option value="">不限</option>
+                      {arr2.map((it) => (
+                        <option key={arr2.indexOf(it)} value={it}>{it}</option>
+                      ))}
+                    </select>
                   </div>
-
-                  <div className="col">
-                    <div className="col">
-                      <div className="form-group">
-                        <label>&nbsp;</label>
-                        <select value={address_level2} className="form-control" onChange={(event) => setAddressLevel2(event.target.value)}>
-                          <option value="">不限</option>
-                          {arr2.map((it) => (
-                            <option key={arr2.indexOf(it)} value={it}>{it}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  {receiver === '企业用户' && (
-                    <div className="col">
-                      <IndustryPicker caption="行业" value={industry} onChange={(event) => setIndustry(event.target.value)} />
-                    </div>
-                  )}
-
-                  {receiver === '普通用户' && (
-                    <EducationPicker caption="学历" value={education} onChange={(event) => setEducation(event.target.value)} />
-                  )}
                 </div>
               </div>
 
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                    返回
-                  </button>
-                </div>
-
-                <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-primary" onClick={handleSave}>
-                    <i className="fa fa-fw fa-save" />
-                    保存
-                  </button>
-                </div>
+              {receiver === '企业用户' && (
+              <div className="col">
+                <IndustryPicker caption="行业" value={industry} onChange={(event) => setIndustry(event.target.value)} />
               </div>
+              )}
+
+              {receiver === '普通用户' && (
+              <EducationPicker caption="学历" value={education} onChange={(event) => setEducation(event.target.value)} />
+              )}
+            </div>
+          </div>
+
+          <div className="card-footer">
+            <div className="btn-group">
+              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                返回
+              </button>
+            </div>
+
+            <div className="btn-group pull-right">
+              <button type="button" className="btn btn-primary" onClick={handleSave}>
+                <i className="fa fa-fw fa-save" />
+                保存
+              </button>
             </div>
           </div>
         </div>

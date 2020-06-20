@@ -24,11 +24,12 @@ public class EmailServiceImpl extends EmailGrpc.EmailImplBase {
     try (Connection conn = DBUtil.getConn()) {
       String sql = "insert into captcha (email,code,datime,user_id,user_category) value (?,?,?,?,?) ";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        System.out.print(req.getCode());
         Date date = new Date(System.currentTimeMillis());
         ps.setString(1, req.getEmail());
         ps.setString(2, req.getCode());
         ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
-        ps.setString(4, req.getUserId() == null ? "0" : req.getUserId().toString());
+        ps.setString(4, (req.getUserId() == null || "".equals(req.getUserId())) ? "0" : req.getUserId().toString());
         ps.setString(5, req.getUserCategory() == null ? "0" : req.getUserCategory().toString());
         ps.execute();
         resp.put("content", true);

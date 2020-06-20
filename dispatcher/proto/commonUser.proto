@@ -31,6 +31,7 @@ message SignInRequest {
   string email = 2;
   string password = 3;
   string name = 4;
+  string salt = 5;
 }
 
 message LogInRequest {
@@ -64,6 +65,7 @@ message RecoverRequest {
   string code = 2;
   string email = 3;
   string password = 4;
+  string salt = 5;
 }
 
 message CheckEmailRequest {

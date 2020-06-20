@@ -59,11 +59,12 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
         if (err.keySet().size() != 0) {
           resp.put("message", err);
         } else {
-          sql = "insert into common_user (uuid,email,password,name) value (uuid(),?,?,?)";
+          sql = "insert into common_user (uuid,email,password,name,salt) value (uuid(),?,?,?,?)";
           try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, req.getEmail());
             ps.setString(2, req.getPassword());
             ps.setString(3, req.getName());
+            ps.setString(4, req.getSalt());
             ps.execute();
             resp.put("content", true);
           }
@@ -85,12 +86,11 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from common_user where (phone = ? or email = ?) and password = ?";
+      String sql = "select * from common_user where (phone = ? or email = ?)";
       List<Map<String, Object>> result = new ArrayList<>();
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getPhoneEmail());
         ps.setString(2, req.getPhoneEmail());
-        ps.setString(3, req.getPassword());
         ResultSet rs = ps.executeQuery();
         result = DBUtil.getList(rs);
       }
@@ -263,10 +263,11 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
       if (err.keySet().size() != 0) {
         resp.put("message", err);
       } else {
-        sql = "update common_user set password =? where email= ?";
+        sql = "update common_user set password =?, salt = ?  where email= ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
           ps.setString(1, req.getPassword());
-          ps.setString(2, req.getEmail());
+          ps.setString(2, req.getSalt());
+          ps.setString(3, req.getEmail());
           ps.execute();
           resp.put("content", true);
         }

@@ -87,13 +87,13 @@
 时间|datime
 反馈/投诉|category
 
-## 登陆记录
+## 登录记录
 
 中文|英文
 :--:|:--:
 用户id|user_id
 ip地址|ip
-登陆地理位置|address
+登录地理位置|address
 用户类型|category
 登录时间|datime
 

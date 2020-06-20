@@ -29,7 +29,7 @@ const Login = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col">登陆地点</th>
+                  <th scope="col">登录地点</th>
                   <th scope="col">ip地址</th>
                   <th scope="col">登录时间</th>
                 </tr>

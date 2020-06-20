@@ -69,7 +69,7 @@ export default function LogIn() {
                 <div className="form-group">
                   <input type="password" name="password" value={data.password}
                     className="input-control"
-                    placeholder="登陆密码"
+                    placeholder="登录密码"
                     onChange={handleChange}
                   />
                 </div>

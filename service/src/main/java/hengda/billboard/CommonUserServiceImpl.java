@@ -20,6 +20,30 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
   private static final Logger logger = LoggerFactory.getLogger(CommonUserServiceImpl.class);
 
   @Override
+  public void get(CommonUserProto.GetRequest req, StreamObserver<CommonUserProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "select * from common_user where id = ? and uuid = ? ";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, req.getId());
+        ps.setString(2, req.getUuid());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result.get(0));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    CommonUserProto.Reply reply = CommonUserProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
   public void signIn(CommonUserProto.SignInRequest req, StreamObserver<CommonUserProto.Reply> responseObserver) {
     logger.info("RecruitmentServiceImpl.signIn");
     Gson gson = new Gson();
@@ -201,13 +225,13 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
       List<Map<String, Object>> result = new ArrayList<>();
-      String sql = "select * as count from common_user where phone=?";
+      String sql = "select * from common_user where phone=?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getPhone());
         ResultSet rs = ps.executeQuery();
         result = DBUtil.getList(rs);
       }
-      if (result.size() == 0) {
+      if (result.size() != 0) {
         resp.put("message", "该电话号已使用");
       } else {
         sql = "update common_user set phone=? where id=?";

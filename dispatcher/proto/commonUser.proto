@@ -8,6 +8,8 @@ package commonUser;
 
 service CommonUser {
   
+  rpc get(GetRequest) returns (Reply) {}
+
   rpc signIn(SignInRequest) returns (Reply) {}
 
   rpc logIn(LogInRequest) returns (Reply) {}
@@ -26,6 +28,11 @@ service CommonUser {
 
 }
 
+message GetRequest {
+  string id = 1;
+  string uuid = 2;
+}
+
 message SignInRequest {
   string code =  1;
   string email = 2;
@@ -33,6 +40,7 @@ message SignInRequest {
   string name = 4;
   string salt = 5;
 }
+
 
 message LogInRequest {
   string phone_email = 1;

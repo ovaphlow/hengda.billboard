@@ -203,7 +203,7 @@ const Resume = () => {
     return (
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>
-          <ToBack herf='#我的' category="我的简历" />
+          <ToBack href='#我的' category="我的简历" />
           {/* <div className="row mt-2">
             <div className="col" >
               <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />

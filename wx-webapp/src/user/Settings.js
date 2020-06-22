@@ -135,7 +135,7 @@ const Setting = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack herf='#我的' />
+        <ToBack href='#我的' />
         <div className="row mt-3">
           <div className="col">
             {err.name && <small className="form-text text-danger">{err.name}</small>}

@@ -55,7 +55,7 @@ export default function Report() {
 
       <div className="m-5" />
 
-      <div className="container">
+      <div className="container-lg">
         <div className="card bg-dark shadow">
           <div className="card-body">
             <table className="table table-dark table-striped">

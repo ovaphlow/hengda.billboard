@@ -50,7 +50,7 @@ export default function List() {
 
       <div className="m-5" />
 
-      <div className="container">
+      <div className="container-lg">
         <div className="btn-group">
           <button
             type="button"

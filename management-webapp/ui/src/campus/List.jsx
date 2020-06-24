@@ -55,7 +55,7 @@ export default function List() {
 
       <div className="m-5" />
 
-      <div className="container">
+      <div className="container-lg">
         <div className="btn-group">
           <a href="#/新增" className="btn btn-sm btn-light">
             <i className="fa fa-fw fa-plus" />

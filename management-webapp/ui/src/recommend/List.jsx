@@ -43,6 +43,7 @@ export default function List() {
         <div className="card bg-dark shadow">
           <div className="card-body">
             <table className="table table-dark table-striped">
+              <caption>推荐信息</caption>
               <thead>
                 <tr>
                   <th className="text-right">序号</th>

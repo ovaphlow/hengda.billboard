@@ -6,7 +6,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import Navbar from '../component/Navbar';
-import Toolbar from './ComponentToolbar';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
@@ -84,16 +83,23 @@ export default function Detail({ cat }) {
     <>
       <Navbar category="热门话题" />
 
-      <div className="container mt-3 mb-5">
-        <h3>
-          {cat}
-          {' '}
-          热门话题
-        </h3>
-        <hr />
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item">
+                <a href="#/" className="text-reset text-decoration-none">热门话题</a>
+              </li>
+              <li className="breadcrumb-item active">{cat}</li>
+            </ol>
+          </h1>
+        </nav>
+        <div className="p-2" />
+      </div>
 
-        <Toolbar />
+      <div className="m-5" />
 
+      <div className="container">
         <div className="card bg-dark shadow">
           <div className="card-body">
             <div className="row">

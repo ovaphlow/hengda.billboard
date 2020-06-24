@@ -126,72 +126,98 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid background-login">
         <ToBack />
-        <div className="row mt-3">
-          <div className="col">
-            <h4 className="text-center">
-              <span className="text-primary">hi</span>
+        <div className="row mt-4 bg-transparent text-white pt-5">
+          <div className="col-4 text-right">
+              <span className="fa-stack fa-lg fa-2x">
+                <i className="fa fa-comment fa-stack-2x fa-flip-horizontal text-warning" aria-hidden="true"></i>
+                <i className="fa fa-stack-1x text-danger" aria-hidden="true">hi</i>
+              </span>
+            </div>
               &nbsp;
-              欢迎来到龙江学子就业平台
-            </h4>
-          </div>
+            <div className="text-left">
+              <h5>Welcome</h5>
+              <h4>龙江学子就业平台</h4>
+            </div>
         </div>
 
-        <div className="row">
+        <div className="row bg-transparent text-dark">
           <div className="col">
-            <div className="card border-0">
-              <div className="card-body">
+            <div className="card border-0 bg-transparent text-dark">
+              <div className="card-body card-p">
                 <form>
                   {err.email && <small className="form-text text-danger">{err.email}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text bg-transparent text-white border-0" >
+                      <i className="fa-fw fa fa-envelope fa-1x" aria-hidden="true"></i>
+                    </span>
+                  </div>
                     <input type="text" name="email" value={data.email}
-                      className="input-control col"
+                      className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
                       placeholder="邮箱地址"
                       onChange={handleChange}
                     />
                   </div>
 
                   {err.name && <small className="form-text text-danger">{err.name}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                   <div className="input-group-prepend">
+                    <span className="input-group-text bg-transparent text-white border-0" >
+                      <i className="fa-fw fa fa-user-circle-o fa-1x" aria-hidden="true"></i>
+                    </span>
+                   </div>
                     <input type="text" name="name" value={data.name}
-                      className="input-control col"
+                      className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
                       placeholder="用户名称"
                       onChange={handleChange}
                     />
                   </div>
                   {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                   <div className="input-group-prepend">
+                    <span className="input-group-text bg-transparent text-white border-0" >
+                      <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                    </span>
+                    </div>
                     <input type="password"
                       name="password1"
                       value={data.password1}
                       autoComplete="off"
-                      className="input-control col"
-                      placeholder="登录密码"
+                      className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
+                      placeholder="登陆密码"
                       onChange={handleChange}
                     />
                   </div>
                   {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                    <div className="input-group-prepend">
+                     <span className="input-group-text bg-transparent text-white border-0" >
+                       <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                      </span>
+                    </div>
                     <input type="password" name="password2" value={data.password2}
-                      className="input-control col"
+                      className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
                       autoComplete="off"
                       placeholder="确认密码"
                       onChange={handleChange}
                     />
                   </div>
                   {err.code && <small className="form-text text-danger">{err.code}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
                     <input type="text" name="code" value={data.code}
-                      className="input-control col"
+                      className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
                       placeholder="验证码"
                       onChange={handleChange}
                     />
+                  <div className="input-group-append">
                     <button type="button" style={{ fontSize: 14 }}
                       disabled={!checkEmail()} onClick={handleCode}
-                      className="col-4 btn rounded-0 btn-secondary btn-sm">
+                      className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white">
                       发送验证码
                     </button>
+                  </div>
                   </div>
                 </form>
               </div>
@@ -200,9 +226,9 @@ export default function SignIn() {
                 <button
                   type="button"
                   style={{ width: '80%' }}
-                  className="btn btn-block btn-primary mx-auto"
+                  className="btn btn-block mx-auto rounded-pill button-background text-white"
                   onClick={handleSignIn}>
-                  注册
+                  注&nbsp;册
                 </button>
               </div>
             </div>

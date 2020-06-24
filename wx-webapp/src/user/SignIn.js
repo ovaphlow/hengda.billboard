@@ -71,15 +71,22 @@ export default function SignIn() {
           .forEach(key => {
             switch (key) {
               case 'phone':
-                errData[key] = '该邮箱已注册'
+                errData[key] = '该电话号已注册'
                 break
               case 'name':
                 errData[key] = '用户名已被使用'
+                break
+              case 'email':
+                errData[key] = '该邮箱已注册'
+                break
+              case 'code':
+                errData[key] = '验证码错误'
                 break
               default:
                 alertFlg = true
             }
           })
+          alertFlg = true
       } else {
         alertFlg = true
       }

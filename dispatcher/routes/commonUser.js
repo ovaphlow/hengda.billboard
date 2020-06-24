@@ -1,16 +1,17 @@
 const Router = require('@koa/router')
 const grpc = require('grpc')
+const crypto = require('crypto')
 const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(__dirname + '/../proto/commonUser.proto', {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true
-})
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  })
 ).commonUser
 
 const grpcClient = new proto.CommonUser(
@@ -39,7 +40,15 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const salt = crypto.randomBytes(8).toString('hex')
+      const hmac = crypto.createHmac('sha256', salt)
+      hmac.update(ctx.request.body.password)
+      const password_salted = hmac.digest('hex')
+      ctx.response.body = await grpcFetch({
+        ...ctx.request.body,
+        password: password_salted,
+        salt
+      })
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -60,7 +69,21 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const result = await grpcFetch(ctx.request.body)
+      if (result.message) {
+        ctx.response.body = result
+      } else {
+        const hmac = crypto.createHmac('sha256', result.content.salt)
+        hmac.update(ctx.request.body.password)
+        const password_salted = hmac.digest('hex')
+        if (password_salted !== result.content.password) {
+          ctx.response.body = { message: '用户名或密码错误', content: '' };
+        } else {
+          result.content.salt = undefined
+          result.content.password = undefined
+          ctx.response.body = result
+        }
+      }
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -81,7 +104,15 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const salt = crypto.randomBytes(8).toString('hex')
+      const hmac = crypto.createHmac('sha256', salt)
+      hmac.update(ctx.request.body.password)
+      const password_salted = hmac.digest('hex')
+      ctx.response.body = await grpcFetch({
+        ...ctx.request.body,
+        password: password_salted,
+        salt
+      })
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -147,6 +178,7 @@ router
       })
     )
     try {
+      ctx.params.uuid = ctx.query.uuid
       ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)

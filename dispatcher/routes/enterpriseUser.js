@@ -1,16 +1,17 @@
 const Router = require('@koa/router')
+const crypto = require('crypto')
 const grpc = require('grpc')
 const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(__dirname + '/../proto/enterpriseUser.proto', {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true
-})
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  })
 ).enterpriseUser
 
 const grpcClient = new proto.EnterpriseUser(
@@ -58,7 +59,13 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const salt = crypto.randomBytes(8).toString('hex')
+      const password_salted = getSalted(ctx.request.body.password, salt)
+      ctx.response.body = await grpcFetch({
+        ...ctx.request.body,
+        password: password_salted,
+        salt
+      })
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -66,6 +73,17 @@ router
   })
   .put('/updatePassword/:id', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.upPasswordCheck(body, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    const updatePasswordFetch = body => new Promise((resolve, reject) =>
       grpcClient.updatePassword(body, (err, response) => {
         if (err) {
           console.error(err)
@@ -79,7 +97,24 @@ router
     try {
       ctx.request.body.uuid = ctx.query.u_id
       ctx.request.body.id = ctx.params.id
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const result = await grpcFetch(ctx.request.body)
+      if (result.message) {
+        ctx.response.body = result
+      } else {
+        const password_salted = getSalted(ctx.request.body.old_password, result.content.salt)
+        if (password_salted !== result.content.password) {
+          ctx.response.body = { message: '密码错误' }
+        } else {
+          const salt = crypto.randomBytes(8).toString('hex')
+          const password_salted = getSalted(ctx.request.body.password1, salt)
+          ctx.response.body = await updatePasswordFetch({
+            id: result.content.id,
+            uuid: result.content.uuid,
+            password: password_salted,
+            salt
+          })
+        }
+      }
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -154,8 +189,32 @@ router
         }
       })
     )
+    const updatePasswordFetch = body => new Promise((resolve, reject) =>
+      grpcClient.updatePassword(body, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const result = await grpcFetch(ctx.request.body)
+      if (result.message) {
+        ctx.response.body = result
+      } else {
+        const salt = crypto.randomBytes(8).toString('hex')
+        const password_salted = getSalted(ctx.request.body.password, salt)
+        await updatePasswordFetch({
+          id: result.content.id,
+          uuid: result.content.uuid,
+          password: password_salted,
+          salt
+        })
+        ctx.response.body = { content: true }
+      }
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -197,9 +256,27 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      const result = await grpcFetch(ctx.request.body)
+      if (result.message) {
+        ctx.response.body = result
+      } else {
+        const password_salted = getSalted(ctx.request.body.password, result.content.salt)
+        if (password_salted !== result.content.password) {
+          ctx.response.body = { message: '用户名或密码错误', content: '' };
+        } else {
+          result.content.salt = undefined
+          result.content.password = undefined
+          ctx.response.body = result
+        }
+      }
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
     }
   })
+
+const getSalted = (password, salt) => {
+  const hmac = crypto.createHmac('sha256', salt)
+  hmac.update(password)
+  return hmac.digest('hex')
+} 

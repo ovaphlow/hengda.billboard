@@ -97,8 +97,8 @@ router
     )
     try {
       ctx.response.body = await grpcFetch({
-        code: code,
-        ...ctx.request.body
+        ...ctx.request.body,
+        code: code
       })
     } catch (err) {
       console.error(err)

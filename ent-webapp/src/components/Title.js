@@ -1,41 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import moment from 'moment'
 
 const Title = () => {
 
   const [banner, setBanner] = useState(0)
 
   useEffect(() => {
-
-    const file = JSON.parse(localStorage.getItem('title'))
-    const fun = () => {
-      fetch(`./api/banner/企业端-页头/`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.message) {
-            window.alert(res.message)
-          } else {
-            localStorage.setItem('title', JSON.stringify({
-              date: parseInt(moment().add(7, 'days').format('YYYYMMDD')),
-              banner: res.content
-            }))
-            if (res.content.length>0){
-              setBanner(res.content[0])
-            }
-          }
-        })
-    }
-    if (file === null) {
-      fun()
-    } else {
-      if (file.date - moment().format('YYYYMMDD') < 1) {
-        fun()
+    fetch(`./api/banner/企业端-页头/`)
+    .then(res => res.json())
+    .then(res => {
+      if (res.message) {
+        window.alert(res.message)
       } else {
-        if (file.banner.length>0) {
-          setBanner(file.banner[0])
-        }
+        setBanner(res.content[0])
       }
-    }
+    })
   }, [])
 
   return (

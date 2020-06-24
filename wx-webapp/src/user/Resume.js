@@ -202,7 +202,7 @@ const Resume = () => {
   if (data) {
     return (
       <>
-        <div className="container-fluid" style={{ fontSize: 14 }}>
+        <div className="container-fluid background-login1" style={{ fontSize: 14 }}>
           <ToBack herf='#我的' category="我的简历" />
           {/* <div className="row mt-2">
             <div className="col" >
@@ -223,7 +223,12 @@ const Resume = () => {
               </div>
             </div>
           </div> */}
-          <div className="row mt-2">
+        <div className="card mt-3 border-0 mb-5">
+          <div className="mt-3 resume-personal pt-2 text-center">
+           <h6>简历预览</h6>
+          </div>
+         <div className="card-body ">
+          <div className="row">
             <div className="col">
               <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
               <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
@@ -343,6 +348,7 @@ const Resume = () => {
                 accept="image/png, image/jpeg" />
             </div>
           </div>
+        
           <div className="row">
             <div className="col">
               {file && file.map((item, inx) =>
@@ -359,6 +365,8 @@ const Resume = () => {
               )}
             </div>
           </div>
+         </div>
+         </div>
         </div>
         <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
           <div className="row text-center nav-row">
@@ -436,11 +444,11 @@ const Personal = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-        <div className="mt-2">
-          <h4>个人信息</h4>
+       <div className="card mt-4 mb-5 bg-white rounded border-0">
+        <div className="mt-3 resume-personal pt-2 text-center">
+          <h6>个人信息</h6>
         </div>
-
-        <div className="row mt-3">
+        <div className="row mt-3 p-1" >
           <InputField
             name="name"
             category="姓名"
@@ -449,7 +457,7 @@ const Personal = () => {
             handleChange={handleChange}
           />
         </div>
-        <div className="row">
+        <div className="row p-1">
           <SelectField
             name="gender"
             category="性别"
@@ -461,21 +469,19 @@ const Personal = () => {
             <option>女</option>
           </SelectField>
         </div>
-        <div className="row">
-          <div className="col">
-            <div className="form-group">
-              <span className="text-muted" style={{ fontSize: 13 }}>
+            <div className="form-group row input-label">
+              <label className="col-4 col-form-label text-right text-muted">
                 出生日期
-              </span>
+              </label>
+              <div className="col-8">
               <input type="date"
                 name="birthday"
                 value={data.birthday || ''}
-                className="input-control"
+                className="form-control-plaintext input-f"
                 onChange={handleChange} />
             </div>
           </div>
-        </div>
-        <div className="row" onClick={toProvinceCity}>
+        <div className="row p-1" onClick={toProvinceCity}>
           <InputField
             name="address1"
             category="现居住地"
@@ -484,7 +490,7 @@ const Personal = () => {
             handleChange={handleChange}
           />
         </div>
-        <div className="row">
+        <div className="row p-1">
           <InputField
             name="phone"
             category="手机号码"
@@ -492,7 +498,7 @@ const Personal = () => {
             handleChange={handleChange}
           />
         </div>
-        <div className="row">
+        <div className="row p-1">
           <InputField
             name="email"
             category="电子邮箱"
@@ -501,6 +507,7 @@ const Personal = () => {
             handleChange={handleChange}
           />
         </div>
+       </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
@@ -564,9 +571,10 @@ const School = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-        <div className="mt-2">
-          <h4>毕业院校</h4>
-        </div>
+       <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
+        <div className="mt-3 resume-personal pt-2 text-center">
+          <h6>毕业院校</h6>
+        </div>  
         <div className="row">
           <InputField
             name="school"
@@ -600,18 +608,15 @@ const School = () => {
             handleChange={handleChange}
           />
         </div>
-        <div className="row">
-          <div className="col">
-            <div className="form-group">
-              <span className="text-muted" style={{ fontSize: 13 }}>
+            <div className="form-group row input-label">
+              <label className="col-4 col-form-label text-right text-muted">
                 在校时间
-              </span>
-              <div className="row">
+              </label>
                 <div className="col" style={{ paddingRight: 5 }}>
                   <input type="date"
                     name="date_begin"
                     value={data.date_begin}
-                    className="input-control"
+                    className="form-control-plaintext input-f"
                     placeholder="入学时间"
                     onChange={handleChange} />
                 </div>
@@ -620,15 +625,13 @@ const School = () => {
                   <input type="date"
                     name="date_end"
                     value={data.date_end}
-                    className="input-control"
+                    className="form-control-plaintext input-f"
                     placeholder="毕业时间"
                     onChange={handleChange} />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
@@ -696,8 +699,9 @@ const Intention = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-        <div className="mt-2">
-          <h4>求职意向</h4>
+       <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
+        <div className="mt-3 resume-personal pt-2 text-center">
+          <h6>求职意向</h6>
         </div>
 
         <div className="row mt-3" onClick={toIndustry}>
@@ -716,6 +720,7 @@ const Intention = () => {
             handleChange={handleChange}
           />
         </div>
+       </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
@@ -780,9 +785,9 @@ const Evaluation = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-
-        <div className="mt-2">
-          <h4>自我评价</h4>
+       <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
+        <div className="mt-3 resume-personal pt-2 text-center">
+          <h6>自我评价</h6>
         </div>
 
         <div className="row mt-3">
@@ -805,6 +810,7 @@ const Evaluation = () => {
             </div>
           </div>
         </div>
+       </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">

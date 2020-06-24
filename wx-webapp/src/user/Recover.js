@@ -131,61 +131,78 @@ const Recover = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid background-login">
         <ToBack />
-        <div className="row mt-3">
+        <div className="row mt-3 bg-transparent text-white">
           <div className="col">
-            <h4 className="text-center">
+            <h4 className="text-center ">
               密码重置
             </h4>
           </div>
         </div>
 
-        <div className="row">
+        <div className="row bg-transparent text-dark">
           <div className="col">
-            <div className="card border-0">
-              <div className="card-body">
+            <div className="card border-0 bg-transparent text-dark">
+              <div className="card-body card-p">
                 <form>
                   {err.email && <small className="form-text text-danger">{err.email}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                    <div className="input-group-prepend ">
+                      <span className="input-group-text bg-transparent text-white border-0" >
+                        <i className="fa-fw fa fa-envelope fa-1x" aria-hidden="true"></i>
+                      </span>
+                    </div>
                     <input type="text" name="email" value={data.email}
-                      className="input-control col"
+                      className="form-control col border-0 bg-transparent text-white input-placeholder input-f"
                       placeholder="电子邮箱"
                       onChange={handleChange}
                     />
                   </div>
                   {err.code && <small className="form-text text-danger">{err.code}</small>}
-                  <div className="form-group row">
-                    <div className="col">
+                  <div className="input-group row mb-3 input-group-lg input-control">
                       <input type="text" name="code" value={data.code}
-                        className="input-control"
+                        className="form-control col border-0  bg-transparent text-white input-placeholder input-f"
                         placeholder="验证码"
                         onChange={handleChange}
                       />
+                    <div className="input-group-append">
+                      <button
+                        type="button" 
+                        className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white" 
+                        disabled={!checkEmail()}
+                        onClick={handleCode} 
+                        style={{ fontSize: 14 }}>
+                        发送验证码
+                      </button>
                     </div>
-                    <button
-                    type="button" 
-                    className="col-4 btn rounded-0 btn-secondary btn-sm" 
-                    disabled={!checkEmail()}
-                    onClick={handleCode} style={{ fontSize: 14 }}>
-                      发送验证码
-                    </button>
+                    
                   </div>
                   {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                    <div className="input-group-prepend ">
+                      <span className="input-group-text bg-transparent text-white  border-0" >
+                        <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                      </span>
+                    </div>
                     <input type="password"
                       name="password1"
                       value={data.password1}
                       autoComplete="off"
-                      className="input-control col"
+                      className="form-control col border-0 bg-transparent text-white input-placeholder input-f"
                       placeholder="密码"
                       onChange={handleChange}
                     />
                   </div>
                   {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
-                  <div className="form-group row">
+                  <div className="input-group row mb-3 input-group-lg input-control">
+                    <div className="input-group-prepend ">
+                      <span className="input-group-text bg-transparent text-white  border-0" >
+                        <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                      </span>
+                    </div>
                     <input type="password" name="password2" value={data.password2}
-                      className="input-control col"
+                      className="form-control col border-0  bg-transparent text-white input-placeholder input-f"
                       autoComplete="off"
                       placeholder="确认密码"
                       onChange={handleChange}
@@ -198,9 +215,9 @@ const Recover = () => {
                 <button
                   type="button"
                   style={{ width: '80%' }}
-                  className="btn btn-block btn-primary mx-auto"
+                  className="btn btn-block mx-auto rounded-pill button-background text-white"
                   onClick={handleRecover}>
-                  确定
+                  确&nbsp;定
                 </button>
               </div>
             </div>

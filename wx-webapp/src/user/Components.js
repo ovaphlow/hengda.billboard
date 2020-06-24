@@ -2,17 +2,16 @@ import React from 'react'
 
 export function InputField(props) {
   return (
-    <div className="col">
-      <div className="form-group">
-        <span className="text-muted" style={{ fontSize: 13 }}>
-          {props.category}
-        </span>
-        <input type="text"
+      <div className="form-group row input-label">
+        <label className="col-4 col-form-label text-right text-muted">{props.category}</label>
+        <div className="col-8"> 
+        <input 
+          type="text"
           name={props.name}
           value={props.value||''}
           defaultValue={props.defaultValue}
           placeholder={props.placeholder}
-          className="input-control"
+          className="form-control-plaintext input-f"
           onChange={props.handleChange}
         />
       </div>
@@ -22,19 +21,19 @@ export function InputField(props) {
 
 export function SelectField(props) {
   return (
-    <div className="col">
-      <div className="form-group">
-        <span className="text-muted" style={{ fontSize: 13 }}>
+      <div className="form-group row input-label">
+        <label className="col-4 col-form-label text-right text-muted">
           {props.category}
-        </span>
+        </label>
+        <div className="col-8">
         <select type="text"
           name={props.name}
           value={props.value||''}
-          className="input-control"
+          className=" form-control-plaintext input-f"
           onChange={props.handleChange}>
           {props.children}
         </select>
-      </div>
+       </div>
     </div>
   )
 }

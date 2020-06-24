@@ -41,77 +41,92 @@ export default function Complaint() {
     <>
       <Navbar category="投诉反馈举报" />
 
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item active">投诉</li>
+            </ol>
+          </h1>
+        </nav>
+
+        <hr />
+
+        <div className="row justify-content-center">
+          <div className="btn-group">
+            <a href="#/投诉" className="btn btn-sm btn-info">投诉</a>
+            <a href="#/意见反馈" className="btn btn-sm btn-info">意见反馈</a>
+            <a href="#/举报" className="btn btn-sm btn-info">举报</a>
           </div>
+        </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>投诉</h3>
-            <hr />
+        <div className="p-2" />
+      </div>
 
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <table className="table table-dark table-striped">
-                  <thead>
-                    <tr>
-                      <th className="text-right">序号</th>
-                      <th>状态</th>
-                      <th>用户</th>
-                      <th>时间</th>
-                      <th>内容</th>
-                      <th>&nbsp;</th>
-                    </tr>
-                  </thead>
+      <div className="m-5" />
 
-                  <tbody>
-                    {data.map((it) => (
-                      <tr key={it.id}>
-                        <td className="text-right">{it.id}</td>
-                        <td>
-                          {it.status === '已处理' ? (
-                            <span className="badge badge-secondary">已处理</span>
-                          ) : (
-                            <span className="badge badge-danger">未处理</span>
-                          )}
-                        </td>
-                        <td>
-                          {it.user_category === '企业用户' && (
-                            <span className="badge badge-success">{it.user_category}</span>
-                          )}
-                          {it.user_category === '个人用户' && (
-                            <span className="badge badge-info">{it.user_category}</span>
-                          )}
-                          &nbsp;
-                          {it.name}
-                          <br />
-                          <small className="text-muted">{it.phone}</small>
-                        </td>
-                        <td>
-                          {moment(it.datime).format('YYYY-MM-DD')}
-                          <br />
-                          <small className="text-muted">{moment(it.datime).format('HH:mm')}</small>
-                        </td>
-                        <td>{it.content}</td>
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-outline-success btn-sm"
-                            data-id={it.id}
-                            data-user-id={it.user_id}
-                            data-user-category={it.user_category}
-                            onClick={handleReply}
-                          >
-                            <i className="fa fa-fw fa-reply" />
-                            回复
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      <div className="container-lg">
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <table className="table table-dark table-striped">
+              <caption>投诉</caption>
+              <thead>
+                <tr>
+                  <th className="text-right">序号</th>
+                  <th>状态</th>
+                  <th>用户</th>
+                  <th>时间</th>
+                  <th>内容</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {data.map((it) => (
+                  <tr key={it.id}>
+                    <td className="text-right">{it.id}</td>
+                    <td>
+                      {it.status === '已处理' ? (
+                        <span className="badge badge-secondary">已处理</span>
+                      ) : (
+                        <span className="badge badge-danger">未处理</span>
+                      )}
+                    </td>
+                    <td>
+                      {it.user_category === '企业用户' && (
+                        <span className="badge badge-success">{it.user_category}</span>
+                      )}
+                      {it.user_category === '个人用户' && (
+                        <span className="badge badge-info">{it.user_category}</span>
+                      )}
+                      &nbsp;
+                      {it.name}
+                      <br />
+                      <small className="text-muted">{it.phone}</small>
+                    </td>
+                    <td>
+                      {moment(it.datime).format('YYYY-MM-DD')}
+                      <br />
+                      <small className="text-muted">{moment(it.datime).format('HH:mm')}</small>
+                    </td>
+                    <td>{it.content}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-outline-success btn-sm"
+                        data-id={it.id}
+                        data-user-id={it.user_id}
+                        data-user-category={it.user_category}
+                        onClick={handleReply}
+                      >
+                        <i className="fa fa-fw fa-reply" />
+                        回复
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -58,6 +58,11 @@ export default function ChangePassword() {
 
         <div className="row justify-content-center">
           <div className="btn-group">
+            <a href="#/待处理" className="btn btn-sm btn-info">
+              <i className="fa fa-fw fa-check-square-o" />
+              待处理
+            </a>
+
             <a href="#/修改密码" className="btn btn-sm btn-warning">
               修改密码
             </a>

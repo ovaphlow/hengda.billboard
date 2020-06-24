@@ -59,12 +59,6 @@ export default function Navbar({ category }) {
             <a href="user.html#/平台用户" className="nav-link">
               <i className="fa fa-fw fa-users" />
               用户
-              {message_qty > 0 && (
-                <small>
-                  &nbsp;
-                  <span className="badge badge-pill badge-danger">{message_qty}</span>
-                </small>
-              )}
             </a>
           </li>
 
@@ -84,9 +78,15 @@ export default function Navbar({ category }) {
           </li>
 
           <li className={`nav-item ${category === '当前用户' ? 'active' : ''}`}>
-            <a href="current-user.html#/修改密码" className="nav-link">
+            <a href="current-user.html#/待处理" className="nav-link">
               <i className="fa fa-fw fa-user-o" />
               当前用户
+              {message_qty > 0 && (
+                <small>
+                  &nbsp;
+                  <span className="badge badge-pill badge-danger">{message_qty}</span>
+                </small>
+              )}
             </a>
           </li>
         </ul>

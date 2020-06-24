@@ -141,11 +141,13 @@ export default function Detail({ category }) {
       <div className="m-5" />
 
       <div className="container-lg">
-        <div className="btn-group mb-2">
+        <div className="btn-group">
           <button type="button" className="btn btn-secondary btn-sm" onClick={() => { window.history.go(-1); }}>
             返回
           </button>
         </div>
+
+        <div className="m-2" />
 
         <div className="card bg-dark shadow">
           <div className="card-body">

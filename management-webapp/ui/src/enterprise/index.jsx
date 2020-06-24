@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { SIGN_IN_URL } from '../constant';
-import CertificateList from './CertificateList';
 import Detail from './Detail';
 
 ReactDOM.render(
@@ -24,7 +23,6 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/待认证"><CertificateList /></Route>
         <Route exact path="/新增"><Detail category="新增" /></Route>
         <Route path="/:id"><Detail category="编辑" /></Route>
       </Switch>

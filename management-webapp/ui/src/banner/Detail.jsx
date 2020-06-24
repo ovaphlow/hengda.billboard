@@ -119,7 +119,7 @@ export default function Detail({ cat }) {
 
       <div className="m-5" />
 
-      <div className="container">
+      <div className="container-lg">
         <div className="card bg-dark shadow">
           <div className="card-header">
             <div className="custom-file">

@@ -35,7 +35,7 @@ function Home() {
     <>
       <Navbar category="首页" />
 
-      <div className="container">
+      <div className="container-lg">
         <div className="row mt-5">
           <div className="col">
             <div className="card bg-dark shadow">

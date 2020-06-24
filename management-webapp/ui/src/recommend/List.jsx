@@ -30,7 +30,7 @@ export default function List() {
 
       <div className="m-5" />
 
-      <div className="container">
+      <div className="container-lg">
         <div className="btn-group">
           <a href="#/新增" className="btn btn-sm btn-light">
             <i className="fa fa-fw fa-plus" />
@@ -43,6 +43,7 @@ export default function List() {
         <div className="card bg-dark shadow">
           <div className="card-body">
             <table className="table table-dark table-striped">
+              <caption>推荐信息</caption>
               <thead>
                 <tr>
                   <th className="text-right">序号</th>

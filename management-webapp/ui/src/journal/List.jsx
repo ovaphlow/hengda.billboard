@@ -134,11 +134,13 @@ export default function List({ category }) {
       <div className="m-5" />
 
       <div className="container-lg">
-        <div className="btn-group mb-3">
+        <div className="btn-group">
           <button type="button" className="btn btn-sm btn-secondary" onClick={() => { window.history.go(-1); }}>
             返回
           </button>
         </div>
+
+        <div className="m-2" />
 
         <div className="card bg-dark shadow">
           <div className="card-header">
@@ -190,6 +192,10 @@ export default function List({ category }) {
 
           <div className="card-body">
             <table className="table table-dark table-striped">
+              <caption>
+                {category}
+                记录
+              </caption>
               <thead>
                 <tr>
                   <th className="text-right">序号</th>

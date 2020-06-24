@@ -5,6 +5,9 @@ export default function useMessageQty({ user_id, user_uuid }) {
   const [qty, setQty] = useState(0);
 
   useEffect(() => {
+    if (user_id !== 0 && user_uuid) {
+      window.console.info('useMessageQty');
+    }
     (async () => {
       const response = await window.fetch('/api/enterprise/certificate/qty');
       const res = await response.json();

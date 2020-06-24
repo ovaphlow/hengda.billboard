@@ -50,15 +50,19 @@ export default function List() {
       <div className="m-5" />
 
       <div className="container-lg">
+        <div className="btn-group">
+          <a href="#/平台用户/新增" className="btn btn-sm btn-light">
+            <i className="fa fa-fw fa-plus" />
+            新增
+          </a>
+        </div>
+
+        <div className="m-2" />
+
         <div className="card bg-dark shadow">
-          <div className="card-header">
-            <a href="#/平台用户/新增" className="btn btn-sm btn-secondary">
-              <i className="fa fa-fw fa-plus" />
-              新增
-            </a>
-          </div>
           <div className="card-body">
             <table className="table table-dark table-striped">
+              <caption>管理端用户</caption>
               <thead>
                 <tr>
                   <th className="text-right">序号</th>

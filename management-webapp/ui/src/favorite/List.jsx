@@ -37,76 +37,82 @@ export default function List() {
     <>
       <Navbar category="普通用户" />
 
-      <div className="container mt-3 mb-5">
-        <div className="row">
-          <div className="col-3 col-lg-2">
-          </div>
+      <div className="container-fluid">
+        <nav aria-label="breadcrumb">
+          <h1>
+            <ol className="breadcrumb bg-dark">
+              <li className="breadcrumb-item active">用户收藏</li>
+            </ol>
+          </h1>
+        </nav>
+        <div className="p-2" />
+      </div>
 
-          <div className="col-9 col-lg-10">
-            <h3>用户收藏</h3>
-            <hr />
+      <div className="m-5" />
 
-            <div className="btn-group mb-2">
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={() => { window.history.go(-1); }}
-              >
-                返回
-              </button>
-            </div>
+      <div className="container">
+        <div className="btn-group">
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm"
+            onClick={() => { window.history.go(-1); }}
+          >
+            返回
+          </button>
+        </div>
 
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <table className="table table-dark table-striped">
-                  <thead>
-                    <tr>
-                      <th className="text-right">序号</th>
-                      <th>用户</th>
-                      <th>类型</th>
-                      <th>时间</th>
-                      <th>内容</th>
-                    </tr>
-                  </thead>
+        <div className="m-2" />
 
-                  <tbody>
-                    {list.map((it) => (
-                      <tr key={it.id}>
-                        <td>
-                          <span className="pull-right">{it.id}</span>
-                        </td>
-                        <td>
-                          <span className="badge badge-info">{it.category1}</span>
-                          &nbsp;
-                          {it.name}
-                          <br />
-                          <small className="text-muted">{it.phone}</small>
-                        </td>
-                        <td>{it.category2}</td>
-                        <td>
-                          {moment(it.datime).format('YYYY-MM-DD')}
-                          &nbsp;
-                          <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-outline-info btn-sm"
-                            data-id={it.data_id}
-                            data-uuid={it.data_uuid}
-                            data-category={it.category2}
-                            onClick={handleRedirect2Resource}
-                          >
-                            <i className="fa fa-fw fa-link" />
-                            查看
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <table className="table table-dark table-striped">
+              <caption>用户收藏</caption>
+              <thead>
+                <tr>
+                  <th className="text-right">序号</th>
+                  <th>用户</th>
+                  <th>类型</th>
+                  <th>时间</th>
+                  <th>内容</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {list.map((it) => (
+                  <tr key={it.id}>
+                    <td>
+                      <span className="pull-right">{it.id}</span>
+                    </td>
+                    <td>
+                      <span className="badge badge-info">{it.category1}</span>
+                      &nbsp;
+                      {it.name}
+                      <br />
+                      <small className="text-muted">{it.phone}</small>
+                    </td>
+                    <td>{it.category2}</td>
+                    <td>
+                      {moment(it.datime).format('YYYY-MM-DD')}
+                      &nbsp;
+                      <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-outline-info btn-sm"
+                        data-id={it.data_id}
+                        data-uuid={it.data_uuid}
+                        data-category={it.category2}
+                        onClick={handleRedirect2Resource}
+                      >
+                        <i className="fa fa-fw fa-link" />
+                        查看
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

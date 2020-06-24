@@ -16,10 +16,6 @@ code {
     monospace;
 }
 
-a {
-  text-decoration: none;
-}
-
 .container-fluid {
   background-color: #343a40;
 }

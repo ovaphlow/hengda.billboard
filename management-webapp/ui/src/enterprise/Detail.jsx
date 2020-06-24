@@ -119,7 +119,7 @@ export default function Detail({ category }) {
           <h1>
             <ol className="breadcrumb bg-dark">
               <li className="breadcrumb-item">
-                <a href="user.html#/企业用户" className="text-light">企业用户</a>
+                <a href="user.html#/企业用户" className="text-reset text-decoration-none">企业用户</a>
               </li>
               <li className="breadcrumb-item active">企业</li>
             </ol>

@@ -136,57 +136,61 @@ const Setting = () => {
     <>
       <div className="container-fluid">
         <ToBack href='#我的' />
-        <div className="row mt-3">
-          <div className="col">
-            {err.name && <small className="form-text text-danger">{err.name}</small>}
-            <div className="form-group row ">
+        <div className="card border-0 shadow mt-2">
+          <div className="card-body">
+            <div className="row mt-3">
               <div className="col">
-                <input type="text"
-                  name="name"
-                  value={data.name}
-                  className="input-control"
-                  placeholder="用户名称"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            {err.phone && <small className="form-text text-danger">{err.phone}</small>}
-            <div className="form-group row">
-              <div className="col">
-                <input type="text"
-                  name="phone"
-                  value={data.phone}
-                  className="input-control"
-                  placeholder="电话号码"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            {err.email && <small className="form-text text-danger">{err.email}</small>}
-            <div className="form-group row">
-              <div className="col">
-                <input type="text"
-                  name="email"
-                  value={data.email}
-                  className="input-control"
-                  placeholder="邮箱地址"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <div className="form-group row">
-              <div className="col">
-                <input type="text" name="code" value={data.code}
-                  className="input-control"
-                  placeholder="验证码"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="col-4">
-                <button className="btn rounded-0 btn-secondary btn-sm"
-                  disabled={!checkEmail()} onClick={handleCode} >
-                  发送验证码
+                {err.name && <small className="form-text text-danger">{err.name}</small>}
+                <div className="form-group row ">
+                  <div className="col">
+                    <input type="text"
+                      name="name"
+                      value={data.name}
+                      className="input-control input-f"
+                      placeholder="用户名称"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                {err.phone && <small className="form-text text-danger">{err.phone}</small>}
+                <div className="form-group row">
+                  <div className="col">
+                    <input type="text"
+                      name="phone"
+                      value={data.phone}
+                      className="input-control input-f"
+                      placeholder="电话号码"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                {err.email && <small className="form-text text-danger">{err.email}</small>}
+                <div className="form-group row">
+                  <div className="col">
+                    <input type="text"
+                      name="email"
+                      value={data.email}
+                      className="input-control input-f"
+                      placeholder="邮箱地址"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col">
+                    <input type="text" name="code" value={data.code}
+                      className="input-control input-f"
+                      placeholder="验证码"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="col-5">
+                    <button className="btn rounded-0 btn-secondary btn-sm"
+                      disabled={!checkEmail()} onClick={handleCode} >
+                      发送验证码
                 </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

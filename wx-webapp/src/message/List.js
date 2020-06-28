@@ -11,8 +11,10 @@ const MessageRow = props => {
   }
 
   return (
-    <div className="row" onClick={handleClick}>
-      {/* <div
+    <div className="card border-0 mt-2 shadow">
+      <div className="card-body p-3">
+        <div className="row" onClick={handleClick}>
+          {/* <div
         style={{
           background: 'url(lib/img/u679.svg)',
           backgroundSize: '100% 100%',
@@ -23,20 +25,21 @@ const MessageRow = props => {
 
         } &nbsp;
       </div> */}
-      <div className="col">
-        <div className="row ">
           <div className="col">
-            <h6 className="pull-left">
-              <strong>{props.name}</strong>
+            <div className="row ">
+              <div className="col">
+                <h6 className="pull-left">
+                  <strong>{props.name}</strong>
               &nbsp;
               {props.total !== 0 ? (<span className="badge badge-danger">{props.total}</span>) : (<></>)}
-            </h6>
+                </h6>
+              </div>
+            </div>
+            <span className="text-muted">
+              {props.content}
+            </span>
           </div>
         </div>
-        <span className="text-muted">
-          {props.content}
-        </span>
-        <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
       </div>
     </div>
   )

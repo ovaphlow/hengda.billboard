@@ -51,18 +51,27 @@ const BrowseJournal = () => {
   return (
     <div className="container-fluid" >
       <ToBack category="操作记录" href="#我的" />
-      <JournalTabs category="浏览" />
-      <div className="tab-content mt-1">
-        <div className="tab-pane fade show active">
-          {
-            Object.getOwnPropertyNames(list).map((key, inx) => (
-              <React.Fragment key={inx}>
-                <DateTitle text={key}/>
-                <div className="mt-2"></div>
-                {list[key].map((item, inx) => dataRow(item, inx))}
-              </React.Fragment>
-            ))
-          }
+      <div className="card mt-2">
+        <JournalTabs category="浏览" />
+        <div className="card-body">
+          <div className="tab-content">
+            <div className="tab-pane fade show active ">
+              {
+                Object.getOwnPropertyNames(list).map((key, inx) => (
+                  <React.Fragment key={inx}>
+                    <DateTitle text={key} />
+                    <div className="mt-2"></div>
+                    {list[key].map((item, inx) =>
+                      <div>
+                        {dataRow(item, inx)}
+                        <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))
+              }
+            </div>
+          </div>
         </div>
       </div>
     </div>

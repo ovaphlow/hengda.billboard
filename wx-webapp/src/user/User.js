@@ -42,13 +42,13 @@ const User = () => {
     <>
       <div className="container-fluid background-login1">
         {/* <Title category="我的" /> */}
-        <div className="row">
+        <div className="row background-login2">
           {/* <div className="col-2">
             <img className="img-circle" style={{ height: 65 }} src="lib/img/u868.png" alt="" />
           </div> */}
           {
             auth === 0 ? (
-              <div className="col background-login2 pt-4 pb-4">
+              <div className="col  pt-4 pb-4">
                 <h6>
                   <a href="#/登录" className="text-white">
                     未登录
@@ -73,7 +73,7 @@ const User = () => {
               )
           }
         </div>
-        <div className="card user-radius">
+        <div className="card user-radius overlap">
           <div className="card-body">
             <div className="row pb-2 text-center" style={{ fontSize: 11 }}>
               <div className="col">
@@ -124,10 +124,14 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/日程" >
-                <h6 className="pull-left" >
-                  <strong>日程</strong>
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-info"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-car text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2" >
+                  <strong>&nbsp;日程</strong>
                 </h6>
-                <span className="pull-right text-muted">
+                <span className="pull-right text-muted pt-2">
                   {
                     auth ? (schedule === 0 ? '' : `今天有${schedule}个日程`) : '提示即将进行的日程'
                   }
@@ -140,10 +144,14 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/面试" >
-                <h6 className="pull-left" >
-                  <strong>面试邀请</strong>
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-primary"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-paper-plane text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2">
+                  <strong>&nbsp;面试邀请</strong>
                 </h6>
-                <span className="pull-right text-muted">
+                <span className="pull-right text-muted pt-2">
                   {
                     auth ? (offer === 0 ? '' : `您有${offer}条面试邀请未查看`) : ''
                   }
@@ -156,10 +164,14 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/系统消息" >
-                <h6 className="pull-left" >
-                  <strong>系统消息</strong>
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-secondary"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-envelope text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2" >
+                  <strong>&nbsp;系统消息</strong>
                 </h6>
-                <span className="pull-right text-muted">
+                <span className="pull-right text-muted pt-2">
                   {
                     auth ? (sys === 0 ? '' : `您有${sys}条系统消息未查看`) : ''
                   }
@@ -172,10 +184,14 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/反馈" >
-                <h6 className="pull-left" >
-                  <strong>反馈/投诉</strong>
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-warning"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-comments text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2" >
+                  <strong>&nbsp;反馈/投诉</strong>
                 </h6>
-                <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
+                <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -186,10 +202,14 @@ const User = () => {
                 <div className="row p-2 mt-2" >
                   <div className="col">
                     <a className="text-dark" href="#/登录" >
-                      <h6 className="pull-left text-danger" >
-                        <strong>注销</strong>
-                      </h6>
-                      <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
+                      <span className="fa-stack fa-lg pull-left">
+                        <i className="fa fa-fw fa-circle fa-stack-2x text-danger"></i>
+                        <i className="fa fa-fw fa-flag fa-stack-1x fa-sign-out text-white"></i>
+                      </span>
+                      <h6 className="pull-left text-danger pt-2" >
+                        <strong>&nbsp;注销</strong>
+                      </h6> 
+                      <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
                     </a>
                   </div>
                 </div>

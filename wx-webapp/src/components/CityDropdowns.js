@@ -82,6 +82,7 @@ const CityDropdowns = props => {
   return (
     <div className="dropdown">
       <button className="btn btn-link btn-sm dropdown-toggle" onClick={menuShow} style={{ padding: 0 }} >
+        <i className="fa fa-building-o text-primary fa-fw" aria-hidden="true"></i>
         {value || '城市'}
       </button>
       <div className={`dropdown-menu ${show && 'show'}`} style={{ width: 210, minWidth: 110, height: 215 }}>

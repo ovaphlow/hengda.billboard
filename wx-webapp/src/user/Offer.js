@@ -5,6 +5,7 @@ import ToBack from '../components/ToBack'
 
 const DataRow = props => (
   <>
+  <div className="card border-0 p-3 user-radius mb-2 mt-2">
     <div className="row">
       <div className="col">
         <div className="pull-left">
@@ -37,7 +38,7 @@ const DataRow = props => (
         </span>
       </div>
     </div>
-    <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+  </div>
   </>
 )
 

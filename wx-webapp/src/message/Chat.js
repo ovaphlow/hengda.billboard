@@ -141,27 +141,28 @@ const Chat = () => {
           <ToBack category={title} />
         </div>
       </div>
-      <div className="container-fluid" id="chat-body" style={{ fontSize: 14 }}>
+      <div className="container-fluid chat-background" id="chat-body" style={{ fontSize: 14 }}>
         <div className="row p-4"></div>
         <div className="row " id="chat-body3">
           <div className="col" id="chat-body1">
             {
               contentList && contentList.map((item, inx) =>
                 item.category === 'common_to_ent' ?
-                  <RightMessage key={inx}  name='我' {...item} /> :
+                  <RightMessage key={inx} name='我' {...item} /> :
                   <LetfMessage key={inx} name={title} {...item} />
               )
             }
           </div>
         </div>
       </div>
+      <div style={{height:50}}></div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
         <div className="input-group ">
           <input
             type="text"
             value={text}
             onChange={handleChange}
-            className="form-control rounded-0 h-100"
+            className="form-control rounded-0 h-100 input-f"
             style={{ outline: 'none' }}
             placeholder="请输入内容" />
           <div className="input-group-append">

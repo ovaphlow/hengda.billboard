@@ -31,7 +31,7 @@ const Feedback = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         content: content,
-        category:category,
+        category: category,
         user_id: auth.id,
         user_uuid: auth.uuid,
         user_category: '个人用户',
@@ -52,40 +52,40 @@ const Feedback = () => {
     <>
       <div className="container-fluid">
         <ToBack />
-
-        <div className="mt-2">
-          <h4>反馈/投诉</h4>
-        </div>
-
-        <div className="row mt-3">
-          <div className="col">
-            <div className="form-group">
-              <span className="text-muted" style={{ fontSize: 13 }}>
-                类别:
+        <div className="card mt-2">
+          <div className="card-body">
+              <h5>反馈/投诉</h5>
+              <hr/>
+            <div className="row mt-3">
+              <div className="col">
+                <div className="form-group">
+                  <span className="text-muted" style={{ fontSize: 13 }}>
+                    类别:
               </span>
-              <select
-                className="form-control"
-                onChange={e => setCategory(e.target.value)}
-              >
-                <option>意见反馈</option>
-                <option>投诉</option>
-              </select>
+                  <select
+                    className="form-control"
+                    onChange={e => setCategory(e.target.value)}
+                  >
+                    <option>意见反馈</option>
+                    <option>投诉</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <div className="row mt-1">
-          <div className="col">
-            <div className="form-group">
-              <div className="form-group">
-                <span className="text-muted" style={{ fontSize: 13 }}>
-                  内容:
+            <div className="row mt-1">
+              <div className="col">
+                <div className="form-group">
+                  <div className="form-group">
+                    <span className="text-muted" style={{ fontSize: 13 }}>
+                      内容:
                 </span>
-                <textarea
-                  className="form-control"
-                  value={content}
-                  onChange={e => setCntent(e.target.value)}
-                  rows="6" />
+                    <textarea
+                      className="form-control"
+                      value={content}
+                      onChange={e => setCntent(e.target.value)}
+                      rows="6" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

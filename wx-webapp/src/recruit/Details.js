@@ -147,29 +147,39 @@ const Details = () => {
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>
           <ToBack category={item.title} />
-          <div className="row mt-2">
-            <div className="col">
-              举办方:{item.school}
+          <div className="card border-0 shadow mt-2">
+            <div className="card-body">
+              <div className="row">
+                <div className="col strong-center">
+                  <strong>{item.title}</strong>
+                  <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  举办方: {item.school}
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  举办时间: {item.date} {item.time}
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  举办地点: {item.address_level1}-{item.address_level2}-{item.address_level3}
+                  <br />{item.address_level4}
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  简介:
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              举办时间:{item.date} {item.time}
+              </div>
+              <div className="row ">
+                <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.content }} />
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              举办地点: {item.address_level1}-{item.address_level2}-{item.address_level3}
-              <br />{item.address_level4}
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              简介:
-            </div>
-          </div>
-          <div className="row ">
-            <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.content }} />
           </div>
         </div>
         <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
@@ -188,9 +198,11 @@ const Details = () => {
               {
                 schedule ? (
                   <button className="btn btn-danger nav-btn" onClick={deleteSchedule}>
+                    <i className="fa fa-minus-circle fa-fw" aria-hidden="true"></i>
                     移出日程
                   </button>) : (
-                    <button className="btn btn-primary nav-btn" onClick={handleSchedule}>
+                    <button className="btn btn-success nav-btn" onClick={handleSchedule}>
+                      <i className="fa fa-plus-circle fa-fw" aria-hidden="true"></i>
                       加入日程
                     </button>)
               }

@@ -26,7 +26,7 @@ const Phone = () => {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        auth:auth.id,
+        id:auth.id,
         phone: phone
       })
     })
@@ -35,7 +35,7 @@ const Phone = () => {
       window.alert(res.message)
       return
     } else {
-      const response2 = await fetch(`/api/common-user/${auth.id}`)
+      const response2 = await fetch(`/api/common-user/${auth.id}?uuid=${auth.uuid}`)
       const res2 = await response2.json()
       if (res.message) {
         window.alert(res.message)

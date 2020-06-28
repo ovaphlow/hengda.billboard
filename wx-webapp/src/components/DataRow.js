@@ -32,7 +32,6 @@ export const RecruitmentRow = props => (
         </span>
       </div>
     </div>
-    <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
   </>
 )
 
@@ -60,7 +59,6 @@ export const RecruitRow = props => (
         </span>
       </div>
     </div>
-    <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
   </>
 )
 
@@ -87,6 +85,5 @@ export const RecommendRow = props => (
         </span>
       </div>
     </div>
-    <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
   </>
 )

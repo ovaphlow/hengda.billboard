@@ -15,6 +15,8 @@ service EnterpriseUser {
   rpc update(UpdateRequest) returns (Reply) {}
 
   rpc updatePassword(UpdatePasswordRequest) returns (Reply) {}
+  
+  rpc upPasswordCheck(UpPasswordCheckRequest) returns (Reply) {}
 
   rpc recover(RecoverRequest) returns (Reply) {}
 
@@ -31,6 +33,7 @@ message SignInRequest {
   string email = 2;
   string ent_name = 3;
   string password = 4;
+  string salt = 5;
 }
 
 message RecoverRequest {
@@ -47,9 +50,14 @@ message LogInRequest {
   string address = 4;
 }
 
+message UpPasswordCheckRequest {
+  uint32 id = 3;
+  string uuid = 4;
+}
+
 message UpdatePasswordRequest {
-  string old_password =1;
-  string password1 = 2;
+  string password =1;
+  string salt = 2;
   uint32 id = 3;
   string uuid = 4;
 }

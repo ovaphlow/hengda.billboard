@@ -4,13 +4,13 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/message.proto'), {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true
-}).message
+  protoLoader.loadSync(__dirname + '/../proto/message.proto', {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  })).message
 
 const grpcClient = new proto.Message(
   `${config.grpcServer.host}:${config.grpcServer.port}`,
@@ -94,7 +94,10 @@ router
       })
     )
     try {
-      ctx.response.body = await grpcFetch(ctx.params)
+      ctx.response.body = await grpcFetch({
+        user_id: parseInt(ctx.params.user_id, 10),
+        user_category: ctx.params.user_category
+      })
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -234,3 +237,12 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
+
+
+  // user_category
+  // user_category
+  // user_category
+  // user_id
+  // user_id
+  // user_id
+  // user_id

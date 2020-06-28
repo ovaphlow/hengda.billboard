@@ -5,13 +5,13 @@ const config = require('../config')
 const nodemailer = require('nodemailer');
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/email.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/email.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).email
 
 const grpcClient = new proto.Email(
@@ -97,8 +97,8 @@ router
     )
     try {
       ctx.response.body = await grpcFetch({
-        code: code,
-        ...ctx.request.body
+        ...ctx.request.body,
+        code: code
       })
     } catch (err) {
       console.error(err)

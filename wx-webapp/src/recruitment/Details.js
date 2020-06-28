@@ -50,7 +50,7 @@ const Details = () => {
           data_id: data.id,
           data_uuid: data.uuid,
           category: '岗位'
-        },res => {})
+        }, res => { })
         searchFavorite({
           user_id: _auth.id,
           data_id: data.id,
@@ -160,64 +160,68 @@ const Details = () => {
         <ToBack report advisory dataType="岗位" dataId={id} search={search} />
         {data && (
           <>
-            <div className="row mt-3">
-              <div className="col">
-                <h4>{data.name}</h4>
-              </div>
-              <div className="col-5">
-                <span className="pull-right text-muted" style={{ fontSize: 14 }}>
-                  {data.date}
-                </span>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <span className="text-muted" style={{ fontSize: 14 }}>
-                  {data.address2 ? data.address2 : data.address1} |{data.education}|{data.category}
-                </span>
-              </div>
-            </div>
-            <div className="row ">
-              <div className="col">
-                <h5 className="text-success">
-                  {
-                    data.salary1 && data.salary2 ?
-                      `${data.salary1}-${data.salary2}/月` :
-                      '面议'
-                  }
-                </h5>
-              </div>
-            </div>
-            <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-            <div className="row mt-3">
-              <div className="col">
-                <a className="pull-left" href={`#岗位/企业/${data.enterprise_id}?u_id=${data.enterprise_uuid}`}>
-                  <h6 >{data.enterprise_name}</h6>
-                </a>
-                <div className="pull-right">
-                  <a className="text-success" href={`#消息/${data.enterprise_name}/${data.ent_user_id}`}>
-                    咨询
-                  </a>
+            <div className="card border-0 shadow mt-2 recommond-bottom">
+              <div className="card-body">
+                
+                <div className="row mt-3">
+                  <div className="col">
+                    <h4>{data.name}</h4>
+                  </div>
+                  <div className="col-4">
+                    <span className="pull-right text-muted" style={{ fontSize: 14 }}>
+                      {data.date}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
-            <div className="row mt-3">
-              <div className="col">
-                <h5>职位描述</h5>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                岗位要求:<br />
-                <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col">
-                工作内容:<br />
-                <div dangerouslySetInnerHTML={{ __html: data.requirement }}></div>
+                <div className="row">
+                  <div className="col">
+                    <span className="text-muted" style={{ fontSize: 14 }}>
+                      {data.address2 ? data.address2 : data.address1} |{data.education}|{data.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="row ">
+                  <div className="col">
+                    <h5 className="text-success">
+                      {
+                        data.salary1 && data.salary2 ?
+                          `${data.salary1}-${data.salary2}/月` :
+                          '面议'
+                      }
+                    </h5>
+                  </div>
+                </div>
+                <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+                <div className="row mt-3">
+                  <div className="col">
+                    <a className="pull-left" href={`#岗位/企业/${data.enterprise_id}?u_id=${data.enterprise_uuid}`}>
+                      <h6 >{data.enterprise_name}</h6>
+                    </a>
+                    <div className="pull-right">
+                      <a className="text-success" href={`#消息/${data.enterprise_name}/${data.ent_user_id}`}>
+                        咨询
+                  </a>
+                    </div>
+                  </div>
+                </div>
+                <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+                <div className="row mt-3">
+                  <div className="col">
+                    <h5>职位描述</h5>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    岗位要求:<br />
+                    <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    工作内容:<br />
+                    <div dangerouslySetInnerHTML={{ __html: data.requirement }}></div>
+                  </div>
+                </div>
               </div>
             </div>
           </>

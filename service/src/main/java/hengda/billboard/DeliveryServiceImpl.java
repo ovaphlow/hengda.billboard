@@ -199,10 +199,10 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
       String sql = "select re.name as recruitment_name, re.industry, d.status,"
           + "r.education, r.uuid, r.name as name, r.school,d.datime,  d.id, d.recruitment_id, d.resume_id "
           + "from delivery d left join resume r on d.resume_id = r.id left join recruitment re on d.recruitment_id = re.id "
-          + "where re.enterprise_id = ? and (select u.enterprise_id from enterprise_user u where u.uuid = ?) = re.enterprise_id ";
+          + "where re.enterprise_id = ? and  re.enterprise_uuid = ? ";
 
       List<String> list = new ArrayList<>();
-      list.add(req.getEnterpriseId());
+      list.add(String.valueOf(req.getId()));
       list.add(req.getUuid());
       if (req.getName() != null && !"".equals(req.getName())) {
         list.add(req.getName());
@@ -229,6 +229,7 @@ public class DeliveryServiceImpl extends DeliveryGrpc.DeliveryImplBase {
         sql += " and re.name = ? ";
       }
       sql += " ORDER BY d.datime DESC";
+      System.out.println(sql);
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));

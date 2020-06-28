@@ -90,6 +90,23 @@ export const ResumeView = props => {
     }
   }
 
+  const phoneHide = phone => {
+    if (phone &&　phone.length === 11) {
+      return `${phone[0]}${phone[1]}${phone[2]} **** ${phone[7]}${phone[8]}${phone[9]}${phone[10]}`
+    } else {
+      return '错误的号码格式'
+    }
+  }
+
+  const emailHide = email => {
+    if (email && email.split('@').length > 1) {
+      const strs = email.split('@')
+      return `${strs[0].replace(/./g,'*')}@${strs[1]}`
+    } else {
+      return '错误的邮箱格式'
+    }
+  }
+
   return (
     <>
       <div className="row">
@@ -105,9 +122,9 @@ export const ResumeView = props => {
               {props.gender}&nbsp;|&nbsp;{age(props.birthday)}&nbsp;|&nbsp;{props.address2}
               <br />
               <i className="fa fa-phone fa-fw"></i>
-              {props.phone} &nbsp;
+              {phoneHide(props.phone)} &nbsp;
               <i className="fa fa-envelope fa-fw"></i>
-              {props.email}
+              {emailHide(props.email)}
             </span>
           </div>
         </div>

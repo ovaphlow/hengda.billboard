@@ -4,13 +4,13 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/resume.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/resume.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).resume
 
 const grpcClient = new proto.Resume(

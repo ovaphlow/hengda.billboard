@@ -21,11 +21,11 @@ const List = () => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'))
     if (_auth !== null) {
       setAuth(_auth)
-      fetch(`./api/delivery/search?u_id=${_auth.uuid}`,{
+      fetch(`./api/delivery/search?u_id=${_auth.enterprise_uuid}`,{
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          enterprise_id:_auth.enterprise_id
+          id:_auth.enterprise_id
         })
       })
         .then(res => res.json())
@@ -46,12 +46,12 @@ const List = () => {
   }
 
   const search = () => {
-    fetch(`./api/delivery/search?u_id=${auth.uuid}`, {
+    fetch(`./api/delivery/search?u_id=${auth.enterprise_uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...param,
-        enterprise_id:auth.enterprise_id
+        id:auth.enterprise_id
       })
     })
       .then(res => res.json())

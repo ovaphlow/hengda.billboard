@@ -12,7 +12,7 @@ const DataRow = props => (
         <div className="pull-left">
           <strong>{props.address}</strong>
         </div>
-        <div className="pull-right text-muted" style={{fontSize: 11}}>
+        <div className="pull-right text-muted" style={{ fontSize: 11 }}>
           {props.datime}
         </div>
         <br></br>
@@ -64,18 +64,22 @@ const LoginJournal = () => {
   return (
     <div className="container-fluid" >
       <ToBack category="操作记录" href="#我的" />
-      <JournalTabs category="登录" />
-      <div className="tab-content mt-1">
-        <div className="tab-pane fade show active">
-          {
-            Object.getOwnPropertyNames(list).map((key, inx) => (
-              <React.Fragment key={inx}>
-                <DateTitle text={key} />
-                <div className="mt-2"></div>
-                {list[key].map((item, inx) => <DataRow key={inx} {...item} />)}
-              </React.Fragment>
-            ))
-          }
+      <div className="card mt-2">
+        <JournalTabs category="登录" />
+        <div className="card-body">
+          <div className="tab-content">
+            <div className="tab-pane fade show active">
+              {
+                Object.getOwnPropertyNames(list).map((key, inx) => (
+                  <React.Fragment key={inx}>
+                    <DateTitle text={key} />
+                    <div className="mt-2"></div>
+                    {list[key].map((item, inx) => <DataRow key={inx} {...item} />)}
+                  </React.Fragment>
+                ))
+              }
+            </div>
+          </div>
         </div>
       </div>
     </div>

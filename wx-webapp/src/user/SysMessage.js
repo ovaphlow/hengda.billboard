@@ -5,18 +5,19 @@ import ToBack from '../components/ToBack'
 
 const DataRow = props => (
   <>
-    <div className="row">
-      <div className="col">
-        <div className="pull-left">
-          <strong>{props.title}</strong>
+    <div className="card border-0 p-3 user-radius mb-2 mt-2">
+      <div className="row">
+        <div className="col">
+          <div className="pull-left">
+            <strong>{props.title}</strong>
+          </div>
+          <br></br>
+          <span className="text-success">
+            {props.content}
+          </span>
         </div>
-        <br></br>
-        <span className="text-success">
-          {props.content}
-        </span>
       </div>
     </div>
-    <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
   </>
 )
 
@@ -45,7 +46,7 @@ const SysMessage = () => {
         <ToBack category="平台消息" />
         {list && list.map((item, inx) => <DataRow key={inx} {...item} />)}
       </div>
-      <Navbar category="我的"/>
+      <Navbar category="我的" />
     </>
   )
 

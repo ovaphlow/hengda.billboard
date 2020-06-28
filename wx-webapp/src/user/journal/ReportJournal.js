@@ -69,18 +69,22 @@ const ReportJournal = () => {
   return (
     <div className="container-fluid" >
       <ToBack category="操作记录" href="#我的" />
-      <JournalTabs category="举报" />
-      <div className="tab-content mt-1">
-        <div className="tab-pane fade show active">
-        {
-            Object.getOwnPropertyNames(list).map((key, inx) => (
-              <React.Fragment key={inx}>
-                <DateTitle text={key} />
-                <div className="mt-2"></div>
-                {list[key].map((item, inx) => <DataRow key={inx} {...item} />)}
-              </React.Fragment>
-            ))
-          }
+      <div className="card mt-2">
+        <JournalTabs category="举报" />
+        <div className="card-body">
+          <div className="tab-content mt-1">
+            <div className="tab-pane fade show active">
+              {
+                Object.getOwnPropertyNames(list).map((key, inx) => (
+                  <React.Fragment key={inx}>
+                    <DateTitle text={key} />
+                    <div className="mt-2"></div>
+                    {list[key].map((item, inx) => <DataRow key={inx} {...item} />)}
+                  </React.Fragment>
+                ))
+              }
+            </div>
+          </div>
         </div>
       </div>
     </div>

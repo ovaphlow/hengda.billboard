@@ -2,17 +2,16 @@ import React from 'react'
 
 export function InputField(props) {
   return (
-    <div className="col">
-      <div className="form-group">
-        <span className="text-muted" style={{ fontSize: 13 }}>
-          {props.category}
-        </span>
-        <input type="text"
+    <div className="form-group row input-label">
+      <label className="col-4 col-form-label text-right text-muted">{props.category}</label>
+      <div className="col-8">
+        <input
+          type="text"
           name={props.name}
-          value={props.value||''}
+          value={props.value || ''}
           defaultValue={props.defaultValue}
           placeholder={props.placeholder}
-          className="input-control"
+          className="form-control-plaintext input-f"
           onChange={props.handleChange}
         />
       </div>
@@ -22,15 +21,15 @@ export function InputField(props) {
 
 export function SelectField(props) {
   return (
-    <div className="col">
-      <div className="form-group">
-        <span className="text-muted" style={{ fontSize: 13 }}>
-          {props.category}
-        </span>
+    <div className="form-group row input-label">
+      <label className="col-4 col-form-label text-right text-muted">
+        {props.category}
+      </label>
+      <div className="col-8">
         <select type="text"
           name={props.name}
-          value={props.value||''}
-          className="input-control"
+          value={props.value || ''}
+          className=" form-control-plaintext input-f"
           onChange={props.handleChange}>
           {props.children}
         </select>
@@ -41,33 +40,33 @@ export function SelectField(props) {
 
 export function JournalTabs(props) {
   return (
-    <ul className="nav nav-tabs">
-      <li className="nav-item">
-        <a
-          className={`nav-link ${props.category === '浏览' && 'active'} `}
-          href="#我的/记录/浏览">浏览</a>
-      </li>
-      <li className="nav-item">
-        <a
-          className={`nav-link ${props.category === '登录' && 'active'} `}
-          href="#我的/记录/登录">登录</a>
-      </li>
-      <li className="nav-item">
-        <a
-          className={`nav-link ${props.category === '编辑' && 'active'} `}
-          href="#我的/记录/编辑">编辑</a>
-      </li>
-      <li className="nav-item">
-        <a
-          className={`nav-link ${props.category === '举报' && 'active'} `}
-          href="#我的/记录/举报">举报</a>
-      </li>
-      <li className="nav-item">
-        <a
-          className={`nav-link ${props.category === '反馈/投诉' && 'active'} `}
-          href="#我的/记录/投诉">反馈/投诉</a>
-      </li>
-    </ul>
+      <ul className="nav nav-tabs">
+        <li className="nav-item">
+          <a
+            className={`nav-link pl-2 pr-2 ${props.category === '浏览' && 'active'} `}
+            href="#我的/记录/浏览">浏览</a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link pl-2 pr-2 ${props.category === '登录' && 'active'} `}
+            href="#我的/记录/登录">登录</a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link pl-2 pr-2 ${props.category === '编辑' && 'active'} `}
+            href="#我的/记录/编辑">编辑</a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link pl-2 pr-2 ${props.category === '举报' && 'active'} `}
+            href="#我的/记录/举报">举报</a>
+        </li>
+        <li className="nav-item">
+          <a
+            className={`nav-link pl-2 pr-2 ${props.category === '反馈/投诉' && 'active'} `}
+            href="#我的/记录/投诉">反馈/投诉</a>
+        </li>
+      </ul>
   )
 }
 

@@ -202,7 +202,7 @@ const Resume = () => {
   if (data) {
     return (
       <>
-        <div className="container-fluid" style={{ fontSize: 14 }}>
+        <div className="container-fluid background-login1" style={{ fontSize: 14 }}>
           <ToBack href='#我的' category="我的简历" />
           {/* <div className="row mt-2">
             <div className="col" >
@@ -223,140 +223,148 @@ const Resume = () => {
               </div>
             </div>
           </div> */}
-          <div className="row mt-2">
-            <div className="col">
-              <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
-              <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
+          <div className="card mt-3 border-0 mb-5">
+            <div className="mt-3 resume-personal pt-2 text-center">
+              <h6>简历预览</h6>
             </div>
-            <div className="col">
-              <a className="pull-right" href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
-                <i className="fa fa-pencil-square-o fa-fw"></i>
+            <div className="card-body ">
+              <div className="row">
+                <div className="col">
+                  <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
+                  <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
+                </div>
+                <div className="col">
+                  <a className="pull-right" href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
+                    <i className="fa fa-pencil-square-o fa-fw"></i>
                   编辑
                 </a>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
-            </div>
-          </div>
-          <div className="row mt-2">
-            <div className="col">
-              <i className="fa fa-phone fa-fw"></i>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col">
+                  <i className="fa fa-phone fa-fw"></i>
               &nbsp;&nbsp;&nbsp;{data.phone}
-            </div>
-          </div>
-          <div className="row mt-1">
-            <div className="col">
-              <i className="fa fa-envelope fa-fw"></i>
+                </div>
+              </div>
+              <div className="row mt-1">
+                <div className="col">
+                  <i className="fa fa-envelope fa-fw"></i>
               &nbsp;&nbsp;&nbsp;{data.email}
-            </div>
-          </div>
+                </div>
+              </div>
 
-          <hr />
+              <hr />
 
-          <div className="row">
-            <div className="col">
-              <h5>毕业院校</h5>
-            </div>
-            <div className="col">
-              <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
-                <i className="fa fa-pencil-square-o fa-fw"></i>
+              <div className="row">
+                <div className="col">
+                  <h5>毕业院校</h5>
+                </div>
+                <div className="col">
+                  <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
+                    <i className="fa fa-pencil-square-o fa-fw"></i>
                 编辑
               </a>
-            </div>
-          </div>
+                </div>
+              </div>
 
-          <div className="row">
-            <div className="col">
-              <i className="fa fa-book fa-fw"></i>
-              <strong style={{ fontSize: 15 }}>{data.school}</strong>
-              <br />
+              <div className="row">
+                <div className="col">
+                  <i className="fa fa-book fa-fw"></i>
+                  <strong style={{ fontSize: 15 }}>{data.school}</strong>
+                  <br />
               &nbsp;
               <span className="text-muted" style={{ fontSize: 14 }}>
-                {data.date_begin} - {data.date_end}
-              </span>
-              <br />
-              {data.education} | {data.major}
-            </div>
-          </div>
+                    {data.date_begin} - {data.date_end}
+                  </span>
+                  <br />
+                  {data.education} | {data.major}
+                </div>
+              </div>
 
-          <hr />
+              <hr />
 
-          <div className="row">
-            <div className="col">
-              <h5>求职意向</h5>
-            </div>
-            <div className="col">
-              <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
-                <i className="fa fa-pencil-square-o fa-fw"></i>
+              <div className="row">
+                <div className="col">
+                  <h5>求职意向</h5>
+                </div>
+                <div className="col">
+                  <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
+                    <i className="fa fa-pencil-square-o fa-fw"></i>
                 编辑
               </a>
-            </div>
-          </div>
+                </div>
+              </div>
 
-          <div className="row">
-            <div className="col">
-              <div>
-                <i className="fa fa-map-marker fa-fw"></i>
+              <div className="row">
+                <div className="col">
+                  <div>
+                    <i className="fa fa-map-marker fa-fw"></i>
                 &nbsp;&nbsp;&nbsp; {data.yixiangchengshi}
-              </div>
+                  </div>
 
-              <div className="mt-1">
-                <i className="fa fa-briefcase fa-fw"></i>
+                  <div className="mt-1">
+                    <i className="fa fa-briefcase fa-fw"></i>
                 &nbsp;&nbsp;&nbsp; {data.qiwanghangye}-{data.qiwangzhiwei}
-              </div>
-            </div>
-          </div>
-
-          <hr />
-
-          <div className="row">
-            <div className="col">
-              <h5>自我评价</h5>
-            </div>
-            <div className="col">
-              <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
-                <i className="fa fa-pencil-square-o fa-fw"></i>
-                编辑
-              </a>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col" dangerouslySetInnerHTML={{ __html: data.ziwopingjia }} />
-          </div>
-          <hr />
-          <div className="row mb-2">
-            <div className="col flex-start">
-              <h5>我的证书</h5>
-            </div>
-            <div className="col">
-              <button className="btn btn-primary btn-sm pull-right" onClick={handleUpload}>
-                <i className="fa fa-plus"></i>
-                添加
-              </button>
-              <input type="file"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-                id="file"
-                accept="image/png, image/jpeg" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              {file && file.map((item, inx) =>
-                <div className="card mb-2 shadow" key={inx}>
-                  <img className="card-img-top" alt="" src={item.file} />
-                  <div className="card-body p-1">
-                    <button
-                      onClick={() => handleFileDelete(item.id)}
-                      className="btn btn-danger w-100">
-                      删除
-                    </button>
                   </div>
                 </div>
-              )}
+              </div>
+
+              <hr />
+
+              <div className="row">
+                <div className="col">
+                  <h5>自我评价</h5>
+                </div>
+                <div className="col">
+                  <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
+                    <i className="fa fa-pencil-square-o fa-fw"></i>
+                编辑
+              </a>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col" dangerouslySetInnerHTML={{ __html: data.ziwopingjia }} />
+              </div>
+              <hr />
+              <div className="row mb-2">
+                <div className="col flex-start">
+                  <h5>我的证书</h5>
+                </div>
+                <div className="col">
+                  <button className="btn btn-primary btn-sm pull-right" onClick={handleUpload}>
+                    <i className="fa fa-plus"></i>
+                添加
+              </button>
+                  <input type="file"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                    id="file"
+                    accept="image/png, image/jpeg" />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  {file && file.map((item, inx) =>
+                    <div className="card mb-2 shadow" key={inx}>
+                      <img className="card-img-top" alt="" src={item.file} />
+                      <div className="card-body p-1">
+                        <button
+                          onClick={() => handleFileDelete(item.id)}
+                          className="btn btn-danger w-100">
+                          删除
+                    </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -436,70 +444,69 @@ const Personal = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-        <div className="mt-2">
-          <h4>个人信息</h4>
-        </div>
-
-        <div className="row mt-3">
-          <InputField
-            name="name"
-            category="姓名"
-            value={data.name}
-            placeholder="请填写姓名,用于投递简历"
-            handleChange={handleChange}
-          />
-        </div>
-        <div className="row">
-          <SelectField
-            name="gender"
-            category="性别"
-            value={data.gender}
-            placeholder="请选择性别"
-            handleChange={handleChange}>
-            <option></option>
-            <option>男</option>
-            <option>女</option>
-          </SelectField>
-        </div>
-        <div className="row">
-          <div className="col">
-            <div className="form-group">
-              <span className="text-muted" style={{ fontSize: 13 }}>
-                出生日期
-              </span>
+        <div className="card mt-4 mb-5 bg-white rounded border-0">
+          <div className="mt-3 resume-personal pt-2 text-center">
+            <h6>个人信息</h6>
+          </div>
+          <div className="row mt-3 p-1" >
+            <InputField
+              name="name"
+              category="姓名"
+              value={data.name}
+              placeholder="请填写姓名,用于投递简历"
+              handleChange={handleChange}
+            />
+          </div>
+          <div className="row p-1">
+            <SelectField
+              name="gender"
+              category="性别"
+              value={data.gender}
+              placeholder="请选择性别"
+              handleChange={handleChange}>
+              <option></option>
+              <option>男</option>
+              <option>女</option>
+            </SelectField>
+          </div>
+          <div className="form-group row input-label">
+            <label className="col-4 col-form-label text-right text-muted">
+              出生日期
+              </label>
+            <div className="col-8">
               <input type="date"
                 name="birthday"
                 value={data.birthday || ''}
-                className="input-control"
+                className="form-control-plaintext input-f"
                 onChange={handleChange} />
             </div>
           </div>
-        </div>
-        <div className="row" onClick={toProvinceCity}>
-          <InputField
-            name="address1"
-            category="现居住地"
-            value={`${data.address1}-${data.address2}-${data.address3}`}
-            placeholder="请提供现居住地,用于投递简历"
-            handleChange={handleChange}
-          />
-        </div>
-        <div className="row">
-          <InputField
-            name="phone"
-            category="手机号码"
-            value={data.phone}
-            handleChange={handleChange}
-          />
-        </div>
-        <div className="row">
-          <InputField
-            name="email"
-            category="电子邮箱"
-            value={data.email}
-            placeholder="请提供电子邮箱,用于企业联系"
-            handleChange={handleChange}
-          />
+          <div className="row p-1" onClick={toProvinceCity}>
+            <InputField
+              name="address1"
+              category="现居住地"
+              value={`${data.address1}-${data.address2}-${data.address3}`}
+              placeholder="请提供现居住地,用于投递简历"
+              handleChange={handleChange}
+            />
+          </div>
+          <div className="row p-1">
+            <InputField
+              name="phone"
+              category="手机号码"
+              value={data.phone}
+              handleChange={handleChange}
+            />
+          </div>
+          <div className="row p-1">
+            <InputField
+              name="email"
+              category="电子邮箱"
+              value={data.email}
+              placeholder="请提供电子邮箱,用于企业联系"
+              handleChange={handleChange}
+            />
+          </div>
         </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
@@ -564,66 +571,70 @@ const School = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-        <div className="mt-2">
-          <h4>毕业院校</h4>
-        </div>
-        <div className="row">
-          <InputField
-            name="school"
-            category="毕业院校"
-            value={data.school}
-            placeholder="请提供现毕业院校,用于投递简历"
-            handleChange={handleChange}
-          />
-        </div>
-        <div className="row">
-          <SelectField
-            name="education"
-            category="学历"
-            value={data.education}
-            placeholder="请提供现学历,用于投递简历"
-            handleChange={handleChange}>
-            <option></option>
-            <option>高中及以下</option>
-            <option>大专</option>
-            <option>本科</option>
-            <option>硕士</option>
-            <option>博士</option>
-          </SelectField>
-        </div>
-        <div className="row">
-          <InputField
-            name="major"
-            category="专业名称"
-            value={data.major}
-            placeholder="如: 计算机科学与技术"
-            handleChange={handleChange}
-          />
-        </div>
-        <div className="row">
-          <div className="col">
-            <div className="form-group">
-              <span className="text-muted" style={{ fontSize: 13 }}>
-                在校时间
-              </span>
-              <div className="row">
-                <div className="col" style={{ paddingRight: 5 }}>
-                  <input type="date"
-                    name="date_begin"
-                    value={data.date_begin}
-                    className="input-control"
-                    placeholder="入学时间"
-                    onChange={handleChange} />
-                </div>
-                <span style={{ fontSize: 16 }}>-</span>
-                <div className="col" style={{ paddingLeft: 5 }} >
-                  <input type="date"
-                    name="date_end"
-                    value={data.date_end}
-                    className="input-control"
-                    placeholder="毕业时间"
-                    onChange={handleChange} />
-                </div>
+        <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
+          <div className="mt-3 resume-personal pt-2 text-center">
+            <h6>毕业院校</h6>
+          </div>
+          <div className="row">
+            <InputField
+              name="school"
+              category="毕业院校"
+              value={data.school}
+              placeholder="请提供现毕业院校,用于投递简历"
+              handleChange={handleChange}
+            />
+          </div>
+          <div className="row">
+            <SelectField
+              name="education"
+              category="学历"
+              value={data.education}
+              placeholder="请提供现学历,用于投递简历"
+              handleChange={handleChange}>
+              <option></option>
+              <option>高中及以下</option>
+              <option>大专</option>
+              <option>本科</option>
+              <option>硕士</option>
+              <option>博士</option>
+            </SelectField>
+          </div>
+          <div className="row">
+            <InputField
+              name="major"
+              category="专业名称"
+              value={data.major}
+              placeholder="如: 计算机科学与技术"
+              handleChange={handleChange}
+            />
+          </div>
+          <div className="row">
+            <div className="form-group row input-label">
+              <label className="col-4 col-form-label text-right text-muted">
+                入学时间
+            </label>
+              <div className="col">
+                <input type="date"
+                  name="date_begin"
+                  value={data.date_begin}
+                  className="form-control-plaintext input-f"
+                  placeholder="入学时间"
+                  onChange={handleChange} />
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="form-group row input-label">
+              <label className="col-4 col-form-label text-right text-muted">
+                毕业时间
+            </label>
+              <div className="col">
+                <input type="date"
+                  name="date_end"
+                  value={data.date_end}
+                  className="form-control-plaintext input-f"
+                  placeholder="毕业时间"
+                  onChange={handleChange} />
               </div>
             </div>
           </div>
@@ -696,25 +707,27 @@ const Intention = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
-        <div className="mt-2">
-          <h4>求职意向</h4>
-        </div>
+        <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
+          <div className="mt-3 resume-personal pt-2 text-center">
+            <h6>求职意向</h6>
+          </div>
 
-        <div className="row mt-3" onClick={toIndustry}>
-          <InputField
-            name="qiwangzhiwei"
-            category="期望职位"
-            value={`${data.qiwanghangye}-${data.qiwangzhiwei}`}
-            handleChange={handleChange}
-          />
-        </div>
-        <div className="row ">
-          <InputField
-            name="yixiangchengshi"
-            category="工作地点"
-            value={data.yixiangchengshi}
-            handleChange={handleChange}
-          />
+          <div className="row mt-3" onClick={toIndustry}>
+            <InputField
+              name="qiwangzhiwei"
+              category="期望职位"
+              value={`${data.qiwanghangye}-${data.qiwangzhiwei}`}
+              handleChange={handleChange}
+            />
+          </div>
+          <div className="row ">
+            <InputField
+              name="yixiangchengshi"
+              category="工作地点"
+              value={data.yixiangchengshi}
+              handleChange={handleChange}
+            />
+          </div>
         </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
@@ -780,28 +793,29 @@ const Evaluation = () => {
     <>
       <div className="container-fluid">
         <ToBack category="我的简历" />
+        <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
+          <div className="mt-3 resume-personal pt-2 text-center">
+            <h6>自我评价</h6>
+          </div>
 
-        <div className="mt-2">
-          <h4>自我评价</h4>
-        </div>
-
-        <div className="row mt-3">
-          <div className="col">
-            <div className="form-group">
-              <ReactQuill
-                formats={[
-                  'header', 'align', 'bold', 'italic',
-                  'underline', 'blockquote']}
-                modules={{
-                  toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    [{ 'align': [] }],
-                    ['bold', 'italic', 'underline', 'blockquote'],
-                  ]
-                }}
-                placeholder="请填写内容"
-                value={content}
-                onChange={setContent} />
+          <div className="row mt-3">
+            <div className="col">
+              <div className="form-group">
+                <ReactQuill
+                  formats={[
+                    'header', 'align', 'bold', 'italic',
+                    'underline', 'blockquote']}
+                  modules={{
+                    toolbar: [
+                      [{ 'header': [1, 2, 3, false] }],
+                      [{ 'align': [] }],
+                      ['bold', 'italic', 'underline', 'blockquote'],
+                    ]
+                  }}
+                  placeholder="请填写内容"
+                  value={content}
+                  onChange={setContent} />
+              </div>
             </div>
           </div>
         </div>

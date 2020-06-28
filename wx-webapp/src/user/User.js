@@ -40,71 +40,74 @@ const User = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid background-login1">
         {/* <Title category="我的" /> */}
-        <div className="row ">
+        <div className="row background-login2">
           {/* <div className="col-2">
             <img className="img-circle" style={{ height: 65 }} src="lib/img/u868.png" alt="" />
           </div> */}
           {
             auth === 0 ? (
-              <div className="col mt-2">
+              <div className="col  pt-4 pb-4">
                 <h6>
-                  <a href="#/登录" >
+                  <a href="#/登录" className="text-white">
                     未登录
                   </a>
                 </h6>
-                <span className="text-muted">
+                <span className="text-white">
                   你还没有创建简历,暂时无法投递
                 </span>
               </div>
             ) : (
-                <div className="col mt-2" >
-                  <a href="#/我的/设置" >
+                <div className="col background-login2 pt-4 pb-4" >
+                  <a href="#/我的/设置" className="text-white">
                     <h6>{auth.name}</h6>
                   </a>
-                  <span className="text-muted">
+                  <span className="text-white">
                     电话:{auth.phone}
                   </span><br />
-                  <span className="text-muted">
+                  <span className="text-white">
                     邮箱:{auth.email}
                   </span>
                 </div>
               )
           }
         </div>
-        <hr />
-        <div className="row pb-2 text-center" style={{ fontSize: 11 }}>
-          <div className="col">
-            <a href="#/我的/简历" className="text-muted">
-              <i className="fa fa-fw fa-3x fa-file-text" aria-hidden="true"></i>
-              <br />
+        <div className="card user-radius overlap">
+          <div className="card-body">
+            <div className="row pb-2 text-center" style={{ fontSize: 11 }}>
+              <div className="col">
+                <a href="#/我的/简历" className="text-muted">
+                  <i className="fa fa-fw fa-3x fa-file-o text-primary" aria-hidden="true"></i>
+                  <br />
               我的简历
             </a>
-          </div>
-          <div className="col">
-            <a href="#/我的/投递" className="text-muted">
-              <i className="fa fa-fw fa-3x fa-rss-square" aria-hidden="true"></i>
-              <br />
+              </div>
+              <div className="col">
+                <a href="#/我的/投递" className="text-muted">
+                  <i className="fa fa-fw fa-3x fa-file-text-o text-primary" aria-hidden="true"></i>
+                  <br />
               投递情况
             </a>
-          </div>
-          <div className="col">
-            <a href="#/我的/记录/浏览" className="text-muted">
-              <i className="fa fa-fw fa-3x fa-clock-o" aria-hidden="true"></i>
-              <br />
+              </div>
+              <div className="col">
+                <a href="#/我的/记录/浏览" className="text-muted">
+                  <i className="fa fa-fw fa-3x fa-clock-o text-primary" aria-hidden="true"></i>
+                  <br />
               操作记录
             </a>
-          </div>
-          <div className="col">
-            <a href="#/我的/收藏" className="text-muted">
-              <i className="fa fa-fw fa-3x fa-star" aria-hidden="true"></i>
-              <br />
+              </div>
+              <div className="col">
+                <a href="#/我的/收藏" className="text-muted">
+                  <i className="fa fa-fw fa-3x fa-star-o text-primary" aria-hidden="true"></i>
+                  <br />
               我的收藏
             </a>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="row" style={{ height: 7, backgroundColor: 'rgb(228, 238, 249)' }}>
+        <div className="row" style={{ height: 7, backgroundColor: 'rgb(245, 245, 245)' }}>
         </div>
         {/* <div className="row p-2 mt-2" >
           <div className="col">
@@ -117,84 +120,104 @@ const User = () => {
           </div>
         </div>
         <hr style={{ marginTop: '0', marginBottom: '0' }} /> */}
-
-        <div className="row p-2 mt-2" >
-          <div className="col">
-            <a className="text-dark" href="#/我的/日程" >
-              <h6 className="pull-left" >
-                <strong>日程</strong>
-              </h6>
-              <span className="pull-right text-muted">
-                {
-                  auth ? (schedule === 0 ? '' : `今天有${schedule}个日程`) : '提示即将进行的日程'
-                }
-                <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
-              </span>
-            </a>
+        <div className="card user-radius">
+          <div className="row p-2 mt-2" >
+            <div className="col">
+              <a className="text-dark" href="#/我的/日程" >
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-info"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-car text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2" >
+                  <strong>&nbsp;日程</strong>
+                </h6>
+                <span className="pull-right text-muted pt-2">
+                  {
+                    auth ? (schedule === 0 ? '' : `今天有${schedule}个日程`) : '提示即将进行的日程'
+                  }
+                  <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+                </span>
+              </a>
+            </div>
           </div>
-        </div>
-        <hr style={{ marginTop: '0', marginBottom: '0' }} />
-        <div className="row p-2 mt-2" >
-          <div className="col">
-            <a className="text-dark" href="#/我的/面试" >
-              <h6 className="pull-left" >
-                <strong>面试邀请</strong>
-              </h6>
-              <span className="pull-right text-muted">
-                {
-                  auth ? (offer === 0 ? '' : `您有${offer}条面试邀请未查看`) : ''
-                }
-                <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
-              </span>
-            </a>
+          <hr style={{ marginTop: '0', marginBottom: '0' }} />
+          <div className="row p-2 mt-2" >
+            <div className="col">
+              <a className="text-dark" href="#/我的/面试" >
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-primary"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-paper-plane text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2">
+                  <strong>&nbsp;面试邀请</strong>
+                </h6>
+                <span className="pull-right text-muted pt-2">
+                  {
+                    auth ? (offer === 0 ? '' : `您有${offer}条面试邀请未查看`) : ''
+                  }
+                  <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+                </span>
+              </a>
+            </div>
           </div>
-        </div>
-        <hr style={{ marginTop: '0', marginBottom: '0' }} />
-        <div className="row p-2 mt-2" >
-          <div className="col">
-            <a className="text-dark" href="#/我的/系统消息" >
-              <h6 className="pull-left" >
-                <strong>系统消息</strong>
-              </h6>
-              <span className="pull-right text-muted">
-                {
-                  auth ? (sys === 0 ? '' : `您有${sys}条系统消息未查看`) : ''
-                }
-                <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
-              </span>
-            </a>
+          <hr style={{ marginTop: '0', marginBottom: '0' }} />
+          <div className="row p-2 mt-2" >
+            <div className="col">
+              <a className="text-dark" href="#/我的/系统消息" >
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-secondary"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-envelope text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2" >
+                  <strong>&nbsp;系统消息</strong>
+                </h6>
+                <span className="pull-right text-muted pt-2">
+                  {
+                    auth ? (sys === 0 ? '' : `您有${sys}条系统消息未查看`) : ''
+                  }
+                  <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+                </span>
+              </a>
+            </div>
           </div>
-        </div>
-        <hr style={{ marginTop: '0', marginBottom: '0' }} />
-        <div className="row p-2 mt-2" >
-          <div className="col">
-            <a className="text-dark" href="#/我的/反馈" >
-              <h6 className="pull-left" >
-                <strong>反馈/投诉</strong>
-              </h6>
-              <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
-            </a>
+          <hr style={{ marginTop: '0', marginBottom: '0' }} />
+          <div className="row p-2 mt-2" >
+            <div className="col">
+              <a className="text-dark" href="#/我的/反馈" >
+                <span className="fa-stack fa-lg pull-left">
+                  <i className="fa fa-fw fa-circle fa-stack-2x text-warning"></i>
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-comments text-white"></i>
+                </span>
+                <h6 className="pull-left pt-2" >
+                  <strong>&nbsp;反馈/投诉</strong>
+                </h6>
+                <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
+              </a>
+            </div>
           </div>
-        </div>
-        <hr style={{ marginTop: '0', marginBottom: '0' }} />
-        {
-          auth === 0 || (
-            <>
-              <div className="row p-2 mt-2" >
-                <div className="col">
-                  <a className="text-dark" href="#/登录" >
-                    <h6 className="pull-left text-danger" >
-                      <strong>注销</strong>
-                    </h6>
-                    <i className="fa fa-chevron-right fa-fw pull-right text-muted" aria-hidden="true"></i>
-                  </a>
+          <hr style={{ marginTop: '0', marginBottom: '0' }} />
+          {
+            auth === 0 || (
+              <>
+                <div className="row p-2 mt-2" >
+                  <div className="col">
+                    <a className="text-dark" href="#/登录" >
+                      <span className="fa-stack fa-lg pull-left">
+                        <i className="fa fa-fw fa-circle fa-stack-2x text-danger"></i>
+                        <i className="fa fa-fw fa-flag fa-stack-1x fa-sign-out text-white"></i>
+                      </span>
+                      <h6 className="pull-left text-danger pt-2" >
+                        <strong>&nbsp;注销</strong>
+                      </h6> 
+                      <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <hr style={{ marginTop: '0', marginBottom: '0' }} />
-            </>
-          )
-        }
-
+                <hr style={{ marginTop: '0', marginBottom: '0' }} />
+              </>
+            )
+          }
+        </div>
       </div>
       <Navbar category="我的" />
     </>

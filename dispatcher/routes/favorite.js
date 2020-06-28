@@ -4,13 +4,13 @@ const protoLoader = require('@grpc/proto-loader')
 const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(__dirname + '/../proto/favorite.proto'), {
+  protoLoader.loadSync(__dirname + '/../proto/favorite.proto', {
   keepCase: true,
   longs: String,
   enums: String,
   defaults: true,
   oneofs: true
-}
+})
 ).favorite
 
 const grpcClient = new proto.Favorite(

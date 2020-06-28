@@ -27,7 +27,7 @@ const RecommendDetails = props => {
             data_id: id,
             data_uuid: res.content.uuid,
             category: '推荐信息'
-          },res => {})
+          }, res => { })
         } else {
           alert(res.message)
         }
@@ -45,9 +45,9 @@ const RecommendDetails = props => {
           setFavorite(p => res.content)
         }
       })
-     
-    } 
-  }, [id,search])
+
+    }
+  }, [id, search])
 
   const handleFavorite = () => {
     if (auth) {
@@ -68,7 +68,7 @@ const RecommendDetails = props => {
           data_id: id,
           data_uuid: item.uuid,
           category2: '推荐信息'
-        },res => {
+        }, res => {
           if (res.message === '') {
             searchFavorite({
               user_id: auth.id,
@@ -93,44 +93,55 @@ const RecommendDetails = props => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category={item.title}/>
-        <div className="row mt-2">
-          <div className="col">
-            发布时间：{item.date1}
+        <ToBack category={item.title} />
+        <div className="card border-0 shadow mt-2 recommond-bottom">
+          <div className="card-body">
+            <div className="row">
+              <div className="col strong-center">
+                <strong>{item.title}</strong>
+                <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                发布时间：{item.date1}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                截止日期：{item.date2}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                所属省份：{item.address_level1}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                工作地点：{item.address_level2}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                单位：{item.publisher}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                招聘人数：{item.qty}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                报名方式：{item.baomignfangshi}
+              </div>
+            </div>
+            <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+            <div className="row mt-3">
+              <div className="col" dangerouslySetInnerHTML={{ __html: item.content }} />
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            截止日期：{item.date2}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            所属省份：{item.address_level1}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            工作地点：{item.address_level2}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            单位：{item.publisher}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            招聘人数：{item.qty}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            报名方式：{item.baomignfangshi}
-          </div>
-        </div>
-        <div className="row mt-3">
-          <div className="col" dangerouslySetInnerHTML={{ __html: item.content }} />
         </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >

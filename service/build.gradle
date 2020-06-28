@@ -14,8 +14,8 @@ repositories {
     mavenCentral()
 }
 
-def grpcVersion = '1.25.0' // from: 1.24.0
-def protobufVersion = '3.11.1' // from: '3.9.0'
+def grpcVersion = '1.30.0' 
+def protobufVersion = '3.12.2'
 def protocVersion = protobufVersion
 
 dependencies {
@@ -31,8 +31,6 @@ dependencies {
 
     implementation "com.zaxxer:HikariCP-java7:2.4.13"
     implementation "mysql:mysql-connector-java:8.0.19" 
-
-    implementation "org.apache.poi:poi-ooxml:4.1.1"
 }
 
 protobuf {

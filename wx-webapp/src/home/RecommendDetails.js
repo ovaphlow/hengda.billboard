@@ -94,7 +94,7 @@ const RecommendDetails = props => {
     <>
       <div className="container-fluid">
         <ToBack category={item.title} />
-        <div className="card border-0 shadow mt-2 recommond-bottom">
+        <div className="card border-0 shadow mt-2 ">
           <div className="card-body">
             <div className="row">
               <div className="col strong-center">
@@ -144,6 +144,7 @@ const RecommendDetails = props => {
           </div>
         </div>
       </div>
+      <div className="recommond-bottom"></div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
         <div className="row text-center nav-row">
           <div className="col-2 nav-col"></div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { TextCheckbox } from '../components/Button'
 import { RecruitmentRow } from '../components/DataRow'
 import CityDropdowns from '../components/CityDropdowns'
@@ -59,9 +59,9 @@ const KeywordSearch = props => {
   }
 
 
-  const _οnkeypress = event => { 
+  const _οnkeypress = event => {
     const keyCode = event.which || event.keyCode
-    if(keyCode === 13 && event.target.value !== ''){
+    if (keyCode === 13 && event.target.value !== '') {
       search({
         city: city,
         status: '在招',
@@ -75,8 +75,8 @@ const KeywordSearch = props => {
 
   return (
     <>
-      <div className="container-fluid bg-white">
-        <div className="row pb-2 pt-1">
+      <div className="container-fluid">
+        <div className="row pb-2 pt-1 bg-transparent">
           <div className="col">
             <input type="text"
               id="search"
@@ -87,27 +87,29 @@ const KeywordSearch = props => {
               style={{ outline: 0, backgroundColor: 'rgba(0, 0, 0, 0)' }} />
           </div>
         </div>
-        <div className="row mt-1 mb-1" style={{ fontSize: 14 }} >
-          <div className="col">
-            <CityDropdowns defaultValue="哈尔滨市" handleChange={handleChange} />
-          </div>
-          <div className="col flex-end">
-            <div className="pull-right text-primary">
-              <TextCheckbox name="兼职" onChange={_onCheckboxChange}>
-                兼职
+        <div className="card border-0 shadow">
+          <div className="card-body">
+            <div className="row mb-3" style={{ fontSize: 14 }} >
+              <div className="col">
+                <CityDropdowns defaultValue="哈尔滨市" handleChange={handleChange} />
+              </div>
+              <div className="col flex-end">
+                <div className="pull-right text-primary">
+                  <TextCheckbox name="兼职" onChange={_onCheckboxChange}>
+                    兼职
             </TextCheckbox>
-            |
-            <TextCheckbox name="全职" onChange={_onCheckboxChange}>
-                全职
+                  <TextCheckbox name="全职" onChange={_onCheckboxChange}>
+                    全职
             </TextCheckbox>
-            |
-            <TextCheckbox name="实习" onChange={_onCheckboxChange}>
-                实习
+                  <TextCheckbox name="实习" onChange={_onCheckboxChange}>
+                    实习
             </TextCheckbox>
+                </div>
+              </div>
             </div>
+            {list && list.map(item => <RecruitmentRow key={item.id} {...item} />)}
           </div>
         </div>
-        {list && list.map(item => <RecruitmentRow key={item.id} {...item} />)}
       </div>
       <Navbar category="首页" />
     </>

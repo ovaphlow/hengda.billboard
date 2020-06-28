@@ -160,7 +160,7 @@ const Details = () => {
         <ToBack report advisory dataType="岗位" dataId={id} search={search} />
         {data && (
           <>
-            <div className="card border-0 shadow mt-2 recommond-bottom">
+            <div className="card border-0 shadow mt-2 ">
               <div className="card-body">
                 
                 <div className="row mt-3">
@@ -227,6 +227,7 @@ const Details = () => {
           </>
         )}
       </div>
+      <div className="recommond-bottom"></div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
         <div className="row text-center nav-row">
           <div className="col nav-col" >

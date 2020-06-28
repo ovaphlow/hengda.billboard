@@ -73,7 +73,7 @@ const User = () => {
               )
           }
         </div>
-        <div className="card user-radius overlap">
+        <div className="card user-radius overlap shadow">
           <div className="card-body">
             <div className="row pb-2 text-center" style={{ fontSize: 11 }}>
               <div className="col">
@@ -120,7 +120,7 @@ const User = () => {
           </div>
         </div>
         <hr style={{ marginTop: '0', marginBottom: '0' }} /> */}
-        <div className="card user-radius">
+        <div className="card user-radius shadow">
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/日程" >
@@ -213,7 +213,6 @@ const User = () => {
                     </a>
                   </div>
                 </div>
-                <hr style={{ marginTop: '0', marginBottom: '0' }} />
               </>
             )
           }

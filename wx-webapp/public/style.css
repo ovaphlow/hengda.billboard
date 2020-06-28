@@ -18,17 +18,20 @@ p {
   margin-top: 0;
   margin-bottom: 0;
 }
+.chat-background{
+  min-height: 100vh;
+  background-color: white;
+}
 .background-login{
   height: 100vh;
   background: linear-gradient(#3d8f8c,70%,#54C6D9);
 }
 .background-login1{
-  height: 100vh;
   background-color: #f5f5f5;
 }
 .background-login2{
   background:linear-gradient(#0e8ee8,70%,#23aef5) ;
-  border-radius: 0 0 15% 15%;
+  border-radius: 0 0 5% 5%;
 }
 .user-radius{
   border-radius: 15px;
@@ -96,13 +99,17 @@ p {
   align-items: center;
   padding: 0;
 }
-
+.overlap{
+  margin-top: -15px;
+}
 .nav-btn {
   width: 100%;
   border-radius: 0;
   height: 100%;
 }
-
+.strong-center{
+  text-align: center;
+}
 .item-middle {
   display: flex;
   justify-content: center;

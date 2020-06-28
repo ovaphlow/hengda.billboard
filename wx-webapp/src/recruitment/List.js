@@ -22,7 +22,7 @@ const List = () => {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        status:'在招'
+        status: '在招'
       })
     })
       .then(res => res.json())
@@ -50,7 +50,7 @@ const List = () => {
   const handleChange = val => {
     search({
       city: val,
-      status:'在招',
+      status: '在招',
       ...types
     })
     setCity(val)
@@ -74,30 +74,40 @@ const List = () => {
 
   return (
     <>
-      <div className="container-fluid bg-white">
+      <div className="container-fluid">
         {/* <Title category="岗位" /> */}
         <PlayImg category="小程序-岗位" />
-        <div className="row mt-1 mb-1" style={{ fontSize: 14 }} >
-          <div className="col">
-            <CityDropdowns handleChange={handleChange}/>
-          </div>
-          <div className="col flex-end">
-            <div className="pull-right text-primary">
-              <TextCheckbox name="category1" onChange={_onCheckboxChange}>
-                兼职
+        <div className="card border-0 mt-2 shadow">
+          <div className="card-body">
+            <div className="row mb-3" style={{ fontSize: 14 }} >
+              <div className="col">
+                <CityDropdowns handleChange={handleChange} />
+              </div>
+              <div className="col flex-end">
+                <div className="pull-right text-primary">
+                  <TextCheckbox name="category1" onChange={_onCheckboxChange}>
+                    兼职
               </TextCheckbox>
-              |
               <TextCheckbox name="category2" onChange={_onCheckboxChange}>
-                全职
+                    全职
               </TextCheckbox>
-              |
               <TextCheckbox name="category3" onChange={_onCheckboxChange}>
-                实习
+                    实习
               </TextCheckbox>
+                </div>
+              </div>
             </div>
+            {
+              list && list.map(item =>
+                <div key={item.id}>
+                  <RecruitmentRow {...item} />
+                  <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
+                </div>
+              )
+            }
+
           </div>
         </div>
-        {list && list.map(item => <RecruitmentRow key={item.id} {...item} />)}
       </div>
       <Navbar category="岗位" />
     </>

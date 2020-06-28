@@ -23,11 +23,11 @@ const Favorite = () => {
     }
   }, [])
 
-  const dateRow = (item,inx) => {
+  const dateRow = (item, inx) => {
     if (item.category2 === '岗位') {
       return (<RecruitmentRow key={inx} {...item} />)
     } else if (item.category2 === '校园招聘') {
-      return (<RecruitRow key={inx} {...item}/>)
+      return (<RecruitRow key={inx} {...item} />)
     } else if (item.category2 === '推荐信息') {
       return (<RecommendRow key={inx} {...item} />)
     }
@@ -37,7 +37,11 @@ const Favorite = () => {
     <div className="container-fluid" style={{ fontSize: 14 }}>
       <ToBack category="我的收藏" />
       <div className="mt-1"></div>
-      {list && list.map((item,inx) => dateRow(item,inx))}
+      {list && list.map((item, inx) =>
+        <div className="card border-0 p-3 user-radius mb-2 mt-2">
+          {dateRow(item,inx)}
+        </div>
+      )}
     </div>
   )
 

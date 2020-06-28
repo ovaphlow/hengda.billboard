@@ -25,10 +25,10 @@ export const RecruitmentRow = props => (
         }
         <br></br>
         <span className="pull-left text-muted" style={{ fontSize: 11 }}>
-          {props.address1} {props.address2}/{props.education} | 招聘人数:{props.qty}
+          {props.address1} {props.address2}/{props.education} | 人数:{props.qty}
         </span>
         <span className="pull-right text-muted" style={{ fontSize: 11 }}>
-          发布于: {props.date}
+           {props.date}
         </span>
       </div>
     </div>
@@ -77,7 +77,7 @@ export const RecommendRow = props => (
         </div>
         <br></br>
         <span className="text-muted">
-          工作地点：{props.address1}-{props.address2} | 招聘人数: {props.qty}
+          工作地点：{props.address1}-{props.address2} | 人数: {props.qty}
         </span>
         <br></br>
         <span>

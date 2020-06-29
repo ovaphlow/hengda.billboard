@@ -9,7 +9,7 @@ export default function EducationPicker({ caption, value, onChange }) {
       <label>{caption || '学历'}</label>
       <select
         value={value}
-        className="form-control"
+        className="form-control input-underscore"
         onChange={onChange}
       >
         <option value="">未选择</option>

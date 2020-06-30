@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import Navbar from '../../component/Navbar';
+import IconAdd from '../../icon/Add';
+import IconEditFlipH from '../../icon/EditFlipH';
 
 export default function List() {
   const [data, setData] = useState([]);
@@ -52,7 +54,7 @@ export default function List() {
       <div className="container-lg">
         <div className="btn-group">
           <a href="#/平台用户/新增" className="btn btn-sm btn-light">
-            <i className="fa fa-fw fa-plus" />
+            <IconAdd />
             新增
           </a>
         </div>
@@ -75,7 +77,7 @@ export default function List() {
                   <tr key={it.id}>
                     <td>
                       <a href={`#/平台用户/${it.id}?uuid=${it.uuid}`}>
-                        <i className="fa fa-fw fa-edit" />
+                        <IconEditFlipH />
                       </a>
                       <span className="pull-right">{it.id}</span>
                     </td>

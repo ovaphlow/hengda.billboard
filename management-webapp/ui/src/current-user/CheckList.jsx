@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Navbar from '../component/Navbar';
 import ComponentCertificateList from '../enterprise/ComponentCertificateList';
+import IconPlayListCheck from '../icon/PlayListCheck';
 
 export default function CheckList() {
   const [certificate_qty, setCertificateQty] = useState(0);
@@ -32,7 +33,7 @@ export default function CheckList() {
         <div className="row justify-content-center">
           <div className="btn-group">
             <a href="#/待处理" className="btn btn-sm btn-info">
-              <i className="fa fa-fw fa-check-square-o" />
+              <IconPlayListCheck />
               待处理
             </a>
 

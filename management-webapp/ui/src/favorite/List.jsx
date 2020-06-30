@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
+import IconLink from '../icon/Link';
 
 export default function List() {
   const location = useLocation();
@@ -105,7 +106,7 @@ export default function List() {
                         data-category={it.category2}
                         onClick={handleRedirect2Resource}
                       >
-                        <i className="fa fa-fw fa-link" />
+                        <IconLink />
                         查看
                       </button>
                     </td>

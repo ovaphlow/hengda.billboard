@@ -4,6 +4,11 @@ import moment from 'moment';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
+import IconAdd from '../icon/Add';
+import IconChevronLeft from '../icon/ChevronLeft';
+import IconEditFlipH from '../icon/EditFlipH';
+import IconSearch from '../icon/Search';
+import IconSync from '../icon/Sync';
 
 export default function List() {
   const [list, setList] = useState([]);
@@ -60,7 +65,7 @@ export default function List() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <i className="fa fa-fw fa-angle-left" />
+                      <IconChevronLeft />
                       后退
                     </button>
                   </div>
@@ -84,7 +89,7 @@ export default function List() {
                     <div className="form-row">
                       <div className="col-auto">
                         <a href="#/新增" className="btn btn-secondary">
-                          <i className="fa fa-fw fa-plus" />
+                          <IconAdd />
                           新增
                         </a>
                       </div>
@@ -119,7 +124,7 @@ export default function List() {
                       <div className="col-auto">
                         <div className="btn-group">
                           <button type="button" className="btn btn-info" onClick={handleFilter}>
-                            <i className="fa fa-fw fa-search" />
+                            <IconSearch />
                             查询
                           </button>
 
@@ -128,7 +133,7 @@ export default function List() {
                             className="btn btn-secondary"
                             onClick={() => window.location.reload(true)}
                           >
-                            <i className="fa fa-fw fa-refresh" />
+                            <IconSync />
                             重置
                           </button>
                         </div>
@@ -154,7 +159,7 @@ export default function List() {
                             <td className="text-right">
                               <span className="pull-left">
                                 <a href={`#/${it.id}?uuid=${it.uuid}`}>
-                                  <i className="fa fa-fw fa-edit" />
+                                  <IconEditFlipH />
                                 </a>
                               </span>
                               {it.id}

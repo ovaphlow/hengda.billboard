@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import TopNav from './component/TopNav';
 import LeftNav from './component/LeftNav';
 import Footer from './component/Footer';
+import IconChevronLeft from './icon/ChevronLeft';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -57,7 +58,7 @@ function Home() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <i className="fa fa-fw fa-angle-left" />
+                      <IconChevronLeft />
                       后退
                     </button>
                   </div>

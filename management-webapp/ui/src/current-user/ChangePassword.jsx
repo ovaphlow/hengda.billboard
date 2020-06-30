@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import md5 from 'blueimp-md5';
 
 import Navbar from '../component/Navbar';
+import IconPlayListCheck from '../icon/PlayListCheck';
 
 export default function ChangePassword() {
   const [password, setPassword] = useState('');
@@ -59,7 +60,7 @@ export default function ChangePassword() {
         <div className="row justify-content-center">
           <div className="btn-group">
             <a href="#/待处理" className="btn btn-sm btn-info">
-              <i className="fa fa-fw fa-check-square-o" />
+              <IconPlayListCheck />
               待处理
             </a>
 
@@ -132,7 +133,6 @@ export default function ChangePassword() {
 
             <div className="btn-group pull-right">
               <button type="button" className="btn btn-primary" onClick={handleChange}>
-                <i className="fa fa-fw fa-save" />
                 更改密码
               </button>
             </div>

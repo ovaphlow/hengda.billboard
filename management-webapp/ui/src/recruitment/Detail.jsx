@@ -312,7 +312,6 @@ export default function Detail({ cat }) {
                 className="btn btn-danger"
                 onClick={handleRemove}
               >
-                <i className="fa fa-fw fa-trash-o" />
                 删除
               </button>
               )}
@@ -323,7 +322,6 @@ export default function Detail({ cat }) {
                 style={{ display: 'none' }}
                 onClick={handleSubmit}
               >
-                <i className="fa fa-fw fa-save" />
                 保存
               </button>
             </div>

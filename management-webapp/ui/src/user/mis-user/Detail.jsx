@@ -165,12 +165,10 @@ export default function Detail({ category }) {
                 className="btn btn-danger"
                 onClick={handleRemove}
               >
-                <i className="fa fa-fw fa-trash-o" />
                 删除
               </button>
               )}
               <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                <i className="fa fa-fw fa-save" />
                 保存
               </button>
             </div>

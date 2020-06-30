@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import md5 from 'blueimp-md5';
 
 import Navbar from '../component/Navbar';
+import IconLogIn from '../icon/LogIn';
 
 export default function SignIn() {
   const [username, setUsername] = useState('');
@@ -90,7 +91,7 @@ export default function SignIn() {
 
           <div className="card-footer">
             <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
-              <i className="fa fa-fw fa-sign-in" />
+              <IconLogIn />
               确定
             </button>
           </div>

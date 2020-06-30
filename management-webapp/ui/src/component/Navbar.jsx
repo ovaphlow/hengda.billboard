@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import useMessageQty from '../useMessageQty';
+import IconHome from '../icon/Home';
 
 export default function Navbar({ category }) {
   const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
@@ -25,7 +26,7 @@ export default function Navbar({ category }) {
         <ul className="navbar-nav mr-auto">
           <li className={`nav-item ${category === '首页' ? 'active' : ''}`}>
             <a href="home.html#/" className="nav-link">
-              <i className="fa fa-fw fa-home" />
+              <IconHome />
               首页
               <span className="sr-only">(current)</span>
             </a>

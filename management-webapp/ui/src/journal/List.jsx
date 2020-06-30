@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
+import IconSync from '../icon/Sync';
 
 export default function List({ category }) {
   const location = useLocation();
@@ -182,7 +183,7 @@ export default function List({ category }) {
                   </button>
 
                   <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
-                    <i className="fa fa-fw fa-refresh" />
+                    <IconSync />
                     重置
                   </button>
                 </div>

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
 import Navbar from '../../component/Navbar';
+import IconEditFlipH from '../../icon/EditFlipH';
+import IconMail from '../../icon/Mail';
+import IconSmartphone from '../../icon/Smartphone';
+import IconSync from '../../icon/Sync';
 
 export default function List() {
   const [data, setData] = useState([]);
@@ -84,7 +88,7 @@ export default function List() {
                   </button>
 
                   <button type="button" className="btn btn-secondary" onClick={() => { window.reload(true); }}>
-                    <i className="fa fa-fw fa-refresh" />
+                    <IconSync />
                     重置
                   </button>
                 </div>
@@ -109,16 +113,16 @@ export default function List() {
                   <tr key={it.id}>
                     <td>
                       <a href={`#/普通用户/${it.id}?uuid=${it.uuid}`}>
-                        <i className="fa fa-fw fa-edit" />
+                        <IconEditFlipH />
                       </a>
                       <span className="pull-right">{it.id}</span>
                     </td>
                     <td>{it.name}</td>
                     <td>
-                      <i className="fa fa-fw fa-envelope-o" />
+                      <IconMail />
                       {it.email}
                       <br />
-                      <i className="fa fa-fw fa-mobile" />
+                      <IconSmartphone />
                       {it.phone}
                     </td>
                     <td>{it.qty_favorite}</td>

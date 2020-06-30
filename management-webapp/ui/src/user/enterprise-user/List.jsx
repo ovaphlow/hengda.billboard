@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 
 import Navbar from '../../component/Navbar';
 import useMessageQty from '../../useMessageQty';
+import IconEditFlipH from '../../icon/EditFlipH';
+import IconLink from '../../icon/Link';
+import IconSearch from '../../icon/Search';
+import IconSync from '../../icon/Sync';
 
 export default function List() {
   const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
@@ -86,12 +90,12 @@ export default function List() {
 
               <div className="btn-group col-auto">
                 <button type="button" className="btn btn-info" onClick={handleFilter}>
-                  <i className="fa fa-fw fa-search" />
+                  <IconSearch />
                   查询
                 </button>
 
                 <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
-                  <i className="fa fa-fw fa-refresh" />
+                  <IconSync />
                   重置
                 </button>
               </div>
@@ -115,7 +119,7 @@ export default function List() {
                     <td className="text-right">
                       <span className="pull-left">
                         <a href={`#/企业用户/${it.id}?uuid=${it.uuid}`}>
-                          <i className="fa fa-fw fa-edit" />
+                          <IconEditFlipH />
                         </a>
                       </span>
                       {it.id}
@@ -126,7 +130,7 @@ export default function List() {
                       {it.enterprise}
                       &nbsp;
                       <a href={`enterprise.html#/${it.enterprise_id}?uuid=${it.enterprise_uuid}`}>
-                        <i className="fa fa-fw fa-link" />
+                        <IconLink />
                       </a>
                     </td>
                   </tr>

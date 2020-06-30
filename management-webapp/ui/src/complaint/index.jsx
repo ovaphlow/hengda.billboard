@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import moment from 'moment';
+import 'css.gg/icons/svg/add.svg';
 
 import { SIGN_IN_URL } from '../constant';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
+import IconChevronLeft from '../icon/ChevronLeft';
+import IconMailReply from '../icon/MailReply';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -90,7 +93,7 @@ function Complaint() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <i className="fa fa-fw fa-angle-left" />
+                      <IconChevronLeft />
                       后退
                     </button>
                   </div>
@@ -162,7 +165,7 @@ function Complaint() {
                                 data-user-category={it.user_category}
                                 onClick={handleReply}
                               >
-                                <i className="fa fa-fw fa-reply" />
+                                <IconMailReply />
                                 回复
                               </button>
                             </td>

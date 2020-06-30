@@ -107,7 +107,7 @@ export default function Detail({ cat }) {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <i className="fa fa-fw fa-angle-left" />
+                      <IconChevronLeft />
                       后退
                     </button>
                   </div>
@@ -169,7 +169,6 @@ export default function Detail({ cat }) {
                         className="btn btn-danger"
                         onClick={handleRemove}
                       >
-                        <i className="fa fa-fw fa-trash" />
                         删除
                       </button>
                       )}
@@ -179,7 +178,6 @@ export default function Detail({ cat }) {
                         className="btn btn-primary"
                         onClick={handleSubmit}
                       >
-                        <i className="fa fa-fw fa-save" />
                         保存
                       </button>
                     </div>

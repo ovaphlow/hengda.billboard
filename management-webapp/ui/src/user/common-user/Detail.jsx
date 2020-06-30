@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Navbar from '../../component/Navbar';
+import IconList from '../../icon/List';
 
 export default function Detail({ category }) {
   const { id } = useParams();
@@ -159,7 +160,6 @@ export default function Detail({ category }) {
                 className="btn btn-danger"
                 onClick={handleRemove}
               >
-                <i className="fa fa-fw fa-trash-o" />
                 删除
               </button>
               )}
@@ -170,7 +170,6 @@ export default function Detail({ category }) {
                 style={{ display: 'none' }}
                 onClick={handleSubmit}
               >
-                <i className="fa fa-fw fa-save" />
                 保存
               </button>
             </div>
@@ -198,22 +197,12 @@ export default function Detail({ category }) {
               <div className="btn-group">
                 <button
                   type="button"
-                  className="btn btn-sm btn-outline-success"
-                  style={{ display: 'none' }}
-                  onClick={() => { window.location = `resume.html#/新增?master_id=${id}`; }}
-                >
-                  <i className="fa fa-fw fa-plus" />
-                  添加简历
-                </button>
-
-                <button
-                  type="button"
                   className="btn btn-sm btn-info"
                   onClick={() => {
                     window.location = `delivery.html#/?user_id=${id}&user_uuid=${uuid}`;
                   }}
                 >
-                  <i className="fa fa-fw fa-list" />
+                  <IconList />
                   投递记录
                 </button>
               </div>
@@ -228,7 +217,7 @@ export default function Detail({ category }) {
               className="btn btn-block btn-secondary"
               onClick={() => { window.location = `favorite.html#/?master_id=${id}`; }}
             >
-              <i className="fa fa-fw fa-list" />
+              <IconList />
               用户收藏
             </button>
           </div>

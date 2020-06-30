@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
+import IconAdd from '../icon/Add';
+import IconTag from '../icon/Tag';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
@@ -104,7 +106,7 @@ export default function Detail({ cat }) {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <i className="fa fa-fw fa-angle-left" />
+                      <IconChevronLeft />
                       后退
                     </button>
                   </div>
@@ -159,12 +161,10 @@ export default function Detail({ cat }) {
                     <div className="btn-group pull-right">
                       {cat === '编辑' && (
                       <button type="button" className="btn btn-danger" onClick={handleRemove}>
-                        <i className="fa fa-fw fa-trash-o" />
                         删除
                       </button>
                       )}
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
-                        <i className="fa fa-fw fa-save" />
                         保存
                       </button>
                     </div>
@@ -177,7 +177,7 @@ export default function Detail({ cat }) {
                       二级分类
                       <span className="pull-right">
                         <a href={`#/二级行业/新增?master_id=${id}&uuid=${uuid}`}>
-                          <i className="fa fa-fw fa-plus" />
+                          <IconAdd />
                           新增
                         </a>
                       </span>
@@ -188,7 +188,7 @@ export default function Detail({ cat }) {
                         {list.map((it) => (
                           <li className="list-inline-item" key={it.id}>
                             <a href={`#/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}>
-                              <i className="fa fa-fw fa-tag" />
+                              <IconTag />
                               {it.name}
                             </a>
                           </li>

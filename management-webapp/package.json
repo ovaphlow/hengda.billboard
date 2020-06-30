@@ -13,6 +13,7 @@
     "@koa/router": "^9.0.1",
     "blueimp-md5": "^2.16.0",
     "bootstrap": "^4.5.0",
+    "css.gg": "^2.0.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
     "koa": "^2.12.1",

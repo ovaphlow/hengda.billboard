@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
+import IconLink from '../icon/Link';
+
 export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
   const [list, setList] = useState([]);
 
@@ -56,7 +58,7 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
                 data-category={it.category2}
                 onClick={handleRedirect2Resource}
               >
-                <i className="fa fa-fw fa-link" />
+                <IconLink />
                 查看
               </button>
             </td>

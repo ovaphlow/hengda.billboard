@@ -4,6 +4,9 @@ import moment from 'moment';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
+import IconAdd from '../icon/Add';
+import IconChevronLeft from '../icon/ChevronLeft';
+import IconEditFlipH from '../icon/EditFlipH';
 
 export default function List() {
   const [list, setList] = useState([]);
@@ -40,7 +43,7 @@ export default function List() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <i className="fa fa-fw fa-angle-left" />
+                      <IconChevronLeft />
                       后退
                     </button>
                   </div>
@@ -59,7 +62,7 @@ export default function List() {
                 <div className="card shadow bg-dark h-100">
                   <div className="card-header">
                     <a href="#/新增" className="btn btn-sm btn-secondary">
-                      <i className="fa fa-fw fa-plus" />
+                      <IconAdd />
                       新增
                     </a>
                   </div>
@@ -83,7 +86,7 @@ export default function List() {
                             <td className="text-right">
                               <span className="pull-left">
                                 <a href={`#/${it.id}?uuid=${it.uuid}`}>
-                                  <i className="fa fa-fw fa-edit" />
+                                  <IconEditFlipH />
                                 </a>
                               </span>
                               {it.id}

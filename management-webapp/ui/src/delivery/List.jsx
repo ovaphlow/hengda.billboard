@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 import Navbar from '../component/Navbar';
+import IconSync from '../icon/Sync';
 
 export default function List() {
   const location = useLocation();
@@ -94,7 +95,7 @@ export default function List() {
                       </button>
 
                       <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
-                        <i className="fa fa-fw fa-refresh" />
+                        <IconSync />
                         重置
                       </button>
                     </div>

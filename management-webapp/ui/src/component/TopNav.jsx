@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import useMessageQty from '../useMessageQty';
+import IconHome from '../icon/Home';
+import IconMail from '../icon/Mail';
+import IconProfile from '../icon/Profile';
 
 export default function TopNav({ cat }) {
   const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
@@ -14,7 +17,7 @@ export default function TopNav({ cat }) {
         <ul className="navbar-nav mr-auto">
           <li className={`nav-item ${cat === '首页' ? 'active' : ''}`}>
             <a href="home.html" className="nav-link">
-              <i className="fa fa-fw fa-home" />
+              <IconHome />
               首页
               <span className="sr-only">(current)</span>
             </a>
@@ -24,13 +27,13 @@ export default function TopNav({ cat }) {
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
-              <i className="fa fa-fw fa-envelope" />
+              <IconMail />
             </a>
           </li>
 
           <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
-              <i className="fa fa-fw fa-user-circle-o" />
+              <IconProfile />
               {message_qty > 0 && (
                 <small>
                   &nbsp;

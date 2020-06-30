@@ -10,35 +10,22 @@ export default function Detail({ cat }) {
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
+  const [master_id, setMasterID] = useState(0);
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    if (cat === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/settings/industry/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setComment(res.content.comment);
-      })();
-      (async () => {
-        const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
-        const res = await response.json();
-        setList(res.content || []);
-      })();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSubmit = async () => {
+    if (!name) {
+      window.alert('请完整填写所需信息');
+      return;
+    }
     if (cat === '新增') {
-      const response = await window.fetch('/api/settings/industry/', {
+      const t_master_id = new URLSearchParams(location.search).get('master_id');
+      const response = await window.fetch(`/api/settings/industry/2nd/?master_id=${t_master_id}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
+          master_id: id,
           name,
           comment,
         }),
@@ -50,7 +37,7 @@ export default function Detail({ cat }) {
       }
       window.history.go(-1);
     } else if (cat === '编辑') {
-      const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
+      const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${uuid}&master_id=${master_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -69,7 +56,7 @@ export default function Detail({ cat }) {
 
   const handleRemove = async () => {
     if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
+    const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${uuid}&master_id=${master_id}`, {
       method: 'DELETE',
     });
     const res = await response.json();
@@ -79,6 +66,22 @@ export default function Detail({ cat }) {
     }
     window.history.go(-1);
   };
+
+  useEffect(() => {
+    if (cat === '编辑') {
+      const t_uuid = new URLSearchParams(location.search).get('uuid');
+      setUUID(t_uuid);
+      const t_master_id = new URLSearchParams(location.search).get('master_id');
+      setMasterID(t_master_id);
+      (async () => {
+        const response = await window.fetch(`/api/settings/industry/2nd/${id}?uuid=${t_uuid}&master_id=${t_master_id}`);
+        const res = await response.json();
+        setName(res.content.name);
+        setComment(res.content.comment);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -121,12 +124,15 @@ export default function Detail({ cat }) {
                           系统设定：行业
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">{cat}</li>
+                      <li className="breadcrumb-item active">
+                        {cat}
+                        二级行业
+                      </li>
                     </ol>
                   </nav>
                 </div>
 
-                <div className="card shadow bg-dark h-100 flex-grow-1">
+                <div className="card shadow bg-dark h-100">
                   <div className="card-body">
                     <div className="form-group">
                       <label>名称</label>
@@ -158,46 +164,27 @@ export default function Detail({ cat }) {
 
                     <div className="btn-group pull-right">
                       {cat === '编辑' && (
-                      <button type="button" className="btn btn-danger" onClick={handleRemove}>
-                        <i className="fa fa-fw fa-trash-o" />
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash" />
                         删除
                       </button>
                       )}
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSubmit}
+                      >
                         <i className="fa fa-fw fa-save" />
                         保存
                       </button>
                     </div>
                   </div>
                 </div>
-
-                {cat === '编辑' && (
-                  <div className="card bg-dark shadow mt-3">
-                    <div className="card-header">
-                      二级分类
-                      <span className="pull-right">
-                        <a href={`#/二级行业/新增?master_id=${id}&uuid=${uuid}`}>
-                          <i className="fa fa-fw fa-plus" />
-                          新增
-                        </a>
-                      </span>
-                    </div>
-
-                    <div className="card-body">
-                      <ul className="list-inline">
-                        {list.map((it) => (
-                          <li className="list-inline-item" key={it.id}>
-                            <a href={`#/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}>
-                              <i className="fa fa-fw fa-tag" />
-                              {it.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
               </div>
             </div>
           </div>

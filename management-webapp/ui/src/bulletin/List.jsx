@@ -65,6 +65,7 @@ export default function List() {
                   </div>
                   <div className="card-body">
                     <table className="table table-dark table-striped">
+                      <caption>通知/公告</caption>
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>

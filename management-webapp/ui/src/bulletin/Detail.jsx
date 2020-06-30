@@ -159,7 +159,7 @@ export default function Detail({ cat }) {
                       </li>
                       <li className="breadcrumb-item">
                         <a href="bulletin.html" className="text-reset text-decoration-none">
-                          通知公告
+                          通知/公告
                         </a>
                       </li>
                       <li className="breadcrumb-item active">{cat}</li>

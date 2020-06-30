@@ -26,36 +26,36 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route path="/"><Feedback /></Route>
+        <Route path="/"><Complaint /></Route>
       </Switch>
     </Router>
   );
 }
 
-function Feedback() {
+function Complaint() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/feedback/feedback/');
+      const response = await window.fetch('/api/feedback/complaint/');
       const res = await response.json();
       setData(res.content);
     })();
   }, []);
 
   const handleReply = async (event) => {
-    const content = window.prompt('对用户意见反馈内容的回复');
-    const response = await window.fetch('/api/feedback/feedback/reply', {
+    const content = window.prompt('对投诉回复的内容');
+    const response = await window.fetch('/api/feedback/complaint/reply', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         id: event.target.getAttribute('data-id'),
         user_id: event.target.getAttribute('data-user-id'),
+        user_category: event.target.getAttribute('data-user-category'),
         category: '系统消息',
-        title: '对用户意见反馈内容的回复',
+        title: '对用户投诉内容的回复',
         content,
         datime: moment().format('YYYY-MM-DD'),
-        user_category: event.target.getAttribute('data-user-category'),
       }),
     });
     const res = await response.json();
@@ -77,7 +77,7 @@ function Feedback() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="意见反馈" />
+                <LeftNav cat="投诉" />
               </div>
             </div>
 
@@ -94,7 +94,7 @@ function Feedback() {
                       后退
                     </button>
                   </div>
-                  <span className="h1">意见反馈</span>
+                  <span className="h1">投诉</span>
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
@@ -103,7 +103,7 @@ function Feedback() {
                         </a>
                       </li>
                       <li className="breadcrumb-item active">
-                        意见反馈
+                        投诉
                       </li>
                     </ol>
                   </nav>
@@ -111,8 +111,8 @@ function Feedback() {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
-                    <table className="table table-dark table-hover">
-                      <caption>意见反馈</caption>
+                    <table className="table table-dark table-striped">
+                      <caption>投诉</caption>
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>
@@ -150,7 +150,7 @@ function Feedback() {
                             <td>
                               {moment(it.datime).format('YYYY-MM-DD')}
                               <br />
-                              <span className="text-muted">{moment(it.datime).format('HH:mm')}</span>
+                              <small className="text-muted">{moment(it.datime).format('HH:mm')}</small>
                             </td>
                             <td>{it.content}</td>
                             <td>

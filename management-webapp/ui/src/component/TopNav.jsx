@@ -22,16 +22,6 @@ export default function TopNav({ cat }) {
         </ul>
 
         <ul className="navbar-nav pull-right">
-          <li className={`nav-item ${cat === '行业' ? 'active' : ''}`}>
-            <a href="setting-industry.html" className="nav-link">
-              行业
-            </a>
-          </li>
-          <li className={`nav-item ${cat === '平台用户' ? 'active' : ''}`}>
-            <a href="mis-user.html" className="nav-link">
-              平台用户
-            </a>
-          </li>
           <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
               <i className="fa fa-fw fa-user-o" />

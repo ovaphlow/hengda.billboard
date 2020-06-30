@@ -42,8 +42,36 @@ export default function LeftNav({ cat }) {
       </li>
       <hr />
       <li className="nav-item">
-        <a href="feedback.html#/投诉" className="nav-link text-reset text-decoration-none">
-          投诉、意见反馈及举报
+        <a href="complaint.html" className="nav-link text-reset text-decoration-none">
+          {cat === '投诉' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>投诉</span>}
+        </a>
+      </li>
+      <li className="nav-item">
+        <a href="feedback.html" className="nav-link text-reset text-decoration-none">
+          {cat === '意见反馈' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>意见反馈</span>}
+        </a>
+      </li>
+      <li className="nav-item">
+        <a href="report.html" className="nav-link text-reset text-decoration-none">
+          {cat === '举报' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>举报</span>}
         </a>
       </li>
       <hr />
@@ -55,8 +83,7 @@ export default function LeftNav({ cat }) {
               {cat}
               <i className="fa fa-fw fa-angle-left" />
             </strong>
-          ) : <span>通知/公告</span>
-          }
+          ) : <span>通知/公告</span>}
         </a>
       </li>
       <hr />
@@ -68,8 +95,7 @@ export default function LeftNav({ cat }) {
               {cat}
               <i className="fa fa-fw fa-angle-left" />
             </strong>
-          ) : <span>系统设定：行业</span>
-          }
+          ) : <span>系统设定：行业</span>}
         </a>
       </li>
     </ul>

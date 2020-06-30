@@ -11,6 +11,7 @@ import Footer from '../component/Footer';
 import IndustryPicker from '../component/IndustryPicker';
 import EducationPicker from '../component/EducationPicker';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
+import IconChevronLeft from '../icon/ChevronLeft';
 
 export default function Detail({ cat }) {
   const { id } = useParams();

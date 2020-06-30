@@ -58,7 +58,6 @@ export default function Navbar({ category }) {
 
           <li className={`nav-item ${category === '用户' ? 'active' : ''}`}>
             <a href="user.html#/平台用户" className="nav-link">
-              <i className="fa fa-fw fa-users" />
               用户
             </a>
           </li>
@@ -73,14 +72,12 @@ export default function Navbar({ category }) {
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${category === '系统设置' ? 'active' : ''}`}>
             <a href="setting.html#/通知公告" className="nav-link">
-              <i className="fa fa-fw fa-cogs" />
               系统设置
             </a>
           </li>
 
           <li className={`nav-item ${category === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
-              <i className="fa fa-fw fa-user-o" />
               当前用户
               {message_qty > 0 && (
                 <small>

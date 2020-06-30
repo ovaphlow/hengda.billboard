@@ -5,7 +5,7 @@ import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
 import IconAdd from '../icon/Add';
 import IconChevronLeft from '../icon/ChevronLeft';
-import IconEditFlipH from '../icon/EditFlipH';
+import IconRename from '../icon/Rename';
 
 export default function List() {
   const [list, setList] = useState([]);
@@ -81,7 +81,7 @@ export default function List() {
                           <tr key={it.id}>
                             <td>
                               <a href={`#/${it.id}?uuid=${it.uuid}`}>
-                                <IconEditFlipH />
+                                <IconRename />
                               </a>
                               <span className="pull-right">{it.id}</span>
                             </td>

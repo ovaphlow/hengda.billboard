@@ -27,7 +27,7 @@ export default function Footer() {
       <span>
         <a href="https://github.com/ovaphlow/hengda.billboard" className="text-muted text-decoration-none">
           <IconCodeSlash />
-          Source
+          Source code by ovaphlow
         </a>
       </span>
     </div>

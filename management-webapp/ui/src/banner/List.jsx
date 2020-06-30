@@ -5,6 +5,7 @@ import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
 import { BANNER_CATEGORY } from '../constant';
 import IconAdd from '../icon/Add';
+import IconChevronLeft from '../icon/ChevronLeft';
 import IconSearch from '../icon/Search';
 
 export default function List() {

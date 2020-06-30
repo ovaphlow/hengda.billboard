@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Navbar from '../../component/Navbar';
-import IconEditFlipH from '../../icon/EditFlipH';
+import IconRename from '../../icon/Rename';
 import IconMail from '../../icon/Mail';
 import IconSmartphone from '../../icon/Smartphone';
 import IconSync from '../../icon/Sync';
@@ -113,7 +113,7 @@ export default function List() {
                   <tr key={it.id}>
                     <td>
                       <a href={`#/普通用户/${it.id}?uuid=${it.uuid}`}>
-                        <IconEditFlipH />
+                        <IconRename />
                       </a>
                       <span className="pull-right">{it.id}</span>
                     </td>

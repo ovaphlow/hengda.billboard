@@ -42,8 +42,7 @@ export default function List() {
 
       <div className="container mt-3 mb-5">
         <div className="row">
-          <div className="col-3 col-lg-2">
-          </div>
+          <div className="col-3 col-lg-2" />
 
           <div className="col-9 col-lg-10">
             <h3>普通用户 简历投递记录</h3>

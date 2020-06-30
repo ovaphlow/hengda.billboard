@@ -102,81 +102,81 @@ export default function Detail({ category }) {
       <div className="m-5" />
 
       <div className="container-lg">
-            <div className="card bg-dark shadow">
-              <div className="card-body">
-                <div className="form-group">
-                  <label>姓名</label>
-                  <input
-                    type="text"
-                    value={name || ''}
-                    className="form-control"
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                </div>
-
-                {category === '新增' && (
-                  <div className="form-group">
-                    <label>密码</label>
-                    <input
-                      type="text"
-                      value={password || ''}
-                      className="form-control"
-                      onChange={(event) => setPassword(event.target.value)}
-                    />
-                  </div>
-                )}
-
-                <div className="form-group">
-                  <label>电话</label>
-                  <input
-                    type="tel"
-                    value={phone || ''}
-                    className="form-control"
-                    onChange={(event) => setPhone(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="card-footer">
-                <div className="btn-group">
-                  <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                    返回
-                  </button>
-                </div>
-
-                <div className="btn-group pull-right">
-                  {category === '编辑' && (
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={handleRemove}
-                    >
-                      删除
-                    </button>
-                  )}
-
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{ display: 'none' }}
-                    onClick={handleSubmit}
-                  >
-                    保存
-                  </button>
-                </div>
-              </div>
+        <div className="card bg-dark shadow">
+          <div className="card-body">
+            <div className="form-group">
+              <label>姓名</label>
+              <input
+                type="text"
+                value={name || ''}
+                className="form-control"
+                onChange={(event) => setName(event.target.value)}
+              />
             </div>
 
-            <div className="card bg-dark shadow mt-4">
-              <div className="card-header">
-                <span className="lead">收藏</span>
-              </div>
+            {category === '新增' && (
+            <div className="form-group">
+              <label>密码</label>
+              <input
+                type="text"
+                value={password || ''}
+                className="form-control"
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
+            )}
 
-              <div className="card-body">
-                <ComponentEnterpriseUserFavoriteList user_id={id} />
-              </div>
+            <div className="form-group">
+              <label>电话</label>
+              <input
+                type="tel"
+                value={phone || ''}
+                className="form-control"
+                onChange={(event) => setPhone(event.target.value)}
+              />
             </div>
           </div>
+
+          <div className="card-footer">
+            <div className="btn-group">
+              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                返回
+              </button>
+            </div>
+
+            <div className="btn-group pull-right">
+              {category === '编辑' && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleRemove}
+              >
+                删除
+              </button>
+              )}
+
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ display: 'none' }}
+                onClick={handleSubmit}
+              >
+                保存
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="card bg-dark shadow mt-4">
+          <div className="card-header">
+            <span className="lead">收藏</span>
+          </div>
+
+          <div className="card-body">
+            <ComponentEnterpriseUserFavoriteList user_id={id} />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

@@ -7,6 +7,7 @@ import { SIGN_IN_URL } from '../constant';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
+import IconChevronLeft from '../icon/ChevronLeft';
 import IconMailReply from '../icon/MailReply';
 
 ReactDOM.render(

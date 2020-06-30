@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function EditFlipH() {
+export default function Rename() {
   return (
     <svg
       width="24"

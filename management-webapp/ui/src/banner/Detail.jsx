@@ -9,6 +9,7 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
 import { BANNER_CATEGORY } from '../constant';
+import IconChevronLeft from '../icon/ChevronLeft';
 
 export default function Detail({ cat }) {
   const { id } = useParams();

@@ -6,7 +6,7 @@ import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
 import IconAdd from '../icon/Add';
 import IconChevronLeft from '../icon/ChevronLeft';
-import IconEditFlipH from '../icon/EditFlipH';
+import IconRename from '../icon/Rename';
 import IconSearch from '../icon/Search';
 import IconSync from '../icon/Sync';
 
@@ -159,7 +159,7 @@ export default function List() {
                             <td className="text-right">
                               <span className="pull-left">
                                 <a href={`#/${it.id}?uuid=${it.uuid}`}>
-                                  <IconEditFlipH />
+                                  <IconRename />
                                 </a>
                               </span>
                               {it.id}

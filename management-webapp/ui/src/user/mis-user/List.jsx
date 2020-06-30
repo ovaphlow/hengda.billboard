@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Navbar from '../../component/Navbar';
 import IconAdd from '../../icon/Add';
-import IconEditFlipH from '../../icon/EditFlipH';
+import IconRename from '../../icon/Rename';
 
 export default function List() {
   const [data, setData] = useState([]);
@@ -77,7 +77,7 @@ export default function List() {
                   <tr key={it.id}>
                     <td>
                       <a href={`#/平台用户/${it.id}?uuid=${it.uuid}`}>
-                        <IconEditFlipH />
+                        <IconRename />
                       </a>
                       <span className="pull-right">{it.id}</span>
                     </td>

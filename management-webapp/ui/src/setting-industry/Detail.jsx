@@ -6,6 +6,7 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
 import IconAdd from '../icon/Add';
+import IconChevronLeft from '../icon/ChevronLeft';
 import IconTag from '../icon/Tag';
 
 export default function Detail({ cat }) {

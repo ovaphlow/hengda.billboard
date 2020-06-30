@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import IconEditFlipH from '../icon/EditFlipH';
+import IconRename from '../icon/Rename';
 import IconPlayListCheck from '../icon/PlayListCheck';
 import IconSync from '../icon/Sync';
 
@@ -99,7 +99,7 @@ export default function ComponentCertificateList() {
               <tr key={it.id}>
                 <td>
                   <a href={`enterprise.html#/${it.id}?uuid=${it.uuid}`}>
-                    <IconEditFlipH />
+                    <IconRename />
                   </a>
                   <span className="pull-right">{it.id}</span>
                 </td>

@@ -8,6 +8,7 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
+import IconChevronLeft from '../icon/ChevronLeft';
 
 export default function Detail({ cat }) {
   const { id } = useParams();

@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
+import IconChevronLeft from '../icon/ChevronLeft';
 
 export default function Detail({ cat }) {
   const { id } = useParams();

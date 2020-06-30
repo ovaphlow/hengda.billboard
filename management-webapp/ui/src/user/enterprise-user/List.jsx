@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Navbar from '../../component/Navbar';
 import useMessageQty from '../../useMessageQty';
-import IconEditFlipH from '../../icon/EditFlipH';
+import IconRename from '../../icon/Rename';
 import IconLink from '../../icon/Link';
 import IconSearch from '../../icon/Search';
 import IconSync from '../../icon/Sync';
@@ -119,7 +119,7 @@ export default function List() {
                     <td className="text-right">
                       <span className="pull-left">
                         <a href={`#/企业用户/${it.id}?uuid=${it.uuid}`}>
-                          <IconEditFlipH />
+                          <IconRename />
                         </a>
                       </span>
                       {it.id}

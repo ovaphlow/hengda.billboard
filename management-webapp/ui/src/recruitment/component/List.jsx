@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import IconEditFlipH from '../../icon/EditFlipH';
+import IconRename from '../../icon/Rename';
 
 export default function List({ enterprise_id, enterprise_uuid }) {
   const [data_list, setDataList] = useState([]);
@@ -34,7 +34,7 @@ export default function List({ enterprise_id, enterprise_uuid }) {
             <td className="text-right">
               <span className="pull-left">
                 <a href={`recruitment.html#/${it.id}?uuid=${it.uuid}`}>
-                  <IconEditFlipH />
+                  <IconRename />
                 </a>
               </span>
               {it.id}

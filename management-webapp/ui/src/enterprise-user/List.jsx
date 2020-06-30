@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import Navbar from '../../component/Navbar';
-import useMessageQty from '../../useMessageQty';
-import IconRename from '../../icon/Rename';
-import IconLink from '../../icon/Link';
-import IconSearch from '../../icon/Search';
-import IconSync from '../../icon/Sync';
+import Navbar from '../component/Navbar';
+import useMessageQty from '../useMessageQty';
+import IconRename from '../icon/Rename';
+import IconLink from '../icon/Link';
+import IconSearch from '../icon/Search';
+import IconSync from '../icon/Sync';
 
 export default function List() {
   const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });

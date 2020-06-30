@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Navbar from '../../component/Navbar';
-import ComponentEnterpriseUserFavoriteList from '../../favorite/ComponentEnterpriseUserFavoriteList';
+import Navbar from '../component/Navbar';
+import ComponentEnterpriseUserFavoriteList from '../favorite/ComponentEnterpriseUserFavoriteList';
 
-export default function Detail({ category }) {
+export default function Detail({ component_option }) {
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -15,7 +15,7 @@ export default function Detail({ category }) {
   const [phone, setPhone] = useState('');
 
   const handleSubmit = async () => {
-    if (category === '编辑') {
+    if (component_option === '编辑') {
       const response = await window.fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -49,7 +49,7 @@ export default function Detail({ category }) {
   useEffect(() => {
     const t_master_id = new URLSearchParams(location.search).get('enterprise_id');
     setEnterpriseID(t_master_id);
-    if (category === '编辑') {
+    if (component_option === '编辑') {
       const t_uuid = new URLSearchParams(location.search).get('uuid');
       setUUID(t_uuid);
       (async () => {
@@ -73,7 +73,7 @@ export default function Detail({ category }) {
               <li className="breadcrumb-item">
                 <a href="#/企业用户" className="text-light">企业用户</a>
               </li>
-              <li className="breadcrumb-item active">{category}</li>
+              <li className="breadcrumb-item active">{component_option}</li>
             </ol>
           </h1>
         </nav>
@@ -114,7 +114,7 @@ export default function Detail({ category }) {
               />
             </div>
 
-            {category === '新增' && (
+            {component_option === '新增' && (
             <div className="form-group">
               <label>密码</label>
               <input
@@ -145,7 +145,7 @@ export default function Detail({ category }) {
             </div>
 
             <div className="btn-group float-right">
-              {category === '编辑' && (
+              {component_option === '编辑' && (
               <button
                 type="button"
                 className="btn btn-danger"
@@ -182,5 +182,5 @@ export default function Detail({ category }) {
 }
 
 Detail.propTypes = {
-  category: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

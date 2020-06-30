@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { SIGN_IN_URL } from '../constant';
-import EnterpriseUserRouter from './enterprise-user';
+import List from './List';
+import Detail from './Detail';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,7 +12,7 @@ ReactDOM.render(
   document.getElementById('app'),
 );
 
-function Index() {
+export default function Index() {
   useEffect(() => {
     const auth = sessionStorage.getItem('mis-auth');
     if (!auth) {
@@ -23,7 +23,9 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route path="/企业用户"><EnterpriseUserRouter /></Route>
+        <Route exact path="/"><List /></Route>
+        <Route exact path="/新增"><Detail component_option="新增" /></Route>
+        <Route path="/:id"><Detail component_option="编辑" /></Route>
       </Switch>
     </Router>
   );

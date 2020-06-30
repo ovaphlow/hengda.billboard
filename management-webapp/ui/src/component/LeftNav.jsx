@@ -6,38 +6,80 @@ export default function LeftNav({ cat }) {
     <ul className="nav flex-column">
       <li className="nav-item">
         <a href="banner.html" className="nav-link text-reset text-decoration-none">
-          BANNER
+          {cat === 'BANNER' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>BANNER</span>}
         </a>
       </li>
       <li className="nav-item">
         <a href="recommend.html" className="nav-link text-reset text-decoration-none">
-          推荐信息
+          {cat === '推荐信息' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>推荐信息</span>}
         </a>
       </li>
       <li className="nav-item">
         <a href="topic.html" className="nav-link text-reset text-decoration-none">
-          热门话题
+          {cat === '热门话题' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>热门话题</span>}
         </a>
       </li>
       <li className="nav-item">
         <a href="campus.html" className="nav-link text-reset text-decoration-none">
-          校园招聘
+          {cat === '校园招聘' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>校园招聘</span>}
         </a>
       </li>
       <hr />
       <li className="nav-item">
         <a href="enterprise-user.html" className="nav-link text-reset text-decoration-none">
-          企业用户
+          {cat === '企业用户' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>企业用户</span>}
         </a>
       </li>
       <li className="nav-item">
         <a href="common-user.html" className="nav-link text-reset text-decoration-none">
-          个人用户
+          {cat === '个人用户' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>个人用户</span>}
         </a>
       </li>
       <li className="nav-item">
         <a href="mis-user.html" className="nav-link text-reset text-decoration-none">
-          平台用户
+          {cat === '平台用户' ? (
+            <strong>
+              <i className="fa fa-fw fa-angle-right" />
+              {cat}
+              <i className="fa fa-fw fa-angle-left" />
+            </strong>
+          ) : <span>平台用户</span>}
         </a>
       </li>
       <hr />

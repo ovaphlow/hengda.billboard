@@ -13,7 +13,7 @@ export default function TopNav({ cat }) {
       <div className="collapse navbar-collapse" id="navbarContent">
         <ul className="navbar-nav mr-auto">
           <li className={`nav-item ${cat === '首页' ? 'active' : ''}`}>
-            <a href="home.html#/" className="nav-link">
+            <a href="home.html" className="nav-link">
               <i className="fa fa-fw fa-home" />
               首页
               <span className="sr-only">(current)</span>

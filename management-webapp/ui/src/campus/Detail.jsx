@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-import Navbar from '../component/Navbar';
+import TopNav from '../component/TopNav';
+import LeftNav from '../component/LeftNav';
+import Footer from '../component/Footer';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
 
 export default function Detail({ cat }) {
@@ -150,204 +152,237 @@ export default function Detail({ cat }) {
   };
 
   return (
-    <>
-      <Navbar category="校园招聘" />
+    <div className="d-flex flex-column h-100 w-100">
+      <header>
+        <TopNav cat="" />
+      </header>
 
-      <div className="container-fluid">
-        <nav aria-label="breadcrumb">
-          <h1>
-            <ol className="breadcrumb bg-dark">
-              <li className="breadcrumb-item">
-                <a href="#/" className="text-reset text-decoration-none">校园招聘</a>
-              </li>
-              <li className="breadcrumb-item active">{cat}</li>
-            </ol>
-          </h1>
-        </nav>
-        <div className="p-2" />
-      </div>
-
-      <div className="m-5" />
-
-      <div className="container-lg">
-        <div className="card bg-dark shadow">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-3">
-                <div className="form-group">
-                  <label>类型</label>
-                  <select
-                    value={category || ''}
-                    className="form-control"
-                    onChange={(event) => setCategory(event.target.value)}
-                  >
-                    <option value="">未选择</option>
-                    <option>双选会</option>
-                    <option>宣讲会</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>标题</label>
-                  <input
-                    type="text"
-                    value={title || ''}
-                    className="form-control"
-                    onChange={(event) => setTitle(event.target.value)}
-                  />
-                </div>
+      <main className="flex-grow-1">
+        <div className="container-fluid h-100">
+          <div className="row h-100 d-flex justify-content-center">
+            <div className="col-3 col-lg-2">
+              <div className="card bg-dark h-100">
+                <LeftNav cat="校园招聘" />
               </div>
             </div>
 
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>日期</label>
-                  <input
-                    type="date"
-                    value={date || ''}
-                    className="form-control"
-                    onChange={(event) => setDate(event.target.value)}
-                  />
+            <div className="col">
+              <div className="container-lg h-100 d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-end">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-link text-reset text-decoration-none"
+                      onClick={() => { window.history.go(-1); }}
+                    >
+                      <i className="fa fa-fw fa-angle-left" />
+                      后退
+                    </button>
+                  </div>
+                  <span className="h1">校园招聘</span>
+                  <nav>
+                    <ol className="breadcrumb transparent">
+                      <li className="breadcrumb-item">
+                        <a href="home.html" className="text-reset text-decoration-none">
+                          首页
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item active">
+                        校园招聘
+                      </li>
+                      <li className="breadcrumb-item active">
+                        校园招聘
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
+
+                <div className="card shadow bg-dark h-100 flex-grow-1">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-3">
+                        <div className="form-group">
+                          <label>类型</label>
+                          <select
+                            value={category || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setCategory(event.target.value)}
+                          >
+                            <option value="">未选择</option>
+                            <option>双选会</option>
+                            <option>宣讲会</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>标题</label>
+                          <input
+                            type="text"
+                            value={title || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setTitle(event.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label>日期</label>
+                          <input
+                            type="date"
+                            value={date || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setDate(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>时间</label>
+                          <input
+                            type="time"
+                            value={time || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setTime(event.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label>地址</label>
+                          <select
+                            value={address_level1 || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setAddressLevel1(event.target.value)}
+                          >
+                            <option value="">未选择</option>
+                            {arr1.map((it) => (
+                              <option key={arr1.indexOf(it)} value={it}>{it}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>&nbsp;</label>
+                          <select
+                            value={address_level2 || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setAddressLevel2(event.target.value)}
+                          >
+                            <option value="">未选择</option>
+                            {arr2.map((it) => (
+                              <option key={arr2.indexOf(it)} value={it}>{it}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>&nbsp;</label>
+                          <select
+                            value={address_level3 || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setAddressLevel3(event.target.value)}
+                          >
+                            <option value="">未选择</option>
+                            {arr3.map((it) => (
+                              <option key={arr3.indexOf(it)} value={it}>{it}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label />
+                      <input
+                        type="text"
+                        value={address_level4 || ''}
+                        className="form-control input-underscore"
+                        onChange={(event) => setAddressLevel4(event.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>院校</label>
+                      <input
+                        type="text"
+                        value={school}
+                        className="form-control input-underscore"
+                        onChange={(event) => setSchool(event.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>内容</label>
+                      <ReactQuill
+                        formats={[
+                          'header', 'align', 'bold', 'italic',
+                          'underline', 'blockquote', 'link', 'image']}
+                        modules={{
+                          toolbar: [
+                            [{ header: [1, 2, 3, false] }],
+                            [{ align: [] }],
+                            ['bold', 'italic', 'underline', 'blockquote'],
+                            ['link', 'image'],
+                          ],
+                        }}
+                        placeholder="请填写内容"
+                        value={content}
+                        onChange={setContent}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="card-footer">
+                    <div className="btn-group">
+                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                        返回
+                      </button>
+                    </div>
+
+                    <div className="btn-group pull-right">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={handleRemove}
+                      >
+                        <i className="fa fa-fw fa-trash-o" />
+                        删除
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSubmit}
+                      >
+                        <i className="fa fa-fw fa-save" />
+                        保存
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>时间</label>
-                  <input
-                    type="time"
-                    value={time || ''}
-                    className="form-control"
-                    onChange={(event) => setTime(event.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>地址</label>
-                  <select
-                    value={address_level1 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddressLevel1(event.target.value)}
-                  >
-                    <option value="">未选择</option>
-                    {arr1.map((it) => (
-                      <option key={arr1.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>&nbsp;</label>
-                  <select
-                    value={address_level2 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddressLevel2(event.target.value)}
-                  >
-                    <option value="">未选择</option>
-                    {arr2.map((it) => (
-                      <option key={arr2.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>&nbsp;</label>
-                  <select
-                    value={address_level3 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddressLevel3(event.target.value)}
-                  >
-                    <option value="">未选择</option>
-                    {arr3.map((it) => (
-                      <option key={arr3.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label />
-              <input
-                type="text"
-                value={address_level4 || ''}
-                className="form-control"
-                onChange={(event) => setAddressLevel4(event.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>院校</label>
-              <input
-                type="text"
-                value={school}
-                className="form-control"
-                onChange={(event) => setSchool(event.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>内容</label>
-              <ReactQuill
-                formats={[
-                  'header', 'align', 'bold', 'italic',
-                  'underline', 'blockquote', 'link', 'image']}
-                modules={{
-                  toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    [{ align: [] }],
-                    ['bold', 'italic', 'underline', 'blockquote'],
-                    ['link', 'image'],
-                  ],
-                }}
-                placeholder="请填写内容"
-                value={content}
-                onChange={setContent}
-              />
-            </div>
-          </div>
-
-          <div className="card-footer">
-            <div className="btn-group">
-              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                返回
-              </button>
-            </div>
-
-            <div className="btn-group pull-right">
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleRemove}
-              >
-                <i className="fa fa-fw fa-trash-o" />
-                删除
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                <i className="fa fa-fw fa-save" />
-                保存
-              </button>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </main>
+
+      <footer className="mt-3 bg-dark">
+        <Footer />
+      </footer>
+    </div>
   );
 }
 

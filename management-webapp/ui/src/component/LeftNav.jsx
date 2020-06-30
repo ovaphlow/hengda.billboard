@@ -75,7 +75,7 @@ export default function LeftNav({ cat }) {
         </a>
       </li>
       <li className="nav-item">
-        <a href="mis-user.html" className="nav-link text-reset text-decoration-none">
+        <a href="staff.html" className="nav-link text-reset text-decoration-none">
           {cat === '平台用户' ? (
             <strong>
               <IconChevronRight />

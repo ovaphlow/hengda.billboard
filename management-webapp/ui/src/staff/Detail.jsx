@@ -1,78 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import md5 from 'blueimp-md5';
 
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
-import IconAdd from '../icon/Add';
 import IconChevronLeft from '../icon/ChevronLeft';
-import IconTag from '../icon/Tag';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
-  const [comment, setComment] = useState('');
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    if (cat === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/settings/industry/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setComment(res.content.comment);
-      })();
-      (async () => {
-        const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
-        const res = await response.json();
-        setList(res.content || []);
-      })();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleSubmit = async () => {
-    if (cat === '新增') {
-      const response = await window.fetch('/api/settings/industry/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          comment,
-        }),
-      });
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      window.history.go(-1);
-    } else if (cat === '编辑') {
-      const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          comment,
-        }),
-      });
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      window.history.go(-1);
-    }
-  };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
+    if (!window.confirm('确定删除当前数据？')) return;
+    const response = await window.fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
       method: 'DELETE',
     });
     const res = await response.json();
@@ -82,6 +27,59 @@ export default function Detail({ cat }) {
     }
     window.history.go(-1);
   };
+
+  const handleSubmit = async () => {
+    if (!name || !username) {
+      window.alert('请完整填写所需信息');
+      return;
+    }
+
+    const data = {
+      username,
+      password: md5('112332'),
+      name,
+    };
+
+    if (cat === '新增') {
+      const response = await fetch('/api/mis-user/', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    } else if (cat === '编辑') {
+      const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    }
+  };
+
+  useEffect(() => {
+    if (cat === '编辑') {
+      (async () => {
+        const t_uuid = new URLSearchParams(location.search).get('uuid');
+        setUUID(t_uuid);
+        const response = await fetch(`/api/mis-user/${id}?uuid=${t_uuid}`);
+        const res = await response.json();
+        setName(res.content.name);
+        setUsername(res.content.username);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -94,7 +92,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="系统设定：行业" />
+                <LeftNav cat="平台用户" />
               </div>
             </div>
 
@@ -111,7 +109,7 @@ export default function Detail({ cat }) {
                       返回
                     </button>
                   </div>
-                  <span className="h1">系统设定：行业</span>
+                  <span className="h1">平台用户</span>
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
@@ -120,8 +118,8 @@ export default function Detail({ cat }) {
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="setting-industry.html" className="text-reset text-decoration-none">
-                          系统设定：行业
+                        <a href="staff.html" className="text-reset text-decoration-none">
+                          平台用户
                         </a>
                       </li>
                       <li className="breadcrumb-item active">{cat}</li>
@@ -131,8 +129,13 @@ export default function Detail({ cat }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
+                    {cat === '新增' && (
+                      <div className="alert alert-warning">
+                        新增用户的默认密码为112332
+                      </div>
+                    )}
                     <div className="form-group">
-                      <label>名称</label>
+                      <label>姓名</label>
                       <input
                         type="text"
                         value={name || ''}
@@ -142,28 +145,36 @@ export default function Detail({ cat }) {
                     </div>
 
                     <div className="form-group">
-                      <label>备注</label>
+                      <label>用户名</label>
                       <input
                         type="text"
-                        value={comment || ''}
+                        value={username || ''}
                         className="form-control input-underscore"
-                        onChange={(event) => setComment(event.target.value)}
+                        onChange={(event) => setUsername(event.target.value)}
                       />
                     </div>
                   </div>
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => { window.history.go(-1); }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
                       {cat === '编辑' && (
-                      <button type="button" className="btn btn-danger" onClick={handleRemove}>
-                        删除
-                      </button>
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleRemove}
+                        >
+                          删除
+                        </button>
                       )}
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                         保存
@@ -171,34 +182,6 @@ export default function Detail({ cat }) {
                     </div>
                   </div>
                 </div>
-
-                {cat === '编辑' && (
-                  <div className="card bg-dark shadow mt-3">
-                    <div className="card-header">
-                      二级分类
-                      <span className="float-right">
-                        <a href={`#/二级行业/新增?master_id=${id}&uuid=${uuid}`}>
-                          <IconAdd />
-                          新增
-                        </a>
-                      </span>
-                    </div>
-
-                    <div className="card-body">
-                      <ul className="list-inline">
-                        {list.map((it) => (
-                          <li className="list-inline-item" key={it.id}>
-                            <a href={`#/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}>
-                              <IconTag />
-                              {it.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
               </div>
             </div>
           </div>

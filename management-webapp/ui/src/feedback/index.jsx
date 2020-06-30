@@ -93,7 +93,7 @@ function Feedback() {
                       onClick={() => { window.history.go(-1); }}
                     >
                       <IconChevronLeft />
-                      后退
+                      返回
                     </button>
                   </div>
                   <span className="h1">意见反馈</span>

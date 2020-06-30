@@ -8,13 +8,13 @@ import IconChevronLeft from '../icon/ChevronLeft';
 import IconRename from '../icon/Rename';
 
 export default function List() {
-  const [list, setList] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/settings/industry/');
+      const response = await fetch('/api/mis-user/');
       const res = await response.json();
-      setList(res.content);
+      setData(res.content);
     })();
   }, []);
 
@@ -29,7 +29,7 @@ export default function List() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="系统设定：行业" />
+                <LeftNav cat="平台用户" />
               </div>
             </div>
 
@@ -46,7 +46,7 @@ export default function List() {
                       返回
                     </button>
                   </div>
-                  <span className="h1">系统设定：行业</span>
+                  <span className="h1">平台用户</span>
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
@@ -54,39 +54,41 @@ export default function List() {
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">系统设定：行业</li>
+                      <li className="breadcrumb-item active">
+                        平台用户
+                      </li>
                     </ol>
                   </nav>
                 </div>
-                <div className="card shadow bg-dark h-100">
+
+                <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <a href="#/新增" className="btn btn-sm btn-secondary">
+                    <a href="#/新增" className="btn btn-secondary">
                       <IconAdd />
                       新增
                     </a>
                   </div>
-
                   <div className="card-body">
                     <table className="table table-dark table-striped">
+                      <caption>平台用户</caption>
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>
-                          <th>名称</th>
-                          <th>备注</th>
+                          <th>姓名</th>
+                          <th>用户名</th>
                         </tr>
                       </thead>
-
                       <tbody>
-                        {list.map((it) => (
+                        {data.map((it) => (
                           <tr key={it.id}>
-                            <td>
-                              <a href={`#/${it.id}?uuid=${it.uuid}`}>
+                            <td className="text-right">
+                              <a href={`#/${it.id}?uuid=${it.uuid}`} className="float-left">
                                 <IconRename />
                               </a>
-                              <span className="float-right">{it.id}</span>
+                              {it.id}
                             </td>
                             <td>{it.name}</td>
-                            <td>{it.comment}</td>
+                            <td>{it.username}</td>
                           </tr>
                         ))}
                       </tbody>

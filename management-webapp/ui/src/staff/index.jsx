@@ -4,15 +4,16 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { SIGN_IN_URL } from '../constant';
 import List from './List';
+import Detail from './Detail';
 
 ReactDOM.render(
   <React.StrictMode>
-    <JournalRouter />
+    <Index />
   </React.StrictMode>,
   document.getElementById('app'),
 );
 
-function JournalRouter() {
+function Index() {
   useEffect(() => {
     const auth = sessionStorage.getItem('mis-auth');
     if (!auth) {
@@ -23,9 +24,9 @@ function JournalRouter() {
   return (
     <Router>
       <Switch>
-        <Route path="/编辑"><List option="编辑" /></Route>
-        <Route path="/登录"><List option="登录" /></Route>
-        <Route path="/浏览"><List option="浏览" /></Route>
+        <Route exact path="/"><List /></Route>
+        <Route exact path="/新增"><Detail cat="新增" /></Route>
+        <Route path="/:id"><Detail cat="编辑" /></Route>
       </Switch>
     </Router>
   );

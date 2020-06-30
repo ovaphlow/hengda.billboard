@@ -41,7 +41,7 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
         {list.map((it) => (
           <tr key={it.id}>
             <td>
-              <span className="pull-right">{it.id}</span>
+              <span className="float-right">{it.id}</span>
             </td>
             <td>{it.category2}</td>
             <td>

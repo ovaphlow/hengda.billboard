@@ -131,7 +131,7 @@ export default function ChangePassword() {
               </button>
             </div>
 
-            <div className="btn-group pull-right">
+            <div className="btn-group float-right">
               <button type="button" className="btn btn-primary" onClick={handleChange}>
                 更改密码
               </button>

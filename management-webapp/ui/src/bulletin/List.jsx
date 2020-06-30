@@ -44,7 +44,7 @@ export default function List() {
                       onClick={() => { window.history.go(-1); }}
                     >
                       <IconChevronLeft />
-                      后退
+                      返回
                     </button>
                   </div>
                   <span className="h1">通知 公告</span>

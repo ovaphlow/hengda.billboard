@@ -56,7 +56,7 @@ export default function List() {
                       onClick={() => { window.history.go(-1); }}
                     >
                       <IconChevronLeft />
-                      后退
+                      返回
                     </button>
                   </div>
                   <span className="h1">BANNER</span>
@@ -143,7 +143,7 @@ export default function List() {
                           <div className="card-body">
                             <h5 className="card-title">
                               {it.title}
-                              <span className="pull-right">
+                              <span className="float-right">
                                 {it.status === '启用' ? (
                                   <span className="badge badge-success">{it.status}</span>
                                 ) : (

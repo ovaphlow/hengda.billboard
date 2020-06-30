@@ -27,7 +27,7 @@ export default function DataList({ enterprise_id, enterprise_uuid }) {
             key={it.id}
           >
             {it.name}
-            <span className="pull-right text-muted">{it.qty}</span>
+            <span className="float-right text-muted">{it.qty}</span>
           </a>
         ))
       }

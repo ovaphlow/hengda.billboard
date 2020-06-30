@@ -357,7 +357,7 @@ export default function Detail({ category }) {
               </button>
             </div>
 
-            <div className="btn-group pull-right">
+            <div className="btn-group float-right">
               {category === '编辑' && (
               <button
                 type="button"

@@ -1,48 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import React, { useState } from 'react';
 
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import Footer from '../component/Footer';
-import IconAdd from '../icon/Add';
 import IconChevronLeft from '../icon/ChevronLeft';
 import IconRename from '../icon/Rename';
+import IconMail from '../icon/Mail';
 import IconSearch from '../icon/Search';
+import IconSmartphone from '../icon/Smartphone';
 import IconSync from '../icon/Sync';
 
 export default function List() {
-  const [list, setList] = useState([]);
-  const [filter_title, setFilterTitle] = useState('');
-  const [filter_date, setFilterDate] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch('/api/content/campus/');
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      setList(res.content);
-    })();
-  }, []);
+  const [data, setData] = useState([]);
+  const [filter_name, setFilterName] = useState('');
 
   const handleFilter = async () => {
-    setList([]);
-    const response = await window.fetch('/api/content/campus/', {
+    setData([]);
+    const response = await window.fetch('/api/common-user/', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        title: filter_title,
-        date: filter_date,
-      }),
+      body: JSON.stringify({ filter_name }),
     });
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
       return;
     }
-    setList(res.content);
+    setData(res.content);
   };
 
   return (
@@ -56,7 +40,7 @@ export default function List() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="校园招聘" />
+                <LeftNav cat="个人用户" />
               </div>
             </div>
 
@@ -73,7 +57,7 @@ export default function List() {
                       返回
                     </button>
                   </div>
-                  <span className="h1">校园招聘</span>
+                  <span className="h1">个人用户</span>
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
@@ -82,7 +66,7 @@ export default function List() {
                         </a>
                       </li>
                       <li className="breadcrumb-item active">
-                        校园招聘
+                        个人用户
                       </li>
                     </ol>
                   </nav>
@@ -91,36 +75,18 @@ export default function List() {
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
                     <div className="form-row">
-                      <div className="col-auto">
-                        <a href="#/新增" className="btn btn-secondary">
-                          <IconAdd />
-                          新增
-                        </a>
-                      </div>
                       <div className="col">
                         <div className="input-group">
                           <div className="input-group-prepend">
-                            <span className="input-group-text">标题</span>
+                            <span className="input-group-text">姓名/电话</span>
                           </div>
+
                           <input
                             type="text"
-                            value={filter_title || ''}
+                            value={filter_name}
+                            aria-label="企业名称"
                             className="form-control"
-                            onChange={(event) => setFilterTitle(event.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col">
-                        <div className="input-group">
-                          <div className="input-group-prepend">
-                            <span className="input-group-text">日期</span>
-                          </div>
-                          <input
-                            type="date"
-                            value={filter_date || ''}
-                            className="form-control"
-                            onChange={(event) => setFilterDate(event.target.value)}
+                            onChange={(event) => setFilterName(event.target.value)}
                           />
                         </div>
                       </div>
@@ -132,7 +98,7 @@ export default function List() {
                             查询
                           </button>
 
-                          <button type="button" className="btn btn-secondary" onClick={() => window.location.reload(true)}>
+                          <button type="button" className="btn btn-secondary" onClick={() => { window.reload(true); }}>
                             <IconSync />
                             重置
                           </button>
@@ -141,38 +107,37 @@ export default function List() {
                     </div>
                   </div>
 
-                  <div className="card-body">
+                  <div className="card-body table-responsive">
                     <table className="table table-dark table-striped">
-                      <caption>校园招聘</caption>
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>
-                          <th>类型</th>
-                          <th>院校</th>
-                          <th>标题</th>
-                          <th>时间</th>
+                          <th>用户</th>
+                          <th>EMAIL</th>
+                          <th>电话</th>
+                          <th>收藏</th>
                         </tr>
                       </thead>
 
                       <tbody>
-                        {list.map((it) => (
+                        {data.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">
-                              <span className="pull-left">
-                                <a href={`#/${it.id}?uuid=${it.uuid}`}>
-                                  <IconRename />
-                                </a>
-                              </span>
-                              {it.id}
+                              <a href={`#/${it.id}?uuid=${it.uuid}`} className="float-left">
+                                <IconRename />
+                              </a>
+                              <span className="float-right">{it.id}</span>
                             </td>
-                            <td>{it.category}</td>
-                            <td>{it.school}</td>
-                            <td>{it.title}</td>
+                            <td>{it.name}</td>
                             <td>
-                              {moment(it.date).format('YYYY-MM-DD')}
-                              <br />
-                              {it.time}
+                              <IconMail />
+                              {it.email}
                             </td>
+                            <td>
+                              <IconSmartphone />
+                              {it.phone}
+                            </td>
+                            <td>{it.qty_favorite}</td>
                           </tr>
                         ))}
                       </tbody>

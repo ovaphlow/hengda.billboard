@@ -153,7 +153,7 @@ export default function Detail({ cat }) {
                       onClick={() => { window.history.go(-1); }}
                     >
                       <IconChevronLeft />
-                      后退
+                      返回
                     </button>
                   </div>
                   <span className="h1">推荐信息</span>
@@ -331,7 +331,7 @@ export default function Detail({ cat }) {
                       </button>
                     </div>
 
-                    <div className="btn-group pull-right">
+                    <div className="btn-group float-right">
                       {cat === '编辑' && (
                         <button type="button" className="btn btn-danger" onClick={handleRemove}>
                           删除

@@ -101,12 +101,12 @@ export default function ComponentCertificateList() {
                   <a href={`enterprise.html#/${it.id}?uuid=${it.uuid}`}>
                     <IconRename />
                   </a>
-                  <span className="pull-right">{it.id}</span>
+                  <span className="float-right">{it.id}</span>
                 </td>
                 <td>{it.name}</td>
                 <td>{it.faren}</td>
                 <td>
-                  <div className="btn-group pull-right">
+                  <div className="btn-group float-right">
                     <button
                       type="button"
                       className="btn btn-outline-success btn-sm"

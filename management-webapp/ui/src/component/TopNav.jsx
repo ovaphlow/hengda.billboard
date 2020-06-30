@@ -24,7 +24,7 @@ export default function TopNav({ cat }) {
           </li>
         </ul>
 
-        <ul className="navbar-nav pull-right">
+        <ul className="navbar-nav float-right">
           <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
               <IconMail />

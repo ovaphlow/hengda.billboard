@@ -177,7 +177,7 @@ export default function Detail({ cat }) {
                       onClick={() => { window.history.go(-1); }}
                     >
                       <IconChevronLeft />
-                      后退
+                      返回
                     </button>
                   </div>
                   <span className="h1">校园招聘</span>
@@ -353,7 +353,7 @@ export default function Detail({ cat }) {
                       </button>
                     </div>
 
-                    <div className="btn-group pull-right">
+                    <div className="btn-group float-right">
                       <button
                         type="button"
                         className="btn btn-danger"

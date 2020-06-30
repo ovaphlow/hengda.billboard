@@ -69,7 +69,7 @@ export default function Navbar({ category }) {
           </li>
         </ul>
 
-        <ul className="navbar-nav pull-right">
+        <ul className="navbar-nav float-right">
           <li className={`nav-item ${category === '系统设置' ? 'active' : ''}`}>
             <a href="setting.html#/通知公告" className="nav-link">
               系统设置

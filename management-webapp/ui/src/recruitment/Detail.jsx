@@ -305,7 +305,7 @@ export default function Detail({ cat }) {
               </button>
             </div>
 
-            <div className="btn-group pull-right">
+            <div className="btn-group float-right">
               {cat === '编辑' && (
               <button
                 type="button"

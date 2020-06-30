@@ -24,8 +24,13 @@ export default function TopNav({ cat }) {
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
-              <i className="fa fa-fw fa-user-o" />
-              当前用户
+              <i className="fa fa-fw fa-envelope" />
+            </a>
+          </li>
+
+          <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
+            <a href="current-user.html#/待处理" className="nav-link">
+              <i className="fa fa-fw fa-user-circle-o" />
               {message_qty > 0 && (
                 <small>
                   &nbsp;

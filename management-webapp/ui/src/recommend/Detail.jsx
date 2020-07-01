@@ -183,12 +183,12 @@ export default function Detail({ component_option }) {
                         <div className="mb-3">
                           <label className="form-label">分类</label>
                           <select
-                            value={category || ''}
+                            value={category}
                             className="form-control input-underscore"
                             onChange={(event) => setCategory(event.target.value)}
                           >
                             <option value="">未选择</option>
-                            { RECOMMEND_CATEGORY.map((it) => (
+                            {RECOMMEND_CATEGORY.map((it) => (
                               <option key={RECOMMEND_CATEGORY.indexOf(it)} value={it}>{it}</option>
                             ))}
                           </select>
@@ -200,7 +200,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">标题</label>
                           <input
                             type="text"
-                            value={title || ''}
+                            value={title}
                             className="form-control input-underscore"
                             onChange={(event) => setTitle(event.target.value)}
                           />
@@ -214,7 +214,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">发布日期</label>
                           <input
                             type="date"
-                            value={date1 || ''}
+                            value={date1}
                             className="form-control input-underscore"
                             onChange={(event) => setDate1(event.target.value)}
                           />
@@ -226,7 +226,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">截止日期</label>
                           <input
                             type="date"
-                            value={date2 || ''}
+                            value={date2}
                             className="form-control input-underscore"
                             onChange={(event) => setDate2(event.target.value)}
                           />
@@ -272,7 +272,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">招聘单位</label>
                           <input
                             type="text"
-                            value={publisher || ''}
+                            value={publisher}
                             className="form-control input-underscore"
                             onChange={(event) => setPublisher(event.target.value)}
                           />
@@ -284,7 +284,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">招聘人数</label>
                           <input
                             type="number"
-                            value={qty || ''}
+                            value={qty}
                             className="form-control input-underscore"
                             onChange={(event) => setQty(event.target.value)}
                           />

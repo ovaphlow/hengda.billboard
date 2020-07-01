@@ -256,15 +256,15 @@ router.post('/topic/', async (ctx) => {
   }
 });
 
-router.get('/recommend/:id/', async (ctx) => {
+router.get('/recommend/:id', async (ctx) => {
   const sql = 'select * from recommend where id = ? and uuid = ?';
   const pool = mysql.promise();
   try {
     const [rows] = await pool.query(sql, [
       parseInt(ctx.params.id, 10),
-      ctx.query.uuid,
+      ctx.request.query.uuid,
     ]);
-    ctx.response.body = { message: '', content: rows[0] };
+    ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} };
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
@@ -302,7 +302,7 @@ router.put('/recommend/:id', async (ctx) => {
       ctx.request.body.baomingfangshi,
       ctx.request.body.content,
       parseInt(ctx.params.id, 10),
-      ctx.query.uuid,
+      ctx.request.query.uuid,
     ]);
     ctx.response.body = { message: '', content: '' };
   } catch (err) {

@@ -10,8 +10,10 @@ import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import { RECOMMEND_CATEGORY } from '../constant';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
+import useAuth from '../useAuth';
 
-export default function Detail({ cat }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const { search } = useLocation();
   const [arr1, setArr1] = useState([]);
@@ -31,13 +33,67 @@ export default function Detail({ cat }) {
   const [baomingfangshi, setBaomingfangshi] = useState('');
   const [content, setContent] = useState('');
 
+  const handleSave = async () => {
+    const data = {
+      category,
+      title,
+      date1,
+      date2,
+      address_level1,
+      address_level2,
+      qty,
+      publisher,
+      baomingfangshi,
+      content,
+    };
+
+    if (component_option === '新增') {
+      const response = await window.fetch('/api/content/recommend/', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    } else if (component_option === '编辑') {
+      const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    }
+  };
+
+  const handleRemove = async () => {
+    if (!window.confirm('确定要删除当前数据？')) return;
+    const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
+      method: 'DELETE',
+    });
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    window.history.go(-1);
+  };
+
   useEffect(() => {
     setArr1(address_level1_values);
   }, []);
 
   useEffect(() => {
     (async () => {
-      if (cat === '编辑') {
+      if (component_option === '编辑') {
         const response = await window.fetch(`/api/content/recommend/${id}${search}`);
         const res = await response.json();
         setCategory(res.content.category);
@@ -73,64 +129,10 @@ export default function Detail({ cat }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level1]);
 
-  const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
-      method: 'DELETE',
-    });
-    const res = await response.json();
-    if (res.message) {
-      window.alert(res.message);
-      return;
-    }
-    window.history.go(-1);
-  };
-
-  const handleSave = async () => {
-    const data = {
-      category,
-      title,
-      date1,
-      date2,
-      address_level1,
-      address_level2,
-      qty,
-      publisher,
-      baomingfangshi,
-      content,
-    };
-
-    if (cat === '新增') {
-      const response = await window.fetch('/api/content/recommend/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      window.history.go(-1);
-    } else {
-      const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      window.history.go(-1);
-    }
-  };
-
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -138,7 +140,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="推荐信息" />
+                <LeftNav component_option="推荐信息" />
               </div>
             </div>
 
@@ -168,7 +170,7 @@ export default function Detail({ cat }) {
                         </a>
                       </li>
                       <li className="breadcrumb-item active">
-                        {cat}
+                        {component_option}
                       </li>
                     </ol>
                   </nav>
@@ -330,7 +332,7 @@ export default function Detail({ cat }) {
                     </div>
 
                     <div className="btn-group float-right">
-                      {cat === '编辑' && (
+                      {component_option === '编辑' && (
                         <button type="button" className="btn btn-danger" onClick={handleRemove}>
                           删除
                         </button>
@@ -359,5 +361,5 @@ export default function Detail({ cat }) {
 }
 
 Detail.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

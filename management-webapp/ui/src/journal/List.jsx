@@ -8,8 +8,10 @@ import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IconSearch from '../icon/Search';
 import IconSync from '../icon/Sync';
+import useAuth from '../useAuth';
 
-export default function List({ option }) {
+export default function List({ component_option }) {
+  const auth = useAuth();
   const location = useLocation();
   const [user_category, setUserCategory] = useState('');
   const [user_id, setUserID] = useState(0);
@@ -35,36 +37,40 @@ export default function List({ option }) {
   };
 
   useEffect(() => {
-    const t_user_category = new URLSearchParams(location.search).get('user_category');
-    setUserCategory(t_user_category);
-    const t_user_id = new URLSearchParams(location.search).get('user_id');
-    setUserID(t_user_id);
-    const t_user_uuid = new URLSearchParams(location.search).get('user_uuid');
-    setUserUUID(t_user_uuid);
-    if (option === '登录') {
+    setUserCategory(new URLSearchParams(location.search).get('user_category'));
+    setUserID(new URLSearchParams(location.search).get('user_id'));
+    setUserUUID(new URLSearchParams(location.search).get('user_uuid'));
+  }, []);
+
+  useEffect(() => {
+    if (!user_category || !user_id || !user_uuid) {
+      window.alert('参数错误');
+      return;
+    }
+    if (component_option === '登录') {
       (async () => {
-        const response = await window.fetch(`/api/journal/sign-in/?user_id=${t_user_id}&user_uuid=${t_user_uuid}?category=${t_user_category}`);
+        const response = await window.fetch(`/api/journal/sign-in/?user_id=${user_id}&user_uuid=${user_uuid}?category=${user_category}`);
         const res = await response.json();
         setData(res.content);
       })();
-    } else if (option === '浏览') {
+    } else if (component_option === '浏览') {
       (async () => {
-        const response = await window.fetch(`/api/journal/browse/?user_id=${t_user_id}&user_uuid=${t_user_uuid}?category=${t_user_category}`);
+        const response = await window.fetch(`/api/journal/browse/?user_id=${user_id}&user_uuid=${user_uuid}?category=${user_category}`);
         const res = await response.json();
         setData(res.content);
       })();
-    } else if (option === '编辑') {
+    } else if (component_option === '编辑') {
       (async () => {
-        const response = await window.fetch(`/api/journal/edit/?user_id=${t_user_id}&user_uuid=${t_user_uuid}&category=${t_user_category}`);
+        const response = await window.fetch(`/api/journal/edit/?user_id=${user_id}&user_uuid=${user_uuid}&category=${user_category}`);
         const res = await response.json();
         setData(res.content);
       })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user_category, user_id, user_uuid]);
 
   const handleFilter = async () => {
-    if (option === '登录') {
+    if (component_option === '登录') {
       const response = await window.fetch(`/api/journal/sign-in/?user_id=${user_id}&user_uuid=${user_uuid}&category=${user_category}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -79,7 +85,7 @@ export default function List({ option }) {
         return;
       }
       setData(res.content);
-    } else if (option === '浏览') {
+    } else if (component_option === '浏览') {
       const response = await window.fetch(`/api/journal/browse/?user_id=${user_id}&user_uuid=${user_uuid}&category=${user_category}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -94,7 +100,7 @@ export default function List({ option }) {
         return;
       }
       setData(res.content);
-    } else if (option === '编辑') {
+    } else if (component_option === '编辑') {
       const response = await window.fetch(`/api/journal/edit/?user_id=${user_id}&user_uuid=${user_uuid}&user_category=${user_category}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -115,7 +121,7 @@ export default function List({ option }) {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -123,7 +129,7 @@ export default function List({ option }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="操作记录" />
+                <LeftNav component_option="操作记录" />
               </div>
             </div>
 
@@ -141,7 +147,7 @@ export default function List({ option }) {
                   </div>
                   <span className="h1">
                     操作记录：
-                    {option}
+                    {component_option}
                   </span>
                   <nav>
                     <ol className="breadcrumb transparent">
@@ -157,7 +163,7 @@ export default function List({ option }) {
                       </li>
                       <li className="breadcrumb-item">
                         操作记录：
-                        {option}
+                        {component_option}
                       </li>
                     </ol>
                   </nav>
@@ -215,39 +221,39 @@ export default function List({ option }) {
                   <div className="card-body">
                     <table className="table table-dark table-striped">
                       <caption>
-                        {option}
+                        {component_option}
                         记录
                       </caption>
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>
-                          {option === '登录' && (
-                          <>
-                            <th>时间</th>
-                            <th>IP地址</th>
-                            <th>大概位置</th>
-                            <th>用户类别</th>
-                          </>
+                          {component_option === '登录' && (
+                            <>
+                              <th>时间</th>
+                              <th>IP地址</th>
+                              <th>大概位置</th>
+                              <th>用户类别</th>
+                            </>
                           )}
-                          {option === '浏览' && (
-                          <>
-                            <th>时间</th>
-                            <th>数据类别</th>
-                            <th className="text-right">操作</th>
-                          </>
+                          {component_option === '浏览' && (
+                            <>
+                              <th>时间</th>
+                              <th>数据类别</th>
+                              <th className="text-right">操作</th>
+                            </>
                           )}
-                          {option === '编辑' && (
-                          <>
-                            <th>时间</th>
-                            <th>用户类别</th>
-                            <th>操作内容</th>
-                          </>
+                          {component_option === '编辑' && (
+                            <>
+                              <th>时间</th>
+                              <th>用户类别</th>
+                              <th>操作内容</th>
+                            </>
                           )}
                         </tr>
                       </thead>
 
                       <tbody>
-                        {option === '登录' && data.map((it) => (
+                        {component_option === '登录' && data.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">{it.id}</td>
                             <td>{it.datime}</td>
@@ -256,7 +262,7 @@ export default function List({ option }) {
                             <td>{it.category}</td>
                           </tr>
                         ))}
-                        {option === '浏览' && data.map((it) => (
+                        {component_option === '浏览' && data.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">{it.id}</td>
                             <td>{it.datime}</td>
@@ -275,7 +281,7 @@ export default function List({ option }) {
                             </td>
                           </tr>
                         ))}
-                        {option === '编辑' && data.map((it) => (
+                        {component_option === '编辑' && data.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">{it.id}</td>
                             <td>{it.datime}</td>
@@ -301,5 +307,5 @@ export default function List({ option }) {
 }
 
 List.propTypes = {
-  option: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

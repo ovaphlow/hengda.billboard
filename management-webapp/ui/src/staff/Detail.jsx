@@ -6,8 +6,10 @@ import md5 from 'blueimp-md5';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
+import useAuth from '../useAuth';
 
-export default function Detail({ cat }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -39,7 +41,7 @@ export default function Detail({ cat }) {
       name,
     };
 
-    if (cat === '新增') {
+    if (component_option === '新增') {
       const response = await fetch('/api/mis-user/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -51,7 +53,7 @@ export default function Detail({ cat }) {
         return;
       }
       window.history.go(-1);
-    } else if (cat === '编辑') {
+    } else if (component_option === '编辑') {
       const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -67,23 +69,26 @@ export default function Detail({ cat }) {
   };
 
   useEffect(() => {
-    if (cat === '编辑') {
-      (async () => {
-        const t_uuid = new URLSearchParams(location.search).get('uuid');
-        setUUID(t_uuid);
-        const response = await fetch(`/api/mis-user/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setUsername(res.content.username);
-      })();
+    if (component_option === '编辑') {
+      setUUID(new URLSearchParams(location.search).get('uuid'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!uuid) return;
+    (async () => {
+      const response = await fetch(`/api/mis-user/${id}?uuid=${uuid}`);
+      const res = await response.json();
+      setName(res.content.name);
+      setUsername(res.content.username);
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uuid]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -91,7 +96,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="平台用户" />
+                <LeftNav component_option="平台用户" />
               </div>
             </div>
 
@@ -120,14 +125,14 @@ export default function Detail({ cat }) {
                           平台用户
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">{cat}</li>
+                      <li className="breadcrumb-item active">{component_option}</li>
                     </ol>
                   </nav>
                 </div>
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
-                    {cat === '新增' && (
+                    {component_option === '新增' && (
                       <div className="alert alert-warning">
                         新增用户的默认密码为112332
                       </div>
@@ -165,7 +170,7 @@ export default function Detail({ cat }) {
                     </div>
 
                     <div className="btn-group float-right">
-                      {cat === '编辑' && (
+                      {component_option === '编辑' && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -194,5 +199,5 @@ export default function Detail({ cat }) {
 }
 
 Detail.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

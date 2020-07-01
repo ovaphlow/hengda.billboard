@@ -8,6 +8,7 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IconMailReply from '../icon/MailReply';
+import useAuth from '../useAuth';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -34,15 +35,8 @@ function Index() {
 }
 
 function Feedback() {
+  const auth = useAuth();
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch('/api/feedback/feedback/');
-      const res = await response.json();
-      setData(res.content);
-    })();
-  }, []);
 
   const handleReply = async (event) => {
     const content = window.prompt('对用户意见反馈内容的回复');
@@ -67,10 +61,18 @@ function Feedback() {
     window.location.reload(true);
   };
 
+  useEffect(() => {
+    (async () => {
+      const response = await window.fetch('/api/feedback/feedback/');
+      const res = await response.json();
+      setData(res.content);
+    })();
+  }, []);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -78,7 +80,7 @@ function Feedback() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="意见反馈" />
+                <LeftNav component_option="意见反馈" />
               </div>
             </div>
 

@@ -7,8 +7,10 @@ import 'react-quill/dist/quill.snow.css';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
+import useAuth from '../useAuth';
 
 export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { recruitment_id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -69,32 +71,38 @@ export default function Detail({ component_option }) {
 
   useEffect(() => {
     if (component_option === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setQty(res.content.qty);
-        setDescription(res.content.description);
-        setRequirement(res.content.requirement);
-        setAddress1(res.content.address1);
-        setAddress2(res.content.address2);
-        setAddress3(res.content.address3);
-        setDate(res.content.date);
-        setSalary1(res.content.salary1);
-        setSalary2(res.content.salary2);
-        setEducation(res.content.education);
-        setCategory(res.content.category);
-      })();
+      setUUID(new URLSearchParams(location.search).get('uuid'));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!uuid) {
+      window.console.error('uuid解析失败');
+      return;
+    }
+    (async () => {
+      const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${uuid}`);
+      const res = await response.json();
+      setName(res.content.name);
+      setQty(res.content.qty);
+      setDescription(res.content.description);
+      setRequirement(res.content.requirement);
+      setAddress1(res.content.address1);
+      setAddress2(res.content.address2);
+      setAddress3(res.content.address3);
+      setDate(res.content.date);
+      setSalary1(res.content.salary1);
+      setSalary2(res.content.salary2);
+      setEducation(res.content.education);
+      setCategory(res.content.category);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uuid]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -102,7 +110,7 @@ export default function Detail({ component_option }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="企业用户" />
+                <LeftNav component_option="企业用户" />
               </div>
             </div>
 

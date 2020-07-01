@@ -17,7 +17,7 @@ export default function Index() {
     <Router>
       <Switch>
         <Route exact path="/"><List /></Route>
-        <Route path="/:id"><Detail option="编辑" /></Route>
+        <Route path="/:id"><Detail component_option="编辑" /></Route>
       </Switch>
     </Router>
   );

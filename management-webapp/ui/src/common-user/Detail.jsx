@@ -6,8 +6,10 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IconList from '../icon/List';
+import useAuth from '../useAuth';
 
-export default function Detail({ option }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -15,36 +17,6 @@ export default function Detail({ option }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [resume_list, setResumeList] = useState([]);
-
-  useEffect(() => {
-    if (option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (id > 0 && uuid !== '') {
-      (async () => {
-        const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setEmail(res.content.email);
-        setPhone(res.content.phone);
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [uuid]);
-
-  useEffect(() => {
-    if (option === '编辑') {
-      (async () => {
-        const response = await window.fetch(`/api/resume?user_id=${id}`);
-        const res = await response.json();
-        setResumeList(res.content);
-      })();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleRemove = async () => {
     if (!window.confirm('确定删除当前数据？')) return;
@@ -59,10 +31,40 @@ export default function Detail({ option }) {
     window.history.go(-1);
   };
 
+  useEffect(() => {
+    if (component_option === '编辑') {
+      setUUID(new URLSearchParams(location.search).get('uuid'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (uuid) {
+      (async () => {
+        const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`);
+        const res = await response.json();
+        setName(res.content.name);
+        setEmail(res.content.email);
+        setPhone(res.content.phone);
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uuid]);
+
+  useEffect(() => {
+    if (component_option === '编辑') {
+      (async () => {
+        const response = await window.fetch(`/api/resume?user_id=${id}`);
+        const res = await response.json();
+        setResumeList(res.content);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -70,7 +72,7 @@ export default function Detail({ option }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="个人用户" />
+                <LeftNav component_option="个人用户" />
               </div>
             </div>
 
@@ -100,7 +102,7 @@ export default function Detail({ option }) {
                         </a>
                       </li>
                       <li className="breadcrumb-item active">
-                        {option}
+                        {component_option}
                       </li>
                     </ol>
                   </nav>
@@ -195,7 +197,7 @@ export default function Detail({ option }) {
                     </div>
 
                     <div className="btn-group float-right">
-                      {option === '编辑' && (
+                      {component_option === '编辑' && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -208,7 +210,7 @@ export default function Detail({ option }) {
                   </div>
                 </div>
 
-                {option === '编辑' && (
+                {component_option === '编辑' && (
                   <div className="card bg-dark shadow mt-3">
                     <div className="card-header">用户简历</div>
 
@@ -253,5 +255,5 @@ export default function Detail({ option }) {
 }
 
 Detail.propTypes = {
-  option: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

@@ -4,8 +4,10 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import ComponentCertificateList from '../enterprise/ComponentCertificateList';
+import useAuth from '../useAuth';
 
 export default function CheckList() {
+  const auth = useAuth();
   const [certificate_qty, setCertificateQty] = useState(0);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function CheckList() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="待处理任务" />
+        <TopNav component_option="待处理任务" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -27,7 +29,7 @@ export default function CheckList() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="" />
+                <LeftNav component_option="" />
               </div>
             </div>
 

@@ -33,7 +33,7 @@ export default function Info() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="当前用户" />
+        <TopNav component_option="当前用户" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -41,7 +41,7 @@ export default function Info() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="" />
+                <LeftNav component_option="" />
               </div>
             </div>
 

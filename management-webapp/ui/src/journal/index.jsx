@@ -23,9 +23,9 @@ function JournalRouter() {
   return (
     <Router>
       <Switch>
-        <Route path="/编辑"><List option="编辑" /></Route>
-        <Route path="/登录"><List option="登录" /></Route>
-        <Route path="/浏览"><List option="浏览" /></Route>
+        <Route path="/编辑"><List component_option="编辑" /></Route>
+        <Route path="/登录"><List component_option="登录" /></Route>
+        <Route path="/浏览"><List component_option="浏览" /></Route>
       </Switch>
     </Router>
   );

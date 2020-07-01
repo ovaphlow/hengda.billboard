@@ -5,8 +5,10 @@ import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IconAdd from '../icon/Add';
 import IconRename from '../icon/Rename';
+import useAuth from '../useAuth';
 
 export default function List() {
+  const auth = useAuth();
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function List() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -28,7 +30,7 @@ export default function List() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="平台用户" />
+                <LeftNav component_option="平台用户" />
               </div>
             </div>
 

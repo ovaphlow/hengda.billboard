@@ -9,8 +9,10 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import { BANNER_CATEGORY } from '../constant';
+import useAuth from '../useAuth';
 
-export default function Detail({ cat }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -19,23 +21,6 @@ export default function Detail({ cat }) {
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const [data_url, setDataUrl] = useState('');
-
-  useEffect(() => {
-    if (cat === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/content/banner/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setStatus(res.content.status);
-        setCategory(res.content.category);
-        setTitle(res.content.title);
-        setComment(res.content.comment);
-        setDataUrl(res.content.data_url);
-      })();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const convertImg2Data = (event) => {
     if (!event.target.files[0]) return;
@@ -74,7 +59,7 @@ export default function Detail({ cat }) {
       data_url,
     };
 
-    if (cat === '新增') {
+    if (component_option === '新增') {
       const response = await window.fetch('/api/content/banner/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -86,7 +71,7 @@ export default function Detail({ cat }) {
         return;
       }
       window.history.go(-1);
-    } else if (cat === '编辑') {
+    } else if (component_option === '编辑') {
       const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -101,10 +86,31 @@ export default function Detail({ cat }) {
     }
   };
 
+  useEffect(() => {
+    if (component_option === '编辑') {
+      setUUID(new URLSearchParams(location.search).get('uuid'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (uuid) {
+      (async () => {
+        const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`);
+        const res = await response.json();
+        setStatus(res.content.status);
+        setCategory(res.content.category);
+        setTitle(res.content.title);
+        setComment(res.content.comment);
+        setDataUrl(res.content.data_url);
+      })();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uuid]);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -112,7 +118,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="BANNER" />
+                <LeftNav component_option="BANNER" />
               </div>
             </div>
 
@@ -142,7 +148,7 @@ export default function Detail({ cat }) {
                         </a>
                       </li>
                       <li className="breadcrumb-item active">
-                        {cat}
+                        {component_option}
                       </li>
                     </ol>
                   </nav>
@@ -241,7 +247,7 @@ export default function Detail({ cat }) {
                     </div>
 
                     <div className="btn-group float-right">
-                      {cat === '编辑' && (
+                      {component_option === '编辑' && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -275,5 +281,5 @@ export default function Detail({ cat }) {
 }
 
 Detail.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

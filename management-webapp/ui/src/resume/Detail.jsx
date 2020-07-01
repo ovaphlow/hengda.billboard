@@ -9,8 +9,10 @@ import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IndustryPicker from '../component/IndustryPicker';
 import EducationPicker from '../component/EducationPicker';
+import useAuth from '../useAuth';
 
 export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -30,47 +32,6 @@ export default function Detail({ component_option }) {
   const [qiwangzhiwei, setQiwangzhiwei] = useState('');
   const [qiwanghangye, setQiwanghangye] = useState('');
   const [yixiangchengshi, setYixiangchengshi] = useState('');
-
-  useEffect(() => {
-    if (component_option === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/resume/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setPhone(res.content.phone);
-        setEmail(res.content.email);
-        setGender(res.content.gender);
-        setBirthday(res.content.birthday);
-        setSchool(res.content.school);
-        setMajor(res.content.major);
-        setEducation(res.content.education);
-        setDateBegin(res.content.date_begin);
-        setDateEnd(res.content.date_end);
-        setAddress1(res.content.address1);
-        setAddress2(res.content.address2);
-        setZiwopingjia(res.content.ziwopingjia);
-        setQiwangzhiwei(res.content.qiwangzhiwei);
-        setQiwanghangye(res.content.qiwanghangye);
-        setYixiangchengshi(res.content.yixiangchengshi);
-      })();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleRemove = async () => {
-    if (!window.confirm('确定删除当前数据？')) return;
-    const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
-    });
-    const res = await response.json();
-    if (res.message) {
-      window.alert(res.message);
-      return;
-    }
-    window.history.go(-1);
-  };
 
   const handleSubmit = async () => {
     if (component_option === '编辑') {
@@ -105,10 +66,57 @@ export default function Detail({ component_option }) {
     }
   };
 
+  const handleRemove = async () => {
+    if (!window.confirm('确定删除当前数据？')) return;
+    const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`, {
+      method: 'DELETE',
+    });
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    window.history.go(-1);
+  };
+
+  useEffect(() => {
+    if (component_option === '编辑') {
+      setUUID(new URLSearchParams(location.search).get('uuid'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!uuid) {
+      window.console.error('uuid解析失败');
+      return;
+    }
+    (async () => {
+      const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`);
+      const res = await response.json();
+      setName(res.content.name);
+      setPhone(res.content.phone);
+      setEmail(res.content.email);
+      setGender(res.content.gender);
+      setBirthday(res.content.birthday);
+      setSchool(res.content.school);
+      setMajor(res.content.major);
+      setEducation(res.content.education);
+      setDateBegin(res.content.date_begin);
+      setDateEnd(res.content.date_end);
+      setAddress1(res.content.address1);
+      setAddress2(res.content.address2);
+      setZiwopingjia(res.content.ziwopingjia);
+      setQiwangzhiwei(res.content.qiwangzhiwei);
+      setQiwanghangye(res.content.qiwanghangye);
+      setYixiangchengshi(res.content.yixiangchengshi);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uuid]);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -116,7 +124,7 @@ export default function Detail({ component_option }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="个人用户" />
+                <LeftNav component_option="个人用户" />
               </div>
             </div>
 

@@ -9,6 +9,7 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IconMailReply from '../icon/MailReply';
+import useAuth from '../useAuth';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -35,15 +36,8 @@ function Index() {
 }
 
 function Complaint() {
+  const auth = useAuth();
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch('/api/feedback/complaint/');
-      const res = await response.json();
-      setData(res.content);
-    })();
-  }, []);
 
   const handleReply = async (event) => {
     const content = window.prompt('对投诉回复的内容');
@@ -68,10 +62,18 @@ function Complaint() {
     window.location.reload(true);
   };
 
+  useEffect(() => {
+    (async () => {
+      const response = await window.fetch('/api/feedback/complaint/');
+      const res = await response.json();
+      setData(res.content);
+    })();
+  }, []);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -79,7 +81,7 @@ function Complaint() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="投诉" />
+                <LeftNav component_option="投诉" />
               </div>
             </div>
 

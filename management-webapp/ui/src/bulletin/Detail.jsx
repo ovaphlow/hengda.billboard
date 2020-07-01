@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { v5 as uuidv5 } from 'uuid';
 
-import { useEffect } from 'react/cjs/react.development';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IndustryPicker from '../component/IndustryPicker';
 import EducationPicker from '../component/EducationPicker';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
+import useAuth from '../useAuth';
 
-export default function Detail({ cat }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const address_keys = useAddressKeys();
@@ -54,7 +55,7 @@ export default function Detail({ cat }) {
       uuid: uuidv5(`${title}-${dday}`, uuidv5.DNS), title, dday, receiver, doc: JSON.stringify(doc),
     };
 
-    if (cat === '新增') {
+    if (component_option === '新增') {
       const response = await window.fetch('/api/bulletin/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -66,7 +67,7 @@ export default function Detail({ cat }) {
         return;
       }
       window.history.go(-1);
-    } else if (cat === '编辑') {
+    } else if (component_option === '编辑') {
       const response = await window.fetch(`/api/bulletin/${id}?uuid=${new URLSearchParams(location.search).get('uuid')}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -104,7 +105,7 @@ export default function Detail({ cat }) {
   }, [address_level1]);
 
   useEffect(() => {
-    if (cat === '编辑') {
+    if (component_option === '编辑') {
       (async () => {
         const response = await window.fetch(`/api/bulletin/${id}?uuid=${new URLSearchParams(location.search).get('uuid')}`);
         const res = await response.json();
@@ -124,7 +125,7 @@ export default function Detail({ cat }) {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -132,7 +133,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="通知/公告" />
+                <LeftNav component_option="通知/公告" />
               </div>
             </div>
 
@@ -161,7 +162,7 @@ export default function Detail({ cat }) {
                           通知/公告
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">{cat}</li>
+                      <li className="breadcrumb-item active">{component_option}</li>
                     </ol>
                   </nav>
                 </div>
@@ -273,5 +274,5 @@ export default function Detail({ cat }) {
 }
 
 Detail.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

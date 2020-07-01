@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import TopNav from './component/TopNav';
 import LeftNav from './component/LeftNav';
 import BottomNav from './component/BottomNav';
+import useAuth from './useAuth';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,6 +14,7 @@ ReactDOM.render(
 );
 
 function Home() {
+  const auth = useAuth();
   const [user_qty, setUserQty] = useState(0);
   const [enterprise_qty, setEnterpriseQty] = useState(0);
   const [delivery_qty, setDeliveryQty] = useState(0);
@@ -36,7 +38,7 @@ function Home() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="首页" />
+        <TopNav component_option="首页" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -44,7 +46,7 @@ function Home() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="" />
+                <LeftNav component_option="" />
               </div>
             </div>
 

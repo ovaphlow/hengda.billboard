@@ -6,7 +6,7 @@ import IconHome from '../icon/Home';
 import IconMail from '../icon/Mail';
 import IconProfile from '../icon/Profile';
 
-export default function TopNav({ cat }) {
+export default function TopNav({ component_option, component_param_name }) {
   const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
 
   return (
@@ -15,14 +15,14 @@ export default function TopNav({ cat }) {
 
       <div className="collapse navbar-collapse d-flex justify-content-end">
         <ul className="navbar-nav">
-          <li className={`nav-item ${cat === '首页' ? 'active' : ''}`}>
+          <li className={`nav-item ${component_option === '首页' ? 'active' : ''}`}>
             <a href="home.html" className="nav-link">
               <IconHome />
               <span className="sr-only">(current)</span>
             </a>
           </li>
 
-          <li className={`nav-item ${cat === '待处理任务' ? 'active' : ''}`}>
+          <li className={`nav-item ${component_option === '待处理任务' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
               <IconMail />
               {message_qty > 0 && (
@@ -34,9 +34,10 @@ export default function TopNav({ cat }) {
             </a>
           </li>
 
-          <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
+          <li className={`nav-item ${component_option === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html" className="nav-link">
               <IconProfile />
+              {component_param_name}
             </a>
           </li>
         </ul>
@@ -46,5 +47,10 @@ export default function TopNav({ cat }) {
 }
 
 TopNav.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
+  component_param_name: PropTypes.string,
+};
+
+TopNav.defaultProps = {
+  component_param_name: '',
 };

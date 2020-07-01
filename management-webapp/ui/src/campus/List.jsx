@@ -8,8 +8,10 @@ import IconAdd from '../icon/Add';
 import IconRename from '../icon/Rename';
 import IconSearch from '../icon/Search';
 import IconSync from '../icon/Sync';
+import useAuth from '../useAuth';
 
 export default function List() {
+  const auth = useAuth();
   const [list, setList] = useState([]);
   const [filter_title, setFilterTitle] = useState('');
   const [filter_date, setFilterDate] = useState();
@@ -47,7 +49,7 @@ export default function List() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -55,7 +57,7 @@ export default function List() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="校园招聘" />
+                <LeftNav component_option="校园招聘" />
               </div>
             </div>
 

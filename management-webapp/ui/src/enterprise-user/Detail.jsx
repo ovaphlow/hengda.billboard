@@ -6,8 +6,10 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import ComponentEnterpriseUserFavoriteList from '../favorite/ComponentEnterpriseUserFavoriteList';
+import useAuth from '../useAuth';
 
 export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -49,25 +51,28 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    const t_master_id = new URLSearchParams(location.search).get('enterprise_id');
-    setEnterpriseID(t_master_id);
     if (component_option === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
+      setEnterpriseID(parseInt(new URLSearchParams(location.search).get('enterprise_id'), 10));
+      setUUID(new URLSearchParams(location.search).get('uuid'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (enterprise_id && uuid) {
       (async () => {
-        const response = await fetch(`/api/enterprise-user/${id}?uuid=${t_uuid}&enterprise_id=${t_master_id}`);
+        const response = await fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`);
         const res = await response.json();
         setName(res.content.name);
         setPhone(res.content.phone);
       })();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [enterprise_id, uuid]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -75,7 +80,7 @@ export default function Detail({ component_option }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="企业用户" />
+                <LeftNav component_option="企业用户" />
               </div>
             </div>
 

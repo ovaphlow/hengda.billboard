@@ -7,6 +7,7 @@ import { SIGN_IN_URL } from '../constant';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
+import useAuth from '../useAuth';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -33,15 +34,8 @@ function Index() {
 }
 
 function Report() {
+  const auth = useAuth();
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch('/api/report/');
-      const res = await response.json();
-      setData(res.content);
-    })();
-  }, []);
 
   const handleRedirect = (event) => {
     const id = event.target.getAttribute('data-id');
@@ -56,10 +50,18 @@ function Report() {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      const response = await window.fetch('/api/report/');
+      const res = await response.json();
+      setData(res.content);
+    })();
+  }, []);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -67,7 +69,7 @@ function Report() {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="举报" />
+                <LeftNav component_option="举报" />
               </div>
             </div>
 

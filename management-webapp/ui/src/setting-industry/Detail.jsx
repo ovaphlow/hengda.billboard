@@ -7,8 +7,10 @@ import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import IconAdd from '../icon/Add';
 import IconTag from '../icon/Tag';
+import useAuth from '../useAuth';
 
-export default function Detail({ cat }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -16,27 +18,8 @@ export default function Detail({ cat }) {
   const [comment, setComment] = useState('');
   const [list, setList] = useState([]);
 
-  useEffect(() => {
-    if (cat === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
-      (async () => {
-        const response = await window.fetch(`/api/settings/industry/${id}?uuid=${t_uuid}`);
-        const res = await response.json();
-        setName(res.content.name);
-        setComment(res.content.comment);
-      })();
-      (async () => {
-        const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
-        const res = await response.json();
-        setList(res.content || []);
-      })();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSubmit = async () => {
-    if (cat === '新增') {
+    if (component_option === '新增') {
       const response = await window.fetch('/api/settings/industry/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -51,7 +34,7 @@ export default function Detail({ cat }) {
         return;
       }
       window.history.go(-1);
-    } else if (cat === '编辑') {
+    } else if (component_option === '编辑') {
       const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -82,10 +65,35 @@ export default function Detail({ cat }) {
     window.history.go(-1);
   };
 
+  useEffect(() => {
+    if (component_option === '编辑') {
+      setUUID(new URLSearchParams(location.search).get('uuid'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!uuid) {
+      window.console.error('uuid解析失败');
+      return;
+    }
+    (async () => {
+      const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`);
+      const res = await response.json();
+      setName(res.content.name);
+      setComment(res.content.comment);
+    })();
+    (async () => {
+      const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
+      const res = await response.json();
+      setList(res.content || []);
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uuid]);
+
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -93,7 +101,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="系统设定：行业" />
+                <LeftNav component_option="系统设定：行业" />
               </div>
             </div>
 
@@ -122,7 +130,7 @@ export default function Detail({ cat }) {
                           系统设定：行业
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">{cat}</li>
+                      <li className="breadcrumb-item active">{component_option}</li>
                     </ol>
                   </nav>
                 </div>
@@ -158,10 +166,10 @@ export default function Detail({ cat }) {
                     </div>
 
                     <div className="btn-group float-right">
-                      {cat === '编辑' && (
-                      <button type="button" className="btn btn-danger" onClick={handleRemove}>
-                        删除
-                      </button>
+                      {component_option === '编辑' && (
+                        <button type="button" className="btn btn-danger" onClick={handleRemove}>
+                          删除
+                        </button>
                       )}
                       <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                         保存
@@ -170,7 +178,7 @@ export default function Detail({ cat }) {
                   </div>
                 </div>
 
-                {cat === '编辑' && (
+                {component_option === '编辑' && (
                   <div className="card bg-dark shadow mt-3">
                     <div className="card-header">
                       二级分类
@@ -196,7 +204,6 @@ export default function Detail({ cat }) {
                     </div>
                   </div>
                 )}
-
               </div>
             </div>
           </div>
@@ -211,5 +218,5 @@ export default function Detail({ cat }) {
 }
 
 Detail.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

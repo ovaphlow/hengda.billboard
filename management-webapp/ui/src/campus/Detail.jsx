@@ -8,8 +8,10 @@ import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
 import BottomNav from '../component/BottomNav';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
+import useAuth from '../useAuth';
 
-export default function Detail({ cat }) {
+export default function Detail({ component_option }) {
+  const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -31,12 +33,70 @@ export default function Detail({ cat }) {
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
 
+  const handleSubmit = async () => {
+    const data = {
+      title,
+      content,
+      date,
+      time,
+      address_level1,
+      address_level2,
+      address_level3,
+      address_level4,
+      school,
+      category,
+    };
+
+    if (component_option === '新增') {
+      const response = await window.fetch('/api/content/campus/', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    } else if (component_option === '编辑') {
+      const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const res = await response.json();
+      if (res.message) {
+        window.alert(res.message);
+        return;
+      }
+      window.history.go(-1);
+    }
+  };
+
+  const handleRemove = async () => {
+    if (!window.confirm('确定要删除当前数据？')) return;
+    const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`, {
+      method: 'DELETE',
+    });
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    window.history.go(-1);
+  };
+
   useEffect(() => {
-    if (cat === '编辑') {
-      const t_uuid = new URLSearchParams(location.search).get('uuid');
-      setUUID(t_uuid);
+    if (component_option === '编辑') {
+      setUUID(new URLSearchParams(location.search).get('uuid'));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (uuid) {
       (async () => {
-        const response = await window.fetch(`/api/content/campus/${id}?uuid=${t_uuid}`);
+        const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`);
         const res = await response.json();
         if (res.message) {
           window.alert(res.message);
@@ -55,7 +115,7 @@ export default function Detail({ cat }) {
       })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [uuid]);
 
   useEffect(() => {
     setArr1(address_level1_values);
@@ -97,64 +157,10 @@ export default function Detail({ cat }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level2]);
 
-  const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
-    });
-    const res = await response.json();
-    if (res.message) {
-      window.alert(res.message);
-      return;
-    }
-    window.history.go(-1);
-  };
-
-  const handleSubmit = async () => {
-    const data = {
-      title,
-      content,
-      date,
-      time,
-      address_level1,
-      address_level2,
-      address_level3,
-      address_level4,
-      school,
-      category,
-    };
-
-    if (cat === '新增') {
-      const response = await window.fetch('/api/content/campus/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      window.history.go(-1);
-    } else if (cat === '编辑') {
-      const response = await window.fetch(`/api/content/campus/${id}?uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
-        return;
-      }
-      window.history.go(-1);
-    }
-  };
-
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav cat="" />
+        <TopNav component_option="" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">
@@ -162,7 +168,7 @@ export default function Detail({ cat }) {
           <div className="row h-100 d-flex justify-content-center">
             <div className="col-3 col-lg-2">
               <div className="card bg-dark h-100">
-                <LeftNav cat="校园招聘" />
+                <LeftNav component_option="校园招聘" />
               </div>
             </div>
 
@@ -384,5 +390,5 @@ export default function Detail({ cat }) {
 }
 
 Detail.propTypes = {
-  cat: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

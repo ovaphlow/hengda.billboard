@@ -22,21 +22,21 @@ export default function TopNav({ cat }) {
             </a>
           </li>
 
-          <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
+          <li className={`nav-item ${cat === '待处理任务' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
               <IconMail />
-            </a>
-          </li>
-
-          <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
-            <a href="current-user.html#/待处理" className="nav-link">
-              <IconProfile />
               {message_qty > 0 && (
                 <small>
                   &nbsp;
                   <span className="badge badge-pill badge-danger">{message_qty}</span>
                 </small>
               )}
+            </a>
+          </li>
+
+          <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
+            <a href="current-user.html" className="nav-link">
+              <IconProfile />
             </a>
           </li>
         </ul>

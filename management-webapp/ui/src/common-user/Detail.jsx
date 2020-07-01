@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
-import Footer from '../component/Footer';
-import IconChevronLeft from '../icon/ChevronLeft';
+import BottomNav from '../component/BottomNav';
 import IconList from '../icon/List';
 
 export default function Detail({ option }) {
@@ -84,7 +83,6 @@ export default function Detail({ option }) {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <IconChevronLeft />
                       返回
                     </button>
                   </div>
@@ -248,7 +246,7 @@ export default function Detail({ option }) {
       </main>
 
       <footer className="mt-3 bg-dark">
-        <Footer />
+        <BottomNav />
       </footer>
     </div>
   );

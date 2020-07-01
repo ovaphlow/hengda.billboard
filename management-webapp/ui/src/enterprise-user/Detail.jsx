@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Navbar from '../component/Navbar';
+import TopNav from '../component/TopNav';
+import LeftNav from '../component/LeftNav';
+import BottomNav from '../component/BottomNav';
 import ComponentEnterpriseUserFavoriteList from '../favorite/ComponentEnterpriseUserFavoriteList';
 
 export default function Detail({ component_option }) {
@@ -63,121 +65,136 @@ export default function Detail({ component_option }) {
   }, []);
 
   return (
-    <>
-      <Navbar category="用户" />
+    <div className="d-flex flex-column h-100 w-100">
+      <header>
+        <TopNav cat="" />
+      </header>
 
-      <div className="container-fluid">
-        <nav aria-label="breadcrumb">
-          <h1>
-            <ol className="breadcrumb bg-dark">
-              <li className="breadcrumb-item">
-                <a href="#/企业用户" className="text-light">企业用户</a>
-              </li>
-              <li className="breadcrumb-item active">{component_option}</li>
-            </ol>
-          </h1>
-        </nav>
+      <main className="flex-grow-1">
+        <div className="container-fluid h-100">
+          <div className="row h-100 d-flex justify-content-center">
+            <div className="col-3 col-lg-2">
+              <div className="card bg-dark h-100">
+                <LeftNav cat="企业用户" />
+              </div>
+            </div>
 
-        <hr />
+            <div className="col">
+              <div className="container-lg h-100 d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-end">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-link text-reset text-decoration-none"
+                      onClick={() => { window.history.go(-1); }}
+                    >
+                      返回
+                    </button>
+                  </div>
+                  <span className="h1">企业用户</span>
+                  <nav>
+                    <ol className="breadcrumb transparent">
+                      <li className="breadcrumb-item">
+                        <a href="home.html" className="text-reset text-decoration-none">
+                          首页
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item">
+                        <a href="enterprise-user" className="text-reset text-decoration-none">
+                          企业用户
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item active">
+                        {component_option}
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
 
-        <div className="row justify-content-center">
-          <div className="btn-group">
-            <a href="#/平台用户" className="btn btn-sm btn-info">
-              平台用户
-            </a>
+                <div className="card shadow bg-dark h-100 flex-grow-1">
+                  <div className="card-body">
+                    <div className="form-group">
+                      <label>姓名</label>
+                      <input
+                        type="text"
+                        value={name || ''}
+                        className="form-control input-underscore"
+                        onChange={(event) => setName(event.target.value)}
+                      />
+                    </div>
 
-            <a href="#/企业用户" className="btn btn-sm btn-info">
-              企业用户
-            </a>
+                    {component_option === '新增' && (
+                    <div className="form-group">
+                      <label>密码</label>
+                      <input
+                        type="text"
+                        value={password || ''}
+                        className="form-control input-underscore"
+                        onChange={(event) => setPassword(event.target.value)}
+                      />
+                    </div>
+                    )}
 
-            <a href="#/普通用户" className="btn btn-sm btn-info">
-              普通用户
-            </a>
+                    <div className="form-group">
+                      <label>电话</label>
+                      <input
+                        type="tel"
+                        value={phone || ''}
+                        className="form-control input-underscore"
+                        onChange={(event) => setPhone(event.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="card-footer">
+                    <div className="btn-group">
+                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                        返回
+                      </button>
+                    </div>
+
+                    <div className="btn-group float-right">
+                      {component_option === '编辑' && (
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleRemove}
+                        >
+                          删除
+                        </button>
+                      )}
+
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{ display: 'none' }}
+                        onClick={handleSubmit}
+                      >
+                        保存
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card bg-dark shadow mt-3">
+                  <div className="card-header">
+                    <span className="lead">收藏</span>
+                  </div>
+
+                  <div className="card-body">
+                    <ComponentEnterpriseUserFavoriteList user_id={id} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </main>
 
-        <div className="p-2" />
-      </div>
-
-      <div className="m-5" />
-
-      <div className="container-lg">
-        <div className="card bg-dark shadow">
-          <div className="card-body">
-            <div className="form-group">
-              <label>姓名</label>
-              <input
-                type="text"
-                value={name || ''}
-                className="form-control"
-                onChange={(event) => setName(event.target.value)}
-              />
-            </div>
-
-            {component_option === '新增' && (
-            <div className="form-group">
-              <label>密码</label>
-              <input
-                type="text"
-                value={password || ''}
-                className="form-control"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            )}
-
-            <div className="form-group">
-              <label>电话</label>
-              <input
-                type="tel"
-                value={phone || ''}
-                className="form-control"
-                onChange={(event) => setPhone(event.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="card-footer">
-            <div className="btn-group">
-              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                返回
-              </button>
-            </div>
-
-            <div className="btn-group float-right">
-              {component_option === '编辑' && (
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleRemove}
-              >
-                删除
-              </button>
-              )}
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{ display: 'none' }}
-                onClick={handleSubmit}
-              >
-                保存
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="card bg-dark shadow mt-4">
-          <div className="card-header">
-            <span className="lead">收藏</span>
-          </div>
-
-          <div className="card-body">
-            <ComponentEnterpriseUserFavoriteList user_id={id} />
-          </div>
-        </div>
-      </div>
-    </>
+      <footer className="mt-3 bg-dark">
+        <BottomNav />
+      </footer>
+    </div>
   );
 }
 

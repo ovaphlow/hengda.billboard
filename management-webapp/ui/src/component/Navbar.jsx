@@ -9,7 +9,7 @@ export default function Navbar({ category }) {
 
   return (
     <nav className="navbar navbar-expand navbar-dark fix-top sticky-top bg-dark">
-      <a href="home.html" className="navbar-brand">#TITLE#</a>
+      <a href="home.html" className="navbar-brand">龙招聘</a>
       <button
         type="button"
         data-toggle="collapse"

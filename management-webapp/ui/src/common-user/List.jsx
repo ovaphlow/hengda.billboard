@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
-import Footer from '../component/Footer';
-import IconChevronLeft from '../icon/ChevronLeft';
+import BottomNav from '../component/BottomNav';
 import IconRename from '../icon/Rename';
 import IconMail from '../icon/Mail';
 import IconSearch from '../icon/Search';
@@ -53,7 +52,6 @@ export default function List() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <IconChevronLeft />
                       返回
                     </button>
                   </div>
@@ -151,7 +149,7 @@ export default function List() {
       </main>
 
       <footer className="mt-3 bg-dark">
-        <Footer />
+        <BottomNav />
       </footer>
     </div>
   );

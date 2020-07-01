@@ -3,11 +3,13 @@ import { useParams, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { YUAN_GONG_SHU_LIANG } from '../constant';
-import Navbar from '../component/Navbar';
+import TopNav from '../component/TopNav';
+import LeftNav from '../component/LeftNav';
+import BottomNav from '../component/BottomNav';
 import IndustryPicker from '../component/IndustryPicker';
 import RecruitmentList from '../recruitment/component/List';
 
-export default function Detail({ category }) {
+export default function Detail({ component_option }) {
   const { id } = useParams();
   const location = useLocation();
   const [uuid, setUUID] = useState('');
@@ -27,7 +29,7 @@ export default function Detail({ category }) {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    if (category === '编辑') {
+    if (component_option === '编辑') {
       (async () => {
         const t_uuid = new URLSearchParams(location.search).get('uuid');
         setUUID(t_uuid);
@@ -82,7 +84,7 @@ export default function Detail({ category }) {
       url,
     };
 
-    if (category === '新增') {
+    if (component_option === '新增') {
       const response = await window.fetch('/api/enterprise/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -94,7 +96,7 @@ export default function Detail({ category }) {
         return;
       }
       window.history.go(-1);
-    } else if (category === '编辑') {
+    } else if (component_option === '编辑') {
       const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -111,243 +113,258 @@ export default function Detail({ category }) {
   };
 
   return (
-    <>
-      <Navbar category="企业" />
+    <div className="d-flex flex-column h-100 w-100">
+      <header>
+        <TopNav cat="" />
+      </header>
 
-      <div className="container-fluid">
-        <nav aria-label="breadcrumb">
-          <h1>
-            <ol className="breadcrumb bg-dark">
-              <li className="breadcrumb-item">
-                <a href="user.html#/企业用户" className="text-reset text-decoration-none">企业用户</a>
-              </li>
-              <li className="breadcrumb-item active">企业</li>
-            </ol>
-          </h1>
-        </nav>
+      <main className="flex-grow-1">
+        <div className="container-fluid h-100">
+          <div className="row h-100 d-flex justify-content-center">
+            <div className="col-3 col-lg-2">
+              <div className="card bg-dark h-100">
+                <LeftNav cat="企业用户" />
+              </div>
+            </div>
 
-        <hr />
+            <div className="col">
+              <div className="container-lg h-100 d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-end">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-link text-reset text-decoration-none"
+                      onClick={() => { window.history.go(-1); }}
+                    >
+                      返回
+                    </button>
+                  </div>
+                  <span className="h1">企业</span>
+                  <nav>
+                    <ol className="breadcrumb transparent">
+                      <li className="breadcrumb-item">
+                        <a href="home.html" className="text-reset text-decoration-none">
+                          首页
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item">
+                        <a href="enterprise-user.html" className="text-reset text-decoration-none">
+                          企业用户
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item active">企业</li>
+                    </ol>
+                  </nav>
+                </div>
 
-        <div className="row justify-content-center">
-          <div className="btn-group">
-            <a href="user.html#/平台用户" className="btn btn-sm btn-info">
-              平台用户
-            </a>
-            <a href="user.html#/企业用户" className="btn btn-sm btn-info">
-              企业用户
-            </a>
-            <a href="user.html#/普通用户" className="btn btn-sm btn-info">
-              普通用户
-            </a>
+                <div className="card shadow bg-dark h-100 flex-grow-1">
+                  <div className="card-body">
+                    <div className="form-row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label>名称</label>
+                          <input
+                            type="text"
+                            value={name || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setName(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-3">
+                        <div className="form-group">
+                          <label>法人</label>
+                          <input
+                            type="text"
+                            value={faren || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setFaren(event.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-6">
+                        <div className="form-group">
+                          <label>营业执照</label>
+                          <input
+                            type="text"
+                            value={yingyezhizhao || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setYingyezhizhao(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>注册日期</label>
+                          <input
+                            type="text"
+                            value={zhuceriqi || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setZhuceriqi(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>注资规模</label>
+                          <input
+                            type="text"
+                            value={zhuziguimo || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setZhuziguimo(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>员工数量</label>
+                          <select
+                            value={yuangongshuliang}
+                            className="form-control input-underscore"
+                            onChange={(event) => setYuangongshuliang(event.target.value)}
+                          >
+                            <option value="未选择">未选择</option>
+                            {YUAN_GONG_SHU_LIANG.map((it) => (
+                              <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label>地址</label>
+                          <input
+                            type="text"
+                            value={address1 || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setAddress1(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>&nbsp;</label>
+                          <input
+                            type="text"
+                            value={address2 || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setAddress2(event.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>&nbsp;</label>
+                          <input
+                            type="text"
+                            value={address3 || ''}
+                            className="form-control input-underscore"
+                            onChange={(event) => setAddress3(event.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label />
+                      <input
+                        type="text"
+                        value={address4 || ''}
+                        className="form-control input-underscore"
+                        onChange={(event) => setAddress4(event.target.value)}
+                      />
+                    </div>
+
+                    <div className="row">
+                      <div className="col-4">
+                        <IndustryPicker
+                          caption="所属行业"
+                          value={industry || ''}
+                          onChange={(event) => setIndustry(event.target.value)}
+                        />
+                      </div>
+
+                      <div className="col">
+                        <div className="form-group">
+                          <label>网址</label>
+                          <input type="text" value={url} placeholder="https://" className="form-control input-underscore" onChange={(event) => setUrl(event.target.value)} />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label>简介</label>
+                      <textarea rows="5" value={intro} className="form-control input-underscore" onChange={(event) => setIntro(event.target.value)} />
+                    </div>
+
+                    <p className="text-muted text-center">
+                      营业执照
+                      <br />
+                      <img src={yingyezhizhao_tu} className="img-fluid" alt={name} />
+                    </p>
+                  </div>
+
+                  <div className="card-footer">
+                    <div className="btn-group">
+                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                        返回
+                      </button>
+                    </div>
+
+                    <div className="btn-group float-right">
+                      {component_option === '编辑' && (
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleRemove}
+                        >
+                          删除
+                        </button>
+                      )}
+
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        style={{ display: 'none' }}
+                        onClick={handleSubmit}
+                      >
+                        保存
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card bg-dark shadow mt-3">
+                  <div className="card-header">发布的岗位</div>
+                  <div className="card-body">
+                    <RecruitmentList enterprise_id={id} enterprise_uuid={uuid} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </main>
 
-        <div className="p-2" />
-      </div>
-
-      <div className="m-5" />
-
-      <div className="container-lg">
-        <div className="card bg-dark shadow">
-          <div className="card-body">
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>名称</label>
-                  <input
-                    type="text"
-                    value={name || ''}
-                    className="form-control"
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="col-3">
-                <div className="form-group">
-                  <label>法人</label>
-                  <input
-                    type="text"
-                    value={faren || ''}
-                    className="form-control"
-                    onChange={(event) => setFaren(event.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label>营业执照</label>
-                  <input
-                    type="text"
-                    value={yingyezhizhao || ''}
-                    className="form-control"
-                    onChange={(event) => setYingyezhizhao(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>注册日期</label>
-                  <input
-                    type="text"
-                    value={zhuceriqi || ''}
-                    className="form-control"
-                    onChange={(event) => setZhuceriqi(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>注资规模</label>
-                  <input
-                    type="text"
-                    value={zhuziguimo || ''}
-                    className="form-control"
-                    onChange={(event) => setZhuziguimo(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>员工数量</label>
-                  <select
-                    value={yuangongshuliang}
-                    className="form-control"
-                    onChange={(event) => setYuangongshuliang(event.target.value)}
-                  >
-                    <option value="未选择">未选择</option>
-                    {YUAN_GONG_SHU_LIANG.map((it) => (
-                      <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>地址</label>
-                  <input
-                    type="text"
-                    value={address1 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress1(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>&nbsp;</label>
-                  <input
-                    type="text"
-                    value={address2 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress2(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>&nbsp;</label>
-                  <input
-                    type="text"
-                    value={address3 || ''}
-                    className="form-control"
-                    onChange={(event) => setAddress3(event.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label />
-              <input
-                type="text"
-                value={address4 || ''}
-                className="form-control"
-                onChange={(event) => setAddress4(event.target.value)}
-              />
-            </div>
-
-            <div className="row">
-              <div className="col-4">
-                <IndustryPicker
-                  caption="所属行业"
-                  value={industry || ''}
-                  onChange={(event) => setIndustry(event.target.value)}
-                />
-              </div>
-
-              <div className="col">
-                <div className="form-group">
-                  <label>网址</label>
-                  <input type="text" value={url} placeholder="https://" className="form-control" onChange={(event) => setUrl(event.target.value)} />
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>简介</label>
-              <textarea rows="5" value={intro} className="form-control" onChange={(event) => setIntro(event.target.value)} />
-            </div>
-
-            <p className="text-muted text-center">
-              营业执照
-              <br />
-              <img src={yingyezhizhao_tu} className="img-fluid" alt={name} />
-            </p>
-          </div>
-
-          <div className="card-footer">
-            <div className="btn-group">
-              <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
-                返回
-              </button>
-            </div>
-
-            <div className="btn-group float-right">
-              {category === '编辑' && (
-              <button
-                type="button"
-                className="btn btn-danger"
-                onClick={handleRemove}
-              >
-                删除
-              </button>
-              )}
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                style={{ display: 'none' }}
-                onClick={handleSubmit}
-              >
-                保存
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="card bg-dark shadow mt-4">
-          <div className="card-header">发布的职位</div>
-          <div className="card-body">
-            <RecruitmentList enterprise_id={id} enterprise_uuid={uuid} />
-          </div>
-        </div>
-      </div>
-    </>
+      <footer className="mt-3 bg-dark">
+        <BottomNav />
+      </footer>
+    </div>
   );
 }
 
 Detail.propTypes = {
-  category: PropTypes.string.isRequired,
+  component_option: PropTypes.string.isRequired,
 };

@@ -11,20 +11,17 @@ export default function TopNav({ cat }) {
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark mb-3">
-      <a href="home.html" className="navbar-brand">#TITLE#</a>
+      <a href="home.html" className="navbar-brand">龙招聘</a>
 
-      <div className="collapse navbar-collapse" id="navbarContent">
-        <ul className="navbar-nav mr-auto">
+      <div className="collapse navbar-collapse d-flex justify-content-end">
+        <ul className="navbar-nav">
           <li className={`nav-item ${cat === '首页' ? 'active' : ''}`}>
             <a href="home.html" className="nav-link">
               <IconHome />
-              首页
               <span className="sr-only">(current)</span>
             </a>
           </li>
-        </ul>
 
-        <ul className="navbar-nav float-right">
           <li className={`nav-item ${cat === '当前用户' ? 'active' : ''}`}>
             <a href="current-user.html#/待处理" className="nav-link">
               <IconMail />

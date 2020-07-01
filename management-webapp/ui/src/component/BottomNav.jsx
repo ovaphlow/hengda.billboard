@@ -4,11 +4,11 @@ import IconCodeSlash from '../icon/CodeSlash';
 import IconLaptop from '../icon/Laptop';
 import IconSmartphone from '../icon/Smartphone';
 
-export default function Footer() {
+export default function BottomNav() {
   return (
     <div className="container-fluid d-flex justify-content-between align-items-center">
       <span>
-        Copyright © 2020 恒达交通. All rights reserved.
+        Copyright © 2020 龙招聘. All rights reserved.
       </span>
       <ul className="list-inline pt-2">
         <li className="list-inline-item">

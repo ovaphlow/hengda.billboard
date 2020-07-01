@@ -3,9 +3,8 @@ import moment from 'moment';
 
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
-import Footer from '../component/Footer';
+import BottomNav from '../component/BottomNav';
 import IconAdd from '../icon/Add';
-import IconChevronLeft from '../icon/ChevronLeft';
 import IconRename from '../icon/Rename';
 import IconSearch from '../icon/Search';
 import IconSync from '../icon/Sync';
@@ -69,7 +68,6 @@ export default function List() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <IconChevronLeft />
                       返回
                     </button>
                   </div>
@@ -158,7 +156,7 @@ export default function List() {
                         {list.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">
-                              <span className="pull-left">
+                              <span className="float-left">
                                 <a href={`#/${it.id}?uuid=${it.uuid}`}>
                                   <IconRename />
                                 </a>
@@ -186,7 +184,7 @@ export default function List() {
       </main>
 
       <footer className="mt-3 bg-dark">
-        <Footer />
+        <BottomNav />
       </footer>
     </div>
   );

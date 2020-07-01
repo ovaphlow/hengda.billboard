@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import IconLink from '../icon/Link';
-
 export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
   const [list, setList] = useState([]);
 
@@ -33,15 +31,15 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
           <th className="text-right">序号</th>
           <th>类别</th>
           <th>时间</th>
-          <th>内容</th>
+          <th className="text-right">内容</th>
         </tr>
       </thead>
 
       <tbody>
         {list.map((it) => (
           <tr key={it.id}>
-            <td>
-              <span className="float-right">{it.id}</span>
+            <td className="text-right">
+              {it.id}
             </td>
             <td>{it.category2}</td>
             <td>
@@ -49,7 +47,7 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
               &nbsp;
               <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
             </td>
-            <td>
+            <td className="text-right">
               <button
                 type="button"
                 className="btn btn-outline-info btn-sm"
@@ -58,7 +56,6 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
                 data-category={it.category2}
                 onClick={handleRedirect2Resource}
               >
-                <IconLink />
                 查看
               </button>
             </td>

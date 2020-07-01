@@ -4,9 +4,7 @@ import moment from 'moment';
 
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
-import Footer from '../component/Footer';
-import IconChevronLeft from '../icon/ChevronLeft';
-import IconLink from '../icon/Link';
+import BottomNav from '../component/BottomNav';
 
 export default function List() {
   const location = useLocation();
@@ -61,7 +59,6 @@ export default function List() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <IconChevronLeft />
                       返回
                     </button>
                   </div>
@@ -127,7 +124,6 @@ export default function List() {
                                 data-category={it.category2}
                                 onClick={handleRedirect2Resource}
                               >
-                                <IconLink />
                                 查看
                               </button>
                             </td>
@@ -144,7 +140,7 @@ export default function List() {
       </main>
 
       <footer className="mt-3 bg-dark">
-        <Footer />
+        <BottomNav />
       </footer>
     </div>
   );

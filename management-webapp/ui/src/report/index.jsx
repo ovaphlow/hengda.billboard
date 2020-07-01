@@ -6,8 +6,7 @@ import moment from 'moment';
 import { SIGN_IN_URL } from '../constant';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
-import Footer from '../component/Footer';
-import IconChevronLeft from '../icon/ChevronLeft';
+import BottomNav from '../component/BottomNav';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -81,7 +80,6 @@ function Report() {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <IconChevronLeft />
                       返回
                     </button>
                   </div>
@@ -159,7 +157,7 @@ function Report() {
       </main>
 
       <footer className="mt-3 bg-dark">
-        <Footer />
+        <BottomNav />
       </footer>
     </div>
   );

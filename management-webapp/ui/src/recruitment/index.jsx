@@ -23,7 +23,7 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route path="/:recruitment_id"><Detail cat="编辑" /></Route>
+        <Route path="/:recruitment_id"><Detail component_option="编辑" /></Route>
       </Switch>
     </Router>
   );

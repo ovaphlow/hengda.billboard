@@ -7,11 +7,10 @@ import { v5 as uuidv5 } from 'uuid';
 import { useEffect } from 'react/cjs/react.development';
 import TopNav from '../component/TopNav';
 import LeftNav from '../component/LeftNav';
-import Footer from '../component/Footer';
+import BottomNav from '../component/BottomNav';
 import IndustryPicker from '../component/IndustryPicker';
 import EducationPicker from '../component/EducationPicker';
 import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
-import IconChevronLeft from '../icon/ChevronLeft';
 
 export default function Detail({ cat }) {
   const { id } = useParams();
@@ -146,7 +145,6 @@ export default function Detail({ cat }) {
                       className="btn btn-link text-reset text-decoration-none"
                       onClick={() => { window.history.go(-1); }}
                     >
-                      <IconChevronLeft />
                       返回
                     </button>
                   </div>
@@ -268,7 +266,7 @@ export default function Detail({ cat }) {
       </main>
 
       <footer className="mt-3 bg-dark">
-        <Footer />
+        <BottomNav />
       </footer>
     </div>
   );

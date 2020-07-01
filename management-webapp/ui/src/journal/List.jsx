@@ -18,6 +18,22 @@ export default function List({ option }) {
   const [filter_date_begin, setFilterDateBegin] = useState(moment().format('YYYY-MM-01'));
   const [filter_date_end, setFilterDateEnd] = useState(moment().format('YYYY-MM-DD'));
 
+  const handleRedirect = async (event) => {
+    const id = event.target.getAttribute('data-id');
+    const uuid = event.target.getAttribute('data-uuid');
+    const category = event.target.getAttribute('data-category');
+    window.console.info(category);
+    if (category === '校园招聘') {
+      window.location = `campus.html#/${id}?uuid=${uuid}`;
+    } else if (category === '热门话题') {
+      window.location = `topic.html#/${id}?uuid=${uuid}`;
+    } else if (category === '岗位') {
+      window.location = `recruitment.html#/${id}?uuid=${uuid}`;
+    } else {
+      window.alert('数据类型解析失败');
+    }
+  };
+
   useEffect(() => {
     const t_user_category = new URLSearchParams(location.search).get('user_category');
     setUserCategory(t_user_category);
@@ -249,8 +265,10 @@ export default function List({ option }) {
                               <button
                                 type="button"
                                 data-id={it.data_id}
+                                data-uuid={it.data_uuid}
+                                data-category={it.category}
                                 className="btn btn-sm btn-outline-info"
-                                onClick={() => { window.location = `recruitment.html#/${it.data_id}?uuid=${it.data_uuid}`; }}
+                                onClick={handleRedirect}
                               >
                                 查看
                               </button>

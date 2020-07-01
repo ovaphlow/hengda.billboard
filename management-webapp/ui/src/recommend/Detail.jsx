@@ -180,8 +180,8 @@ export default function Detail({ component_option }) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>分类</label>
+                        <div className="mb-3">
+                          <label className="form-label">分类</label>
                           <select
                             value={category || ''}
                             className="form-control input-underscore"
@@ -196,8 +196,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>标题</label>
+                        <div className="mb-3">
+                          <label className="form-label">标题</label>
                           <input
                             type="text"
                             value={title || ''}
@@ -210,8 +210,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>发布日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">发布日期</label>
                           <input
                             type="date"
                             value={date1 || ''}
@@ -222,8 +222,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>截止日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">截止日期</label>
                           <input
                             type="date"
                             value={date2 || ''}
@@ -234,8 +234,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>地址</label>
+                        <div className="mb-3">
+                          <label className="form-label">地址</label>
                           <select
                             value={address_level1 || ''}
                             className="form-control input-underscore"
@@ -250,8 +250,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <select
                             value={address_level2 || ''}
                             className="form-control input-underscore"
@@ -268,8 +268,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>招聘单位</label>
+                        <div className="mb-3">
+                          <label className="form-label">招聘单位</label>
                           <input
                             type="text"
                             value={publisher || ''}
@@ -280,8 +280,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>招聘人数</label>
+                        <div className="mb-3">
+                          <label className="form-label">招聘人数</label>
                           <input
                             type="number"
                             value={qty || ''}
@@ -292,8 +292,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>报名方式</label>
+                        <div className="mb-3">
+                          <label className="form-label">报名方式</label>
                           <input
                             type="text"
                             value={baomingfangshi || ''}
@@ -304,8 +304,8 @@ export default function Detail({ component_option }) {
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label>栏目内容</label>
+                    <div className="mb-3">
+                      <label className="form-label">栏目内容</label>
                       <ReactQuill
                         modules={{
                           toolbar: [

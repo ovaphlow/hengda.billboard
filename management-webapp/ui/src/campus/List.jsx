@@ -90,7 +90,7 @@ export default function List() {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <div className="form-row">
+                    <div className="row">
                       <div className="col-auto">
                         <a href="#/新增" className="btn btn-secondary">
                           <IconAdd />

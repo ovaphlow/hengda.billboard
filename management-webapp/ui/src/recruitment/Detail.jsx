@@ -76,10 +76,7 @@ export default function Detail({ component_option }) {
   }, []);
 
   useEffect(() => {
-    if (!uuid) {
-      window.console.error('uuid解析失败');
-      return;
-    }
+    if (!uuid) return;
     (async () => {
       const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${uuid}`);
       const res = await response.json();
@@ -155,8 +152,8 @@ export default function Detail({ component_option }) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>岗位</label>
+                        <div className="mb-3">
+                          <label className="form-label">岗位</label>
                           <input
                             type="text"
                             value={name || ''}
@@ -167,8 +164,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>人数</label>
+                        <div className="mb-3">
+                          <label className="form-label">人数</label>
                           <input
                             type="text"
                             value={qty || ''}
@@ -181,8 +178,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>地址</label>
+                        <div className="mb-3">
+                          <label className="form-label">地址</label>
                           <input
                             type="text"
                             value={address1 || ''}
@@ -193,8 +190,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
                             value={address2 || ''}
@@ -205,8 +202,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
                             value={address3 || ''}
@@ -219,8 +216,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col-6">
-                        <div className="form-group">
-                          <label>发布日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">发布日期</label>
                           <input
                             type="text"
                             value={date || ''}
@@ -231,8 +228,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>薪资范围</label>
+                        <div className="mb-3">
+                          <label className="form-label">薪资范围</label>
                           <input
                             type="text"
                             value={salary1 || ''}
@@ -243,8 +240,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
                             value={salary2 || ''}
@@ -257,8 +254,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>学历</label>
+                        <div className="mb-3">
+                          <label className="form-label">学历</label>
                           <input
                             type="text"
                             value={education || ''}
@@ -269,8 +266,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>类别</label>
+                        <div className="mb-3">
+                          <label className="form-label">类别</label>
                           <input
                             type="text"
                             value={category || ''}
@@ -281,8 +278,8 @@ export default function Detail({ component_option }) {
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label>工作职责</label>
+                    <div className="mb-3">
+                      <label className="form-label">工作职责</label>
                       <ReactQuill
                         formats={[
                           'header', 'align', 'bold', 'italic',
@@ -301,8 +298,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>岗位要求</label>
+                    <div className="mb-3">
+                      <label className="form-label">岗位要求</label>
                       <ReactQuill
                         formats={[
                           'header', 'align', 'bold', 'italic',

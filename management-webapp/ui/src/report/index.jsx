@@ -121,10 +121,10 @@ function Report() {
                             <td className="text-right">{it.id}</td>
                             <td>
                               {it.user_category === '企业用户' && (
-                                <span className="badge badge-success">{it.user_category}</span>
+                                <span className="badge bg-success">{it.user_category}</span>
                               )}
                               {it.user_category === '个人用户' && (
-                                <span className="badge badge-info">{it.user_category}</span>
+                                <span className="badge bg-info">{it.user_category}</span>
                               )}
                               &nbsp;
                               {it.name}

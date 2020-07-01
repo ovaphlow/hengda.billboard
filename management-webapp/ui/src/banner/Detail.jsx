@@ -170,8 +170,8 @@ export default function Detail({ component_option }) {
                   </div>
 
                   <div className="card-body">
-                    <div className="form-group">
-                      <label>标题</label>
+                    <div className="mb-3">
+                      <label className="form-label">标题</label>
                       <input
                         type="text"
                         value={title || ''}
@@ -180,8 +180,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>内容</label>
+                    <div className="mb-3">
+                      <label className="form-label">内容</label>
                       <ReactQuill
                         formats={[
                           'header', 'align', 'bold', 'italic',
@@ -200,8 +200,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>类别</label>
+                    <div className="mb-3">
+                      <label className="form-label">类别</label>
                       <select
                         value={category || ''}
                         className="form-control input-underscore"
@@ -214,8 +214,8 @@ export default function Detail({ component_option }) {
                       </select>
                     </div>
 
-                    <div className="form-group">
-                      <label>状态</label>
+                    <div className="mb-3">
+                      <label className="form-label">状态</label>
                       <div className="form-check">
                         <input
                           type="checkbox"

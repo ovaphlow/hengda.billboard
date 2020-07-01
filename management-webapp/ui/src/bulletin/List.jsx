@@ -72,6 +72,8 @@ export default function List() {
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>
+                          <th>标题</th>
+                          <th>用户类型</th>
                           <th>截止日期</th>
                           <th>内容</th>
                           <th>地区</th>
@@ -94,11 +96,11 @@ export default function List() {
                             <td>{it.title}</td>
                             <td>
                               {it.receiver === '企业用户' && (
-                              <span className="badge badge-success">{it.receiver}</span>
+                                <span className="badge bg-success">{it.receiver}</span>
                               )}
 
                               {it.receiver === '普通用户' && (
-                              <span className="badge badge-info">{it.receiver}</span>
+                                <span className="badge bg-info">{it.receiver}</span>
                               )}
                             </td>
                             <td>{moment(it.dday).format('YYYY-MM-DD')}</td>

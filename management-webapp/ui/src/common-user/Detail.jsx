@@ -152,8 +152,8 @@ export default function Detail({ component_option }) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>姓名</label>
+                        <div className="mb-3">
+                          <label className="form-label">姓名</label>
                           <input
                             type="text"
                             value={name || ''}
@@ -164,8 +164,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>电话</label>
+                        <div className="mb-3">
+                          <label className="form-label">电话</label>
                           <input
                             type="tel"
                             value={phone || ''}
@@ -176,8 +176,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col-6">
-                        <div className="form-group">
-                          <label>EMAIL</label>
+                        <div className="mb-3">
+                          <label className="form-label">EMAIL</label>
                           <input
                             type="email"
                             value={email || ''}

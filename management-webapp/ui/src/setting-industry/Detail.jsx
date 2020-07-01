@@ -72,10 +72,7 @@ export default function Detail({ component_option }) {
   }, []);
 
   useEffect(() => {
-    if (!uuid) {
-      window.console.error('uuid解析失败');
-      return;
-    }
+    if (!uuid) return;
     (async () => {
       const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`);
       const res = await response.json();
@@ -137,8 +134,8 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
-                    <div className="form-group">
-                      <label>名称</label>
+                    <div className="mb-3">
+                      <label className="form-label">名称</label>
                       <input
                         type="text"
                         value={name || ''}
@@ -147,8 +144,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>备注</label>
+                    <div className="mb-3">
+                      <label className="form-label">备注</label>
                       <input
                         type="text"
                         value={comment || ''}
@@ -194,7 +191,10 @@ export default function Detail({ component_option }) {
                       <ul className="list-inline">
                         {list.map((it) => (
                           <li className="list-inline-item" key={it.id}>
-                            <a href={`#/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}>
+                            <a
+                              href={`#/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}
+                              className="text-reset text-decoration-none"
+                            >
                               <IconTag />
                               {it.name}
                             </a>

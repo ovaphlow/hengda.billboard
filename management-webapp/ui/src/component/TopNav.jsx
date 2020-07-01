@@ -11,36 +11,38 @@ export default function TopNav({ component_option, component_param_name }) {
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark mb-3">
-      <a href="home.html" className="navbar-brand">龙招聘</a>
+      <div className="container-fluid">
+        <a href="home.html" className="navbar-brand">龙招聘</a>
 
-      <div className="collapse navbar-collapse d-flex justify-content-end">
-        <ul className="navbar-nav">
-          <li className={`nav-item ${component_option === '首页' ? 'active' : ''}`}>
-            <a href="home.html" className="nav-link">
-              <IconHome />
-              <span className="sr-only">(current)</span>
-            </a>
-          </li>
+        <div className="collapse navbar-collapse d-flex justify-content-end">
+          <ul className="navbar-nav">
+            <li className={`nav-item ${component_option === '首页' ? 'active' : ''}`}>
+              <a href="home.html" className="nav-link">
+                <IconHome />
+                <span className="sr-only">(current)</span>
+              </a>
+            </li>
 
-          <li className={`nav-item ${component_option === '待处理任务' ? 'active' : ''}`}>
-            <a href="current-user.html#/待处理" className="nav-link">
-              <IconMail />
-              {message_qty > 0 && (
-                <small>
-                  &nbsp;
-                  <span className="badge badge-pill badge-danger">{message_qty}</span>
-                </small>
-              )}
-            </a>
-          </li>
+            <li className={`nav-item ${component_option === '待处理任务' ? 'active' : ''}`}>
+              <a href="current-user.html#/待处理" className="nav-link">
+                <IconMail />
+                {message_qty > 0 && (
+                  <small>
+                    &nbsp;
+                    <span className="badge rounded-pill bg-danger">{message_qty}</span>
+                  </small>
+                )}
+              </a>
+            </li>
 
-          <li className={`nav-item ${component_option === '当前用户' ? 'active' : ''}`}>
-            <a href="current-user.html" className="nav-link">
-              <IconProfile />
-              {component_param_name}
-            </a>
-          </li>
-        </ul>
+            <li className={`nav-item ${component_option === '当前用户' ? 'active' : ''}`}>
+              <a href="current-user.html" className="nav-link">
+                <IconProfile />
+                {component_param_name}
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   );

@@ -12,9 +12,8 @@
   "dependencies": {
     "@koa/router": "^9.0.1",
     "blueimp-md5": "^2.16.0",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^5.0.0-alpha1",
     "css.gg": "^2.0.0",
-    "jquery": "^3.5.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-static-cache": "^5.1.3",

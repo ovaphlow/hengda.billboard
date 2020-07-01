@@ -137,8 +137,8 @@ export default function Detail({ component_option }) {
                         新增用户的默认密码为112332
                       </div>
                     )}
-                    <div className="form-group">
-                      <label>姓名</label>
+                    <div className="mb-3">
+                      <label className="form-label">姓名</label>
                       <input
                         type="text"
                         value={name || ''}
@@ -147,8 +147,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>用户名</label>
+                    <div className="mb-3">
+                      <label className="form-label">用户名</label>
                       <input
                         type="text"
                         value={username || ''}

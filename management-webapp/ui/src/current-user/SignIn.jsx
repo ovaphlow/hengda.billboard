@@ -45,8 +45,8 @@ export default function SignIn() {
             </div>
             <div className="card-body">
               <form>
-                <div className="form-group">
-                  <label>用户名</label>
+                <div className="mb-3">
+                  <label className="form-label">用户名</label>
                   <input
                     type="text"
                     value={username || ''}
@@ -56,8 +56,8 @@ export default function SignIn() {
                   />
                 </div>
 
-                <div className="form-group">
-                  <label>密码</label>
+                <div className="mb-3">
+                  <label className="form-label">密码</label>
                   <input
                     type="password"
                     value={password || ''}

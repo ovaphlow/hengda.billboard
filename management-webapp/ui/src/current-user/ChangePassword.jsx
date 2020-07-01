@@ -112,8 +112,8 @@ export default function ChangePassword() {
                       修改密码后需要重新登录
                     </div>
 
-                    <div className="form-group">
-                      <label>当前密码</label>
+                    <div className="mb-3">
+                      <label className="form-label">当前密码</label>
                       <input
                         type="password"
                         value={password || ''}
@@ -123,8 +123,8 @@ export default function ChangePassword() {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>新密码</label>
+                    <div className="mb-3">
+                      <label className="form-label">新密码</label>
                       <input
                         type="password"
                         value={password1 || ''}
@@ -134,8 +134,8 @@ export default function ChangePassword() {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>重复新密码</label>
+                    <div className="mb-3">
+                      <label className="form-label">重复新密码</label>
                       <input
                         type="password"
                         value={password2 || ''}

@@ -76,7 +76,7 @@ export default function List() {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <div className="form-row">
+                    <div className="row">
                       <div className="col-auto">
                         <a href="#/新增" className="btn btn-secondary">
                           <IconAdd />
@@ -136,8 +136,8 @@ export default function List() {
                       {list.map((it) => (
                         <div
                           key={it.id}
-                          className="card bg-secondary"
-                          style={{ width: '16rem', marginLeft: '1rem', marginBottom: '1rem' }}
+                          className="card bg-secondary mx-2"
+                          style={{ width: '18rem' }}
                         >
                           <img src={it.data_url} className="card-img-top" alt={it.title} />
                           <div className="card-body">
@@ -145,9 +145,9 @@ export default function List() {
                               {it.title}
                               <span className="float-right">
                                 {it.status === '启用' ? (
-                                  <span className="badge badge-success">{it.status}</span>
+                                  <span className="badge bg-success">{it.status}</span>
                                 ) : (
-                                  <span className="badge badge-danger">{it.status}</span>
+                                  <span className="badge bg-danger">{it.status}</span>
                                 )}
                               </span>
                             </h5>

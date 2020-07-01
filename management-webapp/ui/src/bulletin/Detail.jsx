@@ -171,8 +171,8 @@ export default function Detail({ component_option }) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>标题</label>
+                        <div className="mb-3">
+                          <label className="form-label">标题</label>
                           <input
                             type="text"
                             value={title}
@@ -183,7 +183,7 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col-3">
-                        <label>有效期</label>
+                        <label className="form-label">有效期</label>
                         <input
                           type="date"
                           value={dday}
@@ -193,13 +193,13 @@ export default function Detail({ component_option }) {
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label>内容</label>
+                    <div className="mb-3">
+                      <label className="form-label">内容</label>
                       <textarea value={content} rows="3" className="form-control input-underscore" onChange={(event) => setContent(event.target.value)} />
                     </div>
 
-                    <div className="form-group">
-                      <label>发送对象</label>
+                    <div className="mb-3">
+                      <label className="form-label">发送对象</label>
                       <select value={receiver} className="form-control input-underscore" onChange={(event) => setReceiver(event.target.value)}>
                         <option value="">未选择</option>
                         <option value="企业用户">企业用户</option>
@@ -209,8 +209,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>地址</label>
+                        <div className="mb-3">
+                          <label className="form-label">地址</label>
                           <select value={address_level1} className="form-control input-underscore" onChange={(event) => setAddressLevel1(event.target.value)}>
                             <option value="">不限</option>
                             {arr1.map((it) => (
@@ -222,8 +222,8 @@ export default function Detail({ component_option }) {
 
                       <div className="col">
                         <div className="col">
-                          <div className="form-group">
-                            <label>&nbsp;</label>
+                          <div className="mb-3">
+                            <label className="form-label">&nbsp;</label>
                             <select value={address_level2} className="form-control input-underscore" onChange={(event) => setAddressLevel2(event.target.value)}>
                               <option value="">不限</option>
                               {arr2.map((it) => (

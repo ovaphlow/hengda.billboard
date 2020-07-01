@@ -118,8 +118,8 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
-                    <div className="form-group">
-                      <label>姓名</label>
+                    <div className="mb-3">
+                      <label className="form-label">姓名</label>
                       <input
                         type="text"
                         value={name || ''}
@@ -129,8 +129,8 @@ export default function Detail({ component_option }) {
                     </div>
 
                     {component_option === '新增' && (
-                    <div className="form-group">
-                      <label>密码</label>
+                    <div className="mb-3">
+                      <label className="form-label">密码</label>
                       <input
                         type="text"
                         value={password || ''}
@@ -140,8 +140,8 @@ export default function Detail({ component_option }) {
                     </div>
                     )}
 
-                    <div className="form-group">
-                      <label>电话</label>
+                    <div className="mb-3">
+                      <label className="form-label">电话</label>
                       <input
                         type="tel"
                         value={phone || ''}

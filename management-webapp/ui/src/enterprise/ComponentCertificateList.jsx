@@ -52,7 +52,7 @@ export default function ComponentCertificateList() {
   return (
     <div className="card bg-dark shadow">
       <div className="card-header">
-        <div className="form-row">
+        <div className="row">
           <div className="col">
             <div className="input-group">
               <div className="input-group-prepend">

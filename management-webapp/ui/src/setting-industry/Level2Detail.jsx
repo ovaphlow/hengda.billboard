@@ -137,8 +137,8 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100">
                   <div className="card-body">
-                    <div className="form-group">
-                      <label>名称</label>
+                    <div className="mb-3">
+                      <label className="form-label">名称</label>
                       <input
                         type="text"
                         value={name || ''}
@@ -147,8 +147,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>备注</label>
+                    <div className="mb-3">
+                      <label className="form-label">备注</label>
                       <input
                         type="text"
                         value={comment || ''}

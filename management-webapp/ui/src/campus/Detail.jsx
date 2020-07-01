@@ -206,8 +206,8 @@ export default function Detail({ component_option }) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>类型</label>
+                        <div className="mb-3">
+                          <label className="form-label">类型</label>
                           <select
                             value={category || ''}
                             className="form-control input-underscore"
@@ -221,8 +221,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>标题</label>
+                        <div className="mb-3">
+                          <label className="form-label">标题</label>
                           <input
                             type="text"
                             value={title || ''}
@@ -235,8 +235,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">日期</label>
                           <input
                             type="date"
                             value={date || ''}
@@ -247,8 +247,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>时间</label>
+                        <div className="mb-3">
+                          <label className="form-label">时间</label>
                           <input
                             type="time"
                             value={time || ''}
@@ -261,8 +261,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>地址</label>
+                        <div className="mb-3">
+                          <label className="form-label">地址</label>
                           <select
                             value={address_level1 || ''}
                             className="form-control input-underscore"
@@ -277,8 +277,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <select
                             value={address_level2 || ''}
                             className="form-control input-underscore"
@@ -293,8 +293,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <select
                             value={address_level3 || ''}
                             className="form-control input-underscore"
@@ -309,7 +309,7 @@ export default function Detail({ component_option }) {
                       </div>
                     </div>
 
-                    <div className="form-group">
+                    <div className="mb-3">
                       <label />
                       <input
                         type="text"
@@ -319,8 +319,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>院校</label>
+                    <div className="mb-3">
+                      <label className="form-label">院校</label>
                       <input
                         type="text"
                         value={school}
@@ -329,8 +329,8 @@ export default function Detail({ component_option }) {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label>内容</label>
+                    <div className="mb-3">
+                      <label className="form-label">内容</label>
                       <ReactQuill
                         formats={[
                           'header', 'align', 'bold', 'italic',

@@ -86,10 +86,7 @@ export default function Detail({ component_option }) {
   }, []);
 
   useEffect(() => {
-    if (!uuid) {
-      window.console.error('uuid解析失败');
-      return;
-    }
+    if (!uuid) return;
     (async () => {
       const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`);
       const res = await response.json();
@@ -162,8 +159,8 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
-                    <div calssName="form-group">
-                      <label>姓名</label>
+                    <div className="mb-3">
+                      <label className="form-label">姓名</label>
                       <input
                         type="text"
                         value={name || ''}
@@ -174,8 +171,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>电话</label>
+                        <div className="mb-3">
+                          <label className="form-label">电话</label>
                           <input
                             type="tel"
                             value={phone || ''}
@@ -186,8 +183,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>EMAIL</label>
+                        <div className="mb-3">
+                          <label className="form-label">EMAIL</label>
                           <input
                             type="email"
                             value={email || ''}
@@ -198,8 +195,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>性别</label>
+                        <div className="mb-3">
+                          <label className="form-label">性别</label>
                           <input
                             type="text"
                             value={gender || ''}
@@ -210,8 +207,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>出生日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">出生日期</label>
                           <input
                             type="date"
                             value={birthday || ''}
@@ -222,7 +219,7 @@ export default function Detail({ component_option }) {
                       </div>
                     </div>
 
-                    <div className="form-group">
+                    <div className="mb-3">
                       <labe>毕业院校</labe>
                       <input
                         type="text"
@@ -234,8 +231,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>专业</label>
+                        <div className="mb-3">
+                          <label className="form-label">专业</label>
                           <input
                             type="text"
                             value={major || ''}
@@ -254,8 +251,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>开始日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">开始日期</label>
                           <input
                             type="date"
                             value={date_begin || ''}
@@ -266,8 +263,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>结束日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">结束日期</label>
                           <input
                             type="date"
                             value={date_end || ''}
@@ -280,8 +277,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>住址</label>
+                        <div className="mb-3">
+                          <label className="form-label">住址</label>
                           <input
                             type="text"
                             value={address1 || ''}
@@ -292,8 +289,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
                             value={address2 || ''}
@@ -306,8 +303,8 @@ export default function Detail({ component_option }) {
 
                     <hr />
 
-                    <div className="form-group">
-                      <label>自我评价</label>
+                    <div className="mb-3">
+                      <label className="form-label">自我评价</label>
                       <ReactQuill
                         formats={[
                           'header', 'align', 'bold', 'italic',
@@ -328,8 +325,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div calssName="form-group">
-                          <label>期望岗位</label>
+                        <div className="mb-3">
+                          <label className="form-label">期望岗位</label>
                           <input
                             type="text"
                             value={qiwangzhiwei || ''}
@@ -348,8 +345,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>意向城市</label>
+                        <div className="mb-3">
+                          <label className="form-label">意向城市</label>
                           <input
                             type="text"
                             value={yixiangchengshi || ''}

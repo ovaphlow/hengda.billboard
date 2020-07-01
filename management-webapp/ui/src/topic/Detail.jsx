@@ -134,8 +134,8 @@ export default function Detail({ component_option }) {
                   <div className="card-body">
                     <div className="row">
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>TAG</label>
+                        <div className="mb-3">
+                          <label className="form-label">TAG</label>
                           <select
                             value={tag || ''}
                             className="form-control input-underscore"
@@ -151,15 +151,15 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>标题</label>
+                        <div className="mb-3">
+                          <label className="form-label">标题</label>
                           <input type="text" value={title} className="form-control input-underscore" onChange={(event) => setTitle(event.target.value)} />
                         </div>
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label>内容</label>
+                    <div className="mb-3">
+                      <label className="form-label">内容</label>
                       <ReactQuill
                         formats={[
                           'header', 'align', 'bold', 'italic',

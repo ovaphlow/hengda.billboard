@@ -97,8 +97,8 @@ export default function Info() {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>姓名</label>
+                        <div className="mb-3">
+                          <label className="form-label">姓名</label>
                           <input
                             type="text"
                             value={name}
@@ -108,8 +108,8 @@ export default function Info() {
                         </div>
                       </div>
                       <div className="col">
-                        <div className="form-group">
-                          <label>用户名</label>
+                        <div className="mb-3">
+                          <label className="form-label">用户名</label>
                           <input
                             type="text"
                             value={username}

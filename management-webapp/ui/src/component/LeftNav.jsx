@@ -45,7 +45,7 @@ export default function LeftNav({ component_option }) {
           {component_option === '校园招聘' ? (
             <strong>
               <IconChevronRight />
-              {cat}
+              {component_option}
               <IconChevronLeft />
             </strong>
           ) : <span>校园招聘</span>}
@@ -57,7 +57,7 @@ export default function LeftNav({ component_option }) {
           {component_option === '企业用户' ? (
             <strong>
               <IconChevronRight />
-              {cat}
+              {component_option}
               <IconChevronLeft />
             </strong>
           ) : <span>企业用户</span>}

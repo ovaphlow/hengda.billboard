@@ -105,7 +105,7 @@ export default function List() {
                               {it.id}
                             </td>
                             <td>
-                              <span className="badge badge-info">{it.category1}</span>
+                              <span className="badge bg-info">{it.category1}</span>
                               &nbsp;
                               {it.name}
                               <br />

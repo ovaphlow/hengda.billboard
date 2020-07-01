@@ -165,10 +165,10 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
-                    <div className="form-row">
+                    <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>名称</label>
+                        <div className="mb-3">
+                          <label className="form-label">名称</label>
                           <input
                             type="text"
                             value={name || ''}
@@ -179,8 +179,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col-3">
-                        <div className="form-group">
-                          <label>法人</label>
+                        <div className="mb-3">
+                          <label className="form-label">法人</label>
                           <input
                             type="text"
                             value={faren || ''}
@@ -193,8 +193,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col-6">
-                        <div className="form-group">
-                          <label>营业执照</label>
+                        <div className="mb-3">
+                          <label className="form-label">营业执照</label>
                           <input
                             type="text"
                             value={yingyezhizhao || ''}
@@ -205,8 +205,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>注册日期</label>
+                        <div className="mb-3">
+                          <label className="form-label">注册日期</label>
                           <input
                             type="text"
                             value={zhuceriqi || ''}
@@ -217,8 +217,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>注资规模</label>
+                        <div className="mb-3">
+                          <label className="form-label">注资规模</label>
                           <input
                             type="text"
                             value={zhuziguimo || ''}
@@ -229,8 +229,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>员工数量</label>
+                        <div className="mb-3">
+                          <label className="form-label">员工数量</label>
                           <select
                             value={yuangongshuliang}
                             className="form-control input-underscore"
@@ -247,8 +247,8 @@ export default function Detail({ component_option }) {
 
                     <div className="row">
                       <div className="col">
-                        <div className="form-group">
-                          <label>地址</label>
+                        <div className="mb-3">
+                          <label className="form-label">地址</label>
                           <input
                             type="text"
                             value={address1 || ''}
@@ -259,8 +259,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
                             value={address2 || ''}
@@ -271,8 +271,8 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>&nbsp;</label>
+                        <div className="mb-3">
+                          <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
                             value={address3 || ''}
@@ -283,7 +283,7 @@ export default function Detail({ component_option }) {
                       </div>
                     </div>
 
-                    <div className="form-group">
+                    <div className="mb-3">
                       <label />
                       <input
                         type="text"
@@ -303,15 +303,15 @@ export default function Detail({ component_option }) {
                       </div>
 
                       <div className="col">
-                        <div className="form-group">
-                          <label>网址</label>
+                        <div className="mb-3">
+                          <label className="form-label">网址</label>
                           <input type="text" value={url} placeholder="https://" className="form-control input-underscore" onChange={(event) => setUrl(event.target.value)} />
                         </div>
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label>简介</label>
+                    <div className="mb-3">
+                      <label className="form-label">简介</label>
                       <textarea rows="5" value={intro} className="form-control input-underscore" onChange={(event) => setIntro(event.target.value)} />
                     </div>
 

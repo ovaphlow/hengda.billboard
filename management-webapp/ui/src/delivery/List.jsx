@@ -89,7 +89,7 @@ export default function List() {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <div className="form-row">
+                    <div className="row">
                       <div className="col">
                         <div className="input-group">
                           <div className="input-group-prepend">

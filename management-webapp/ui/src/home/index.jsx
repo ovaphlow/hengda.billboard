@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 
-import TopNav from './component/TopNav';
-import LeftNav from './component/LeftNav';
-import BottomNav from './component/BottomNav';
-import useAuth from './useAuth';
+import SIGN_IN_URL from '../constant';
+import TopNav from '../component/TopNav';
+import LeftNav from '../component/LeftNav';
+import BottomNav from '../component/BottomNav';
+import useAuth from '../useAuth';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home />
+    <Index />
   </React.StrictMode>,
   document.getElementById('app'),
 );
+
+function Index() {
+  useEffect(() => {
+    const auth = sessionStorage.getItem('mis-auth');
+    if (!auth) window.location = SIGN_IN_URL;
+  }, []);
+
+  return (
+    <HashRouter>
+      <Switch>
+        <Route path="/"><Home /></Route>
+      </Switch>
+    </HashRouter>
+  );
+}
 
 function Home() {
   const auth = useAuth();

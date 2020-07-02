@@ -93,17 +93,16 @@ export default function Detail({ component_option }) {
   }, []);
 
   useEffect(() => {
-    if (uuid) {
-      (async () => {
-        const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`);
-        const res = await response.json();
-        setStatus(res.content.status);
-        setCategory(res.content.category);
-        setTitle(res.content.title);
-        setComment(res.content.comment);
-        setDataUrl(res.content.data_url);
-      })();
-    }
+    if (!uuid) return;
+    (async () => {
+      const response = await window.fetch(`/api/content/banner/${id}?uuid=${uuid}`);
+      const res = await response.json();
+      setStatus(res.content.status);
+      setCategory(res.content.category);
+      setTitle(res.content.title);
+      setComment(res.content.comment);
+      setDataUrl(res.content.data_url);
+    })();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
@@ -156,15 +155,11 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <div className="custom-file">
-                      <input
-                        type="file"
-                        className="custom-file-input"
-                        id="customFile"
-                        onChange={convertImg2Data}
-                      />
-                      <label className="custom-file-label" htmlFor="customFile" data-browse="选择文件">
-                        图片文件
+                    <div className="form-file">
+                      <input type="file" className="form-file-input input-underscore" id="file" onChange={convertImg2Data} />
+                      <label className="form-file-label" htmlFor="file">
+                        <span className="form-file-text">选择文件</span>
+                        <span className="form-file-button">浏览</span>
                       </label>
                     </div>
                   </div>
@@ -219,7 +214,7 @@ export default function Detail({ component_option }) {
                       <div className="form-check">
                         <input
                           type="checkbox"
-                          className="form-check-input input-underscore"
+                          className="form-check-input"
                           id="status"
                           checked={status === '启用'}
                           onChange={(event) => (event.target.checked ? setStatus('启用') : setStatus('未启用'))}

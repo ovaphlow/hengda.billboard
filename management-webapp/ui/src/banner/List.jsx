@@ -134,11 +134,7 @@ export default function List() {
                   <div className="card-body">
                     <div className="row">
                       {list.map((it) => (
-                        <div
-                          key={it.id}
-                          className="card bg-secondary mx-2"
-                          style={{ width: '18rem' }}
-                        >
+                        <div key={it.id} className="card bg-secondary m-2" style={{ width: '18rem' }}>
                           <img src={it.data_url} className="card-img-top" alt={it.title} />
                           <div className="card-body">
                             <h5 className="card-title">

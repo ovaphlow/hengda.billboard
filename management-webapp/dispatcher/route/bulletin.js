@@ -68,7 +68,6 @@ router.get('/', async (ctx) => {
 });
 
 router.post('/', async (ctx) => {
-  logger.info(ctx.request.body);
   const pool = mysql.promise();
   try {
     const sql = `

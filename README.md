@@ -6,6 +6,7 @@
 2. 适用于企业PC端的WEB应用(暂定为ent-webapp)
 2. 微信WEB端和企业PC端应用对应的服务端程序(dispatcher, service)
 3. PC端数据管理系统(mis-webapp, mis-service)
+4. 微信小程序外壳(wx-miniprogram)
 
 ## 技术架构
 

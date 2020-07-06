@@ -13,11 +13,11 @@ export default function IndustryPicker({ caption, value, onChange }) {
   }, []);
 
   return (
-    <div className="form-group">
-      <label>{caption || '行业'}</label>
+    <div className="mb-3">
+      <label className="form-label">{caption || '行业'}</label>
       <select
         value={value}
-        className="form-control"
+        className="form-control input-underscore"
         onChange={onChange}
       >
         <option value="">未选择</option>

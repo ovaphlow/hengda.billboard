@@ -23,8 +23,8 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/新增"><Detail category="新增" /></Route>
-        <Route path="/:id"><Detail category="编辑" /></Route>
+        <Route exact path="/新增"><Detail component_option="新增" /></Route>
+        <Route path="/:id"><Detail component_option="编辑" /></Route>
       </Switch>
     </Router>
   );

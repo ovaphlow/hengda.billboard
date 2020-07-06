@@ -6,6 +6,7 @@ import { SIGN_IN_URL } from '../constant';
 import CheckList from './CheckList';
 import SignIn from './SignIn';
 import ChangePassword from './ChangePassword';
+import Info from './Info';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -25,9 +26,10 @@ function CurrentUserRouter() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/"><Info /></Route>
         <Route path="/待处理"><CheckList /></Route>
         <Route path="/登录"><SignIn /></Route>
-        <Route exact path="/修改密码"><ChangePassword /></Route>
+        <Route path="/修改密码"><ChangePassword /></Route>
       </Switch>
     </Router>
   );

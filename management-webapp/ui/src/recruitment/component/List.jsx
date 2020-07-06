@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import IconRename from '../../icon/Rename';
+
 export default function List({ enterprise_id, enterprise_uuid }) {
   const [data_list, setDataList] = useState([]);
 
@@ -15,6 +17,7 @@ export default function List({ enterprise_id, enterprise_uuid }) {
 
   return (
     <table className="table table-dark table-striped">
+      <caption>岗位</caption>
       <thead>
         <tr>
           <th className="text-right">序号</th>
@@ -30,9 +33,9 @@ export default function List({ enterprise_id, enterprise_uuid }) {
         {data_list.map((it) => (
           <tr key={it.id}>
             <td className="text-right">
-              <span className="pull-left">
+              <span className="float-left">
                 <a href={`recruitment.html#/${it.id}?uuid=${it.uuid}`}>
-                  <i className="fa fa-fw fa-edit" />
+                  <IconRename />
                 </a>
               </span>
               {it.id}

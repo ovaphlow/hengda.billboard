@@ -26,6 +26,26 @@ const router = new Router({
 module.exports = router
 
 router
+.get('/subject/:name/', async ctx => {
+  const grpcFetch = body => new Promise((resolve, reject) =>
+    grpcClient.subject(body, (err, response) => {
+      if (err) {
+        console.error(err)
+        reject(err)
+        return
+      } else {
+        resolve(JSON.parse(response.data))
+      }
+    })
+  )
+  try {
+    ctx.request.body.name = ctx.params.name
+    ctx.response.body = await grpcFetch(ctx.request.body)
+  } catch (err) {
+    console.error(err)
+    ctx.response.body = { message: '服务器错误' }
+  }
+})
   .get('/:id/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.get(body, (err, response) => {

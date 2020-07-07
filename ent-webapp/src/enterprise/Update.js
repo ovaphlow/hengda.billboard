@@ -168,6 +168,7 @@ const Update = () => {
     })
 
     if (flg) {
+      console.info(_req)
       setRequired(_req)
       return
     }
@@ -534,13 +535,25 @@ const Update = () => {
                   }
                 </SelectField>
               </div>
+              
             </div>
+            <div className="row">
+                <div className="col">
+                  <TextField
+                    category="详细地址"
+                    name="address4"
+                    value={data.address4}
+                    handleChange={handleChange}
+                    req={required.address4}
+                    required />
+                </div>
+              </div>
             <div className="row mt-2">
               <div className="col">
                 <h3 className="pull-left">
                   <span className="text-danger">*</span>
                   营业执照
-                  <span className="text-danger">{required.yingyezhizhao_tu?`(${required.yingyezhizhao_tu})`:''}</span>
+                  <span className="text-danger">{required.yingyezhizhao_tu ? `(${required.yingyezhizhao_tu})` : ''}</span>
                 </h3>
                 <div className="pull-right">
                   <button className="btn btn-primary" onClick={handleUpload} >

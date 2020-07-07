@@ -111,4 +111,27 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
+
+  @Override 
+  public void subject(EnterpriseProto.SubjectRequest req, StreamObserver<EnterpriseProto.Reply> responseObserver){
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    String sql = "select id,uuid,name from enterprise where subject = ?";
+    try (Connection conn = DBUtil.getConn()) {
+      try(PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, req.getName());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseProto.Reply reply = EnterpriseProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
 }

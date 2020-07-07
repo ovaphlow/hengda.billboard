@@ -174,7 +174,7 @@ const ListDetails = () => {
           _EditJournal({
             category2: '简历',
             data_id: data.id,
-            data_uuid: data.uuid,
+            data_uuid: data.resume_uuid,
             remark: `邀请<${data.name}面试>`
           }, res => { })
           fetch(`./api/delivery/status/`, {

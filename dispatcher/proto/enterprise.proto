@@ -13,6 +13,8 @@ service Enterprise {
   rpc check(CheckRequest) returns (Reply) {}
 
   rpc update(UpdateRequest) returns (Reply) {}
+
+  rpc subject(SubjectRequest) returns (Reply) {}
 }
 
 message GetRequest { 
@@ -42,6 +44,10 @@ message UpdateRequest {
   string url = 14;
   uint32 id = 15;
   string uuid = 16;
+}
+
+message SubjectRequest {
+  string name = 1;
 }
 
 message Reply { string data = 1; }

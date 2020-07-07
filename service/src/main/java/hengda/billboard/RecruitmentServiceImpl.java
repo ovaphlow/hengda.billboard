@@ -54,7 +54,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       String uuid = UUID.randomUUID().toString();
       String sql = "insert into recruitment ( enterprise_id, enterprise_uuid, name, qty, description, requirement,"
           + "address1, address2, address3, date, salary1, salary2, education, category,"
-          + " industry, position, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,uuid())";
+          + " industry, position, uuid ) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
         ps.setInt(1, req.getEnterpriseId());
         ps.setString(2, req.getEnterpriseUuid());
@@ -364,6 +364,29 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));
         }
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    RecruitmentProto.Reply reply = RecruitmentProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  } 
+
+  @Override
+  public void subject(RecruitmentProto.SubjectRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "select * from recruitment where  enterprise_id in(select id from enterprise where subject = ?) ORDER BY date DESC";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, req.getSubject());
         ResultSet rs = ps.executeQuery();
         List<Map<String, Object>> result = DBUtil.getList(rs);
         resp.put("content", result);

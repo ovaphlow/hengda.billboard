@@ -6,18 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="style.css">
 
-  <title>#TITLE#</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
 
-  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    body {
+      background-attachment: fixed;
+      background-color: #52616b;
+      background-image:
+        linear-gradient(to bottom, rgba(50,50,50,.5), rgba(50,50,50,0.5), rgba(50,50,50,1)),
+        url('wallhaven-n6zrz7.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: rgba(255, 255, 255, 0.897);
+    }
+
+    .input-underscore {
+      background-color: transparent;
+      border: 0;
+      border-bottom: 2px solid silver /* slategrey */;
+      border-radius: 0;
+      color: rgba(255, 255, 255, 1);
+    }
+
+    .transparent {
+      background-color: transparent;
+    }
+  </style>
+
+  <title>龙招聘</title>
+
   <script src="../node_modules/popper.js/dist/popper.min.js"></script>
   <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-  <div id="app"></div>
+<body class="d-flex h-100 w-100">
+  <div id="app" class="w-100"></div>
 
   <script src="src/delivery/index.jsx"></script>
 </body>

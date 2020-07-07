@@ -31,15 +31,15 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
           <th className="text-right">序号</th>
           <th>类别</th>
           <th>时间</th>
-          <th>内容</th>
+          <th className="text-right">内容</th>
         </tr>
       </thead>
 
       <tbody>
         {list.map((it) => (
           <tr key={it.id}>
-            <td>
-              <span className="pull-right">{it.id}</span>
+            <td className="text-right">
+              {it.id}
             </td>
             <td>{it.category2}</td>
             <td>
@@ -47,7 +47,7 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
               &nbsp;
               <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
             </td>
-            <td>
+            <td className="text-right">
               <button
                 type="button"
                 className="btn btn-outline-info btn-sm"
@@ -56,7 +56,6 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
                 data-category={it.category2}
                 onClick={handleRedirect2Resource}
               >
-                <i className="fa fa-fw fa-link" />
                 查看
               </button>
             </td>

@@ -5,11 +5,11 @@ import { EDUCATION } from '../constant';
 
 export default function EducationPicker({ caption, value, onChange }) {
   return (
-    <div className="form-group">
-      <label>{caption || '学历'}</label>
+    <div className="mb-3">
+      <label className="form-label">{caption || '学历'}</label>
       <select
         value={value}
-        className="form-control"
+        className="form-control input-underscore"
         onChange={onChange}
       >
         <option value="">未选择</option>

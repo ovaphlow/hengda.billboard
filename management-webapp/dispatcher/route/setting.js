@@ -68,7 +68,6 @@ router.delete('/industry/2nd/:id', async (ctx) => {
 });
 
 router.get('/industry/2nd', async (ctx) => {
-  logger.info(ctx.request.query.id);
   const sql = `
     select * from common_data where master_id = ? order by id desc
   `;

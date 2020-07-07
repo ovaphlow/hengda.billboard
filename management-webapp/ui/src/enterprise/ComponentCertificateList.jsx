@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+import IconRename from '../icon/Rename';
+import IconPlayListCheck from '../icon/PlayListCheck';
+import IconSync from '../icon/Sync';
+
 export default function ComponentCertificateList() {
   const [list, setList] = useState([]);
   const [filter_name, setFilterName] = useState('');
@@ -48,7 +52,7 @@ export default function ComponentCertificateList() {
   return (
     <div className="card bg-dark shadow">
       <div className="card-header">
-        <div className="form-row">
+        <div className="row">
           <div className="col">
             <div className="input-group">
               <div className="input-group-prepend">
@@ -71,7 +75,7 @@ export default function ComponentCertificateList() {
               </button>
 
               <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
-                <i className="fa fa-fw fa-refresh" />
+                <IconSync />
                 重置
               </button>
             </div>
@@ -95,14 +99,14 @@ export default function ComponentCertificateList() {
               <tr key={it.id}>
                 <td>
                   <a href={`enterprise.html#/${it.id}?uuid=${it.uuid}`}>
-                    <i className="fa fa-fw fa-edit" />
+                    <IconRename />
                   </a>
-                  <span className="pull-right">{it.id}</span>
+                  <span className="float-right">{it.id}</span>
                 </td>
                 <td>{it.name}</td>
                 <td>{it.faren}</td>
                 <td>
-                  <div className="btn-group pull-right">
+                  <div className="btn-group float-right">
                     <button
                       type="button"
                       className="btn btn-outline-success btn-sm"
@@ -110,7 +114,7 @@ export default function ComponentCertificateList() {
                       data-uuid={it.uuid}
                       onClick={handleCertificate}
                     >
-                      <i className="fa fa-fw fa-check" data-id={it.id} data-uuid={it.uuid} />
+                      <IconPlayListCheck />
                       认证
                     </button>
                   </div>

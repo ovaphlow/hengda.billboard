@@ -69,7 +69,7 @@ router.put('/certificate/', async (ctx) => {
     ]);
     ctx.response.body = { message: '', content: '' };
   } catch (err) {
-    logger.info(err);
+    logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
   }
 });

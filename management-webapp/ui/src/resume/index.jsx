@@ -15,7 +15,7 @@ function ResumeRouter() {
   return (
     <Router>
       <Switch>
-        <Route path="/:id"><Detail category="编辑" /></Route>
+        <Route path="/:id"><Detail component_option="编辑" /></Route>
       </Switch>
     </Router>
   );

@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 
-import Navbar from '../component/Navbar';
+import TopNav from '../component/TopNav';
+import LeftNav from '../component/LeftNav';
+import BottomNav from '../component/BottomNav';
+import useAuth from '../useAuth';
 
 export default function List() {
+  const auth = useAuth();
   const location = useLocation();
   const [list, setList] = useState([]);
 
@@ -34,88 +38,112 @@ export default function List() {
   };
 
   return (
-    <>
-      <Navbar category="普通用户" />
+    <div className="d-flex flex-column h-100 w-100">
+      <header>
+        <TopNav component_option="" component_param_name={auth.name} />
+      </header>
 
-      <div className="container-fluid">
-        <nav aria-label="breadcrumb">
-          <h1>
-            <ol className="breadcrumb bg-dark">
-              <li className="breadcrumb-item active">用户收藏</li>
-            </ol>
-          </h1>
-        </nav>
-        <div className="p-2" />
-      </div>
+      <main className="flex-grow-1">
+        <div className="container-fluid h-100">
+          <div className="row h-100 d-flex justify-content-center">
+            <div className="col-3 col-lg-2">
+              <div className="card bg-dark h-100">
+                <LeftNav component_option="个人用户" />
+              </div>
+            </div>
 
-      <div className="m-5" />
+            <div className="col">
+              <div className="container-lg h-100 d-flex flex-column">
+                <div className="d-flex justify-content-between align-items-end">
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-link text-reset text-decoration-none"
+                      onClick={() => { window.history.go(-1); }}
+                    >
+                      返回
+                    </button>
+                  </div>
+                  <span className="h1">用户收藏</span>
+                  <nav>
+                    <ol className="breadcrumb transparent">
+                      <li className="breadcrumb-item">
+                        <a href="home.html" className="text-reset text-decoration-none">
+                          首页
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item">
+                        <a href="common-user.html" className="text-reset text-decoration-none">
+                          个人用户
+                        </a>
+                      </li>
+                      <li className="breadcrumb-item active">
+                        用户收藏
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
 
-      <div className="container-lg">
-        <div className="btn-group">
-          <button
-            type="button"
-            className="btn btn-secondary btn-sm"
-            onClick={() => { window.history.go(-1); }}
-          >
-            返回
-          </button>
-        </div>
+                <div className="card shadow bg-dark h-100 flex-grow-1">
+                  <div className="card-body">
+                    <table className="table table-dark table-striped">
+                      <caption>用户收藏</caption>
+                      <thead>
+                        <tr>
+                          <th className="text-right">序号</th>
+                          <th>用户</th>
+                          <th>类型</th>
+                          <th>时间</th>
+                          <th>内容</th>
+                        </tr>
+                      </thead>
 
-        <div className="m-2" />
-
-        <div className="card bg-dark shadow">
-          <div className="card-body">
-            <table className="table table-dark table-striped">
-              <caption>用户收藏</caption>
-              <thead>
-                <tr>
-                  <th className="text-right">序号</th>
-                  <th>用户</th>
-                  <th>类型</th>
-                  <th>时间</th>
-                  <th>内容</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {list.map((it) => (
-                  <tr key={it.id}>
-                    <td>
-                      <span className="pull-right">{it.id}</span>
-                    </td>
-                    <td>
-                      <span className="badge badge-info">{it.category1}</span>
-                      &nbsp;
-                      {it.name}
-                      <br />
-                      <small className="text-muted">{it.phone}</small>
-                    </td>
-                    <td>{it.category2}</td>
-                    <td>
-                      {moment(it.datime).format('YYYY-MM-DD')}
-                      &nbsp;
-                      <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-outline-info btn-sm"
-                        data-id={it.data_id}
-                        data-uuid={it.data_uuid}
-                        data-category={it.category2}
-                        onClick={handleRedirect2Resource}
-                      >
-                        <i className="fa fa-fw fa-link" />
-                        查看
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <tbody>
+                        {list.map((it) => (
+                          <tr key={it.id}>
+                            <td className="text-right">
+                              {it.id}
+                            </td>
+                            <td>
+                              <span className="badge bg-info">{it.category1}</span>
+                              &nbsp;
+                              {it.name}
+                              <br />
+                              <small className="text-muted">{it.phone}</small>
+                            </td>
+                            <td>{it.category2}</td>
+                            <td>
+                              {moment(it.datime).format('YYYY-MM-DD')}
+                              &nbsp;
+                              <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="btn btn-outline-info btn-sm"
+                                data-id={it.data_id}
+                                data-uuid={it.data_uuid}
+                                data-category={it.category2}
+                                onClick={handleRedirect2Resource}
+                              >
+                                查看
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </main>
+
+      <footer className="mt-3 bg-dark">
+        <BottomNav />
+      </footer>
+    </div>
   );
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import md5 from 'blueimp-md5';
 
-import Navbar from '../component/Navbar';
+import BottomNav from '../component/BottomNav';
+import IconLogIn from '../icon/LogIn';
 
 export default function SignIn() {
   const [username, setUsername] = useState('');
@@ -27,75 +28,60 @@ export default function SignIn() {
   };
 
   return (
-    <>
-      <Navbar category="首页" />
-
-      <div className="container-fluid">
-        <nav aria-label="breadcrumb">
+    <div className="d-flex flex-column h-100 w-100">
+      <header>
+        <div className="container-lg">
           <h1>
-            <ol className="breadcrumb bg-dark">
-              <li className="breadcrumb-item">当前用户</li>
-
-              <li className="breadcrumb-item active" aria-current="page">登录</li>
-            </ol>
+            龙招聘 - 平台管理系统
           </h1>
-        </nav>
+        </div>
+      </header>
 
-        <hr />
+      <main className="flex-grow-1">
+        <div className="container-lg d-flex h-100 align-items-center justify-content-center">
+          <div className="card bg-dark shadow col-6 col-lg-4">
+            <div className="card-header">
+              <h2>用户登录</h2>
+            </div>
+            <div className="card-body">
+              <form>
+                <div className="mb-3">
+                  <label className="form-label">用户名</label>
+                  <input
+                    type="text"
+                    value={username || ''}
+                    autoComplete="username"
+                    className="form-control input-underscore"
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
+                </div>
 
-        <div className="row justify-content-center">
-          <div className="btn-group">
-            <a href="#/修改密码" className="btn btn-sm btn-warning">
-              修改密码
-            </a>
+                <div className="mb-3">
+                  <label className="form-label">密码</label>
+                  <input
+                    type="password"
+                    value={password || ''}
+                    autoComplete="current-password"
+                    className="form-control input-underscore"
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                </div>
+              </form>
+            </div>
 
-            <a href="#/登录" className="btn btn-sm btn-danger">
-              退出登录
-            </a>
+            <div className="card-footer">
+              <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
+                <IconLogIn />
+                确定
+              </button>
+            </div>
           </div>
         </div>
+      </main>
 
-        <div className="p-2" />
-      </div>
-
-      <div className="m-5" />
-
-      <div className="container-lg">
-        <div className="card bg-dark shadow col-8 offset-2 col-lg-6 offset-lg-3">
-          <div className="card-body">
-            <form>
-              <div className="form-group">
-                <label>用户名</label>
-                <input
-                  type="text"
-                  value={username || ''}
-                  autoComplete="username"
-                  className="form-control"
-                  onChange={(event) => setUsername(event.target.value)}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>密码</label>
-                <input
-                  type="password"
-                  value={password || ''}
-                  autoComplete="current-password"
-                  className="form-control"
-                  onChange={(event) => setPassword(event.target.value)}
-                />
-              </div>
-            </form>
-          </div>
-
-          <div className="card-footer">
-            <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
-              <i className="fa fa-fw fa-sign-in" />
-              确定
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
+      <footer className="bg-dark mt-3">
+        <BottomNav />
+      </footer>
+    </div>
   );
 }

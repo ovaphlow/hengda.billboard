@@ -77,6 +77,7 @@ const HomePage = () => {
   return (
     <>
       <div className="container-fluid">
+        <PlayImg category={'小程序-首页'} />
         {
           auth === 0 ? (
             <div className="row pb-2 pt-1" style={{ backgroundColor: '#f5f5f5'}}>
@@ -88,20 +89,19 @@ const HomePage = () => {
               </div>
             </div>
           ) : (
-            <div className="row pb-2 pt-1" style={{ backgroundColor: '#f5f5f5'}}>
+            <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5'}}>
               <div className="col">
                 <input type="text" 
-                  className="w-100 border-0 text-center" 
+                  className="w-100 border-0 text-center rounded-pill" 
                   placeholder="按照企业/职位名称查询"
                   onClick={()=>window.location=`#主页/查询/`}
-                  style={{outline:0,backgroundColor:'rgba(0, 0, 0, 0)'}} />
+                  style={{outline:0,height:35}}
+                />
               </div>
             </div>
           )
         }
-
-        <PlayImg category={'小程序-首页'} />
-        <div className="mt-2 p-3 border-0 bg-white rounded card-body shadow ">
+        <div className="p-3 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6>
               <i className="fa fa-fw fa-lg fa-fire text-danger" aria-hidden="true"></i>
@@ -110,6 +110,7 @@ const HomePage = () => {
           </div>
           <TopicCards list={topicList} />
         </div>
+        
         <div className="mt-2 p-3 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6 className="pull-left" >

@@ -80,11 +80,11 @@ const KeywordSearch = props => {
           <div className="col">
             <input type="text"
               id="search"
-              className="w-100 border-0 text-center"
+              className="w-100 border-0 text-center rounded-pill"
               placeholder="按照企业/职位名称查询"
               onKeyPress={_οnkeypress}
               autoFocus
-              style={{ outline: 0, backgroundColor: 'rgba(0, 0, 0, 0)' }} />
+              style={{outline:0, height:35}} />
           </div>
         </div>
         <div className="card border-0 shadow">

@@ -18,6 +18,9 @@ p {
   margin-top: 0;
   margin-bottom: 0;
 }
+a {
+  text-decoration: none;
+}
 .chat-background{
   min-height: 100vh;
   background-color: white;
@@ -163,7 +166,13 @@ p {
   flex-direction: row;
 }
 
-
+.huzhou-text {
+  overflow: hidden;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical; 
+  -webkit-line-clamp:12;
+  
+}
 .textarea-row {
   height: 106px
 }
@@ -206,7 +215,6 @@ p {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-
 .topic-card {
   height: 50px;
   justify-content: center;
@@ -239,8 +247,4 @@ p {
   z-index: 1000;
   right: 0;
   /* margin-right: -8px; */
-}
-
-.container-fluid> div {
-  background-color:white
 }

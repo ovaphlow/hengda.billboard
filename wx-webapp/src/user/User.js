@@ -124,9 +124,8 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/日程" >
-                <span className="fa-stack fa-lg pull-left">
-                  <i className="fa fa-fw fa-circle fa-stack-2x text-info"></i>
-                  <i className="fa fa-fw fa-flag fa-stack-1x fa-car text-white"></i>
+                <span className="fa-stack fa-lg pull-left pl-2">
+                  <i className="fa fa-fw fa-flag fa-car text-info"></i>
                 </span>
                 <h6 className="pull-left pt-2" >
                   <strong>&nbsp;日程</strong>
@@ -144,9 +143,8 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/面试" >
-                <span className="fa-stack fa-lg pull-left">
-                  <i className="fa fa-fw fa-circle fa-stack-2x text-primary"></i>
-                  <i className="fa fa-fw fa-flag fa-stack-1x fa-paper-plane text-white"></i>
+                <span className="fa-stack fa-lg pull-left pl-2">
+                  <i className="fa fa-fw fa-flag fa-paper-plane text-primary"></i>
                 </span>
                 <h6 className="pull-left pt-2">
                   <strong>&nbsp;面试邀请</strong>
@@ -164,9 +162,8 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/系统消息" >
-                <span className="fa-stack fa-lg pull-left">
-                  <i className="fa fa-fw fa-circle fa-stack-2x text-secondary"></i>
-                  <i className="fa fa-fw fa-flag fa-stack-1x fa-envelope text-white"></i>
+                <span className="fa-stack fa-lg pull-left pl-2">
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-envelope text-secondary"></i>
                 </span>
                 <h6 className="pull-left pt-2" >
                   <strong>&nbsp;系统消息</strong>
@@ -184,9 +181,8 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/反馈" >
-                <span className="fa-stack fa-lg pull-left">
-                  <i className="fa fa-fw fa-circle fa-stack-2x text-warning"></i>
-                  <i className="fa fa-fw fa-flag fa-stack-1x fa-comments text-white"></i>
+                <span className="fa-stack fa-lg pull-left pl-2">
+                  <i className="fa fa-fw fa-flag fa-stack-1x fa-comments text-warning"></i>
                 </span>
                 <h6 className="pull-left pt-2" >
                   <strong>&nbsp;反馈/投诉</strong>
@@ -202,9 +198,8 @@ const User = () => {
                 <div className="row p-2 mt-2" >
                   <div className="col">
                     <a className="text-dark" href="#/登录" >
-                      <span className="fa-stack fa-lg pull-left">
-                        <i className="fa fa-fw fa-circle fa-stack-2x text-danger"></i>
-                        <i className="fa fa-fw fa-flag fa-stack-1x fa-sign-out text-white"></i>
+                      <span className="fa-stack fa-lg pull-left pl-2">
+                        <i className="fa fa-fw fa-flag fa-sign-out text-danger"></i>
                       </span>
                       <h6 className="pull-left text-danger pt-2" >
                         <strong>&nbsp;注销</strong>

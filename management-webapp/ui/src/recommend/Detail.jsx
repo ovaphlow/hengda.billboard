@@ -311,11 +311,12 @@ export default function Detail({ component_option }) {
                           toolbar: [
                             [{ header: [1, 2, 3, false] }], [{ align: [] }],
                             ['bold', 'italic', 'underline', 'blockquote'],
+                            ['image'],
                           ],
                         }}
                         formats={[
                           'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote',
+                          'underline', 'blockquote','image'
                         ]}
                         placeholder="请填写内容"
                         value={content || ''}

@@ -93,9 +93,9 @@ const RecommendDetails = props => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category={item.title} />
         <div className="card border-0 shadow mt-2 ">
           <div className="card-body">
+            <ToBack category={item.title} />
             <div className="row">
               <div className="col strong-center">
                 <strong>{item.title}</strong>
@@ -139,7 +139,7 @@ const RecommendDetails = props => {
             </div>
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
             <div className="row mt-3">
-              <div className="col" dangerouslySetInnerHTML={{ __html: item.content }} />
+              <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.content }} />
             </div>
           </div>
         </div>

@@ -30,9 +30,16 @@ const DataRow = props => (
         </span>
         <br />
         <span className="text-muted" style={{ fontSize: 11 }}>
-          联系电话: {props.phone}
+          联系电话1: {props.phone1}
         </span>
         <br />
+        {
+            props.phone2 && (
+              <div className="text-muted" style={{ fontSize: 11 }}>
+                  联系电话2: {props.phone2}
+              </div>
+            ) 
+          }
         <span className="text-muted" style={{ fontSize: 11 }}>
           面试时间: {props.mianshishijian}
         </span>

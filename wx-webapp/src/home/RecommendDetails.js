@@ -139,7 +139,7 @@ const RecommendDetails = props => {
             </div>
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
             <div className="row mt-3">
-              <div className="col" dangerouslySetInnerHTML={{ __html: item.content }} />
+              <div className="recomm col" dangerouslySetInnerHTML={{ __html: item.content }} />
             </div>
           </div>
         </div>

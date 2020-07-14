@@ -19,7 +19,7 @@ public class BannerServiceImpl extends BannerGrpc.BannerImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select id, uuid,datime,data_url,source_url category from banner where category = ? and status = '启用'";
+      String sql = "select id, uuid,datime,data_url,source_url, category from banner where category = ? and status = '启用' ORDER BY datime DESC ";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getCategory());
         ResultSet rs = ps.executeQuery();

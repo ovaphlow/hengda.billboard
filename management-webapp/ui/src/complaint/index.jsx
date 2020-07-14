@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import moment from 'moment';
-import 'css.gg/icons/svg/add.svg';
 
 import { SIGN_IN_URL } from '../constant';
 import TopNav from '../component/TopNav';

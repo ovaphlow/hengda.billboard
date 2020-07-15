@@ -25,7 +25,7 @@ export default function Detail({ component_option }) {
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [date1, setDate1] = useState(moment().format('YYYY-MM-DD'));
-  const [date2, setDate2] = useState(moment().format('YYYY-MM-DD'));
+  const [date2, setDate2] = useState(moment().add(15, 'days').format('YYYY-MM-DD'));
   const [address_level1, setAddressLevel1] = useState('黑龙江省');
   const [address_level2, setAddressLevel2] = useState('哈尔滨市');
   const [publisher, setPublisher] = useState('');
@@ -108,7 +108,7 @@ export default function Detail({ component_option }) {
         setContent(res.content.content);
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -128,7 +128,6 @@ export default function Detail({ component_option }) {
     setArr2(arr);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address_level1]);
-
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
@@ -217,6 +216,7 @@ export default function Detail({ component_option }) {
                             value={date1}
                             className="form-control input-underscore"
                             onChange={(event) => setDate1(event.target.value)}
+                            onBlur={(event) => { setDate2(moment(event.target.value).add(15, 'days').format('YYYY-MM-DD')) }}
                           />
                         </div>
                       </div>
@@ -316,7 +316,7 @@ export default function Detail({ component_option }) {
                         }}
                         formats={[
                           'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote','image'
+                          'underline', 'blockquote', 'image'
                         ]}
                         placeholder="请填写内容"
                         value={content || ''}

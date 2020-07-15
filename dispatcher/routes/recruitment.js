@@ -5,12 +5,12 @@ const config = require('../config')
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(__dirname + '/../proto/recruitment.proto', {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true
-})
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  })
 ).recruitment
 
 const grpcClient = new proto.Recruitment(
@@ -41,6 +41,25 @@ router
     )
     try {
       ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = { message: '服务器错误' }
+    }
+  })
+  .get('/subject/:subject', async ctx => {
+    const grpcFetch = body => new Promise((resolve, reject) =>
+      grpcClient.subject(body, (err, response) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+          return
+        } else {
+          resolve(JSON.parse(response.data))
+        }
+      })
+    )
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
       ctx.response.body = { message: '服务器错误' }
@@ -104,7 +123,7 @@ router
       ctx.response.body = { message: '服务器错误' }
     }
   })
-  .put('/keyword-search/',async ctx => {
+  .put('/keyword-search/', async ctx => {
     const grpcFetch = body => new Promise((resolve, reject) =>
       grpcClient.keywordSearch(body, (err, response) => {
         if (err) {

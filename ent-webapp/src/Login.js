@@ -63,7 +63,7 @@ const Login = () => {
             <div className="card-body text-center">
               <h5>登录</h5>
               <hr />
-              <form>
+              <form onSubmit={handleLogIn}>
                 <div className="row px-4">
                   <div className="col form-group">
                     <input className="mt-3 form-control rounded-0"
@@ -90,7 +90,7 @@ const Login = () => {
                     <input type="text" className="col form-control rounded-0" />
                   </div>
                   <div className="col">
-                    <button className="btn btn-secondary rounded-0" style={{ height: '100%', fontSize: 'small' }}>
+                    <button type="button" className="btn btn-secondary rounded-0" style={{ height: '100%', fontSize: 'small' }}>
                       发送验证码
                     </button>
                   </div>

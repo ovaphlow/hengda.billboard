@@ -26,6 +26,7 @@ service Recruitment {
 
   rpc enterpriseSearch(EnterpriseSearchRequest) returns (Reply) {}
 
+  rpc subject(SubjectRequest) returns (Reply) {}
 }
 
 message ListRequest {}
@@ -107,4 +108,9 @@ message EnterpriseSearchRequest {
   string education = 7;
 }
 
+message SubjectRequest {
+  string subject = 1;
+}
+
 message Reply { string data = 1; }
+

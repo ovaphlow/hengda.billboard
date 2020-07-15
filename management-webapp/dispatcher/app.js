@@ -27,7 +27,9 @@ const app = new Koa();
 
 app.env = 'production';
 
-app.use(bodyParser());
+app.use(bodyParser({
+  "jsonLimit": "8mb"
+}));
 
 const STATIC_PATH = path.join(__dirname, '../public');
 app.use(staticCache(STATIC_PATH, {

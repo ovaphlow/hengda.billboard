@@ -3,8 +3,9 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="referrer" content="no-referrer" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+  
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
 
   <style>
@@ -36,6 +37,7 @@
 
     .transparent {
       background-color: transparent;
+
     }
 
     .ql-snow .ql-picker {
@@ -49,7 +51,41 @@
     .ql-snow .ql-fill,
     .ql-snow .ql-stroke .ql-fill {
       fill: white !important;
+    }
 
+    .ql-snow .ql-picker.ql-expanded .ql-picker-options {
+      color: #fff;
+      background-color: #343a40 !important;
+    }
+
+    .ql-toolbar.ql-snow .ql-picker-label {
+      color: #fff !important;
+    }
+
+    .ql-snow .ql-stroke {
+      stroke: #fff !important;
+    }
+
+    .ql-snow .ql-fill,
+    .ql-snow .ql-stroke.ql-fill {
+      stroke: #fff !important;
+    }
+
+    .ql-editor.ql-blank::before {
+      color: #fff !important;
+    }
+
+    .ql-snow .ql-picker {
+      color: white !important;
+    }
+
+    .ql-snow .ql-stroke {
+      stroke: white !important;
+    }
+
+    .ql-snow .ql-fill,
+    .ql-snow .ql-stroke .ql-fill {
+      fill: white !important;
     }
 
     .ql-snow .ql-picker.ql-expanded .ql-picker-options {
@@ -76,7 +112,7 @@
   </style>
 
   <title>龙招聘</title>
-
+  
   <script src="../node_modules/popper.js/dist/popper.min.js"></script>
   <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>

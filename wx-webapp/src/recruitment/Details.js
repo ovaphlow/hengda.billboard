@@ -157,12 +157,11 @@ const Details = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack report advisory dataType="岗位" dataId={id} search={search} />
-        {data && (
-          <>
-            <div className="card border-0 shadow mt-2 ">
-              <div className="card-body">
-                
+        <div className="card border-0 shadow mt-2 ">
+          <div className="card-body">
+            <ToBack report advisory dataType="岗位" dataId={id} search={search} />
+            {data && (
+              <>
                 <div className="row mt-3">
                   <div className="col">
                     <h4>{data.name}</h4>
@@ -222,10 +221,10 @@ const Details = () => {
                     <div dangerouslySetInnerHTML={{ __html: data.requirement }}></div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </>
-        )}
+              </>
+            )}
+          </div>
+        </div>
       </div>
       <div className="recommond-bottom"></div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >

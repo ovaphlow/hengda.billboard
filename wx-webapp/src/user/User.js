@@ -48,7 +48,7 @@ const User = () => {
           </div> */}
           {
             auth === 0 ? (
-              <div className="col  pt-4 pb-4">
+              <div className="col pt-4 pb-4">
                 <h6>
                   <a href="#/登录" className="text-white">
                     未登录

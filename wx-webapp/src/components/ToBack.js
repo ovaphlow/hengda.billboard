@@ -20,7 +20,7 @@ const ToBack = props => {
         <span onClick={toPrevious} className="text-dark">
           <i
             className="fa fa-fw fa-chevron-left fa-lg text-muted"></i>
-          {props.category}
+          {/* {props.category} */}
         </span>
       </div>
       {(props.report || props.complaint) && (

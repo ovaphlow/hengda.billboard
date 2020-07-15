@@ -18,49 +18,61 @@ p {
   margin-top: 0;
   margin-bottom: 0;
 }
+
 a {
   text-decoration: none;
 }
+
 .chat-background{
   min-height: 100vh;
   background-color: white;
 }
+
 .background-login{
   height: 100vh;
   background: linear-gradient(#3d8f8c,70%,#54C6D9);
 }
+
 .background-login1{
   background-color: #f5f5f5;
 }
+
 .background-login2{
   background:linear-gradient(#0e8ee8,70%,#23aef5) ;
   border-radius: 0 0 5% 5%;
 }
+
 .recommond-bottom{
   padding-bottom: 55px;
 }
+
 .user-radius{
   border-radius: 15px;
 }
 .button-background{
   background-color: #64c3f9;
 }
+
 .input-placeholder::-webkit-input-placeholder{
   color: #98c6ce;
   font-weight: lighter;
 }
+
 .input-placeholder::-moz-placeholder{
   color: #98c6ce;
   font-weight: lighter;
 }
+
 .input-placeholder:-moz-placeholder{
   color: #98c6ce;
   font-weight: lighter;
 }
+
 .input-placeholder:-ms-input-placeholder{
   color: #98c6ce;
   font-weight: lighter;
 }
+
 .input-control {
   width: 100%;
   font-size: 1rem;
@@ -68,14 +80,15 @@ a {
   border: 0px solid #ced4da;
   border-bottom: 1px solid #dee2e6 !important;
 }
+
 .input-label{
   width: 100%;
   font-size: 1rem;
   font-weight: 400;
   border: 0px solid #ced4da;
   padding-left: 28px;
-  
 }
+
 .input-login{
   width: 100%;
   font-size: 1rem;
@@ -84,38 +97,47 @@ a {
   border-radius: 20px;
   line-height: 40px;
 }
+
 .font-weight{
   font-weight: lighter;
 }
+
 .card-p{
   padding-left: 50px;
 }
+
 .nav-row {
   width: 100%;
   margin-right: 0;
   margin-left: 0
 }
+
 .input-f:focus{
   outline: none;
   box-shadow: none;
 }
+
 .nav-col {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
 }
+
 .overlap{
   margin-top: -15px;
 }
+
 .nav-btn {
   width: 100%;
   border-radius: 0;
   height: 100%;
 }
+
 .strong-center{
   text-align: center;
 }
+
 .item-middle {
   display: flex;
   justify-content: center;
@@ -133,7 +155,6 @@ a {
   justify-content: flex-end;
   align-items: center;
 }
-
 
 .flex-center {
   display: flex;
@@ -171,8 +192,8 @@ a {
   display:-webkit-box; 
   -webkit-box-orient:vertical; 
   -webkit-line-clamp:12;
-  
 }
+
 .textarea-row {
   height: 106px
 }

@@ -28,3 +28,14 @@ code {
   background-color: transparent;
   color: white;
 }
+
+.ql-snow .ql-picker {
+  color: white !important;
+  display: inline-block;
+  float: left;
+  font-size: 14px;
+  font-weight: 500;
+  height: 24px;
+  position: relative;
+  vertical-align: middle;
+}

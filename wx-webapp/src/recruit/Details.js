@@ -146,9 +146,9 @@ const Details = () => {
     </div>) : (
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>
-          <ToBack category={item.title} />
           <div className="card border-0 shadow mt-2">
             <div className="card-body">
+              <ToBack category={item.title} />
               <div className="row">
                 <div className="col strong-center">
                   <strong>{item.title}</strong>

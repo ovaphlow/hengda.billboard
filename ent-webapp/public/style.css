@@ -9,7 +9,6 @@ body {
   height: 103px
 }
 
-
 .logo2 {
   width: 300px;
   height: 73px
@@ -42,14 +41,12 @@ body {
   align-items: center;
 }
 
-
 .flex-center  {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
-
 
 .sidebar {
   height: 100%
@@ -78,7 +75,6 @@ body {
   border-color: #fac93e;
 }
 
-
 .btn-login:hover {
   color: #fff;
 }
@@ -87,7 +83,6 @@ body {
   width: 150px;
   height: 45px;
 }
-
 
 .chat-img {
   width: 45px;

@@ -16,7 +16,6 @@ const HomePage = () => {
   const [recommendTypes, setRecommendTypes] = useState({})
 
   const [auth, setAuth] = useState(0)
-
   useEffect(() => {
     document.title = '龙江学子就业平台'
     const _auth = localStorage.getItem('auth')
@@ -80,7 +79,7 @@ const HomePage = () => {
         <PlayImg category={'小程序-首页'} />
         {
           auth === 0 ? (
-            <div className="row pb-2 pt-1" style={{ backgroundColor: '#f5f5f5'}}>
+            <div className="row pb-2 pt-1" style={{ backgroundColor: '#f5f5f5' }}>
               <div className="col text-center">
                 <a className="text-black-50" href="#登录" >
                   <strong className="text-primary">登录</strong>
@@ -89,17 +88,17 @@ const HomePage = () => {
               </div>
             </div>
           ) : (
-            <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5'}}>
-              <div className="col">
-                <input type="text" 
-                  className="w-100 border-0 text-center rounded-pill" 
-                  placeholder="按照企业/职位名称查询"
-                  onClick={()=>window.location=`#主页/查询/`}
-                  style={{outline:0,height:35}}
-                />
+              <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5' }}>
+                <div className="col">
+                  <input type="text"
+                    className="w-100 border-0 text-center rounded-pill"
+                    placeholder="按照企业/职位名称查询"
+                    onClick={() => window.location = `#主页/查询/`}
+                    style={{ outline: 0, height: 35 }}
+                  />
+                </div>
               </div>
-            </div>
-          )
+            )
         }
         <div className="p-3 border-0 bg-white rounded card-body shadow ">
           <div >
@@ -110,7 +109,7 @@ const HomePage = () => {
           </div>
           <TopicCards list={topicList} />
         </div>
-        
+
         <div className="mt-2 p-3 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6 className="pull-left" >

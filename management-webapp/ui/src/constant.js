@@ -9,4 +9,4 @@ export const BANNER_CATEGORY = ['小程序-首页', '小程序-岗位', '小程�
 export const EDUCATION = ['高中及以下', '大专', '本科', '硕士', '博士'];
 
 // 推荐信息 分类
-export const RECOMMEND_CATEGORY = ['国企', '公务员', '事业单位', '教师'];
+export const RECOMMEND_CATEGORY = ['国企', '公务员', '事业单位', '教师', '其它'];

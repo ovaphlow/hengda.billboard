@@ -1,198 +1,197 @@
-const Koa = require('koa')
-const bodyParser = require('koa-bodyparser')
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
 
-const config = require('./config')
+const config = require('./config');
 
-const app = new Koa()
+const app = new Koa();
 
-app.env = config.env
+app.env = config.env;
 
-app.use(bodyParser())
-
-app.use(async (ctx, next) => {
-  await next()
-  const rt = ctx.response.get('X-Response-Time')
-  console.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`)
-})
+app.use(bodyParser());
 
 app.use(async (ctx, next) => {
-  const start = Date.now()
-  await next()
-  const ms = Date.now() - start
-  ctx.set('X-Response-Time', `${ms}ms`)
-})
+  await next();
+  const rt = ctx.response.get('X-Response-Time');
+  console.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`);
+});
+
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  ctx.set('X-Response-Time', `${ms}ms`);
+});
 
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-})
+  console.error('server error', err, ctx);
+});
 
 function EnterpriseUserRouter() {
-  const router = require('./routes/enterpriseUser')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/enterpriseUser');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-EnterpriseUserRouter()
-
+EnterpriseUserRouter();
 
 function commonUserRouter() {
-  const router = require('./routes/commonUser')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/commonUser');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-commonUserRouter()
+commonUserRouter();
 
 function commonUserFileRouter() {
-  const router = require('./routes/commonUserFile')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/commonUserFile');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-commonUserFileRouter()
+commonUserFileRouter();
 
 function resumeRouter() {
-  const router = require('./routes/resume')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/resume');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-resumeRouter()
+resumeRouter();
 
 function bannerRouter() {
-  const router = require('./routes/banner')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/banner');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-bannerRouter()
+bannerRouter();
 
 function recruitmentRouter() {
-  const router = require('./routes/recruitment')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/recruitment');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-recruitmentRouter()
+recruitmentRouter();
 
 function journalRouter() {
-  const router = require('./routes/journal')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/journal');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-journalRouter()
+journalRouter();
 
 function favoriteRouter() {
-  const router = require('./routes/favorite')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/favorite');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-favoriteRouter()
+favoriteRouter();
 
 function deliveryRouter() {
-  const router = require('./routes/delivery')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/delivery');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-deliveryRouter()
+deliveryRouter();
 
 function reportRouter() {
-  const router = require('./routes/report')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/report');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-reportRouter()
+reportRouter();
 
 function feedbackRouter() {
-  const router = require('./routes/feedback')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/feedback');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-feedbackRouter()
+feedbackRouter();
 
 function messageRouter() {
-  const router = require('./routes/message')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/message');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-messageRouter()
+messageRouter();
 
 function enterpriseRouter() {
-  const router = require('./routes/enterprise')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/enterprise');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-enterpriseRouter()
+enterpriseRouter();
 
 function offerRouter() {
-  const router = require('./routes/offer')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/offer');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-offerRouter()
+offerRouter();
 
 function topicRouter() {
-  const router = require('./routes/topic')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/topic');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-topicRouter()
+topicRouter();
 
 function campusRouter() {
-  const router = require('./routes/campus')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
+  const router = require('./routes/campus');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 }
 
-campusRouter()
+campusRouter();
 
 function commonUserScheduleRouter() {
-  const router = require('./routes/commonUserSchedule')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-} 
+  const router = require('./routes/commonUserSchedule');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
 
-commonUserScheduleRouter()
+commonUserScheduleRouter();
 
 function commonDataRouter() {
-  const router = require('./routes/commonData')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-} 
+  const router = require('./routes/commonData');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
 
-commonDataRouter()
+commonDataRouter();
 
 function recommendRouter() {
-  const router = require('./routes/recommend')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-} 
+  const router = require('./routes/recommend');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
 
-recommendRouter()
+recommendRouter();
 
 function emailRouter() {
-  const router = require('./routes/email')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-} 
+  const router = require('./routes/email');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
 
-emailRouter()
+emailRouter();
 
 function chartRouter() {
-  const router = require('./routes/chart')
-  app.use(router.routes())
-  app.use(router.allowedMethods())
-} 
+  const router = require('./routes/chart');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
 
-chartRouter()
+chartRouter();
 
-module.exports = app
+module.exports = app;

@@ -110,7 +110,6 @@ const List = () => {
           }
         })
     }
-
   }, [chatTotal, auth])
 
   // const handleClick = () => {

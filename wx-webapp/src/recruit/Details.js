@@ -142,13 +142,15 @@ const Details = () => {
 
   return item === 0 ? (
     <div className="container-fluid" style={{ fontSize: 14 }}>
+      <br />
       <ToBack />
     </div>) : (
       <>
         <div className="container-fluid" style={{ fontSize: 14 }}>
           <div className="card border-0 shadow mt-2">
+            <br />
+            <ToBack category={item.title} />
             <div className="card-body">
-              <ToBack category={item.title} />
               <div className="row">
                 <div className="col strong-center">
                   <strong>{item.title}</strong>

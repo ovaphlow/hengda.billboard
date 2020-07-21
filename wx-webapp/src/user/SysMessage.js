@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 
-import ToBack from '../components/ToBack'
 
 const DataRow = props => (
   <>
@@ -43,7 +42,6 @@ const SysMessage = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <ToBack category="平台消息" />
         {list && list.map((item, inx) => <DataRow key={inx} {...item} />)}
       </div>
       <Navbar category="我的" />

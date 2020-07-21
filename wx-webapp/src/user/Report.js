@@ -67,7 +67,7 @@ const Report = () => {
 
   const { id, category } = useParams()
 
-  const { search } = useLocation()  
+  const { search } = useLocation()
 
   useEffect(() => {
     if (category === '岗位') {
@@ -92,7 +92,7 @@ const Report = () => {
           }
         })
     }
-  }, [id, category,search])
+  }, [id, category, search])
 
 
   useEffect(() => {
@@ -142,28 +142,32 @@ const Report = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
-        <div className="mt-2">
-          <h4>举报内容</h4>
-        </div>
-        <div className="card">
+        <div className="card border-0 shadow mt-2">
+          <ToBack />
           <div className="card-body">
-            {category === '企业' && <EnterpriseDetail {...data} />}
-            {category === '岗位' && <RecruitmentDetail {...data} />}
-          </div>
-        </div>
-        <div className="mt-2">
-          <h4>举报原因</h4>
-        </div>
+            <div className="mt-2">
+              <h4>举报内容</h4>
+            </div>
+            <div className="card">
+              <div className="card-body">
+                {category === '企业' && <EnterpriseDetail {...data} />}
+                {category === '岗位' && <RecruitmentDetail {...data} />}
+              </div>
+            </div>
+            <div className="mt-2">
+              <h4>举报原因</h4>
+            </div>
 
-        <div className="row mt-3">
-          <div className="col">
-            <div className="form-group">
-              <textarea
-                className="form-control"
-                value={content}
-                onChange={handleChange}
-                rows="6" />
+            <div className="row mt-3">
+              <div className="col">
+                <div className="form-group">
+                  <textarea
+                    className="form-control"
+                    value={content}
+                    onChange={handleChange}
+                    rows="6" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

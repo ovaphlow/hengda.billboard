@@ -60,8 +60,10 @@ const EditJournal = () => {
 
   return (
     <div className="container-fluid" >
-      <ToBack category="操作记录" href="#我的" />
       <div className="card mt-2">
+        <br />
+        <ToBack category="操作记录" href="#我的" />
+        <br />
         <JournalTabs category="编辑" />
         <div className="card-body">
           <div className="tab-content mt-1">

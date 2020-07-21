@@ -50,8 +50,10 @@ const BrowseJournal = () => {
 
   return (
     <div className="container-fluid" >
-      <ToBack category="操作记录" href="#我的" />
       <div className="card mt-2">
+        <br />
+        <ToBack category="操作记录" href="#我的" />
+        <br />
         <JournalTabs category="浏览" />
         <div className="card-body">
           <div className="tab-content">
@@ -62,7 +64,7 @@ const BrowseJournal = () => {
                     <DateTitle text={key} />
                     <div className="mt-2"></div>
                     {list[key].map((item, inx) =>
-                      <div>
+                      <div key={inx}>
                         {dataRow(item, inx)}
                         <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
                       </div>

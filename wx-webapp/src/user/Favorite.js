@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import ToBack from '../components/ToBack'
 import { RecruitmentRow, RecruitRow, RecommendRow } from '../components/DataRow'
+import Navbar from '../components/Navbar'
 
 const Favorite = () => {
 
@@ -34,15 +34,17 @@ const Favorite = () => {
   }
 
   return (
-    <div className="container-fluid" style={{ fontSize: 14 }}>
-      <ToBack category="我的收藏" />
-      <div className="mt-1"></div>
-      {list && list.map((item, inx) =>
-        <div className="card border-0 p-3 user-radius mb-2 mt-2">
-          {dateRow(item,inx)}
-        </div>
-      )}
-    </div>
+    <>
+      <div className="container-fluid" style={{ fontSize: 14 }}>
+        <div className="mt-1"></div>
+        {list && list.map((item, inx) =>
+          <div className="card border-0 p-3 user-radius mb-2 mt-2" key={inx}>
+            {dateRow(item, inx)}
+          </div>
+        )}
+      </div>
+      <Navbar category="我的" />
+    </>
   )
 
 }

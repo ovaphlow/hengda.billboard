@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ToBack from '../components/ToBack'
+import Navbar from '../components/Navbar'
 
 const DataRow = props => (
   <>
@@ -62,14 +62,16 @@ const Delivery = () => {
 
 
   return (
-    <div className="container-fluid" style={{ fontSize: 14 }}>
-      <ToBack category="投递情况" />
-      <div className="mt-1"></div>
-      {
-        list && list.map((item, inx) =>
-          <DataRow key={inx}  {...item} />)
-      }
-    </div>
+    <>
+      <div className="container-fluid" style={{ fontSize: 14 }}>
+        <div className="mt-1"></div>
+        {
+          list && list.map((item, inx) =>
+            <DataRow key={inx}  {...item} />)
+        }
+      </div>
+      <Navbar category="我的" />
+    </>
   )
 
 }

@@ -132,6 +132,7 @@ const Recover = () => {
   return (
     <>
       <div className="container-fluid background-login">
+        <br />
         <ToBack />
         <div className="row mt-3 bg-transparent text-white">
           <div className="col">

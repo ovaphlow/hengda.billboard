@@ -31,9 +31,14 @@ const TopicDetails = () => {
     </div>
   ) : (
       <div className="container-fluid">
-        <ToBack category={item.title} />
-        <div className="row mt-2" style={{fontSize:14}}>
-          <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.comment }} />
+        <div className="card border-0 shadow mt-2">
+          <br />
+          <ToBack category={item.title} />
+          <div className="card-body">
+            <div className="row mt-2" style={{ fontSize: 14 }}>
+              <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.comment }} />
+            </div>
+          </div>
         </div>
       </div>
     )

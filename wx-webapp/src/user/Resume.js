@@ -203,7 +203,7 @@ const Resume = () => {
     return (
       <>
         <div className="container-fluid background-login1" style={{ fontSize: 14 }}>
-          <ToBack href='#我的' category="我的简历" />
+
           {/* <div className="row mt-2">
             <div className="col" >
               <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
@@ -224,10 +224,12 @@ const Resume = () => {
             </div>
           </div> */}
           <div className="card mt-3 border-0 mb-5">
-            <div className="mt-3 resume-personal pt-2 text-center">
-              <h6>简历预览</h6>
-            </div>
-            <div className="card-body ">
+            <br />
+            <ToBack href='#我的' category="我的简历" />
+            <div className="card-body">
+              <div className="mb-2 resume-personal pt-2 pb-1 text-center">
+                <h6>简历预览</h6>
+              </div>
               <div className="row">
                 <div className="col">
                   <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
@@ -257,9 +259,7 @@ const Resume = () => {
               &nbsp;&nbsp;&nbsp;{data.email}
                 </div>
               </div>
-
               <hr />
-
               <div className="row">
                 <div className="col">
                   <h5>毕业院校</h5>
@@ -443,69 +443,72 @@ const Personal = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历" />
         <div className="card mt-4 mb-5 bg-white rounded border-0">
-          <div className="mt-3 resume-personal pt-2 text-center">
-            <h6>个人信息</h6>
-          </div>
-          <div className="row mt-3 p-1" >
-            <InputField
-              name="name"
-              category="姓名"
-              value={data.name}
-              placeholder="请填写姓名,用于投递简历"
-              handleChange={handleChange}
-            />
-          </div>
-          <div className="row p-1">
-            <SelectField
-              name="gender"
-              category="性别"
-              value={data.gender}
-              placeholder="请选择性别"
-              handleChange={handleChange}>
-              <option></option>
-              <option>男</option>
-              <option>女</option>
-            </SelectField>
-          </div>
-          <div className="form-group row input-label">
-            <label className="col-4 col-form-label text-right text-muted">
-              出生日期
-              </label>
-            <div className="col-8">
-              <input type="date"
-                name="birthday"
-                value={data.birthday || ''}
-                className="form-control-plaintext input-f"
-                onChange={handleChange} />
+          <br />
+          <ToBack category="我的简历" />
+          <div className="card-body">
+            <div className="resume-personal pt-2 pb-1 text-center">
+              <h6>个人信息</h6>
             </div>
-          </div>
-          <div className="row p-1" onClick={toProvinceCity}>
-            <InputField
-              name="address1"
-              category="现居住地"
-              value={`${data.address1}-${data.address2}-${data.address3}`}
-              placeholder="请提供现居住地,用于投递简历"
-              handleChange={handleChange}
-            />
-          </div>
-          <div className="row p-1">
-            <InputField
-              name="phone"
-              category="手机号码"
-              value={data.phone}
-              handleChange={handleChange}
-            />
-          </div>
-          <div className="row p-1">
-            <InputField
-              name="email"
-              category="电子邮箱"
-              value={data.email}
-              placeholder="请提供电子邮箱,用于企业联系"
-              handleChange={handleChange}
-            />
+            <div className="row mt-3 p-1" >
+              <InputField
+                name="name"
+                category="姓名"
+                value={data.name}
+                placeholder="请填写姓名,用于投递简历"
+                handleChange={handleChange}
+              />
+            </div>
+            <div className="row p-1">
+              <SelectField
+                name="gender"
+                category="性别"
+                value={data.gender}
+                placeholder="请选择性别"
+                handleChange={handleChange}>
+                <option></option>
+                <option>男</option>
+                <option>女</option>
+              </SelectField>
+            </div>
+            <div className="form-group row input-label">
+              <label className="col-4 col-form-label text-right text-muted">
+                出生日期
+              </label>
+              <div className="col-8">
+                <input type="date"
+                  name="birthday"
+                  value={data.birthday || ''}
+                  className="form-control-plaintext input-f"
+                  onChange={handleChange} />
+              </div>
+            </div>
+            <div className="row p-1" onClick={toProvinceCity}>
+              <InputField
+                name="address1"
+                category="现居住地"
+                value={`${data.address1}-${data.address2}-${data.address3}`}
+                placeholder="请提供现居住地,用于投递简历"
+                handleChange={handleChange}
+              />
+            </div>
+            <div className="row p-1">
+              <InputField
+                name="phone"
+                category="手机号码"
+                value={data.phone}
+                handleChange={handleChange}
+              />
+            </div>
+            <div className="row p-1">
+              <InputField
+                name="email"
+                category="电子邮箱"
+                value={data.email}
+                placeholder="请提供电子邮箱,用于企业联系"
+                handleChange={handleChange}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -570,71 +573,74 @@ const School = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历" />
         <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
-          <div className="mt-3 resume-personal pt-2 text-center">
-            <h6>毕业院校</h6>
-          </div>
-          <div className="row">
-            <InputField
-              name="school"
-              category="毕业院校"
-              value={data.school}
-              placeholder="请提供现毕业院校,用于投递简历"
-              handleChange={handleChange}
-            />
-          </div>
-          <div className="row">
-            <SelectField
-              name="education"
-              category="学历"
-              value={data.education}
-              placeholder="请提供现学历,用于投递简历"
-              handleChange={handleChange}>
-              <option></option>
-              <option>高中及以下</option>
-              <option>大专</option>
-              <option>本科</option>
-              <option>硕士</option>
-              <option>博士</option>
-            </SelectField>
-          </div>
-          <div className="row">
-            <InputField
-              name="major"
-              category="专业名称"
-              value={data.major}
-              placeholder="如: 计算机科学与技术"
-              handleChange={handleChange}
-            />
-          </div>
-          <div className="row">
-            <div className="form-group row input-label">
-              <label className="col-4 col-form-label text-right text-muted">
-                入学时间
+          <br />
+          <ToBack category="我的简历" />
+          <div className="card-body">
+            <div className="resume-personal pt-2 pb-1 text-center">
+              <h6>毕业院校</h6>
+            </div>
+            <div className="row">
+              <InputField
+                name="school"
+                category="毕业院校"
+                value={data.school}
+                placeholder="请提供现毕业院校,用于投递简历"
+                handleChange={handleChange}
+              />
+            </div>
+            <div className="row">
+              <SelectField
+                name="education"
+                category="学历"
+                value={data.education}
+                placeholder="请提供现学历,用于投递简历"
+                handleChange={handleChange}>
+                <option></option>
+                <option>高中及以下</option>
+                <option>大专</option>
+                <option>本科</option>
+                <option>硕士</option>
+                <option>博士</option>
+              </SelectField>
+            </div>
+            <div className="row">
+              <InputField
+                name="major"
+                category="专业名称"
+                value={data.major}
+                placeholder="如: 计算机科学与技术"
+                handleChange={handleChange}
+              />
+            </div>
+            <div className="row">
+              <div className="form-group row input-label">
+                <label className="col-4 col-form-label text-right text-muted">
+                  入学时间
             </label>
-              <div className="col">
-                <input type="date"
-                  name="date_begin"
-                  value={data.date_begin}
-                  className="form-control-plaintext input-f"
-                  placeholder="入学时间"
-                  onChange={handleChange} />
+                <div className="col">
+                  <input type="date"
+                    name="date_begin"
+                    value={data.date_begin || ''}
+                    className="form-control-plaintext input-f"
+                    placeholder="入学时间"
+                    onChange={handleChange} />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="form-group row input-label">
-              <label className="col-4 col-form-label text-right text-muted">
-                毕业时间
+            <div className="row">
+              <div className="form-group row input-label">
+                <label className="col-4 col-form-label text-right text-muted">
+                  毕业时间
             </label>
-              <div className="col">
-                <input type="date"
-                  name="date_end"
-                  value={data.date_end}
-                  className="form-control-plaintext input-f"
-                  placeholder="毕业时间"
-                  onChange={handleChange} />
+                <div className="col">
+                  <input type="date"
+                    name="date_end"
+                    value={data.date_end || ''}
+                    className="form-control-plaintext input-f"
+                    placeholder="毕业时间"
+                    onChange={handleChange} />
+                </div>
               </div>
             </div>
           </div>
@@ -706,27 +712,30 @@ const Intention = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历" />
         <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
-          <div className="mt-3 resume-personal pt-2 text-center">
-            <h6>求职意向</h6>
-          </div>
+          <br />
+          <ToBack category="我的简历" />
+          <div className="card-body">
+            <div className="resume-personal pt-2 pb-1 text-center">
+              <h6>求职意向</h6>
+            </div>
 
-          <div className="row mt-3" onClick={toIndustry}>
-            <InputField
-              name="qiwangzhiwei"
-              category="期望职位"
-              value={`${data.qiwanghangye}-${data.qiwangzhiwei}`}
-              handleChange={handleChange}
-            />
-          </div>
-          <div className="row ">
-            <InputField
-              name="yixiangchengshi"
-              category="工作地点"
-              value={data.yixiangchengshi}
-              handleChange={handleChange}
-            />
+            <div className="row mt-3" onClick={toIndustry}>
+              <InputField
+                name="qiwangzhiwei"
+                category="期望职位"
+                value={`${data.qiwanghangye}-${data.qiwangzhiwei}`}
+                handleChange={handleChange}
+              />
+            </div>
+            <div className="row ">
+              <InputField
+                name="yixiangchengshi"
+                category="工作地点"
+                value={data.yixiangchengshi}
+                handleChange={handleChange}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -792,29 +801,31 @@ const Evaluation = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack category="我的简历" />
         <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
-          <div className="mt-3 resume-personal pt-2 text-center">
-            <h6>自我评价</h6>
-          </div>
-
-          <div className="row mt-3">
-            <div className="col">
-              <div className="form-group">
-                <ReactQuill
-                  formats={[
-                    'header', 'align', 'bold', 'italic',
-                    'underline', 'blockquote']}
-                  modules={{
-                    toolbar: [
-                      [{ 'header': [1, 2, 3, false] }],
-                      [{ 'align': [] }],
-                      ['bold', 'italic', 'underline', 'blockquote'],
-                    ]
-                  }}
-                  placeholder="请填写内容"
-                  value={content}
-                  onChange={setContent} />
+          <br />
+          <ToBack category="我的简历" />
+          <div className="card-body">
+            <div className="resume-personal pt-2 pb-1 text-center">
+              <h6>自我评价</h6>
+            </div>
+            <div className="row mt-3">
+              <div className="col">
+                <div className="form-group">
+                  <ReactQuill
+                    formats={[
+                      'header', 'align', 'bold', 'italic',
+                      'underline', 'blockquote']}
+                    modules={{
+                      toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        [{ 'align': [] }],
+                        ['bold', 'italic', 'underline', 'blockquote'],
+                      ]
+                    }}
+                    placeholder="请填写内容"
+                    value={content}
+                    onChange={setContent} />
+                </div>
               </div>
             </div>
           </div>
@@ -968,29 +979,34 @@ const ProvinceCity = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
-        <div className="mt-2">
-          <h4>请选择现居住地</h4>
-        </div>
-        <hr />
-        <div className="row mt-3" style={{ fontSize: 14 }}>
-          <div className="col pre-scrollable">
-            {level.map(item =>
-              <p className={_class(level1, item)}
-                onClick={() => { level1Click(item) }} key={item.code}>{item.name}</p>
-            )}
-          </div>
-          <div className="col pre-scrollable">
-            {level2List.map(item =>
-              <p className={_class(level2, item)}
-                onClick={() => { level2Click(item) }} key={item.code}>{item.name}</p>
-            )}
-          </div>
-          <div className="col pre-scrollable">
-            {level3List.map(item =>
-              <p className={_class(level3, item)}
-                onClick={() => { level3Click(item) }} key={item.code}>{item.name}</p>
-            )}
+        <div className="card mt-4 mb-5 bg-white rounded border-0 rounded shadow">
+          <br />
+          <ToBack />
+          <div className="card-body">
+            <div className="mt-2">
+              <h4>请选择现居住地</h4>
+            </div>
+            <hr />
+            <div className="row mt-3" style={{ fontSize: 14 }}>
+              <div className="col pre-scrollable">
+                {level.map(item =>
+                  <p className={_class(level1, item)}
+                    onClick={() => { level1Click(item) }} key={item.code}>{item.name}</p>
+                )}
+              </div>
+              <div className="col pre-scrollable">
+                {level2List.map(item =>
+                  <p className={_class(level2, item)}
+                    onClick={() => { level2Click(item) }} key={item.code}>{item.name}</p>
+                )}
+              </div>
+              <div className="col pre-scrollable">
+                {level3List.map(item =>
+                  <p className={_class(level3, item)}
+                    onClick={() => { level3Click(item) }} key={item.code}>{item.name}</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1122,24 +1138,29 @@ const Industry = () => {
   return (
     <>
       <div className="container-fluid">
-        <ToBack />
-        <div className="mt-2">
-          <h4>请选择行业</h4>
+        <div className="card mt-4 mb-5 bg-white rounded border-0 rounded shadow">
+          <br />
+          <ToBack />
+          <div className="card-body">
+          <div className="mt-2">
+            <h4>请选择行业</h4>
+          </div>
+          <hr />
+          <div className="row mt-3" style={{ fontSize: 14 }}>
+            <div className="col pre-scrollable">
+              {level1.map((item, inx) =>
+                <p className={_class(qiwanghangye, item)}
+                  onClick={() => level1Click(item)} key={inx}>{item.name}</p>
+              )}
+            </div>
+            <div className="col pre-scrollable">
+              {level2.map(item =>
+                <p className={_class(qiwangzhiwei, item)}
+                  onClick={() => level2Click(item)} key={item.code}>{item.name}</p>
+              )}
+            </div>
+          </div>
         </div>
-        <hr />
-        <div className="row mt-3" style={{ fontSize: 14 }}>
-          <div className="col pre-scrollable">
-            {level1.map(item =>
-              <p className={_class(qiwanghangye, item)}
-                onClick={() => level1Click(item)} key={item.code}>{item.name}</p>
-            )}
-          </div>
-          <div className="col pre-scrollable">
-            {level2.map(item =>
-              <p className={_class(qiwangzhiwei, item)}
-                onClick={() => level2Click(item)} key={item.code}>{item.name}</p>
-            )}
-          </div>
         </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">

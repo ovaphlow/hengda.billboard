@@ -3,6 +3,7 @@ const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const nodemailer = require('nodemailer');
 const config = require('../config');
+const console = require('../logger');
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(`${__dirname}/../proto/email.proto`, {
@@ -27,14 +28,16 @@ module.exports = router;
 
 router
   .put('/check/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.code(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.code(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
@@ -43,14 +46,16 @@ router
     }
   })
   .put('/checkRecover/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.checkRecover(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.checkRecover(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
@@ -59,7 +64,7 @@ router
     }
   })
   .put('/', async (ctx) => {
-    const code = parseInt(Math.floor(Math.random() * (999999 - 100000 + 1) + 100000)).toString();
+    const code = parseInt('Math.floor(Math.random() * (999999 - 100000 + 1) + 100000)', 10).toString();
     const transporter = nodemailer.createTransport(config.email);
     const mailOptions = {
       from: config.email.auth.user,
@@ -69,7 +74,7 @@ router
       <h1>${code}</h1>
     `,
     };
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error) => {
       if (error) {
         console.info(error);
       } else {
@@ -77,14 +82,16 @@ router
       }
     });
 
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.insert(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.insert(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch({
         ...ctx.request.body,

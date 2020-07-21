@@ -203,7 +203,7 @@ const User = () => {
                       </span>
                       <h6 className="pull-left text-danger pt-2" >
                         <strong>&nbsp;注销</strong>
-                      </h6> 
+                      </h6>
                       <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
                     </a>
                   </div>

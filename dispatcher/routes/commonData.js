@@ -2,6 +2,7 @@ const Router = require('@koa/router');
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const config = require('../config');
+const console = require('../logger');
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(`${__dirname}/../proto/commonData.proto`, {
@@ -26,14 +27,16 @@ module.exports = router;
 
 router
   .get('/hangye/', async (ctx) => {
-    const grpcFetch = () => new Promise((resolve, reject) => grpcClient.hangye({ data: JSON.stringify({}) }, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = () => new Promise((resolve, reject) => {
+      grpcClient.hangye({ data: JSON.stringify({}) }, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch();
     } catch (err) {

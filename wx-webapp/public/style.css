@@ -46,6 +46,10 @@ a {
   padding-bottom: 55px;
 }
 
+.interface-bottom{
+   margin-bottom: 20px;
+}
+
 .user-radius{
   border-radius: 15px;
 }
@@ -246,6 +250,7 @@ a {
   border-radius: 0 20px 20px 0;
   background-color:#f5f5f5;
   width: 130px;
+  margin-left: -25px;
 }
 .topic-card>span {
   align-self: center;

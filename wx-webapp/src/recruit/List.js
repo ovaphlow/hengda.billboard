@@ -105,24 +105,24 @@ const List = () => {
         <PlayImg category="小程序-校园招聘" />
         <div className="card border-0 mt-2 shadow">
           <div className="card-body">
-          <div className="row mb-3" style={{ fontSize: 14 }}>
-            <div className="col">
-              <CityDropdowns handleChange={handleChange} />
-            </div>
-            <div className="col">
-              <div className="pull-right text-primary">
-                <TextCheckbox value="宣讲会" name="category1" onChange={_onCheckboxChange}>
-                  宣讲会
+            <div className="row mb-3" style={{ fontSize: 14 }}>
+              <div className="col">
+                <CityDropdowns handleChange={handleChange} />
+              </div>
+              <div className="col">
+                <div className="pull-right text-primary">
+                  <TextCheckbox value="宣讲会" name="category1" onChange={_onCheckboxChange}>
+                    宣讲会
               </TextCheckbox>
-                <TextCheckbox value="双选会" name="category2" onChange={_onCheckboxChange}>
-                  双选会
+                  <TextCheckbox value="双选会" name="category2" onChange={_onCheckboxChange}>
+                    双选会
               </TextCheckbox>
+                </div>
               </div>
             </div>
-          </div>
-          {
-            list && list.map((item, inx) => <RecruitRow key={inx} {...item} />)
-          }
+            {
+              list && list.map((item, inx) => <RecruitRow key={inx} {...item} />)
+            }
           </div>
         </div>
       </div>

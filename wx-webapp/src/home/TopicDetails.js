@@ -24,10 +24,13 @@ const TopicDetails = () => {
             data_id: id,
             data_uuid: res.content.uuid,
             category: '热门话题'
-          },res => {})
+          }, res => { })
           setItem(res.content)
         }
       })
+    return (() => {
+
+    })
   }, [id, search])
 
 
@@ -37,9 +40,13 @@ const TopicDetails = () => {
     </div>
   ) : (
       <div className="container-fluid">
-        <ToBack category={item.title} />
-        <div className="row mt-2" style={{fontSize:14}}>
-          <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.content }} />
+        <div className="card mt-2 border-0 shadow interface-bottom">
+          <div className="card-body">
+            <ToBack category={item.title} />
+            <div className="row mt-2" style={{ fontSize: 14 }}>
+              <div className="col editor-body" dangerouslySetInnerHTML={{ __html: item.content }} />
+            </div>
+          </div>
         </div>
       </div>
     )

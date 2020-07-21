@@ -39,8 +39,9 @@ const Enterprise = () => {
 
   return (
     <div className="container-fluid" style={{ fontSize: 14 }}>
-      <ToBack report dataType="企业" dataId={id} search={search} />
       <div className="card border-0 shadow mt-2">
+        <br />
+        <ToBack report dataType="企业" dataId={id} search={search} />
         <div className="card-body">
           <div className="row mt-2">
             <div className="col">

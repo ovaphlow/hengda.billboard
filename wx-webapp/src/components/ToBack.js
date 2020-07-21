@@ -15,8 +15,8 @@ const ToBack = props => {
   }
 
   return (
-    <div className="row p-2 bg-white ">
-      <div className="col" style={{ padding: 0 }}>
+    <div className="row pl-2 pr-2">
+      <div className="col">
         <span onClick={toPrevious} className="text-dark">
           <i
             className="fa fa-fw fa-chevron-left fa-lg text-muted"></i>
@@ -24,7 +24,7 @@ const ToBack = props => {
         </span>
       </div>
       {(props.report || props.complaint) && (
-        <div className="col flex-end" style={{ padding: 0 }}>
+        <div className="col flex-end">
           {
             props.report && (
               <a className="text-danger" href={`#/我的/举报/${props.dataId}/${props.dataType}${props.search}`}>

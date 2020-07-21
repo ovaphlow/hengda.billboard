@@ -93,9 +93,10 @@ const RecommendDetails = props => {
   return (
     <>
       <div className="container-fluid">
-        <div className="card border-0 shadow mt-2 ">
+        <div className="card border-0 shadow mt-2 interface-bottom">
+          <br />
+          <ToBack category={item.title} />
           <div className="card-body">
-            <ToBack category={item.title} />
             <div className="row">
               <div className="col strong-center">
                 <strong>{item.title}</strong>

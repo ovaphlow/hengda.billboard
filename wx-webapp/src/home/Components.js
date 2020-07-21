@@ -15,10 +15,10 @@ export const RecommendRow = props => (
           </div>
         </div>
         <span className="text-muted pull-left">
-          工作地点:{props.address_level1}-{props.address_level2} | 招聘人数:{props.qty}
+          工作地点:{props.address_level1}-{props.address_level2} | 人数:{props.qty}
         </span>
         <div className="pull-right ">
-          <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`} style={{color:'#00a4ff'}}>
+          <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`} style={{ color: '#00a4ff' }}>
             <i className="fa fa-fw fa-chevron-circle-right fa-lg" aria-hidden="true"></i>
           </a>
         </div>
@@ -84,9 +84,9 @@ export const TopicCards = props => {
         list.map((item, inx) => (
           <div key={inx} className="row mx-0 mt-2 text-center" style={{ fontSize: 11 }}>
             {item.map((it, i) => (
-              <div key={i} onClick={() => toDetails(it)} 
+              <div key={i} onClick={() => toDetails(it)}
                 className={`col${item.length < 3 ? '-4' : ''} ${it.color} text-light mx-1 topic-card`}>
-                <span>{it.title}</span> 
+                <span>{it.title}</span>
               </div>
             ))}
           </div>

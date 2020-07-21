@@ -100,7 +100,7 @@ const HomePage = () => {
               </div>
             )
         }
-        <div className="p-3 border-0 bg-white rounded card-body shadow ">
+        <div className="p-2 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6>
               <i className="fa fa-fw fa-lg fa-fire text-danger" aria-hidden="true"></i>
@@ -110,25 +110,33 @@ const HomePage = () => {
           <TopicCards list={topicList} />
         </div>
 
-        <div className="mt-2 p-3 border-0 bg-white rounded card-body shadow ">
-          <div >
-            <h6 className="pull-left" >
-              <i className="fa fa-fw fa-lg fa-thumbs-up text-warning" aria-hidden="true"></i>
+        <div className="mt-2 p-2 border-0 bg-white rounded card-body shadow ">
+          <div className="row p-2">
+            <div className="col">
+              <h6 className="pull-left" >
+                <i className="fa fa-fw fa-lg fa-thumbs-up text-warning" aria-hidden="true"></i>
                 推荐信息
-            </h6>
-            <ul className="nav justify-content-end" >
-              {RECOMMEND_TYPE.map((item, inx) => (
-                <React.Fragment key={inx}>
-                  <li className="nav-item">
-                    <TextCheckbox name={item.name} onChange={_onCheckboxChange}>
-                      {item.value}
-                    </TextCheckbox>
-                  </li>
-                </React.Fragment>
-              ))}
-            </ul>
+              </h6>
+              <ul className="pull-right" style = {{
+                marginBottom:0,
+                display: 'flex',
+                paddingLeft: 0,
+                listStyle: 'none'}} >
+                {RECOMMEND_TYPE.map((item, inx) => (
+                  <React.Fragment key={inx}>
+                    <li className="nav-item ">
+                      <TextCheckbox name={item.name} onChange={_onCheckboxChange}>
+                        {item.value}
+                      </TextCheckbox>
+                    </li>
+                  </React.Fragment>
+                ))}
+              </ul>
+            </div>
+            {/* <div className="col-8">
+             
+            </div> */}
           </div>
-          <br></br>
           {
             recommendList && recommendList.map(item =>
               <RecommendRow key={item.id} {...item} />

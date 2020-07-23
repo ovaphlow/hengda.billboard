@@ -52,6 +52,14 @@ class RecommendServiceImpl extends RecommendGrpc.RecommendImplBase {
         list.add("教师");
         flg = true;
       }
+      if (req.getCategory5()) {
+        if (flg) {
+          category += " or ";
+        }
+        category += " category = ? ";
+        list.add("其它");
+        flg = true;
+      }
       if (flg) {
         sql += "and ( " + category + " ) ";
       }

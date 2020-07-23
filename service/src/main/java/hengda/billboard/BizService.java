@@ -15,6 +15,7 @@ public class BizService {
     private void start() throws IOException {
         int port = 5001;
         server = ServerBuilder.forPort(port)
+                .maxInboundMessageSize(1024 * 1024 * 256)
                 .addService(new DemoServiceImpl())
                 .addService(new CommonUserServiceImpl())
                 .addService(new CommonUserFileServiceImpl())

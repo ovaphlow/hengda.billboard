@@ -203,6 +203,10 @@ const Update = () => {
     if (e.target.files.length === 0) {
       return
     }
+    if (e.target.files[0].size >= 300000) {
+      window.alert('超出图片大小上限!(300KB)')
+      return
+    } 
     watermark([e.target.files[0]])
       .dataUrl(watermark.text.center('仅用于公示,其他用途无效', '100px Josefin Slab', '#FE0000', 0.5))
       .then(url => {

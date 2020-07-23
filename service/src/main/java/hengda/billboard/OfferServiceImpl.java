@@ -24,7 +24,7 @@ public class OfferServiceImpl extends OfferGrpc.OfferImplBase {
     try (Connection conn = DBUtil.getConn()) {
       String sql = "select o.*, re.name as user_name, r.name as recruitment_name from offer o"
           + " left join recruitment r on o.recruitment_id = r.id left join resume re on o.common_user_id = re.common_user_id"
-          + " where r.enterprise_id = ?";
+          + " where r.enterprise_id = ? ORDER BY datime DESC";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, req.getId());
         ResultSet rs = ps.executeQuery();
@@ -50,7 +50,7 @@ public class OfferServiceImpl extends OfferGrpc.OfferImplBase {
       List<Map<String, Object>> result = new ArrayList<>();
       String sql = "select o.*, en.name as enterprise_name, r.name as recruitment_name from offer o"
           + " left join recruitment r on o.recruitment_id = r.id left join enterprise en on en.id = r.enterprise_id"
-          + " where o.common_user_id = ?";
+          + " where o.common_user_id = ? ORDER BY datime DESC";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, req.getId());
         ResultSet rs = ps.executeQuery();

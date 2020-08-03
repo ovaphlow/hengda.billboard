@@ -1,7 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-
-export const RecruitmentRow = props => (
+export const RecruitmentRow = (props) => (
   <>
     <div className="row">
       <div className="col">
@@ -13,32 +12,39 @@ export const RecruitmentRow = props => (
             查看
           </a>
         </div>
-        <br></br>
+        <br />
         <span className="text-success">
           {
-            props.salary1 && props.salary2 ?
-              `${props.salary1}-${props.salary2}` :
-              '面议'
+            props.salary1 && props.salary2
+              ? `${props.salary1}-${props.salary2}`
+              : '面议'
           }
-        </span>{
+        </span>
+        {
           props.salary1 && props.salary2 ? '元月' : ''
         }
-        <br></br>
+        <br />
         <span className="pull-left text-muted" style={{ fontSize: 11 }}>
-          {props.address1} {props.address2}/{props.education} | 人数:{props.qty}
+          {props.address1}
+          {' '}
+          {props.address2}
+          /
+          {props.education}
+          {' '}
+          | 人数:
+          {props.qty}
         </span>
         <span className="pull-right text-muted" style={{ fontSize: 11 }}>
-           {props.date}
+          {props.date}
         </span>
       </div>
     </div>
   </>
-)
+);
 
-
-export const RecruitRow = props => (
+export const RecruitRow = (props) => (
   <>
-    <div className="row" >
+    <div className="row">
       <div className="col">
         <div className="pull-left">
           <strong>{props.name}</strong>
@@ -46,25 +52,32 @@ export const RecruitRow = props => (
         <div className="pull-right">
           <a href={`#/校园招聘/${props.id}?u_id=${props.uuid}`}>
             详情
-          <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+            <i className="fa fa-fw fa-lg  fa-angle-right" />
           </a>
         </div>
-        <br></br>
+        <br />
         <span className="text-muted">
-          举办地点:{props.address3} | 开始时间:{props.date}
+          举办地点:
+          {props.address3}
+          {' '}
+          | 开始时间:
+          {props.date}
         </span>
-        <br></br>
+        <br />
         <span>
-          {props.enterprise_name}({props.category})
+          {props.enterprise_name}
+          (
+          {props.category}
+          )
         </span>
       </div>
     </div>
   </>
-)
+);
 
-export const RecommendRow = props => (
+export const RecommendRow = (props) => (
   <>
-    <div className="row" >
+    <div className="row">
       <div className="col">
         <div className="pull-left">
           <strong>{props.name}</strong>
@@ -72,18 +85,25 @@ export const RecommendRow = props => (
         <div className="pull-right">
           <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
             详情
-        <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+            <i className="fa fa-fw fa-lg  fa-angle-right" />
           </a>
         </div>
-        <br></br>
+        <br />
         <span className="text-muted">
-          工作地点：{props.address1}-{props.address2} | 人数: {props.qty}
+          工作地点：
+          {props.address1}
+          -
+          {props.address2}
+          {' '}
+          | 人数:
+          {' '}
+          {props.qty}
         </span>
-        <br></br>
+        <br />
         <span>
           {props.enterprise_name}
         </span>
       </div>
     </div>
   </>
-)
+);

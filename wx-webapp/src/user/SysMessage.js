@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
 
-import ToBack from '../components/ToBack'
+import ToBack from '../components/ToBack';
 
-const DataRow = props => (
+const DataRow = (props) => (
   <>
     <div className="card border-0 p-3 user-radius mb-2 mt-2">
       <div className="row">
@@ -11,7 +11,7 @@ const DataRow = props => (
           <div className="pull-left">
             <strong>{props.title}</strong>
           </div>
-          <br></br>
+          <br />
           <span className="text-success">
             {props.content}
           </span>
@@ -19,26 +19,24 @@ const DataRow = props => (
       </div>
     </div>
   </>
-)
+);
 
 const SysMessage = () => {
-
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
 
   useEffect(() => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'));
 
     if (_auth === null) {
-      window.location = '#登录'
-      return
+      window.location = '#登录';
+      return;
     }
     fetch(`./api/message/sys/common/${_auth.id}`)
-      .then(res => res.json())
-      .then(res => {
-        setList(res.content)
-      })
-  }, [])
-
+      .then((res) => res.json())
+      .then((res) => {
+        setList(res.content);
+      });
+  }, []);
 
   return (
     <>
@@ -48,9 +46,7 @@ const SysMessage = () => {
       </div>
       <Navbar category="我的" />
     </>
-  )
+  );
+};
 
-
-}
-
-export default SysMessage
+export default SysMessage;

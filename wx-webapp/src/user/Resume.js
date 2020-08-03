@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
-import moment from 'moment'
+import React, { useState, useEffect } from 'react';
+import {
+  HashRouter as Router, Switch, Route, useParams, useLocation,
+} from 'react-router-dom';
+import moment from 'moment';
 
-import ToBack from '../components/ToBack'
-import { _EditJournal } from '../commonFetch'
-import { InputField, SelectField } from './Components'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-
+import ReactQuill from 'react-quill';
+import ToBack from '../components/ToBack';
+import { _EditJournal } from '../commonFetch';
+import { InputField, SelectField } from './Components';
+import 'react-quill/dist/quill.snow.css';
 
 const UserRouter = () => (
   <Router>
@@ -21,189 +22,180 @@ const UserRouter = () => (
       <Route exact path="/我的/简历/行业/:id"><Industry /></Route>
     </Switch>
   </Router>
-)
-
+);
 
 const Resume = () => {
+  const [data, setData] = useState(0);
 
-  const [data, setData] = useState(0)
+  const [auth, setAuth] = useState(0);
 
-  const [auth, setAuth] = useState(0)
-
-  const [file, setFile] = useState([])
-
+  const [file, setFile] = useState([]);
 
   useState(() => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth === null) {
-      window.location = '#/登录'
+      window.location = '#/登录';
     } else {
-
       if (!_auth.phone || _auth.phone === '') {
-        window.location = '#/我的/电话'
+        window.location = '#/我的/电话';
       }
 
-      setAuth(_auth)
+      setAuth(_auth);
       fetch(`./api/resume/user/${_auth.id}?u_id=${_auth.uuid}`)
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           if (res.content) {
-            setData(res.content)
+            setData(res.content);
+          } else if (res.content !== undefined) {
+            fetch(`./api/resume/init?u_id=${_auth.uuid}`, {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ common_user_id: _auth.id }),
+            })
+              .then((res1) => res1.json())
+              .then((res1) => {
+                setData((p) => ({
+                  phone: '',
+                  email: '',
+                  name: '',
+                  gender: '',
+                  birthday: '',
+                  address1: '',
+                  address2: '',
+                  address3: '',
+                  address4: '',
+                  school: '',
+                  education: '',
+                  major: '',
+                  date_begin: '',
+                  date_end: '',
+                  qiwangzhiwei: '',
+                  qiwanghangye: '',
+                  yixiangchengshi: '',
+                  ziwopingjia: '',
+                  status: '保密',
+                }));
+              });
           } else {
-            if (res.content !== undefined) {
-              fetch(`./api/resume/init?u_id=${_auth.uuid}`, {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ common_user_id: _auth.id })
-              })
-                .then(res1 => res1.json())
-                .then(res1 => {
-                  setData(p => ({
-                    phone: '',
-                    email: '',
-                    name: '',
-                    gender: '',
-                    birthday: '',
-                    address1: '',
-                    address2: '',
-                    address3: '',
-                    address4: '',
-                    school: '',
-                    education: '',
-                    major: '',
-                    date_begin: '',
-                    date_end: '',
-                    qiwangzhiwei: '',
-                    qiwanghangye: '',
-                    yixiangchengshi: '',
-                    ziwopingjia: '',
-                    status: '保密'
-                  }))
-                })
-            } else {
-              alert(res.message)
-            }
+            alert(res.message);
           }
-        })
+        });
 
       fetch(`./api/common-user-file/${_auth.id}/简历/`)
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           if (res.message) {
-            window.alert(res.message)
+            window.alert(res.message);
           } else {
-            setFile(res.content)
+            setFile(res.content);
           }
-        })
+        });
     }
+  }, []);
 
-  }, [])
-
-  const age = birthday => {
+  const age = (birthday) => {
     if (birthday && birthday !== '') {
-      return `${parseInt(moment().format('YYYY')) - parseInt(birthday.slice(0, 4))}岁`
-    } else {
-      return '0岁'
+      return `${parseInt(moment().format('YYYY')) - parseInt(birthday.slice(0, 4))}岁`;
     }
-  }
+    return '0岁';
+  };
 
-  const changeStatus = status => {
+  const changeStatus = (status) => {
     fetch(`./api/resume/status/${data.common_user_id}/?u_id=${data.uuid}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ status: status })
+      body: JSON.stringify({ status }),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (!res.message) {
-          setData(p => ({
+          setData((p) => ({
             ...p,
-            status: status
-          }))
+            status,
+          }));
           _EditJournal({
             category2: '简历',
             data_id: data.id,
             data_uuid: data.uuid,
-            remark: '修改简历状态'
-          }, res => { })
+            remark: '修改简历状态',
+          }, (res) => { });
         }
-      })
-  }
+      });
+  };
 
-  const handleFileChange = e => {
+  const handleFileChange = (e) => {
     if (e.target.files.length === 0) {
-      return
+      return;
     }
 
-    const list = e.target.files
+    const list = e.target.files;
 
     for (let i = 0; i < list.length; i++) {
-      const reader = new FileReader()
-      reader.readAsDataURL(list[i])
+      const reader = new FileReader();
+      reader.readAsDataURL(list[i]);
       reader.onloadend = () => {
-        const f = reader.result
-        fetch(`./api/common-user-file/`, {
+        const f = reader.result;
+        fetch('./api/common-user-file/', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
             file: f,
             common_user_id: auth.id,
             category: '简历',
-          })
+          }),
         })
-          .then(res => res.json())
-          .then(res => {
+          .then((res) => res.json())
+          .then((res) => {
             if (res.message) {
-              window.alert(res.message)
+              window.alert(res.message);
             } else {
               _EditJournal({
                 category2: '简历',
                 data_id: data.id,
                 data_uuid: data.uuid,
-                remark: '编辑我的证书'
-              }, res => { })
-              setFile(p => p.concat({
+                remark: '编辑我的证书',
+              }, (res) => { });
+              setFile((p) => p.concat({
                 id: res.content,
                 file: f,
                 common_user_id: auth.id,
                 category: '简历',
-              }))
+              }));
             }
-          })
-      }
+          });
+      };
     }
-  }
+  };
 
   const handleUpload = () => {
-    document.getElementById('file').click()
-  }
+    document.getElementById('file').click();
+  };
 
-  const handleFileDelete = id => {
+  const handleFileDelete = (id) => {
     fetch(`./api/common-user-file/${id}?user_id=${auth.id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          window.alert(res.message)
+          window.alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: data.id,
             data_uuid: data.uuid,
-            remark: '编辑我的证书'
-          }, res => { })
-          setFile(p => p.filter(it => it.id !== id))
+            remark: '编辑我的证书',
+          }, (res) => { });
+          setFile((p) => p.filter((it) => it.id !== id));
         }
-      })
-  }
-
+      });
+  };
 
   if (data) {
     return (
       <>
         <div className="container-fluid background-login1" style={{ fontSize: 14 }}>
-          <ToBack href='#我的' category="我的简历" />
+          <ToBack href="#我的" category="我的简历" />
           {/* <div className="row mt-2">
             <div className="col" >
               <img style={{ height: 60 }} src="lib/img/user.jpg" alt="" />
@@ -231,30 +223,40 @@ const Resume = () => {
               <div className="row">
                 <div className="col">
                   <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
-                  <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
+                  <span>
+                    /
+                    {!data.gender || (data.gender === '男' ? '先生' : '女士')}
+                  </span>
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
-                  编辑
-                </a>
+                    <i className="fa fa-pencil-square-o fa-fw" />
+                    编辑
+                  </a>
                 </div>
               </div>
               <div className="row">
                 <div className="col">
-                  {age(data.birthday)} | {data.address1}-{data.address2}-{data.address3}
+                  {age(data.birthday)}
+                  {' '}
+                  |
+                  {data.address1}
+                  -
+                  {data.address2}
+                  -
+                  {data.address3}
                 </div>
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <i className="fa fa-phone fa-fw"></i>
-              &nbsp;&nbsp;&nbsp;{data.phone}
+                  <i className="fa fa-phone fa-fw" />
+                  {data.phone}
                 </div>
               </div>
               <div className="row mt-1">
                 <div className="col">
-                  <i className="fa fa-envelope fa-fw"></i>
-              &nbsp;&nbsp;&nbsp;{data.email}
+                  <i className="fa fa-envelope fa-fw" />
+                  {data.email}
                 </div>
               </div>
 
@@ -266,23 +268,29 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
-                编辑
-              </a>
+                    <i className="fa fa-pencil-square-o fa-fw" />
+                    编辑
+                  </a>
                 </div>
               </div>
 
               <div className="row">
                 <div className="col">
-                  <i className="fa fa-book fa-fw"></i>
+                  <i className="fa fa-book fa-fw" />
                   <strong style={{ fontSize: 15 }}>{data.school}</strong>
                   <br />
               &nbsp;
-              <span className="text-muted" style={{ fontSize: 14 }}>
-                    {data.date_begin} - {data.date_end}
+                  <span className="text-muted" style={{ fontSize: 14 }}>
+                    {data.date_begin}
+                    {' '}
+                    -
+                    {data.date_end}
                   </span>
                   <br />
-                  {data.education} | {data.major}
+                  {data.education}
+                  {' '}
+                  |
+                  {data.major}
                 </div>
               </div>
 
@@ -294,22 +302,24 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
-                编辑
-              </a>
+                    <i className="fa fa-pencil-square-o fa-fw" />
+                    编辑
+                  </a>
                 </div>
               </div>
 
               <div className="row">
                 <div className="col">
                   <div>
-                    <i className="fa fa-map-marker fa-fw"></i>
-                &nbsp;&nbsp;&nbsp; {data.yixiangchengshi}
+                    <i className="fa fa-map-marker fa-fw" />
+                    {data.yixiangchengshi}
                   </div>
 
                   <div className="mt-1">
-                    <i className="fa fa-briefcase fa-fw"></i>
-                &nbsp;&nbsp;&nbsp; {data.qiwanghangye}-{data.qiwangzhiwei}
+                    <i className="fa fa-briefcase fa-fw" />
+                    {data.qiwanghangye}
+                    -
+                    {data.qiwangzhiwei}
                   </div>
                 </div>
               </div>
@@ -322,9 +332,9 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
-                编辑
-              </a>
+                    <i className="fa fa-pencil-square-o fa-fw" />
+                    编辑
+                  </a>
                 </div>
               </div>
 
@@ -338,37 +348,40 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <button className="btn btn-primary btn-sm pull-right" onClick={handleUpload}>
-                    <i className="fa fa-plus"></i>
-                添加
-              </button>
-                  <input type="file"
+                    <i className="fa fa-plus" />
+                    添加
+                  </button>
+                  <input
+                    type="file"
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
                     id="file"
-                    accept="image/png, image/jpeg" />
+                    accept="image/png, image/jpeg"
+                  />
                 </div>
               </div>
 
               <div className="row">
                 <div className="col">
-                  {file && file.map((item, inx) =>
+                  {file && file.map((item, inx) => (
                     <div className="card mb-2 shadow" key={inx}>
                       <img className="card-img-top" alt="" src={item.file} />
                       <div className="card-body p-1">
                         <button
                           onClick={() => handleFileDelete(item.id)}
-                          className="btn btn-danger w-100">
+                          className="btn btn-danger w-100"
+                        >
                           删除
-                    </button>
+                        </button>
                       </div>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
+        <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
           <div className="row text-center nav-row">
             {
               data.status === '保密' ? (
@@ -376,69 +389,68 @@ const Resume = () => {
                   公开简历
                 </button>
               ) : (
-                  <button className="btn btn-danger nav-btn" onClick={() => changeStatus('保密')}>
-                    停止公开
-                  </button>
-                )
+                <button className="btn btn-danger nav-btn" onClick={() => changeStatus('保密')}>
+                  停止公开
+                </button>
+              )
             }
           </div>
         </ul>
-      </>)
-  } else {
-    return <></>
+      </>
+    );
   }
-}
+  return <></>;
+};
 
 const Personal = () => {
+  const [data, setData] = useState({});
 
-  const [data, setData] = useState({})
+  const { id } = useParams();
 
-  const { id } = useParams()
-
-  const { search } = useLocation()
+  const { search } = useLocation();
 
   useEffect(() => {
     fetch(`./api/resume/user/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setData(res.content)
+          setData(res.content);
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-  }, [id, search])
+      });
+  }, [id, search]);
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSave = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: data.id,
             data_uuid: data.uuid,
-            remark: '修改简历个人信息'
-          }, re => { })
-          window.history.go(-1)
+            remark: '修改简历个人信息',
+          }, (re) => { });
+          window.history.go(-1);
         }
-      })
-  }
+      });
+  };
 
   const toProvinceCity = () => {
-    window.location = `#/我的/简历/所在地/${id}${search}`
-  }
+    window.location = `#/我的/简历/所在地/${id}${search}`;
+  };
 
   return (
     <>
@@ -448,7 +460,7 @@ const Personal = () => {
           <div className="mt-3 resume-personal pt-2 text-center">
             <h6>个人信息</h6>
           </div>
-          <div className="row mt-3 p-1" >
+          <div className="row mt-3 p-1">
             <InputField
               name="name"
               category="姓名"
@@ -463,8 +475,9 @@ const Personal = () => {
               category="性别"
               value={data.gender}
               placeholder="请选择性别"
-              handleChange={handleChange}>
-              <option></option>
+              handleChange={handleChange}
+            >
+              <option />
               <option>男</option>
               <option>女</option>
             </SelectField>
@@ -472,13 +485,15 @@ const Personal = () => {
           <div className="form-group row input-label">
             <label className="col-4 col-form-label text-right text-muted">
               出生日期
-              </label>
+            </label>
             <div className="col-8">
-              <input type="date"
+              <input
+                type="date"
                 name="birthday"
                 value={data.birthday || ''}
                 className="form-control-plaintext input-f"
-                onChange={handleChange} />
+                onChange={handleChange}
+              />
             </div>
           </div>
           <div className="row p-1" onClick={toProvinceCity}>
@@ -513,59 +528,58 @@ const Personal = () => {
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
             保存
-        </button>
+          </button>
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
 const School = () => {
+  const [data, setData] = useState({});
 
-  const [data, setData] = useState({})
+  const { id } = useParams();
 
-  const { id } = useParams()
-
-  const { search } = useLocation()
+  const { search } = useLocation();
 
   useEffect(() => {
     fetch(`./api/resume/user/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setData(res.content)
+          setData(res.content);
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-  }, [id, search])
+      });
+  }, [id, search]);
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSave = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: data.id,
             data_uuid: data.uuid,
-            remark: '修改简历毕业院校'
-          }, re => { })
-          window.history.go(-1)
+            remark: '修改简历毕业院校',
+          }, (re) => { });
+          window.history.go(-1);
         }
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -590,8 +604,9 @@ const School = () => {
               category="学历"
               value={data.education}
               placeholder="请提供现学历,用于投递简历"
-              handleChange={handleChange}>
-              <option></option>
+              handleChange={handleChange}
+            >
+              <option />
               <option>高中及以下</option>
               <option>大专</option>
               <option>本科</option>
@@ -612,14 +627,16 @@ const School = () => {
             <div className="form-group row input-label">
               <label className="col-4 col-form-label text-right text-muted">
                 入学时间
-            </label>
+              </label>
               <div className="col">
-                <input type="date"
+                <input
+                  type="date"
                   name="date_begin"
                   value={data.date_begin}
                   className="form-control-plaintext input-f"
                   placeholder="入学时间"
-                  onChange={handleChange} />
+                  onChange={handleChange}
+                />
               </div>
             </div>
           </div>
@@ -627,14 +644,16 @@ const School = () => {
             <div className="form-group row input-label">
               <label className="col-4 col-form-label text-right text-muted">
                 毕业时间
-            </label>
+              </label>
               <div className="col">
-                <input type="date"
+                <input
+                  type="date"
                   name="date_end"
                   value={data.date_end}
                   className="form-control-plaintext input-f"
                   placeholder="毕业时间"
-                  onChange={handleChange} />
+                  onChange={handleChange}
+                />
               </div>
             </div>
           </div>
@@ -644,64 +663,62 @@ const School = () => {
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
             保存
-        </button>
+          </button>
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
 const Intention = () => {
+  const [data, setData] = useState({});
 
-  const [data, setData] = useState({})
+  const { id } = useParams();
 
-  const { id } = useParams()
-
-  const { search } = useLocation()
+  const { search } = useLocation();
 
   useEffect(() => {
     fetch(`./api/resume/user/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setData(res.content)
+          setData(res.content);
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-  }, [id, search])
+      });
+  }, [id, search]);
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSave = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: data.id,
             data_uuid: data.uuid,
-            remark: '修改简历求职意向'
-          }, re => { })
-          window.history.go(-1)
+            remark: '修改简历求职意向',
+          }, (re) => { });
+          window.history.go(-1);
         }
-      })
-  }
-
+      });
+  };
 
   const toIndustry = () => {
-    window.location = `#/我的/简历/行业/${id}${search}`
-  }
+    window.location = `#/我的/简历/行业/${id}${search}`;
+  };
 
   return (
     <>
@@ -734,35 +751,34 @@ const Intention = () => {
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
             保存
-        </button>
+          </button>
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
 const Evaluation = () => {
+  const [data, setData] = useState({});
 
-  const [data, setData] = useState({})
+  const { id } = useParams();
 
-  const { id } = useParams()
+  const { search } = useLocation();
 
-  const { search } = useLocation()
-
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState('');
 
   useEffect(() => {
     fetch(`./api/resume/user/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setData(res.content)
-          setContent(res.content.ziwopingjia)
+          setData(res.content);
+          setContent(res.content.ziwopingjia);
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-  }, [id, search])
+      });
+  }, [id, search]);
 
   const handleSave = () => {
     fetch(`./api/resume/${id}?u_id=${data.uuid}`, {
@@ -770,24 +786,24 @@ const Evaluation = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...data,
-        ziwopingjia: content
-      })
+        ziwopingjia: content,
+      }),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: data.id,
             data_uuid: data.uuid,
-            remark: '修改简历自我评价'
-          }, re => { })
-          window.history.go(-1)
+            remark: '修改简历自我评价',
+          }, (re) => { });
+          window.history.go(-1);
         }
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -807,14 +823,15 @@ const Evaluation = () => {
                     'underline', 'blockquote']}
                   modules={{
                     toolbar: [
-                      [{ 'header': [1, 2, 3, false] }],
-                      [{ 'align': [] }],
+                      [{ header: [1, 2, 3, false] }],
+                      [{ align: [] }],
                       ['bold', 'italic', 'underline', 'blockquote'],
-                    ]
+                    ],
                   }}
                   placeholder="请填写内容"
                   value={content}
-                  onChange={setContent} />
+                  onChange={setContent}
+                />
               </div>
             </div>
           </div>
@@ -824,119 +841,116 @@ const Evaluation = () => {
         <div className="row text-center nav-row">
           <button className="btn btn-primary nav-btn" onClick={handleSave}>
             保存
-        </button>
+          </button>
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
 const ProvinceCity = () => {
+  const [level1, setLevel1] = useState('');
 
-  const [level1, setLevel1] = useState('')
+  const [level2, setLevel2] = useState('');
 
-  const [level2, setLevel2] = useState('')
+  const [level2List, setLevel2List] = useState([]);
 
-  const [level2List, setLevel2List] = useState([])
+  const [level3, setLevel3] = useState('');
 
-  const [level3, setLevel3] = useState('')
+  const [level3List, setLevel3List] = useState([]);
 
-  const [level3List, setLevel3List] = useState([])
+  const [resume, setResume] = useState({});
 
-  const [resume, setResume] = useState({})
+  const { id } = useParams();
 
-  const { id } = useParams()
+  const { search } = useLocation();
 
-  const { search } = useLocation()
+  const [level, setLevel] = useState([]);
 
-  const [level, setLevel] = useState([])
-
-  const [address, setAddress] = useState([])
+  const [address, setAddress] = useState([]);
 
   useEffect(() => {
     fetch(`./api/resume/user/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setResume(res.content)
-          fetch(`/lib/address.json`)
-            .then(res => res.json())
-            .then(res1 => {
-              setAddress(res1)
+          setResume(res.content);
+          fetch('/lib/address.json')
+            .then((res) => res.json())
+            .then((res1) => {
+              setAddress(res1);
               const _level = Object.getOwnPropertyNames(res1)
-                .filter(item => item.slice(2, 7) === '0000')
-                .map(code => ({
-                  code: code,
-                  name: res1[code]
-                }))
-              setLevel(_level)
+                .filter((item) => item.slice(2, 7) === '0000')
+                .map((code) => ({
+                  code,
+                  name: res1[code],
+                }));
+              setLevel(_level);
 
               if (res.content.address1) {
-                const l1 = _level.find(item => item.name === res.content.address1)
+                const l1 = _level.find((item) => item.name === res.content.address1);
                 if (l1) {
                   const _level2 = Object.getOwnPropertyNames(res1)
-                    .filter(it => l1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== l1.code)
-                    .map(code => ({
-                      code: code,
-                      name: res1[code]
-                    }))
-                  setLevel2List(_level2)
+                    .filter((it) => l1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== l1.code)
+                    .map((code) => ({
+                      code,
+                      name: res1[code],
+                    }));
+                  setLevel2List(_level2);
                   const l2 = _level2.find(
-                    item => item.name === res.content.address2)
+                    (item) => item.name === res.content.address2,
+                  );
                   if (l2) {
                     setLevel3List(
                       Object.getOwnPropertyNames(res1)
-                        .filter(it => l2.code.slice(0, 4) === it.slice(0, 4) && it !== l2.code)
-                        .map(code => ({
-                          code: code,
-                          name: res1[code]
-                        }))
-                    )
+                        .filter((it) => l2.code.slice(0, 4) === it.slice(0, 4) && it !== l2.code)
+                        .map((code) => ({
+                          code,
+                          name: res1[code],
+                        })),
+                    );
                   }
                 }
               }
-              setLevel1(res.content.address1)
-              setLevel2(res.content.address2)
-              setLevel3(res.content.address3)
-            })
+              setLevel1(res.content.address1);
+              setLevel2(res.content.address2);
+              setLevel3(res.content.address3);
+            });
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-  }, [id, search])
+      });
+  }, [id, search]);
 
-
-  const level1Click = item => {
-    setLevel1(item.name)
-    setLevel2('')
-    setLevel3('')
-    setLevel3List([])
+  const level1Click = (item) => {
+    setLevel1(item.name);
+    setLevel2('');
+    setLevel3('');
+    setLevel3List([]);
     setLevel2List(Object.getOwnPropertyNames(address)
-      .filter(it => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
-      .map(code => ({
-        code: code,
-        name: address[code]
-      })))
-  }
+      .filter((it) => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
+      .map((code) => ({
+        code,
+        name: address[code],
+      })));
+  };
 
-  const level2Click = item => {
-    setLevel2(item.name)
-    setLevel3('')
+  const level2Click = (item) => {
+    setLevel2(item.name);
+    setLevel3('');
     setLevel3List(Object.getOwnPropertyNames(address)
-      .filter(it => item.code.slice(0, 4) === it.slice(0, 4) && it !== item.code)
-      .map(code => ({
-        code: code,
-        name: address[code]
-      })))
-  }
+      .filter((it) => item.code.slice(0, 4) === it.slice(0, 4) && it !== item.code)
+      .map((code) => ({
+        code,
+        name: address[code],
+      })));
+  };
 
-  const level3Click = item => {
-    setLevel3(item.name)
-  }
+  const level3Click = (item) => {
+    setLevel3(item.name);
+  };
 
-  const _class = (it1, it2) => {
-    return it1 === it2.name ? 'text-primary font-weight-bold' : 'text-muted'
-  }
+  const _class = (it1, it2) => (it1 === it2.name ? 'text-primary font-weight-bold' : 'text-muted');
 
   const handleSave = () => {
     fetch(`./api/resume/${id}?u_id=${resume.uuid}`, {
@@ -946,24 +960,24 @@ const ProvinceCity = () => {
         ...resume,
         address1: level1,
         address2: level2,
-        address3: level3
-      })
+        address3: level3,
+      }),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: resume.id,
             data_uuid: resume.uuid,
-            remark: '修改简历个人信息'
-          }, re => { })
-          window.history.go(-1)
+            remark: '修改简历个人信息',
+          }, (re) => { });
+          window.history.go(-1);
         }
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -975,22 +989,37 @@ const ProvinceCity = () => {
         <hr />
         <div className="row mt-3" style={{ fontSize: 14 }}>
           <div className="col pre-scrollable">
-            {level.map(item =>
-              <p className={_class(level1, item)}
-                onClick={() => { level1Click(item) }} key={item.code}>{item.name}</p>
-            )}
+            {level.map((item) => (
+              <p
+                className={_class(level1, item)}
+                onClick={() => { level1Click(item); }}
+                key={item.code}
+              >
+                {item.name}
+              </p>
+            ))}
           </div>
           <div className="col pre-scrollable">
-            {level2List.map(item =>
-              <p className={_class(level2, item)}
-                onClick={() => { level2Click(item) }} key={item.code}>{item.name}</p>
-            )}
+            {level2List.map((item) => (
+              <p
+                className={_class(level2, item)}
+                onClick={() => { level2Click(item); }}
+                key={item.code}
+              >
+                {item.name}
+              </p>
+            ))}
           </div>
           <div className="col pre-scrollable">
-            {level3List.map(item =>
-              <p className={_class(level3, item)}
-                onClick={() => { level3Click(item) }} key={item.code}>{item.name}</p>
-            )}
+            {level3List.map((item) => (
+              <p
+                className={_class(level3, item)}
+                onClick={() => { level3Click(item); }}
+                key={item.code}
+              >
+                {item.name}
+              </p>
+            ))}
           </div>
         </div>
       </div>
@@ -1002,96 +1031,93 @@ const ProvinceCity = () => {
         </div>
       </ul>
     </>
-  )
-}
-
+  );
+};
 
 const Industry = () => {
+  const [qiwangzhiwei, setQiwangzhiwei] = useState(0);
 
-  const [qiwangzhiwei, setQiwangzhiwei] = useState(0)
+  const [qiwanghangye, setQiwanghangye] = useState(0);
 
-  const [qiwanghangye, setQiwanghangye] = useState(0)
+  const [industry, setIndustry] = useState([]);
 
-  const [industry, setIndustry] = useState([])
+  const [level1, setLevel1] = useState([]);
 
-  const [level1, setLevel1] = useState([])
+  const [level2, setLevel2] = useState([]);
 
-  const [level2, setLevel2] = useState([])
+  const { id } = useParams();
 
-  const { id } = useParams()
+  const { search } = useLocation();
 
-  const { search } = useLocation()
-
-  const [resume, setResume] = useState({})
+  const [resume, setResume] = useState({});
 
   useEffect(() => {
-    const industry = JSON.parse(localStorage.getItem('industry'))
+    const industry = JSON.parse(localStorage.getItem('industry'));
     const fun = () => {
-      fetch(`./api/common-data/hangye/`)
-        .then(res => res.json())
-        .then(res => {
+      fetch('./api/common-data/hangye/')
+        .then((res) => res.json())
+        .then((res) => {
           if (res.message) {
-            window.alert(res.message)
+            window.alert(res.message);
           } else {
             localStorage.setItem('industry', JSON.stringify({
               date: parseInt(moment().add(7, 'days').format('YYYYMMDD')),
-              data: res.content
-            }))
-            setIndustry(res.content)
+              data: res.content,
+            }));
+            setIndustry(res.content);
           }
-        })
-    }
+        });
+    };
     if (industry !== null) {
       if (industry.date - moment().format('YYYYMMDD') < 1) {
-        fun()
+        fun();
       } else {
-        setIndustry(industry.data)
+        setIndustry(industry.data);
       }
     } else {
-      fun()
+      fun();
     }
-  }, [id, search])
-
+  }, [id, search]);
 
   useEffect(() => {
     if (industry && industry.length > 0) {
-      setLevel1(industry.filter(item => item.master_id === 0))
+      setLevel1(industry.filter((item) => item.master_id === 0));
       fetch(`./api/resume/user/${id}${search}`)
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           if (res.content) {
-            setResume(res.content)
+            setResume(res.content);
 
             if (res.content.qiwanghangye) {
-              const l1 = industry.find(item => item.name === res.content.qiwanghangye)
+              const l1 = industry.find((item) => item.name === res.content.qiwanghangye);
               if (l1) {
                 setLevel2(
                   industry.filter(
-                    item => item.master_id === l1.id))
+                    (item) => item.master_id === l1.id,
+                  ),
+                );
               }
             }
-            setQiwangzhiwei(p => res.content.qiwangzhiwei)
-            setQiwanghangye(p => res.content.qiwanghangye)
+            setQiwangzhiwei((p) => res.content.qiwangzhiwei);
+            setQiwanghangye((p) => res.content.qiwanghangye);
           } else {
-            alert(res.message)
+            alert(res.message);
           }
-        })
+        });
     }
-  }, [id, search, industry])
+  }, [id, search, industry]);
 
-  const _class = (it1, it2) => {
-    return it1 === it2.name ? 'text-primary font-weight-bold' : 'text-muted'
-  }
+  const _class = (it1, it2) => (it1 === it2.name ? 'text-primary font-weight-bold' : 'text-muted');
 
-  const level1Click = item => {
-    setQiwanghangye(item.name)
-    setQiwangzhiwei(0)
-    setLevel2(industry.filter(it => it.master_id === item.id))
-  }
+  const level1Click = (item) => {
+    setQiwanghangye(item.name);
+    setQiwangzhiwei(0);
+    setLevel2(industry.filter((it) => it.master_id === item.id));
+  };
 
-  const level2Click = item => {
-    setQiwangzhiwei(item.name)
-  }
+  const level2Click = (item) => {
+    setQiwangzhiwei(item.name);
+  };
 
   const handleSave = () => {
     fetch(`./api/resume/${id}?u_id=${resume.uuid}`, {
@@ -1099,25 +1125,25 @@ const Industry = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         ...resume,
-        qiwangzhiwei: qiwangzhiwei,
-        qiwanghangye: qiwanghangye
-      })
+        qiwangzhiwei,
+        qiwanghangye,
+      }),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
           _EditJournal({
             category2: '简历',
             data_id: resume.id,
             data_uuid: resume.uuid,
-            remark: '修改简历求职意向'
-          }, re => { })
-          window.history.go(-1)
+            remark: '修改简历求职意向',
+          }, (re) => { });
+          window.history.go(-1);
         }
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -1129,16 +1155,26 @@ const Industry = () => {
         <hr />
         <div className="row mt-3" style={{ fontSize: 14 }}>
           <div className="col pre-scrollable">
-            {level1.map(item =>
-              <p className={_class(qiwanghangye, item)}
-                onClick={() => level1Click(item)} key={item.code}>{item.name}</p>
-            )}
+            {level1.map((item) => (
+              <p
+                className={_class(qiwanghangye, item)}
+                onClick={() => level1Click(item)}
+                key={item.code}
+              >
+                {item.name}
+              </p>
+            ))}
           </div>
           <div className="col pre-scrollable">
-            {level2.map(item =>
-              <p className={_class(qiwangzhiwei, item)}
-                onClick={() => level2Click(item)} key={item.code}>{item.name}</p>
-            )}
+            {level2.map((item) => (
+              <p
+                className={_class(qiwangzhiwei, item)}
+                onClick={() => level2Click(item)}
+                key={item.code}
+              >
+                {item.name}
+              </p>
+            ))}
           </div>
         </div>
       </div>
@@ -1150,9 +1186,7 @@ const Industry = () => {
         </div>
       </ul>
     </>
-  )
+  );
+};
 
-}
-
-
-export default UserRouter
+export default UserRouter;

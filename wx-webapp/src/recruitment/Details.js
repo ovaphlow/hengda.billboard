@@ -1,126 +1,122 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
-import moment from 'moment'
-import ToBack from '../components/ToBack'
-import { _EditJournal, FavoriteJournal, _BrowseJournal } from '../commonFetch'
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import moment from 'moment';
+import ToBack from '../components/ToBack';
+import { _EditJournal, FavoriteJournal, _BrowseJournal } from '../commonFetch';
 
-export const searchFavorite = body => new Promise((resolve, reject) => {
-  fetch(`./api/favorite/search/one/`, {
+export const searchFavorite = (body) => new Promise((resolve, reject) => {
+  fetch('./api/favorite/search/one/', {
     method: 'PUT',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   })
-    .then(res => res.json())
-    .then(response => resolve(response))
-    .catch(err => reject(err))
-})
+    .then((res) => res.json())
+    .then((response) => resolve(response))
+    .catch((err) => reject(err));
+});
 
 const Details = () => {
+  const [data, setData] = useState(0);
 
-  const [data, setData] = useState(0)
+  const [favorite, setFavorite] = useState(0);
 
-  const [favorite, setFavorite] = useState(0)
+  const [delivery, setDelivery] = useState(0);
 
-  const [delivery, setDelivery] = useState(0)
+  const [auth, setAuth] = useState(0);
 
-  const [auth, setAuth] = useState(0)
+  const { id } = useParams();
 
-  const { id } = useParams()
-
-  const { search } = useLocation()
+  const { search } = useLocation();
 
   useEffect(() => {
     fetch(`./api/recruitment/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setData(res.content)
+          setData(res.content);
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-  }, [id, search])
+      });
+  }, [id, search]);
 
   useEffect(() => {
     if (data) {
-      const _auth = JSON.parse(localStorage.getItem('auth'))
+      const _auth = JSON.parse(localStorage.getItem('auth'));
       if (_auth !== null) {
-        setAuth(p => _auth)
+        setAuth((p) => _auth);
         _BrowseJournal({
           data_id: data.id,
           data_uuid: data.uuid,
-          category: '岗位'
-        }, res => { })
+          category: '岗位',
+        }, (res) => { });
         searchFavorite({
           user_id: _auth.id,
           data_id: data.id,
           category1: '个人用户',
           category2: '岗位',
-        }).then(res => {
+        }).then((res) => {
           if (res.content) {
-            setFavorite(p => res.content)
+            setFavorite((p) => res.content);
           }
-        })
+        });
         fetch(`./api/delivery/${_auth.id}/${data.id}/`)
-          .then(res => res.json())
-          .then(res => {
+          .then((res) => res.json())
+          .then((res) => {
             if (res.content) {
-              setDelivery(p => res.content)
+              setDelivery((p) => res.content);
             }
-          })
+          });
       }
     }
-  }, [data])
-
+  }, [data]);
 
   const handleFavorite = () => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth === null) {
-      window.location = '#登录'
-    } else {
-      if (favorite) {
-        fetch(`./api/favorite/${favorite.id}/`, {
-          method: 'DELETE'
-        })
-          .then(res => res.json())
-          .then(res => {
-            if (res.message === '') {
-              setFavorite(false)
-            } else {
-              alert(res.message)
-            }
-          })
-      } else {
-        FavoriteJournal({
-          data_id: data.id,
-          data_uuid: data.uuid,
-          category2: '岗位'
-        }, res => {
+      window.location = '#登录';
+    } else if (favorite) {
+      fetch(`./api/favorite/${favorite.id}/`, {
+        method: 'DELETE',
+      })
+        .then((res) => res.json())
+        .then((res) => {
           if (res.message === '') {
-            searchFavorite({
-              user_id: auth.id,
-              data_id: data.id,
-              category1: '个人用户',
-              category2: '岗位',
-            }).then(res1 => {
-              if (res1.content) {
-                setFavorite(p => res1.content)
-              }
-            })
+            setFavorite(false);
           } else {
-            alert(res.message)
+            alert(res.message);
           }
-        })
-      }
+        });
+    } else {
+      FavoriteJournal({
+        data_id: data.id,
+        data_uuid: data.uuid,
+        category2: '岗位',
+      }, (res) => {
+        if (res.message === '') {
+          searchFavorite({
+            user_id: auth.id,
+            data_id: data.id,
+            category1: '个人用户',
+            category2: '岗位',
+          }).then((res1) => {
+            if (res1.content) {
+              setFavorite((p) => res1.content);
+            }
+          });
+        } else {
+          alert(res.message);
+        }
+      });
     }
-  }
+  };
 
   const handleResumeDelivery = () => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth === null) {
-      window.location = '#登录'
+      window.location = '#登录';
     } else {
-      fetch(`./api/delivery/`, {
+      fetch('./api/delivery/', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -128,31 +124,30 @@ const Details = () => {
           recruitment_id: data.id,
           recruitment_uuid: data.uuid,
           datime: moment().format('YYYY-MM-DD HH:mm'),
-        })
+        }),
       })
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           if (res.message === '') {
             fetch(`./api/delivery/${auth.id}/${data.id}/`)
-              .then(res1 => res1.json())
-              .then(res1 => {
+              .then((res1) => res1.json())
+              .then((res1) => {
                 if (res1.content) {
                   _EditJournal({
                     category2: '岗位',
                     data_id: data.id,
                     data_uuid: data.uuid,
-                    remark: `将简历到岗位<${data.name}>`
-                  }, re => { })
-                  setDelivery(res1.content)
+                    remark: `将简历到岗位<${data.name}>`,
+                  }, (re) => { });
+                  setDelivery(res1.content);
                 }
-              })
+              });
           } else {
-            alert(res.message)
+            alert(res.message);
           }
-        })
+        });
     }
-  }
-
+  };
 
   return (
     <>
@@ -175,7 +170,12 @@ const Details = () => {
                 <div className="row">
                   <div className="col">
                     <span className="text-muted" style={{ fontSize: 14 }}>
-                      {data.address2 ? data.address2 : data.address1} |{data.education}|{data.category}
+                      {data.address2 ? data.address2 : data.address1}
+                      {' '}
+                      |
+                      {data.education}
+                      |
+                      {data.category}
                     </span>
                   </div>
                 </div>
@@ -183,9 +183,9 @@ const Details = () => {
                   <div className="col">
                     <h5 className="text-success">
                       {
-                        data.salary1 && data.salary2 ?
-                          `${data.salary1}-${data.salary2}/月` :
-                          '面议'
+                        data.salary1 && data.salary2
+                          ? `${data.salary1}-${data.salary2}/月`
+                          : '面议'
                       }
                     </h5>
                   </div>
@@ -194,12 +194,12 @@ const Details = () => {
                 <div className="row mt-3">
                   <div className="col">
                     <a className="pull-left" href={`#岗位/企业/${data.enterprise_id}?u_id=${data.enterprise_uuid}`}>
-                      <h6 >{data.enterprise_name}</h6>
+                      <h6>{data.enterprise_name}</h6>
                     </a>
                     <div className="pull-right">
                       <a className="text-success" href={`#消息/${data.enterprise_name}/${data.ent_user_id}`}>
                         咨询
-                  </a>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -211,14 +211,16 @@ const Details = () => {
                 </div>
                 <div className="row">
                   <div className="col">
-                    岗位要求:<br />
-                    <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+                    岗位要求:
+                    <br />
+                    <div dangerouslySetInnerHTML={{ __html: data.description }} />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
-                    工作内容:<br />
-                    <div dangerouslySetInnerHTML={{ __html: data.requirement }}></div>
+                    工作内容:
+                    <br />
+                    <div dangerouslySetInnerHTML={{ __html: data.requirement }} />
                   </div>
                 </div>
               </>
@@ -226,19 +228,17 @@ const Details = () => {
           </div>
         </div>
       </div>
-      <div className="recommond-bottom"></div>
-      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
+      <div className="recommond-bottom" />
+      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
-          <div className="col nav-col" >
-          </div>
-          <div className="col nav-col" >
-          </div>
-          <div className="col-3 nav-col" >
+          <div className="col nav-col" />
+          <div className="col nav-col" />
+          <div className="col-3 nav-col">
             <button className="btn btn-light nav-btn text-muted" onClick={handleFavorite}>
               {
-                favorite ?
-                  (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :
-                  (<i className="fa fa-star-o" aria-hidden="true"></i>)
+                favorite
+                  ? (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true" />)
+                  : (<i className="fa fa-star-o" aria-hidden="true" />)
               }
               收藏
             </button>
@@ -248,30 +248,31 @@ const Details = () => {
               <div className="col-5 nav-col">
                 <button className="btn btn-secondary nav-btn" disabled>
                   已停招
-              </button>
+                </button>
               </div>
             ) : (
-                delivery ? (
-                  <div className="col-5 nav-col">
-                    <button className="btn btn-secondary nav-btn" disabled>
-                      {delivery.status}
-                    </button>
-                  </div>
-                ) : (
-                    <div className="col-5 nav-col">
-                      <button className="btn btn-primary nav-btn"
-                        onClick={handleResumeDelivery}>
-                        投递简历
-                      </button>
-                    </div>
-                  )
+              delivery ? (
+                <div className="col-5 nav-col">
+                  <button className="btn btn-secondary nav-btn" disabled>
+                    {delivery.status}
+                  </button>
+                </div>
+              ) : (
+                <div className="col-5 nav-col">
+                  <button
+                    className="btn btn-primary nav-btn"
+                    onClick={handleResumeDelivery}
+                  >
+                    投递简历
+                  </button>
+                </div>
               )
+            )
           }
         </div>
       </ul>
     </>
-  )
+  );
+};
 
-}
-
-export default Details
+export default Details;

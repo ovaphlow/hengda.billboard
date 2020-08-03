@@ -1,41 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 
-import { RecruitmentRow } from '../components/DataRow'
-import ToBack from '../components/ToBack'
-
+import { RecruitmentRow } from '../components/DataRow';
+import ToBack from '../components/ToBack';
 
 const Enterprise = () => {
+  const [data, setData] = useState({});
 
-  const [data, setData] = useState({})
+  const [list, setList] = useState([]);
 
-  const [list, setList] = useState([])
+  const { id } = useParams();
 
-  const { id } = useParams()
-
-  const { search } = useLocation()
+  const { search } = useLocation();
 
   useEffect(() => {
     fetch(`./api/enterprise/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          window.alert(res.message)
+          window.alert(res.message);
         } else {
-          setData(res.content)
+          setData(res.content);
         }
-      })
+      });
     fetch(`./api/recruitment/enterprise/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          window.alert(res.message)
+          window.alert(res.message);
         } else {
-          setList(res.content)
+          setList(res.content);
         }
-      })
-  }, [id, search])
-
+      });
+  }, [id, search]);
 
   return (
     <div className="container-fluid" style={{ fontSize: 14 }}>
@@ -47,22 +44,36 @@ const Enterprise = () => {
               <div className="row">
                 <div className="col">
                   <h5 className="pull-left">{data.name}</h5>
-                  <a className="pull-right text-success"
-                    href={`#消息/${data.name}/${data.ent_user_id}`}>
-                    <i className="fa fa-fw fa-comments" ></i>
-                咨询
-              </a>
+                  <a
+                    className="pull-right text-success"
+                    href={`#消息/${data.name}/${data.ent_user_id}`}
+                  >
+                    <i className="fa fa-fw fa-comments" />
+                    咨询
+                  </a>
                 </div>
               </div>
               <span className="text-muted">
-                {data.zhuziguimo} | {data.yuangongshuliang}
-              </span><br />
+                {data.zhuziguimo}
+                {' '}
+                |
+                {data.yuangongshuliang}
+              </span>
+              <br />
               <span className="text-muted">
-                {data.address1}-{data.address2}-{data.address3}
-              </span><br />
+                {data.address1}
+                -
+                {data.address2}
+                -
+                {data.address3}
+              </span>
+              <br />
               <span className="text-muted">
-                详细地址: {data.address4}
-              </span><br />
+                详细地址:
+                {' '}
+                {data.address4}
+              </span>
+              <br />
             </div>
           </div>
           <hr />
@@ -72,12 +83,12 @@ const Enterprise = () => {
             </div>
           </div>
           {
-            list && list.map(item => <RecruitmentRow key={item.id} {...item} />)
+            list && list.map((item) => <RecruitmentRow key={item.id} {...item} />)
           }
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Enterprise
+export default Enterprise;

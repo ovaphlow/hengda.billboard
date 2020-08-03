@@ -1,9 +1,9 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import List from './List'
-import Details from './Details'
-import Enterprise from './Enterprise'
+import List from './List';
+import Details from './Details';
+import Enterprise from './Enterprise';
 
 const RecruitmentRouter = () => (
   <Router>
@@ -13,6 +13,6 @@ const RecruitmentRouter = () => (
       <Route path="/岗位/:id"><Details /></Route>
     </Switch>
   </Router>
-)
+);
 
-export default RecruitmentRouter
+export default RecruitmentRouter;

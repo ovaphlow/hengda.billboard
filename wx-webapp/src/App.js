@@ -1,18 +1,16 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import LogIn from './user/LogIn'
-import SignIn from './user/SignIn'
-import Recover from './user/Recover'
-import HomeRouter from './home/Index'
-import UserRouter from './user/Index'
-import RecruitmentRouter from './recruitment/Index'
-import MessageRouter from './message/Index'
-import RecruitRouter from './recruit/Index'
-
+import LogIn from './user/LogIn';
+import SignIn from './user/SignIn';
+import Recover from './user/Recover';
+import HomeRouter from './home/Index';
+import UserRouter from './user/Index';
+import RecruitmentRouter from './recruitment/Index';
+import MessageRouter from './message/Index';
+import RecruitRouter from './recruit/Index';
 
 export default function App() {
-
   return (
     <Router>
       <Switch>
@@ -27,5 +25,5 @@ export default function App() {
         <Route path="/我的"><UserRouter /></Route>
       </Switch>
     </Router>
-  )
+  );
 }

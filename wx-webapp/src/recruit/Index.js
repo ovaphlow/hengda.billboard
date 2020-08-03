@@ -1,9 +1,8 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import List from './List'
-import Details from './Details'
-
+import List from './List';
+import Details from './Details';
 
 const RecruitRouter = () => (
   <Router>
@@ -12,6 +11,6 @@ const RecruitRouter = () => (
       <Route exact path="/校园招聘/:id"><Details /></Route>
     </Switch>
   </Router>
-)
+);
 
-export default RecruitRouter
+export default RecruitRouter;

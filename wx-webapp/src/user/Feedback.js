@@ -1,52 +1,50 @@
-import React, { useEffect, useState } from 'react'
-import moment from 'moment'
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 
-import ToBack from '../components/ToBack'
+import ToBack from '../components/ToBack';
 
 const Feedback = () => {
+  const [content, setCntent] = useState('');
 
-  const [content, setCntent] = useState('')
+  const [category, setCategory] = useState('意见反馈');
 
-  const [category, setCategory] = useState('意见反馈')
-
-  const [auth, setAuth] = useState(0)
+  const [auth, setAuth] = useState(0);
 
   useEffect(() => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth === null) {
-      window.location = '#/登录'
+      window.location = '#/登录';
     } else {
-      setAuth(_auth)
+      setAuth(_auth);
     }
-  }, [])
-
+  }, []);
 
   const handleSave = () => {
     if (content === '') {
-      window.alert('请填写反馈内容')
-      return
+      window.alert('请填写反馈内容');
+      return;
     }
-    fetch(`./api/feedback/`, {
+    fetch('./api/feedback/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        content: content,
-        category: category,
+        content,
+        category,
         user_id: auth.id,
         user_uuid: auth.uuid,
         user_category: '个人用户',
-        datime: moment().format('YYYY-MM-DD HH:mm')
-      })
+        datime: moment().format('YYYY-MM-DD HH:mm'),
+      }),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          alert(res.message)
+          alert(res.message);
         } else {
-          alert('感谢你的使用,反馈已提交到后台')
+          alert('感谢你的使用,反馈已提交到后台');
         }
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -54,17 +52,17 @@ const Feedback = () => {
         <ToBack />
         <div className="card mt-2">
           <div className="card-body">
-              <h5>反馈/投诉</h5>
-              <hr/>
+            <h5>反馈/投诉</h5>
+            <hr />
             <div className="row mt-3">
               <div className="col">
                 <div className="form-group">
                   <span className="text-muted" style={{ fontSize: 13 }}>
                     类别:
-              </span>
+                  </span>
                   <select
                     className="form-control"
-                    onChange={e => setCategory(e.target.value)}
+                    onChange={(e) => setCategory(e.target.value)}
                   >
                     <option>意见反馈</option>
                     <option>投诉</option>
@@ -78,12 +76,13 @@ const Feedback = () => {
                   <div className="form-group">
                     <span className="text-muted" style={{ fontSize: 13 }}>
                       内容:
-                </span>
+                    </span>
                     <textarea
                       className="form-control"
                       value={content}
-                      onChange={e => setCntent(e.target.value)}
-                      rows="6" />
+                      onChange={(e) => setCntent(e.target.value)}
+                      rows="6"
+                    />
                   </div>
                 </div>
               </div>
@@ -99,7 +98,7 @@ const Feedback = () => {
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
-export default Feedback
+export default Feedback;

@@ -1,11 +1,11 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import HomePage from './HomePage'
-import RecommendDetails from './RecommendDetails'
-import TopicDetails from './TopicDetails'
-import Banner from './Banner'
-import KeywordSearch from './KeywordSearch'
+import HomePage from './HomePage';
+import RecommendDetails from './RecommendDetails';
+import TopicDetails from './TopicDetails';
+import Banner from './Banner';
+import KeywordSearch from './KeywordSearch';
 
 const HomeRouter = () => (
   <Router>
@@ -17,6 +17,6 @@ const HomeRouter = () => (
       <Route path="/主页/banner/:id"><Banner /></Route>
     </Switch>
   </Router>
-)
+);
 
-export default HomeRouter
+export default HomeRouter;

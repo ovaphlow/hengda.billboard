@@ -1,18 +1,18 @@
-import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
-import User from './User'
-import Resume from './Resume'
-import Settings from './Settings'
-import Feedback from './Feedback'
-import JournalRouter from './journal/Index'
-import Favorite from './Favorite'
-import Delivery from './Delivery'
-import Report from './Report'
-import Schedule from './Schedule'
-import Offer from './Offer'
-import SysMessage from './SysMessage'
-import Phone from './Phone'
+import User from './User';
+import Resume from './Resume';
+import Settings from './Settings';
+import Feedback from './Feedback';
+import JournalRouter from './journal/Index';
+import Favorite from './Favorite';
+import Delivery from './Delivery';
+import Report from './Report';
+import Schedule from './Schedule';
+import Offer from './Offer';
+import SysMessage from './SysMessage';
+import Phone from './Phone';
 
 const UserRouter = () => (
   <Router>
@@ -31,7 +31,6 @@ const UserRouter = () => (
       <Route exact path="/我的/举报/:id/:category"><Report /></Route>
     </Switch>
   </Router>
-)
+);
 
-
-export default UserRouter
+export default UserRouter;

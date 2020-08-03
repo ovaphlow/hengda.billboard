@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import ToBack from '../components/ToBack'
-import moment from 'moment'
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import ToBack from '../components/ToBack';
 
-import { DateTitle } from './Components'
+import { DateTitle } from './Components';
 
-const RecruitRow = props => (
+const RecruitRow = (props) => (
   <>
-    <div className="row" >
+    <div className="row">
       <div className="col">
         <div className="pull-left">
           <strong>{props.title}</strong>
@@ -14,71 +14,75 @@ const RecruitRow = props => (
         <div className="pull-right">
           <a href={`#/校园招聘/${props.id}?u_id=${props.uuid}`}>
             详情
-          <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+            <i className="fa fa-fw fa-lg  fa-angle-right" />
           </a>
         </div>
-        <br></br>
+        <br />
         <span className="text-muted">
-          举办地点:{`${props.address_level2}-${props.address_level3}`} | 开始时间:{props.time}
+          举办地点:
+          {`${props.address_level2}-${props.address_level3}`}
+          {' '}
+          | 开始时间:
+          {props.time}
         </span>
-        <br></br>
+        <br />
         <span>
-          {props.school}({props.category})
+          {props.school}
+          (
+          {props.category}
+          )
         </span>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
   </>
-)
+);
 
 const Schedule = () => {
-
-  const [list, setList] = useState({})
+  const [list, setList] = useState({});
 
   // const [auth, setAuth] = useState(0)
 
-
   useEffect(() => {
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth !== null) {
       fetch(`./api/common-user-schedule/user/${_auth.id}/`)
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           if (res.message) {
-            window.alert(res.message)
+            window.alert(res.message);
           } else {
-            const data = {}
-            const today = moment().format('YYYY-MM-DD')
-            res.content.forEach(item => {
-              let date = item.date
+            const data = {};
+            const today = moment().format('YYYY-MM-DD');
+            res.content.forEach((item) => {
+              let { date } = item;
               if (today === date) {
-                date = '今天'
+                date = '今天';
               }
               if (data[date]) {
-                data[date].push(item)
+                data[date].push(item);
               } else {
-                data[date] = [item]
+                data[date] = [item];
               }
-            })
-            setList(data)
+            });
+            setList(data);
           }
-        })
+        });
     } else {
-      window.location='#登录'
+      window.location = '#登录';
     }
-  }, [])
-
+  }, []);
 
   return (
     <div className="container-fluid" style={{ fontSize: 14 }}>
       <ToBack category="我的日程" />
       <div className="tab-content mt-1">
         <div className="tab-pane fade show active">
-        {
+          {
             Object.getOwnPropertyNames(list).map((key, inx) => (
               <React.Fragment key={inx}>
                 <DateTitle text={key} />
-                <div className="mt-2"></div>
+                <div className="mt-2" />
                 {list[key].map((item, inx) => <RecruitRow key={inx} {...item} />)}
               </React.Fragment>
             ))
@@ -86,7 +90,7 @@ const Schedule = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Schedule
+export default Schedule;

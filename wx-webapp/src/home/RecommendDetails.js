@@ -1,94 +1,92 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 
-import ToBack from '../components/ToBack'
-import { searchFavorite } from '../recruitment/Details'
-import { FavoriteJournal, _BrowseJournal } from '../commonFetch'
+import ToBack from '../components/ToBack';
+import { searchFavorite } from '../recruitment/Details';
+import { FavoriteJournal, _BrowseJournal } from '../commonFetch';
 
-const RecommendDetails = props => {
+const RecommendDetails = (props) => {
+  const { id } = useParams();
 
-  const { id } = useParams()
+  const { search } = useLocation();
 
-  const { search } = useLocation()
+  const [item, setItem] = useState(0);
 
-  const [item, setItem] = useState(0)
+  const [auth, setAuth] = useState(0);
 
-  const [auth, setAuth] = useState(0)
-
-  const [favorite, setFavorite] = useState(false)
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     fetch(`./api/recommend/${id}${search}`)
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.content) {
-          setItem(res.content)
+          setItem(res.content);
           _BrowseJournal({
             data_id: id,
             data_uuid: res.content.uuid,
-            category: '推荐信息'
-          }, res => { })
+            category: '推荐信息',
+          }, (res) => { });
         } else {
-          alert(res.message)
+          alert(res.message);
         }
-      })
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+      });
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth !== null) {
-      setAuth(_auth)
+      setAuth(_auth);
       searchFavorite({
         user_id: _auth.id,
         data_id: id,
         category1: '个人用户',
         category2: '推荐信息',
-      }).then(res => {
+      }).then((res) => {
         if (res.content) {
-          setFavorite(p => res.content)
+          setFavorite((p) => res.content);
         }
-      })
-
+      });
     }
-  }, [id, search])
+  }, [id, search]);
 
   const handleFavorite = () => {
     if (auth) {
       if (favorite) {
         fetch(`./api/favorite/${favorite.id}/`, {
-          method: 'DELETE'
+          method: 'DELETE',
         })
-          .then(res => res.json())
-          .then(res => {
+          .then((res) => res.json())
+          .then((res) => {
             if (res.message === '') {
-              setFavorite(false)
+              setFavorite(false);
             } else {
-              alert(res.message)
+              alert(res.message);
             }
-          })
+          });
       } else {
         FavoriteJournal({
           data_id: id,
           data_uuid: item.uuid,
-          category2: '推荐信息'
-        }, res => {
+          category2: '推荐信息',
+        }, (res) => {
           if (res.message === '') {
             searchFavorite({
               user_id: auth.id,
               data_id: id,
               category1: '个人用户',
               category2: '推荐信息',
-            }).then(res1 => {
+            }).then((res1) => {
               if (res1.content) {
-                setFavorite(p => res1.content)
+                setFavorite((p) => res1.content);
               }
-            })
+            });
           } else {
-            alert(res.message)
+            alert(res.message);
           }
-        })
+        });
       }
     } else {
-      window.location = '#登录'
+      window.location = '#登录';
     }
-  }
+  };
 
   return (
     <>
@@ -104,37 +102,44 @@ const RecommendDetails = props => {
             </div>
             <div className="row">
               <div className="col">
-                发布时间：{item.date1}
+                发布时间：
+                {item.date1}
               </div>
             </div>
             <div className="row">
               <div className="col">
-                截止日期：{item.date2}
+                截止日期：
+                {item.date2}
               </div>
             </div>
             <div className="row">
               <div className="col">
-                所属省份：{item.address_level1}
+                所属省份：
+                {item.address_level1}
               </div>
             </div>
             <div className="row">
               <div className="col">
-                工作地点：{item.address_level2}
+                工作地点：
+                {item.address_level2}
               </div>
             </div>
             <div className="row">
               <div className="col">
-                单位：{item.publisher}
+                单位：
+                {item.publisher}
               </div>
             </div>
             <div className="row">
               <div className="col">
-                招聘人数：{item.qty}
+                招聘人数：
+                {item.qty}
               </div>
             </div>
             <div className="row">
               <div className="col">
-                报名方式：{item.baomignfangshi}
+                报名方式：
+                {item.baomignfangshi}
               </div>
             </div>
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -144,18 +149,18 @@ const RecommendDetails = props => {
           </div>
         </div>
       </div>
-      <div className="recommond-bottom"></div>
-      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
+      <div className="recommond-bottom" />
+      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
-          <div className="col-2 nav-col"></div>
-          <div className="col nav-col"></div>
-          <div className="col-2 nav-col"></div>
+          <div className="col-2 nav-col" />
+          <div className="col nav-col" />
+          <div className="col-2 nav-col" />
           <div className="col-5 nav-col">
             <button className="btn btn-primary nav-btn" onClick={handleFavorite}>
               {
-                favorite ?
-                  (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :
-                  (<i className="fa fa-star-o" aria-hidden="true"></i>)
+                favorite
+                  ? (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true" />)
+                  : (<i className="fa fa-star-o" aria-hidden="true" />)
               }
               收藏
             </button>
@@ -163,7 +168,7 @@ const RecommendDetails = props => {
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
-export default RecommendDetails
+export default RecommendDetails;

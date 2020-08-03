@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import moment from 'moment'
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 
-import ToBack from '../../components/ToBack'
-import { JournalTabs, DateTitle } from '../Components'
+import ToBack from '../../components/ToBack';
+import { JournalTabs, DateTitle } from '../Components';
 
-
-const DataRow = props => (
+const DataRow = (props) => (
   <>
     <div className="row">
       <div className="col">
@@ -15,54 +14,51 @@ const DataRow = props => (
         <div className="pull-right text-muted" style={{ fontSize: 11 }}>
           {props.datime}
         </div>
-        <br></br>
-        <span className="pull-left text-muted" >
+        <br />
+        <span className="pull-left text-muted">
           {props.ip}
         </span>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
   </>
-)
-
+);
 
 const LoginJournal = () => {
-
-  const [list, setList] = useState({})
+  const [list, setList] = useState({});
 
   useEffect(() => {
-    const auth = JSON.parse(localStorage.getItem('auth'))
+    const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth === null) {
-      window.location = '#登录'
+      window.location = '#登录';
     } else {
       fetch(`/api/common-user/journal/${auth.id}`)
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           if (res.message) {
-            window.alert(res.message)
+            window.alert(res.message);
           } else {
-            const data = {}
-            const today = moment().format('YYYY-MM-DD')
-            res.content.forEach(item => {
-              let date = item.datime.split(' ')[0]
+            const data = {};
+            const today = moment().format('YYYY-MM-DD');
+            res.content.forEach((item) => {
+              let date = item.datime.split(' ')[0];
               if (today === date) {
-                date = '今天'
+                date = '今天';
               }
               if (data[date]) {
-                data[date].push(item)
+                data[date].push(item);
               } else {
-                data[date] = [item]
+                data[date] = [item];
               }
-            })
-            setList(data)
+            });
+            setList(data);
           }
-        })
+        });
     }
-  }, [])
-
+  }, []);
 
   return (
-    <div className="container-fluid" >
+    <div className="container-fluid">
       <ToBack category="操作记录" href="#我的" />
       <div className="card mt-2">
         <JournalTabs category="登录" />
@@ -73,7 +69,7 @@ const LoginJournal = () => {
                 Object.getOwnPropertyNames(list).map((key, inx) => (
                   <React.Fragment key={inx}>
                     <DateTitle text={key} />
-                    <div className="mt-2"></div>
+                    <div className="mt-2" />
                     {list[key].map((item, inx) => <DataRow key={inx} {...item} />)}
                   </React.Fragment>
                 ))
@@ -83,7 +79,7 @@ const LoginJournal = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginJournal
+export default LoginJournal;

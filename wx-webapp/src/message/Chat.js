@@ -1,39 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import ToBack from '../components/ToBack'
+import ToBack from '../components/ToBack';
 
-
-const LetfMessage = props => (
+const LetfMessage = (props) => (
   <div className="row p-2">
     <div className="col">
       {/* <div className="pull-left pr-2" >
         <img className="rounded-circle message-img" src="lib/img/u868.png" alt="" />
       </div> */}
-      <div className="pull-left message-text shadow border rounded p-2"  >
-        {props.name} {props.datime}
+      <div className="pull-left message-text shadow border rounded p-2">
+        {props.name}
+        {' '}
+        {props.datime}
         <br />
-        &nbsp;&nbsp;&nbsp;{props.content}
+        &nbsp;&nbsp;&nbsp;
+        {props.content}
       </div>
     </div>
   </div>
-)
+);
 
-const RightMessage = props => (
+const RightMessage = (props) => (
   <div className="row p-2">
     <div className="col">
       {/* <div className="pull-right pl-2" >
         <img className="rounded-circle message-img" src="lib/img/u868.png" alt="" />
       </div> */}
-      <div className="pull-right message-text shadow border rounded p-2" >
-        {props.name} {props.datime}
+      <div className="pull-right message-text shadow border rounded p-2">
+        {props.name}
+        {' '}
+        {props.datime}
         <br />
-        &nbsp;&nbsp;&nbsp;{props.content}
+        &nbsp;&nbsp;&nbsp;
+        {props.content}
       </div>
     </div>
   </div>
-)
-
+);
 
 // const Mianshi = props => (
 //   <>
@@ -61,78 +65,75 @@ const RightMessage = props => (
 //   </>
 // )
 
-
-
 const Chat = () => {
+  const { user_id, title } = useParams();
 
-  const { user_id, title } = useParams()
+  const [contentList, setContentList] = useState([]);
 
-  const [contentList, setContentList] = useState([])
+  const [text, setText] = useState('');
 
-  const [text, setText] = useState('')
-
-  const [auth, setAuth] = useState(0)
+  const [auth, setAuth] = useState(0);
 
   useEffect(() => {
-    let jobId = -1
-    const _auth = JSON.parse(localStorage.getItem('auth'))
+    let jobId = -1;
+    const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth === null) {
-      window.location = '#登录'
+      window.location = '#登录';
     } else {
-      setAuth(_auth)
+      setAuth(_auth);
       fetch(`./api/message/common/content/${user_id}/${_auth.id}/`)
-        .then(res => res.json())
-        .then(res => {
-          setContentList(res.content.filter(item => item.content !== ''))
-        })
+        .then((res) => res.json())
+        .then((res) => {
+          setContentList(res.content.filter((item) => item.content !== ''));
+        });
       jobId = setInterval(() => {
         fetch(`./api/message/common/content/${user_id}/${_auth.id}/`)
-          .then(res => res.json())
-          .then(res => {
-            setContentList(res.content.filter(item => item.content !== ''))
-          })
-      }, 900000)
+          .then((res) => res.json())
+          .then((res) => {
+            setContentList(res.content.filter((item) => item.content !== ''));
+          });
+      }, 900000);
     }
     return (() => {
       if (jobId !== -1) {
-        window.clearInterval(jobId)
+        window.clearInterval(jobId);
       }
-    })
-  }, [user_id])
+    });
+  }, [user_id]);
 
   useEffect(() => {
-    document.documentElement.scrollTop = document.body.scrollHeight
-  }, [contentList])
+    document.documentElement.scrollTop = document.body.scrollHeight;
+  }, [contentList]);
 
-  const handleChange = event => {
-    setText(event.target.value.trim())
-  }
+  const handleChange = (event) => {
+    setText(event.target.value.trim());
+  };
 
   const handlePush = () => {
     if (text === '') {
-      return
+      return;
     }
     const data = {
       category: 'common_to_ent',
       ent_user_id: user_id,
       common_user_id: auth.id,
-      content: text
-    }
-    fetch(`./api/message/`, {
+      content: text,
+    };
+    fetch('./api/message/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.message) {
-          window.alert(res.message)
+          window.alert(res.message);
         } else {
-          setText('')
-          setContentList(p => p.concat([data]))
+          setText('');
+          setContentList((p) => p.concat([data]));
         }
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -142,22 +143,20 @@ const Chat = () => {
         </div>
       </div>
       <div className="container-fluid chat-background" id="chat-body" style={{ fontSize: 14 }}>
-        
-        <div className="row p-4"></div>
+
+        <div className="row p-4" />
         <div className="row " id="chat-body3">
           <div className="col" id="chat-body1">
             {
-              contentList && contentList.map((item, inx) =>
-                item.category === 'common_to_ent' ?
-                  <RightMessage key={inx} name='我' {...item} /> :
-                  <LetfMessage key={inx} name={title} {...item} />
-              )
+              contentList && contentList.map((item, inx) => (item.category === 'common_to_ent'
+                ? <RightMessage key={inx} name="我" {...item} />
+                : <LetfMessage key={inx} name={title} {...item} />))
             }
           </div>
         </div>
       </div>
-      <div style={{height:50}}></div>
-      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top" >
+      <div style={{ height: 50 }} />
+      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="input-group ">
           <input
             type="text"
@@ -165,19 +164,19 @@ const Chat = () => {
             onChange={handleChange}
             className="form-control rounded-0 h-100 input-f"
             style={{ outline: 'none' }}
-            placeholder="请输入内容" />
+            placeholder="请输入内容"
+          />
           <div className="input-group-append">
             {text === '' ? (
               <button className="btn btn-secondary rounded-0">发送</button>
             ) : (
-                <button onClick={handlePush} className="btn btn-primary rounded-0">发送</button>
-              )}
+              <button onClick={handlePush} className="btn btn-primary rounded-0">发送</button>
+            )}
           </div>
         </div>
       </ul>
     </>
-  )
-}
+  );
+};
 
-
-export default Chat
+export default Chat;

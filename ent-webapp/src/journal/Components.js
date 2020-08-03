@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+
 const Sidebar = props => (
   <div className="list-group bg-white shadow sidebar" >
     <a
@@ -8,7 +11,7 @@ const Sidebar = props => (
     >
       登录记录
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -17,7 +20,7 @@ const Sidebar = props => (
     >
       操作记录
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -26,7 +29,7 @@ const Sidebar = props => (
     >
       举报记录
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -35,7 +38,7 @@ const Sidebar = props => (
     >
       (意见反馈/投诉)记录
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
   </div>

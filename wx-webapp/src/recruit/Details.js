@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar, faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+
 import ToBack from '../components/ToBack'
 import { useParams, useLocation } from 'react-router-dom'
 import { searchFavorite } from '../recruitment/Details'
@@ -190,8 +193,8 @@ const Details = () => {
               <button className="btn btn-light nav-btn text-muted text-small" onClick={handleFavorite}>
                 {
                   favorite ?
-                    (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :
-                    (<i className="fa fa-star-o" aria-hidden="true"></i>)
+                    (<FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />) :
+                    (<FontAwesomeIcon icon={faStar} fixedWidth />)
                 }
                 收藏
               </button>
@@ -200,11 +203,11 @@ const Details = () => {
               {
                 schedule ? (
                   <button className="btn btn-danger nav-btn" onClick={deleteSchedule}>
-                    <i className="fa fa-minus-circle fa-fw" aria-hidden="true"></i>
+                    <FontAwesomeIcon icon={faMinusCircle} fixedWidth />
                     移出日程
                   </button>) : (
                     <button className="btn btn-success nav-btn" onClick={handleSchedule}>
-                      <i className="fa fa-plus-circle fa-fw" aria-hidden="true"></i>
+                      <FontAwesomeIcon icon={faPlusCircle} fixedWidth />
                       加入日程
                     </button>)
               }

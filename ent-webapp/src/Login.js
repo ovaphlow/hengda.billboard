@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import md5 from 'blueimp-md5'
+import Hover from './components/Hover'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQrcode } from '@fortawesome/free-solid-svg-icons'
 
 const Login = () => {
 
@@ -41,21 +44,31 @@ const Login = () => {
   }
 
   return (
-    <div className="container-fluid bg-white" style={{
-      height: '100vh'
-    }}>
-      <div className="row px-5" style={{ height: '15%', minHeight: 99 }}>
-        <div className="col item-middle">
-          <div className="row ">
-            <div className="col">
-              <img className="img-fluid pull-left logo2" alt="" src={require('./components/img/logo2.png')} />
-            </div>
+    <div className="container-fluid bg-light body-login">
+      <div className="px-5 fixed-top bg-white border-bottom body-title">
+        <div className="row">
+          <div className="col item-middle">
+            <img className="img-fluid pull-left logo2" alt="" src={require('./components/img/logo3.png')} />
+          </div>
+          <div className="col-1 header-right">
+            <a className="text-warning pull-right" href="#注册" style={{ fontSize: '16px', textDecoration: 'none' }}>
+              企业注册
+              </a>
+          </div>
+          <div className="col-2 header-right pull-left">
+            <a className="text-secondary border-0 bg-transparent img-weixin"
+              style={{ textDecoration: 'none' }}
+              href={{ javascript: void (0) }}>
+              <FontAwesomeIcon icon={faQrcode} fixedWidth />
+                小程序
+              <p><img className="" alt="" src={require('./components/img/qr.png')} /></p>
+            </a>
           </div>
         </div>
       </div>
 
-      <div className="row login-body px-5" style={{
-        height: '70%',
+      <div className="row login-body px-5 header" style={{
+        height: '90vh',
         minHeight: '459px'
       }}>
         <div className="col w-25 mt-5" >
@@ -85,7 +98,7 @@ const Login = () => {
                       onChange={handleChange} />
                   </div>
                 </div>
-                <div className="row px-4" style={{visibility:'hidden'}}>
+                <div className="row px-4" style={{ visibility: 'hidden' }}>
                   <div className="col-7">
                     <input type="text" className="col form-control rounded-0" />
                   </div>
@@ -105,12 +118,7 @@ const Login = () => {
               </div>
               <div className="row mt-2 px-4 ">
                 <div className="col">
-                  <a className="pull-left" href="#注册" style={{ fontSize: 'small' }}>
-                    注册
-                      </a>
-                </div>
-                <div className="col">
-                  <a className="text-dark pull-right" href="#忘记密码" style={{ fontSize: 'small' }}>
+                  <a className="text-dark pull-right" href="#忘记密码" style={{ fontSize: 'small', textDecoration: 'none' }}>
                     忘记密码?
                       </a>
                 </div>
@@ -119,27 +127,67 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="row footer px-5  text-secondary bg-white " style={{
-        height: '15%',
-        minHeight: 99
-      }}>
-        <div className="col mt-4">
-          <div className="row flex-center">
-            <h5>版权声明: xxxxx</h5>
+      <Hover />
+      <div className="between-box card shadow mt-3" style={{ height: '50%', minHeight: '459px' }}>
+        <div className="pt-5 pb-3">
+          <h2>合作企业</h2>
+        </div>
+        <div className="text-center m-auto">
+          <div>
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/1.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/4.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/10.png')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/5.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/17.png')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/19.png')} />
           </div>
-          <div className="row flex-center">
-            <h5>销售热线:0451-xxxxxxxx
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            客服热线:0451-xxxxxxxx</h5>
+          <div>
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/2.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/3.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/7.png')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/9.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/8.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/13.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/15.png')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/16.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/21.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/22.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/23.jpg')} />
+            <img className="border between-content1 shadow-sm" alt="" src={require('./components/img/24.jpg')} />
           </div>
-          <div className="row flex-center">
-            <a className="text-secondary" href="http://www.beian.miit.gov.cn/">
-              互联网ICP备案:黑ICP备20002542号
-            </a>
+          <div>
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/6.png')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/11.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/12.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/14.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/18.jpg')} />
+            <img className="border between-content shadow-sm" alt="" src={require('./components/img/20.jpg')} />
           </div>
         </div>
       </div>
-    </div>
+      <div className="row footer px-6 text-white bg-dark border-top pb-3">
+        <div className="col mt-4">
+          <div className="row flex-center">
+            <a className="footer-word" href="www.baidu.com">
+              法律声明|
+            </a>
+            <a className="footer-word" href="www.baidu.com">
+              隐私政策|
+            </a>
+            <span>版权声明: xxxxx|</span>
+            <a className="footer-word" href="http://www.beian.miit.gov.cn/">
+              互联网ICP备案:黑ICP备20002542号
+            </a>
+          </div>
+          <div className="row flex-center">
+            <span>
+              合作咨询热线:0451-xxxxxxxx|客服热线:0451-xxxxxxxx|
+              违法和不良信息举报电话:0451-xxxxxxxx|举报邮箱:
+            </span>
+          </div>
+        </div>
+      </div>
+    </div >
   )
 }
 

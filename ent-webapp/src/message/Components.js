@@ -2,6 +2,9 @@ import React from 'react'
 
 import Navbar from '../components/Navbar'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+
 const Sidebar = props => (
   <div className="list-group bg-white shadow sidebar" >
     <a
@@ -10,7 +13,7 @@ const Sidebar = props => (
     >
       我的会话
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -19,7 +22,7 @@ const Sidebar = props => (
     >
       面试邀请
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -28,7 +31,7 @@ const Sidebar = props => (
     >
       平台消息
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     {/* <a

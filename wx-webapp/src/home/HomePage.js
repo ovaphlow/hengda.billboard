@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFire, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
@@ -103,7 +106,7 @@ const HomePage = () => {
         <div className="p-2 border-0 bg-white rounded card-body shadow ">
           <div >
             <h6>
-              <i className="fa fa-fw fa-lg fa-fire text-danger" aria-hidden="true"></i>
+              <FontAwesomeIcon icon={faFire} size='lg' className="text-danger" fixedWidth />
               热门话题
             </h6>
           </div>
@@ -113,7 +116,7 @@ const HomePage = () => {
           <div className="row p-2">
             <div className="col">
               <h6 className="pull-left" >
-                <i className="fa fa-fw fa-lg fa-thumbs-up text-warning" aria-hidden="true"></i>
+                <FontAwesomeIcon icon={faThumbsUp} size='lg' className="text-warning" fixedWidth />
                 推荐信息
               </h6>
               <ul className="pull-right" style={{

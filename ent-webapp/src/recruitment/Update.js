@@ -6,6 +6,9 @@ import { _EditJournal } from '../commonFetch'
 import RichEditor from '../components/RichEditor'
 import { View } from './Components'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBan } from '@fortawesome/free-solid-svg-icons'
+
 const Update = () => {
 
   const [data, setData] = useState({
@@ -248,7 +251,7 @@ const Update = () => {
                     <button
                       className="pull-right btn btn-link btn-lg text-danger"
                       onClick={() => handleDataStatus('停招')} >
-                      <i className=" fa fa-ban fa-fw " aria-hidden="true"></i>
+                      <FontAwesomeIcon icon={faBan} fixedWidth />
                       停招
                     </button>
                   ) : (

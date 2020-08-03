@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome, faIdCard, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const Navbar = props => {
 
@@ -105,11 +107,11 @@ const Navbar = props => {
 
   return (
     <>
-    <div style={{height:60}}></div>
+      <div style={{ height: 60 }}></div>
       <ul className="nav bg-white nav-light fixed-bottom border-top text-center  nav-bottom justify-content-center" style={{ fontSize: 11 }}>
         <li className="nav-item">
           <a href="#/" className={`nav-link ${props.category === '首页' ? 'text-primary' : 'text-muted'} `}>
-            <i className="fa fa-fw fa-2x fa-home"></i>
+            <FontAwesomeIcon icon={faHome} size='2x' fixedWidth />
             <br></br>
             首页
           </a>
@@ -117,7 +119,7 @@ const Navbar = props => {
 
         <li className="nav-item">
           <a href="#岗位" className={`nav-link ${props.category === '岗位' ? 'text-primary' : 'text-muted'} `} >
-            <i className="fa fa-fw fa-2x fa-id-card-o " aria-hidden="true"></i>
+            <FontAwesomeIcon icon={faIdCard} size='2x' fixedWidth />
             <br></br>
             岗位
           </a>
@@ -133,8 +135,8 @@ const Navbar = props => {
         <li className="nav-item">
 
           <a href="#消息" className={`nav-link ${props.category === '消息' ? 'text-primary' : 'text-muted'} `}>
-            <span className={`${message !== 0?'message-point':''}`}>
-              <i className="fa fa-fw fa-2x fa-envelope" aria-hidden="true"></i>
+            <span className={`${message !== 0 ? 'message-point' : ''}`}>
+              <FontAwesomeIcon icon={faEnvelope} size='2x' fixedWidth />
             </span>
             <br></br>
             消息
@@ -142,8 +144,8 @@ const Navbar = props => {
         </li>
         <li className="nav-item">
           <a href="#我的" className={`nav-link ${props.category === '我的' ? 'text-primary' : 'text-muted'} `}>
-            <span className={`${(offer + sys) !== 0?'message-point':''}`}>
-              <i className="fa fa-fw fa-2x fa-user" aria-hidden="true"></i>
+            <span className={`${(offer + sys) !== 0 ? 'message-point' : ''}`}>
+              <FontAwesomeIcon icon={faUser} size='2x'  fixedWidth/>
             </span>
             <br></br>
             <span className="">我的</span>

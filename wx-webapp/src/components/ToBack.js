@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+
 
 const ToBack = props => {
 
@@ -18,8 +21,7 @@ const ToBack = props => {
     <div className="row pl-2 pr-2">
       <div className="col">
         <span onClick={toPrevious} className="text-dark">
-          <i
-            className="fa fa-fw fa-chevron-left fa-lg text-muted"></i>
+          <FontAwesomeIcon icon={faChevronLeft} size='lg' fixedWidth />
           {/* {props.category} */}
         </span>
       </div>
@@ -29,14 +31,14 @@ const ToBack = props => {
             props.report && (
               <a className="text-danger" href={`#/我的/举报/${props.dataId}/${props.dataType}${props.search}`}>
                 举报
-            </a>
+              </a>
             )
           }
           {
             props.complaint && (
               <a className="text-danger" href="#/举报">
                 投诉
-            </a>
+              </a>
             )
           }
         </div>

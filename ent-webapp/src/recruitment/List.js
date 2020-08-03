@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { View } from './Components'
 import { TextField, SelectField, DateField } from '../components/InputField'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+
 
 const List = () => {
 
@@ -126,7 +129,7 @@ const List = () => {
           <div className="card-body">
             <h3 className="pull-left">岗位列表</h3>
             <a className="pull-right btn btn-link btn-lg" href="#岗位/新增">
-              <i className="fa fa-plus-circle fa-fw" aria-hidden="true"></i>
+              <FontAwesomeIcon icon={faPlusCircle} fixedWidth />
               新增
             </a>
             <table className="table table-hover">

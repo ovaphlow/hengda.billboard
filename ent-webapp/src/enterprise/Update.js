@@ -6,6 +6,8 @@ import { View } from './Components'
 import { TextField, SelectField } from '../components/InputField'
 import { _EditJournal } from '../commonFetch'
 import moment from 'moment'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
 const Update = () => {
 
@@ -535,19 +537,19 @@ const Update = () => {
                   }
                 </SelectField>
               </div>
-              
+
             </div>
             <div className="row">
-                <div className="col">
-                  <TextField
-                    category="详细地址"
-                    name="address4"
-                    value={data.address4}
-                    handleChange={handleChange}
-                    req={required.address4}
-                    required />
-                </div>
+              <div className="col">
+                <TextField
+                  category="详细地址"
+                  name="address4"
+                  value={data.address4}
+                  handleChange={handleChange}
+                  req={required.address4}
+                  required />
               </div>
+            </div>
             <div className="row mt-2">
               <div className="col">
                 <h3 className="pull-left">
@@ -557,7 +559,7 @@ const Update = () => {
                 </h3>
                 <div className="pull-right">
                   <button className="btn btn-primary" onClick={handleUpload} >
-                    <i className="fa fa-fw fa-upload" ></i>
+                    <FontAwesomeIcon icon={faUpload} fixedWidth />
                     选择图片
                   </button>
                   <input type="file"

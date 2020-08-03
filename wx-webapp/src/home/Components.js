@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
@@ -19,7 +21,7 @@ export const RecommendRow = props => (
         </span>
         <div className="pull-right ">
           <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`} style={{ color: '#00a4ff' }}>
-            <i className="fa fa-fw fa-chevron-circle-right fa-lg" aria-hidden="true"></i>
+            <FontAwesomeIcon icon={faChevronCircleRight} size='lg' fixedWidth />
           </a>
         </div>
         <br></br>

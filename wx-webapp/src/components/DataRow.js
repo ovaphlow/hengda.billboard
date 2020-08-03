@@ -1,5 +1,6 @@
 import React from 'react'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 export const RecruitmentRow = props => (
   <>
@@ -28,7 +29,7 @@ export const RecruitmentRow = props => (
           {props.address1} {props.address2}/{props.education} | 人数:{props.qty}
         </span>
         <span className="pull-right text-muted" style={{ fontSize: 11 }}>
-           {props.date}
+          {props.date}
         </span>
       </div>
     </div>
@@ -46,7 +47,7 @@ export const RecruitRow = props => (
         <div className="pull-right">
           <a href={`#/校园招聘/${props.id}?u_id=${props.uuid}`}>
             详情
-          <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+            <FontAwesomeIcon icon={faAngleRight} size='lg' fixedWidth />
           </a>
         </div>
         <br></br>
@@ -72,7 +73,7 @@ export const RecommendRow = props => (
         <div className="pull-right">
           <a href={`#主页/消息详情/${props.id}?u_id=${props.uuid}`}>
             详情
-        <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+            <FontAwesomeIcon icon={faAngleRight} size='lg' fixedWidth />
           </a>
         </div>
         <br></br>

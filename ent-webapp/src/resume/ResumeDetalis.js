@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import { useParams, useLocation } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar, faComment, faBan } from '@fortawesome/free-solid-svg-icons'
 
 import Modal from '../components/Modal'
 import { View, ResumeView } from './Components'
@@ -227,17 +229,17 @@ const ResumeDetalis = () => {
                 <button className="btn btn-light rounded-0 text-muted" onClick={handleFavorite} >
                   {
                     favorite ?
-                      (<i className="fa fa-star fa-fw" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :
-                      (<i className="fa fa-star-o" aria-hidden="true"></i>)
+                      (<FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />) :
+                      (<FontAwesomeIcon icon={faStar} fixedWidth />)
                   }
                   收藏
                 </button>
                 <button className="btn btn-light rounded-0 text-muted" disabled={!entStatus} onClick={() => setModalShow1(true)} >
-                  <i className="fa fa-comment-o fa-fw" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faComment} fixedWidth />
                   邀请面试
                   </button>
                 <button className="btn btn-light rounded-0 text-danger" onClick={() => setModalShow2(true)}>
-                  <i className="fa fa-ban fa-fw" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faBan} fixedWidth />
                   举报
                 </button>
               </div>

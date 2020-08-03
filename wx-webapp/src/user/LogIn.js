@@ -3,6 +3,10 @@ import md5 from 'blueimp-md5'
 
 import ToBack from '../components/ToBack'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserCircle, faLock } from '@fortawesome/free-solid-svg-icons'
+
+
 export default function LogIn() {
   const [data, setData] = useState({
     phone_email: '',
@@ -22,11 +26,11 @@ export default function LogIn() {
     const response = await fetch(`/api/common-user/log-in`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         ip: window.returnCitySN.cip,
         address: window.returnCitySN.cname,
-        phone_email: data.phone_email, 
-        password: md5(data.password) 
+        phone_email: data.phone_email,
+        password: md5(data.password)
       })
     })
     const res = await response.json()
@@ -35,7 +39,7 @@ export default function LogIn() {
       return
     } else {
       localStorage.setItem('auth', JSON.stringify(res.content))
-      window.location='#'
+      window.location = '#'
     }
   }
 
@@ -44,18 +48,10 @@ export default function LogIn() {
       <div className="container-fluid background-login">
         <br />
         <ToBack href="#" />
-        <div className="row mt-4 bg-transparent text-white pt-5">
-          <div className="col-4 text-right">
-              <span className="fa-stack fa-lg fa-2x">
-                <i className="fa fa-comment fa-stack-2x fa-flip-horizontal text-warning" aria-hidden="true"></i>
-                <i className="fa fa-stack-1x text-danger" aria-hidden="true">hi</i>
-              </span>
-            </div>
-              &nbsp;
-            <div className="text-left">
-              <h5>Welcome</h5>
-              <h4>龙江学子就业平台</h4>
-            </div>
+        <div className="mt-4 bg-transparent text-white pt-5 text-center">
+          <h4>
+            <strong className="text-warning">Hi</strong>
+            &nbsp;&nbsp;龙江学子就业平台</h4>
         </div>
 
         <div className="row mt-3 bg-transparent text-dark">
@@ -65,7 +61,7 @@ export default function LogIn() {
                 <div className="input-group mb-3 input-group-lg input-control">
                   <div className="input-group-prepend">
                     <span className="input-group-text bg-transparent text-white border-0" >
-                      <i className="fa-fw fa fa-user-circle-o fa-1x" aria-hidden="true"></i>
+                      <FontAwesomeIcon icon={faUserCircle} fixedWidth />
                     </span>
                   </div>
                   <input type="text"
@@ -78,9 +74,9 @@ export default function LogIn() {
                 </div>
                 <div className="input-group mb-3 input-group-lg input-control">
                   <div className="input-group-prepend">
-                   <span className="input-group-text bg-transparent text-white border-0">
-                     <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
-                   </span>
+                    <span className="input-group-text bg-transparent text-white border-0">
+                      <FontAwesomeIcon icon={faLock} fixedWidth />
+                    </span>
                   </div>
                   <input type="password" name="password" value={data.password}
                     className="form-control bg-transparent text-white border-0 input-placeholder input-f"
@@ -92,7 +88,7 @@ export default function LogIn() {
               <div className="form-group">
                 <button
                   type="button"
-                  style={{ width: '85%'}}
+                  style={{ width: '85%' }}
                   className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
                   onClick={handleLogIn}>
                   登&nbsp;录
@@ -110,7 +106,7 @@ export default function LogIn() {
                   </a>
                   <span className="text-white font-weight">|</span>
                   <a className="text-warning font-weight" href="#/忘记密码">
-                  &nbsp;忘记密码
+                    &nbsp;忘记密码
                   </a>
                 </div>
               </div>
@@ -120,5 +116,5 @@ export default function LogIn() {
       </div>
     </>
   )
-    
+
 }

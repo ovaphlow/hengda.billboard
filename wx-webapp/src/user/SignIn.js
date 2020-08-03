@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import md5 from 'blueimp-md5'
 
 import ToBack from '../components/ToBack'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faUserCircle, faLock } from '@fortawesome/free-solid-svg-icons'
 
 export default function SignIn() {
   const [data, setData] = useState({
@@ -86,7 +88,7 @@ export default function SignIn() {
                 alertFlg = true
             }
           })
-          alertFlg = true
+        alertFlg = true
       } else {
         alertFlg = true
       }
@@ -129,18 +131,10 @@ export default function SignIn() {
       <div className="container-fluid background-login">
         <br />
         <ToBack />
-        <div className="row mt-4 bg-transparent text-white pt-5">
-          <div className="col-4 text-right">
-              <span className="fa-stack fa-lg fa-2x">
-                <i className="fa fa-comment fa-stack-2x fa-flip-horizontal text-warning" aria-hidden="true"></i>
-                <i className="fa fa-stack-1x text-danger" aria-hidden="true">hi</i>
-              </span>
-            </div>
-              &nbsp;
-            <div className="text-left">
-              <h5>Welcome</h5>
-              <h4>龙江学子就业平台</h4>
-            </div>
+        <div className="mt-4 bg-transparent text-white pt-5 text-center">
+          <h4>
+            <strong className="text-warning">Hi</strong>
+            &nbsp;&nbsp;龙江学子就业平台</h4>
         </div>
 
         <div className="row bg-transparent text-dark">
@@ -150,11 +144,11 @@ export default function SignIn() {
                 <form>
                   {err.email && <small className="form-text text-danger">{err.email}</small>}
                   <div className="input-group row mb-3 input-group-lg input-control">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text bg-transparent text-white border-0" >
-                      <i className="fa-fw fa fa-envelope fa-1x" aria-hidden="true"></i>
-                    </span>
-                  </div>
+                    <div className="input-group-prepend">
+                      <span className="input-group-text bg-transparent text-white border-0" >
+                        <FontAwesomeIcon icon={faEnvelope} fixedWidth size="1x" />
+                      </span>
+                    </div>
                     <input type="text" name="email" value={data.email}
                       className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
                       placeholder="邮箱地址"
@@ -164,11 +158,11 @@ export default function SignIn() {
 
                   {err.name && <small className="form-text text-danger">{err.name}</small>}
                   <div className="input-group row mb-3 input-group-lg input-control">
-                   <div className="input-group-prepend">
-                    <span className="input-group-text bg-transparent text-white border-0" >
-                      <i className="fa-fw fa fa-user-circle-o fa-1x" aria-hidden="true"></i>
-                    </span>
-                   </div>
+                    <div className="input-group-prepend">
+                      <span className="input-group-text bg-transparent text-white border-0" >
+                        <FontAwesomeIcon icon={faUserCircle} fixedWidth size="1x" />
+                      </span>
+                    </div>
                     <input type="text" name="name" value={data.name}
                       className="form-control col bg-transparent text-white border-0 input-placeholder input-f"
                       placeholder="用户名称"
@@ -177,10 +171,10 @@ export default function SignIn() {
                   </div>
                   {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
                   <div className="input-group row mb-3 input-group-lg input-control">
-                   <div className="input-group-prepend">
-                    <span className="input-group-text bg-transparent text-white border-0" >
-                      <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
-                    </span>
+                    <div className="input-group-prepend">
+                      <span className="input-group-text bg-transparent text-white border-0" >
+                        <FontAwesomeIcon icon={faLock} fixedWidth size="1x" />
+                      </span>
                     </div>
                     <input type="password"
                       name="password1"
@@ -194,8 +188,8 @@ export default function SignIn() {
                   {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend">
-                     <span className="input-group-text bg-transparent text-white border-0" >
-                       <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                      <span className="input-group-text bg-transparent text-white border-0" >
+                        <FontAwesomeIcon icon={faLock} fixedWidth size="1x" />
                       </span>
                     </div>
                     <input type="password" name="password2" value={data.password2}
@@ -212,13 +206,13 @@ export default function SignIn() {
                       placeholder="验证码"
                       onChange={handleChange}
                     />
-                  <div className="input-group-append">
-                    <button type="button" style={{ fontSize: 14 }}
-                      disabled={!checkEmail()} onClick={handleCode}
-                      className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white">
-                      发送验证码
+                    <div className="input-group-append">
+                      <button type="button" style={{ fontSize: 14 }}
+                        disabled={!checkEmail()} onClick={handleCode}
+                        className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white">
+                        发送验证码
                     </button>
-                  </div>
+                    </div>
                   </div>
                 </form>
               </div>

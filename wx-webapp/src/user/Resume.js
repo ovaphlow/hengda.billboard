@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom'
 import moment from 'moment'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenSquare, faPhoneAlt, faEnvelope, faBook, faMapMarkedAlt, faBriefcase, faPlus } from '@fortawesome/free-solid-svg-icons'
+
 import ToBack from '../components/ToBack'
 import { _EditJournal } from '../commonFetch'
 import { InputField, SelectField } from './Components'
@@ -237,7 +240,7 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
+                    <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                   编辑
                 </a>
                 </div>
@@ -249,13 +252,13 @@ const Resume = () => {
               </div>
               <div className="row mt-2">
                 <div className="col">
-                  <i className="fa fa-phone fa-fw"></i>
+                  <FontAwesomeIcon icon={faPhoneAlt} fixedWidth />
               &nbsp;&nbsp;&nbsp;{data.phone}
                 </div>
               </div>
               <div className="row mt-1">
                 <div className="col">
-                  <i className="fa fa-envelope fa-fw"></i>
+                  <FontAwesomeIcon icon={faEnvelope} fixedWidth />
               &nbsp;&nbsp;&nbsp;{data.email}
                 </div>
               </div>
@@ -266,7 +269,7 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
+                    <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                 编辑
               </a>
                 </div>
@@ -274,7 +277,7 @@ const Resume = () => {
 
               <div className="row">
                 <div className="col">
-                  <i className="fa fa-book fa-fw"></i>
+                  <FontAwesomeIcon icon={faBook} fixedWidth />
                   <strong style={{ fontSize: 15 }}>{data.school}</strong>
                   <br />
               &nbsp;
@@ -294,7 +297,7 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
+                    <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                 编辑
               </a>
                 </div>
@@ -303,12 +306,12 @@ const Resume = () => {
               <div className="row">
                 <div className="col">
                   <div>
-                    <i className="fa fa-map-marker fa-fw"></i>
+                    <FontAwesomeIcon icon={faMapMarkedAlt} fixedWidth />
                 &nbsp;&nbsp;&nbsp; {data.yixiangchengshi}
                   </div>
 
                   <div className="mt-1">
-                    <i className="fa fa-briefcase fa-fw"></i>
+                    <FontAwesomeIcon icon={faBriefcase} fixedWidth />
                 &nbsp;&nbsp;&nbsp; {data.qiwanghangye}-{data.qiwangzhiwei}
                   </div>
                 </div>
@@ -322,7 +325,7 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
-                    <i className="fa fa-pencil-square-o fa-fw"></i>
+                    <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                 编辑
               </a>
                 </div>
@@ -338,7 +341,7 @@ const Resume = () => {
                 </div>
                 <div className="col">
                   <button className="btn btn-primary btn-sm pull-right" onClick={handleUpload}>
-                    <i className="fa fa-plus"></i>
+                    <FontAwesomeIcon icon={faPlus} fixedWidth />
                 添加
               </button>
                   <input type="file"
@@ -1142,25 +1145,25 @@ const Industry = () => {
           <br />
           <ToBack />
           <div className="card-body">
-          <div className="mt-2">
-            <h4>请选择行业</h4>
-          </div>
-          <hr />
-          <div className="row mt-3" style={{ fontSize: 14 }}>
-            <div className="col pre-scrollable">
-              {level1.map((item, inx) =>
-                <p className={_class(qiwanghangye, item)}
-                  onClick={() => level1Click(item)} key={inx}>{item.name}</p>
-              )}
+            <div className="mt-2">
+              <h4>请选择行业</h4>
             </div>
-            <div className="col pre-scrollable">
-              {level2.map(item =>
-                <p className={_class(qiwangzhiwei, item)}
-                  onClick={() => level2Click(item)} key={item.code}>{item.name}</p>
-              )}
+            <hr />
+            <div className="row mt-3" style={{ fontSize: 14 }}>
+              <div className="col pre-scrollable">
+                {level1.map((item, inx) =>
+                  <p className={_class(qiwanghangye, item)}
+                    onClick={() => level1Click(item)} key={inx}>{item.name}</p>
+                )}
+              </div>
+              <div className="col pre-scrollable">
+                {level2.map(item =>
+                  <p className={_class(qiwangzhiwei, item)}
+                    onClick={() => level2Click(item)} key={item.code}>{item.name}</p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">

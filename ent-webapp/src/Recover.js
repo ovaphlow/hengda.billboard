@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 import md5 from 'blueimp-md5'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQrcode } from '@fortawesome/free-solid-svg-icons'
 
 const Recover = () => {
 
@@ -131,27 +133,31 @@ const Recover = () => {
   }
 
   return (
-    <div className="container-fluid bg-white" style={{
-      height: '100vh'
-    }}>
-      <div className="row px-5 border-bottom" style={{ height: '15%', minHeight: 99 }}>
-        <div className="col item-middle">
-          <div className="row ">
-            <div className="col">
-              <img className="img-fluid pull-left logo2" alt="" src={require('./components/img/logo2.png')} />
-            </div>
-          </div>
+    <div className="container-fluid bg-white body-login">
+      <div className="row px-5 fixed-top bg-white border-bottom body-title">
+        <div className="col-9 item-middle">
+          <img className="img-fluid pull-left logo2" alt="" src={require('./components/img/logo3.png')} />
         </div>
-        <div className="col flex-end">
-          <a href="#登录" className="btn btn-primary btn-lg ">
+        <div className="col-1 header-right">
+          <a className="text-warning pull-right" href="#登录" style={{ fontSize: '16px', textDecoration: 'none' }}>
             我要登录
+              </a>
+        </div>
+        <div className="col-2 header-right pull-left">
+          <a className="text-secondary border-0 bg-transparent img-weixin"
+            style={{ textDecoration: 'none' }}
+            href={{ javascript: void (0) }}>
+            <FontAwesomeIcon icon={faQrcode} fixedWidth />
+            小程序
+              <p><img className="" alt="" src={require('./components/img/qr.png')} /></p>
           </a>
         </div>
       </div>
 
       <div className="row px-5 " style={{
         height: '70%',
-        minHeight: '459px'
+        minHeight: '459px',
+        marginTop: 100
       }}>
         <div className="col mt-1" >
           <div className="card col-6 offset-3 col-lg-4 offset-lg-4 border-0">
@@ -225,25 +231,11 @@ const Recover = () => {
           </div>
         </div>
       </div>
-      <div className="row footer px-5 border-top  text-secondary" style={{
+      <div className="row footer px-5  text-secondary" style={{
         height: '15%',
         minHeight: 99
       }}>
-        <div className="col mt-4">
-          <div className="row flex-center">
-            <h5>版权声明: xxxxx</h5>
-          </div>
-          <div className="row flex-center">
-            <h5>销售热线:0451-xxxxxxxx
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            客服热线:0451-xxxxxxxx</h5>
-          </div>
-          <div className="row flex-center">
-            <a className="text-secondary" href="http://www.beian.miit.gov.cn/">
-              互联网ICP备案:黑ICP备20002542号
-            </a>
-          </div>
-        </div>
+
       </div>
     </div>
   )

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+
 import ToBack from '../components/ToBack'
 import { searchFavorite } from '../recruitment/Details'
 import { FavoriteJournal, _BrowseJournal } from '../commonFetch'
@@ -155,8 +158,8 @@ const RecommendDetails = props => {
             <button className="btn btn-primary nav-btn" onClick={handleFavorite}>
               {
                 favorite ?
-                  (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :
-                  (<i className="fa fa-star-o" aria-hidden="true"></i>)
+                  (<FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />) :
+                  (<FontAwesomeIcon icon={faStar} fixedWidth />)
               }
               收藏
             </button>

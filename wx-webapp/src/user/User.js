@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFile, faFileAlt, faClock, faStar, faCar, faChevronRight, faPaperPlane, faEnvelope, faComments, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 const User = () => {
 
@@ -78,28 +80,28 @@ const User = () => {
             <div className="row pb-2 text-center" style={{ fontSize: 11 }}>
               <div className="col">
                 <a href="#/我的/简历" className="text-muted">
-                  <i className="fa fa-fw fa-3x fa-file-o text-primary" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faFile} fixedWidth size="3x" className="text-primary" />
                   <br />
               我的简历
             </a>
               </div>
               <div className="col">
                 <a href="#/我的/投递" className="text-muted">
-                  <i className="fa fa-fw fa-3x fa-file-text-o text-primary" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faFileAlt} fixedWidth size="3x" className="text-primary" />
                   <br />
               投递情况
             </a>
               </div>
               <div className="col">
                 <a href="#/我的/记录/浏览" className="text-muted">
-                  <i className="fa fa-fw fa-3x fa-clock-o text-primary" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faClock} fixedWidth size="3x" className="text-primary" />
                   <br />
               操作记录
             </a>
               </div>
               <div className="col">
                 <a href="#/我的/收藏" className="text-muted">
-                  <i className="fa fa-fw fa-3x fa-star-o text-primary" aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faStar} fixedWidth size="3x" className="text-primary" />
                   <br />
               我的收藏
             </a>
@@ -124,17 +126,17 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/日程" >
-                <span className="fa-stack fa-lg pull-left pl-2">
-                  <i className="fa fa-fw fa-flag fa-car text-info"></i>
+                <span className="pull-left pl-2">
+                  <FontAwesomeIcon icon={faCar} fixedWidth size="2x" className="text-info" />
                 </span>
-                <h6 className="pull-left pt-2" >
+                <h6 className="pull-left pt-1" >
                   <strong>&nbsp;日程</strong>
                 </h6>
-                <span className="pull-right text-muted pt-2">
+                <span className="pull-right text-muted pt-1">
                   {
                     auth ? (schedule === 0 ? '' : `今天有${schedule}个日程`) : '提示即将进行的日程'
                   }
-                  <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faChevronRight} fixedWidth />
                 </span>
               </a>
             </div>
@@ -143,17 +145,17 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/面试" >
-                <span className="fa-stack fa-lg pull-left pl-2">
-                  <i className="fa fa-fw fa-flag fa-paper-plane text-primary"></i>
+                <span className="pull-left pl-2">
+                  <FontAwesomeIcon icon={faPaperPlane} fixedWidth size="2x" className="text-primary" />
                 </span>
-                <h6 className="pull-left pt-2">
+                <h6 className="pull-left pt-1">
                   <strong>&nbsp;面试邀请</strong>
                 </h6>
-                <span className="pull-right text-muted pt-2">
+                <span className="pull-right text-muted pt-1">
                   {
                     auth ? (offer === 0 ? '' : `您有${offer}条面试邀请未查看`) : ''
                   }
-                  <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faChevronRight} fixedWidth />
                 </span>
               </a>
             </div>
@@ -162,17 +164,17 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/系统消息" >
-                <span className="fa-stack fa-lg pull-left pl-2">
-                  <i className="fa fa-fw fa-flag fa-stack-1x fa-envelope text-secondary"></i>
+                <span className="pull-left pl-2">
+                  <FontAwesomeIcon icon={faEnvelope} fixedWidth size="2x" className="text-secondary" />
                 </span>
-                <h6 className="pull-left pt-2" >
+                <h6 className="pull-left pt-1" >
                   <strong>&nbsp;系统消息</strong>
                 </h6>
-                <span className="pull-right text-muted pt-2">
+                <span className="pull-right text-muted pt-1">
                   {
                     auth ? (sys === 0 ? '' : `您有${sys}条系统消息未查看`) : ''
                   }
-                  <i className="fa fa-chevron-right fa-fw " aria-hidden="true"></i>
+                  <FontAwesomeIcon icon={faChevronRight} fixedWidth />
                 </span>
               </a>
             </div>
@@ -181,13 +183,15 @@ const User = () => {
           <div className="row p-2 mt-2" >
             <div className="col">
               <a className="text-dark" href="#/我的/反馈" >
-                <span className="fa-stack fa-lg pull-left pl-2">
-                  <i className="fa fa-fw fa-flag fa-stack-1x fa-comments text-warning"></i>
+                <span className="pull-left pl-2">
+                  <FontAwesomeIcon icon={faComments} fixedWidth size="2x" className="text-warning" />
                 </span>
-                <h6 className="pull-left pt-2" >
+                <h6 className="pull-left pt-1" >
                   <strong>&nbsp;反馈/投诉</strong>
                 </h6>
-                <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
+                <span className="pull-right text-muted pt-1">
+                  <FontAwesomeIcon icon={faChevronRight} fixedWidth />
+                </span>
               </a>
             </div>
           </div>
@@ -198,13 +202,15 @@ const User = () => {
                 <div className="row p-2 mt-2" >
                   <div className="col">
                     <a className="text-dark" href="#/登录" >
-                      <span className="fa-stack fa-lg pull-left pl-2">
-                        <i className="fa fa-fw fa-flag fa-sign-out text-danger"></i>
+                      <span className="pull-left pl-2">
+                        <FontAwesomeIcon icon={faSignOutAlt} fixedWidth size="2x" className="text-danger" />
                       </span>
-                      <h6 className="pull-left text-danger pt-2" >
+                      <h6 className="pull-left text-danger pt-1" >
                         <strong>&nbsp;注销</strong>
                       </h6>
-                      <i className="fa fa-chevron-right fa-fw pull-right text-muted pt-2" aria-hidden="true"></i>
+                      <span className="pull-right text-muted pt-1">
+                        <FontAwesomeIcon icon={faChevronRight} fixedWidth />
+                      </span>
                     </a>
                   </div>
                 </div>

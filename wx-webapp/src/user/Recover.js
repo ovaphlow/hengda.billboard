@@ -3,8 +3,11 @@ import md5 from 'blueimp-md5'
 
 import ToBack from '../components/ToBack'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
+
 const Recover = () => {
-  
+
   const [data, setData] = useState({
     password1: '',
     password2: '',
@@ -14,7 +17,7 @@ const Recover = () => {
 
 
   const [err, setErr] = useState({
-    
+
     password1: false,
     password2: false,
     code: false,
@@ -86,7 +89,7 @@ const Recover = () => {
       setErr(errData)
     } else {
       window.alert('密码已重置')
-      window.location='#/登录'
+      window.location = '#/登录'
     }
   }
 
@@ -151,7 +154,7 @@ const Recover = () => {
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend ">
                       <span className="input-group-text bg-transparent text-white border-0" >
-                        <i className="fa-fw fa fa-envelope fa-1x" aria-hidden="true"></i>
+                        <FontAwesomeIcon icon={faEnvelope} fixedWidth />
                       </span>
                     </div>
                     <input type="text" name="email" value={data.email}
@@ -162,28 +165,28 @@ const Recover = () => {
                   </div>
                   {err.code && <small className="form-text text-danger">{err.code}</small>}
                   <div className="input-group row mb-3 input-group-lg input-control">
-                      <input type="text" name="code" value={data.code}
-                        className="form-control col border-0  bg-transparent text-white input-placeholder input-f"
-                        placeholder="验证码"
-                        onChange={handleChange}
-                      />
+                    <input type="text" name="code" value={data.code}
+                      className="form-control col border-0  bg-transparent text-white input-placeholder input-f"
+                      placeholder="验证码"
+                      onChange={handleChange}
+                    />
                     <div className="input-group-append">
                       <button
-                        type="button" 
-                        className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white" 
+                        type="button"
+                        className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
                         disabled={!checkEmail()}
-                        onClick={handleCode} 
+                        onClick={handleCode}
                         style={{ fontSize: 14 }}>
                         发送验证码
                       </button>
                     </div>
-                    
+
                   </div>
                   {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend ">
                       <span className="input-group-text bg-transparent text-white  border-0" >
-                        <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                        <FontAwesomeIcon icon={faLock} fixedWidth />
                       </span>
                     </div>
                     <input type="password"
@@ -199,7 +202,7 @@ const Recover = () => {
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend ">
                       <span className="input-group-text bg-transparent text-white  border-0" >
-                        <i className="fa-fw fa fa-lock fa-1x" aria-hidden="true"></i>
+                        <FontAwesomeIcon icon={faLock} fixedWidth />
                       </span>
                     </div>
                     <input type="password" name="password2" value={data.password2}

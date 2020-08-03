@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBuilding } from '@fortawesome/free-solid-svg-icons'
 
 const CityDropdowns = props => {
 
@@ -17,7 +19,7 @@ const CityDropdowns = props => {
   useEffect(() => {
     if (props.defaultValue) {
       setValue(props.defaultValue)
-    } 
+    }
     fetch(`/lib/address.json`)
       .then(res => res.json())
       .then(res => {
@@ -48,11 +50,11 @@ const CityDropdowns = props => {
     } else {
       setProvince(item.name)
       setChildMenu(Object.getOwnPropertyNames(address)
-          .filter(it => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
-          .map(code => ({
-            code: code,
-            name: address[code]
-          }))
+        .filter(it => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
+        .map(code => ({
+          code: code,
+          name: address[code]
+        }))
       )
     }
   }
@@ -82,7 +84,7 @@ const CityDropdowns = props => {
   return (
     <div className="dropdown">
       <button className="btn btn-link btn-sm dropdown-toggle" onClick={menuShow} style={{ padding: 0 }} >
-        <i className="fa fa-building-o text-primary fa-fw" aria-hidden="true"></i>
+        <FontAwesomeIcon icon={faBuilding} fixedWidth />
         {value || '城市'}
       </button>
       <div className={`dropdown-menu ${show && 'show'}`} style={{ width: 210, minWidth: 110, height: 215 }}>

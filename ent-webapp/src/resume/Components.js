@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+
 const Sidebar = props => (
   <div className="list-group bg-white shadow sidebar" >
     <a
@@ -9,7 +12,7 @@ const Sidebar = props => (
     >
       已收到的简历
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -18,7 +21,7 @@ const Sidebar = props => (
     >
       简历检索
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
 
@@ -37,7 +40,7 @@ const Sidebar = props => (
     >
       我的收藏
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
     <a
@@ -46,7 +49,7 @@ const Sidebar = props => (
     >
       系统推荐
       <span className="pull-right">
-        <i className="fa fa-fw fa-angle-right"></i>
+        <FontAwesomeIcon icon={faAngleRight} fixedWidth />
       </span>
     </a>
   </div>
@@ -91,7 +94,7 @@ export const ResumeView = props => {
   }
 
   const phoneHide = phone => {
-    if (phone &&　phone.length === 11) {
+    if (phone && phone.length === 11) {
       return `${phone[0]}${phone[1]}${phone[2]} **** ${phone[7]}${phone[8]}${phone[9]}${phone[10]}`
     } else {
       return '错误的号码格式'
@@ -101,7 +104,7 @@ export const ResumeView = props => {
   const emailHide = email => {
     if (email && email.split('@').length > 1) {
       const strs = email.split('@')
-      return `${strs[0].replace(/./g,'*')}@${strs[1]}`
+      return `${strs[0].replace(/./g, '*')}@${strs[1]}`
     } else {
       return '错误的邮箱格式'
     }
@@ -121,9 +124,9 @@ export const ResumeView = props => {
             <span className="text-muted">
               {props.gender}&nbsp;|&nbsp;{age(props.birthday)}&nbsp;|&nbsp;{props.address2}
               <br />
-              <i className="fa fa-phone fa-fw"></i>
+              <FontAwesomeIcon icon={faPhoneAlt} fixedWidth />
               {phoneHide(props.phone)} &nbsp;
-              <i className="fa fa-envelope fa-fw"></i>
+              <FontAwesomeIcon icon={faEnvelope} fixedWidth />
               {emailHide(props.email)}
             </span>
           </div>

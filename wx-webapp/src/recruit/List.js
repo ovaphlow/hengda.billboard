@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
+
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar'
 import PlayImg from '../components/PlayImg'
@@ -16,7 +19,7 @@ const RecruitRow = props => (
         <div className="pull-right">
           <a href={`#/校园招聘/${props.id}?u_id=${props.uuid}`}>
             详情
-          <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+            <FontAwesomeIcon icon={faChevronCircleRight} size='lg' fixedWidth />
           </a>
         </div>
         <br></br>

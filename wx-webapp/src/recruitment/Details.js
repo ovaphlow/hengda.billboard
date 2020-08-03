@@ -4,6 +4,9 @@ import moment from 'moment'
 import ToBack from '../components/ToBack'
 import { _EditJournal, FavoriteJournal, _BrowseJournal } from '../commonFetch'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+
 export const searchFavorite = body => new Promise((resolve, reject) => {
   fetch(`./api/favorite/search/one/`, {
     method: 'PUT',
@@ -238,8 +241,8 @@ const Details = () => {
             <button className="btn btn-light nav-btn text-muted" onClick={handleFavorite}>
               {
                 favorite ?
-                  (<i className="fa fa-star" style={{ color: '#FFFF00' }} aria-hidden="true"></i>) :
-                  (<i className="fa fa-star-o" aria-hidden="true"></i>)
+                  (<FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />) :
+                  (<FontAwesomeIcon icon={faStar} fixedWidth />)
               }
               收藏
             </button>

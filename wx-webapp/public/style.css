@@ -23,6 +23,14 @@ a {
   text-decoration: none;
 }
 
+.pull-right{
+  float: right;
+}
+
+.pull-left{
+  float: left;
+}
+
 .chat-background{
   min-height: 100vh;
   background-color: white;

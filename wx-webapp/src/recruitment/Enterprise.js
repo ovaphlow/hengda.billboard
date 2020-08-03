@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
+
 import { RecruitmentRow } from '../components/DataRow'
 import ToBack from '../components/ToBack'
 
@@ -50,7 +53,7 @@ const Enterprise = () => {
                   <h5 className="pull-left">{data.name}</h5>
                   <a className="pull-right text-success"
                     href={`#消息/${data.name}/${data.ent_user_id}`}>
-                    <i className="fa fa-fw fa-comments" ></i>
+                    <FontAwesomeIcon icon={faComments} fixedWidth />
                 咨询
               </a>
                 </div>

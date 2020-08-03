@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import Navbar from '../components/Navbar'
 import { DateTitle } from './Components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 const RecruitRow = props => (
   <>
@@ -14,7 +16,7 @@ const RecruitRow = props => (
           <div className="pull-right">
             <a href={`#/校园招聘/${props.id}?u_id=${props.uuid}`}>
               详情
-          <i className="fa fa-fw fa-lg  fa-angle-right"></i>
+              <FontAwesomeIcon icon={faAngleRight} fixedWidth size="lg" />
             </a>
           </div>
           <br></br>

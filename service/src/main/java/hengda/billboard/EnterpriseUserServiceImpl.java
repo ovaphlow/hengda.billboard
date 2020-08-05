@@ -67,7 +67,7 @@ public class EnterpriseUserServiceImpl extends EnterpriseUserGrpc.EnterpriseUser
         } else {
           String entUUID = UUID.randomUUID().toString();
           String entUserUUID = UUID.randomUUID().toString();
-          sql = "insert into enterprise (uuid,name,yingyezhizhao_tu,date) value (?,?,'',date())";
+          sql = "insert into enterprise (uuid,name,yingyezhizhao_tu,date) value (?,?,'',current_date)";
           try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, entUUID);
             ps.setString(2, req.getEntName());

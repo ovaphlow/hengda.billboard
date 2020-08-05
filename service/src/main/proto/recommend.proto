@@ -19,6 +19,7 @@ message ListRequest {
   bool category2 = 2;
   bool category3 = 3;
   bool category4 = 4;
+  bool category5 = 5;
 }
 
 message GetRequest {

@@ -31,8 +31,8 @@ const LetfMessage = props => (
         {/* <img className="rounded-circle message-img" src={require('../components/img/user.jpg')} alt="" /> */}
       </div>
       <div className="pull-left message-text shadow border rounded p-2"  >
-        {props.name} {props.datime} 
-        <br/>
+        {props.name} {props.datime}
+        <br />
         &nbsp;&nbsp;&nbsp;{props.content}
       </div>
     </div>
@@ -46,8 +46,8 @@ const RightMessage = props => (
         {/* <img className="rounded-circle message-img" src={require('../components/img/user.jpg')} alt="" /> */}
       </div>
       <div className="pull-right message-text shadow border rounded p-2" >
-      {props.name} {props.datime} 
-        <br/>
+        {props.name} {props.datime}
+        <br />
         &nbsp;&nbsp;&nbsp;{props.content}
       </div>
     </div>
@@ -203,8 +203,13 @@ const Audition = () => {
         if (res.message) {
           window.alert(res.message)
         } else {
-          setText('')
-          setContentList(p => p.concat([data]))
+          
+          fetch(`./api/message/ent/chat/total/${auth.id}`)
+            .then(res => res.json())
+            .then(res => {
+              setText('')
+              setChatTotal(res.content)
+            })
         }
       })
   }

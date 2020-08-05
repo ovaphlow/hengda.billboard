@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import { View } from './Components'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenSquare } from '@fortawesome/free-solid-svg-icons'
+
 const Enterprise = () => {
 
 
@@ -51,15 +54,15 @@ const Enterprise = () => {
                         <i className="fa fa-pencil-square-o"></i>
                         编辑
                       </a>
-                    </div>*/}
-                    {data.status !== '认证'?(
+                    </div> */}
+                    {data.status === '未认证' ? (
                       <div className="pull-right">
                         <a href="#我的/信息/编辑/">
-                          <i className="fa fa-pencil-square-o"></i>
+                          <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                         编辑
                       </a>
                       </div>
-                    ):(<></>)}
+                    ) : (<></>)}
                   </div>
                 </div>
                 <span className="text-muted">
@@ -79,8 +82,8 @@ const Enterprise = () => {
                   公司网址: {data.url}
                 </span><br />
                 <span className="text-muted">
-                  公司简介: 
-                </span><br/>
+                  公司简介:
+                </span><br />
                 <span className="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;{data.intro}</span>
               </div>
             </div>

@@ -2,6 +2,7 @@ const Router = require('@koa/router');
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const config = require('../config');
+const console = require('../logger');
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(`${__dirname}/../proto/chart.proto`, {
@@ -25,14 +26,16 @@ const router = new Router({
 module.exports = router;
 
 router.get('/ent-home/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.entHome(body, (err, response) => {
-    if (err) {
-      console.error(err);
-      reject(err);
-    } else {
-      resolve(JSON.parse(response.data));
-    }
-  }));
+  const grpcFetch = (body) => new Promise((resolve, reject) => {
+    grpcClient.entHome(body, (err, response) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve(JSON.parse(response.data));
+      }
+    });
+  });
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {

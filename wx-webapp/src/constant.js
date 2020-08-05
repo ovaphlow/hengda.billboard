@@ -1,4 +1,4 @@
-export const RECOMMEND_TYPE = [
+const RECOMMEND_TYPE = [
   {
     value: '国企',
     name: 'category1',
@@ -14,4 +14,10 @@ export const RECOMMEND_TYPE = [
   {
     value: '教师',
     name: 'category4',
+  },
+  {
+    value: '其它',
+    name: 'category5',
   }];
+
+export default RECOMMEND_TYPE;

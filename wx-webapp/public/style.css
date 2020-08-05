@@ -23,6 +23,14 @@ a {
   text-decoration: none;
 }
 
+.pull-right{
+  float: right;
+}
+
+.pull-left{
+  float: left;
+}
+
 .chat-background{
   min-height: 100vh;
   background-color: white;
@@ -44,6 +52,10 @@ a {
 
 .recommond-bottom{
   padding-bottom: 55px;
+}
+
+.interface-bottom{
+   margin-bottom: 20px;
 }
 
 .user-radius{
@@ -125,7 +137,7 @@ a {
 }
 
 .overlap{
-  margin-top: -15px;
+  margin-top: -16px;
 }
 
 .nav-btn {
@@ -246,6 +258,7 @@ a {
   border-radius: 0 20px 20px 0;
   background-color:#f5f5f5;
   width: 130px;
+  margin-left: -25px;
 }
 .topic-card>span {
   align-self: center;

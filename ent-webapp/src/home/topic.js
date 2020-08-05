@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+
+
 const Topic = () => {
 
   const { id } = useParams()
@@ -19,7 +23,7 @@ const Topic = () => {
           window.alert(res.message)
         }
       })
-  }, [id,search])
+  }, [id, search])
 
 
   return (
@@ -29,12 +33,12 @@ const Topic = () => {
           <div className="card col rounded-0 shadow px-4">
             <a href="#/">
               <h2 className="mt-4">
-                <i className="fa fa-fw fa-chevron-left fa-lg"></i>
+                <FontAwesomeIcon icon={faChevronLeft} size='lg' fixedWidth />
                 {data.title}
               </h2>
             </a>
             <hr />
-            <div className="px-5" dangerouslySetInnerHTML={{__html: data.content }}/>
+            <div className="px-5" dangerouslySetInnerHTML={{ __html: data.content }} />
           </div>
         )}
       </div>

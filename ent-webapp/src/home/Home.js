@@ -42,7 +42,7 @@ const TopicRow = item => {
           <span className="text-muted text-hidden">{reg(item.content)}</span>
         </div>
         <div className="col">
-          {item.id ? <a className="pull-right text-muted" href={`#首页/${item.id}?u_id=${item.uuid}`}>阅读全文>>></a> : <span className="pull-right text-white">x</span>}
+          {item.id ? <a className="pull-right text-muted" href={`#首页/${item.id}?u_id=${item.uuid}`}>阅读全文{'>>>'}</a> : <span className="pull-right text-white">x</span>}
         </div>
       </div>
       {item.id && <hr />}

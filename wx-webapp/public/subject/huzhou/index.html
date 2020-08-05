@@ -7,7 +7,6 @@
     <title>湖州板块</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../style.css">
     <script src="../../lib/handlebars.min-v4.7.6.js"></script>
 </head>
@@ -21,8 +20,7 @@
             <div class="card-body">
                 <img src="../../lib/img/logo.png" alt="" style="width: 100%;">
                 <div style="font-size: 16px;" class="huzhou-introduce">
-                    <div class="row mt-2" style="color:#1e68a1">
-                        <i class="fa fa-fw fa-home fa-lg pt-1" aria-hidden="true"></i>
+                    <div class="row mt-2 pl-3" style="color:#1e68a1">
                         <h5>走进湖州</h5>
                     </div>
                     <hr style="height:3px;border:none;border-top:3px double #1e68a1;" />
@@ -75,8 +73,7 @@
 
         <div class="post card border-0 shadow mt-3">
             <div class="card-body" id="main">
-                <div class="row mt-2" style="color:#1e68a1">
-                    <i class="fa fa-user fa-fw fa-lg pt-2" aria-hidden="true"></i>
+                <div class="row mt-2 pl-3" style="color:#1e68a1">
                     <h5>公司招聘</h5>
                 </div>
                 <hr style="height:3px;border:none;border-top:3px double #1e68a1;" />
@@ -109,11 +106,11 @@
             document.getElementById("main").insertAdjacentHTML('beforeend', html);
         }
     })()
-    let w = document.body.clientWidth
-    let h = document.body.clientWidth / 16 * 9
-    let a = document.getElementsByClassName("video")[0]
-    a.style.width = w + "px"
-    a.style.height = h + "px"
+    // let w = document.body.clientWidth
+    // let h = document.body.clientWidth / 16 * 9
+    // let a = document.getElementsByClassName("video")[0]
+    // a.style.width = w + "px"
+    // a.style.height = h + "px"
     function divShow() {
         document.getElementById("btnshow").style.display = "block";
         document.getElementById("btnhref").innerHTML = "收起全文";

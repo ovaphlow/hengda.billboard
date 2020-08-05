@@ -2,6 +2,7 @@ const Router = require('@koa/router');
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const config = require('../config');
+const console = require('../logger');
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(`${__dirname}/../proto/message.proto`, {
@@ -26,14 +27,16 @@ module.exports = router;
 
 router
   .get('/sys/ent/:id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.sysToEnt(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.sysToEnt(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -42,14 +45,16 @@ router
     }
   })
   .get('/sys/common/:id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.sysToCommon(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.sysToCommon(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -58,14 +63,16 @@ router
     }
   })
   .get('/common/content/:ent_user_id/:common_user_id/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.commonContent(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.commonContent(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -74,14 +81,16 @@ router
     }
   })
   .get('/:user_category/:user_id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.messageList(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.messageList(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch({
         user_id: parseInt(ctx.params.user_id, 10),
@@ -94,14 +103,16 @@ router
   })
 
   .get('/ent/chat/total/:id/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.entChatTotal(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.entChatTotal(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -110,14 +121,16 @@ router
     }
   })
   .get('/common/chat/total/:id/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.commonChatTotal(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.commonChatTotal(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -126,14 +139,16 @@ router
     }
   })
   .get('/ent/content/:ent_user_id/:common_user_id/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.entContent(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.entContent(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -142,14 +157,16 @@ router
     }
   })
   .get('/ent/total/:id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.entTotal(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.entTotal(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -158,14 +175,16 @@ router
     }
   })
   .get('/common/total/:id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.commonTotal(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.commonTotal(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -174,14 +193,16 @@ router
     }
   })
   .get('/sys/total/:user_category/:id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.sysTotal(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.sysTotal(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -190,14 +211,16 @@ router
     }
   })
   .post('/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => grpcClient.insert(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
-    }));
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.insert(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {

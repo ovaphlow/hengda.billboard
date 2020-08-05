@@ -35,10 +35,14 @@ const TextCheckbox = (props) => {
 };
 
 TextCheckbox.propTypes = {
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   children: PropTypes.string.isRequired,
+};
+
+TextCheckbox.defaultProps = {
+  checked: undefined,
 };
 
 export default TextCheckbox;

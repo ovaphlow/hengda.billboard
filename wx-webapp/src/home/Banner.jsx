@@ -18,7 +18,7 @@ const TopicDetails = () => {
           window.alert(res.message);
         } else {
           setItem(res.content);
-          document.getElementById('editor-body').innerHTML = item.comment;
+          document.getElementById('editor-body').innerHTML = res.content.comment;
         }
       });
   }, [id, search]);

@@ -18,6 +18,7 @@ const HomePage = () => {
   const [recommendTypes, setRecommendTypes] = useState({});
 
   const [auth, setAuth] = useState(0);
+
   useEffect(() => {
     document.title = '龙江学子就业平台';
     const _auth = localStorage.getItem('auth');

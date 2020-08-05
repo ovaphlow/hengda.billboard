@@ -24,7 +24,7 @@ const TopicDetails = () => {
             category: '热门话题',
           }, () => { });
           setItem(res.content);
-          document.getElementById('content').innerHTML = item.content;
+          document.getElementById('content').innerHTML = res.content.content;
         }
       });
     return (() => {

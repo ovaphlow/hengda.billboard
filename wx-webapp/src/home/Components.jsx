@@ -95,7 +95,7 @@ export const TopicCards = (props) => {
   }, [props]);
 
   return (
-    <AutoPlaySwipeableViews index={index} onChangeIndex={setIndex(index)}>
+    <AutoPlaySwipeableViews index={index} onChangeIndex={setIndex}>
       {
         list.map((item) => (
           <div key={item[0].id} className="row mx-0 mt-2 text-center" style={{ fontSize: 11 }}>

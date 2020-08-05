@@ -14,7 +14,7 @@ const Navbar = (props) => {
 
   const [totalFlg, setTotalFlg] = useState(true);
 
-  const { totalFlg: _totalFlg, category } = props;
+  const { category } = props;
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
@@ -82,6 +82,7 @@ const Navbar = (props) => {
   }, []);
 
   useEffect(() => {
+    const { totalFlg: _totalFlg } = props;
     if (totalFlg === _totalFlg) {
       return;
     }

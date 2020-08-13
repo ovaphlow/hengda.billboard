@@ -8,9 +8,13 @@ import Chat from './Chat';
 const MessageRouter = () => (
   <Router>
     <Switch>
-      <Route exact path="/消息/"><List /></Route>
+      <Route exact path="/消息/">
+        <List />
+      </Route>
       {/* <Route exact path="/消息/邀请/"><Offer /></Route> */}
-      <Route path="/消息/:title/:user_id/"><Chat /></Route>
+      <Route path="/消息/:title/:user_id/">
+        <Chat />
+      </Route>
     </Switch>
   </Router>
 );

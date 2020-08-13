@@ -24,12 +24,14 @@ const CityDropdowns = (props) => {
       .then((res) => res.json())
       .then((res) => {
         setAddress(res);
-        setLevel(Object.getOwnPropertyNames(res)
-          .filter((item) => item.slice(2, 7) === '0000')
-          .map((code) => ({
-            code,
-            name: res[code],
-          })));
+        setLevel(
+          Object.getOwnPropertyNames(res)
+            .filter((item) => item.slice(2, 7) === '0000')
+            .map((code) => ({
+              code,
+              name: res[code],
+            })),
+        );
       });
   }, [props]);
 
@@ -38,8 +40,12 @@ const CityDropdowns = (props) => {
   };
 
   const childMenuShow = (item) => {
-    if (item.code === '110000' || item.code === '120000'
-      || item.code === '310000' || item.code === '500000') {
+    if (
+      item.code === '110000' ||
+      item.code === '120000' ||
+      item.code === '310000' ||
+      item.code === '500000'
+    ) {
       setChildMenu([]);
       setShow(false);
       setProvince(item.name);
@@ -49,12 +55,20 @@ const CityDropdowns = (props) => {
       }
     } else {
       setProvince(item.name);
-      setChildMenu(Object.getOwnPropertyNames(address)
-        .filter((it) => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
-        .map((code) => ({
-          code,
-          name: address[code],
-        })));
+      setChildMenu(
+        Object.getOwnPropertyNames(address)
+          .filter((it) => {
+            return (
+              item.code.slice(0, 2) === it.slice(0, 2) &&
+              it.slice(4, 7) === '00' &&
+              it !== item.code
+            );
+          })
+          .map((code) => ({
+            code,
+            name: address[code],
+          })),
+      );
     }
   };
 
@@ -79,18 +93,22 @@ const CityDropdowns = (props) => {
 
   return (
     <div className="dropdown">
-      <button type="button" className="btn btn-link btn-sm dropdown-toggle" onClick={menuShow} style={{ padding: 0 }}>
+      <button
+        type="button"
+        className="btn btn-link btn-sm dropdown-toggle"
+        onClick={menuShow}
+        style={{ padding: 0 }}
+      >
         <FontAwesomeIcon icon={faBuilding} fixedWidth />
         {value || '城市'}
       </button>
-      <div className={`dropdown-menu ${show && 'show'}`} style={{ width: 210, minWidth: 110, height: 215 }}>
+      <div
+        className={`dropdown-menu ${show && 'show'}`}
+        style={{ width: 210, minWidth: 110, height: 215 }}
+      >
         <div className="row">
           <div className="col border-right" style={{ height: 200, overflowY: 'scroll' }}>
-            <span
-              aria-hidden="true"
-              className="font-weight-bold text-danger"
-              onClick={clear}
-            >
+            <span aria-hidden="true" className="font-weight-bold text-danger" onClick={clear}>
               &nbsp;&nbsp;&nbsp;清空
             </span>
             <br />
@@ -129,8 +147,12 @@ const CityDropdowns = (props) => {
 };
 
 CityDropdowns.propTypes = {
-  defaultValue: PropTypes.string.isRequired,
+  defaultValue: PropTypes.string,
   handleChange: PropTypes.func.isRequired,
+};
+
+CityDropdowns.defaultProps = {
+  defaultValue: undefined,
 };
 
 export default CityDropdowns;

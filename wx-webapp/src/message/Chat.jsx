@@ -11,9 +11,7 @@ const LetfMessage = ({ name, datime, content }) => (
         <img className="rounded-circle message-img" src="lib/img/u868.png" alt="" />
       </div> */}
       <div className="pull-left message-text shadow border rounded p-2">
-        {name}
-        {' '}
-        {datime}
+        {name} {datime}
         <br />
         &nbsp;&nbsp;&nbsp;
         {content}
@@ -29,9 +27,7 @@ const RightMessage = ({ name, datime, content }) => (
         <img className="rounded-circle message-img" src="lib/img/u868.png" alt="" />
       </div> */}
       <div className="pull-right message-text shadow border rounded p-2">
-        {name}
-        {' '}
-        {datime}
+        {name} {datime}
         <br />
         &nbsp;&nbsp;&nbsp;
         {content}
@@ -104,11 +100,11 @@ const Chat = () => {
           });
       }, 900000);
     }
-    return (() => {
+    return () => {
       if (jobId !== -1) {
         window.clearInterval(jobId);
       }
-    });
+    };
   }, [user_id]);
 
   useEffect(() => {
@@ -157,15 +153,17 @@ const Chat = () => {
         </div>
       </div>
       <div className="container-fluid chat-background" id="chat-body" style={{ fontSize: 14 }}>
-
         <div className="row p-4" />
         <div className="row " id="chat-body3">
           <div className="col" id="chat-body1">
-            {
-              contentList && contentList.map((item) => (item.category === 'common_to_ent'
-                ? <RightMessage key={item.datime} name="我:" {...item} />
-                : <LetfMessage key={item.datime} name={title} {...item} />))
-            }
+            {contentList &&
+              contentList.map((item, inx) => {
+                return item.category === 'common_to_ent' ? (
+                  <RightMessage key={item.datime + inx.toString()} name="我:" {...item} />
+                ) : (
+                  <LetfMessage key={item.datime + inx.toString()} name={title} {...item} />
+                );
+              })}
           </div>
         </div>
       </div>
@@ -182,9 +180,13 @@ const Chat = () => {
           />
           <div className="input-group-append">
             {text === '' ? (
-              <button type="button" className="btn btn-secondary rounded-0">发送</button>
+              <button type="button" className="btn btn-secondary rounded-0">
+                发送
+              </button>
             ) : (
-              <button type="button" onClick={handlePush} className="btn btn-primary rounded-0">发送</button>
+              <button type="button" onClick={handlePush} className="btn btn-primary rounded-0">
+                发送
+              </button>
             )}
           </div>
         </div>

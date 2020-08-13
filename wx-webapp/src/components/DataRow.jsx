@@ -4,50 +4,53 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 export const RecruitmentRow = ({
-  name, id, uuid, salary1, salary2, address1, address2, education, qty, date,
-}) => (
-  <div className="row">
-    <div className="col">
-      <div className="pull-left">
-        <strong>{name}</strong>
+  name,
+  id,
+  uuid,
+  salary1,
+  salary2,
+  address1,
+  address2,
+  education,
+  qty,
+  date,
+}) => {
+  return (
+    <div className="row">
+      <div className="col">
+        <div className="pull-left">
+          <strong>{name}</strong>
+        </div>
+        <div className="pull-right">
+          <a
+            style={{ fontSize: 14 }}
+            className="badge badge-pill badge-info"
+            href={`#/岗位/${id}?u_id=${uuid}`}
+          >
+            查看
+          </a>
+        </div>
+        <br />
+        <span className="text-success">
+          {salary1 && salary2 ? `${salary1}-${salary2}` : '面议'}
+        </span>
+        {salary1 && salary2 ? '元月' : ''}
+        <br />
+        <span className="pull-left text-muted" style={{ fontSize: 11 }}>
+          {address1} {address2}/{education}
+          |人数:
+          {qty}
+        </span>
+        <span className="pull-right text-muted" style={{ fontSize: 11 }}>
+          {date}
+        </span>
       </div>
-      <div className="pull-right">
-        <a style={{ fontSize: 14 }} className="badge badge-pill badge-info" href={`#/岗位/${id}?u_id=${uuid}`}>
-          查看
-        </a>
-      </div>
-      <br />
-      <span className="text-success">
-        {
-          salary1 && salary2
-            ? `${salary1}-${salary2}`
-            : '面议'
-        }
-      </span>
-      {
-        salary1 && salary2 ? '元月' : ''
-      }
-      <br />
-      <span className="pull-left text-muted" style={{ fontSize: 11 }}>
-        {address1}
-        {' '}
-        {address2}
-        /
-        {education}
-        {' '}
-        | 人数:
-        {qty}
-      </span>
-      <span className="pull-right text-muted" style={{ fontSize: 11 }}>
-        {date}
-      </span>
     </div>
-  </div>
-);
-
+  );
+};
 RecruitmentRow.propTypes = {
   name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   address1: PropTypes.string.isRequired,
   address2: PropTypes.string.isRequired,
@@ -55,12 +58,77 @@ RecruitmentRow.propTypes = {
   date: PropTypes.string.isRequired,
   salary1: PropTypes.string.isRequired,
   salary2: PropTypes.string.isRequired,
-  education: PropTypes.string.isRequired,
+  education: PropTypes.string,
 };
 
-export const RecruitRow = ({
-  name, id, uuid, address3, date, enterprise_name, category,
-}) => (
+RecruitmentRow.defaultProps = {
+  education: undefined,
+};
+
+export const RecruitmentRow1 = ({
+  name,
+  id,
+  uuid,
+  salary1,
+  salary2,
+  address1,
+  address2,
+  education,
+  qty,
+  date,
+}) => {
+  return (
+    <div className="row">
+      <div className="col">
+        <div className="pull-left">
+          <strong>{name}</strong>
+        </div>
+        <div className="pull-right">
+          <a
+            style={{ fontSize: 14 }}
+            className="badge badge-pill badge-info"
+            href={`#/岗位/${id}?u_id=${uuid}`}
+          >
+            查看
+          </a>
+        </div>
+        <br />
+        <span className="text-success">
+          {salary1 && salary2 ? `${salary1}-${salary2}` : '面议'}
+        </span>
+        {salary1 && salary2 ? '元月' : ''}
+        <br />
+        <span className="pull-left text-muted" style={{ fontSize: 11 }}>
+          {address1} {address2}/{education}
+          |人数:
+          {qty}
+        </span>
+        <span className="pull-right text-muted" style={{ fontSize: 11 }}>
+          {date}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+RecruitmentRow1.propTypes = {
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  uuid: PropTypes.string.isRequired,
+  address1: PropTypes.string.isRequired,
+  address2: PropTypes.string.isRequired,
+  qty: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  salary1: PropTypes.number.isRequired,
+  salary2: PropTypes.number.isRequired,
+  education: PropTypes.string,
+};
+
+RecruitmentRow1.defaultProps = {
+  education: undefined,
+};
+
+export const RecruitRow = ({ name, id, uuid, address3, date, enterprise_name, category }) => (
   <div className="row">
     <div className="col">
       <div className="pull-left">
@@ -76,16 +144,12 @@ export const RecruitRow = ({
       <span className="text-muted">
         举办地点:
         {address3}
-        {' '}
-        | 开始时间:
+        |开始时间:
         {date}
       </span>
       <br />
       <span>
-        {enterprise_name}
-        (
-        {category}
-        )
+        {enterprise_name}({category})
       </span>
     </div>
   </div>
@@ -93,7 +157,7 @@ export const RecruitRow = ({
 
 RecruitRow.propTypes = {
   name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   address3: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
@@ -101,9 +165,7 @@ RecruitRow.propTypes = {
   enterprise_name: PropTypes.string.isRequired,
 };
 
-export const RecommendRow = ({
-  name, id, uuid, address1, address2, qty, enterprise_name,
-}) => (
+export const RecommendRow = ({ name, id, uuid, address1, address2, qty, enterprise_name }) => (
   <div className="row">
     <div className="col">
       <div className="pull-left">
@@ -118,25 +180,19 @@ export const RecommendRow = ({
       <br />
       <span className="text-muted">
         工作地点：
-        {address1}
-        -
-        {address2}
-        {' '}
-        | 人数:
-        {' '}
+        {address1}-{address2}
+        |人数:
         {qty}
       </span>
       <br />
-      <span>
-        {enterprise_name}
-      </span>
+      <span>{enterprise_name}</span>
     </div>
   </div>
 );
 
 RecommendRow.propTypes = {
   name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   address1: PropTypes.string.isRequired,
   address2: PropTypes.string.isRequired,

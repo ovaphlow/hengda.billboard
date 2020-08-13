@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import {
-  HashRouter as Router, Switch, Route, useParams, useLocation,
-} from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, useParams, useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faPenSquare, faPhoneAlt, faEnvelope, faBook, faMapMarkedAlt, faBriefcase, faPlus,
+  faPenSquare,
+  faPhoneAlt,
+  faEnvelope,
+  faBook,
+  faMapMarkedAlt,
+  faBriefcase,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
 import ReactQuill from 'react-quill';
@@ -18,13 +22,27 @@ import 'react-quill/dist/quill.snow.css';
 const UserRouter = () => (
   <Router>
     <Switch>
-      <Route exact path="/我的/简历/"><Resume /></Route>
-      <Route exact path="/我的/简历/个人信息/:id"><Personal /></Route>
-      <Route exact path="/我的/简历/毕业院校/:id"><School /></Route>
-      <Route exact path="/我的/简历/求职意向/:id"><Intention /></Route>
-      <Route exact path="/我的/简历/自我评价/:id"><Evaluation /></Route>
-      <Route exact path="/我的/简历/所在地/:id"><ProvinceCity /></Route>
-      <Route exact path="/我的/简历/行业/:id"><Industry /></Route>
+      <Route exact path="/我的/简历/">
+        <Resume />
+      </Route>
+      <Route exact path="/我的/简历/个人信息/:id">
+        <Personal />
+      </Route>
+      <Route exact path="/我的/简历/毕业院校/:id">
+        <School />
+      </Route>
+      <Route exact path="/我的/简历/求职意向/:id">
+        <Intention />
+      </Route>
+      <Route exact path="/我的/简历/自我评价/:id">
+        <Evaluation />
+      </Route>
+      <Route exact path="/我的/简历/所在地/:id">
+        <ProvinceCity />
+      </Route>
+      <Route exact path="/我的/简历/行业/:id">
+        <Industry />
+      </Route>
     </Switch>
   </Router>
 );
@@ -119,12 +137,15 @@ const Resume = () => {
             ...p,
             status,
           }));
-          _EditJournal({
-            category2: '简历',
-            data_id: data.id,
-            data_uuid: data.uuid,
-            remark: '修改简历状态',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: data.id,
+              data_uuid: data.uuid,
+              remark: '修改简历状态',
+            },
+            () => {},
+          );
         }
       });
   };
@@ -155,18 +176,23 @@ const Resume = () => {
             if (res.message) {
               window.alert(res.message);
             } else {
-              _EditJournal({
-                category2: '简历',
-                data_id: data.id,
-                data_uuid: data.uuid,
-                remark: '编辑我的证书',
-              }, () => { });
-              setFile((p) => p.concat({
-                id: res.content,
-                file: f,
-                common_user_id: auth.id,
-                category: '简历',
-              }));
+              _EditJournal(
+                {
+                  category2: '简历',
+                  data_id: data.id,
+                  data_uuid: data.uuid,
+                  remark: '编辑我的证书',
+                },
+                () => {},
+              );
+              setFile((p) => {
+                p.concat({
+                  id: res.content,
+                  file: f,
+                  common_user_id: auth.id,
+                  category: '简历',
+                });
+              });
             }
           });
       };
@@ -186,12 +212,15 @@ const Resume = () => {
         if (res.message) {
           window.alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: data.id,
-            data_uuid: data.uuid,
-            remark: '编辑我的证书',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: data.id,
+              data_uuid: data.uuid,
+              remark: '编辑我的证书',
+            },
+            () => {},
+          );
           setFile((p) => p.filter((it) => it.id !== id));
         }
       });
@@ -230,13 +259,13 @@ const Resume = () => {
               <div className="row">
                 <div className="col">
                   <span style={{ fontSize: '1.25rem' }}>{data.name}</span>
-                  <span>
-                    /
-                    {!data.gender || (data.gender === '男' ? '先生' : '女士')}
-                  </span>
+                  <span>/{!data.gender || (data.gender === '男' ? '先生' : '女士')}</span>
                 </div>
                 <div className="col">
-                  <a className="pull-right" href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}>
+                  <a
+                    className="pull-right"
+                    href={`#/我的/简历/个人信息/${auth.id}?u_id=${auth.uuid}`}
+                  >
                     <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                     编辑
                   </a>
@@ -244,14 +273,7 @@ const Resume = () => {
               </div>
               <div className="row">
                 <div className="col">
-                  {age(data.birthday)}
-                  {' '}
-                  |
-                  {data.address1}
-                  -
-                  {data.address2}
-                  -
-                  {data.address3}
+                  {age(data.birthday)} |{data.address1}-{data.address2}-{data.address3}
                 </div>
               </div>
               <div className="row mt-2">
@@ -272,7 +294,10 @@ const Resume = () => {
                   <h5>毕业院校</h5>
                 </div>
                 <div className="col">
-                  <a className="pull-right" href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}>
+                  <a
+                    className="pull-right"
+                    href={`#/我的/简历/毕业院校/${auth.id}?u_id=${auth.uuid}`}
+                  >
                     <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                     编辑
                   </a>
@@ -284,18 +309,12 @@ const Resume = () => {
                   <FontAwesomeIcon icon={faBook} fixedWidth />
                   <strong style={{ fontSize: 15 }}>{data.school}</strong>
                   <br />
-              &nbsp;
+                  &nbsp;
                   <span className="text-muted" style={{ fontSize: 14 }}>
-                    {data.date_begin}
-                    {' '}
-                    -
-                    {data.date_end}
+                    {data.date_begin} -{data.date_end}
                   </span>
                   <br />
-                  {data.education}
-                  {' '}
-                  |
-                  {data.major}
+                  {data.education} |{data.major}
                 </div>
               </div>
 
@@ -306,7 +325,10 @@ const Resume = () => {
                   <h5>求职意向</h5>
                 </div>
                 <div className="col">
-                  <a className="pull-right" href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}>
+                  <a
+                    className="pull-right"
+                    href={`#/我的/简历/求职意向/${auth.id}?u_id=${auth.uuid}`}
+                  >
                     <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                     编辑
                   </a>
@@ -322,9 +344,7 @@ const Resume = () => {
 
                   <div className="mt-1">
                     <FontAwesomeIcon icon={faBriefcase} fixedWidth />
-                    {data.qiwanghangye}
-                    -
-                    {data.qiwangzhiwei}
+                    {data.qiwanghangye}-{data.qiwangzhiwei}
                   </div>
                 </div>
               </div>
@@ -336,7 +356,10 @@ const Resume = () => {
                   <h5>自我评价</h5>
                 </div>
                 <div className="col">
-                  <a className="pull-right" href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}>
+                  <a
+                    className="pull-right"
+                    href={`#/我的/简历/自我评价/${auth.id}?u_id=${auth.uuid}`}
+                  >
                     <FontAwesomeIcon icon={faPenSquare} fixedWidth />
                     编辑
                   </a>
@@ -352,7 +375,11 @@ const Resume = () => {
                   <h5>我的证书</h5>
                 </div>
                 <div className="col">
-                  <button type="button" className="btn btn-primary btn-sm pull-right" onClick={handleUpload}>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm pull-right"
+                    onClick={handleUpload}
+                  >
                     <FontAwesomeIcon icon={faPlus} fixedWidth />
                     添加
                   </button>
@@ -368,20 +395,21 @@ const Resume = () => {
 
               <div className="row">
                 <div className="col">
-                  {file && file.map((item) => (
-                    <div className="card mb-2 shadow" key={item.id}>
-                      <img className="card-img-top" alt="" src={item.file} />
-                      <div className="card-body p-1">
-                        <button
-                          type="button"
-                          onClick={() => handleFileDelete(item.id)}
-                          className="btn btn-danger w-100"
-                        >
-                          删除
-                        </button>
+                  {file &&
+                    file.map((item) => (
+                      <div className="card mb-2 shadow" key={item.id}>
+                        <img className="card-img-top" alt="" src={item.file} />
+                        <div className="card-body p-1">
+                          <button
+                            type="button"
+                            onClick={() => handleFileDelete(item.id)}
+                            className="btn btn-danger w-100"
+                          >
+                            删除
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             </div>
@@ -389,17 +417,23 @@ const Resume = () => {
         </div>
         <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
           <div className="row text-center nav-row">
-            {
-              data.status === '保密' ? (
-                <button type="button" className="btn btn-primary nav-btn" onClick={() => changeStatus('公开')}>
-                  公开简历
-                </button>
-              ) : (
-                <button type="button" className="btn btn-danger nav-btn" onClick={() => changeStatus('保密')}>
-                  停止公开
-                </button>
-              )
-            }
+            {data.status === '保密' ? (
+              <button
+                type="button"
+                className="btn btn-primary nav-btn"
+                onClick={() => changeStatus('公开')}
+              >
+                公开简历
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-danger nav-btn"
+                onClick={() => changeStatus('保密')}
+              >
+                停止公开
+              </button>
+            )}
           </div>
         </ul>
       </>
@@ -443,12 +477,15 @@ const Personal = () => {
         if (res.message) {
           alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: data.id,
-            data_uuid: data.uuid,
-            remark: '修改简历个人信息',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: data.id,
+              data_uuid: data.uuid,
+              remark: '修改简历个人信息',
+            },
+            () => {},
+          );
           window.history.go(-1);
         }
       });
@@ -491,9 +528,7 @@ const Personal = () => {
               </SelectField>
             </div>
             <div className="form-group row input-label">
-              <label className="col-4 col-form-label text-right text-muted">
-                出生日期
-              </label>
+              <label className="col-4 col-form-label text-right text-muted">出生日期</label>
               <div className="col-8">
                 <input
                   type="date"
@@ -504,7 +539,7 @@ const Personal = () => {
                 />
               </div>
             </div>
-            <div className="row p-1" onClick={toProvinceCity} hidden="true" aria-hidden="true">
+            <div className="row p-1" onClick={toProvinceCity} aria-hidden="true">
               <InputField
                 name="address1"
                 category="现居住地"
@@ -579,12 +614,15 @@ const School = () => {
         if (res.message) {
           alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: data.id,
-            data_uuid: data.uuid,
-            remark: '修改简历毕业院校',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: data.id,
+              data_uuid: data.uuid,
+              remark: '修改简历毕业院校',
+            },
+            () => {},
+          );
           window.history.go(-1);
         }
       });
@@ -636,9 +674,7 @@ const School = () => {
             </div>
             <div className="row">
               <div className="form-group row input-label">
-                <label className="col-4 col-form-label text-right text-muted">
-                  入学时间
-                </label>
+                <label className="col-4 col-form-label text-right text-muted">入学时间</label>
                 <div className="col">
                   <input
                     type="date"
@@ -653,9 +689,7 @@ const School = () => {
             </div>
             <div className="row">
               <div className="form-group row input-label">
-                <label className="col-4 col-form-label text-right text-muted">
-                  毕业时间
-                </label>
+                <label className="col-4 col-form-label text-right text-muted">毕业时间</label>
                 <div className="col">
                   <input
                     type="date"
@@ -717,12 +751,15 @@ const Intention = () => {
         if (res.message) {
           alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: data.id,
-            data_uuid: data.uuid,
-            remark: '修改简历求职意向',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: data.id,
+              data_uuid: data.uuid,
+              remark: '修改简历求职意向',
+            },
+            () => {},
+          );
           window.history.go(-1);
         }
       });
@@ -809,12 +846,15 @@ const Evaluation = () => {
         if (res.message) {
           alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: data.id,
-            data_uuid: data.uuid,
-            remark: '修改简历自我评价',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: data.id,
+              data_uuid: data.uuid,
+              remark: '修改简历自我评价',
+            },
+            () => {},
+          );
           window.history.go(-1);
         }
       });
@@ -834,9 +874,7 @@ const Evaluation = () => {
               <div className="col">
                 <div className="form-group">
                   <ReactQuill
-                    formats={[
-                      'header', 'align', 'bold', 'italic',
-                      'underline', 'blockquote']}
+                    formats={['header', 'align', 'bold', 'italic', 'underline', 'blockquote']}
                     modules={{
                       toolbar: [
                         [{ header: [1, 2, 3, false] }],
@@ -908,15 +946,19 @@ const ProvinceCity = () => {
                 const l1 = _level.find((item) => item.name === res.content.address1);
                 if (l1) {
                   const _level2 = Object.getOwnPropertyNames(res1)
-                    .filter((it) => l1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== l1.code)
+                    .filter((it) => {
+                      return (
+                        l1.code.slice(0, 2) === it.slice(0, 2) &&
+                        it.slice(4, 7) === '00' &&
+                        it !== l1.code
+                      );
+                    })
                     .map((code) => ({
                       code,
                       name: res1[code],
                     }));
                   setLevel2List(_level2);
-                  const l2 = _level2.find(
-                    (item) => item.name === res.content.address2,
-                  );
+                  const l2 = _level2.find((item) => item.name === res.content.address2);
                   if (l2) {
                     setLevel3List(
                       Object.getOwnPropertyNames(res1)
@@ -944,23 +986,31 @@ const ProvinceCity = () => {
     setLevel2('');
     setLevel3('');
     setLevel3List([]);
-    setLevel2List(Object.getOwnPropertyNames(address)
-      .filter((it) => item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code)
-      .map((code) => ({
-        code,
-        name: address[code],
-      })));
+    setLevel2List(
+      Object.getOwnPropertyNames(address)
+        .filter((it) => {
+          return (
+            item.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== item.code
+          );
+        })
+        .map((code) => ({
+          code,
+          name: address[code],
+        })),
+    );
   };
 
   const level2Click = (item) => {
     setLevel2(item.name);
     setLevel3('');
-    setLevel3List(Object.getOwnPropertyNames(address)
-      .filter((it) => item.code.slice(0, 4) === it.slice(0, 4) && it !== item.code)
-      .map((code) => ({
-        code,
-        name: address[code],
-      })));
+    setLevel3List(
+      Object.getOwnPropertyNames(address)
+        .filter((it) => item.code.slice(0, 4) === it.slice(0, 4) && it !== item.code)
+        .map((code) => ({
+          code,
+          name: address[code],
+        })),
+    );
   };
 
   const level3Click = (item) => {
@@ -985,12 +1035,15 @@ const ProvinceCity = () => {
         if (res.message) {
           alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: resume.id,
-            data_uuid: resume.uuid,
-            remark: '修改简历个人信息',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: resume.id,
+              data_uuid: resume.uuid,
+              remark: '修改简历个人信息',
+            },
+            () => {},
+          );
           window.history.go(-1);
         }
       });
@@ -1013,7 +1066,9 @@ const ProvinceCity = () => {
                   <p
                     aria-hidden="true"
                     className={_class(level1, item)}
-                    onClick={() => { level1Click(item); }}
+                    onClick={() => {
+                      level1Click(item);
+                    }}
                     key={item.code}
                   >
                     {item.name}
@@ -1025,7 +1080,9 @@ const ProvinceCity = () => {
                   <p
                     aria-hidden="true"
                     className={_class(level2, item)}
-                    onClick={() => { level2Click(item); }}
+                    onClick={() => {
+                      level2Click(item);
+                    }}
                     key={item.code}
                   >
                     {item.name}
@@ -1037,7 +1094,9 @@ const ProvinceCity = () => {
                   <p
                     aria-hidden="true"
                     className={_class(level3, item)}
-                    onClick={() => { level3Click(item); }}
+                    onClick={() => {
+                      level3Click(item);
+                    }}
                     key={item.code}
                   >
                     {item.name}
@@ -1085,10 +1144,13 @@ const Industry = () => {
           if (res.message) {
             window.alert(res.message);
           } else {
-            localStorage.setItem('industry', JSON.stringify({
-              date: parseInt(moment().add(7, 'days').format('YYYYMMDD'), 10),
-              data: res.content,
-            }));
+            localStorage.setItem(
+              'industry',
+              JSON.stringify({
+                date: parseInt(moment().add(7, 'days').format('YYYYMMDD'), 10),
+                data: res.content,
+              }),
+            );
             setIndustry(res.content);
           }
         });
@@ -1115,11 +1177,7 @@ const Industry = () => {
             if (res.content.qiwanghangye) {
               const l1 = industry.find((item) => item.name === res.content.qiwanghangye);
               if (l1) {
-                setLevel2(
-                  industry.filter(
-                    (item) => item.master_id === l1.id,
-                  ),
-                );
+                setLevel2(industry.filter((item) => item.master_id === l1.id));
               }
             }
             setQiwangzhiwei(() => res.content.qiwangzhiwei);
@@ -1158,12 +1216,15 @@ const Industry = () => {
         if (res.message) {
           alert(res.message);
         } else {
-          _EditJournal({
-            category2: '简历',
-            data_id: resume.id,
-            data_uuid: resume.uuid,
-            remark: '修改简历求职意向',
-          }, () => { });
+          _EditJournal(
+            {
+              category2: '简历',
+              data_id: resume.id,
+              data_uuid: resume.uuid,
+              remark: '修改简历求职意向',
+            },
+            () => {},
+          );
           window.history.go(-1);
         }
       });

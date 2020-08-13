@@ -67,25 +67,24 @@ export default function SignIn() {
     if (res.message) {
       let alertFlg = false;
       if (typeof res.message === 'object') {
-        Object.getOwnPropertyNames(res.message)
-          .forEach((key) => {
-            switch (key) {
-              case 'phone':
-                errData[key] = '该电话号已注册';
-                break;
-              case 'name':
-                errData[key] = '用户名已被使用';
-                break;
-              case 'email':
-                errData[key] = '该邮箱已注册';
-                break;
-              case 'code':
-                errData[key] = '验证码错误';
-                break;
-              default:
-                alertFlg = true;
-            }
-          });
+        Object.getOwnPropertyNames(res.message).forEach((key) => {
+          switch (key) {
+            case 'phone':
+              errData[key] = '该电话号已注册';
+              break;
+            case 'name':
+              errData[key] = '用户名已被使用';
+              break;
+            case 'email':
+              errData[key] = '该邮箱已注册';
+              break;
+            case 'code':
+              errData[key] = '验证码错误';
+              break;
+            default:
+              alertFlg = true;
+          }
+        });
         alertFlg = true;
       } else {
         alertFlg = true;
@@ -174,7 +173,9 @@ export default function SignIn() {
                       onChange={handleChange}
                     />
                   </div>
-                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
+                  {err.password1 && (
+                    <small className="form-text text-danger">{err.password1}</small>
+                  )}
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend">
                       <span className="input-group-text bg-transparent text-white border-0">
@@ -191,7 +192,9 @@ export default function SignIn() {
                       onChange={handleChange}
                     />
                   </div>
-                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
+                  {err.password2 && (
+                    <small className="form-text text-danger">{err.password2}</small>
+                  )}
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend">
                       <span className="input-group-text bg-transparent text-white border-0">

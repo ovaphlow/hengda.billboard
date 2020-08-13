@@ -6,16 +6,17 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import ToBack from '../components/ToBack';
 import { _EditJournal, FavoriteJournal, _BrowseJournal } from '../commonFetch';
 
-export const searchFavorite = (body) => new Promise((resolve, reject) => {
-  fetch('./api/favorite/search/one/', {
-    method: 'PUT',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body),
-  })
-    .then((res) => res.json())
-    .then((response) => resolve(response))
-    .catch((err) => reject(err));
-});
+export const searchFavorite = (body) =>
+  new Promise((resolve, reject) => {
+    fetch('./api/favorite/search/one/', {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
 
 const Details = () => {
   const [data, setData] = useState(0);
@@ -49,11 +50,14 @@ const Details = () => {
       document.getElementById('requirement').innerHTML = data.requirement;
       if (_auth !== null) {
         setAuth(() => _auth);
-        _BrowseJournal({
-          data_id: data.id,
-          data_uuid: data.uuid,
-          category: '岗位',
-        }, () => { });
+        _BrowseJournal(
+          {
+            data_id: data.id,
+            data_uuid: data.uuid,
+            category: '岗位',
+          },
+          () => {},
+        );
         searchFavorite({
           user_id: _auth.id,
           data_id: data.id,
@@ -92,26 +96,29 @@ const Details = () => {
           }
         });
     } else {
-      FavoriteJournal({
-        data_id: data.id,
-        data_uuid: data.uuid,
-        category2: '岗位',
-      }, (res) => {
-        if (res.message === '') {
-          searchFavorite({
-            user_id: auth.id,
-            data_id: data.id,
-            category1: '个人用户',
-            category2: '岗位',
-          }).then((res1) => {
-            if (res1.content) {
-              setFavorite(res1.content);
-            }
-          });
-        } else {
-          alert(res.message);
-        }
-      });
+      FavoriteJournal(
+        {
+          data_id: data.id,
+          data_uuid: data.uuid,
+          category2: '岗位',
+        },
+        (res) => {
+          if (res.message === '') {
+            searchFavorite({
+              user_id: auth.id,
+              data_id: data.id,
+              category1: '个人用户',
+              category2: '岗位',
+            }).then((res1) => {
+              if (res1.content) {
+                setFavorite(res1.content);
+              }
+            });
+          } else {
+            alert(res.message);
+          }
+        },
+      );
     }
   };
 
@@ -137,12 +144,15 @@ const Details = () => {
               .then((res1) => res1.json())
               .then((res1) => {
                 if (res1.content) {
-                  _EditJournal({
-                    category2: '岗位',
-                    data_id: data.id,
-                    data_uuid: data.uuid,
-                    remark: `将简历到岗位<${data.name}>`,
-                  }, () => { });
+                  _EditJournal(
+                    {
+                      category2: '岗位',
+                      data_id: data.id,
+                      data_uuid: data.uuid,
+                      remark: `将简历到岗位<${data.name}>`,
+                    },
+                    () => {},
+                  );
                   setDelivery(res1.content);
                 }
               });
@@ -166,11 +176,7 @@ const Details = () => {
     } else {
       button = (
         <div className="col-5 nav-col">
-          <button
-            type="button"
-            className="btn btn-primary nav-btn"
-            onClick={handleResumeDelivery}
-          >
+          <button type="button" className="btn btn-primary nav-btn" onClick={handleResumeDelivery}>
             投递简历
           </button>
         </div>
@@ -201,11 +207,7 @@ const Details = () => {
                 <div className="row">
                   <div className="col">
                     <span className="text-muted" style={{ fontSize: 14 }}>
-                      {data.address2 ? data.address2 : data.address1}
-                      {' '}
-                      |
-                      {data.education}
-                      |
+                      {data.address2 ? data.address2 : data.address1} |{data.education}|
                       {data.category}
                     </span>
                   </div>
@@ -213,22 +215,24 @@ const Details = () => {
                 <div className="row ">
                   <div className="col">
                     <h5 className="text-success">
-                      {
-                        data.salary1 && data.salary2
-                          ? `${data.salary1}-${data.salary2}/月`
-                          : '面议'
-                      }
+                      {data.salary1 && data.salary2 ? `${data.salary1}-${data.salary2}/月` : '面议'}
                     </h5>
                   </div>
                 </div>
                 <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
                 <div className="row mt-3">
                   <div className="col">
-                    <a className="pull-left" href={`#岗位/企业/${data.enterprise_id}?u_id=${data.enterprise_uuid}`}>
+                    <a
+                      className="pull-left"
+                      href={`#岗位/企业/${data.enterprise_id}?u_id=${data.enterprise_uuid}`}
+                    >
                       <h6>{data.enterprise_name}</h6>
                     </a>
                     <div className="pull-right">
-                      <a className="text-success" href={`#消息/${data.enterprise_name}/${data.ent_user_id}`}>
+                      <a
+                        className="text-success"
+                        href={`#消息/${data.enterprise_name}/${data.ent_user_id}`}
+                      >
                         咨询
                       </a>
                     </div>
@@ -265,24 +269,28 @@ const Details = () => {
           <div className="col nav-col" />
           <div className="col nav-col" />
           <div className="col-3 nav-col">
-            <button type="button" className="btn btn-light nav-btn text-muted" onClick={handleFavorite}>
-              {
-                favorite
-                  ? (<FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />)
-                  : (<FontAwesomeIcon icon={faStar} fixedWidth />)
-              }
+            <button
+              type="button"
+              className="btn btn-light nav-btn text-muted"
+              onClick={handleFavorite}
+            >
+              {favorite ? (
+                <FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />
+              ) : (
+                <FontAwesomeIcon icon={faStar} fixedWidth />
+              )}
               收藏
             </button>
           </div>
-          {
-            data.status === '停招' ? (
-              <div className="col-5 nav-col">
-                <button type="button" className="btn btn-secondary nav-btn" disabled>
-                  已停招
-                </button>
-              </div>
-            ) : getButton()
-          }
+          {data.status === '停招' ? (
+            <div className="col-5 nav-col">
+              <button type="button" className="btn btn-secondary nav-btn" disabled>
+                已停招
+              </button>
+            </div>
+          ) : (
+            getButton()
+          )}
         </div>
       </ul>
     </>

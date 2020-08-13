@@ -11,9 +11,7 @@ const DataRow = ({ title, content }) => (
           <strong>{title}</strong>
         </div>
         <br />
-        <span className="text-success">
-          {content}
-        </span>
+        <span className="text-success">{content}</span>
       </div>
     </div>
   </div>
@@ -44,11 +42,10 @@ const SysMessage = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        {
-          list && list.map(
-            ({ id, title, content }) => <DataRow key={id} title={title} content={content} />,
-          )
-        }
+        {list &&
+          list.map(({ id, title, content }) => (
+            <DataRow key={id} title={title} content={content} />
+          ))}
       </div>
       <Navbar category="我的" />
     </>

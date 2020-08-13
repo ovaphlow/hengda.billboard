@@ -3,8 +3,16 @@ import React, { useEffect, useState } from 'react';
 // import Title from '../components/Title'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faFile, faFileAlt, faClock, faStar, faCar, faChevronRight,
-  faPaperPlane, faEnvelope, faComments, faSignOutAlt,
+  faFile,
+  faFileAlt,
+  faClock,
+  faStar,
+  faCar,
+  faChevronRight,
+  faPaperPlane,
+  faEnvelope,
+  faComments,
+  faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import Navbar from '../components/Navbar';
 
@@ -50,35 +58,31 @@ const User = () => {
           {/* <div className="col-2">
             <img className="img-circle" style={{ height: 65 }} src="lib/img/u868.png" alt="" />
           </div> */}
-          {
-            auth === 0 ? (
-              <div className="col pt-4 pb-4">
-                <h6>
-                  <a href="#/登录" className="text-white">
-                    未登录
-                  </a>
-                </h6>
-                <span className="text-white">
-                  你还没有创建简历,暂时无法投递
-                </span>
-              </div>
-            ) : (
-              <div className="col background-login2 pt-4 pb-4">
-                <a href="#/我的/设置" className="text-white">
-                  <h6>{auth.name}</h6>
+          {auth === 0 ? (
+            <div className="col pt-4 pb-4">
+              <h6>
+                <a href="#/登录" className="text-white">
+                  未登录
                 </a>
-                <span className="text-white">
-                  电话:
-                  {auth.phone}
-                </span>
-                <br />
-                <span className="text-white">
-                  邮箱:
-                  {auth.email}
-                </span>
-              </div>
-            )
-          }
+              </h6>
+              <span className="text-white">你还没有创建简历,暂时无法投递</span>
+            </div>
+          ) : (
+            <div className="col background-login2 pt-4 pb-4">
+              <a href="#/我的/设置" className="text-white">
+                <h6>{auth.name}</h6>
+              </a>
+              <span className="text-white">
+                电话:
+                {auth.phone}
+              </span>
+              <br />
+              <span className="text-white">
+                邮箱:
+                {auth.email}
+              </span>
+            </div>
+          )}
         </div>
         <div className="card user-radius overlap shadow">
           <div className="card-body">
@@ -148,7 +152,12 @@ const User = () => {
             <div className="col">
               <a className="text-dark" href="#/我的/面试">
                 <span className="pull-left pl-2">
-                  <FontAwesomeIcon icon={faPaperPlane} fixedWidth size="2x" className="text-primary" />
+                  <FontAwesomeIcon
+                    icon={faPaperPlane}
+                    fixedWidth
+                    size="2x"
+                    className="text-primary"
+                  />
                 </span>
                 <h6 className="pull-left pt-1">
                   <strong>&nbsp;面试邀请</strong>
@@ -165,7 +174,12 @@ const User = () => {
             <div className="col">
               <a className="text-dark" href="#/我的/系统消息">
                 <span className="pull-left pl-2">
-                  <FontAwesomeIcon icon={faEnvelope} fixedWidth size="2x" className="text-secondary" />
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    fixedWidth
+                    size="2x"
+                    className="text-secondary"
+                  />
                 </span>
                 <h6 className="pull-left pt-1">
                   <strong>&nbsp;系统消息</strong>
@@ -182,7 +196,12 @@ const User = () => {
             <div className="col">
               <a className="text-dark" href="#/我的/反馈">
                 <span className="pull-left pl-2">
-                  <FontAwesomeIcon icon={faComments} fixedWidth size="2x" className="text-warning" />
+                  <FontAwesomeIcon
+                    icon={faComments}
+                    fixedWidth
+                    size="2x"
+                    className="text-warning"
+                  />
                 </span>
                 <h6 className="pull-left pt-1">
                   <strong>&nbsp;反馈/投诉</strong>
@@ -194,27 +213,30 @@ const User = () => {
             </div>
           </div>
           <hr style={{ marginTop: '0', marginBottom: '0' }} />
-          {
-            auth === 0 || (
-              <>
-                <div className="row p-2 mt-2">
-                  <div className="col">
-                    <a className="text-dark" href="#/登录">
-                      <span className="pull-left pl-2">
-                        <FontAwesomeIcon icon={faSignOutAlt} fixedWidth size="2x" className="text-danger" />
-                      </span>
-                      <h6 className="pull-left text-danger pt-1">
-                        <strong>&nbsp;注销</strong>
-                      </h6>
-                      <span className="pull-right text-muted pt-1">
-                        <FontAwesomeIcon icon={faChevronRight} fixedWidth />
-                      </span>
-                    </a>
-                  </div>
+          {auth === 0 || (
+            <>
+              <div className="row p-2 mt-2">
+                <div className="col">
+                  <a className="text-dark" href="#/登录">
+                    <span className="pull-left pl-2">
+                      <FontAwesomeIcon
+                        icon={faSignOutAlt}
+                        fixedWidth
+                        size="2x"
+                        className="text-danger"
+                      />
+                    </span>
+                    <h6 className="pull-left text-danger pt-1">
+                      <strong>&nbsp;注销</strong>
+                    </h6>
+                    <span className="pull-right text-muted pt-1">
+                      <FontAwesomeIcon icon={faChevronRight} fixedWidth />
+                    </span>
+                  </a>
                 </div>
-              </>
-            )
-          }
+              </div>
+            </>
+          )}
         </div>
       </div>
       <Navbar category="我的" />

@@ -17,18 +17,42 @@ import Phone from './Phone';
 const UserRouter = () => (
   <Router>
     <Switch>
-      <Route exact path="/我的"><User /></Route>
-      <Route path="/我的/简历"><Resume /></Route>
-      <Route path="/我的/记录"><JournalRouter /></Route>
-      <Route exact path="/我的/设置/"><Settings /></Route>
-      <Route exact path="/我的/电话/"><Phone /></Route>
-      <Route exact path="/我的/收藏"><Favorite /></Route>
-      <Route exact path="/我的/投递"><Delivery /></Route>
-      <Route exact path="/我的/反馈"><Feedback /></Route>
-      <Route exact path="/我的/日程"><Schedule /></Route>
-      <Route exact path="/我的/面试"><Offer /></Route>
-      <Route exact path="/我的/系统消息"><SysMessage /></Route>
-      <Route exact path="/我的/举报/:id/:category"><Report /></Route>
+      <Route exact path="/我的">
+        <User />
+      </Route>
+      <Route path="/我的/简历">
+        <Resume />
+      </Route>
+      <Route path="/我的/记录">
+        <JournalRouter />
+      </Route>
+      <Route exact path="/我的/设置/">
+        <Settings />
+      </Route>
+      <Route exact path="/我的/电话/">
+        <Phone />
+      </Route>
+      <Route exact path="/我的/收藏">
+        <Favorite />
+      </Route>
+      <Route exact path="/我的/投递">
+        <Delivery />
+      </Route>
+      <Route exact path="/我的/反馈">
+        <Feedback />
+      </Route>
+      <Route exact path="/我的/日程">
+        <Schedule />
+      </Route>
+      <Route exact path="/我的/面试">
+        <Offer />
+      </Route>
+      <Route exact path="/我的/系统消息">
+        <SysMessage />
+      </Route>
+      <Route exact path="/我的/举报/:id/:category">
+        <Report />
+      </Route>
     </Switch>
   </Router>
 );

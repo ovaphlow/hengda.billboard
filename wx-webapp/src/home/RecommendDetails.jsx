@@ -26,11 +26,14 @@ const RecommendDetails = () => {
         if (res.content) {
           setItem(res.content);
           document.getElementById('content').innerHTML = res.content.content;
-          _BrowseJournal({
-            data_id: id,
-            data_uuid: res.content.uuid,
-            category: '推荐信息',
-          }, () => { });
+          _BrowseJournal(
+            {
+              data_id: id,
+              data_uuid: res.content.uuid,
+              category: '推荐信息',
+            },
+            () => {},
+          );
         } else {
           alert(res.message);
         }
@@ -66,26 +69,29 @@ const RecommendDetails = () => {
             }
           });
       } else {
-        FavoriteJournal({
-          data_id: id,
-          data_uuid: item.uuid,
-          category2: '推荐信息',
-        }, (res) => {
-          if (res.message === '') {
-            searchFavorite({
-              user_id: auth.id,
-              data_id: id,
-              category1: '个人用户',
-              category2: '推荐信息',
-            }).then((res1) => {
-              if (res1.content) {
-                setFavorite(() => res1.content);
-              }
-            });
-          } else {
-            alert(res.message);
-          }
-        });
+        FavoriteJournal(
+          {
+            data_id: id,
+            data_uuid: item.uuid,
+            category2: '推荐信息',
+          },
+          (res) => {
+            if (res.message === '') {
+              searchFavorite({
+                user_id: auth.id,
+                data_id: id,
+                category1: '个人用户',
+                category2: '推荐信息',
+              }).then((res1) => {
+                if (res1.content) {
+                  setFavorite(() => res1.content);
+                }
+              });
+            } else {
+              alert(res.message);
+            }
+          },
+        );
       }
     } else {
       window.location = '#登录';
@@ -162,11 +168,11 @@ const RecommendDetails = () => {
           <div className="col-2 nav-col" />
           <div className="col-5 nav-col">
             <button type="button" className="btn btn-primary nav-btn" onClick={handleFavorite}>
-              {
-                favorite
-                  ? (<FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />)
-                  : (<FontAwesomeIcon icon={faStar} fixedWidth />)
-              }
+              {favorite ? (
+                <FontAwesomeIcon icon={faStar} style={{ color: '#FFFF00' }} fixedWidth />
+              ) : (
+                <FontAwesomeIcon icon={faStar} fixedWidth />
+              )}
               收藏
             </button>
           </div>

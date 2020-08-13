@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar';
 
-const MessageRow = ({
-  name, ent_user_id, total, content,
-}) => {
+const MessageRow = ({ name, ent_user_id, total, content }) => {
   const handleClick = () => {
     window.location = `#消息/${name}/${ent_user_id}`;
   };
@@ -31,13 +29,11 @@ const MessageRow = ({
                 <h6 className="pull-left">
                   <strong>{name}</strong>
                   &nbsp;
-                  {total !== 0 ? (<span className="badge badge-danger">{total}</span>) : (<></>)}
+                  {total !== 0 ? <span className="badge badge-danger">{total}</span> : <></>}
                 </h6>
               </div>
             </div>
-            <span className="text-muted">
-              {content}
-            </span>
+            <span className="text-muted">{content}</span>
           </div>
         </div>
       </div>
@@ -47,8 +43,8 @@ const MessageRow = ({
 
 MessageRow.propTypes = {
   name: PropTypes.string.isRequired,
-  ent_user_id: PropTypes.string.isRequired,
-  total: PropTypes.string.isRequired,
+  ent_user_id: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,
 };
 
@@ -93,14 +89,14 @@ const List = () => {
         }
       });
 
-    return (() => {
+    return () => {
       if (jobId1 !== -1) {
         window.clearInterval(jobId1);
       }
       if (jobId2 !== -1) {
         window.clearInterval(jobId2);
       }
-    });
+    };
   }, []);
 
   useEffect(() => {
@@ -152,14 +148,18 @@ const List = () => {
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
           </div>
         </div> */}
-        {chatList && chatList.map((item) => (
-          <MessageRow
-            key={item.ent_user_id}
-            {...item}
-            total={chatTotal.length > 0 && chatTotal
-              .find((it) => it.ent_user_id === item.ent_user_id).count}
-          />
-        ))}
+        {chatList &&
+          chatList.map((item) => (
+            <MessageRow
+              key={item.ent_user_id}
+              {...item}
+              total={
+                chatTotal.length > 0
+                  ? chatTotal.find((it) => it.ent_user_id === item.ent_user_id).count
+                  : 0
+              }
+            />
+          ))}
       </div>
       <Navbar category="消息" />
     </>

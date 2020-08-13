@@ -80,26 +80,26 @@ const HomePage = () => {
       <div className="container-fluid">
         <PlayImg category="小程序-首页" />
         <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5' }}>
-          {
-            auth === 0 ? (
-              <div className="col text-center">
-                <a className="text-black-50" href="#登录">
-                  <strong className="text-primary">登录</strong>
-                  完善信息，为您精准推荐职位信息
-                </a>
-              </div>
-            ) : (
-              <div className="col">
-                <input
-                  type="text"
-                  className="w-100 border-0 text-center rounded-pill"
-                  placeholder="按照企业/职位名称查询"
-                  onClick={() => { window.location = '#主页/查询/'; }}
-                  style={{ outline: 0, height: 35 }}
-                />
-              </div>
-            )
-          }
+          {auth === 0 ? (
+            <div className="col text-center">
+              <a className="text-black-50" href="#登录">
+                <strong className="text-primary">登录</strong>
+                完善信息，为您精准推荐职位信息
+              </a>
+            </div>
+          ) : (
+            <div className="col">
+              <input
+                type="text"
+                className="w-100 border-0 text-center rounded-pill"
+                placeholder="按照企业/职位名称查询"
+                onClick={() => {
+                  window.location = '#主页/查询/';
+                }}
+                style={{ outline: 0, height: 35 }}
+              />
+            </div>
+          )}
         </div>
 
         <div className="p-2 border-0 bg-white rounded card-body shadow ">
@@ -137,9 +137,7 @@ const HomePage = () => {
               </ul>
             </div>
           </div>
-          {
-            recommendList && recommendList.map((item) => <RecommendRow key={item.id} {...item} />)
-          }
+          {recommendList && recommendList.map((item) => <RecommendRow key={item.id} {...item} />)}
         </div>
         <br />
       </div>

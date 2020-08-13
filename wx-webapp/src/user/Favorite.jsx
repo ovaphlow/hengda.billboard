@@ -25,11 +25,11 @@ const Favorite = () => {
   const dateRow = (item) => {
     let row;
     if (item.category2 === '岗位') {
-      row = (<RecruitmentRow {...item} />);
+      row = <RecruitmentRow {...item} />;
     } else if (item.category2 === '校园招聘') {
-      row = (<RecruitRow {...item} />);
+      row = <RecruitRow {...item} />;
     } else if (item.category2 === '推荐信息') {
-      row = (<RecommendRow {...item} />);
+      row = <RecommendRow {...item} />;
     }
     return row;
   };
@@ -38,11 +38,12 @@ const Favorite = () => {
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
         <div className="mt-2" />
-        {list && list.map((item) => (
-          <div className="card border-0 p-3 user-radius mb-2 mt-2" key={item.id}>
-            {dateRow(item)}
-          </div>
-        ))}
+        {list &&
+          list.map((item) => (
+            <div className="card border-0 p-3 user-radius mb-2 mt-2" key={item.id}>
+              {dateRow(item)}
+            </div>
+          ))}
       </div>
       <Navbar category="我的" />
     </>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import PlayImg from '../components/PlayImg';
 import TextCheckbox from '../components/Button';
-import { RecruitmentRow } from '../components/DataRow';
+import { RecruitmentRow1 } from '../components/DataRow';
 import CityDropdowns from '../components/CityDropdowns';
 
 const List = () => {
@@ -95,21 +95,18 @@ const List = () => {
                 </div>
               </div>
             </div>
-            {
-              list && list.map((item) => (
+            {list &&
+              list.map((item) => (
                 <div key={item.id}>
-                  <RecruitmentRow {...item} />
+                  <RecruitmentRow1 {...item} />
                   <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
                 </div>
-              ))
-            }
-
+              ))}
           </div>
         </div>
       </div>
       <Navbar category="岗位" />
     </>
-
   );
 };
 

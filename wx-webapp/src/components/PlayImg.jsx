@@ -18,13 +18,11 @@ const Pagination = (props) => {
     const list = [];
 
     for (let i = 0; i < dots; i += 1) {
-      list.push(
-        <PaginationDot key={i} index={i} active={i === index} onClick={handleClick} />,
-      );
+      list.push(<PaginationDot key={i} index={i} active={i === index} onClick={handleClick} />);
     }
     return list;
   };
-  return (<div className="pagination">{children()}</div>);
+  return <div className="pagination">{children()}</div>;
 };
 
 Pagination.propTypes = {
@@ -63,7 +61,7 @@ const PaginationDot = (props) => {
 
   return (
     <button type="button" style={styles.root} onClick={handleClick}>
-      <div style={active ? ({ ...styles.dot, ...styles.active }) : styles.dot} />
+      <div style={active ? { ...styles.dot, ...styles.active } : styles.dot} />
     </button>
   );
 };
@@ -89,10 +87,13 @@ const PlayImg = (props) => {
             if (res.message) {
               window.alert(res.message);
             } else {
-              localStorage.setItem(props.category, JSON.stringify({
-                date: parseInt(moment().add(7, 'days').format('YYYYMMDD'), 10),
-                banner: res.content,
-              }));
+              localStorage.setItem(
+                props.category,
+                JSON.stringify({
+                  date: parseInt(moment().add(7, 'days').format('YYYYMMDD'), 10),
+                  banner: res.content,
+                }),
+              );
               setList(res.content);
             }
           });
@@ -109,21 +110,21 @@ const PlayImg = (props) => {
 
   return (
     <div className="row img-box shadow-sm">
-      {
-        (list && list.length > 0) && (
-          <AutoPlaySwipeableViews style={{ width: '100vh' }} index={index} onChangeIndex={setIndex}>
-            {
-              list.map((item) => (
-                <div key={item.id}>
-                  <a href={item.source_url ? item.source_url : `#主页/banner/${item.id}?uuid=${item.uuid}`}>
-                    <img className="img-fluid img-box-item" alt="" src={item.data_url} />
-                  </a>
-                </div>
-              ))
-            }
-          </AutoPlaySwipeableViews>
-        )
-      }
+      {list && list.length > 0 && (
+        <AutoPlaySwipeableViews style={{ width: '100vh' }} index={index} onChangeIndex={setIndex}>
+          {list.map((item) => (
+            <div key={item.id}>
+              <a
+                href={
+                  item.source_url ? item.source_url : `#主页/banner/${item.id}?uuid=${item.uuid}`
+                }
+              >
+                <img className="img-fluid img-box-item" alt="" src={item.data_url} />
+              </a>
+            </div>
+          ))}
+        </AutoPlaySwipeableViews>
+      )}
       <Pagination dots={list.length} index={index} onChangeIndex={setIndex} />
     </div>
   );

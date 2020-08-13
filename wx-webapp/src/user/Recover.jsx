@@ -14,7 +14,6 @@ const Recover = () => {
   });
 
   const [err, setErr] = useState({
-
     password1: false,
     password2: false,
     code: false,
@@ -66,16 +65,15 @@ const Recover = () => {
     if (res.message) {
       let alertFlg = false;
       if (typeof res.message === 'object') {
-        Object.getOwnPropertyNames(res.message)
-          .forEach((key) => {
-            switch (key) {
-              case 'code':
-                errData[key] = '验证码错误';
-                break;
-              default:
-                alertFlg = true;
-            }
-          });
+        Object.getOwnPropertyNames(res.message).forEach((key) => {
+          switch (key) {
+            case 'code':
+              errData[key] = '验证码错误';
+              break;
+            default:
+              alertFlg = true;
+          }
+        });
       } else {
         alertFlg = true;
       }
@@ -134,9 +132,7 @@ const Recover = () => {
         <ToBack />
         <div className="row mt-3 bg-transparent text-white">
           <div className="col">
-            <h4 className="text-center ">
-              密码重置
-            </h4>
+            <h4 className="text-center ">密码重置</h4>
           </div>
         </div>
 
@@ -182,9 +178,10 @@ const Recover = () => {
                         发送验证码
                       </button>
                     </div>
-
                   </div>
-                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
+                  {err.password1 && (
+                    <small className="form-text text-danger">{err.password1}</small>
+                  )}
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend ">
                       <span className="input-group-text bg-transparent text-white  border-0">
@@ -201,7 +198,9 @@ const Recover = () => {
                       onChange={handleChange}
                     />
                   </div>
-                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
+                  {err.password2 && (
+                    <small className="form-text text-danger">{err.password2}</small>
+                  )}
                   <div className="input-group row mb-3 input-group-lg input-control">
                     <div className="input-group-prepend ">
                       <span className="input-group-text bg-transparent text-white  border-0">

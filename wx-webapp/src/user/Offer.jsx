@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import Navbar from '../components/Navbar';
 
 const DataRow = ({
-  recruitment_name, datime, enterprise_name, remark, address, phone1, phone2, mianshishijian,
+  recruitment_name,
+  datime,
+  enterprise_name,
+  remark,
+  address,
+  phone1,
+  phone2,
+  mianshishijian,
 }) => (
   <div className="card border-0 p-3 user-radius mb-2 mt-2">
     <div className="row">
@@ -17,48 +24,34 @@ const DataRow = ({
           </span>
         </div>
         <br />
-        <span className="text-success">
-          {enterprise_name}
-        </span>
+        <span className="text-success">{enterprise_name}</span>
         <br />
-        {
-          remark && (
-            <>
-              <span className="pull-left text-muted" style={{ fontSize: 11 }}>
-                {remark}
-              </span>
-              <br />
-            </>
-          )
-        }
+        {remark && (
+          <>
+            <span className="pull-left text-muted" style={{ fontSize: 11 }}>
+              {remark}
+            </span>
+            <br />
+          </>
+        )}
         <span className="text-muted" style={{ fontSize: 11 }}>
-          面试地点:
-          {' '}
-          {address}
+          面试地点: {address}
         </span>
         <br />
         <span className="text-muted" style={{ fontSize: 11 }}>
-          联系电话1:
-          {' '}
-          {phone1}
+          联系电话1: {phone1}
         </span>
         <br />
-        {
-          phone2 && (
-            <>
-              <span className="text-muted" style={{ fontSize: 11 }}>
-                联系电话2:
-                {' '}
-                {phone2}
-              </span>
-              <br />
-            </>
-          )
-        }
+        {phone2 && (
+          <>
+            <span className="text-muted" style={{ fontSize: 11 }}>
+              联系电话2: {phone2}
+            </span>
+            <br />
+          </>
+        )}
         <span className="text-muted" style={{ fontSize: 11 }}>
-          面试时间:
-          {' '}
-          {mianshishijian}
+          面试时间: {mianshishijian}
         </span>
       </div>
     </div>
@@ -66,9 +59,9 @@ const DataRow = ({
 );
 
 DataRow.propTypes = {
-  recruitment_name: PropTypes.bool.isRequired,
+  recruitment_name: PropTypes.string.isRequired,
   datime: PropTypes.string.isRequired,
-  enterprise_name: PropTypes.func.isRequired,
+  enterprise_name: PropTypes.string.isRequired,
   remark: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
   phone1: PropTypes.string.isRequired,
@@ -105,11 +98,11 @@ const Offer = () => {
           setList(res.content);
         });
     }, 900000);
-    return (() => {
+    return () => {
       if (jobId !== -1) {
         window.clearInterval(jobId);
       }
-    });
+    };
   }, []);
 
   return (

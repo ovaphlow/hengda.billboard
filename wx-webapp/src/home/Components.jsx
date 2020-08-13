@@ -10,7 +10,13 @@ import PropTypes from 'prop-types';
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 export const RecommendRow = ({
-  title, address_level1, address_level2, qty, id, uuid, publisher,
+  title,
+  address_level1,
+  address_level2,
+  qty,
+  id,
+  uuid,
+  publisher,
 }) => (
   <>
     <div className="row">
@@ -22,11 +28,8 @@ export const RecommendRow = ({
         </div>
         <span className="text-muted pull-left">
           工作地点:
-          {address_level1}
-          -
-          {address_level2}
-          {' '}
-          | 人数:
+          {address_level1}-{address_level2}
+          |人数:
           {qty}
         </span>
         <div className="pull-right ">
@@ -35,9 +38,7 @@ export const RecommendRow = ({
           </a>
         </div>
         <br />
-        <span>
-          {publisher}
-        </span>
+        <span>{publisher}</span>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -50,7 +51,7 @@ RecommendRow.propTypes = {
   address_level2: PropTypes.string.isRequired,
   qty: PropTypes.string.isRequired,
   publisher: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
 };
 
@@ -96,22 +97,20 @@ export const TopicCards = (props) => {
 
   return (
     <AutoPlaySwipeableViews index={index} onChangeIndex={setIndex}>
-      {
-        list.map((item) => (
-          <div key={item[0].id} className="row mx-0 mt-2 text-center" style={{ fontSize: 11 }}>
-            {item.map((it) => (
-              <div
-                key={it.id}
-                aria-hidden="true"
-                onClick={() => toDetails(it)}
-                className={`col${item.length < 3 ? '-4' : ''} ${it.color} text-light mx-1 topic-card`}
-              >
-                <span>{it.title}</span>
-              </div>
-            ))}
-          </div>
-        ))
-      }
+      {list.map((item) => (
+        <div key={item[0].id} className="row mx-0 mt-2 text-center" style={{ fontSize: 11 }}>
+          {item.map((it) => (
+            <div
+              key={it.id}
+              aria-hidden="true"
+              onClick={() => toDetails(it)}
+              className={`col${item.length < 3 ? '-4' : ''} ${it.color} text-light mx-1 topic-card`}
+            >
+              <span>{it.title}</span>
+            </div>
+          ))}
+        </div>
+      ))}
     </AutoPlaySwipeableViews>
   );
 };

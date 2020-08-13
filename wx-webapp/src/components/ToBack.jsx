@@ -5,9 +5,7 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 const ToBack = (props) => {
-  const {
-    report, complaint, dataId, dataType, search,
-  } = props;
+  const { report, complaint, dataId, dataType, search } = props;
 
   const toPrevious = () => {
     if (props.handleBack) {
@@ -30,20 +28,16 @@ const ToBack = (props) => {
       </div>
       {(report || complaint) && (
         <div className="col flex-end">
-          {
-            report && (
-              <a className="text-danger" href={`#/我的/举报/${dataId}/${dataType}${search}`}>
-                举报
-              </a>
-            )
-          }
-          {
-            complaint && (
-              <a className="text-danger" href="#/举报">
-                投诉
-              </a>
-            )
-          }
+          {report && (
+            <a className="text-danger" href={`#/我的/举报/${dataId}/${dataType}${search}`}>
+              举报
+            </a>
+          )}
+          {complaint && (
+            <a className="text-danger" href="#/举报">
+              投诉
+            </a>
+          )}
         </div>
       )}
     </div>
@@ -51,7 +45,7 @@ const ToBack = (props) => {
 };
 
 ToBack.propTypes = {
-  report: PropTypes.string,
+  report: PropTypes.bool,
   handleBack: PropTypes.func,
   complaint: PropTypes.string,
   href: PropTypes.string,
@@ -61,9 +55,9 @@ ToBack.propTypes = {
 };
 
 ToBack.defaultProps = {
-  report: false,
+  report: undefined,
   handleBack: undefined,
-  complaint: false,
+  complaint: undefined,
   href: undefined,
   dataId: undefined,
   dataType: undefined,

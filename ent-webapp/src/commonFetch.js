@@ -1,9 +1,9 @@
-import moment from 'moment'
+import moment from 'moment';
 
-export const _EditJournal = (body,callback) => {
-  const auth = JSON.parse(sessionStorage.getItem('auth')) 
+export const _EditJournal = (body, callback) => {
+  const auth = JSON.parse(sessionStorage.getItem('auth'));
   if (auth !== null) {
-    fetch(`./api/journal/edit/`, {
+    fetch('./api/journal/edit/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
@@ -11,28 +11,28 @@ export const _EditJournal = (body,callback) => {
         user_uuid: auth.uuid,
         datime: moment().format('YYYY-MM-DD HH:mm'),
         category1: '企业用户',
-        ...body
-      })
+        ...body,
+      }),
     })
-      .then(res => res.json())
-      .then(callback)
+      .then((res) => res.json())
+      .then(callback);
   }
-}
+};
 
-export const FavoriteJournal = (body,callback) => {
-  const auth = JSON.parse(sessionStorage.getItem('auth')) 
+export const FavoriteJournal = (body, callback) => {
+  const auth = JSON.parse(sessionStorage.getItem('auth'));
   if (auth !== null) {
-    fetch(`./api/favorite/`, {
+    fetch('./api/favorite/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         user_id: auth.id,
         user_uuid: auth.uuid,
         category1: '企业用户',
-        ...body
-      })
+        ...body,
+      }),
     })
-      .then(res => res.json())
-      .then(callback)
+      .then((res) => res.json())
+      .then(callback);
   }
-}
+};

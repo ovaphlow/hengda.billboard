@@ -7,7 +7,14 @@ import Navbar from '../components/Navbar';
 import { DateTitle } from './Components';
 
 const RecruitRow = ({
-  title, id, uuid, address_level2, address_level3, time, school, category,
+  title,
+  id,
+  uuid,
+  address_level2,
+  address_level3,
+  time,
+  school,
+  category,
 }) => (
   <>
     <div className="card border-0 p-3 user-radius mb-2 mt-2">
@@ -25,17 +32,12 @@ const RecruitRow = ({
           <br />
           <span className="text-muted">
             举办地点:
-            {`${address_level2}-${address_level3}`}
-            {' '}
-            | 开始时间:
+            {`${address_level2}-${address_level3}`} | 开始时间:
             {time}
           </span>
           <br />
           <span>
-            {school}
-            (
-            {category}
-            )
+            {school}({category})
           </span>
         </div>
       </div>
@@ -94,15 +96,15 @@ const Schedule = () => {
       <div className="container-fluid" style={{ fontSize: 14 }}>
         <div className="tab-content mt-1">
           <div className="tab-pane fade show active">
-            {
-              Object.getOwnPropertyNames(list).map((key) => (
-                <React.Fragment key={key}>
-                  <DateTitle text={key} />
-                  <div className="mt-2" />
-                  {list[key].map((item) => <RecruitRow key={item.id} {...item} />)}
-                </React.Fragment>
-              ))
-            }
+            {Object.getOwnPropertyNames(list).map((key) => (
+              <React.Fragment key={key}>
+                <DateTitle text={key} />
+                <div className="mt-2" />
+                {list[key].map((item) => (
+                  <RecruitRow key={item.id} {...item} />
+                ))}
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </div>

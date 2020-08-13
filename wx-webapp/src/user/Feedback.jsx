@@ -61,10 +61,7 @@ const Feedback = () => {
                   <span className="text-muted" style={{ fontSize: 13 }}>
                     类别:
                   </span>
-                  <select
-                    className="form-control"
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
+                  <select className="form-control" onChange={(e) => setCategory(e.target.value)}>
                     <option>意见反馈</option>
                     <option>投诉</option>
                   </select>

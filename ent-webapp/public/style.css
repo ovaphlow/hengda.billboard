@@ -26,6 +26,10 @@ body {
   padding-top: 65px;
 }
 
+.img-weixin {
+  cursor: pointer;
+}
+
 .img-weixin img {
   visibility: hidden;
   opacity: 0;
@@ -44,7 +48,7 @@ body {
 }
 
 .logo {
-  width: 195px;
+  width: 300px;
   height: 103px
 }
 
@@ -54,7 +58,7 @@ body {
 }
 
 .ad {
-  width: 966px;
+  width: 953px;
   height: 103px
 }
 
@@ -125,6 +129,11 @@ body {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+}
+
+.inner {
+  max-width: 1184px;
+  margin: 0 auto;
 }
 
 .flex-center {

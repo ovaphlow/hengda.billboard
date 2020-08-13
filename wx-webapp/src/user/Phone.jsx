@@ -50,7 +50,6 @@ const Phone = () => {
         <ToBack href="#我的" />
         <div className="row mt-3">
           <div className="col">
-
             <div className="form-group row">
               <div className="col">
                 <input
@@ -83,7 +82,12 @@ const Phone = () => {
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
-          <button type="button" disabled={!checkPhone()} className="btn btn-primary nav-btn" onClick={handleSave}>
+          <button
+            type="button"
+            disabled={!checkPhone()}
+            className="btn btn-primary nav-btn"
+            onClick={handleSave}
+          >
             保存
           </button>
         </div>

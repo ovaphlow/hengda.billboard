@@ -14,15 +14,33 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/"><HomeRouter /></Route>
-        <Route path="/主页"><HomeRouter /></Route>
-        <Route path="/登录"><LogIn /></Route>
-        <Route path="/注册"><SignIn /></Route>
-        <Route path="/忘记密码"><Recover /></Route>
-        <Route path="/岗位"><RecruitmentRouter /></Route>
-        <Route path="/校园招聘"><RecruitRouter /></Route>
-        <Route path="/消息"><MessageRouter /></Route>
-        <Route path="/我的"><UserRouter /></Route>
+        <Route exact path="/">
+          <HomeRouter />
+        </Route>
+        <Route path="/主页">
+          <HomeRouter />
+        </Route>
+        <Route path="/登录">
+          <LogIn />
+        </Route>
+        <Route path="/注册">
+          <SignIn />
+        </Route>
+        <Route path="/忘记密码">
+          <Recover />
+        </Route>
+        <Route path="/岗位">
+          <RecruitmentRouter />
+        </Route>
+        <Route path="/校园招聘">
+          <RecruitRouter />
+        </Route>
+        <Route path="/消息">
+          <MessageRouter />
+        </Route>
+        <Route path="/我的">
+          <UserRouter />
+        </Route>
       </Switch>
     </Router>
   );

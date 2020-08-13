@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export function InputField({
-  category, name, value, defaultValue, placeholder, handleChange,
-}) {
+export function InputField({ category, name, value, placeholder, handleChange }) {
   return (
     <div className="form-group row input-label">
-      <label className="col-4 col-form-label text-right text-muted">
-        {category}
-      </label>
+      <label className="col-4 col-form-label text-right text-muted">{category}</label>
       <div className="col-8">
         <input
           type="text"
           name={name}
           value={value || ''}
-          defaultValue={defaultValue}
           placeholder={placeholder}
           className="form-control-plaintext input-f"
           onChange={handleChange}
@@ -28,7 +23,6 @@ InputField.propTypes = {
   category: PropTypes.string.isRequired,
   name: PropTypes.string,
   value: PropTypes.string,
-  defaultValue: PropTypes.string,
   placeholder: PropTypes.string,
   handleChange: PropTypes.func,
 };
@@ -36,19 +30,14 @@ InputField.propTypes = {
 InputField.defaultProps = {
   name: '',
   value: undefined,
-  defaultValue: '',
   placeholder: '',
-  handleChange: () => { },
+  handleChange: () => {},
 };
 
-export function SelectField({
-  category, name, value, handleChange, children,
-}) {
+export function SelectField({ category, name, value, handleChange, children }) {
   return (
     <div className="form-group row input-label">
-      <label className="col-4 col-form-label text-right text-muted">
-        {category}
-      </label>
+      <label className="col-4 col-form-label text-right text-muted">{category}</label>
       <div className="col-8">
         <select
           type="text"
@@ -76,7 +65,7 @@ SelectField.defaultProps = {
   name: '',
   value: undefined,
   children: [],
-  handleChange: () => { },
+  handleChange: () => {},
 };
 
 export function JournalTabs({ category }) {
@@ -133,9 +122,7 @@ JournalTabs.propTypes = {
 export function DateTitle({ text }) {
   return (
     <div style={{ borderLeft: '.25rem solid#007bff', fontSize: 13 }}>
-      <span>
-        {text}
-      </span>
+      <span>{text}</span>
     </div>
   );
 }

@@ -6,7 +6,15 @@ import moment from 'moment';
 import ToBack from '../components/ToBack';
 
 const RecruitmentDetail = ({
-  name, date, enterprise_name, address1, address2, education, category, salary1, salary2,
+  name,
+  date,
+  enterprise_name,
+  address1,
+  address2,
+  education,
+  category,
+  salary1,
+  salary2,
 }) => (
   <>
     <div className="row">
@@ -24,24 +32,13 @@ const RecruitmentDetail = ({
         <span className="text-muted" style={{ fontSize: 14 }}>
           {enterprise_name}
           <br />
-          {address2 || address1}
-          {' '}
-          |
-          {education}
-          |
-          {category}
+          {address2 || address1} |{education}|{category}
         </span>
       </div>
     </div>
     <div className="row mt-2">
       <div className="col">
-        <h5 className="text-success">
-          {
-            salary1 && salary2
-              ? `${salary1}-${salary2}/月`
-              : '面议'
-          }
-        </h5>
+        <h5 className="text-success">{salary1 && salary2 ? `${salary1}-${salary2}/月` : '面议'}</h5>
       </div>
     </div>
   </>
@@ -67,29 +64,27 @@ RecruitmentDetail.defaultProps = {
 };
 
 const EnterpriseDetail = ({
-  name, zhuziguimo, yuangongshuliang, address1, address2, address3, address4,
+  name,
+  zhuziguimo,
+  yuangongshuliang,
+  address1,
+  address2,
+  address3,
+  address4,
 }) => (
   <div className="row">
     <div className="col">
       <h5>{name}</h5>
       <span className="text-muted">
-        {zhuziguimo}
-        {' '}
-        |
-        {yuangongshuliang}
+        {zhuziguimo} |{yuangongshuliang}
       </span>
       <br />
       <span className="text-muted">
-        {address1}
-        -
-        {address2}
-        -
-        {address3}
+        {address1}-{address2}-{address3}
       </span>
       <br />
       <span className="text-muted">
         详细地址:
-        {' '}
         {address4}
       </span>
       <br />

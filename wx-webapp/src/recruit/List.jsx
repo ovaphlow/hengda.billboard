@@ -10,7 +10,14 @@ import TextCheckbox from '../components/Button';
 import CityDropdowns from '../components/CityDropdowns';
 
 const RecruitRow = ({
-  id, uuid, title, address_level2, address_level3, date, school, category,
+  id,
+  uuid,
+  title,
+  address_level2,
+  address_level3,
+  date,
+  school,
+  category,
 }) => (
   <>
     <div className="row">
@@ -27,17 +34,12 @@ const RecruitRow = ({
         <br />
         <span className="text-muted">
           举办地点:
-          {`${address_level2}-${address_level3}`}
-          {' '}
-          | 开始时间:
+          {`${address_level2}-${address_level3}`} | 开始时间:
           {date}
         </span>
         <br />
         <span>
-          {school}
-          (
-          {category}
-          )
+          {school}({category})
         </span>
       </div>
     </div>
@@ -138,9 +140,7 @@ const List = () => {
                 </div>
               </div>
             </div>
-            {
-              list && list.map((item) => <RecruitRow key={item.id} {...item} />)
-            }
+            {list && list.map((item) => <RecruitRow key={item.id} {...item} />)}
           </div>
         </div>
       </div>

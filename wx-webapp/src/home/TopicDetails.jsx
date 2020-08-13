@@ -18,18 +18,19 @@ const TopicDetails = () => {
         if (res.message) {
           window.alert(res.message);
         } else {
-          _BrowseJournal({
-            data_id: id,
-            data_uuid: res.content.uuid,
-            category: '热门话题',
-          }, () => { });
+          _BrowseJournal(
+            {
+              data_id: id,
+              data_uuid: res.content.uuid,
+              category: '热门话题',
+            },
+            () => {},
+          );
           setItem(res.content);
           document.getElementById('content').innerHTML = res.content.content;
         }
       });
-    return (() => {
-
-    });
+    return () => {};
   }, [id, search]);
 
   return (

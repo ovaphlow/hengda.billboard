@@ -96,19 +96,18 @@ const Setting = () => {
     if (res.message) {
       let alertFlg = false;
       if (typeof res.message === 'object') {
-        Object.getOwnPropertyNames(res.message)
-          .forEach((key) => {
-            switch (key) {
-              case 'phone':
-                errData[key] = '该邮箱已注册';
-                break;
-              case 'name':
-                errData[key] = '用户名已被使用';
-                break;
-              default:
-                alertFlg = true;
-            }
-          });
+        Object.getOwnPropertyNames(res.message).forEach((key) => {
+          switch (key) {
+            case 'phone':
+              errData[key] = '该邮箱已注册';
+              break;
+            case 'name':
+              errData[key] = '用户名已被使用';
+              break;
+            default:
+              alertFlg = true;
+          }
+        });
       } else {
         alertFlg = true;
       }
@@ -118,12 +117,15 @@ const Setting = () => {
       return;
     }
     localStorage.setItem('auth', JSON.stringify(res2.content));
-    _EditJournal({
-      category2: '个人信息',
-      data_id: auth.id,
-      data_uuid: auth.uuid,
-      remark: '编辑个人信息',
-    }, () => { });
+    _EditJournal(
+      {
+        category2: '个人信息',
+        data_id: auth.id,
+        data_uuid: auth.uuid,
+        remark: '编辑个人信息',
+      },
+      () => {},
+    );
     window.alert('操作成功');
 
     setErr(errData);

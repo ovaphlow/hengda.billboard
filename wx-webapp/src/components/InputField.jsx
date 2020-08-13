@@ -1,9 +1,7 @@
 import React from 'react';
 import PropsTypes from 'prop-types';
 
-const TextRowField = ({
-  caption, name, value, handleChange,
-}) => (
+const TextRowField = ({ caption, name, value, handleChange }) => (
   <div className="form-group row">
     <label className="col-sm-2 col-form-label text-right">{caption || ''}</label>
     <div className="col-sm-10">

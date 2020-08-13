@@ -10,11 +10,21 @@ import KeywordSearch from './KeywordSearch';
 const HomeRouter = () => (
   <Router>
     <Switch>
-      <Route exact path="/"><HomePage /></Route>
-      <Route path="/主页/消息详情/:id"><RecommendDetails /></Route>
-      <Route path="/主页/话题详情/:id"><TopicDetails /></Route>
-      <Route path="/主页/查询/"><KeywordSearch /></Route>
-      <Route path="/主页/banner/:id"><Banner /></Route>
+      <Route exact path="/">
+        <HomePage />
+      </Route>
+      <Route path="/主页/消息详情/:id">
+        <RecommendDetails />
+      </Route>
+      <Route path="/主页/话题详情/:id">
+        <TopicDetails />
+      </Route>
+      <Route path="/主页/查询/">
+        <KeywordSearch />
+      </Route>
+      <Route path="/主页/banner/:id">
+        <Banner />
+      </Route>
     </Switch>
   </Router>
 );

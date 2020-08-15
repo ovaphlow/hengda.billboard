@@ -1,52 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { recruitment_id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
-  const [name, setName] = useState('');
-  const [qty, setQty] = useState('');
-  const [description, setDescription] = useState('');
-  const [requirement, setRequirement] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [address3, setAddress3] = useState('');
-  const [date, setDate] = useState('');
-  const [salary1, setSalary1] = useState('');
-  const [salary2, setSalary2] = useState('');
-  const [education, setEducation] = useState('');
-  const [category, setCategory] = useState('');
+  const [uuid, setUUID] = useState("");
+  const [name, setName] = useState("");
+  const [qty, setQty] = useState("");
+  const [description, setDescription] = useState("");
+  const [requirement, setRequirement] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [address3, setAddress3] = useState("");
+  const [date, setDate] = useState("");
+  const [salary1, setSalary1] = useState("");
+  const [salary2, setSalary2] = useState("");
+  const [education, setEducation] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleSubmit = async () => {
-    if (component_option === '编辑') {
-      const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          qty,
-          description,
-          requirement,
-          address1,
-          address2,
-          address3,
-          date,
-          salary1,
-          salary2,
-          education,
-          category,
-        }),
-      });
+    if (component_option === "编辑") {
+      const response = await window.fetch(
+        `/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            name,
+            qty,
+            description,
+            requirement,
+            address1,
+            address2,
+            address3,
+            date,
+            salary1,
+            salary2,
+            education,
+            category,
+          }),
+        }
+      );
       const res = await response.json();
       if (res.message) {
         window.alert(res.message);
@@ -57,10 +60,13 @@ export default function Detail({ component_option }) {
   };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}`, {
-      method: 'DELETE',
-    });
+    if (!window.confirm("确定要删除当前数据？")) return;
+    const response = await window.fetch(
+      `/api/recruitment/${recruitment_id}?recruitment_uuid=${uuid}`,
+      {
+        method: "DELETE",
+      }
+    );
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
@@ -70,15 +76,17 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   }, []);
 
   useEffect(() => {
     if (!uuid) return;
     (async () => {
-      const response = await window.fetch(`/api/recruitment/${recruitment_id}?uuid=${uuid}`);
+      const response = await window.fetch(
+        `/api/recruitment/${recruitment_id}?uuid=${uuid}`
+      );
       const res = await response.json();
       setName(res.content.name);
       setQty(res.content.qty);
@@ -118,7 +126,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -127,23 +137,30 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="enterprise-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="enterprise-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           企业用户
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="enterprise.html" className="text-reset text-decoration-none">
+                        <a
+                          href="enterprise.html"
+                          className="text-reset text-decoration-none"
+                        >
                           企业
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        岗位
-                      </li>
+                      <li className="breadcrumb-item active">岗位</li>
                     </ol>
                   </nav>
                 </div>
@@ -156,7 +173,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">岗位</label>
                           <input
                             type="text"
-                            value={name || ''}
+                            value={name || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setName(event.target.value)}
                           />
@@ -168,7 +185,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">人数</label>
                           <input
                             type="text"
-                            value={qty || ''}
+                            value={qty || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setQty(event.target.value)}
                           />
@@ -182,9 +199,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">地址</label>
                           <input
                             type="text"
-                            value={address1 || ''}
+                            value={address1 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress1(event.target.value)}
+                            onChange={(event) =>
+                              setAddress1(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -194,9 +213,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
-                            value={address2 || ''}
+                            value={address2 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress2(event.target.value)}
+                            onChange={(event) =>
+                              setAddress2(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -206,9 +227,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
-                            value={address3 || ''}
+                            value={address3 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress3(event.target.value)}
+                            onChange={(event) =>
+                              setAddress3(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -220,7 +243,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">发布日期</label>
                           <input
                             type="text"
-                            value={date || ''}
+                            value={date || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setDate(event.target.value)}
                           />
@@ -232,7 +255,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">薪资范围</label>
                           <input
                             type="text"
-                            value={salary1 || ''}
+                            value={salary1 || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setSalary1(event.target.value)}
                           />
@@ -244,7 +267,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
-                            value={salary2 || ''}
+                            value={salary2 || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setSalary2(event.target.value)}
                           />
@@ -258,9 +281,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">学历</label>
                           <input
                             type="text"
-                            value={education || ''}
+                            value={education || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setEducation(event.target.value)}
+                            onChange={(event) =>
+                              setEducation(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -270,9 +295,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">类别</label>
                           <input
                             type="text"
-                            value={category || ''}
+                            value={category || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setCategory(event.target.value)}
+                            onChange={(event) =>
+                              setCategory(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -282,13 +309,18 @@ export default function Detail({ component_option }) {
                       <label className="form-label">工作职责</label>
                       <ReactQuill
                         formats={[
-                          'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote']}
+                          "header",
+                          "align",
+                          "bold",
+                          "italic",
+                          "underline",
+                          "blockquote",
+                        ]}
                         modules={{
                           toolbar: [
                             [{ header: [1, 2, 3, false] }],
                             [{ align: [] }],
-                            ['bold', 'italic', 'underline', 'blockquote'],
+                            ["bold", "italic", "underline", "blockquote"],
                           ],
                         }}
                         readOnly
@@ -302,18 +334,23 @@ export default function Detail({ component_option }) {
                       <label className="form-label">岗位要求</label>
                       <ReactQuill
                         formats={[
-                          'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote']}
+                          "header",
+                          "align",
+                          "bold",
+                          "italic",
+                          "underline",
+                          "blockquote",
+                        ]}
                         modules={{
                           toolbar: [
                             [{ header: [1, 2, 3, false] }],
                             [{ align: [] }],
-                            ['bold', 'italic', 'underline', 'blockquote'],
+                            ["bold", "italic", "underline", "blockquote"],
                           ],
                         }}
                         readOnly
                         placeholder="请填写内容"
-                        value={requirement || ''}
+                        value={requirement || ""}
                         onChange={setRequirement}
                       />
                     </div>
@@ -321,13 +358,19 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
+                      {component_option === "编辑" && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -340,7 +383,7 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                         onClick={handleSubmit}
                       >
                         保存

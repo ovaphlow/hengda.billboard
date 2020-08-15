@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import ComponentCertificateList from '../enterprise/ComponentCertificateList';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import ComponentCertificateList from "../enterprise/ComponentCertificateList";
+import useAuth from "../useAuth";
 
 export default function CheckList() {
   const auth = useAuth();
@@ -12,7 +12,7 @@ export default function CheckList() {
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/enterprise/certificate/qty');
+      const response = await window.fetch("/api/enterprise/certificate/qty");
       const res = await response.json();
       setCertificateQty(res.content.qty);
     })();
@@ -21,7 +21,10 @@ export default function CheckList() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav component_option="待处理任务" component_param_name={auth.name} />
+        <TopNav
+          component_option="待处理任务"
+          component_param_name={auth.name}
+        />
       </header>
 
       <main className="flex-grow-1">
@@ -40,7 +43,9 @@ export default function CheckList() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -49,18 +54,22 @@ export default function CheckList() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="current-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="current-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           当前用户
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        待处理任务
-                      </li>
+                      <li className="breadcrumb-item active">待处理任务</li>
                     </ol>
                   </nav>
                 </div>

@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter, Switch, Route } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 
-import SIGN_IN_URL from '../constant';
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useAuth from '../useAuth';
+import SIGN_IN_URL from "../constant";
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
 
 ReactDOM.render(
   <React.StrictMode>
     <Index />
   </React.StrictMode>,
-  document.getElementById('app'),
+  document.getElementById("app")
 );
 
 function Index() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
+    const auth = sessionStorage.getItem("mis-auth");
     if (!auth) window.location = SIGN_IN_URL;
   }, []);
 
   return (
     <HashRouter>
       <Switch>
-        <Route path="/"><Home /></Route>
+        <Route path="/">
+          <Home />
+        </Route>
       </Switch>
     </HashRouter>
   );
@@ -38,15 +40,15 @@ function Home() {
 
   useEffect(() => {
     (async () => {
-      let response = await window.fetch('/api/stats/user/qty');
+      let response = await window.fetch("/api/stats/user/qty");
       let res = await response.json();
       setUserQty(res.content.qty);
 
-      response = await window.fetch('/api/stats/enterprise/qty');
+      response = await window.fetch("/api/stats/enterprise/qty");
       res = await response.json();
       setEnterpriseQty(res.content.qty);
 
-      response = await window.fetch('/api/stats/delivery/qty');
+      response = await window.fetch("/api/stats/delivery/qty");
       res = await response.json();
       setDeliveryQty(res.content.qty);
     })();
@@ -74,7 +76,9 @@ function Home() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -82,9 +86,7 @@ function Home() {
                   <span className="h1">首页</span>
                   <nav>
                     <ol className="breadcrumb transparent">
-                      <li className="breadcrumb-item active">
-                        首页
-                      </li>
+                      <li className="breadcrumb-item active">首页</li>
                     </ol>
                   </nav>
                 </div>
@@ -103,7 +105,9 @@ function Home() {
                     <div className="card bg-dark shadow">
                       <div className="card-body">
                         <p className="lead">企业数量</p>
-                        <h1 className="display-1 text-center">{enterprise_qty}</h1>
+                        <h1 className="display-1 text-center">
+                          {enterprise_qty}
+                        </h1>
                       </div>
                     </div>
                   </div>
@@ -112,15 +116,11 @@ function Home() {
                     <div className="card bg-dark shadow">
                       <div className="card-body">
                         <p className="lead">简历投递次数</p>
-                        <h1 className="display-1 text-center">{delivery_qty}</h1>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                <div className="card bg-dark shadow flex-grow-1 mt-3">
-                  <div className="card-body">
-                    &nbsp;
                   </div>
                 </div>
               </div>

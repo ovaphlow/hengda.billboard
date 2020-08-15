@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import { YUAN_GONG_SHU_LIANG } from '../constant';
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IndustryPicker from '../component/IndustryPicker';
-import RecruitmentList from '../recruitment/component/List';
-import useAuth from '../useAuth';
+import { YUAN_GONG_SHU_LIANG } from "../constant";
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import IndustryPicker from "../component/IndustryPicker";
+import RecruitmentList from "../recruitment/component/List";
+import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
-  const [name, setName] = useState('');
-  const [yingyezhizhao, setYingyezhizhao] = useState('');
-  const [yingyezhizhao_tu, setYingyezhizhaoTu] = useState('');
-  const [faren, setFaren] = useState('');
-  const [zhuceriqi, setZhuceriqi] = useState('');
-  const [zhuziguimo, setZhuziguimo] = useState('');
-  const [yuangongshuliang, setYuangongshuliang] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [address3, setAddress3] = useState('');
-  const [address4, setAddress4] = useState('');
-  const [industry, setIndustry] = useState('');
-  const [intro, setIntro] = useState('');
-  const [url, setUrl] = useState('');
+  const [uuid, setUUID] = useState("");
+  const [name, setName] = useState("");
+  const [yingyezhizhao, setYingyezhizhao] = useState("");
+  const [yingyezhizhao_tu, setYingyezhizhaoTu] = useState("");
+  const [faren, setFaren] = useState("");
+  const [zhuceriqi, setZhuceriqi] = useState("");
+  const [zhuziguimo, setZhuziguimo] = useState("");
+  const [yuangongshuliang, setYuangongshuliang] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [address3, setAddress3] = useState("");
+  const [address4, setAddress4] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [intro, setIntro] = useState("");
+  const [url, setUrl] = useState("");
 
   const handleRemove = async () => {
-    if (!window.confirm('确定删除当前数据？')) return;
+    if (!window.confirm("确定删除当前数据？")) return;
     const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
     const res = await response.json();
     if (res.message) {
@@ -60,10 +60,10 @@ export default function Detail({ component_option }) {
       url,
     };
 
-    if (component_option === '新增') {
-      const response = await window.fetch('/api/enterprise/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+    if (component_option === "新增") {
+      const response = await window.fetch("/api/enterprise/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(data),
       });
       const res = await response.json();
@@ -72,13 +72,15 @@ export default function Detail({ component_option }) {
         return;
       }
       window.history.go(-1);
-    } else if (component_option === '编辑') {
-      const response = await window.fetch(`/api/enterprise/${id}?uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-        }),
-      });
+    } else if (component_option === "编辑") {
+      const response = await window.fetch(
+        `/api/enterprise/${id}?uuid=${uuid}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({}),
+        }
+      );
       const res = await response.json();
       if (res.message) {
         window.alert(res.message);
@@ -89,8 +91,8 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   });
 
@@ -115,7 +117,7 @@ export default function Detail({ component_option }) {
         setUrl(res.content.url);
       })();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
   return (
@@ -140,7 +142,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -149,12 +153,18 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="enterprise-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="enterprise-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           企业用户
                         </a>
                       </li>
@@ -171,7 +181,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">名称</label>
                           <input
                             type="text"
-                            value={name || ''}
+                            value={name || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setName(event.target.value)}
                           />
@@ -183,7 +193,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">法人</label>
                           <input
                             type="text"
-                            value={faren || ''}
+                            value={faren || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setFaren(event.target.value)}
                           />
@@ -197,9 +207,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">营业执照</label>
                           <input
                             type="text"
-                            value={yingyezhizhao || ''}
+                            value={yingyezhizhao || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setYingyezhizhao(event.target.value)}
+                            onChange={(event) =>
+                              setYingyezhizhao(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -209,9 +221,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">注册日期</label>
                           <input
                             type="text"
-                            value={zhuceriqi || ''}
+                            value={zhuceriqi || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setZhuceriqi(event.target.value)}
+                            onChange={(event) =>
+                              setZhuceriqi(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -221,9 +235,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">注资规模</label>
                           <input
                             type="text"
-                            value={zhuziguimo || ''}
+                            value={zhuziguimo || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setZhuziguimo(event.target.value)}
+                            onChange={(event) =>
+                              setZhuziguimo(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -234,11 +250,18 @@ export default function Detail({ component_option }) {
                           <select
                             value={yuangongshuliang}
                             className="form-control input-underscore"
-                            onChange={(event) => setYuangongshuliang(event.target.value)}
+                            onChange={(event) =>
+                              setYuangongshuliang(event.target.value)
+                            }
                           >
                             <option value="未选择">未选择</option>
                             {YUAN_GONG_SHU_LIANG.map((it) => (
-                              <option key={YUAN_GONG_SHU_LIANG.indexOf(it)} value={it}>{it}</option>
+                              <option
+                                key={YUAN_GONG_SHU_LIANG.indexOf(it)}
+                                value={it}
+                              >
+                                {it}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -251,9 +274,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">地址</label>
                           <input
                             type="text"
-                            value={address1 || ''}
+                            value={address1 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress1(event.target.value)}
+                            onChange={(event) =>
+                              setAddress1(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -263,9 +288,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
-                            value={address2 || ''}
+                            value={address2 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress2(event.target.value)}
+                            onChange={(event) =>
+                              setAddress2(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -275,9 +302,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
-                            value={address3 || ''}
+                            value={address3 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress3(event.target.value)}
+                            onChange={(event) =>
+                              setAddress3(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -287,7 +316,7 @@ export default function Detail({ component_option }) {
                       <label />
                       <input
                         type="text"
-                        value={address4 || ''}
+                        value={address4 || ""}
                         className="form-control input-underscore"
                         onChange={(event) => setAddress4(event.target.value)}
                       />
@@ -297,7 +326,7 @@ export default function Detail({ component_option }) {
                       <div className="col-4">
                         <IndustryPicker
                           caption="所属行业"
-                          value={industry || ''}
+                          value={industry || ""}
                           onChange={(event) => setIndustry(event.target.value)}
                         />
                       </div>
@@ -305,32 +334,53 @@ export default function Detail({ component_option }) {
                       <div className="col">
                         <div className="mb-3">
                           <label className="form-label">网址</label>
-                          <input type="text" value={url} placeholder="https://" className="form-control input-underscore" onChange={(event) => setUrl(event.target.value)} />
+                          <input
+                            type="text"
+                            value={url}
+                            placeholder="https://"
+                            className="form-control input-underscore"
+                            onChange={(event) => setUrl(event.target.value)}
+                          />
                         </div>
                       </div>
                     </div>
 
                     <div className="mb-3">
                       <label className="form-label">简介</label>
-                      <textarea rows="5" value={intro} className="form-control input-underscore" onChange={(event) => setIntro(event.target.value)} />
+                      <textarea
+                        rows="5"
+                        value={intro}
+                        className="form-control input-underscore"
+                        onChange={(event) => setIntro(event.target.value)}
+                      />
                     </div>
 
                     <p className="text-muted text-center">
                       营业执照
                       <br />
-                      <img src={yingyezhizhao_tu} className="img-fluid" alt={name} />
+                      <img
+                        src={yingyezhizhao_tu}
+                        className="img-fluid"
+                        alt={name}
+                      />
                     </p>
                   </div>
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
+                      {component_option === "编辑" && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -343,7 +393,7 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                         onClick={handleSubmit}
                       >
                         保存
@@ -355,7 +405,10 @@ export default function Detail({ component_option }) {
                 <div className="card bg-dark shadow mt-3">
                   <div className="card-header">发布的岗位</div>
                   <div className="card-body">
-                    <RecruitmentList enterprise_id={id} enterprise_uuid={uuid} />
+                    <RecruitmentList
+                      enterprise_id={id}
+                      enterprise_uuid={uuid}
+                    />
                   </div>
                 </div>
               </div>

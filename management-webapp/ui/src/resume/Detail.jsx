@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IndustryPicker from '../component/IndustryPicker';
-import EducationPicker from '../component/EducationPicker';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import IndustryPicker from "../component/IndustryPicker";
+import EducationPicker from "../component/EducationPicker";
+import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [gender, setGender] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [school, setSchool] = useState('');
-  const [major, setMajor] = useState('');
-  const [education, setEducation] = useState('');
-  const [date_begin, setDateBegin] = useState('');
-  const [date_end, setDateEnd] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [ziwopingjia, setZiwopingjia] = useState('');
-  const [qiwangzhiwei, setQiwangzhiwei] = useState('');
-  const [qiwanghangye, setQiwanghangye] = useState('');
-  const [yixiangchengshi, setYixiangchengshi] = useState('');
+  const [uuid, setUUID] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [school, setSchool] = useState("");
+  const [major, setMajor] = useState("");
+  const [education, setEducation] = useState("");
+  const [date_begin, setDateBegin] = useState("");
+  const [date_end, setDateEnd] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [ziwopingjia, setZiwopingjia] = useState("");
+  const [qiwangzhiwei, setQiwangzhiwei] = useState("");
+  const [qiwanghangye, setQiwanghangye] = useState("");
+  const [yixiangchengshi, setYixiangchengshi] = useState("");
 
   const handleSubmit = async () => {
-    if (component_option === '编辑') {
+    if (component_option === "编辑") {
       const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
+        method: "PUT",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({
           name,
           phone,
@@ -67,9 +67,9 @@ export default function Detail({ component_option }) {
   };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定删除当前数据？')) return;
+    if (!window.confirm("确定删除当前数据？")) return;
     const response = await window.fetch(`/api/resume/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
     const res = await response.json();
     if (res.message) {
@@ -80,8 +80,8 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   }, []);
 
@@ -132,7 +132,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -141,18 +143,22 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="common-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="common-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           个人用户
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        简历
-                      </li>
+                      <li className="breadcrumb-item active">简历</li>
                     </ol>
                   </nav>
                 </div>
@@ -163,7 +169,7 @@ export default function Detail({ component_option }) {
                       <label className="form-label">姓名</label>
                       <input
                         type="text"
-                        value={name || ''}
+                        value={name || ""}
                         className="form-control input-underscore"
                         onChange={(event) => setName(event.target.value)}
                       />
@@ -175,7 +181,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">电话</label>
                           <input
                             type="tel"
-                            value={phone || ''}
+                            value={phone || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setPhone(event.target.value)}
                           />
@@ -187,7 +193,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">EMAIL</label>
                           <input
                             type="email"
-                            value={email || ''}
+                            value={email || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setEmail(event.target.value)}
                           />
@@ -199,7 +205,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">性别</label>
                           <input
                             type="text"
-                            value={gender || ''}
+                            value={gender || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setGender(event.target.value)}
                           />
@@ -211,9 +217,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">出生日期</label>
                           <input
                             type="date"
-                            value={birthday || ''}
+                            value={birthday || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setBirthday(event.target.value)}
+                            onChange={(event) =>
+                              setBirthday(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -235,7 +243,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">专业</label>
                           <input
                             type="text"
-                            value={major || ''}
+                            value={major || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setMajor(event.target.value)}
                           />
@@ -245,7 +253,7 @@ export default function Detail({ component_option }) {
                       <div className="col">
                         <EducationPicker
                           caption="学历"
-                          value={education || ''}
+                          value={education || ""}
                           onChange={(event) => setEducation(event.target.value)}
                         />
                       </div>
@@ -255,9 +263,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">开始日期</label>
                           <input
                             type="date"
-                            value={date_begin || ''}
+                            value={date_begin || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setDateBegin(event.target.value)}
+                            onChange={(event) =>
+                              setDateBegin(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -267,7 +277,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">结束日期</label>
                           <input
                             type="date"
-                            value={date_end || ''}
+                            value={date_end || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setDateEnd(event.target.value)}
                           />
@@ -281,9 +291,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">住址</label>
                           <input
                             type="text"
-                            value={address1 || ''}
+                            value={address1 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress1(event.target.value)}
+                            onChange={(event) =>
+                              setAddress1(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -293,9 +305,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">&nbsp;</label>
                           <input
                             type="text"
-                            value={address2 || ''}
+                            value={address2 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddress2(event.target.value)}
+                            onChange={(event) =>
+                              setAddress2(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -307,18 +321,23 @@ export default function Detail({ component_option }) {
                       <label className="form-label">自我评价</label>
                       <ReactQuill
                         formats={[
-                          'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote']}
+                          "header",
+                          "align",
+                          "bold",
+                          "italic",
+                          "underline",
+                          "blockquote",
+                        ]}
                         modules={{
                           toolbar: [
                             [{ header: [1, 2, 3, false] }],
                             [{ align: [] }],
-                            ['bold', 'italic', 'underline', 'blockquote'],
+                            ["bold", "italic", "underline", "blockquote"],
                           ],
                         }}
                         readOnly
                         placeholder="请填写内容"
-                        value={ziwopingjia || ''}
+                        value={ziwopingjia || ""}
                         onChange={setZiwopingjia}
                       />
                     </div>
@@ -329,9 +348,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">期望岗位</label>
                           <input
                             type="text"
-                            value={qiwangzhiwei || ''}
+                            value={qiwangzhiwei || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setQiwangzhiwei(event.target.value)}
+                            onChange={(event) =>
+                              setQiwangzhiwei(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -339,8 +360,10 @@ export default function Detail({ component_option }) {
                       <div className="col">
                         <IndustryPicker
                           caption="期望行业"
-                          value={qiwanghangye || ''}
-                          onChange={(event) => setQiwanghangye(event.target.value)}
+                          value={qiwanghangye || ""}
+                          onChange={(event) =>
+                            setQiwanghangye(event.target.value)
+                          }
                         />
                       </div>
 
@@ -349,9 +372,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">意向城市</label>
                           <input
                             type="text"
-                            value={yixiangchengshi || ''}
+                            value={yixiangchengshi || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setYixiangchengshi(event.target.value)}
+                            onChange={(event) =>
+                              setYixiangchengshi(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -360,13 +385,19 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
+                      {component_option === "编辑" && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -379,7 +410,7 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                         onClick={handleSubmit}
                       >
                         保存

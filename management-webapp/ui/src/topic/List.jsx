@@ -1,26 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import moment from "moment";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconAdd from '../icon/Add';
-import IconRename from '../icon/Rename';
-import IconSearch from '../icon/Search';
-import IconSync from '../icon/Sync';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlusCircle,
+  faSearch,
+  faSyncAlt,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
   const [list, setList] = useState([]);
-  const [filter_title, setFilterTitle] = useState('');
-  const [filter_date, setFilterDate] = useState('');
+  const [filter_title, setFilterTitle] = useState("");
+  const [filter_date, setFilterDate] = useState("");
 
   const handleFilter = async () => {
     setList([]);
-    const response = await window.fetch('/api/content/topic/', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    const response = await window.fetch("/api/content/topic/", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
         date: filter_date,
         title: filter_title,
@@ -36,7 +39,7 @@ export default function List() {
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/content/topic/');
+      const response = await window.fetch("/api/content/topic/");
       const res = await response.json();
       setList(res.content);
     })();
@@ -64,7 +67,9 @@ export default function List() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -73,13 +78,14 @@ export default function List() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        热门话题
-                      </li>
+                      <li className="breadcrumb-item active">热门话题</li>
                     </ol>
                   </nav>
                 </div>
@@ -89,7 +95,11 @@ export default function List() {
                     <div className="row">
                       <div className="col-auto">
                         <a href="#/新增" className="btn btn-secondary">
-                          <IconAdd />
+                          <FontAwesomeIcon
+                            icon={faPlusCircle}
+                            fixedWidth
+                            size="lg"
+                          />
                           新增
                         </a>
                       </div>
@@ -100,9 +110,11 @@ export default function List() {
                           </div>
                           <input
                             type="text"
-                            value={filter_title || ''}
+                            value={filter_title || ""}
                             className="form-control"
-                            onChange={(event) => setFilterTitle(event.target.value)}
+                            onChange={(event) =>
+                              setFilterTitle(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -114,17 +126,27 @@ export default function List() {
                           </div>
                           <input
                             type="date"
-                            value={filter_date || ''}
+                            value={filter_date || ""}
                             className="form-control"
-                            onChange={(event) => setFilterDate(event.target.value)}
+                            onChange={(event) =>
+                              setFilterDate(event.target.value)
+                            }
                           />
                         </div>
                       </div>
 
                       <div className="col-auto">
                         <div className="btn-group">
-                          <button type="button" className="btn btn-info" onClick={handleFilter}>
-                            <IconSearch />
+                          <button
+                            type="button"
+                            className="btn btn-info"
+                            onClick={handleFilter}
+                          >
+                            <FontAwesomeIcon
+                              icon={faSearch}
+                              fixedWidth
+                              size="lg"
+                            />
                             查询
                           </button>
 
@@ -133,7 +155,11 @@ export default function List() {
                             className="btn btn-secondary"
                             onClick={() => window.location.reload(true)}
                           >
-                            <IconSync />
+                            <FontAwesomeIcon
+                              icon={faSyncAlt}
+                              fixedWidth
+                              size="lg"
+                            />
                             重置
                           </button>
                         </div>
@@ -159,14 +185,18 @@ export default function List() {
                             <td className="text-right">
                               <span className="float-left">
                                 <a href={`#/${it.id}?uuid=${it.uuid}`}>
-                                  <IconRename />
+                                  <FontAwesomeIcon
+                                    icon={faEdit}
+                                    fixedWidth
+                                    size="lg"
+                                  />
                                 </a>
                               </span>
                               {it.id}
                             </td>
                             <td>{it.tag}</td>
                             <td>{it.title}</td>
-                            <td>{moment(it.date).format('YYYY-MM-DD')}</td>
+                            <td>{moment(it.date).format("YYYY-MM-DD")}</td>
                           </tr>
                         ))}
                       </tbody>

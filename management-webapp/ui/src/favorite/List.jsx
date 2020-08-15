@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import moment from "moment";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
 
 export default function List() {
   const auth = useAuth();
@@ -13,27 +13,29 @@ export default function List() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    const t_master_id = new URLSearchParams(location.search).get('master_id');
+    const t_master_id = new URLSearchParams(location.search).get("master_id");
     (async () => {
-      const response = await window.fetch(`/api/favorite/?master_id=${t_master_id}`);
+      const response = await window.fetch(
+        `/api/favorite/?master_id=${t_master_id}`
+      );
       const res = await response.json();
       setList(res.content);
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRedirect2Resource = async (event) => {
-    const t_cat = event.target.getAttribute('data-category');
-    const id = event.target.getAttribute('data-id');
-    const uuid = event.target.getAttribute('data-uuid');
-    if (t_cat === '推荐信息') {
+    const t_cat = event.target.getAttribute("data-category");
+    const id = event.target.getAttribute("data-id");
+    const uuid = event.target.getAttribute("data-uuid");
+    if (t_cat === "推荐信息") {
       window.location = `recommend.html#/${id}?uuid=${uuid}`;
-    } else if (t_cat === '校园招聘') {
+    } else if (t_cat === "校园招聘") {
       window.location = `campus.html#/${id}?uuid=${uuid}`;
-    } else if (t_cat === '岗位') {
+    } else if (t_cat === "岗位") {
       window.location = `recruitment.html#/${id}?uuid=${uuid}`;
     } else {
-      window.alert('未知类型，解析失败。');
+      window.alert("未知类型，解析失败。");
     }
   };
 
@@ -59,7 +61,9 @@ export default function List() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -68,18 +72,22 @@ export default function List() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="common-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="common-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           个人用户
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        用户收藏
-                      </li>
+                      <li className="breadcrumb-item active">用户收藏</li>
                     </ol>
                   </nav>
                 </div>
@@ -101,11 +109,11 @@ export default function List() {
                       <tbody>
                         {list.map((it) => (
                           <tr key={it.id}>
-                            <td className="text-right">
-                              {it.id}
-                            </td>
+                            <td className="text-right">{it.id}</td>
                             <td>
-                              <span className="badge bg-info">{it.category1}</span>
+                              <span className="badge bg-info">
+                                {it.category1}
+                              </span>
                               &nbsp;
                               {it.name}
                               <br />
@@ -113,9 +121,11 @@ export default function List() {
                             </td>
                             <td>{it.category2}</td>
                             <td>
-                              {moment(it.datime).format('YYYY-MM-DD')}
+                              {moment(it.datime).format("YYYY-MM-DD")}
                               &nbsp;
-                              <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
+                              <span className="text-muted">
+                                {moment(it.datime).format("HH:mm:ss")}
+                              </span>
                             </td>
                             <td>
                               <button

@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useMessageQty from '../useMessageQty';
-import IconLink from '../icon/Link';
-import IconRename from '../icon/Rename';
-import IconSearch from '../icon/Search';
-import IconSync from '../icon/Sync';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useMessageQty from "../useMessageQty";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faSyncAlt,
+  faEdit,
+  faLink,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
-  const message_qty = useMessageQty({ user_id: 0, user_uuid: '' });
+  const message_qty = useMessageQty({ user_id: 0, user_uuid: "" });
   const [list, setList] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState("");
 
   const handleFilter = async () => {
     setList([]);
-    const response = await window.fetch('/api/enterprise-user/filter', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    const response = await window.fetch("/api/enterprise-user/filter", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ filter }),
     });
     const res = await response.json();
@@ -53,7 +56,9 @@ export default function List() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -62,26 +67,22 @@ export default function List() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        企业用户
-                      </li>
+                      <li className="breadcrumb-item active">企业用户</li>
                     </ol>
                   </nav>
                 </div>
 
                 {parseInt(message_qty, 10) > 0 && (
                   <div className="alert alert-warning">
-                    有
-                    {' '}
-                    {message_qty}
-                    {' '}
-                    个待认证企业需要
-                    <a href="enterprise.html#/待认证">处理</a>
-                    。
+                    有 {message_qty} 个待认证企业需要
+                    <a href="enterprise.html#/待认证">处理</a>。
                   </div>
                 )}
 
@@ -91,20 +92,45 @@ export default function List() {
                       <div className="col">
                         <div className="input-group">
                           <div className="input-group-prepend">
-                            <span className="input-group-text">姓名/电话/企业</span>
+                            <span className="input-group-text">
+                              姓名/电话/企业
+                            </span>
                           </div>
-                          <input type="text" value={filter} className="form-control" onChange={(event) => setFilter(event.target.value)} />
+                          <input
+                            type="text"
+                            value={filter}
+                            className="form-control"
+                            onChange={(event) => setFilter(event.target.value)}
+                          />
                         </div>
                       </div>
 
                       <div className="btn-group col-auto">
-                        <button type="button" className="btn btn-info" onClick={handleFilter}>
-                          <IconSearch />
+                        <button
+                          type="button"
+                          className="btn btn-info"
+                          onClick={handleFilter}
+                        >
+                          <FontAwesomeIcon
+                            icon={faSearch}
+                            fixedWidth
+                            size="lg"
+                          />
                           查询
                         </button>
 
-                        <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
-                          <IconSync />
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          onClick={() => {
+                            window.location.reload(true);
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faSyncAlt}
+                            fixedWidth
+                            size="lg"
+                          />
                           重置
                         </button>
                       </div>
@@ -127,8 +153,15 @@ export default function List() {
                         {list.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">
-                              <a href={`#/${it.id}?uuid=${it.uuid}`} className="float-left">
-                                <IconRename />
+                              <a
+                                href={`#/${it.id}?uuid=${it.uuid}`}
+                                className="float-left"
+                              >
+                                <FontAwesomeIcon
+                                  icon={faEdit}
+                                  fixedWidth
+                                  size="lg"
+                                />
                               </a>
                               {it.id}
                             </td>
@@ -137,8 +170,14 @@ export default function List() {
                             <td>
                               {it.enterprise}
                               &nbsp;
-                              <a href={`enterprise.html#/${it.enterprise_id}?uuid=${it.enterprise_uuid}`}>
-                                <IconLink />
+                              <a
+                                href={`enterprise.html#/${it.enterprise_id}?uuid=${it.enterprise_uuid}`}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faLink}
+                                  fixedWidth
+                                  size="lg"
+                                />
                               </a>
                             </td>
                           </tr>

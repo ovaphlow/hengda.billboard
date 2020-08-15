@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import moment from "moment";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import { RECOMMEND_CATEGORY } from '../constant';
-import { useAddressKeys, useAddressValues, useAddressLevel1ValueList } from '../useAddress';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import { RECOMMEND_CATEGORY } from "../constant";
+import {
+  useAddressKeys,
+  useAddressValues,
+  useAddressLevel1ValueList,
+} from "../useAddress";
+import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
@@ -22,16 +26,18 @@ export default function Detail({ component_option }) {
   const address_values = useAddressValues();
   const address_level1_values = useAddressLevel1ValueList();
 
-  const [category, setCategory] = useState('');
-  const [title, setTitle] = useState('');
-  const [date1, setDate1] = useState(moment().format('YYYY-MM-DD'));
-  const [date2, setDate2] = useState(moment().add(15, 'days').format('YYYY-MM-DD'));
-  const [address_level1, setAddressLevel1] = useState('黑龙江省');
-  const [address_level2, setAddressLevel2] = useState('哈尔滨市');
-  const [publisher, setPublisher] = useState('');
+  const [category, setCategory] = useState("");
+  const [title, setTitle] = useState("");
+  const [date1, setDate1] = useState(moment().format("YYYY-MM-DD"));
+  const [date2, setDate2] = useState(
+    moment().add(15, "days").format("YYYY-MM-DD")
+  );
+  const [address_level1, setAddressLevel1] = useState("黑龙江省");
+  const [address_level2, setAddressLevel2] = useState("哈尔滨市");
+  const [publisher, setPublisher] = useState("");
   const [qty, setQty] = useState(1);
-  const [baomingfangshi, setBaomingfangshi] = useState('');
-  const [content, setContent] = useState('');
+  const [baomingfangshi, setBaomingfangshi] = useState("");
+  const [content, setContent] = useState("");
 
   const handleSave = async () => {
     const data = {
@@ -47,10 +53,10 @@ export default function Detail({ component_option }) {
       content,
     };
 
-    if (component_option === '新增') {
-      const response = await window.fetch('/api/content/recommend/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+    if (component_option === "新增") {
+      const response = await window.fetch("/api/content/recommend/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(data),
       });
       const res = await response.json();
@@ -59,12 +65,15 @@ export default function Detail({ component_option }) {
         return;
       }
       window.history.go(-1);
-    } else if (component_option === '编辑') {
-      const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+    } else if (component_option === "编辑") {
+      const response = await window.fetch(
+        `/api/content/recommend/${id}${search}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       const res = await response.json();
       if (res.message) {
         window.alert(res.message);
@@ -75,10 +84,13 @@ export default function Detail({ component_option }) {
   };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/content/recommend/${id}${search}`, {
-      method: 'DELETE',
-    });
+    if (!window.confirm("确定要删除当前数据？")) return;
+    const response = await window.fetch(
+      `/api/content/recommend/${id}${search}`,
+      {
+        method: "DELETE",
+      }
+    );
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
@@ -93,8 +105,10 @@ export default function Detail({ component_option }) {
 
   useEffect(() => {
     (async () => {
-      if (component_option === '编辑') {
-        const response = await window.fetch(`/api/content/recommend/${id}${search}`);
+      if (component_option === "编辑") {
+        const response = await window.fetch(
+          `/api/content/recommend/${id}${search}`
+        );
         const res = await response.json();
         setCategory(res.content.category);
         setTitle(res.content.title);
@@ -118,8 +132,12 @@ export default function Detail({ component_option }) {
       if (address_values[i] === address_level1) {
         const code = address_keys[i];
         for (let j = 0; j < address_keys.length; j += 1) {
-          if (address_keys[j].slice(0, 2) === code.slice(0, 2) && address_keys[j].slice(-2) === '00') {
-            if (address_keys[j].slice(-4) !== '0000') arr.push(address_values[j]);
+          if (
+            address_keys[j].slice(0, 2) === code.slice(0, 2) &&
+            address_keys[j].slice(-2) === "00"
+          ) {
+            if (address_keys[j].slice(-4) !== "0000")
+              arr.push(address_values[j]);
           }
         }
         return;
@@ -150,7 +168,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -159,12 +179,18 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="recommend.html" className="text-reset text-decoration-none">
+                        <a
+                          href="recommend.html"
+                          className="text-reset text-decoration-none"
+                        >
                           推荐信息
                         </a>
                       </li>
@@ -184,11 +210,18 @@ export default function Detail({ component_option }) {
                           <select
                             value={category}
                             className="form-control input-underscore"
-                            onChange={(event) => setCategory(event.target.value)}
+                            onChange={(event) =>
+                              setCategory(event.target.value)
+                            }
                           >
                             <option value="">未选择</option>
                             {RECOMMEND_CATEGORY.map((it) => (
-                              <option key={RECOMMEND_CATEGORY.indexOf(it)} value={it}>{it}</option>
+                              <option
+                                key={RECOMMEND_CATEGORY.indexOf(it)}
+                                value={it}
+                              >
+                                {it}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -216,7 +249,13 @@ export default function Detail({ component_option }) {
                             value={date1}
                             className="form-control input-underscore"
                             onChange={(event) => setDate1(event.target.value)}
-                            onBlur={(event) => { setDate2(moment(event.target.value).add(15, 'days').format('YYYY-MM-DD')) }}
+                            onBlur={(event) => {
+                              setDate2(
+                                moment(event.target.value)
+                                  .add(15, "days")
+                                  .format("YYYY-MM-DD")
+                              );
+                            }}
                           />
                         </div>
                       </div>
@@ -237,13 +276,17 @@ export default function Detail({ component_option }) {
                         <div className="mb-3">
                           <label className="form-label">地址</label>
                           <select
-                            value={address_level1 || ''}
+                            value={address_level1 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddressLevel1(event.target.value)}
+                            onChange={(event) =>
+                              setAddressLevel1(event.target.value)
+                            }
                           >
                             <option value="">未选择</option>
                             {arr1.map((it) => (
-                              <option key={arr1.indexOf(it)} value={it}>{it}</option>
+                              <option key={arr1.indexOf(it)} value={it}>
+                                {it}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -253,13 +296,17 @@ export default function Detail({ component_option }) {
                         <div className="mb-3">
                           <label className="form-label">&nbsp;</label>
                           <select
-                            value={address_level2 || ''}
+                            value={address_level2 || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setAddressLevel2(event.target.value)}
+                            onChange={(event) =>
+                              setAddressLevel2(event.target.value)
+                            }
                           >
                             <option value="">未选择</option>
                             {arr2.map((it) => (
-                              <option key={arr2.indexOf(it)} value={it}>{it}</option>
+                              <option key={arr2.indexOf(it)} value={it}>
+                                {it}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -274,7 +321,9 @@ export default function Detail({ component_option }) {
                             type="text"
                             value={publisher}
                             className="form-control input-underscore"
-                            onChange={(event) => setPublisher(event.target.value)}
+                            onChange={(event) =>
+                              setPublisher(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -296,9 +345,11 @@ export default function Detail({ component_option }) {
                           <label className="form-label">报名方式</label>
                           <input
                             type="text"
-                            value={baomingfangshi || ''}
+                            value={baomingfangshi || ""}
                             className="form-control input-underscore"
-                            onChange={(event) => setBaomingfangshi(event.target.value)}
+                            onChange={(event) =>
+                              setBaomingfangshi(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -309,17 +360,23 @@ export default function Detail({ component_option }) {
                       <ReactQuill
                         modules={{
                           toolbar: [
-                            [{ header: [1, 2, 3, false] }], [{ align: [] }],
-                            ['bold', 'italic', 'underline', 'blockquote'],
-                            ['image'],
+                            [{ header: [1, 2, 3, false] }],
+                            [{ align: [] }],
+                            ["bold", "italic", "underline", "blockquote"],
+                            ["image"],
                           ],
                         }}
                         formats={[
-                          'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote', 'image'
+                          "header",
+                          "align",
+                          "bold",
+                          "italic",
+                          "underline",
+                          "blockquote",
+                          "image",
                         ]}
                         placeholder="请填写内容"
-                        value={content || ''}
+                        value={content || ""}
                         onChange={setContent}
                       />
                     </div>
@@ -327,14 +384,24 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
-                        <button type="button" className="btn btn-danger" onClick={handleRemove}>
+                      {component_option === "编辑" && (
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleRemove}
+                        >
                           删除
                         </button>
                       )}

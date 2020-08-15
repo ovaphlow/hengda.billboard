@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import moment from "moment";
 
 export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
   const [list, setList] = useState([]);
 
   const handleRedirect2Resource = async (event) => {
-    const cat = event.target.getAttribute('data-category');
-    const id = event.target.getAttribute('data-id');
-    const uuid = event.target.getAttribute('data-uuid');
-    if (cat === '简历') {
+    const cat = event.target.getAttribute("data-category");
+    const id = event.target.getAttribute("data-id");
+    const uuid = event.target.getAttribute("data-uuid");
+    if (cat === "简历") {
       window.location = `resume.html#/${id}?uuid=${uuid}`;
     } else {
-      window.alert('未知类型，解析失败。');
+      window.alert("未知类型，解析失败。");
     }
   };
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch(`/api/favorite/enterprise-user/?user_id=${user_id}`);
+      const response = await window.fetch(
+        `/api/favorite/enterprise-user/?user_id=${user_id}`
+      );
       const res = await response.json();
       setList(res.content);
     })();
@@ -38,14 +40,14 @@ export default function ComponentEnterpriseUserFavoriteList({ user_id }) {
       <tbody>
         {list.map((it) => (
           <tr key={it.id}>
-            <td className="text-right">
-              {it.id}
-            </td>
+            <td className="text-right">{it.id}</td>
             <td>{it.category2}</td>
             <td>
-              {moment(it.datime).format('YYYY-MM-DD')}
+              {moment(it.datime).format("YYYY-MM-DD")}
               &nbsp;
-              <span className="text-muted">{moment(it.datime).format('HH:mm:ss')}</span>
+              <span className="text-muted">
+                {moment(it.datime).format("HH:mm:ss")}
+              </span>
             </td>
             <td className="text-right">
               <button

@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import moment from 'moment';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import moment from "moment";
 
-import { SIGN_IN_URL } from '../constant';
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconMailReply from '../icon/MailReply';
-import useAuth from '../useAuth';
+import { SIGN_IN_URL } from "../constant";
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 ReactDOM.render(
   <React.StrictMode>
     <Index />
   </React.StrictMode>,
-  document.getElementById('app'),
+  document.getElementById("app")
 );
 
 function Index() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
+    const auth = sessionStorage.getItem("mis-auth");
     if (!auth) {
       window.location = SIGN_IN_URL;
     }
@@ -28,7 +29,9 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route path="/"><Feedback /></Route>
+        <Route path="/">
+          <Feedback />
+        </Route>
       </Switch>
     </Router>
   );
@@ -39,18 +42,18 @@ function Feedback() {
   const [data, setData] = useState([]);
 
   const handleReply = async (event) => {
-    const content = window.prompt('对用户意见反馈内容的回复');
-    const response = await window.fetch('/api/feedback/feedback/reply', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
+    const content = window.prompt("对用户意见反馈内容的回复");
+    const response = await window.fetch("/api/feedback/feedback/reply", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        id: event.target.getAttribute('data-id'),
-        user_id: event.target.getAttribute('data-user-id'),
-        category: '系统消息',
-        title: '对用户意见反馈内容的回复',
+        id: event.target.getAttribute("data-id"),
+        user_id: event.target.getAttribute("data-user-id"),
+        category: "系统消息",
+        title: "对用户意见反馈内容的回复",
         content,
-        datime: moment().format('YYYY-MM-DD'),
-        user_category: event.target.getAttribute('data-user-category'),
+        datime: moment().format("YYYY-MM-DD"),
+        user_category: event.target.getAttribute("data-user-category"),
       }),
     });
     const res = await response.json();
@@ -63,7 +66,7 @@ function Feedback() {
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/feedback/feedback/');
+      const response = await window.fetch("/api/feedback/feedback/");
       const res = await response.json();
       setData(res.content);
     })();
@@ -91,7 +94,9 @@ function Feedback() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -100,13 +105,14 @@ function Feedback() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        意见反馈
-                      </li>
+                      <li className="breadcrumb-item active">意见反馈</li>
                     </ol>
                   </nav>
                 </div>
@@ -131,18 +137,24 @@ function Feedback() {
                           <tr key={it.id}>
                             <td className="text-right">{it.id}</td>
                             <td>
-                              {it.status === '已处理' ? (
-                                <span className="badge bg-secondary">已处理</span>
+                              {it.status === "已处理" ? (
+                                <span className="badge bg-secondary">
+                                  已处理
+                                </span>
                               ) : (
                                 <span className="badge bg-danger">未处理</span>
                               )}
                             </td>
                             <td>
-                              {it.user_category === '企业用户' && (
-                                <span className="badge bg-success">{it.user_category}</span>
+                              {it.user_category === "企业用户" && (
+                                <span className="badge bg-success">
+                                  {it.user_category}
+                                </span>
                               )}
-                              {it.user_category === '个人用户' && (
-                                <span className="badge bg-info">{it.user_category}</span>
+                              {it.user_category === "个人用户" && (
+                                <span className="badge bg-info">
+                                  {it.user_category}
+                                </span>
                               )}
                               &nbsp;
                               {it.name}
@@ -150,9 +162,11 @@ function Feedback() {
                               <small className="text-muted">{it.phone}</small>
                             </td>
                             <td>
-                              {moment(it.datime).format('YYYY-MM-DD')}
+                              {moment(it.datime).format("YYYY-MM-DD")}
                               <br />
-                              <span className="text-muted">{moment(it.datime).format('HH:mm')}</span>
+                              <span className="text-muted">
+                                {moment(it.datime).format("HH:mm")}
+                              </span>
                             </td>
                             <td>{it.content}</td>
                             <td>
@@ -164,7 +178,11 @@ function Feedback() {
                                 data-user-category={it.user_category}
                                 onClick={handleReply}
                               >
-                                <IconMailReply />
+                                <FontAwesomeIcon
+                                  icon={faEnvelope}
+                                  fixedWidth
+                                  size="lg"
+                                />
                                 回复
                               </button>
                             </td>

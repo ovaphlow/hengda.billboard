@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import { BANNER_CATEGORY } from '../constant';
-import IconAdd from '../icon/Add';
-import IconSearch from '../icon/Search';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import { BANNER_CATEGORY } from "../constant";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
   const [list, setList] = useState([]);
-  const [filter_category, setFilterCategory] = useState('小程序-首页');
-  const [filter_status, setFilterStatus] = useState('启用');
+  const [filter_category, setFilterCategory] = useState("小程序-首页");
+  const [filter_status, setFilterStatus] = useState("启用");
+  
 
   const handleFilter = async () => {
     setList([]);
-    const response = await window.fetch('/api/content/banner/', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    const response = await window.fetch("/api/content/banner/", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
         category: filter_category,
         status: filter_status,
@@ -54,7 +55,9 @@ export default function List() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -63,13 +66,14 @@ export default function List() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        BANNER
-                      </li>
+                      <li className="breadcrumb-item active">BANNER</li>
                     </ol>
                   </nav>
                 </div>
@@ -79,7 +83,11 @@ export default function List() {
                     <div className="row">
                       <div className="col-auto">
                         <a href="#/新增" className="btn btn-secondary">
-                          <IconAdd />
+                          <FontAwesomeIcon
+                            icon={faPlusCircle}
+                            fixedWidth
+                            size="lg"
+                          />
                           新增
                         </a>
                       </div>
@@ -89,12 +97,19 @@ export default function List() {
                             <span className="input-group-text">类别</span>
                           </div>
                           <select
-                            value={filter_category || ''}
+                            value={filter_category || ""}
                             className="form-control"
-                            onChange={(event) => setFilterCategory(event.target.value)}
+                            onChange={(event) =>
+                              setFilterCategory(event.target.value)
+                            }
                           >
                             {BANNER_CATEGORY.map((it) => (
-                              <option key={BANNER_CATEGORY.indexOf(it)} value={it}>{it}</option>
+                              <option
+                                key={BANNER_CATEGORY.indexOf(it)}
+                                value={it}
+                              >
+                                {it}
+                              </option>
                             ))}
                           </select>
                         </div>
@@ -106,9 +121,11 @@ export default function List() {
                             <span className="input-group-text">状态</span>
                           </div>
                           <select
-                            value={filter_status || ''}
+                            value={filter_status || ""}
                             className="form-control"
-                            onChange={(event) => setFilterStatus(event.target.value)}
+                            onChange={(event) =>
+                              setFilterStatus(event.target.value)
+                            }
                           >
                             <option value="启用">启用</option>
                             <option value="未启用">未启用</option>
@@ -123,7 +140,11 @@ export default function List() {
                             className="btn btn-info"
                             onClick={handleFilter}
                           >
-                            <IconSearch />
+                            <FontAwesomeIcon
+                              icon={faSearch}
+                              fixedWidth
+                              size="lg"
+                            />
                             检索
                           </button>
                         </div>
@@ -134,23 +155,38 @@ export default function List() {
                   <div className="card-body">
                     <div className="row">
                       {list.map((it) => (
-                        <div key={it.id} className="card bg-secondary m-2" style={{ width: '18rem' }}>
-                          <img src={it.data_url} className="card-img-top" alt={it.title} />
+                        <div
+                          key={it.id}
+                          className="card bg-secondary m-2"
+                          style={{ width: "18rem" }}
+                        >
+                          <img
+                            src={it.data_url}
+                            className="card-img-top"
+                            alt={it.title}
+                          />
                           <div className="card-body">
                             <h5 className="card-title">
                               {it.title}
                               <span className="float-right">
-                                {it.status === '启用' ? (
-                                  <span className="badge bg-success">{it.status}</span>
+                                {it.status === "启用" ? (
+                                  <span className="badge bg-success">
+                                    {it.status}
+                                  </span>
                                 ) : (
-                                  <span className="badge bg-danger">{it.status}</span>
+                                  <span className="badge bg-danger">
+                                    {it.status}
+                                  </span>
                                 )}
                               </span>
                             </h5>
                           </div>
 
                           <div className="card-footer text-center">
-                            <a href={`#/${it.id}?uuid=${it.uuid}`} className="btn btn-info btn-sm">
+                            <a
+                              href={`#/${it.id}?uuid=${it.uuid}`}
+                              className="btn btn-info btn-sm"
+                            >
                               查看
                             </a>
                           </div>

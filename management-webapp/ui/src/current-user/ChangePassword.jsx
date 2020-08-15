@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import md5 from 'blueimp-md5';
+import React, { useState } from "react";
+import md5 from "blueimp-md5";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconLogOut from '../icon/LogOut';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function ChangePassword() {
   const auth = useAuth();
-  const [password, setPassword] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
 
   const handleChange = async () => {
     if (!password || !password1 || !password2) {
-      window.alert('请完整填写所需信息');
+      window.alert("请完整填写所需信息");
       return;
     }
     if (password1 !== password2) {
-      window.alert('两次输入的新密码不一致');
+      window.alert("两次输入的新密码不一致");
       return;
     }
 
@@ -28,9 +29,9 @@ export default function ChangePassword() {
       current_password: md5(password),
       new_password: md5(password1),
     };
-    let res = await window.fetch('/api/current-user/change-password', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    let res = await window.fetch("/api/current-user/change-password", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     });
     res = await res.json();
@@ -38,8 +39,8 @@ export default function ChangePassword() {
       window.alert(res.message);
       return;
     }
-    window.alert('数据已经提交至服务器，即将重定向至登录页面。');
-    window.location = '#登录';
+    window.alert("数据已经提交至服务器，即将重定向至登录页面。");
+    window.location = "#登录";
   };
 
   return (
@@ -64,7 +65,9 @@ export default function ChangePassword() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -73,18 +76,22 @@ export default function ChangePassword() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="current-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="current-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           当前用户
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        修改密码
-                      </li>
+                      <li className="breadcrumb-item active">修改密码</li>
                     </ol>
                   </nav>
                 </div>
@@ -92,16 +99,38 @@ export default function ChangePassword() {
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header d-flex justify-content-center">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-info btn-sm" onClick={() => { window.location = '#/'; }}>
+                      <button
+                        type="button"
+                        className="btn btn-info btn-sm"
+                        onClick={() => {
+                          window.location = "#/";
+                        }}
+                      >
                         用户信息
                       </button>
 
-                      <button type="button" className="btn btn-warning btn-sm" onClick={() => { window.location = '#/修改密码'; }}>
+                      <button
+                        type="button"
+                        className="btn btn-warning btn-sm"
+                        onClick={() => {
+                          window.location = "#/修改密码";
+                        }}
+                      >
                         修改密码
                       </button>
 
-                      <button type="button" className="btn btn-danger btn-sm" onClick={() => { window.location = '#/登录'; }}>
-                        <IconLogOut />
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.location = "#/登录";
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faSignOutAlt}
+                          fixedWidth
+                          size="lg"
+                        />
                         退出登录
                       </button>
                     </div>
@@ -116,7 +145,7 @@ export default function ChangePassword() {
                       <label className="form-label">当前密码</label>
                       <input
                         type="password"
-                        value={password || ''}
+                        value={password || ""}
                         autoComplete="current-password"
                         className="form-control input-underscore"
                         onChange={(event) => setPassword(event.target.value)}
@@ -127,7 +156,7 @@ export default function ChangePassword() {
                       <label className="form-label">新密码</label>
                       <input
                         type="password"
-                        value={password1 || ''}
+                        value={password1 || ""}
                         autoComplete="new-password"
                         className="form-control input-underscore"
                         onChange={(event) => setPassword1(event.target.value)}
@@ -138,7 +167,7 @@ export default function ChangePassword() {
                       <label className="form-label">重复新密码</label>
                       <input
                         type="password"
-                        value={password2 || ''}
+                        value={password2 || ""}
                         autoComplete="new-password"
                         className="form-control input-underscore"
                         onChange={(event) => setPassword2(event.target.value)}
@@ -150,13 +179,19 @@ export default function ChangePassword() {
                     <button
                       type="button"
                       className="btn btn-secondary"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
 
                     <div className="btn-group float-right">
-                      <button type="button" className="btn btn-primary" onClick={handleChange}>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleChange}
+                      >
                         更改密码
                       </button>
                     </div>

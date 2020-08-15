@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import md5 from 'blueimp-md5';
+import React, { useState, useEffect } from "react";
+import md5 from "blueimp-md5";
 
-import BottomNav from '../component/BottomNav';
-import IconLogIn from '../icon/LogIn';
+import BottomNav from "../component/BottomNav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignIn() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
-    sessionStorage.removeItem('mis-auth');
+    sessionStorage.removeItem("mis-auth");
   }, []);
 
   const handleSignIn = async () => {
-    const response = await fetch('/api/mis-user/sign-in', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
+    const response = await fetch("/api/mis-user/sign-in", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ username, password: md5(password) }),
     });
     const res = await response.json();
@@ -23,7 +24,7 @@ export default function SignIn() {
       window.alert(res.message);
       return;
     }
-    sessionStorage.setItem('mis-auth', JSON.stringify(res.content));
+    sessionStorage.setItem("mis-auth", JSON.stringify(res.content));
     window.history.go(-1);
   };
 
@@ -31,9 +32,7 @@ export default function SignIn() {
     <div className="d-flex flex-column h-100 w-100">
       <header>
         <div className="container-lg">
-          <h1>
-            龙招聘 - 平台管理系统
-          </h1>
+          <h1>龙招聘 - 平台管理系统</h1>
         </div>
       </header>
 
@@ -49,7 +48,7 @@ export default function SignIn() {
                   <label className="form-label">用户名</label>
                   <input
                     type="text"
-                    value={username || ''}
+                    value={username || ""}
                     autoComplete="username"
                     className="form-control input-underscore"
                     onChange={(event) => setUsername(event.target.value)}
@@ -60,7 +59,7 @@ export default function SignIn() {
                   <label className="form-label">密码</label>
                   <input
                     type="password"
-                    value={password || ''}
+                    value={password || ""}
                     autoComplete="current-password"
                     className="form-control input-underscore"
                     onChange={(event) => setPassword(event.target.value)}
@@ -70,8 +69,12 @@ export default function SignIn() {
             </div>
 
             <div className="card-footer">
-              <button type="button" className="btn btn-block btn-primary" onClick={handleSignIn}>
-                <IconLogIn />
+              <button
+                type="button"
+                className="btn btn-block btn-primary"
+                onClick={handleSignIn}
+              >
+                <FontAwesomeIcon icon={faSignInAlt} fixedWidth size="lg" />
                 确定
               </button>
             </div>

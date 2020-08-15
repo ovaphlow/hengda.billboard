@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
+import moment from "moment";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
+  const [uuid, setUUID] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [tag, setTag] = useState("");
 
   const handleSubmit = async () => {
     const data = {
       title,
       content,
       tag,
-      date: moment().format('YYYY-MM-DD'),
-      time: moment().format('HH:mm:ss'),
+      date: moment().format("YYYY-MM-DD"),
+      time: moment().format("HH:mm:ss"),
     };
 
-    if (component_option === '新增') {
-      const response = await window.fetch('/api/content/topic/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+    if (component_option === "新增") {
+      const response = await window.fetch("/api/content/topic/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(data),
       });
       const res = await response.json();
@@ -40,12 +40,15 @@ export default function Detail({ component_option }) {
         return;
       }
       window.history.go(-1);
-    } else if (component_option === '编辑') {
-      const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+    } else if (component_option === "编辑") {
+      const response = await window.fetch(
+        `/api/content/topic/${id}?uuid=${uuid}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
       const res = await response.json();
       if (res.message) {
         window.alert(res.message);
@@ -56,10 +59,13 @@ export default function Detail({ component_option }) {
   };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
-    });
+    if (!window.confirm("确定要删除当前数据？")) return;
+    const response = await window.fetch(
+      `/api/content/topic/${id}?uuid=${uuid}`,
+      {
+        method: "DELETE",
+      }
+    );
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
@@ -69,15 +75,17 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   }, []);
 
   useEffect(() => {
     if (!uuid) return;
     (async () => {
-      const response = await window.fetch(`/api/content/topic/${id}?uuid=${uuid}`);
+      const response = await window.fetch(
+        `/api/content/topic/${id}?uuid=${uuid}`
+      );
       const res = await response.json();
       setTag(res.content.tag);
       setTitle(res.content.title);
@@ -108,7 +116,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -117,12 +127,18 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="topic.html" className="text-reset text-decoration-none">
+                        <a
+                          href="topic.html"
+                          className="text-reset text-decoration-none"
+                        >
                           热门话题
                         </a>
                       </li>
@@ -137,7 +153,7 @@ export default function Detail({ component_option }) {
                         <div className="mb-3">
                           <label className="form-label">TAG</label>
                           <select
-                            value={tag || ''}
+                            value={tag || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setTag(event.target.value)}
                           >
@@ -153,7 +169,12 @@ export default function Detail({ component_option }) {
                       <div className="col">
                         <div className="mb-3">
                           <label className="form-label">标题</label>
-                          <input type="text" value={title} className="form-control input-underscore" onChange={(event) => setTitle(event.target.value)} />
+                          <input
+                            type="text"
+                            value={title}
+                            className="form-control input-underscore"
+                            onChange={(event) => setTitle(event.target.value)}
+                          />
                         </div>
                       </div>
                     </div>
@@ -162,14 +183,21 @@ export default function Detail({ component_option }) {
                       <label className="form-label">内容</label>
                       <ReactQuill
                         formats={[
-                          'header', 'align', 'bold', 'italic',
-                          'underline', 'blockquote', 'link', 'image']}
+                          "header",
+                          "align",
+                          "bold",
+                          "italic",
+                          "underline",
+                          "blockquote",
+                          "link",
+                          "image",
+                        ]}
                         modules={{
                           toolbar: [
                             [{ header: [1, 2, 3, false] }],
                             [{ align: [] }],
-                            ['bold', 'italic', 'underline', 'blockquote'],
-                            ['link', 'image'],
+                            ["bold", "italic", "underline", "blockquote"],
+                            ["link", "image"],
                           ],
                         }}
                         placeholder="请填写内容"
@@ -181,19 +209,31 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => window.history.go(-1)}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => window.history.go(-1)}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
-                        <button type="button" className="btn btn-danger" onClick={handleRemove}>
+                      {component_option === "编辑" && (
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleRemove}
+                        >
                           删除
                         </button>
                       )}
 
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSubmit}
+                      >
                         保存
                       </button>
                     </div>

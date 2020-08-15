@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconRename from '../icon/Rename';
-import IconMail from '../icon/Mail';
-import IconSearch from '../icon/Search';
-import IconSmartphone from '../icon/Smartphone';
-import IconSync from '../icon/Sync';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faSyncAlt,
+  faEdit,
+  faEnvelope,
+  faMobileAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
   const [data, setData] = useState([]);
-  const [filter_name, setFilterName] = useState('');
+  const [filter_name, setFilterName] = useState("");
 
   const handleFilter = async () => {
     setData([]);
-    const response = await window.fetch('/api/common-user/', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    const response = await window.fetch("/api/common-user/", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ filter_name }),
     });
     const res = await response.json();
@@ -52,7 +55,9 @@ export default function List() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -61,13 +66,14 @@ export default function List() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        个人用户
-                      </li>
+                      <li className="breadcrumb-item active">个人用户</li>
                     </ol>
                   </nav>
                 </div>
@@ -86,20 +92,40 @@ export default function List() {
                             value={filter_name}
                             aria-label="企业名称"
                             className="form-control"
-                            onChange={(event) => setFilterName(event.target.value)}
+                            onChange={(event) =>
+                              setFilterName(event.target.value)
+                            }
                           />
                         </div>
                       </div>
 
                       <div className="col-auto">
                         <div className="btn-group">
-                          <button type="button" className="btn btn-info" onClick={handleFilter}>
-                            <IconSearch />
+                          <button
+                            type="button"
+                            className="btn btn-info"
+                            onClick={handleFilter}
+                          >
+                            <FontAwesomeIcon
+                              icon={faSearch}
+                              fixedWidth
+                              size="lg"
+                            />
                             查询
                           </button>
 
-                          <button type="button" className="btn btn-secondary" onClick={() => { window.reload(true); }}>
-                            <IconSync />
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => {
+                              window.reload(true);
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faSyncAlt}
+                              fixedWidth
+                              size="lg"
+                            />
                             重置
                           </button>
                         </div>
@@ -123,18 +149,33 @@ export default function List() {
                         {data.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">
-                              <a href={`#/${it.id}?uuid=${it.uuid}`} className="float-left">
-                                <IconRename />
+                              <a
+                                href={`#/${it.id}?uuid=${it.uuid}`}
+                                className="float-left"
+                              >
+                                <FontAwesomeIcon
+                                  icon={faEdit}
+                                  fixedWidth
+                                  size="lg"
+                                />
                               </a>
                               <span className="float-right">{it.id}</span>
                             </td>
                             <td>{it.name}</td>
                             <td>
-                              <IconMail />
+                              <FontAwesomeIcon
+                                icon={faEnvelope}
+                                fixedWidth
+                                size="lg"
+                              />
                               {it.email}
                             </td>
                             <td>
-                              <IconSmartphone />
+                              <FontAwesomeIcon
+                                icon={faMobileAlt}
+                                fixedWidth
+                                size="lg"
+                              />
                               {it.phone}
                             </td>
                             <td>{it.qty_favorite}</td>

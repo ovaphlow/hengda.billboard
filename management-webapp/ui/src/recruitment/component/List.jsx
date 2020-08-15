@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-import IconRename from '../../icon/Rename';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export default function List({ enterprise_id, enterprise_uuid }) {
   const [data_list, setDataList] = useState([]);
+  const data_list1 = Array.prototype.slice.call(data_list);
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch(`/api/recruitment/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`);
+      const response = await window.fetch(
+        `/api/recruitment/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`
+      );
       const res = await response.json();
       setDataList(res.content);
     })();
@@ -30,12 +34,12 @@ export default function List({ enterprise_id, enterprise_uuid }) {
       </thead>
 
       <tbody>
-        {data_list.map((it) => (
+        {data_list1.map((it) => (
           <tr key={it.id}>
             <td className="text-right">
               <span className="float-left">
                 <a href={`recruitment.html#/${it.id}?uuid=${it.uuid}`}>
-                  <IconRename />
+                  <FontAwesomeIcon icon={faEdit} fixedWidth size="lg" />
                 </a>
               </span>
               {it.id}
@@ -60,5 +64,9 @@ export default function List({ enterprise_id, enterprise_uuid }) {
 
 List.propTypes = {
   enterprise_id: PropTypes.string.isRequired,
-  enterprise_uuid: PropTypes.string.isRequired,
+  enterprise_uuid: PropTypes.string,
+};
+
+List.defaultProps = {
+  enterprise_uuid: undefined,
 };

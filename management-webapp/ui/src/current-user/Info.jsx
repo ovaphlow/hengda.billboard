@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useAuth from '../useAuth';
-import IconLogOut from '../icon/LogOut';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function Info() {
   const auth = useAuth();
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
 
   const handleSave = async () => {
-    const response = await window.fetch(`/api/mis-user/${auth.id}?uuid=${auth.uuid}`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ username, name }),
-    });
+    const response = await window.fetch(
+      `/api/mis-user/${auth.id}?uuid=${auth.uuid}`,
+      {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ username, name }),
+      }
+    );
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
       return;
     }
-    window.location = '#/登录';
+    window.location = "#/登录";
   };
 
   useEffect(() => {
@@ -52,7 +56,9 @@ export default function Info() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -61,13 +67,14 @@ export default function Info() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        当前用户
-                      </li>
+                      <li className="breadcrumb-item active">当前用户</li>
                     </ol>
                   </nav>
                 </div>
@@ -75,16 +82,38 @@ export default function Info() {
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header d-flex justify-content-center">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-info btn-sm" onClick={() => { window.location = '#/'; }}>
+                      <button
+                        type="button"
+                        className="btn btn-info btn-sm"
+                        onClick={() => {
+                          window.location = "#/";
+                        }}
+                      >
                         用户信息
                       </button>
 
-                      <button type="button" className="btn btn-warning btn-sm" onClick={() => { window.location = '#/修改密码'; }}>
+                      <button
+                        type="button"
+                        className="btn btn-warning btn-sm"
+                        onClick={() => {
+                          window.location = "#/修改密码";
+                        }}
+                      >
                         修改密码
                       </button>
 
-                      <button type="button" className="btn btn-danger btn-sm" onClick={() => { window.location = '#/登录'; }}>
-                        <IconLogOut />
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.location = "#/登录";
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faSignOutAlt}
+                          fixedWidth
+                          size="lg"
+                        />
                         退出登录
                       </button>
                     </div>
@@ -114,7 +143,9 @@ export default function Info() {
                             type="text"
                             value={username}
                             className="form-control input-underscore"
-                            onChange={(event) => setUsername(event.target.value)}
+                            onChange={(event) =>
+                              setUsername(event.target.value)
+                            }
                           />
                         </div>
                       </div>
@@ -122,12 +153,22 @@ export default function Info() {
                   </div>
 
                   <div className="card-footer">
-                    <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
+                    >
                       返回
                     </button>
 
                     <div className="btn-group float-right">
-                      <button type="button" className="btn btn-primary" onClick={handleSave}>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSave}
+                      >
                         保存
                       </button>
                     </div>

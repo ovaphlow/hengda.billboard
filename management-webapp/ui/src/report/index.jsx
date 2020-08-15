@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import moment from "moment";
 
-import { SIGN_IN_URL } from '../constant';
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import useAuth from '../useAuth';
+import { SIGN_IN_URL } from "../constant";
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
 
 ReactDOM.render(
   <React.StrictMode>
     <Index />
   </React.StrictMode>,
-  document.getElementById('app'),
+  document.getElementById("app")
 );
 
 function Index() {
   useEffect(() => {
-    const auth = sessionStorage.getItem('mis-auth');
+    const auth = sessionStorage.getItem("mis-auth");
     if (!auth) {
       window.location = SIGN_IN_URL;
     }
@@ -27,7 +27,9 @@ function Index() {
   return (
     <Router>
       <Switch>
-        <Route path="/"><Report /></Route>
+        <Route path="/">
+          <Report />
+        </Route>
       </Switch>
     </Router>
   );
@@ -38,21 +40,21 @@ function Report() {
   const [data, setData] = useState([]);
 
   const handleRedirect = (event) => {
-    const id = event.target.getAttribute('data-id');
-    const uuid = event.target.getAttribute('data-uuid');
-    const category = event.target.getAttribute('data-category');
-    if (category === '岗位') {
+    const id = event.target.getAttribute("data-id");
+    const uuid = event.target.getAttribute("data-uuid");
+    const category = event.target.getAttribute("data-category");
+    if (category === "岗位") {
       window.location = `recruitment.html#/${id}?uuid=${uuid}`;
-    } else if (category === '企业') {
+    } else if (category === "企业") {
       window.location = `enterprise.html#/${id}?uuid=${uuid}`;
-    } else if (category === '简历') {
+    } else if (category === "简历") {
       window.location = `resume.html#/${id}?uuid=${uuid}`;
     }
   };
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/report/');
+      const response = await window.fetch("/api/report/");
       const res = await response.json();
       setData(res.content);
     })();
@@ -80,7 +82,9 @@ function Report() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -89,13 +93,14 @@ function Report() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        举报
-                      </li>
+                      <li className="breadcrumb-item active">举报</li>
                     </ol>
                   </nav>
                 </div>
@@ -120,18 +125,22 @@ function Report() {
                           <tr key={it.id}>
                             <td className="text-right">{it.id}</td>
                             <td>
-                              {it.user_category === '企业用户' && (
-                                <span className="badge bg-success">{it.user_category}</span>
+                              {it.user_category === "企业用户" && (
+                                <span className="badge bg-success">
+                                  {it.user_category}
+                                </span>
                               )}
-                              {it.user_category === '个人用户' && (
-                                <span className="badge bg-info">{it.user_category}</span>
+                              {it.user_category === "个人用户" && (
+                                <span className="badge bg-info">
+                                  {it.user_category}
+                                </span>
                               )}
                               &nbsp;
                               {it.name}
                               <br />
                               <small className="text-muted">{it.phone}</small>
                             </td>
-                            <td>{moment(it.datime).format('YYYY-MM-DD')}</td>
+                            <td>{moment(it.datime).format("YYYY-MM-DD")}</td>
                             <td>{it.category}</td>
                             <td>{it.content}</td>
                             <td className="text-right">

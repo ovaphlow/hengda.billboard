@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconAdd from '../icon/Add';
-import IconTag from '../icon/Tag';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle, faTags } from "@fortawesome/free-solid-svg-icons";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
-  const [name, setName] = useState('');
-  const [comment, setComment] = useState('');
+  const [uuid, setUUID] = useState("");
+  const [name, setName] = useState("");
+  const [comment, setComment] = useState("");
   const [list, setList] = useState([]);
 
   const handleSubmit = async () => {
-    if (component_option === '新增') {
-      const response = await window.fetch('/api/settings/industry/', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+    if (component_option === "新增") {
+      const response = await window.fetch("/api/settings/industry/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({
           name,
           comment,
@@ -34,15 +34,18 @@ export default function Detail({ component_option }) {
         return;
       }
       window.history.go(-1);
-    } else if (component_option === '编辑') {
-      const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          comment,
-        }),
-      });
+    } else if (component_option === "编辑") {
+      const response = await window.fetch(
+        `/api/settings/industry/${id}?uuid=${uuid}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            name,
+            comment,
+          }),
+        }
+      );
       const res = await response.json();
       if (res.message) {
         window.alert(res.message);
@@ -53,10 +56,13 @@ export default function Detail({ component_option }) {
   };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
-    });
+    if (!window.confirm("确定要删除当前数据？")) return;
+    const response = await window.fetch(
+      `/api/settings/industry/${id}?uuid=${uuid}`,
+      {
+        method: "DELETE",
+      }
+    );
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
@@ -66,25 +72,29 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   }, []);
 
   useEffect(() => {
     if (!uuid) return;
     (async () => {
-      const response = await window.fetch(`/api/settings/industry/${id}?uuid=${uuid}`);
+      const response = await window.fetch(
+        `/api/settings/industry/${id}?uuid=${uuid}`
+      );
       const res = await response.json();
       setName(res.content.name);
       setComment(res.content.comment);
     })();
     (async () => {
-      const response = await window.fetch(`/api/settings/industry/2nd?id=${id}`);
+      const response = await window.fetch(
+        `/api/settings/industry/2nd?id=${id}`
+      );
       const res = await response.json();
       setList(res.content || []);
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uuid]);
 
   return (
@@ -109,7 +119,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -118,16 +130,24 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="setting-industry.html" className="text-reset text-decoration-none">
+                        <a
+                          href="setting-industry.html"
+                          className="text-reset text-decoration-none"
+                        >
                           系统设定：行业
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">{component_option}</li>
+                      <li className="breadcrumb-item active">
+                        {component_option}
+                      </li>
                     </ol>
                   </nav>
                 </div>
@@ -138,7 +158,7 @@ export default function Detail({ component_option }) {
                       <label className="form-label">名称</label>
                       <input
                         type="text"
-                        value={name || ''}
+                        value={name || ""}
                         className="form-control input-underscore"
                         onChange={(event) => setName(event.target.value)}
                       />
@@ -148,7 +168,7 @@ export default function Detail({ component_option }) {
                       <label className="form-label">备注</label>
                       <input
                         type="text"
-                        value={comment || ''}
+                        value={comment || ""}
                         className="form-control input-underscore"
                         onChange={(event) => setComment(event.target.value)}
                       />
@@ -157,31 +177,51 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
-                        <button type="button" className="btn btn-danger" onClick={handleRemove}>
+                      {component_option === "编辑" && (
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={handleRemove}
+                        >
                           删除
                         </button>
                       )}
-                      <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSubmit}
+                      >
                         保存
                       </button>
                     </div>
                   </div>
                 </div>
 
-                {component_option === '编辑' && (
+                {component_option === "编辑" && (
                   <div className="card bg-dark shadow mt-3">
                     <div className="card-header">
                       二级分类
                       <span className="float-right">
-                        <a href={`#/二级行业/新增?master_id=${id}&uuid=${uuid}`}>
-                          <IconAdd />
+                        <a
+                          href={`#/二级行业/新增?master_id=${id}&uuid=${uuid}`}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPlusCircle}
+                            fixedWidth
+                            size="lg"
+                          />
                           新增
                         </a>
                       </span>
@@ -195,7 +235,11 @@ export default function Detail({ component_option }) {
                               href={`#/二级行业/${it.id}?uuid=${it.uuid}&master_id=${it.master_id}`}
                               className="text-reset text-decoration-none"
                             >
-                              <IconTag />
+                              <FontAwesomeIcon
+                                icon={faTags}
+                                fixedWidth
+                                size="lg"
+                              />
                               {it.name}
                             </a>
                           </li>

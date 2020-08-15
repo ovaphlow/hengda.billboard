@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import ComponentEnterpriseUserFavoriteList from '../favorite/ComponentEnterpriseUserFavoriteList';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import ComponentEnterpriseUserFavoriteList from "../favorite/ComponentEnterpriseUserFavoriteList";
+import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
+  const [uuid, setUUID] = useState("");
   const [enterprise_id, setEnterpriseID] = useState(0);
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleSubmit = async () => {
-    if (component_option === '编辑') {
-      const response = await window.fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`, {
-        method: 'PUT',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          phone,
-        }),
-      });
+    if (component_option === "编辑") {
+      const response = await window.fetch(
+        `/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+          }),
+        }
+      );
       const res = await response.json();
       if (res.message) {
         window.alert(res.message);
@@ -38,10 +41,13 @@ export default function Detail({ component_option }) {
   };
 
   const handleRemove = async () => {
-    if (!window.confirm('确定要删除当前数据？')) return;
-    const response = await window.fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`, {
-      method: 'DELETE',
-    });
+    if (!window.confirm("确定要删除当前数据？")) return;
+    const response = await window.fetch(
+      `/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`,
+      {
+        method: "DELETE",
+      }
+    );
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);
@@ -51,22 +57,26 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setEnterpriseID(parseInt(new URLSearchParams(location.search).get('enterprise_id'), 10));
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setEnterpriseID(
+        parseInt(new URLSearchParams(location.search).get("enterprise_id"), 10)
+      );
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   }, []);
 
   useEffect(() => {
     if (enterprise_id && uuid) {
       (async () => {
-        const response = await fetch(`/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`);
+        const response = await fetch(
+          `/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`
+        );
         const res = await response.json();
         setName(res.content.name);
         setPhone(res.content.phone);
       })();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enterprise_id, uuid]);
 
   return (
@@ -91,7 +101,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -100,12 +112,18 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="enterprise-user" className="text-reset text-decoration-none">
+                        <a
+                          href="enterprise-user"
+                          className="text-reset text-decoration-none"
+                        >
                           企业用户
                         </a>
                       </li>
@@ -122,29 +140,29 @@ export default function Detail({ component_option }) {
                       <label className="form-label">姓名</label>
                       <input
                         type="text"
-                        value={name || ''}
+                        value={name || ""}
                         className="form-control input-underscore"
                         onChange={(event) => setName(event.target.value)}
                       />
                     </div>
 
-                    {component_option === '新增' && (
-                    <div className="mb-3">
-                      <label className="form-label">密码</label>
-                      <input
-                        type="text"
-                        value={password || ''}
-                        className="form-control input-underscore"
-                        onChange={(event) => setPassword(event.target.value)}
-                      />
-                    </div>
+                    {component_option === "新增" && (
+                      <div className="mb-3">
+                        <label className="form-label">密码</label>
+                        <input
+                          type="text"
+                          value={password || ""}
+                          className="form-control input-underscore"
+                          onChange={(event) => setPassword(event.target.value)}
+                        />
+                      </div>
                     )}
 
                     <div className="mb-3">
                       <label className="form-label">电话</label>
                       <input
                         type="tel"
-                        value={phone || ''}
+                        value={phone || ""}
                         className="form-control input-underscore"
                         onChange={(event) => setPhone(event.target.value)}
                       />
@@ -153,13 +171,19 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
+                      {component_option === "编辑" && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -172,7 +196,7 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ display: 'none' }}
+                        style={{ display: "none" }}
                         onClick={handleSubmit}
                       >
                         保存

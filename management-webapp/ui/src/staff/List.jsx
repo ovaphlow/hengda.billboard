@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconAdd from '../icon/Add';
-import IconRename from '../icon/Rename';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
@@ -13,7 +13,7 @@ export default function List() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('/api/mis-user/');
+      const response = await fetch("/api/mis-user/");
       const res = await response.json();
       setData(res.content);
     })();
@@ -41,7 +41,9 @@ export default function List() {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -50,13 +52,14 @@ export default function List() {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">
-                        平台用户
-                      </li>
+                      <li className="breadcrumb-item active">平台用户</li>
                     </ol>
                   </nav>
                 </div>
@@ -64,7 +67,11 @@ export default function List() {
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
                     <a href="#/新增" className="btn btn-secondary">
-                      <IconAdd />
+                      <FontAwesomeIcon
+                        icon={faPlusCircle}
+                        fixedWidth
+                        size="lg"
+                      />
                       新增
                     </a>
                   </div>
@@ -82,8 +89,15 @@ export default function List() {
                         {data.map((it) => (
                           <tr key={it.id}>
                             <td className="text-right">
-                              <a href={`#/${it.id}?uuid=${it.uuid}`} className="float-left">
-                                <IconRename />
+                              <a
+                                href={`#/${it.id}?uuid=${it.uuid}`}
+                                className="float-left"
+                              >
+                                <FontAwesomeIcon
+                                  icon={faEdit}
+                                  fixedWidth
+                                  size="lg"
+                                />
                               </a>
                               {it.id}
                             </td>

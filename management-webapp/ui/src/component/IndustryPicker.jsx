@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 export default function IndustryPicker({ caption, value, onChange }) {
   const [list, setList] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/settings/industry/');
+      const response = await window.fetch("/api/settings/industry/");
       const res = await response.json();
       setList(res.content);
     })();
@@ -14,7 +14,7 @@ export default function IndustryPicker({ caption, value, onChange }) {
 
   return (
     <div className="mb-3">
-      <label className="form-label">{caption || '行业'}</label>
+      <label className="form-label">{caption || "行业"}</label>
       <select
         value={value}
         className="form-control input-underscore"
@@ -22,7 +22,9 @@ export default function IndustryPicker({ caption, value, onChange }) {
       >
         <option value="">未选择</option>
         {list.map((it) => (
-          <option value={it.name} key={it.id}>{it.name}</option>
+          <option value={it.name} key={it.id}>
+            {it.name}
+          </option>
         ))}
       </select>
     </div>

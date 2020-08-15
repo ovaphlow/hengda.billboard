@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import IconRename from '../icon/Rename';
-import IconPlayListCheck from '../icon/PlayListCheck';
-import IconSync from '../icon/Sync';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSyncAlt,
+  faEdit,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function ComponentCertificateList() {
   const [list, setList] = useState([]);
-  const [filter_name, setFilterName] = useState('');
+  const [filter_name, setFilterName] = useState("");
 
   useEffect(() => {
     (async () => {
-      const response = await window.fetch('/api/enterprise/certificate/');
+      const response = await window.fetch("/api/enterprise/certificate/");
       const res = await response.json();
       setList(res.content);
     })();
@@ -18,9 +21,9 @@ export default function ComponentCertificateList() {
 
   const handleFilter = async () => {
     setList([]);
-    const response = await window.fetch('/api/enterprise/certificate/filter/', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    const response = await window.fetch("/api/enterprise/certificate/filter/", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ name: filter_name }),
     });
     const res = await response.json();
@@ -32,13 +35,13 @@ export default function ComponentCertificateList() {
   };
 
   const handleCertificate = async (event) => {
-    if (!window.confirm('确定对该企业的信息核实完毕，并进行认证吗？')) return;
-    const response = await window.fetch('/api/enterprise/certificate/', {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
+    if (!window.confirm("确定对该企业的信息核实完毕，并进行认证吗？")) return;
+    const response = await window.fetch("/api/enterprise/certificate/", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        id: event.target.getAttribute('data-id'),
-        uuid: event.target.getAttribute('data-uuid'),
+        id: event.target.getAttribute("data-id"),
+        uuid: event.target.getAttribute("data-uuid"),
       }),
     });
     const res = await response.json();
@@ -70,12 +73,22 @@ export default function ComponentCertificateList() {
 
           <div className="col-auto">
             <div className="btn-group">
-              <button type="button" className="btn btn-info" onClick={handleFilter}>
+              <button
+                type="button"
+                className="btn btn-info"
+                onClick={handleFilter}
+              >
                 查询
               </button>
 
-              <button type="button" className="btn btn-secondary" onClick={() => { window.location.reload(true); }}>
-                <IconSync />
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  window.location.reload(true);
+                }}
+              >
+                <FontAwesomeIcon icon={faSyncAlt} fixedWidth size="lg" />
                 重置
               </button>
             </div>
@@ -99,7 +112,7 @@ export default function ComponentCertificateList() {
               <tr key={it.id}>
                 <td>
                   <a href={`enterprise.html#/${it.id}?uuid=${it.uuid}`}>
-                    <IconRename />
+                    <FontAwesomeIcon icon={faEdit} fixedWidth size="lg" />
                   </a>
                   <span className="float-right">{it.id}</span>
                 </td>
@@ -114,7 +127,11 @@ export default function ComponentCertificateList() {
                       data-uuid={it.uuid}
                       onClick={handleCertificate}
                     >
-                      <IconPlayListCheck />
+                      <FontAwesomeIcon
+                        icon={faCheckCircle}
+                        fixedWidth
+                        size="lg"
+                      />
                       认证
                     </button>
                   </div>

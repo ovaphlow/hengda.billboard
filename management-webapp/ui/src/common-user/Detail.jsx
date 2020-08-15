@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import TopNav from '../component/TopNav';
-import LeftNav from '../component/LeftNav';
-import BottomNav from '../component/BottomNav';
-import IconList from '../icon/List';
-import useAuth from '../useAuth';
+import TopNav from "../component/TopNav";
+import LeftNav from "../component/LeftNav";
+import BottomNav from "../component/BottomNav";
+import useAuth from "../useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink, faList } from "@fortawesome/free-solid-svg-icons";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
   const location = useLocation();
-  const [uuid, setUUID] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [uuid, setUUID] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [resume_list, setResumeList] = useState([]);
 
   const handleRemove = async () => {
-    if (!window.confirm('确定删除当前数据？')) return;
+    if (!window.confirm("确定删除当前数据？")) return;
     const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
     const res = await response.json();
     if (res.message) {
@@ -32,15 +33,17 @@ export default function Detail({ component_option }) {
   };
 
   useEffect(() => {
-    if (component_option === '编辑') {
-      setUUID(new URLSearchParams(location.search).get('uuid'));
+    if (component_option === "编辑") {
+      setUUID(new URLSearchParams(location.search).get("uuid"));
     }
   }, []);
 
   useEffect(() => {
     if (uuid) {
       (async () => {
-        const response = await window.fetch(`/api/common-user/${id}?uuid=${uuid}`);
+        const response = await window.fetch(
+          `/api/common-user/${id}?uuid=${uuid}`
+        );
         const res = await response.json();
         setName(res.content.name);
         setEmail(res.content.email);
@@ -51,14 +54,14 @@ export default function Detail({ component_option }) {
   }, [uuid]);
 
   useEffect(() => {
-    if (component_option === '编辑') {
+    if (component_option === "编辑") {
       (async () => {
         const response = await window.fetch(`/api/resume?user_id=${id}`);
         const res = await response.json();
         setResumeList(res.content);
       })();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -83,7 +86,9 @@ export default function Detail({ component_option }) {
                     <button
                       type="button"
                       className="btn btn-link text-reset text-decoration-none"
-                      onClick={() => { window.history.go(-1); }}
+                      onClick={() => {
+                        window.history.go(-1);
+                      }}
                     >
                       返回
                     </button>
@@ -92,12 +97,18 @@ export default function Detail({ component_option }) {
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
-                        <a href="home.html" className="text-reset text-decoration-none">
+                        <a
+                          href="home.html"
+                          className="text-reset text-decoration-none"
+                        >
                           首页
                         </a>
                       </li>
                       <li className="breadcrumb-item">
-                        <a href="common-user.html" className="text-reset text-decoration-none">
+                        <a
+                          href="common-user.html"
+                          className="text-reset text-decoration-none"
+                        >
                           个人用户
                         </a>
                       </li>
@@ -110,14 +121,14 @@ export default function Detail({ component_option }) {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <span className="lead">
-                      用户信息
-                    </span>
+                    <span className="lead">用户信息</span>
                     <div className="btn-group float-right">
                       <button
                         type="button"
                         className="btn btn-secondary"
-                        onClick={() => { window.location = `favorite.html#/?master_id=${id}`; }}
+                        onClick={() => {
+                          window.location = `favorite.html#/?master_id=${id}`;
+                        }}
                       >
                         <IconList />
                         用户收藏
@@ -126,7 +137,9 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-warning"
-                        onClick={() => { window.location = `journal.html#/登录?user_category=个人用户&user_id=${id}&user_uuid=${uuid}`; }}
+                        onClick={() => {
+                          window.location = `journal.html#/登录?user_category=个人用户&user_id=${id}&user_uuid=${uuid}`;
+                        }}
                       >
                         登录记录
                       </button>
@@ -134,7 +147,9 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-info"
-                        onClick={() => { window.location = `journal.html#/浏览?user_category=个人用户&user_id=${id}&user_uuid=${uuid}`; }}
+                        onClick={() => {
+                          window.location = `journal.html#/浏览?user_category=个人用户&user_id=${id}&user_uuid=${uuid}`;
+                        }}
                       >
                         浏览记录
                       </button>
@@ -142,7 +157,9 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-success"
-                        onClick={() => { window.location = `journal.html#/编辑?user_category=个人用户&user_id=${id}&user_uuid=${uuid}`; }}
+                        onClick={() => {
+                          window.location = `journal.html#/编辑?user_category=个人用户&user_id=${id}&user_uuid=${uuid}`;
+                        }}
                       >
                         编辑记录
                       </button>
@@ -156,7 +173,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">姓名</label>
                           <input
                             type="text"
-                            value={name || ''}
+                            value={name || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setName(event.target.value)}
                           />
@@ -168,7 +185,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">电话</label>
                           <input
                             type="tel"
-                            value={phone || ''}
+                            value={phone || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setPhone(event.target.value)}
                           />
@@ -180,7 +197,7 @@ export default function Detail({ component_option }) {
                           <label className="form-label">EMAIL</label>
                           <input
                             type="email"
-                            value={email || ''}
+                            value={email || ""}
                             className="form-control input-underscore"
                             onChange={(event) => setEmail(event.target.value)}
                           />
@@ -191,13 +208,19 @@ export default function Detail({ component_option }) {
 
                   <div className="card-footer">
                     <div className="btn-group">
-                      <button type="button" className="btn btn-secondary" onClick={() => { window.history.go(-1); }}>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          window.history.go(-1);
+                        }}
+                      >
                         返回
                       </button>
                     </div>
 
                     <div className="btn-group float-right">
-                      {component_option === '编辑' && (
+                      {component_option === "编辑" && (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -210,16 +233,22 @@ export default function Detail({ component_option }) {
                   </div>
                 </div>
 
-                {component_option === '编辑' && (
+                {component_option === "编辑" && (
                   <div className="card bg-dark shadow mt-3">
                     <div className="card-header">用户简历</div>
 
                     <div className="card-body">
                       <div className="list-group">
                         {resume_list.map((it) => (
-                          <a href={`resume.html#/${it.id}?master_id=${id}&uuid=${it.uuid}`} className="list-group-item list-group-item-action" key={it.id}>
+                          <a
+                            href={`resume.html#/${it.id}?master_id=${id}&uuid=${it.uuid}`}
+                            className="list-group-item list-group-item-action"
+                            key={it.id}
+                          >
                             {it.qiwangzhiwei}
-                            <span className="float-right text-muted">{it.yixiangchengshi}</span>
+                            <span className="float-right text-muted">
+                              {it.yixiangchengshi}
+                            </span>
                           </a>
                         ))}
                       </div>
@@ -234,7 +263,7 @@ export default function Detail({ component_option }) {
                             window.location = `delivery.html#/?user_id=${id}&user_uuid=${uuid}`;
                           }}
                         >
-                          <IconList />
+                          <FontAwesomeIcon icon={faList} fixedWidth size="lg" />
                           投递记录
                         </button>
                       </div>

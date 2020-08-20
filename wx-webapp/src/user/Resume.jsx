@@ -449,7 +449,6 @@ const Personal = () => {
   const { search } = useLocation();
 
   useEffect(() => {
-    const _data = JSON.parse(sessionStorage.getItem('resume_data'));
     fetch(`./api/resume/user/${id}${search}`)
       .then((res) => res.json())
       .then((res) => {
@@ -458,6 +457,7 @@ const Personal = () => {
         } else {
           alert(res.message);
         }
+        const _data = JSON.parse(sessionStorage.getItem('resume_data'));
         if (_data !== null) {
           setData(_data);
         }
@@ -466,7 +466,7 @@ const Personal = () => {
 
   useEffect(() => {
     sessionStorage.removeItem('resume_data');
-  },[]);
+  }, []);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -747,7 +747,7 @@ const Intention = () => {
 
   useEffect(() => {
     sessionStorage.removeItem('industry_data');
-  },[]);
+  }, []);
 
   const handleChange = (e) => {
     const { value, name } = e.target;

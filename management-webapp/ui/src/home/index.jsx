@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route } from "react-router-dom";
 
-import SIGN_IN_URL from "../constant";
+import { SIGN_IN_URL } from "../constant";
 import TopNav from "../component/TopNav";
 import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
@@ -16,11 +16,6 @@ ReactDOM.render(
 );
 
 function Index() {
-  useEffect(() => {
-    const auth = sessionStorage.getItem("mis-auth");
-    if (!auth) window.location = SIGN_IN_URL;
-  }, []);
-
   return (
     <HashRouter>
       <Switch>
@@ -39,6 +34,11 @@ function Home() {
   const [delivery_qty, setDeliveryQty] = useState(0);
 
   useEffect(() => {
+    const auth = sessionStorage.getItem("mis-auth");
+    if (!auth) {
+      window.location = SIGN_IN_URL;
+      return;
+    }
     (async () => {
       let response = await window.fetch("/api/stats/user/qty");
       let res = await response.json();
@@ -57,7 +57,7 @@ function Home() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav component_option="首页" component_param_name={auth.name} />
+        <TopNav component_option="首页" component_param_name={auth?.name} />
       </header>
 
       <main className="flex-grow-1">

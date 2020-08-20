@@ -54,7 +54,7 @@ const Resume = () => {
 
   const [file, setFile] = useState([]);
 
-  useState(() => {
+  useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth === null) {
       window.location = '#/登录';
@@ -250,7 +250,6 @@ const Resume = () => {
             </div>
           </div> */}
           <div className="card mt-3 border-0 mb-5">
-            <br />
             <ToBack href="#我的" category="我的简历" />
             <div className="card-body">
               <div className="mb-2 resume-personal pt-2 pb-1 text-center">
@@ -450,6 +449,7 @@ const Personal = () => {
   const { search } = useLocation();
 
   useEffect(() => {
+    const _data = JSON.parse(sessionStorage.getItem('resume_data'));
     fetch(`./api/resume/user/${id}${search}`)
       .then((res) => res.json())
       .then((res) => {
@@ -458,8 +458,15 @@ const Personal = () => {
         } else {
           alert(res.message);
         }
+        if (_data !== null) {
+          setData(_data);
+        }
       });
   }, [id, search]);
+
+  useEffect(() => {
+    sessionStorage.removeItem('resume_data');
+  },[]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -492,14 +499,14 @@ const Personal = () => {
   };
 
   const toProvinceCity = () => {
-    window.location = `#/我的/简历/所在地/${id}${search}`;
+    window.location.href = `#/我的/简历/所在地/${id}${search}`;
+    sessionStorage.setItem('resume_data', JSON.stringify(data));
   };
 
   return (
     <>
       <div className="container-fluid">
         <div className="card mt-4 mb-5 bg-white rounded border-0">
-          <br />
           <ToBack category="我的简历" />
           <div className="card-body">
             <div className="resume-personal pt-2 pb-1 text-center">
@@ -510,7 +517,7 @@ const Personal = () => {
                 name="name"
                 category="姓名"
                 value={data.name}
-                placeholder="请填写姓名,用于投递简历"
+                placeholder="请填写姓名"
                 handleChange={handleChange}
               />
             </div>
@@ -544,7 +551,7 @@ const Personal = () => {
                 name="address1"
                 category="现居住地"
                 value={`${data.address1}-${data.address2}-${data.address3}`}
-                placeholder="请提供现居住地,用于投递简历"
+                placeholder="请提供现居住地"
                 handleChange={handleChange}
               />
             </div>
@@ -561,7 +568,7 @@ const Personal = () => {
                 name="email"
                 category="电子邮箱"
                 value={data.email}
-                placeholder="请提供电子邮箱,用于企业联系"
+                placeholder="请提供电子邮箱"
                 handleChange={handleChange}
               />
             </div>
@@ -632,7 +639,6 @@ const School = () => {
     <>
       <div className="container-fluid">
         <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
-          <br />
           <ToBack category="我的简历" />
           <div className="card-body">
             <div className="resume-personal pt-2 pb-1 text-center">
@@ -643,7 +649,7 @@ const School = () => {
                 name="school"
                 category="毕业院校"
                 value={data.school}
-                placeholder="请提供现毕业院校,用于投递简历"
+                placeholder="请提供现毕业院校"
                 handleChange={handleChange}
               />
             </div>
@@ -652,7 +658,7 @@ const School = () => {
                 name="education"
                 category="学历"
                 value={data.education}
-                placeholder="请提供现学历,用于投递简历"
+                placeholder="请提供现学历"
                 handleChange={handleChange}
               >
                 <option> </option>
@@ -724,6 +730,7 @@ const Intention = () => {
   const { search } = useLocation();
 
   useEffect(() => {
+    const _data = JSON.parse(sessionStorage.getItem('industry_data'));
     fetch(`./api/resume/user/${id}${search}`)
       .then((res) => res.json())
       .then((res) => {
@@ -732,8 +739,15 @@ const Intention = () => {
         } else {
           alert(res.message);
         }
+        if (_data !== null) {
+          setData(_data);
+        }
       });
   }, [id, search]);
+
+  useEffect(() => {
+    sessionStorage.removeItem('industry_data');
+  },[]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -767,13 +781,13 @@ const Intention = () => {
 
   const toIndustry = () => {
     window.location = `#/我的/简历/行业/${id}${search}`;
+    sessionStorage.setItem('industry_data', JSON.stringify(data));
   };
 
   return (
     <>
       <div className="container-fluid">
         <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
-          <br />
           <ToBack category="我的简历" />
           <div className="card-body">
             <div className="resume-personal pt-2 pb-1 text-center">
@@ -864,7 +878,6 @@ const Evaluation = () => {
     <>
       <div className="container-fluid">
         <div className="card mt-4 mb-5 bg-white rounded border-0 rounded">
-          <br />
           <ToBack category="我的简历" />
           <div className="card-body">
             <div className="resume-personal pt-2 pb-1 text-center">
@@ -1012,7 +1025,6 @@ const ProvinceCity = () => {
         })),
     );
   };
-
   const level3Click = (item) => {
     setLevel3(item.name);
   };
@@ -1035,6 +1047,19 @@ const ProvinceCity = () => {
         if (res.message) {
           alert(res.message);
         } else {
+          const resume_data = JSON.parse(sessionStorage.getItem('resume_data'));
+          if (resume_data !== null) {
+            setResume(resume_data);
+          }
+          sessionStorage.setItem(
+            'resume_data',
+            JSON.stringify({
+              ...resume_data,
+              address1: level1,
+              address2: level2,
+              address3: level3,
+            }),
+          );
           _EditJournal(
             {
               category2: '简历',
@@ -1216,6 +1241,18 @@ const Industry = () => {
         if (res.message) {
           alert(res.message);
         } else {
+          const industry_data = JSON.parse(sessionStorage.getItem('industry_data'));
+          if (industry_data !== null) {
+            setResume(industry_data);
+          }
+          sessionStorage.setItem(
+            'industry_data',
+            JSON.stringify({
+              ...industry_data,
+              qiwangzhiwei,
+              qiwanghangye,
+            }),
+          );
           _EditJournal(
             {
               category2: '简历',
@@ -1243,24 +1280,24 @@ const Industry = () => {
             <hr />
             <div className="row mt-3" style={{ fontSize: 14 }}>
               <div className="col pre-scrollable">
-                {level1.map((item) => (
+                {level1.map((item, inx) => (
                   <p
                     aria-hidden="true"
                     className={_class(qiwanghangye, item)}
                     onClick={() => level1Click(item)}
-                    key={item.code}
+                    key={item.code + inx.toString()}
                   >
                     {item.name}
                   </p>
                 ))}
               </div>
               <div className="col pre-scrollable">
-                {level2.map((item) => (
+                {level2.map((item, inx) => (
                   <p
                     aria-hidden="true"
                     className={_class(qiwangzhiwei, item)}
                     onClick={() => level2Click(item)}
-                    key={item.code}
+                    key={item.code + inx.toString()}
                   >
                     {item.name}
                   </p>

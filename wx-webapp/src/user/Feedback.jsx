@@ -50,7 +50,6 @@ const Feedback = () => {
     <>
       <div className="container-fluid">
         <div className="card mt-2 border-0 shadow">
-          <br />
           <ToBack />
           <div className="card-body">
             <h5>反馈/投诉</h5>

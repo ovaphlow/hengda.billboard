@@ -25,7 +25,7 @@ export default function SignIn() {
       return;
     }
     sessionStorage.setItem("mis-auth", JSON.stringify(res.content));
-    window.history.go(-1);
+    window.location.go(-1);
   };
 
   return (

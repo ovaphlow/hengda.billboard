@@ -54,7 +54,7 @@ export function SelectField({ category, name, value, handleChange, children }) {
 }
 
 SelectField.propTypes = {
-  category: PropTypes.string.isRequired,
+  category: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
   children: PropTypes.arrayOf(PropTypes.any),
@@ -64,6 +64,7 @@ SelectField.propTypes = {
 SelectField.defaultProps = {
   name: '',
   value: undefined,
+  category: undefined,
   children: [],
   handleChange: () => {},
 };

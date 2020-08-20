@@ -102,7 +102,6 @@ const RecommendDetails = () => {
     <>
       <div className="container-fluid">
         <div className="card border-0 shadow mt-2 interface-bottom">
-          <br />
           <ToBack category={item.title} />
           <div className="card-body">
             <div className="row">

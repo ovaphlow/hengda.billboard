@@ -67,9 +67,7 @@ const ComplaintJournal = () => {
   return (
     <div className="container-fluid">
       <div className="card mt-2">
-        <br />
         <ToBack category="操作记录" href="#我的" />
-        <br />
         <JournalTabs category="反馈/投诉" />
         <div className="card-body">
           <div className="tab-content mt-1">

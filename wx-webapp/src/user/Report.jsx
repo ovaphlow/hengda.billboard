@@ -45,18 +45,23 @@ const RecruitmentDetail = ({
 );
 
 RecruitmentDetail.propTypes = {
-  date: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  enterprise_name: PropTypes.func.isRequired,
-  education: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  name: PropTypes.string,
+  enterprise_name: PropTypes.string,
+  education: PropTypes.string,
   address2: PropTypes.string,
   address1: PropTypes.string,
-  category: PropTypes.string.isRequired,
-  salary1: PropTypes.string,
-  salary2: PropTypes.string,
+  category: PropTypes.string,
+  salary1: PropTypes.number,
+  salary2: PropTypes.number,
 };
 
 RecruitmentDetail.defaultProps = {
+  date: undefined,
+  name: undefined,
+  enterprise_name: undefined,
+  education: undefined,
+  category: undefined,
   address2: undefined,
   address1: undefined,
   salary1: undefined,

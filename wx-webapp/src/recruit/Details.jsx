@@ -180,7 +180,6 @@ const Details = () => {
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
         <div className="card border-0 shadow mt-2">
-          <br />
           <ToBack category={item.title} />
           <div className="card-body">
             <div className="row">
@@ -189,47 +188,46 @@ const Details = () => {
                 <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              举办方:
-              {item.school}
+
+            <div className="row">
+              <div className="col">
+                举办方:
+                {item.school}
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              举办时间: {item.date} {item.time}
+            <div className="row">
+              <div className="col">
+                举办时间: {item.date} {item.time}
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              举办地点: {item.address_level1}-{item.address_level2}-{item.address_level3}
-              <br />
-              {item.address_level4}
+            <div className="row">
+              <div className="col">
+                举办地点: {item.address_level1}-{item.address_level2}-{item.address_level3}
+                <br />
+                {item.address_level4}
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">简介:</div>
-          </div>
-          <div className="row ">
-            <div className="col editor-body" id="content" />
+            <div className="row">
+              <div className="col">简介:</div>
+            </div>
+            <div className="row ">
+              <div className="col editor-body" id="content" />
+            </div>
           </div>
         </div>
       </div>
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
-          <div className="col nav-col">
-            <button
-              type="button"
-              className="btn btn-light nav-btn text-muted text-small"
-              onClick={handleFavorite}
-            >
-              {favoriteIcon()}
-              收藏
-            </button>
-          </div>
+          <button
+            type="button"
+            className="btn btn-light nav-btn text-muted"
+            onClick={handleFavorite}
+          >
+            {favoriteIcon()}
+            收藏
+          </button>
         </div>
-        <div className="col nav-col">{scheduleButton()}</div>
+        <div className="col-4 nav-col">{scheduleButton()}</div>
       </ul>
     </>
   );

@@ -59,11 +59,12 @@ RecruitRow.propTypes = {
 const Schedule = () => {
   const [list, setList] = useState({});
 
-  // const [auth, setAuth] = useState(0)
+  const [auth, setAuth] = useState(0);
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
     if (_auth !== null) {
+      setAuth(_auth);
       fetch(`./api/common-user-schedule/user/${_auth.id}/`)
         .then((res) => res.json())
         .then((res) => {
@@ -86,28 +87,46 @@ const Schedule = () => {
             setList(data);
           }
         });
-    } else {
-      window.location = '#登录';
     }
   }, []);
 
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
+
   return (
     <>
-      <div className="container-fluid" style={{ fontSize: 14 }}>
-        <div className="tab-content mt-1">
-          <div className="tab-pane fade show active">
-            {Object.getOwnPropertyNames(list).map((key) => (
-              <React.Fragment key={key}>
-                <DateTitle text={key} />
-                <div className="mt-2" />
-                {list[key].map((item) => (
-                  <RecruitRow key={item.id} {...item} />
-                ))}
-              </React.Fragment>
-            ))}
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <div className="chat-login">
+            <h6>登录后可以查看日程</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="container-fluid" style={{ fontSize: 14 }}>
+          <div className="tab-content mt-1">
+            <div className="tab-pane fade show active">
+              {Object.getOwnPropertyNames(list).map((key) => (
+                <React.Fragment key={key}>
+                  <DateTitle text={key} />
+                  <div className="mt-2" />
+                  {list[key].map((item) => (
+                    <RecruitRow key={item.id} {...item} />
+                  ))}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <Navbar category="我的" />
     </>
   );

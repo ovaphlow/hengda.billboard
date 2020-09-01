@@ -95,7 +95,7 @@ export const ResumeView = (props) => {
 
   useEffect(() => {
     if (props.common_user_id) {
-      document.getElementById('ziwopingjia').innerHTML = ziwopingjia;
+      document.getElementById("ziwopingjia").innerHTML = ziwopingjia;
       fetch(`./api/common-user-file/${props.common_user_id}/简历/`)
         .then((res) => res.json())
         .then((res) => {
@@ -106,7 +106,7 @@ export const ResumeView = (props) => {
           }
         });
     }
-  }, [props]);
+  }, [props, ziwopingjia]);
 
   const age = (birthday1) => {
     if (birthday1 && birthday1 !== '') {

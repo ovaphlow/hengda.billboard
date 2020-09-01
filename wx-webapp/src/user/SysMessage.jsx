@@ -24,29 +24,49 @@ DataRow.propTypes = {
 
 const SysMessage = () => {
   const [list, setList] = useState([]);
+  const [auth, setAuth] = useState(0);
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
 
-    if (_auth === null) {
-      window.location = '#登录';
-      return;
+    if (_auth !== null) {
+      setAuth(_auth);
+      fetch(`./api/message/sys/common/${_auth.id}`)
+        .then((res) => res.json())
+        .then((res) => {
+          setList(res.content);
+        });
     }
-    fetch(`./api/message/sys/common/${_auth.id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setList(res.content);
-      });
   }, []);
+
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
 
   return (
     <>
-      <div className="container-fluid" style={{ fontSize: 14 }}>
-        {list &&
-          list.map(({ id, title, content }) => (
-            <DataRow key={id} title={title} content={content} />
-          ))}
-      </div>
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <div className="chat-login">
+            <h6>登录后可以查看系统消息</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid" style={{ fontSize: 14 }}>
+          {list &&
+            list.map(({ id, title, content }) => (
+              <DataRow key={id} title={title} content={content} />
+            ))}
+        </div>
+      )}
       <Navbar category="我的" />
     </>
   );

@@ -56,9 +56,7 @@ const Resume = () => {
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
-    if (_auth === null) {
-      window.location = '#/登录';
-    } else {
+    if (_auth !== null) {
       if (!_auth.phone || _auth.phone === '') {
         window.location = '#/我的/电话';
       }
@@ -226,7 +224,11 @@ const Resume = () => {
       });
   };
 
-  if (data) {
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
+
+  if (data && auth !== 0) {
     return (
       <>
         <div className="container-fluid background-login1" style={{ fontSize: 14 }}>
@@ -437,8 +439,24 @@ const Resume = () => {
         </ul>
       </>
     );
+  } else {
+    return (
+      <div className="container-fluid">
+        <ToBack href="#我的" category="我的简历" />
+        <div className="chat-login">
+          <h6>登录后可以查看简历</h6>
+          <button
+            type="button"
+            style={{ width: '25%' }}
+            className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+            onClick={handleLogIn}
+          >
+            登&nbsp;录
+          </button>
+        </div>
+      </div>
+    );
   }
-  return <></>;
 };
 
 const Personal = () => {

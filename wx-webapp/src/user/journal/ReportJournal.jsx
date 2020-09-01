@@ -5,26 +5,20 @@ import moment from 'moment';
 import ToBack from '../../components/ToBack';
 import { JournalTabs, DateTitle } from '../Components';
 
-const DataRow = ({
-  name, category, datime, content,
-}) => (
+const DataRow = ({ name, category, datime, content }) => (
   <>
     <div className="row">
       <div className="col">
         <div className="pull-left">
           <strong>
-            {name}
-            /
-            {category}
+            {name}/{category}
           </strong>
         </div>
         <div className="pull-right text-muted" style={{ fontSize: 11 }}>
           {datime}
         </div>
         <br />
-        <span className="pull-left text-muted">
-          {content}
-        </span>
+        <span className="pull-left text-muted">{content}</span>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -44,7 +38,7 @@ const ReportJournal = () => {
   useEffect(() => {
     const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth === null) {
-      window.location = '#登录';
+      window.alert('您还未登录，请您先进行登录');
     } else {
       fetch(`/api/report/个人用户/${auth.id}`)
         .then((res) => res.json())
@@ -81,15 +75,15 @@ const ReportJournal = () => {
         <div className="card-body">
           <div className="tab-content mt-1">
             <div className="tab-pane fade show active">
-              {
-                Object.getOwnPropertyNames(list).map((key) => (
-                  <React.Fragment key={key}>
-                    <DateTitle text={key} />
-                    <div className="mt-2" />
-                    {list[key].map((item) => <DataRow key={item.id} {...item} />)}
-                  </React.Fragment>
-                ))
-              }
+              {Object.getOwnPropertyNames(list).map((key) => (
+                <React.Fragment key={key}>
+                  <DateTitle text={key} />
+                  <div className="mt-2" />
+                  {list[key].map((item) => (
+                    <DataRow key={item.id} {...item} />
+                  ))}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </div>

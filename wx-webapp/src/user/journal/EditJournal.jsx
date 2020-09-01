@@ -11,9 +11,7 @@ const DataRow = ({ category2, remark, datime }) => (
       <div className="col">
         <div className="pull-left">
           <strong>
-            {category2}
-            -
-            {remark}
+            {category2}-{remark}
           </strong>
         </div>
         <br />
@@ -38,7 +36,7 @@ const EditJournal = () => {
   useEffect(() => {
     const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth === null) {
-      window.location = '#登录';
+      window.alert('您还未登录，请您先进行登录');
     } else {
       fetch(`/api/journal/edit/个人用户/${auth.id}`)
         .then((res) => res.json())
@@ -73,15 +71,15 @@ const EditJournal = () => {
         <div className="card-body">
           <div className="tab-content mt-1">
             <div className="tab-pane fade show active">
-              {
-                Object.getOwnPropertyNames(list).map((key) => (
-                  <React.Fragment key={key}>
-                    <DateTitle text={key} />
-                    <div className="mt-2" />
-                    {list[key].map((item) => <DataRow key={item.id} {...item} />)}
-                  </React.Fragment>
-                ))
-              }
+              {Object.getOwnPropertyNames(list).map((key) => (
+                <React.Fragment key={key}>
+                  <DateTitle text={key} />
+                  <div className="mt-2" />
+                  {list[key].map((item) => (
+                    <DataRow key={item.id} {...item} />
+                  ))}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </div>

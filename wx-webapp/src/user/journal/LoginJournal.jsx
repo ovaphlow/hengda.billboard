@@ -16,9 +16,7 @@ const DataRow = ({ address, datime, ip }) => (
           {datime}
         </div>
         <br />
-        <span className="pull-left text-muted">
-          {ip}
-        </span>
+        <span className="pull-left text-muted">{ip}</span>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -37,7 +35,7 @@ const LoginJournal = () => {
   useEffect(() => {
     const auth = JSON.parse(localStorage.getItem('auth'));
     if (auth === null) {
-      window.location = '#登录';
+      window.alert('您还未登录，请您先进行登录');
     } else {
       fetch(`/api/common-user/journal/${auth.id}`)
         .then((res) => res.json())
@@ -72,15 +70,15 @@ const LoginJournal = () => {
         <div className="card-body">
           <div className="tab-content">
             <div className="tab-pane fade show active">
-              {
-                Object.getOwnPropertyNames(list).map((key) => (
-                  <React.Fragment key={key}>
-                    <DateTitle text={key} />
-                    <div className="mt-2" />
-                    {list[key].map((item) => <DataRow key={item.id} {...item} />)}
-                  </React.Fragment>
-                ))
-              }
+              {Object.getOwnPropertyNames(list).map((key) => (
+                <React.Fragment key={key}>
+                  <DateTitle text={key} />
+                  <div className="mt-2" />
+                  {list[key].map((item) => (
+                    <DataRow key={item.id} {...item} />
+                  ))}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </div>

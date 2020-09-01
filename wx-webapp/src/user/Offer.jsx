@@ -76,40 +76,61 @@ const Offer = () => {
 
   const [totalFlg, setTotalFlg] = useState(false);
 
+  const [auth, setAuth] = useState(0);
+
   useEffect(() => {
     let jobId = -1;
     const _auth = JSON.parse(localStorage.getItem('auth'));
 
-    if (_auth === null) {
-      window.location = '#登录';
-      return;
-    }
-    fetch(`./api/offer/common/${_auth.id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setList(res.content);
-        setTotalFlg(true);
-      });
-
-    jobId = setInterval(() => {
+    if (_auth !== null) {
+      setAuth(_auth);
       fetch(`./api/offer/common/${_auth.id}`)
         .then((res) => res.json())
         .then((res) => {
           setList(res.content);
+          setTotalFlg(true);
         });
-    }, 900000);
-    return () => {
-      if (jobId !== -1) {
-        window.clearInterval(jobId);
-      }
-    };
+
+      jobId = setInterval(() => {
+        fetch(`./api/offer/common/${_auth.id}`)
+          .then((res) => res.json())
+          .then((res) => {
+            setList(res.content);
+          });
+      }, 900000);
+      return () => {
+        if (jobId !== -1) {
+          window.clearInterval(jobId);
+        }
+      };
+    }
   }, []);
+
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
 
   return (
     <>
-      <div className="container-fluid" style={{ fontSize: 14 }}>
-        {list && list.map((item) => <DataRow key={item.id} {...item} />)}
-      </div>
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <div className="chat-login">
+            <h6>登录后可以查看邀请</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid" style={{ fontSize: 14 }}>
+          {list && list.map((item) => <DataRow key={item.id} {...item} />)}
+        </div>
+      )}
       <Navbar category="我的" totalFlg={totalFlg} />
     </>
   );

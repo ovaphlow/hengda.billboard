@@ -19,7 +19,7 @@ const Title = () => {
     <div className="row bg-white">
       <div className="col px-5 mt-2 mb-2">
         <img className="img-fluid pull-left logo" alt="" src="./lib/img/logo3.png" />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {/* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */}
         {banner !== 0 ? <img className="img-fluid ad" alt="" src={banner.data_url} /> : <></>}
       </div>
     </div>

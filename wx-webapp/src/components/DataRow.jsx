@@ -56,8 +56,8 @@ RecruitmentRow.propTypes = {
   address2: PropTypes.string.isRequired,
   qty: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  salary1: PropTypes.number.isRequired,
-  salary2: PropTypes.number.isRequired,
+  salary1: PropTypes.string.isRequired,
+  salary2: PropTypes.string.isRequired,
   education: PropTypes.string,
 };
 

@@ -56,7 +56,7 @@ const Enterprise = () => {
                         编辑
                       </a>
                     </div> */}
-                    {data.status === '未认证' ? (
+                    {data.status === '待认证' ? (
                       <div className="pull-right">
                         <a href="#我的/信息/编辑/">
                           <FontAwesomeIcon icon={faPenSquare} fixedWidth />

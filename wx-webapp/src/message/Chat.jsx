@@ -148,7 +148,7 @@ const Chat = () => {
   return (
     <>
       <div className="fixed-top border-bottom" style={{ fontSize: 14 }}>
-        <div className="p-2 bg-white">
+        <div className="p-1 bg-white">
           <ToBack category={title} />
         </div>
       </div>

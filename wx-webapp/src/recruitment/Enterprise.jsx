@@ -4,7 +4,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 
-import { RecruitmentRow } from '../components/DataRow';
+import { RecruitmentRow1 } from '../components/DataRow';
 import ToBack from '../components/ToBack';
 
 const Enterprise = () => {
@@ -40,7 +40,6 @@ const Enterprise = () => {
   return (
     <div className="container-fluid" style={{ fontSize: 14 }}>
       <div className="card border-0 shadow mt-2">
-        <br />
         <ToBack report dataType="企业" dataId={id} search={search} />
         <div className="card-body">
           <div className="row mt-2">
@@ -78,7 +77,7 @@ const Enterprise = () => {
               <h6>在招职位</h6>
             </div>
           </div>
-          {list && list.map((item) => <RecruitmentRow key={item.id} {...item} />)}
+          {list && list.map((item) => <RecruitmentRow1 key={item.id} {...item} />)}
         </div>
       </div>
     </div>

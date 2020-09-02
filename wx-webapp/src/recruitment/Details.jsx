@@ -189,7 +189,6 @@ const Details = () => {
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
         <div className="card border-0 shadow mt-2 ">
-          <br />
           <ToBack report advisory dataType="岗位" dataId={id} search={search} />
           <div className="card-body">
             {data && (

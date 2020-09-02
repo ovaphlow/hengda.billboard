@@ -11,9 +11,7 @@ const DataRow = ({ category2, remark, datime }) => (
       <div className="col">
         <div className="pull-left">
           <strong>
-            {category2}
-            -
-            {remark}
+            {category2}-{remark}
           </strong>
         </div>
         <br />
@@ -34,13 +32,13 @@ DataRow.propTypes = {
 
 const EditJournal = () => {
   const [list, setList] = useState({});
+  const [auth, setAuth] = useState(0);
 
   useEffect(() => {
-    const auth = JSON.parse(localStorage.getItem('auth'));
-    if (auth === null) {
-      window.location = '#登录';
-    } else {
-      fetch(`/api/journal/edit/个人用户/${auth.id}`)
+    const _auth = JSON.parse(localStorage.getItem('auth'));
+    if (_auth !== null) {
+      setAuth(_auth);
+      fetch(`/api/journal/edit/个人用户/${_auth.id}`)
         .then((res) => res.json())
         .then((res) => {
           if (res.message) {
@@ -65,30 +63,51 @@ const EditJournal = () => {
     }
   }, []);
 
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
+
   return (
-    <div className="container-fluid">
-      <div className="card mt-2">
-        <br />
-        <ToBack category="操作记录" href="#我的" />
-        <br />
-        <JournalTabs category="编辑" />
-        <div className="card-body">
-          <div className="tab-content mt-1">
-            <div className="tab-pane fade show active">
-              {
-                Object.getOwnPropertyNames(list).map((key) => (
-                  <React.Fragment key={key}>
-                    <DateTitle text={key} />
-                    <div className="mt-2" />
-                    {list[key].map((item) => <DataRow key={item.id} {...item} />)}
-                  </React.Fragment>
-                ))
-              }
+    <>
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <ToBack category="操作记录" href="#我的" />
+          <div className="chat-login">
+            <h6>登录后可以查看操作记录</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="card mt-2">
+            <ToBack category="操作记录" href="#我的" />
+            <JournalTabs category="编辑" />
+            <div className="card-body">
+              <div className="tab-content mt-1">
+                <div className="tab-pane fade show active">
+                  {Object.getOwnPropertyNames(list).map((key) => (
+                    <React.Fragment key={key}>
+                      <DateTitle text={key} />
+                      <div className="mt-2" />
+                      {list[key].map((item) => (
+                        <DataRow key={item.id} {...item} />
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

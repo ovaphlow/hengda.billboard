@@ -18,7 +18,7 @@ const TopicDetails = () => {
           window.alert(res.message);
         } else {
           setItem(res.content);
-          document.getElementById('editor-body').innerHTML = res.content.comment;
+          document.getElementById("editor-body").innerHTML = res.content.comment;
         }
       });
   }, [id, search]);
@@ -30,7 +30,6 @@ const TopicDetails = () => {
   ) : (
     <div className="container-fluid">
       <div className="card border-0 shadow mt-2">
-        <br />
         <ToBack category={item.title} />
         <div className="card-body">
           <div className="row mt-2" style={{ fontSize: 14 }}>

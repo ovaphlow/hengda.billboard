@@ -72,7 +72,7 @@ router.post('/', async (ctx) => {
   try {
     const sql = `
       insert into
-        bulletin (uuid, title, doc, dday, receiver, doc)
+        bulletin (uuid, title, dday, receiver, doc)
         values (?, ?, ?, ?, ?)
     `;
     const [rows] = await pool.query(sql, [

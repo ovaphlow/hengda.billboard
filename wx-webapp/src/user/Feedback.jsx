@@ -12,9 +12,7 @@ const Feedback = () => {
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
-    if (_auth === null) {
-      window.location = '#/登录';
-    } else {
+    if (_auth !== null) {
       setAuth(_auth);
     }
   }, []);
@@ -45,56 +43,88 @@ const Feedback = () => {
         }
       });
   };
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
 
   return (
     <>
-      <div className="container-fluid">
-        <div className="card mt-2 border-0 shadow">
-          <br />
+      {auth === 0 ? (
+        <div className="container-fluid">
           <ToBack />
-          <div className="card-body">
-            <h5>反馈/投诉</h5>
-            <hr />
-            <div className="row mt-3">
-              <div className="col">
-                <div className="form-group">
-                  <span className="text-muted" style={{ fontSize: 13 }}>
-                    类别:
-                  </span>
-                  <select className="form-control" onChange={(e) => setCategory(e.target.value)}>
-                    <option>意见反馈</option>
-                    <option>投诉</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-1">
-              <div className="col">
-                <div className="form-group">
+          <div className="chat-login">
+            <h6>登录后可以查看系统消息</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="card mt-2 border-0 shadow">
+            <ToBack />
+            <div className="card-body">
+              <h5>反馈/投诉</h5>
+              <hr />
+              <div className="row mt-3">
+                <div className="col">
                   <div className="form-group">
                     <span className="text-muted" style={{ fontSize: 13 }}>
-                      内容:
+                      类别:
                     </span>
-                    <textarea
-                      className="form-control"
-                      value={content}
-                      onChange={(e) => setCntent(e.target.value)}
-                      rows="6"
-                    />
+                    <select className="form-control" onChange={(e) => setCategory(e.target.value)}>
+                      <option>意见反馈</option>
+                      <option>投诉</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-1">
+                <div className="col">
+                  <div className="form-group">
+                    <div className="form-group">
+                      <span className="text-muted" style={{ fontSize: 13 }}>
+                        内容:
+                      </span>
+                      <textarea
+                        className="form-control"
+                        value={content}
+                        onChange={(e) => setCntent(e.target.value)}
+                        rows="6"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
-        <div className="row text-center nav-row">
-          <button type="button" className="btn btn-primary nav-btn" onClick={handleSave}>
-            提交
-          </button>
-        </div>
-      </ul>
+      )}
+      {auth !== 0 ? (
+        <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
+          <div className="row text-center nav-row">
+            <button type="button" className="btn btn-primary nav-btn" onClick={handleSave}>
+              提交
+            </button>
+          </div>
+        </ul>
+      ) : (
+        <ul
+          className="nav bg-light nav-light fixed-bottom nav-bottom border-top"
+          style={{ display: 'none' }}
+        >
+          <div className="row text-center nav-row">
+            <button type="button" className="btn btn-primary nav-btn" onClick={handleSave}>
+              提交
+            </button>
+          </div>
+        </ul>
+      )}
     </>
   );
 };

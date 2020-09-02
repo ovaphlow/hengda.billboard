@@ -233,8 +233,8 @@ const Save = () => {
                   handleChange={handleCity}
                 >
                   <option> </option>
-                  {city.map((item) => (
-                    <option key={item.id}>{item.name}</option>
+                  {city.map((item, inx) => (
+                    <option key={item.id + inx.toString()}>{item.name}</option>
                   ))}
                 </SelectField>
               </div>

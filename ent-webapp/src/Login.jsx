@@ -4,6 +4,7 @@ import md5 from 'blueimp-md5';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQrcode } from '@fortawesome/free-solid-svg-icons';
 import Hover from './components/Hover';
+import Footer from './components/Footer';
 
 const Login = () => {
   const [data, setData] = useState({
@@ -48,7 +49,11 @@ const Login = () => {
             <img className="img-fluid pull-left logo2" alt="" src="./lib/img/logo3.png" />
           </div>
           <div className="col-1 header-right">
-            <a className="text-warning pull-right" href="#注册" style={{ fontSize: '16px', textDecoration: 'none' }}>
+            <a
+              className="text-warning pull-right"
+              href="#注册"
+              style={{ fontSize: '16px', textDecoration: 'none' }}
+            >
               企业注册
             </a>
           </div>
@@ -56,7 +61,9 @@ const Login = () => {
             <span className="text-secondary border-0 bg-transparent img-weixin">
               <FontAwesomeIcon icon={faQrcode} fixedWidth />
               小程序
-              <p><img className="" alt="" src="./lib/img/qr.png" /></p>
+              <p>
+                <img className="" alt="" src="./lib/img/qr.png" />
+              </p>
             </span>
           </div>
         </div>
@@ -117,14 +124,22 @@ const Login = () => {
               </form>
               <div className="row mt-3 px-4 ">
                 <div className="col">
-                  <button type="button" className="mt-2 btn btn-login rounded-0" onClick={handleLogIn}>
+                  <button
+                    type="button"
+                    className="mt-2 btn btn-login rounded-0"
+                    onClick={handleLogIn}
+                  >
                     登录
                   </button>
                 </div>
               </div>
               <div className="row mt-2 px-4 ">
                 <div className="col">
-                  <a className="text-dark pull-right" href="#忘记密码" style={{ fontSize: 'small', textDecoration: 'none' }}>
+                  <a
+                    className="text-dark pull-right"
+                    href="#忘记密码"
+                    style={{ fontSize: 'small', textDecoration: 'none' }}
+                  >
                     忘记密码?
                   </a>
                 </div>
@@ -151,8 +166,8 @@ const Login = () => {
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/2.jpg" />
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/3.jpg" />
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/7.png" />
-            <img className="border between-content1 shadow-sm" alt="" src="./lib/img/7.png" />
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/8.jpg" />
+            <img className="border between-content1 shadow-sm" alt="" src="./lib/img/9.jpg" />
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/13.jpg" />
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/15.png" />
             <img className="border between-content1 shadow-sm" alt="" src="./lib/img/16.jpg" />
@@ -171,28 +186,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="row footer px-6 text-white bg-dark border-top pb-3">
-        <div className="col mt-4">
-          <div className="row flex-center">
-            <a className="footer-word" target="_blank" href="/agt/law.html">
-              法律声明|
-            </a>
-            <a className="footer-word" target="_blank" href="/agt/privacy.html">
-              隐私政策|
-            </a>
-            <span>版权声明: xxxxx|</span>
-            <a className="footer-word" href="http://www.beian.miit.gov.cn/">
-              互联网ICP备案:黑ICP备20002542号
-            </a>
-          </div>
-          <div className="row flex-center">
-            <span>
-              合作咨询热线:0451-xxxxxxxx|客服热线:0451-xxxxxxxx|
-              违法和不良信息举报电话:0451-xxxxxxxx|举报邮箱:
-            </span>
-          </div>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 };

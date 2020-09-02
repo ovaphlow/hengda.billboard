@@ -34,7 +34,11 @@ const RecruitRow = ({
         <br />
         <span className="text-muted">
           举办地点:
-          {`${address_level2}-${address_level3}`} | 开始时间:
+          {`${address_level2}-${address_level3}`}
+        </span>
+        <br />
+        <span className="text-muted">
+          开始时间:
           {date}
         </span>
         <br />
@@ -48,7 +52,7 @@ const RecruitRow = ({
 );
 
 RecruitRow.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   address_level2: PropTypes.string.isRequired,

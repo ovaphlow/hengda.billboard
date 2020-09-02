@@ -45,18 +45,23 @@ const RecruitmentDetail = ({
 );
 
 RecruitmentDetail.propTypes = {
-  date: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  enterprise_name: PropTypes.func.isRequired,
-  education: PropTypes.string.isRequired,
+  date: PropTypes.string,
+  name: PropTypes.string,
+  enterprise_name: PropTypes.string,
+  education: PropTypes.string,
   address2: PropTypes.string,
   address1: PropTypes.string,
-  category: PropTypes.string.isRequired,
-  salary1: PropTypes.string,
-  salary2: PropTypes.string,
+  category: PropTypes.string,
+  salary1: PropTypes.number,
+  salary2: PropTypes.number,
 };
 
 RecruitmentDetail.defaultProps = {
+  date: undefined,
+  name: undefined,
+  enterprise_name: undefined,
+  education: undefined,
+  category: undefined,
   address2: undefined,
   address1: undefined,
   salary1: undefined,
@@ -140,9 +145,7 @@ const Report = () => {
 
   useEffect(() => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
-    if (_auth === null) {
-      window.location = '#/登录';
-    } else {
+    if (_auth !== null) {
       setAuth(_auth);
     }
   }, []);
@@ -181,47 +184,81 @@ const Report = () => {
       });
   };
 
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
+
   return (
     <>
-      <div className="container-fluid">
-        <div className="card border-0 shadow mt-2">
+      {auth === 0 ? (
+        <div className="container-fluid">
           <ToBack />
-          <div className="card-body">
-            <div className="mt-2">
-              <h4>举报内容</h4>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                {category === '企业' && <EnterpriseDetail {...data} />}
-                {category === '岗位' && <RecruitmentDetail {...data} />}
+          <div className="chat-login">
+            <h6>登录后可以进行举报</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="card border-0 shadow mt-2">
+            <ToBack />
+            <div className="card-body">
+              <div className="mt-2">
+                <h4>举报内容</h4>
               </div>
-            </div>
-            <div className="mt-2">
-              <h4>举报原因</h4>
-            </div>
+              <div className="card">
+                <div className="card-body">
+                  {category === '企业' && <EnterpriseDetail {...data} />}
+                  {category === '岗位' && <RecruitmentDetail {...data} />}
+                </div>
+              </div>
+              <div className="mt-2">
+                <h4>举报原因</h4>
+              </div>
 
-            <div className="row mt-3">
-              <div className="col">
-                <div className="form-group">
-                  <textarea
-                    className="form-control"
-                    value={content}
-                    onChange={handleChange}
-                    rows="6"
-                  />
+              <div className="row mt-3">
+                <div className="col">
+                  <div className="form-group">
+                    <textarea
+                      className="form-control"
+                      value={content}
+                      onChange={handleChange}
+                      rows="6"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
-        <div className="row text-center nav-row">
-          <button type="button" className="btn btn-primary nav-btn" onClick={handleSave}>
-            提交
-          </button>
-        </div>
-      </ul>
+      )}
+      {auth === 0 ? (
+        <ul
+          className="nav bg-light nav-light fixed-bottom nav-bottom border-top"
+          style={{ display: 'none' }}
+        >
+          <div className="row text-center nav-row">
+            <button type="button" className="btn btn-primary nav-btn" onClick={handleSave}>
+              提交
+            </button>
+          </div>
+        </ul>
+      ) : (
+        <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
+          <div className="row text-center nav-row">
+            <button type="button" className="btn btn-primary nav-btn" onClick={handleSave}>
+              提交
+            </button>
+          </div>
+        </ul>
+      )}
     </>
   );
 };

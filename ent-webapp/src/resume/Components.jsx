@@ -95,6 +95,7 @@ export const ResumeView = (props) => {
 
   useEffect(() => {
     if (props.common_user_id) {
+      document.getElementById("ziwopingjia").innerHTML = ziwopingjia;
       fetch(`./api/common-user-file/${props.common_user_id}/简历/`)
         .then((res) => res.json())
         .then((res) => {
@@ -105,7 +106,7 @@ export const ResumeView = (props) => {
           }
         });
     }
-  }, [props]);
+  }, [props, ziwopingjia]);
 
   const age = (birthday1) => {
     if (birthday1 && birthday1 !== '') {
@@ -190,7 +191,7 @@ export const ResumeView = (props) => {
       <div className="row">
         <div className="col">
           <h4>自我评价</h4>
-          <span className="text-muted">{ziwopingjia}</span>
+          <div className="text-muted" id="ziwopingjia"></div>
         </div>
       </div>
       <hr />

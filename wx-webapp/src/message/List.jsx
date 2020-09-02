@@ -62,32 +62,30 @@ const List = () => {
     const _auth = JSON.parse(localStorage.getItem('auth'));
     let jobId1 = -1;
     const jobId2 = -1;
-    if (_auth === null) {
-      window.location = '#登录';
-      return;
-    }
-    setAuth(_auth);
-    fetch(`./api/message/个人用户/${_auth.id}/`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.message) {
-          window.alert(res.message);
-        } else {
-          fetch(`./api/message/common/chat/total/${_auth.id}`)
-            .then((res1) => res1.json())
-            .then((res1) => {
-              setChatTotal(res1.content);
-            });
-          jobId1 = setInterval(() => {
+    if (_auth !== null) {
+      setAuth(_auth);
+      fetch(`./api/message/个人用户/${_auth.id}/`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.message) {
+            window.alert(res.message);
+          } else {
             fetch(`./api/message/common/chat/total/${_auth.id}`)
               .then((res1) => res1.json())
               .then((res1) => {
                 setChatTotal(res1.content);
               });
-          }, 900000);
-          setChatList(res.content);
-        }
-      });
+            jobId1 = setInterval(() => {
+              fetch(`./api/message/common/chat/total/${_auth.id}`)
+                .then((res1) => res1.json())
+                .then((res1) => {
+                  setChatTotal(res1.content);
+                });
+            }, 900000);
+            setChatList(res.content);
+          }
+        });
+    }
 
     return () => {
       if (jobId1 !== -1) {
@@ -117,11 +115,30 @@ const List = () => {
   //   window.location = `#消息/邀请/`
   // }
 
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
+
   return (
     <>
-      <div className="container-fluid">
-        {/* <Title category="消息" /> */}
-        {/* <div className="row">
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <div className="chat-login">
+            <h6>登录后可以查看消息</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          {/* <Title category="消息" /> */}
+          {/* <div className="row">
           <div
             style={{
               background: 'url(lib/img/u679.svg)',
@@ -148,19 +165,21 @@ const List = () => {
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
           </div>
         </div> */}
-        {chatList &&
-          chatList.map((item) => (
-            <MessageRow
-              key={item.ent_user_id}
-              {...item}
-              total={
-                chatTotal.length > 0
-                  ? chatTotal.find((it) => it.ent_user_id === item.ent_user_id).count
-                  : 0
-              }
-            />
-          ))}
-      </div>
+          {chatList &&
+            chatList.map((item) => (
+              <MessageRow
+                key={item.ent_user_id}
+                {...item}
+                total={
+                  chatTotal.length > 0
+                    ? chatTotal.find((it) => it.ent_user_id === item.ent_user_id).count
+                    : 0
+                }
+              />
+            ))}
+        </div>
+      )}
+
       <Navbar category="消息" />
     </>
   );

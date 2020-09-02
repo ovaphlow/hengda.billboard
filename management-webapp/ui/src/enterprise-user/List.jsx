@@ -82,7 +82,7 @@ export default function List() {
                 {parseInt(message_qty, 10) > 0 && (
                   <div className="alert alert-warning">
                     有 {message_qty} 个待认证企业需要
-                    <a href="enterprise.html#/待认证">处理</a>。
+                    <a href="current-user.html#/待处理">处理</a>。
                   </div>
                 )}
 

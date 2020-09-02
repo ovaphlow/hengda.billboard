@@ -186,7 +186,8 @@ const Resume = () => {
                 () => {},
               );
               setFile((p) => {
-                p.concat({
+                
+                p.push({
                   id: res.content,
                   file: f,
                   common_user_id: auth.id,
@@ -250,7 +251,7 @@ const Resume = () => {
             </div>
           </div> */}
           <div className="card mt-3 border-0 mb-5">
-            <br />
+            
             <ToBack href="#我的" category="我的简历" />
             <div className="card-body">
               <div className="mb-2 resume-personal pt-2 pb-1 text-center">

@@ -19,7 +19,7 @@ const ToBack = (props) => {
   };
 
   return (
-    <div className="row pl-2 pr-2">
+    <div className="row pl-2 pr-2 pt-3">
       <div className="col">
         <span onClick={toPrevious} className="text-dark" aria-hidden="true">
           <FontAwesomeIcon icon={faChevronLeft} size="lg" fixedWidth />

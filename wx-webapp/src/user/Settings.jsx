@@ -30,6 +30,7 @@ const Setting = () => {
         phone: _auth.phone,
         code: '',
         id: _auth.id,
+        uuid: _auth.uuid,
         user_category: '个人用户',
       });
     }
@@ -91,7 +92,7 @@ const Setting = () => {
       window.alert(res.message);
       return;
     }
-    const response2 = await fetch(`/api/common-user/${data.id}`);
+    const response2 = await fetch(`/api/common-user/${data.id}?uuid=${data.uuid}`);
     const res2 = await response2.json();
     if (res.message) {
       let alertFlg = false;

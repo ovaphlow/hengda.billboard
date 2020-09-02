@@ -26,7 +26,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from common_user where id = ? and uuid = ? ";
+      String sql = "select phone,name,id,uuid,email from common_user where id = ? and uuid = ? ";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getId());
         ps.setString(2, req.getUuid());
@@ -115,7 +115,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from common_user where (phone = ? or email = ?)";
+      String sql = "select phone,name,id,uuid,email from common_user where (phone = ? or email = ?)";
       List<Map<String, Object>> result = new ArrayList<>();
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getPhoneEmail());

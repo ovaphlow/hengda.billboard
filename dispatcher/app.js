@@ -195,6 +195,14 @@ function chartRouter() {
   app.use(router.allowedMethods());
 }
 
-chartRouter();
+wxRouter();
+
+function wxRouter() {
+  const router = require('./routes/wx');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
+
+wxRouter();
 
 module.exports = app;

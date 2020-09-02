@@ -31,13 +31,13 @@ DataRow.propTypes = {
 
 const LoginJournal = () => {
   const [list, setList] = useState({});
+  const [auth, setAuth] = useState(0);
 
   useEffect(() => {
-    const auth = JSON.parse(localStorage.getItem('auth'));
-    if (auth === null) {
-      window.alert('您还未登录，请您先进行登录');
-    } else {
-      fetch(`/api/common-user/journal/${auth.id}`)
+    const _auth = JSON.parse(localStorage.getItem('auth'));
+    if (_auth !== null) {
+      setAuth(_auth);
+      fetch(`/api/common-user/journal/${_auth.id}`)
         .then((res) => res.json())
         .then((res) => {
           if (res.message) {
@@ -62,28 +62,51 @@ const LoginJournal = () => {
     }
   }, []);
 
+  const handleLogIn = async () => {
+    window.location = '#/登录';
+  };
+
   return (
-    <div className="container-fluid">
-      <div className="card mt-2">
-        <ToBack category="操作记录" href="#我的" />
-        <JournalTabs category="登录" />
-        <div className="card-body">
-          <div className="tab-content">
-            <div className="tab-pane fade show active">
-              {Object.getOwnPropertyNames(list).map((key) => (
-                <React.Fragment key={key}>
-                  <DateTitle text={key} />
-                  <div className="mt-2" />
-                  {list[key].map((item) => (
-                    <DataRow key={item.id} {...item} />
+    <>
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <ToBack category="操作记录" href="#我的" />
+          <div className="chat-login">
+            <h6>登录后可以查看操作记录</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="container-fluid">
+          <div className="card mt-2">
+            <ToBack category="操作记录" href="#我的" />
+            <JournalTabs category="登录" />
+            <div className="card-body">
+              <div className="tab-content">
+                <div className="tab-pane fade show active">
+                  {Object.getOwnPropertyNames(list).map((key) => (
+                    <React.Fragment key={key}>
+                      <DateTitle text={key} />
+                      <div className="mt-2" />
+                      {list[key].map((item) => (
+                        <DataRow key={item.id} {...item} />
+                      ))}
+                    </React.Fragment>
                   ))}
-                </React.Fragment>
-              ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import md5 from "blueimp-md5";
 import BottomNav from "../component/BottomNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { Home } from "../constant";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -25,7 +26,7 @@ export default function SignIn() {
       return;
     }
     sessionStorage.setItem("mis-auth", JSON.stringify(res.content));
-    window.location.go(-1);
+    window.location = Home;
   };
 
   return (

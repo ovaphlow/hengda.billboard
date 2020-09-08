@@ -84,7 +84,7 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
     try (Connection conn = DBUtil.getConn()) {
       String sql = "update resume set name=?,phone=?, email=?,gender=?,birthday=?,school=?, education=?,\n"
           + "    date_begin=?, date_end=?,major=?,qiwangzhiwei=?,qiwanghangye=?,address1=?,address2=?,\n"
-          + "    address3=?, \n" +// " address4=?,\n" +
+          + "    address3=?, \n" + // " address4=?,\n" +
           "    yixiangchengshi=?,ziwopingjia=? where common_user_id = ? and uuid = ?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getName());
@@ -258,6 +258,42 @@ public class ResumeServiceImpl extends ResumeGrpc.ResumeImplBase {
           ps.setString(inx + 1, list.get(inx));
         }
         resp.put("content", DBUtil.getList(ps.executeQuery()));
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    ResumeProto.Reply reply = ResumeProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void check(ResumeProto.CheckRequest req, StreamObserver<ResumeProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "select * from resume where common_user_id = ? ";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, req.getId());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        if (result.size() == 0) {
+          resp.put("message", "请完善简历个人信息");
+        } else {
+          Map<String, Object> map = result.get(0);
+          if ((map.get("name") == null || "".equals(map.get("name")))
+              || (map.get("phone") == null || "".equals(map.get("phone")))
+              || (map.get("email") == null || "".equals(map.get("email")))
+              || (map.get("gender") == null || "".equals(map.get("gender")))
+              || (map.get("birthday") == null || "".equals(map.get("birthday")))) {
+            resp.put("content", false);
+          } else {
+            resp.put("content", true);
+          }
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();

@@ -115,7 +115,7 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select phone,name,id,uuid,email from common_user where (phone = ? or email = ?)";
+      String sql = "select phone,name,id,uuid,email,salt,password from common_user where (phone = ? or email = ?)";
       List<Map<String, Object>> result = new ArrayList<>();
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getPhoneEmail());
@@ -378,6 +378,90 @@ public class CommonUserServiceImpl extends CommonUserGrpc.CommonUserImplBase {
     CommonUserProto.Reply reply = CommonUserProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
+  }
+
+  @Override
+  public void checkPassword(CommonUserProto.CheckPasswordRequest req,
+    StreamObserver<CommonUserProto.Reply> responseObserver) {
+      Gson gson = new Gson();
+      Map<String, Object> resp = new HashMap<>();
+      resp.put("message", "");
+      resp.put("content", "");
+      try (Connection conn = DBUtil.getConn()) {
+        String sql = "select salt,password from common_user where id = ? and uuid = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setInt(1, req.getId());
+          ps.setString(2, req.getUuid());
+          ResultSet rs = ps.executeQuery();
+          List<Map<String, Object>> result = DBUtil.getList(rs);
+          resp.put("content", result.get(0));
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        resp.put("message", "gRPC服务器错误");
+      }
+      CommonUserProto.Reply reply = CommonUserProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+  }
+
+  @Override
+  public void checkCaptcha(CommonUserProto.CheckCaptchaRequest req,
+    StreamObserver<CommonUserProto.Reply> responseObserver) {
+      Gson gson = new Gson();
+      Map<String, Object> resp = new HashMap<>();
+      resp.put("message", "");
+      resp.put("content", "");
+      try (Connection conn = DBUtil.getConn()) {
+        String sql = "select * from captcha where user_category=? and code=? and email= ? "
+        + "and str_to_date(datime,'%Y-%m-%d %H:%i:%s') >= now()-interval 10 minute ORDER BY datime DESC limit 1";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, "个人用户");
+          ps.setString(2, req.getCode());
+          ps.setString(3, req.getEmail());
+          ResultSet rs = ps.executeQuery();
+          List<Map<String, Object>> result = DBUtil.getList(rs);
+          resp.put("content", result.size() != 0);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        resp.put("message", "gRPC服务器错误");
+      }
+      CommonUserProto.Reply reply = CommonUserProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+  }  
+
+  @Override
+  public void updatePassword(CommonUserProto.UpdatePasswordRequest req,
+    StreamObserver<CommonUserProto.Reply> responseObserver) {
+      Gson gson = new Gson();
+      Map<String, Object> resp = new HashMap<>();
+      resp.put("message", "");
+      resp.put("content", "");
+      try (Connection conn = DBUtil.getConn()) {
+        String sql = "update common_user set password = ?, salt = ? where id = ? and uuid = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, req.getPassword());
+          ps.setString(2, req.getSalt());
+          ps.setInt(3, req.getId());
+          ps.setString(4, req.getUuid());
+          ps.execute();
+          resp.put("content", true);
+        }
+        sql = "delete from captcha where user_category=? and email=? ";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+          ps.setString(1, "个人用户");
+          ps.setString(2, req.getEmail());
+          ps.execute();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        resp.put("message", "gRPC服务器错误");
+      }
+      CommonUserProto.Reply reply = CommonUserProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
   }
 
 }

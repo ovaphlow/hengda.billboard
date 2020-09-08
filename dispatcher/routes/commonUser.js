@@ -151,25 +151,26 @@ router.put('/checkRecover/', async (ctx) => {
   }
 });
 
-router.get('/:id', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.get(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+router
+  .get('/:id', async (ctx) => {
+    const grpcFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.get(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
-  try {
-    ctx.params.uuid = ctx.query.uuid;
-    ctx.response.body = await grpcFetch(ctx.params);
-  } catch (err) {
-    console.error(err);
-    ctx.response.body = { message: '服务器错误' };
-  }
-})
+    try {
+      ctx.params.uuid = ctx.query.uuid;
+      ctx.response.body = await grpcFetch(ctx.params);
+    } catch (err) {
+      console.error(err);
+      ctx.response.body = { message: '服务器错误' };
+    }
+  })
   .put('/phone', async (ctx) => {
     const grpcFetch = (body) => new Promise((resolve, reject) => {
       grpcClient.phone(body, (err, response) => {
@@ -220,6 +221,92 @@ router.get('/:id', async (ctx) => {
     try {
       ctx.params.category = '个人用户';
       ctx.response.body = await grpcFetch(ctx.params);
+    } catch (err) {
+      console.error(err);
+      ctx.response.body = { message: '服务器错误' };
+    }
+  })
+  .post('/updatePassword/', async (ctx) => {
+    const checkPasswordFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.checkPassword(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
+
+    const checkCaptchaFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.checkCaptcha(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
+
+    const updatePasswordFetch = (body) => new Promise((resolve, reject) => {
+      grpcClient.updatePassword(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
+
+    try {
+      let result = await checkPasswordFetch({
+        id: ctx.request.body.id,
+        uuid: ctx.query.uuid,
+      });
+      let hmac = crypto.createHmac('sha256', result.content.salt);
+      hmac.update(ctx.request.body.old_password);
+      let passwordSalted = hmac.digest('hex');
+      if (passwordSalted !== result.content.password) {
+        ctx.response.body = { message: '密码错误' };
+      } else {
+        console.info({
+          id: ctx.request.body.id,
+          code: ctx.request.body.code,
+          uuid: ctx.query.uuid,
+          email: ctx.request.body.email,
+        });
+        result = await checkCaptchaFetch({
+          id: ctx.request.body.id,
+          code: ctx.request.body.code,
+          uuid: ctx.query.uuid,
+          email: ctx.request.body.email,
+        });
+        if (result.content) {
+          const salt = crypto.randomBytes(8).toString('hex');
+          hmac = crypto.createHmac('sha256', salt);
+          hmac.update(ctx.request.body.new_password);
+          passwordSalted = hmac.digest('hex');
+          console.info({
+            id: ctx.request.body.id,
+            uuid: ctx.query.uuid,
+            password: passwordSalted,
+            email: ctx.request.body.email,
+            salt,
+          });
+          result = await updatePasswordFetch({
+            id: ctx.request.body.id,
+            uuid: ctx.query.uuid,
+            password: passwordSalted,
+            email: ctx.request.body.email,
+            salt,
+          });
+          ctx.response.body = result;
+        } else {
+          ctx.response.body = { message: '验证码错误' };
+        }
+      }
     } catch (err) {
       console.error(err);
       ctx.response.body = { message: '服务器错误' };

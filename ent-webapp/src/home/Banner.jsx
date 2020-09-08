@@ -17,6 +17,7 @@ const Banner = () => {
       .then((res) => {
         if (res.content) {
           setData(res.content);
+          document.getElementById('comment').innerHTML = res.content.comment;
         } else {
           window.alert(res.message);
         }
@@ -35,7 +36,7 @@ const Banner = () => {
               </h2>
             </a>
             <hr />
-            <div className="px-5">{data.comment}</div>
+            <div className="px-5" id="comment" />
           </div>
         )}
       </div>

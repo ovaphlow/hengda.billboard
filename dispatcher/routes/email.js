@@ -64,7 +64,8 @@ router
     }
   })
   .put('/', async (ctx) => {
-    const code = parseInt('Math.floor(Math.random() * (999999 - 100000 + 1) + 100000)', 10).toString();
+    const math = parseInt(Math.floor(Math.random() * (999999 - 100000 + 1) + 100000), 10);
+    const code = math.toString();
     const transporter = nodemailer.createTransport(config.email);
     const mailOptions = {
       from: config.email.auth.user,

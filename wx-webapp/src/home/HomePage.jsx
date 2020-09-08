@@ -72,6 +72,8 @@ const HomePage = () => {
       });
   };
 
+
+    // 调用微信接口
   //const getWX = () => {
 
 

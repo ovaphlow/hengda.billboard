@@ -26,6 +26,11 @@ service CommonUser {
 
   rpc checkRecover (CheckRecoverRequest) returns (Reply) {}
 
+  rpc checkPassword (CheckPasswordRequest) returns (Reply) {}
+
+  rpc checkCaptcha (CheckCaptchaRequest) returns (Reply) {}
+
+  rpc updatePassword (UpdatePasswordRequest) returns (Reply) {}
 }
 
 message GetRequest {
@@ -83,6 +88,26 @@ message CheckEmailRequest {
 
 message CheckRecoverRequest {
   string email = 1;
+}
+
+message CheckPasswordRequest {
+  uint32 id = 1;
+  string uuid = 2;
+}
+
+message CheckCaptchaRequest {
+  uint32 id = 1;
+  string uuid = 2;
+  string code = 3;
+  string email = 4;
+}
+
+message UpdatePasswordRequest {
+  uint32 id = 1;
+  string uuid = 2;
+  string password = 3;
+  string salt = 4;
+  string email = 5;
 }
 
 message Reply { string data = 1; }

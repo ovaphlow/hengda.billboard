@@ -30,7 +30,8 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.3"
 
     implementation "com.zaxxer:HikariCP-java7:2.4.13"
-    implementation "mysql:mysql-connector-java:8.0.19" 
+    implementation "mysql:mysql-connector-java:8.0.19"
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.16'
 }
 
 protobuf {

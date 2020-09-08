@@ -21,6 +21,8 @@ service Resume {
   rpc retrieval(RetrievalRequest) returns (Reply) {}
 
   rpc recommend(RecommendRequest) returns (Reply) {}
+
+  rpc check(CheckRequest) returns (Reply) {}
     
 }
 
@@ -83,6 +85,11 @@ message RecommendRequest {
   string qiwangzhiwei = 5;
   string yixiangchengshi = 6;
   string education = 7;
+}
+
+message CheckRequest {
+  uint32 id = 1;
+  string uuid = 2;
 }
 
 message Reply { string data = 1; }

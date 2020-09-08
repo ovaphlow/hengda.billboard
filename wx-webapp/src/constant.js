@@ -20,4 +20,14 @@ const RECOMMEND_TYPE = [
     name: 'category5',
   }];
 
+export const WX_PARAM = {
+  appid: 'wx79586a354703320a',
+  randomChars: '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  getTokenApi: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&',
+  appSecret: '53b1e116cfb28e1626d1c76ea484b05b',
+  jsApiList: [
+    'updateAppMessageShareData'
+  ]
+}
+
 export default RECOMMEND_TYPE;

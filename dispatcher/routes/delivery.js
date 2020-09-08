@@ -19,6 +19,21 @@ const grpcClient = new proto.Delivery(
   grpc.credentials.createInsecure(),
 );
 
+const resumeProto = grpc.loadPackageDefinition(
+  protoLoader.loadSync(`${__dirname}/../proto/resume.proto`, {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true,
+  }),
+).resume;
+
+const resumeGrpcClient = new resumeProto.Resume(
+  `${config.grpcServer.host}:${config.grpcServer.port}`,
+  grpc.credentials.createInsecure(),
+);
+
 const router = new Router({
   prefix: '/api/delivery',
 });
@@ -120,6 +135,16 @@ router
     }
   })
   .post('/', async (ctx) => {
+    const checkFetch = (body) => new Promise((resolve, reject) => {
+      resumeGrpcClient.check(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
+    });
     const grpcFetch = (body) => new Promise((resolve, reject) => {
       grpcClient.insert(body, (err, response) => {
         if (err) {
@@ -130,8 +155,17 @@ router
         }
       });
     });
+
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body);
+      const result = await checkFetch({
+        id: ctx.request.body.common_user_id,
+        uuid: ctx.request.query.uuid,
+      });
+      if (result.content) {
+        ctx.response.body = await grpcFetch(ctx.request.body);
+      } else {
+        ctx.response.body = result;
+      }
     } catch (err) {
       console.error(err);
       ctx.response.body = { message: '服务器错误' };

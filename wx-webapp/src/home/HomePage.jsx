@@ -19,6 +19,10 @@ const HomePage = () => {
 
   const [auth, setAuth] = useState(0);
 
+  //const [signature, setSignature] = useState('');
+  
+  //const [signature2, setSignature2] = useState('');
+
   useEffect(() => {
     document.title = '龙江学子就业平台';
     const _auth = localStorage.getItem('auth');
@@ -68,6 +72,78 @@ const HomePage = () => {
       });
   };
 
+
+    // 调用微信接口
+  //const getWX = () => {
+
+
+    //fetch(`./api/wx/token/`) 
+    //.then((res) => res.json())
+    //.then((res) => {
+    //  fetch(`./api/wx/ticket/${res.access_token}`) 
+    //  .then((res) => res.json())
+    //  .then((res) => {
+    //    console.info(res)
+    //  })
+    //})
+    
+    //const access_token = 
+    //'36_9GtyyQ66WG8m8MuLxcz1RnARgeaqyFD_qCTrmFjJYMzhlRBNmbCGqWl6d_i4RBbgE89hbtHQnAyYI8kaYUFFk6k2jzOEPLEetsJ0kg6IlzDFqSPH_dhW2y7H73VFXMJQEqfcQDWQ2ycgUXeYXCEhAHAMRT'
+    
+    
+
+  //  const jsapi_ticket = 'HoagFKDcsGMVCIY2vOjf9mNcXehjyzXPQtFvziohDc2DxhJP4Sps953D5XYcRFPjE4LBiHUO0wUHxQYNRo_fAQ'
+
+  //  const randomString = () => {
+  //    const chars = WX_PARAM.randomChars;
+  //    const length = 16;
+  //    let result = '';
+  //    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  //    return result;
+  //  }
+
+  //  const sign = {
+  //    timestamp: Number(new Date()) % 10000000000, // 必填，生成签名的时间戳
+  //    noncestr: randomString(), // 必填，生成签名的随机串
+  //    url: window.location.href.split('#')[0],
+  //  }
+  //  const str = 'jsapi_ticket='+jsapi_ticket+'&'+Object.getOwnPropertyNames(sign)
+  //  .sort()
+  //  .map((key) =>`${key}=${sign[key]}`)
+  //  .join('&') 
+  //  setSignature2(str)
+    
+  //  const config={
+  //    nonceStr:sign.noncestr,
+  //    timestamp:sign.timestamp,
+  //    url: sign.url,
+  //    signature: sha1(str)
+  //  }
+  //  config.debug = true;
+  //  config.appId = WX_PARAM.appid;
+  //  config.jsApiList = ['onMenuShareAppMessage'];
+  //  setSignature(config.signature);
+  //  window.wx.config(config);
+  //  window.wx.error(function(res){
+  //    console.info(res)
+  //  });
+  //  window.wx.ready(() => {
+  //    window.wx.updateAppMessageShareData({
+  //      title: '龙招聘',
+  //      desc: '龙招聘',
+  //      link: 'https://www.longzhaopin.com/wx/',
+  //      imgUrl: '',
+  //      success: () => {
+  //        alert('success')
+  //        //console.info();
+  //      },  
+  //    })
+  //  });
+  //}
+
+  //config:invalid signature
+  //paermission denied
+
   // const _οnkeypress = event => {
   //   const keyCode = event.which || event.keyCode
   //   if(keyCode === 13 && event.target.value !== ''){
@@ -88,18 +164,18 @@ const HomePage = () => {
               </a>
             </div>
           ) : (
-            <div className="col">
-              <input
-                type="text"
-                className="w-100 border-0 text-center rounded-pill"
-                placeholder="按照企业/职位名称查询"
-                onClick={() => {
-                  window.location = '#主页/查询/';
-                }}
-                style={{ outline: 0, height: 35 }}
-              />
-            </div>
-          )}
+              <div className="col">
+                <input
+                  type="text"
+                  className="w-100 border-0 text-center rounded-pill"
+                  placeholder="按照企业/职位名称查询"
+                  onClick={() => {
+                    window.location = '#主页/查询/';
+                  }}
+                  style={{ outline: 0, height: 35 }}
+                />
+              </div>
+            )}
         </div>
 
         <div className="p-2 border-0 bg-white rounded card-body shadow ">

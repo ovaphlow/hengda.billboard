@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TextCheckbox from '../components/Button';
-import { RecruitmentRow } from '../components/DataRow';
+import { RecruitmentRow1 } from '../components/DataRow';
 import CityDropdowns from '../components/CityDropdowns';
 import Navbar from '../components/Navbar';
 
@@ -9,7 +9,7 @@ const KeywordSearch = () => {
 
   const [list, setList] = useState([]);
 
-  const [city, setCity] = useState('哈尔滨市');
+  const [city, setCity] = useState('');
 
   const [keyword, setKeyword] = useState('');
 
@@ -89,7 +89,7 @@ const KeywordSearch = () => {
           <div className="card-body">
             <div className="row mb-3" style={{ fontSize: 14 }}>
               <div className="col">
-                <CityDropdowns defaultValue="哈尔滨市" handleChange={handleChange} />
+                <CityDropdowns handleChange={handleChange} />
               </div>
               <div className="col flex-end">
                 <div className="pull-right text-primary">
@@ -105,7 +105,7 @@ const KeywordSearch = () => {
                 </div>
               </div>
             </div>
-            {list && list.map((item) => <RecruitmentRow key={item.id} {...item} />)}
+            {list && list.map((item) => <RecruitmentRow1 key={item.id} {...item} />)}
           </div>
         </div>
       </div>

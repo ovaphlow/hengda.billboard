@@ -13,6 +13,7 @@ import {
   faEnvelope,
   faComments,
   faSignOutAlt,
+  faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 import Navbar from '../components/Navbar';
 
@@ -178,7 +179,7 @@ const User = () => {
                     icon={faEnvelope}
                     fixedWidth
                     size="2x"
-                    className="text-secondary"
+                    className="text-success"
                   />
                 </span>
                 <h6 className="pull-left pt-1">
@@ -205,6 +206,22 @@ const User = () => {
                 </span>
                 <h6 className="pull-left pt-1">
                   <strong>&nbsp;反馈/投诉</strong>
+                </h6>
+                <span className="pull-right text-muted pt-1">
+                  <FontAwesomeIcon icon={faChevronRight} fixedWidth />
+                </span>
+              </a>
+            </div>
+          </div>
+          <hr style={{ marginTop: '0', marginBottom: '0' }} />
+          <div className="row p-2 mt-2">
+            <div className="col">
+              <a className="text-dark" href="#/我的/修改密码">
+                <span className="pull-left pl-2">
+                  <FontAwesomeIcon icon={faEdit} fixedWidth size="2x" className="text-secondary" />
+                </span>
+                <h6 className="pull-left pt-1">
+                  <strong>&nbsp;修改密码</strong>
                 </h6>
                 <span className="pull-right text-muted pt-1">
                   <FontAwesomeIcon icon={faChevronRight} fixedWidth />

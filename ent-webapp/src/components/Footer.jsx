@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => (
-  <div className="row footer px-6 text-white bg-dark border-top pb-3">
+  <div className="row footer px-6 text-white bg-dark border-top pb-3 m-0">
     <div className="col mt-4">
       <div className="row flex-center">
         <a className="footer-word" target="_blank" href="/agt/law.html">

@@ -105,8 +105,16 @@ const Delivery = () => {
         </div>
       ) : (
         <div className="container-fluid" style={{ fontSize: 14 }}>
-          <div className="mt-1" />
-          {list && list.map((item) => <DataRow key={item.id} {...item} />)}
+          {list.length === 0 ? (
+            <div className="chat-login">
+              <h6>您还没有投递简历</h6>
+            </div>
+          ) : (
+            <div>
+              <div className="mt-1" />
+              {list && list.map((item) => <DataRow key={item.id} {...item} />)}
+            </div>
+          )}
         </div>
       )}
       <Navbar category="我的" />

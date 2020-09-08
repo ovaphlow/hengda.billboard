@@ -165,21 +165,27 @@ const List = () => {
             <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
           </div>
         </div> */}
-          {chatList &&
-            chatList.map((item) => (
-              <MessageRow
-                key={item.ent_user_id}
-                {...item}
-                total={
-                  chatTotal.length > 0
-                    ? chatTotal.find((it) => it.ent_user_id === item.ent_user_id).count
-                    : 0
-                }
-              />
-            ))}
+          {chatList.length !== 0 ? (
+            <div>
+              {chatList.map((item) => (
+                <MessageRow
+                  key={item.ent_user_id}
+                  {...item}
+                  total={
+                    chatTotal.length > 0
+                      ? chatTotal.find((it) => it.ent_user_id === item.ent_user_id).count
+                      : 0
+                  }
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="chat-login">
+              <h6>您还没有新消息</h6>
+            </div>
+          )}
         </div>
       )}
-
       <Navbar category="消息" />
     </>
   );

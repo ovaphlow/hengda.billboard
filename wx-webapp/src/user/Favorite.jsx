@@ -56,13 +56,21 @@ const Favorite = () => {
         </div>
       ) : (
         <div className="container-fluid" style={{ fontSize: 14 }}>
-          <div className="mt-2" />
-          {list &&
-            list.map((item) => (
-              <div className="card border-0 p-3 user-radius mb-2 mt-2" key={item.id}>
-                {dateRow(item)}
-              </div>
-            ))}
+          {list.length === 0 ? (
+            <div className="chat-login">
+              <h6>您还没有收藏任何信息</h6>
+            </div>
+          ) : (
+            <div>
+              <div className="mt-2" />
+              {list &&
+                list.map((item) => (
+                  <div className="card border-0 p-3 user-radius mb-2 mt-2" key={item.id}>
+                    {dateRow(item)}
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       )}
       <Navbar category="我的" />

@@ -114,7 +114,7 @@ export default function List() {
                                 </span>
                               )}
 
-                              {it.receiver === "普通用户" && (
+                              {it.receiver === "个人用户" && (
                                 <span className="badge bg-info">
                                   {it.receiver}
                                 </span>
@@ -131,7 +131,7 @@ export default function List() {
                               {it.receiver === "企业用户" && it.doc.industry}
                             </td>
                             <td>
-                              {it.receiver === "普通用户" && it.doc.education}
+                              {it.receiver === "个人用户" && it.doc.education}
                             </td>
                           </tr>
                         ))}

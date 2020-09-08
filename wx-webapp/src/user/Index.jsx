@@ -13,6 +13,7 @@ import Schedule from './Schedule';
 import Offer from './Offer';
 import SysMessage from './SysMessage';
 import Phone from './Phone';
+import Edit from './Edit';
 
 const UserRouter = () => (
   <Router>
@@ -52,6 +53,9 @@ const UserRouter = () => (
       </Route>
       <Route exact path="/我的/举报/:id/:category">
         <Report />
+      </Route>
+      <Route exact path="/我的/修改密码">
+        <Edit />
       </Route>
     </Switch>
   </Router>

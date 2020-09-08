@@ -68,25 +68,24 @@ const Sigin = () => {
     if (res.message) {
       let alertFlg = false;
       if (typeof res.message === 'object') {
-        Object.getOwnPropertyNames(res.message)
-          .forEach((key) => {
-            switch (key) {
-              case 'code':
-                errData[key] = '验证码错误';
-                break;
-              case 'phone':
-                errData[key] = '该电话已注册';
-                break;
-              case 'ent_name':
-                errData[key] = '公司名已被使用';
-                break;
-              case 'email':
-                errData[key] = '该邮箱已注册';
-                break;
-              default:
-                alertFlg = true;
-            }
-          });
+        Object.getOwnPropertyNames(res.message).forEach((key) => {
+          switch (key) {
+            case 'code':
+              errData[key] = '验证码错误';
+              break;
+            case 'phone':
+              errData[key] = '该电话已注册';
+              break;
+            case 'ent_name':
+              errData[key] = '公司名已被使用';
+              break;
+            case 'email':
+              errData[key] = '该邮箱已注册';
+              break;
+            default:
+              alertFlg = true;
+          }
+        });
       } else {
         alertFlg = true;
       }
@@ -129,10 +128,14 @@ const Sigin = () => {
       <div className="px-5 fixed-top border-bottom bg-white body-title">
         <div className="row">
           <div className="col-9 item-middle">
-            <img className="img-fluid pull-left logo2" alt="" src="./components/img/logo3.png'" />
+            <img className="img-fluid pull-left logo2" alt="" src="./lib/img/logo3.png" />
           </div>
           <div className="col-1 header-right">
-            <a className="text-warning pull-right" href="#登录" style={{ fontSize: '16px', textDecoration: 'none' }}>
+            <a
+              className="text-warning pull-right"
+              href="#登录"
+              style={{ fontSize: '16px', textDecoration: 'none' }}
+            >
               我要登录
             </a>
           </div>
@@ -140,7 +143,9 @@ const Sigin = () => {
             <span className="text-secondary border-0 bg-transparent img-weixin">
               <FontAwesomeIcon icon={faQrcode} fixedWidth />
               小程序
-              <p><img className="" alt="" src="./components/img/qr.png'" /></p>
+              <p>
+                <img className="" alt="" src="./lib/img/qr.png" />
+              </p>
             </span>
           </div>
         </div>
@@ -222,7 +227,9 @@ const Sigin = () => {
                     value={data.password1}
                     onChange={handleChange}
                   />
-                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
+                  {err.password1 && (
+                    <small className="form-text text-danger">{err.password1}</small>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>确认密码</label>
@@ -235,20 +242,30 @@ const Sigin = () => {
                     value={data.password2}
                     onChange={handleChange}
                   />
-                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
+                  {err.password2 && (
+                    <small className="form-text text-danger">{err.password2}</small>
+                  )}
                 </div>
               </form>
-              <div className="row text-secondary">
+              <div className="text-secondary text-center">
                 <span>
                   点击注册即您已同意
-                  <a href="/agt/user.html" target="_blank" style={{ textDecoration: 'none' }}>《用户协议》</a>
+                  <a href="/agt/user.html" target="_blank" style={{ textDecoration: 'none' }}>
+                    《用户协议》
+                  </a>
                   和
-                  <a href="/agt/privacy.html" target="_blank" style={{ textDecoration: 'none' }}>《隐私政策》</a>
+                  <a href="/agt/privacy.html" target="_blank" style={{ textDecoration: 'none' }}>
+                    《隐私政策》
+                  </a>
                 </span>
               </div>
               <div className="row mt-2 px-4 ">
                 <div className="col">
-                  <button className="mt-2 btn btn-login rounded-0" onClick={handleSigin} type="button">
+                  <button
+                    className="mt-2 btn btn-login rounded-0"
+                    onClick={handleSigin}
+                    type="button"
+                  >
                     注册
                   </button>
                 </div>

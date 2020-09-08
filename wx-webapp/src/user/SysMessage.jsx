@@ -61,10 +61,18 @@ const SysMessage = () => {
         </div>
       ) : (
         <div className="container-fluid" style={{ fontSize: 14 }}>
-          {list &&
-            list.map(({ id, title, content }) => (
-              <DataRow key={id} title={title} content={content} />
-            ))}
+          {list.length === 0 ? (
+            <div className="chat-login">
+              <h6>您还没有新的系统消息</h6>
+            </div>
+          ) : (
+            <div>
+              {list &&
+                list.map(({ id, title, content }) => (
+                  <DataRow key={id} title={title} content={content} />
+                ))}
+            </div>
+          )}
         </div>
       )}
       <Navbar category="我的" />

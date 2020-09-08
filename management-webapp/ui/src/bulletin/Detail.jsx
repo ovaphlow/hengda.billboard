@@ -49,7 +49,7 @@ export default function Detail({ component_option }) {
         address_level2,
         industry,
       };
-    } else if (receiver === "普通用户") {
+    } else if (receiver === "个人用户") {
       doc = {
         content,
         address_level1,
@@ -249,7 +249,7 @@ export default function Detail({ component_option }) {
                       >
                         <option value="">未选择</option>
                         <option value="企业用户">企业用户</option>
-                        <option value="普通用户">普通用户</option>
+                        <option value="个人用户">个人用户</option>
                       </select>
                     </div>
 
@@ -308,7 +308,7 @@ export default function Detail({ component_option }) {
                         </div>
                       )}
 
-                      {receiver === "普通用户" && (
+                      {receiver === "个人用户" && (
                         <EducationPicker
                           caption="学历"
                           value={education}

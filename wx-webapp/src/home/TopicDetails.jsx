@@ -27,7 +27,9 @@ const TopicDetails = () => {
             () => {},
           );
           setItem(res.content);
-          document.getElementById('content').innerHTML = res.content.content;
+          if (document.getElementById('content') !== null) {
+            document.getElementById('content').innerHTML = res.content.content;
+          }
         }
       });
     return () => {};

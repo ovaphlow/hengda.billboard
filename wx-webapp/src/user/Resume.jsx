@@ -67,7 +67,9 @@ const Resume = () => {
         .then((res) => {
           if (res.content) {
             setData(res.content);
-            document.getElementById('ziwopingjia').innerHTML = res.content.ziwopingjia;
+            if (document.getElementById('ziwopingjia') !== null) {
+              document.getElementById('ziwopingjia').innerHTML = res.content.ziwopingjia;
+            }
           } else if (res.content !== undefined) {
             fetch(`./api/resume/init?u_id=${_auth.uuid}`, {
               method: 'POST',
@@ -123,29 +125,50 @@ const Resume = () => {
   };
 
   const changeStatus = (status) => {
-    fetch(`./api/resume/status/${data.common_user_id}/?u_id=${data.uuid}`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ status }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (!res.message) {
-          setData((p) => ({
-            ...p,
-            status,
-          }));
-          _EditJournal(
-            {
-              category2: '简历',
-              data_id: data.id,
-              data_uuid: data.uuid,
-              remark: '修改简历状态',
-            },
-            () => {},
-          );
-        }
-      });
+    if (
+      !data.phone ||
+      data.phone === '' ||
+      !data.email ||
+      data.email === '' ||
+      !data.name ||
+      data.name === '' ||
+      !data.gender ||
+      data.gender === '' ||
+      !data.birthday ||
+      data.birthday === '' ||
+      !data.address1 ||
+      data.address1 === '' ||
+      !data.address2 ||
+      data.address2 === '' ||
+      !data.address3 ||
+      data.address3 === ''
+    ) {
+      window.alert('请您完善个人信息');
+    } else {
+      fetch(`./api/resume/status/${data.common_user_id}/?u_id=${data.uuid}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ status }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (!res.message) {
+            setData((p) => ({
+              ...p,
+              status,
+            }));
+            _EditJournal(
+              {
+                category2: '简历',
+                data_id: data.id,
+                data_uuid: data.uuid,
+                remark: '修改简历状态',
+              },
+              () => {},
+            );
+          }
+        });
+    }
   };
 
   const handleFileChange = (e) => {
@@ -154,7 +177,6 @@ const Resume = () => {
     }
 
     const list = e.target.files;
-
     for (let i = 0; i < list.length; i += 1) {
       const reader = new FileReader();
       reader.readAsDataURL(list[i]);
@@ -174,6 +196,14 @@ const Resume = () => {
             if (res.message) {
               window.alert(res.message);
             } else {
+              setFile((p) =>
+                p.concat({
+                  id: res.content,
+                  file: f,
+                  common_user_id: auth.id,
+                  category: '简历',
+                }),
+              );
               _EditJournal(
                 {
                   category2: '简历',
@@ -183,15 +213,6 @@ const Resume = () => {
                 },
                 () => {},
               );
-              setFile((p) => {
-                
-                p.push({
-                  id: res.content,
-                  file: f,
-                  common_user_id: auth.id,
-                  category: '简历',
-                });
-              });
             }
           });
       };
@@ -229,9 +250,24 @@ const Resume = () => {
     window.location = '#/登录';
   };
 
-  if (data && auth !== 0) {
-    return (
-      <>
+  return (
+    <>
+      {auth === 0 ? (
+        <div className="container-fluid">
+          <ToBack href="#我的" category="我的简历" />
+          <div className="chat-login">
+            <h6>登录后可以查看简历</h6>
+            <button
+              type="button"
+              style={{ width: '25%' }}
+              className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
+              onClick={handleLogIn}
+            >
+              登&nbsp;录
+            </button>
+          </div>
+        </div>
+      ) : (
         <div className="container-fluid background-login1" style={{ fontSize: 14 }}>
           {/* <div className="row mt-2">
             <div className="col" >
@@ -393,6 +429,9 @@ const Resume = () => {
                     accept="image/png, image/jpeg"
                   />
                 </div>
+                {/* <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div> */}
               </div>
 
               <div className="row">
@@ -417,6 +456,33 @@ const Resume = () => {
             </div>
           </div>
         </div>
+      )}
+      {auth === 0 ? (
+        <ul
+          className="nav bg-light nav-light fixed-bottom nav-bottom border-top"
+          style={{ display: 'none' }}
+        >
+          <div className="row text-center nav-row">
+            {data.status === '保密' ? (
+              <button
+                type="button"
+                className="btn btn-primary nav-btn"
+                onClick={() => changeStatus('公开')}
+              >
+                公开简历
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-danger nav-btn"
+                onClick={() => changeStatus('保密')}
+              >
+                停止公开
+              </button>
+            )}
+          </div>
+        </ul>
+      ) : (
         <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
           <div className="row text-center nav-row">
             {data.status === '保密' ? (
@@ -438,26 +504,9 @@ const Resume = () => {
             )}
           </div>
         </ul>
-      </>
-    );
-  } else {
-    return (
-      <div className="container-fluid">
-        <ToBack href="#我的" category="我的简历" />
-        <div className="chat-login">
-          <h6>登录后可以查看简历</h6>
-          <button
-            type="button"
-            style={{ width: '25%' }}
-            className="btn btn-block mx-auto rounded-pill button-background text-white font-weight"
-            onClick={handleLogIn}
-          >
-            登&nbsp;录
-          </button>
-        </div>
-      </div>
-    );
-  }
+      )}
+    </>
+  );
 };
 
 const Personal = () => {
@@ -468,24 +517,22 @@ const Personal = () => {
   const { search } = useLocation();
 
   useEffect(() => {
-    fetch(`./api/resume/user/${id}${search}`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.content) {
-          setData(res.content);
-        } else {
-          alert(res.message);
-        }
-        const _data = JSON.parse(sessionStorage.getItem('resume_data'));
-        if (_data !== null) {
-          setData(_data);
-        }
-      });
-  }, [id, search]);
-
-  useEffect(() => {
+    const _data = JSON.parse(sessionStorage.getItem('resume_data'));
+    if (_data !== null) {
+      setData(_data);
+    } else {
+      fetch(`./api/resume/user/${id}${search}`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.content) {
+            setData(res.content);
+          } else {
+            alert(res.message);
+          }
+        });
+    }
     sessionStorage.removeItem('resume_data');
-  }, []);
+  }, [id, search]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -750,23 +797,21 @@ const Intention = () => {
 
   useEffect(() => {
     const _data = JSON.parse(sessionStorage.getItem('industry_data'));
-    fetch(`./api/resume/user/${id}${search}`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.content) {
-          setData(res.content);
-        } else {
-          alert(res.message);
-        }
-        if (_data !== null) {
-          setData(_data);
-        }
-      });
-  }, [id, search]);
-
-  useEffect(() => {
+    if (_data !== null) {
+      setData(_data);
+    } else {
+      fetch(`./api/resume/user/${id}${search}`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.content) {
+            setData(res.content);
+          } else {
+            alert(res.message);
+          }
+        });
+    }
     sessionStorage.removeItem('industry_data');
-  }, []);
+  }, [id, search]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;

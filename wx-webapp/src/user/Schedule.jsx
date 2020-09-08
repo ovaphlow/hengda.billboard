@@ -30,10 +30,11 @@ const RecruitRow = ({
             </a>
           </div>
           <br />
-          <span className="text-muted">
+          <span className="text-muted" style={{ fontSize: 11 }}>
             举办地点:
-            {`${address_level2}-${address_level3}`} | 开始时间:
-            {time}
+            {`${address_level2}-${address_level3}`}
+            <br />
+            开始时间:{time}
           </span>
           <br />
           <span>
@@ -47,7 +48,7 @@ const RecruitRow = ({
 
 RecruitRow.propTypes = {
   title: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,
   address_level2: PropTypes.string.isRequired,
   address_level3: PropTypes.string.isRequired,
@@ -114,15 +115,23 @@ const Schedule = () => {
         <div className="container-fluid" style={{ fontSize: 14 }}>
           <div className="tab-content mt-1">
             <div className="tab-pane fade show active">
-              {Object.getOwnPropertyNames(list).map((key) => (
-                <React.Fragment key={key}>
-                  <DateTitle text={key} />
-                  <div className="mt-2" />
-                  {list[key].map((item) => (
-                    <RecruitRow key={item.id} {...item} />
+              {list.length !== 0 ? (
+                <div className="chat-login">
+                  <h6>您近期还没有新的日程</h6>
+                </div>
+              ) : (
+                <div>
+                  {Object.getOwnPropertyNames(list).map((key) => (
+                    <React.Fragment key={key}>
+                      <DateTitle text={key} />
+                      <div className="mt-2" />
+                      {list[key].map((item) => (
+                        <RecruitRow key={item.id} {...item} />
+                      ))}
+                    </React.Fragment>
                   ))}
-                </React.Fragment>
-              ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

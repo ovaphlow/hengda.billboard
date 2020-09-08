@@ -127,7 +127,7 @@ const Details = () => {
     if (_auth === null) {
       window.location = '#登录';
     } else {
-      fetch('./api/delivery/', {
+      fetch(`./api/delivery/?uuid=${auth.uuid}`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

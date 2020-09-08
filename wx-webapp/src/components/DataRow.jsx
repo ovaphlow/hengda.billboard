@@ -11,7 +11,6 @@ export const RecruitmentRow = ({
   salary2,
   address1,
   address2,
-  education,
   qty,
   date,
 }) => {
@@ -37,7 +36,7 @@ export const RecruitmentRow = ({
         {salary1 && salary2 ? '元月' : ''}
         <br />
         <span className="pull-left text-muted" style={{ fontSize: 11 }}>
-          {address1} {address2}/{education}
+          {address1}-{address2}
           |人数:
           {qty}
         </span>
@@ -128,7 +127,7 @@ RecruitmentRow1.defaultProps = {
   education: undefined,
 };
 
-export const RecruitRow = ({ name, id, uuid, address3, date, enterprise_name, category }) => (
+export const RecruitRow = ({ name, id, uuid, address2, address3, date, enterprise_name }) => (
   <div className="row">
     <div className="col">
       <div className="pull-left">
@@ -141,16 +140,15 @@ export const RecruitRow = ({ name, id, uuid, address3, date, enterprise_name, ca
         </a>
       </div>
       <br />
-      <span className="text-muted">
+      <span className="text-muted" style={{ fontSize: 11 }}>
         举办地点:
-        {address3}
-        |开始时间:
+        {address2}-{address3}
+        <br />
+        开始时间:
         {date}
       </span>
       <br />
-      <span>
-        {enterprise_name}({category})
-      </span>
+      <span>{enterprise_name}</span>
     </div>
   </div>
 );
@@ -178,7 +176,7 @@ export const RecommendRow = ({ name, id, uuid, address1, address2, qty, enterpri
         </a>
       </div>
       <br />
-      <span className="text-muted">
+      <span className="text-muted" style={{ fontSize: 11 }}>
         工作地点：
         {address1}-{address2}
         |人数:

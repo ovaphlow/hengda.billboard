@@ -66,16 +66,15 @@ const Recover = () => {
     if (res.message) {
       let alertFlg = false;
       if (typeof res.message === 'object') {
-        Object.getOwnPropertyNames(res.message)
-          .forEach((key) => {
-            switch (key) {
-              case 'code':
-                errData[key] = '验证码错误';
-                break;
-              default:
-                alertFlg = true;
-            }
-          });
+        Object.getOwnPropertyNames(res.message).forEach((key) => {
+          switch (key) {
+            case 'code':
+              errData[key] = '验证码错误';
+              break;
+            default:
+              alertFlg = true;
+          }
+        });
       } else {
         alertFlg = true;
       }
@@ -132,10 +131,14 @@ const Recover = () => {
     <div className="container-fluid bg-white body-login">
       <div className="row px-5 fixed-top bg-white border-bottom body-title">
         <div className="col-9 item-middle">
-          <img className="img-fluid pull-left logo2" alt="" src="./components/img/logo3.png'" />
+          <img className="img-fluid pull-left logo2" alt="" src="./lib/img/logo3.png" />
         </div>
         <div className="col-1 header-right">
-          <a className="text-warning pull-right" href="#登录" style={{ fontSize: '16px', textDecoration: 'none' }}>
+          <a
+            className="text-warning pull-right"
+            href="#登录"
+            style={{ fontSize: '16px', textDecoration: 'none' }}
+          >
             我要登录
           </a>
         </div>
@@ -143,7 +146,9 @@ const Recover = () => {
           <span className="text-secondary border-0 bg-transparent img-weixin">
             <FontAwesomeIcon icon={faQrcode} fixedWidth />
             小程序
-            <p><img className="" alt="" src="./components/img/qr.png'" /></p>
+            <p>
+              <img className="" alt="" src="./lib/img/qr.png" />
+            </p>
           </span>
         </div>
       </div>
@@ -214,7 +219,9 @@ const Recover = () => {
                     value={data.password1}
                     onChange={handleChange}
                   />
-                  {err.password1 && <small className="form-text text-danger">{err.password1}</small>}
+                  {err.password1 && (
+                    <small className="form-text text-danger">{err.password1}</small>
+                  )}
                 </div>
                 <div className="form-group">
                   <label>确认密码</label>
@@ -227,12 +234,18 @@ const Recover = () => {
                     value={data.password2}
                     onChange={handleChange}
                   />
-                  {err.password2 && <small className="form-text text-danger">{err.password2}</small>}
+                  {err.password2 && (
+                    <small className="form-text text-danger">{err.password2}</small>
+                  )}
                 </div>
               </form>
               <div className="row mt-3 px-4 ">
                 <div className="col">
-                  <button type="button" className="mt-2 btn btn-login rounded-0" onClick={handleSigin}>
+                  <button
+                    type="button"
+                    className="mt-2 btn btn-login rounded-0"
+                    onClick={handleSigin}
+                  >
                     提交
                   </button>
                 </div>

@@ -608,7 +608,7 @@ const Update = () => {
             <hr />
             <div className="row mt-2">
               <div className="col">
-                <a className="pull-left btn btn-primary" href="#信息">
+                <a className="pull-left btn btn-primary" href="#/我的/信息">
                   返回
                 </a>
                 <button className="pull-right btn btn-success" type="button" onClick={handleSave}>

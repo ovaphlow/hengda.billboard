@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-
-export default function List({ enterprise_id, enterprise_uuid }) {
+export default function List1({ enterprise_id, enterprise_uuid }) {
   const [data_list, setDataList] = useState([]);
+  
 
   useEffect(() => {
     (async () => {
@@ -20,15 +18,13 @@ export default function List({ enterprise_id, enterprise_uuid }) {
 
   return (
     <table className="table table-dark table-striped">
-      <caption>岗位</caption>
+      <caption>投递的简历</caption>
       <thead>
         <tr>
           <th className="text-right">序号</th>
-          <th>日期</th>
+          <th>简历</th>
           <th>岗位</th>
-          <th>人数</th>
-          <th>学历</th>
-          <th>地址</th>
+          <th>日期</th>
           <th className="text-right">状态</th>
         </tr>
       </thead>
@@ -36,25 +32,20 @@ export default function List({ enterprise_id, enterprise_uuid }) {
       <tbody>
         {data_list.map((it) => (
           <tr key={it.id}>
-            <td className="text-right">
-              <span className="float-left">
-                <a href={`recruitment.html#/${it.id}?uuid=${it.uuid}`}>
-                  <FontAwesomeIcon icon={faEdit} fixedWidth size="lg" />
-                </a>
-              </span>
-              {it.id}
-            </td>
-            <td>{it.date}</td>
-            <td>{it.name}</td>
-            <td>{it.qty}</td>
-            <td>{it.education}</td>
+            <td className="text-right">{it.id}</td>
             <td>
-              <ul className="list-inline">
-                <li className="list-inline-item">{it.address1}</li>
-                <li className="list-inline-item">{it.address2}</li>
-                <li className="list-inline-item">{it.address3}</li>
-              </ul>
+              <a href={`resume.html#/${it.resume_id}?uuid=${it.resume_uuid}`}>
+                {it.resume_name}
+              </a>
             </td>
+            <td>
+              <a
+                href={`recruitment.html#/${it.recruitment_id}?uuid=${it.recruitment_uuid}`}
+              >
+                {it.recruitment_name}
+              </a>
+            </td>
+            <td>{it.datime}</td>
             <td className="text-right">{it.status}</td>
           </tr>
         ))}
@@ -63,11 +54,11 @@ export default function List({ enterprise_id, enterprise_uuid }) {
   );
 }
 
-List.propTypes = {
+List1.propTypes = {
   enterprise_id: PropTypes.string.isRequired,
   enterprise_uuid: PropTypes.string,
 };
 
-List.defaultProps = {
+List1.defaultProps = {
   enterprise_uuid: undefined,
 };

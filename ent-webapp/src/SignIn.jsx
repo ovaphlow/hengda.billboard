@@ -144,7 +144,7 @@ const Sigin = () => {
               <FontAwesomeIcon icon={faQrcode} fixedWidth />
               小程序
               <p>
-                <img className="" alt="" src="./lib/img/qr.png" />
+                <img className="" alt="" src="./lib/img/qrcode.jpg" />
               </p>
             </span>
           </div>

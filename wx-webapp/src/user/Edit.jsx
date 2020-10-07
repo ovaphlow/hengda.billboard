@@ -146,7 +146,9 @@ const Edit = () => {
             <ToBack />
             <div className="row mt-3 bg-transparent">
               <div className="col">
-                <h4 className="text-center">修改密码</h4>
+                <h5 className="text-center">
+                  修改密码
+                </h5>
               </div>
             </div>
             <div className="row bg-transparent text-dark">
@@ -165,6 +167,7 @@ const Edit = () => {
                           type="text"
                           readOnly="readonly"
                           name="email"
+                          style={{ fontSize: 18 }}
                           value={data.email}
                           className="form-control col border-0 bg-transparent input-f"
                           placeholder="电子邮箱"
@@ -186,6 +189,7 @@ const Edit = () => {
                           value={data.old_password || ''}
                           autoComplete="off"
                           className="form-control col border-0 bg-transparent input-f"
+                          style={{ fontSize: 18 }}
                           placeholder="请输入旧密码"
                           onChange={handleChange}
                         />
@@ -205,6 +209,7 @@ const Edit = () => {
                           value={data.new_password || ''}
                           autoComplete="off"
                           className="form-control col border-0 bg-transparent input-f"
+                          style={{ fontSize: 18 }}
                           placeholder="请输入新密码"
                           onChange={handleChange}
                         />
@@ -223,6 +228,7 @@ const Edit = () => {
                           name="password2"
                           value={data.password2 || ''}
                           className="form-control col border-0  bg-transparent input-f"
+                          style={{ fontSize: 18 }}
                           autoComplete="off"
                           placeholder="请确认新密码"
                           onChange={handleChange}
@@ -235,6 +241,7 @@ const Edit = () => {
                           name="code"
                           value={data.code || ''}
                           className="form-control col border-0  bg-transparent input-f"
+                          style={{ fontSize: 18 }}
                           placeholder="验证码"
                           onChange={handleChange}
                         />

@@ -9,6 +9,7 @@ import Update from './Update';
 import Feedback from './Feedback';
 import User from './User';
 import UpdatePassword from './UpdatePassword';
+import Revise from './Revise';
 
 const Index = () => {
   useEffect(() => {
@@ -30,6 +31,9 @@ const Index = () => {
             </Route>
             <Route exact path="/我的/信息/编辑/">
               <Update />
+            </Route>
+            <Route exact path="/我的/信息/认证后编辑/">
+              <Revise />
             </Route>
             <Route exact path="/我的/投诉/">
               <Feedback />

@@ -247,14 +247,14 @@ const Details = () => {
                   <div className="col">
                     岗位要求:
                     <br />
-                    <div id="description" />
+                    <div id="requirement" />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
                     工作内容:
                     <br />
-                    <div id="requirement" />
+                    <div id="description" />
                   </div>
                 </div>
               </>

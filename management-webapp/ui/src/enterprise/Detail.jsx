@@ -8,6 +8,7 @@ import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
 import IndustryPicker from "../component/IndustryPicker";
 import RecruitmentList from "../recruitment/component/List";
+import RecruitmentList1 from "../recruitment/component/List1";
 import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
@@ -406,6 +407,15 @@ export default function Detail({ component_option }) {
                   <div className="card-header">发布的岗位</div>
                   <div className="card-body">
                     <RecruitmentList
+                      enterprise_id={id}
+                      enterprise_uuid={uuid}
+                    />
+                  </div>
+                </div>
+                <div className="card bg-dark shadow mt-3">
+                  <div className="card-header">收到的简历</div>
+                  <div className="card-body">
+                    <RecruitmentList1
                       enterprise_id={id}
                       enterprise_uuid={uuid}
                     />

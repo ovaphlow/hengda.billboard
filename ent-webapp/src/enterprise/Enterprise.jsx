@@ -64,7 +64,12 @@ const Enterprise = () => {
                         </a>
                       </div>
                     ) : (
-                      <></>
+                      <div className="pull-right">
+                        <a href="#我的/信息/认证后编辑/">
+                          <FontAwesomeIcon icon={faPenSquare} fixedWidth />
+                          编辑
+                        </a>
+                      </div>
                     )}
                   </div>
                 </div>

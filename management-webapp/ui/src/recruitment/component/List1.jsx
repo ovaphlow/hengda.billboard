@@ -1,56 +1,107 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 export default function List1({ enterprise_id, enterprise_uuid }) {
   const [data_list, setDataList] = useState([]);
-  
+  const [min, setMin] = useState(
+    moment().startOf("month").format("YYYY-MM-DD")
+  );
+  const [max, setMax] = useState(moment().endOf("month").format("YYYY-MM-DD"));
 
-  useEffect(() => {
-    (async () => {
-      const response = await window.fetch(
-        `/api/recruitment/?enterprise_id=${enterprise_id}&enterprise_uuid=${enterprise_uuid}`
-      );
-      const res = await response.json();
-      setDataList(res.content);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleFilter = async () => {
+    const response = await window.fetch(
+      `/api/enterprise/delivery/?uuid=${enterprise_uuid}`,
+      {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          enterprise_id: enterprise_id,
+          min: min + "00:00",
+          max: max + "23:59",
+        }),
+      }
+    );
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    setDataList(res.content);
+  };
 
   return (
-    <table className="table table-dark table-striped">
-      <caption>投递的简历</caption>
-      <thead>
-        <tr>
-          <th className="text-right">序号</th>
-          <th>简历</th>
-          <th>岗位</th>
-          <th>日期</th>
-          <th className="text-right">状态</th>
-        </tr>
-      </thead>
+    <div className="card shadow bg-dark h-100 flex-grow-1">
+      <div className="card-header">
+        <div className="row">
+          <div className="col">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text">起始日期</span>
+              </div>
+              <input
+                type="date"
+                value={min}
+                aria-label="起始日期"
+                className="form-control"
+                onChange={(event) => setMin(event.target.value)}
+              />
+            </div>
+          </div>
 
-      <tbody>
-        {data_list.map((it) => (
-          <tr key={it.id}>
-            <td className="text-right">{it.id}</td>
-            <td>
-              <a href={`resume.html#/${it.resume_id}?uuid=${it.resume_uuid}`}>
-                {it.resume_name}
-              </a>
-            </td>
-            <td>
-              <a
-                href={`recruitment.html#/${it.recruitment_id}?uuid=${it.recruitment_uuid}`}
+          <div className="col">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text">终止日期</span>
+              </div>
+              <input
+                type="date"
+                value={max}
+                aria-label="终止日期"
+                className="form-control"
+                onChange={(event) => setMax(event.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="col-auto">
+            <div className="btn-group">
+              <button
+                type="button"
+                className="btn btn-info"
+                onClick={handleFilter}
               >
-                {it.recruitment_name}
-              </a>
-            </td>
-            <td>{it.datime}</td>
-            <td className="text-right">{it.status}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+                查询
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="card-body">
+        <table className="table table-dark table-striped">
+          <caption>投递的简历</caption>
+          <thead>
+            <tr>
+              <th>简历</th>
+              <th>岗位</th>
+              <th>日期</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data_list.map((it) => (
+              <tr key={it.id}>
+                <td>{it.resume_name}</td>
+                <td>{it.recruitment_name}</td>
+                <td>{it.datime}</td>
+                <td>{it.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

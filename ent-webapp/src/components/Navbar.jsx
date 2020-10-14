@@ -67,6 +67,11 @@ const Navbar = (props) => {
           首页
         </a>
       </div>
+      <div className={`col ${category === '招聘会' && 'nav-bar-active'}`}>
+        <a className="nav-link text-dark" href="#/招聘会/列表/">
+          招聘会
+        </a>
+      </div>
       <div className={`col ${category === '岗位' && 'nav-bar-active'}`}>
         <a className="nav-link text-dark" href="#/岗位/列表">
           岗位管理

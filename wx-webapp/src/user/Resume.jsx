@@ -175,7 +175,10 @@ const Resume = () => {
     if (e.target.files.length === 0) {
       return;
     }
-
+    if (e.target.files[0].size >= 100000) {
+      window.alert('超出图片大小上限!(100KB)');
+      return;
+    }
     const list = e.target.files;
     for (let i = 0; i < list.length; i += 1) {
       const reader = new FileReader();
@@ -409,10 +412,15 @@ const Resume = () => {
               </div>
               <hr />
               <div className="row mb-2">
-                <div className="col flex-start">
-                  <h5>我的证书</h5>
+                <div className="col-8 flex-start">
+                  <h5>
+                    我的证书
+                    <span className="text-danger" style={{ fontSize: 16 }}>
+                      (小于100KB)
+                    </span>
+                  </h5>
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <button
                     type="button"
                     className="btn btn-primary btn-sm pull-right"

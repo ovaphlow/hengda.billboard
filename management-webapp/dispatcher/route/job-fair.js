@@ -25,7 +25,7 @@ router.put('/', async (ctx) => {
         ctx.response.body = rows;
         break;
       default:
-        ctx.response.body = [1, 2];
+        ctx.response.body = [];
     }
   } catch (err) {
     logger.error(err);

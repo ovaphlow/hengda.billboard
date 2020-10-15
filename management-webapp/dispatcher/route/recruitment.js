@@ -22,7 +22,10 @@ router.get('/:id', async (ctx) => {
       parseInt(ctx.params.id, 10),
       ctx.request.query.uuid,
     ]);
-    ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} };
+    ctx.response.body = {
+      message: '',
+      content: rows.length === 1 ? rows[0] : {},
+    };
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
@@ -86,10 +89,36 @@ router.get('/', async (ctx) => {
   `;
   const pool = mysql.promise();
   try {
-    const [rows] = await pool.query(sql, [parseInt(ctx.request.query.enterprise_id, 10)]);
+    const [rows] = await pool.query(sql, [
+      parseInt(ctx.request.query.enterprise_id, 10),
+    ]);
     ctx.response.body = { message: '', content: rows };
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
+
+router.put('/', async (ctx) => {
+  const query = ctx.request.query.category || '';
+  const pool = mysql.promise();
+  try {
+    switch (query) {
+      case 'job-fair':
+        const sql = `
+        select *
+        from recruitment
+        where json_search(job_fair_id, "one", ?)
+        order by id desc
+        `;
+        const [rows] = await pool.query(sql, [ctx.request.body.job_fair_id]);
+        ctx.response.body = rows;
+        break;
+      default:
+        ctx.response.body = [];
+    }
+  } catch (err) {
+    logger.error(err);
+    ctx.response.status = 500;
   }
 });

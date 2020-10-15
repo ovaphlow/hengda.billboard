@@ -22,20 +22,25 @@ const routerSetting = require('./route/setting');
 const routerCurrentUser = require('./route/current-user');
 const routerStats = require('./route/stats');
 const routerBulletin = require('./route/bulletin');
+const routerJobFair = require('./route/job-fair');
 
 const app = new Koa();
 
 app.env = 'production';
 
-app.use(bodyParser({
-  jsonLimit: '8mb',
-}));
+app.use(
+  bodyParser({
+    jsonLimit: '8mb',
+  }),
+);
 
 const STATIC_PATH = path.join(__dirname, '../public');
-app.use(staticCache(STATIC_PATH, {
-  maxAge: 60 * 60 * 24 * 7,
-  gzip: true,
-}));
+app.use(
+  staticCache(STATIC_PATH, {
+    maxAge: 60 * 60 * 24 * 7,
+    gzip: true,
+  }),
+);
 
 app.use(async (ctx, next) => {
   await next();
@@ -140,6 +145,11 @@ app.use(async (ctx, next) => {
 (() => {
   app.use(routerBulletin.routes());
   app.use(routerBulletin.allowedMethods());
+})();
+
+(() => {
+  app.use(routerJobFair.routes());
+  app.use(routerJobFair.allowedMethods());
 })();
 
 module.exports = app;

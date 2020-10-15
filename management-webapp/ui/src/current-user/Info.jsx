@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { SIGN_IN_URL } from "../constant";
 import TopNav from "../component/TopNav";
 import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
@@ -28,6 +29,13 @@ export default function Info() {
     }
     window.location = "#/登录";
   };
+
+  React.useEffect(() => {
+    const auth = sessionStorage.getItem("mis-auth");
+    if (!auth) {
+      window.location = SIGN_IN_URL;
+    }
+  }, []);
 
   useEffect(() => {
     setUsername(auth.username);

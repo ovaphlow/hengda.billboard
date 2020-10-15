@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBan } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
 import { TextField, SelectField, IndustryField } from '../components/InputField';
-import { _EditJournal } from '../commonFetch';
 import RichEditor from '../components/RichEditor';
-import { View } from './Components';
+import { View1 } from './Components';
+import { _EditJournal } from '../commonFetch';
 
-const Update = () => {
+const Save = () => {
   const [data, setData] = useState({
     name: '',
     category: '',
     industry: '',
+    position: '',
     status: '',
     education: '',
     salary1: '',
     salary2: '',
+    qty: '',
     address1: '',
     address2: '',
     address3: '',
@@ -28,47 +26,20 @@ const Update = () => {
 
   const [area, setArea] = useState([]);
 
-  const [auth, setAuth] = useState(0);
-
-  const [name, setName] = useState('');
-
-  const { id } = useParams();
-
-  const { search } = useLocation();
-
   const [level, setLevel] = useState([]);
 
   const [address, setAddress] = useState([]);
 
-  const [list, setList] = useState([]);
-
   useEffect(() => {
-    const _auth = JSON.parse(sessionStorage.getItem('auth'));
-    if (_auth === null) {
-      window.location = '#登录';
-      return;
+    const auth = JSON.parse(sessionStorage.getItem('auth'));
+    if (auth !== null) {
+      setData((p) => ({
+        ...p,
+        enterprise_id: auth.enterprise_id,
+        enterprise_uuid: auth.enterprise_uuid,
+        user_id: auth.id,
+      }));
     }
-    setAuth(_auth);
-    fetch(`./api/recruitment/${id}${search}`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.content) {
-          setName(res.content.name);
-          setData(() => res.content);
-          fetch(`./api/delivery/recruitment/${id}?recruitment_uuid=${res.content.uuid}`)
-            .then((res1) => res1.json())
-            .then((res1) => {
-              if (res.content) {
-                setList(res1.content);
-              } else {
-                alert(res.message);
-              }
-            });
-        } else {
-          alert(res.message);
-        }
-      });
-
     fetch('/lib/address.json')
       .then((res) => res.json())
       .then((res) => {
@@ -82,42 +53,7 @@ const Update = () => {
             })),
         );
       });
-  }, [id, search]);
-
-  useEffect(() => {
-    if (level.length > 0) {
-      const a1 = level.find((item) => item.name === data.address1);
-      if (a1) {
-        setCity(
-          Object.getOwnPropertyNames(address)
-            .filter(
-              (it) =>
-                a1.code.slice(0, 2) === it.slice(0, 2) && it.slice(4, 7) === '00' && it !== a1.code,
-            )
-            .map((code) => ({
-              code,
-              name: address[code],
-            })),
-        );
-      }
-    }
-  }, [data, level, address]);
-
-  useEffect(() => {
-    if (city && city.length > 0) {
-      const a2 = city.find((item) => item.name === data.address2);
-      if (a2) {
-        setArea(
-          Object.getOwnPropertyNames(address)
-            .filter((it) => a2.code.slice(0, 4) === it.slice(0, 4) && it !== a2.code)
-            .map((code) => ({
-              code,
-              name: address[code],
-            })),
-        );
-      }
-    }
-  }, [data, city, address]);
+  }, []);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -125,13 +61,10 @@ const Update = () => {
   };
 
   const handleSave = () => {
-    fetch(`./api/recruitment/${id}${search}`, {
-      method: 'PUT',
+    fetch('./api/recruitment/', {
+      method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        user_id: auth.id,
-      }),
+      body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -141,9 +74,9 @@ const Update = () => {
           _EditJournal(
             {
               category2: '岗位',
-              data_id: data.id,
-              data_uuid: data.uuid,
-              remark: `修改岗位<${data.name}>`,
+              data_id: res.content.id,
+              data_uuid: res.content.uuid,
+              remark: `新增岗位<${data.name}>`,
             },
             () => {},
           );
@@ -155,7 +88,14 @@ const Update = () => {
 
   const handleProvince = (e) => {
     const { value } = e.target;
+    window.console.info(value);
     if (value !== '') {
+      setData({
+        ...data,
+        address1: value,
+        address2: '',
+        address3: '',
+      });
       const a1 = level.find((item) => item.name === value);
       if (a1) {
         setCity(
@@ -170,12 +110,6 @@ const Update = () => {
             })),
         );
       }
-      setData({
-        ...data,
-        address1: value,
-        address2: '',
-        address3: '',
-      });
       setArea([]);
     } else {
       setData({
@@ -218,67 +152,13 @@ const Update = () => {
     }
   };
 
-  const handleDataStatus = (v) => {
-    fetch(`./api/recruitment/status/${id}${search}`, {
-      method: 'PUT',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        status: v,
-        user_id: auth.id,
-        name,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.message) {
-          window.alert(res.message);
-        } else {
-          _EditJournal(
-            {
-              category2: '岗位',
-              data_id: data.id,
-              data_uuid: data.uuid,
-              remark: `修改岗位状态为-<${data.status}>`,
-            },
-            () => {},
-          );
-          setData({
-            ...data,
-            status: v,
-          });
-        }
-      });
-  };
-
   return (
-    <View category="我的职位">
+    <View1 category="我的职位">
       <div className="row bg-white shadow">
         <div className="col card rounded-0">
           <div className="card-body">
-            <div className="row">
-              <div className="col">
-                <h3 className="pull-left">编辑岗位</h3>
-                {data.status === '在招' ? (
-                  <button
-                    className="pull-right btn btn-link btn-lg text-danger"
-                    onClick={() => handleDataStatus('停招')}
-                    type="button"
-                  >
-                    <FontAwesomeIcon icon={faBan} fixedWidth />
-                    停招
-                  </button>
-                ) : (
-                  <button
-                    className="pull-right btn btn-link btn-lg text-success"
-                    onClick={() => handleDataStatus('在招')}
-                    type="button"
-                  >
-                    复招
-                  </button>
-                )}
-              </div>
-            </div>
-            <hr style={{ marginTop: 0 }} />
+            <h3>新增岗位</h3>
+            <hr />
             <div className="row">
               <div className="col">
                 <TextField
@@ -297,7 +177,7 @@ const Update = () => {
                 <SelectField
                   category="职位类型"
                   name="category"
-                  value={data.category || ''}
+                  value={data.category}
                   handleChange={handleChange}
                 >
                   <option> </option>
@@ -334,7 +214,7 @@ const Update = () => {
             <div className="row">
               <div className="col-2">
                 <SelectField
-                  category="省/直辖市"
+                  category="省"
                   name="address1"
                   value={data.address1}
                   handleChange={handleProvince}
@@ -353,7 +233,9 @@ const Update = () => {
                   handleChange={handleCity}
                 >
                   <option> </option>
-                  {city && city.map((item) => <option key={item.name}>{item.name}</option>)}
+                  {city.map((item, inx) => (
+                    <option key={item.id + inx.toString()}>{item.name}</option>
+                  ))}
                 </SelectField>
               </div>
               <div className="col-2">
@@ -365,7 +247,7 @@ const Update = () => {
                 >
                   <option> </option>
                   {area.map((item) => (
-                    <option key={item.name}>{item.name}</option>
+                    <option key={item.id}>{item.name}</option>
                   ))}
                 </SelectField>
               </div>
@@ -417,68 +299,21 @@ const Update = () => {
             <hr />
             <div className="row">
               <div className="col">
-                <a className="btn btn-primary" href="#岗位/列表">
+                <a className="btn btn-primary" href="#招聘会/列表">
                   返回
                 </a>
               </div>
               <div className="col">
-                <div className="pull-right">
-                  <button className="btn btn-success" onClick={handleSave} type="button">
-                    保存
-                  </button>
-                </div>
+                <button className="pull-right btn btn-success" onClick={handleSave} type="button">
+                  保存
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="row bg-white shadow mt-4">
-        <div className="col card rounded-0">
-          <div className="card-body">
-            <div className="row">
-              <div className="col">
-                <h3 className="pull-left">已收到简历</h3>
-              </div>
-            </div>
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">求职者姓名</th>
-                  <th scope="col">毕业院校</th>
-                  <th scope="col">学历</th>
-                  <th scope="col">投递时间</th>
-                  <th scope="col">状态</th>
-                  <th scope="col">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                {list &&
-                  list.map((item) => (
-                    <tr key={item.id}>
-                      <td>{item.name}</td>
-                      <td>{item.school}</td>
-                      <td>{item.education}</td>
-                      <td>{item.datime}</td>
-                      <td>{item.status}</td>
-                      <td>
-                        <div className="btn-group btn-group-sm">
-                          <a
-                            className="btn btn-primary"
-                            href={`#简历/列表/详情/${item.id}?u_id=${item.uuid}`}
-                          >
-                            查看
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </View>
+    </View1>
   );
 };
 
-export default Update;
+export default Save;

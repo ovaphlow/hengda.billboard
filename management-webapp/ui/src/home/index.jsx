@@ -57,7 +57,7 @@ function Home() {
   return (
     <div className="d-flex flex-column h-100 w-100">
       <header>
-        <TopNav component_option="首页" component_param_name={auth?.name} />
+        <TopNav component_option="首页" component_param_name={auth.name} />
       </header>
 
       <main className="flex-grow-1">

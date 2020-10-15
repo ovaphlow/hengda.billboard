@@ -90,12 +90,13 @@ export const ResumeView = (props) => {
     date_begin,
     date_end,
     ziwopingjia,
+    major,
   } = props;
   const [list, setList] = useState([]);
 
   useEffect(() => {
     if (props.common_user_id) {
-      document.getElementById("ziwopingjia").innerHTML = ziwopingjia;
+      document.getElementById('ziwopingjia').innerHTML = ziwopingjia;
       fetch(`./api/common-user-file/${props.common_user_id}/简历/`)
         .then((res) => res.json())
         .then((res) => {
@@ -118,7 +119,8 @@ export const ResumeView = (props) => {
 
   const phoneHide = (phone1) => {
     if (phone1 && phone1.length === 11) {
-      return `${phone1[0]}${phone1[1]}${phone1[2]} **** ${phone1[7]}${phone1[8]}${phone1[9]}${phone1[10]}`;
+      // return `${phone1[0]}${phone1[1]}${phone1[2]}${phone1[3]}${phone1[4]}${phone1[5]}${phone1[6]}${phone1[7]}${phone1[8]}${phone1[9]}${phone1[10]}`;
+      return phone1;
     } else {
       return '错误的号码格式';
     }
@@ -126,8 +128,9 @@ export const ResumeView = (props) => {
 
   const emailHide = (email1) => {
     if (email1 && email1.split('@').length > 1) {
-      const strs = email1.split('@');
-      return `${strs[0].replace(/./g, '*')}@${strs[1]}`;
+      // const strs = email1.split('@');
+      // return `${strs[0].replace(/./g, '*')}@${strs[1]}`;
+      return email1;
     } else {
       return '错误的邮箱格式';
     }
@@ -184,6 +187,8 @@ export const ResumeView = (props) => {
             在校时间: {date_begin}
             &nbsp; - &nbsp;
             {date_end}
+            <br />
+            专业:{major}
           </span>
         </div>
       </div>

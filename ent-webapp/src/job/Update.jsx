@@ -417,7 +417,7 @@ const Update = () => {
             <hr />
             <div className="row">
               <div className="col">
-                <a className="btn btn-primary" href="#岗位/列表">
+                <a className="btn btn-primary" href="#招聘会/列表">
                   返回
                 </a>
               </div>

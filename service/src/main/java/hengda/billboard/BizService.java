@@ -38,6 +38,7 @@ public class BizService {
                 .addService(new RecommendServiceImpl())
                 .addService(new EmailServiceImpl())
                 .addService(new ChartServiceImpl())
+                .addService(new JobFairServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

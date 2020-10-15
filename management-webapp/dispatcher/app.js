@@ -22,6 +22,8 @@ const routerSetting = require('./route/setting');
 const routerCurrentUser = require('./route/current-user');
 const routerStats = require('./route/stats');
 const routerBulletin = require('./route/bulletin');
+const routerJobFair = require('./route/job-fair');
+
 
 const app = new Koa();
 
@@ -141,5 +143,11 @@ app.use(async (ctx, next) => {
   app.use(routerBulletin.routes());
   app.use(routerBulletin.allowedMethods());
 })();
+
+(() => {
+  app.use(routerJobFair.routes());
+  app.use(routerJobFair.allowedMethods());
+})();
+
 
 module.exports = app;

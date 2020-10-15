@@ -91,6 +91,44 @@ router.get('/:id', async (ctx) => {
   }
 });
 
+router.put('/delivery', async (ctx) => {
+  const sql = `
+    select 
+      d.id,
+      (select name from resume 
+       where uuid=d.resume_uuid 
+        and id = d.resume_id) as resume_name,
+      (select name from recruitment 
+       where uuid=d.recruitment_uuid 
+        and id = d.recruitment_id) as recruitment_name,
+      datime,
+      status
+    from delivery as d
+    where 
+      d.recruitment_uuid 
+        in (select uuid 
+            from recruitment 
+            where enterprise_id=? 
+              and enterprise_uuid=?)
+      and datime between ? and ? 
+    order by id desc
+  `;
+  const pool = mysql.promise();
+  console.info(ctx.query.uuid)
+  try {
+    const [rows] = await pool.query(sql, [
+      ctx.request.body.enterprise_id, 
+      ctx.query.uuid,
+      ctx.request.body.min,
+      ctx.request.body.max
+    ]);
+    ctx.response.body = { message: '', content: rows };
+  } catch (err) {
+    logger.error(err);
+    ctx.response.body = { message: '服务器错误', content: '' };
+  }
+});
+
 router.put('/:id', async (ctx) => {
   const sql = `
     update enterprise

@@ -82,7 +82,7 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     try (Connection conn = DBUtil.getConn()) {
       String sql = "update enterprise set yingyezhizhao = ?, faren= ?, zhuceriqi= ?, zhuziguimo= ?, "
           + "yuangongshuliang= ?, yingyezhizhao_tu= ?, phone=?, address1= ?, address2= ?, address3= ?, "+
-          " address4= ?, industry= ?, intro= ?, url= ? ,status ='待认证'  where id=? and uuid=?";
+          " address4= ?, industry= ?, intro= ?, url= ? where id=? and uuid=?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getYingyezhizhao());
         ps.setString(2, req.getFaren());

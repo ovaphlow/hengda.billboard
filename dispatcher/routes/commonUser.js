@@ -271,12 +271,6 @@ router
       if (passwordSalted !== result.content.password) {
         ctx.response.body = { message: '密码错误' };
       } else {
-        console.info({
-          id: ctx.request.body.id,
-          code: ctx.request.body.code,
-          uuid: ctx.query.uuid,
-          email: ctx.request.body.email,
-        });
         result = await checkCaptchaFetch({
           id: ctx.request.body.id,
           code: ctx.request.body.code,
@@ -288,13 +282,6 @@ router
           hmac = crypto.createHmac('sha256', salt);
           hmac.update(ctx.request.body.new_password);
           passwordSalted = hmac.digest('hex');
-          console.info({
-            id: ctx.request.body.id,
-            uuid: ctx.query.uuid,
-            password: passwordSalted,
-            email: ctx.request.body.email,
-            salt,
-          });
           result = await updatePasswordFetch({
             id: ctx.request.body.id,
             uuid: ctx.query.uuid,

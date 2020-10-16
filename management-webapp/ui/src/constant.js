@@ -1,6 +1,6 @@
 export const SIGN_IN_URL = 'current-user.html#/登录';
 
-export const Home = 'home.html#/'
+export const Home = 'home.html#/';
 
 // 员工数量
 export const YUAN_GONG_SHU_LIANG = ['50 人以下', '50-100 人', '100-200 人', '200-500 人', '500 人以上'];

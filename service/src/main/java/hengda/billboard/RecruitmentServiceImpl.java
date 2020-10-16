@@ -333,7 +333,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, salary1, salary2, education, category, status, industry, position, uuid,"
+      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, salary1, salary2, education, category, status, industry, position, uuid, job_fair_id,"
       +"(select count(*) from browse_journal where data_id=recruitment.id and data_uuid = recruitment.uuid ) as journal,"
       +"(select count(*) from delivery where recruitment_id=recruitment.id and recruitment_uuid = recruitment.uuid ) as delivery from recruitment where enterprise_id = ? and enterprise_uuid = ? ";
       List<String> list = new ArrayList<>();

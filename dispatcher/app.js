@@ -197,12 +197,12 @@ function chartRouter() {
 
 chartRouter();
 
-// function wxRouter() {
-//   const router = require('./routes/wx');
-//   app.use(router.routes());
-//   app.use(router.allowedMethods());
-// }
+function jobFairRouter() {
+  const router = require('./routes/job-fair');
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+}
 
-// wxRouter();
+jobFairRouter();
 
 module.exports = app;

@@ -5,7 +5,6 @@ import Navbar from '../components/Navbar';
 import Title from '../components/Title';
 import Footer from '../components/Footer';
 import List from './List';
-import Save from './Save';
 import Update from './Update';
 
 const Index = () => {
@@ -39,10 +38,7 @@ const Index = () => {
               <Route exact path="/招聘会/列表/">
                 <List />
               </Route>
-              <Route exact path="/招聘会/新增/">
-                <Save />
-              </Route>
-              <Route exact path="/招聘会/编辑/:id/">
+              <Route exact path="/招聘会/报名/:id/">
                 <Update />
               </Route>
             </Switch>

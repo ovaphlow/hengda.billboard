@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import md5 from "blueimp-md5";
 
+import { SIGN_IN_URL } from "../constant";
 import TopNav from "../component/TopNav";
 import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
@@ -42,6 +43,13 @@ export default function ChangePassword() {
     window.alert("数据已经提交至服务器，即将重定向至登录页面。");
     window.location = "#登录";
   };
+
+  React.useEffect(() => {
+    const auth = sessionStorage.getItem("mis-auth");
+    if (!auth) {
+      window.location = SIGN_IN_URL;
+    }
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100 w-100">

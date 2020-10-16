@@ -115,7 +115,7 @@ const Schedule = () => {
         <div className="container-fluid" style={{ fontSize: 14 }}>
           <div className="tab-content mt-1">
             <div className="tab-pane fade show active">
-              {list.length !== 0 ? (
+              {list.length === 0 ? (
                 <div className="chat-login">
                   <h6>您近期还没有新的日程</h6>
                 </div>

@@ -29,6 +29,7 @@ export default function List({ enterprise_id, enterprise_uuid }) {
           <th>人数</th>
           <th>学历</th>
           <th>地址</th>
+          <th className="text-right">状态</th>
         </tr>
       </thead>
 
@@ -54,6 +55,7 @@ export default function List({ enterprise_id, enterprise_uuid }) {
                 <li className="list-inline-item">{it.address3}</li>
               </ul>
             </td>
+            <td className="text-right">{it.status}</td>
           </tr>
         ))}
       </tbody>

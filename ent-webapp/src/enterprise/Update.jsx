@@ -581,6 +581,9 @@ const Update = () => {
                 <h3 className="pull-left">
                   <span className="text-danger">*</span>
                   营业执照
+                  <span className="text-danger" style={{ fontSize: 16 }}>
+                    (请上传小于300KB的.jpg/.jpeg/.png格式图片)
+                  </span>
                   <span className="text-danger">
                     {required.yingyezhizhao_tu ? `(${required.yingyezhizhao_tu})` : ''}
                   </span>
@@ -608,7 +611,7 @@ const Update = () => {
             <hr />
             <div className="row mt-2">
               <div className="col">
-                <a className="pull-left btn btn-primary" href="#信息">
+                <a className="pull-left btn btn-primary" href="#/我的/信息">
                   返回
                 </a>
                 <button className="pull-right btn btn-success" type="button" onClick={handleSave}>

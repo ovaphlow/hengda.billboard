@@ -37,6 +37,40 @@ TextField.defaultProps = {
   req: undefined,
   value: undefined,
 };
+export const TextField1 = ({ required, category, id, name, value, handleChange, req }) => (
+  <div className="form-group">
+    <label>
+      <span className="text-danger">{required ? '*' : ''}</span>
+      {category}
+    </label>
+    <input
+      type="text"
+      id={id}
+      name={name}
+      value={value || ''}
+      onChange={handleChange}
+      className={`form-control form-control-sm rounded-0 ${req ? 'is-invalid' : ''}`}
+    />
+    <div className="invalid-feedback">{req || ''}</div>
+  </div>
+);
+
+TextField1.propTypes = {
+  required: PropTypes.bool,
+  category: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  req: PropTypes.bool,
+};
+
+TextField1.defaultProps = {
+  required: undefined,
+  id: undefined,
+  req: undefined,
+  value: undefined,
+};
 
 export const SelectField = ({
   required,
@@ -79,6 +113,52 @@ SelectField.propTypes = {
 };
 
 SelectField.defaultProps = {
+  required: undefined,
+  id: undefined,
+  req: undefined,
+  value: undefined,
+};
+export const SelectField1 = ({
+  required,
+  category,
+  id,
+  name,
+  value,
+  handleChange,
+  req,
+  children,
+}) => (
+  <div className="form-group">
+    <label>
+      <span className="text-danger">{required ? '*' : ''}</span>
+      {category}
+    </label>
+    <select
+      type="text"
+      id={id}
+      name={name}
+      value={value || ''}
+      onChange={handleChange}
+      className={`form-control form-control-sm rounded-0 ${req ? 'is-invalid' : ''}`}
+    >
+      {children}
+    </select>
+    <div className="invalid-feedback">{req}</div>
+  </div>
+);
+
+SelectField1.propTypes = {
+  required: PropTypes.bool,
+  category: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  handleChange: PropTypes.func.isRequired,
+  children: PropTypes.arrayOf(PropTypes.any).isRequired,
+  req: PropTypes.bool,
+};
+
+SelectField1.defaultProps = {
   required: undefined,
   id: undefined,
   req: undefined,

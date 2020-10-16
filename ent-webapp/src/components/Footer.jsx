@@ -16,10 +16,7 @@ const Footer = () => (
         </a>
       </div>
       <div className="row flex-center">
-        <span>
-          合作咨询热线:0451-xxxxxxxx|客服热线:0451-xxxxxxxx|
-          违法和不良信息举报电话:0451-xxxxxxxx|举报邮箱:
-        </span>
+        <span>合作咨询热线：18944650800|举报邮箱:job51-hlj@foxmail.com</span>
       </div>
     </div>
   </div>

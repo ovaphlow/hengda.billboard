@@ -13,8 +13,8 @@ const config = {
   email: {
     service: '163',
     auth: {
-      user: 'qiangxiazhanling@163.com',
-      pass: 'RWWFGNCNCPQXVOXC',
+      user: 'zhongtianxue0310@163.com',
+      pass: 'ANFZQOPHELJDBUCE',
     },
   },
   wx: {

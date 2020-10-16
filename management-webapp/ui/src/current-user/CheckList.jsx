@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { SIGN_IN_URL } from "../constant";
 import TopNav from "../component/TopNav";
 import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
@@ -9,6 +10,13 @@ import useAuth from "../useAuth";
 export default function CheckList() {
   const auth = useAuth();
   const [certificate_qty, setCertificateQty] = useState(0);
+
+  React.useEffect(() => {
+    const auth = sessionStorage.getItem("mis-auth");
+    if (!auth) {
+      window.location = SIGN_IN_URL;
+    }
+  }, []);
 
   useEffect(() => {
     (async () => {

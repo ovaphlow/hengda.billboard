@@ -9,7 +9,7 @@ export const Sidebar = ({ category }) => (
     <a
       href="#招聘会/列表"
       className={`list-group-item list-group-item-action border-0 font-weight-bold ${
-        category === '我的职位' && 'text-primary'
+        category === '校园招聘会场次' && 'text-primary'
       }`}
     >
       校园招聘会报名

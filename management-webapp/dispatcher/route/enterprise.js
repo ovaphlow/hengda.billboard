@@ -84,7 +84,10 @@ router.get('/:id', async (ctx) => {
       parseInt(ctx.params.id, 10),
       ctx.request.query.uuid,
     ]);
-    ctx.response.body = { message: '', content: rows.length === 1 ? rows[0] : {} };
+    ctx.response.body = {
+      message: '',
+      content: rows.length === 1 ? rows[0] : {},
+    };
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };
@@ -114,13 +117,13 @@ router.put('/delivery', async (ctx) => {
     order by id desc
   `;
   const pool = mysql.promise();
-  console.info(ctx.query.uuid)
+  console.info(ctx.query.uuid);
   try {
     const [rows] = await pool.query(sql, [
-      ctx.request.body.enterprise_id, 
+      ctx.request.body.enterprise_id,
       ctx.query.uuid,
       ctx.request.body.min,
-      ctx.request.body.max
+      ctx.request.body.max,
     ]);
     ctx.response.body = { message: '', content: rows };
   } catch (err) {
@@ -208,17 +211,28 @@ router.post('/', async (ctx) => {
 });
 
 router.put('/', async (ctx) => {
-  const sql = `
-    select *
-    from enterprise
-    where position(? in name) > 0
-    order by id desc
-    limit 100
-  `;
+  let sql = '';
   const pool = mysql.promise();
   try {
-    const [rows] = await pool.query(sql, [ctx.request.body.filter_name]);
-    ctx.response.body = { message: '', content: rows };
+    const query = ctx.request.query.category || '';
+    switch (query) {
+      case '':
+        sql = `
+        select *
+        from enterprise
+        where position(? in name) > 0
+        order by id desc
+        limit 100
+        `;
+        const [rows] = await pool.query(sql, [ctx.request.body.filter_name]);
+        ctx.response.body = { message: '', content: rows };
+        break;
+      case 'job-fair':
+        //
+        break;
+      default:
+        ctx.response.body = [];
+    }
   } catch (err) {
     logger.error(err);
     ctx.response.body = { message: '服务器错误', content: '' };

@@ -179,7 +179,7 @@ const Details = () => {
   return (
     <>
       <div className="container-fluid" style={{ fontSize: 14 }}>
-        <div className="card border-0 shadow mt-2">
+        <div className="card border-0 shadow mt-2 interface-bottom">
           <ToBack category={item.title} />
           <div className="card-body">
             <div className="row">
@@ -216,6 +216,7 @@ const Details = () => {
           </div>
         </div>
       </div>
+      <div className="recommond-bottom" />
       <ul className="nav bg-light nav-light fixed-bottom nav-bottom border-top">
         <div className="row text-center nav-row">
           <button

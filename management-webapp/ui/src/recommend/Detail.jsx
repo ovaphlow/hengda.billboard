@@ -85,12 +85,9 @@ export default function Detail({ component_option }) {
 
   const handleRemove = async () => {
     if (!window.confirm("确定要删除当前数据？")) return;
-    const response = await window.fetch(
-      `/api/content/recommend/${id}${search}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await window.fetch(`/api/content/recommend/${id}${search}`,{
+      method: "DELETE",
+    });
     const res = await response.json();
     if (res.message) {
       window.alert(res.message);

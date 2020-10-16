@@ -98,7 +98,7 @@ const PlayImg = (props) => {
             }
           });
       };
-      if (file === null) {
+      if (file === null || file.banner.length === 0) {
         fun();
       } else if (file.date - moment().format('YYYYMMDD') < 1) {
         fun();
@@ -111,7 +111,7 @@ const PlayImg = (props) => {
   return (
     <div className="row img-box shadow-sm">
       {list && list.length > 0 && (
-        <AutoPlaySwipeableViews style={{ width: '100vh' }} index={index} onChangeIndex={setIndex}>
+        <AutoPlaySwipeableViews className="img-box-nav" index={index} onChangeIndex={setIndex}>
           {list.map((item) => (
             <div key={item.id}>
               <a

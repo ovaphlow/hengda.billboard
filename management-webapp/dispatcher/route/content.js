@@ -311,7 +311,7 @@ router.put('/recommend/:id', async (ctx) => {
   }
 });
 
-router.delete('/recommend/:id/', async (ctx) => {
+router.delete('/recommend/:id', async (ctx) => {
   const sql = 'delete from recommend where id = ? and uuid = ?';
   const pool = mysql.promise();
   try {

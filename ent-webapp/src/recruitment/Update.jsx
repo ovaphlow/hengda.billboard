@@ -120,8 +120,8 @@ const Update = () => {
   }, [data, city, address]);
 
   const handleChange = (e) => {
-    const { value, name1 } = e.target;
-    setData((prev) => ({ ...prev, [name1]: value }));
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = () => {

@@ -228,7 +228,16 @@ router.put('/', async (ctx) => {
         ctx.response.body = { message: '', content: rows };
         break;
       case 'job-fair':
-        //
+        sql = `
+        select id, uuid, status, name, yingyezhizhao, phone,
+            faren, zhuceriqi, zhuziguimo, yuangongshuliang, address1,
+            address2, address3, address4, industry, intro, url, date, subject
+        from enterprise
+        where id in (select enterprise_id from recruitment
+                    where json_contains(JSON_ARRAY(concat(?, '')), job_fair_id -> '$[*]'))
+        `;
+        const [rows2] = await pool.query(sql, [ctx.params.id]);
+        ctx.response.body = { message: '', content: rows2 };
         break;
       default:
         ctx.response.body = [];

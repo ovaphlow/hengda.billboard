@@ -9,25 +9,6 @@ const router = new Router({
 
 module.exports = router;
 
-// router.get('/ent/:id', async (ctx) => {
-//   const sql = `
-//   select id, uuid, status, name, yingyezhizhao, phone,
-//       faren, zhuceriqi, zhuziguimo, yuangongshuliang, address1,
-//       address2, address3, address4, industry, intro, url, date, subject
-//   from enterprise
-//   where id in (select enterprise_id from recruitment
-//                where json_contains(JSON_ARRAY(concat(?, '')), job_fair_id -> '$[*]'))
-//   `
-//   const pool = mysql.promise();
-//   try {
-//     const [rows] =  await pool.query(sql, [ctx.params.id]);
-//     ctx.response.body = { message: '', content: rows };
-//   } catch (err) {
-//     logger.error(err);
-//     ctx.response.body = { message: '服务器错误', content: '' };
-//   }
-// })
-
 router.put('/', async (ctx) => {
   const query = ctx.request.query.category || '';
   const pool = mysql.promise();

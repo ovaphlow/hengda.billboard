@@ -13,12 +13,7 @@ service JobFair {
   rpc search(SearchRequest) returns (Reply) {}
 
   rpc update(UpdateRequest) returns (Reply) {}
-
-  rpc enterpriseList(EnterpriseListRequest) returns (Reply) {}
-
-  rpc entRecruitmentList(EntRecruitmentListRequest) returns (Reply) {}
-
-  rpc recruitmentList(RecruitmentListRequest) returns (Reply) {}
+  
 }
 
 message GetRequest {
@@ -35,20 +30,6 @@ message UpdateRequest {
   uint32 ent_id = 2;
   string ent_uuid = 3;
   string recruitment_id = 4;
-}
-
-message EnterpriseListRequest {
-  uint32 job_fair_id = 1;
-}
-
-message EntRecruitmentListRequest {
-  uint32 job_fair_id = 1;
-  uint32 ent_id = 2;
-  string ent_uuid = 3;
-}
-
-message RecruitmentListRequest {
-  uint32 job_fair_id = 1;
 }
 
 message Reply { string data = 1; }

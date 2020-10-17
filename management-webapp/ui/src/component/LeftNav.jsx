@@ -74,23 +74,23 @@ export default function LeftNav({ component_option }) {
           )}
         </a>
       </li>
-      <hr />
       <li className="nav-item">
         <a
           href="job-fair.html"
           className="nav-link text-reset text-decoration-none"
         >
-          {component_option === "线上招聘会用户" ? (
+          {component_option === "线上招聘会" ? (
             <strong>
               <FontAwesomeIcon icon={faChevronRight} fixedWidth size="lg" />
               {component_option}
               <FontAwesomeIcon icon={faChevronLeft} fixedWidth size="lg" />
             </strong>
           ) : (
-            <span>线上招聘会用户</span>
+            <span>线上招聘会</span>
           )}
         </a>
       </li>
+      <hr />
       <li className="nav-item">
         <a
           href="enterprise-user.html"

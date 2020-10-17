@@ -49,7 +49,7 @@ public class JobFairServiceImpl extends JobFairGrpc.JobFairImplBase {
     try (Connection conn = DBUtil.getConn()) {
       String sql = "select *,"
           + " (select count(*) from recruitment "
-          + " where job_fair_id -> '$[*]' = j.id and enterprise_id = ? and enterprise_uuid = ?) as qty"
+          + " where json_search(job_fair_id, \"one\", j.id) and enterprise_id = ? and enterprise_uuid = ?) as qty"
           + " from job_fair as j where status = '启用' order by datime desc ";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, req.getEntId());
@@ -108,87 +108,6 @@ public class JobFairServiceImpl extends JobFairGrpc.JobFairImplBase {
         }
       }
       resp.put("content", "");
-    } catch (Exception e) {
-      e.printStackTrace();
-      resp.put("message", "gRPC服务器错误");
-    }
-    JobFairProto.Reply reply = JobFairProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
-    responseObserver.onNext(reply);
-    responseObserver.onCompleted();
-  }
-
-  @Override
-  public void enterpriseList(JobFairProto.EnterpriseListRequest req, StreamObserver<JobFairProto.Reply> responseObserver) {
-    Gson gson = new Gson();
-    Map<String, Object> resp = new HashMap<>();
-    resp.put("message", "");
-    resp.put("content", "");
-    try (Connection conn = DBUtil.getConn()) {
-      String sql = 
-      "select id, uuid, status, name, yingyezhizhao, phone, "+
-      "faren, zhuceriqi, zhuziguimo, yuangongshuliang, address1, "+
-      "address2, address3, address4, industry, intro, url, date, subject "+
-      "from enterprise "+
-      "where id in (select enterprise_id from recruitment" + 
-      "             where json_contains(JSON_ARRAY(concat(?,'')),job_fair_id -> '$[*]'))";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        System.out.println(req.getJobFairId());
-        ps.setInt(1, req.getJobFairId());
-        ResultSet rs = ps.executeQuery();
-        List<Map<String, Object>> result = DBUtil.getList(rs);
-        resp.put("content", result);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      resp.put("message", "gRPC服务器错误");
-    }
-    JobFairProto.Reply reply = JobFairProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
-    responseObserver.onNext(reply);
-    responseObserver.onCompleted();
-  }
-
-  @Override
-  public void entRecruitmentList(JobFairProto.EntRecruitmentListRequest req, StreamObserver<JobFairProto.Reply> responseObserver) {
-    Gson gson = new Gson();
-    Map<String, Object> resp = new HashMap<>();
-    resp.put("message", "");
-    resp.put("content", "");
-    try (Connection conn = DBUtil.getConn()) {
-      String sql = 
-      "select * from recruitment "+ 
-      "where json_contains(JSON_ARRAY(concat(?,'')),job_fair_id -> '$[*]') "+
-      "      and enterprise_id=? and enterprise_uuid= ?";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, req.getJobFairId());
-        ps.setInt(2, req.getEntId());
-        ps.setString(3, req.getEntUuid());
-        ResultSet rs = ps.executeQuery();
-        List<Map<String, Object>> result = DBUtil.getList(rs);
-        resp.put("content", result);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      resp.put("message", "gRPC服务器错误");
-    }
-    JobFairProto.Reply reply = JobFairProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
-    responseObserver.onNext(reply);
-    responseObserver.onCompleted();
-  }
-
-  @Override
-  public void recruitmentList(JobFairProto.RecruitmentListRequest req, StreamObserver<JobFairProto.Reply> responseObserver) {
-    Gson gson = new Gson();
-    Map<String, Object> resp = new HashMap<>();
-    resp.put("message", "");
-    resp.put("content", "");
-    try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from recruitment where json_contains(JSON_ARRAY(concat(?,'')),job_fair_id -> '$[*]')";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, req.getJobFairId());
-        ResultSet rs = ps.executeQuery();
-        List<Map<String, Object>> result = DBUtil.getList(rs);
-        resp.put("content", result);
-      }
     } catch (Exception e) {
       e.printStackTrace();
       resp.put("message", "gRPC服务器错误");

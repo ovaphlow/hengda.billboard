@@ -15,6 +15,8 @@ service Enterprise {
   rpc update(UpdateRequest) returns (Reply) {}
 
   rpc subject(SubjectRequest) returns (Reply) {}
+
+  rpc JobFairList(JobFairListRequest) returns (Reply) {}
 }
 
 message GetRequest { 
@@ -48,6 +50,10 @@ message UpdateRequest {
 
 message SubjectRequest {
   string name = 1;
+}
+
+message JobFairListRequest {
+  uint32 job_fair_id = 1;
 }
 
 message Reply { string data = 1; }

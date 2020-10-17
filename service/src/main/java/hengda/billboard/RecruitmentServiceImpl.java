@@ -400,4 +400,55 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     responseObserver.onCompleted();
   }
 
+  @Override
+  public void jobFairEntList(RecruitmentProto.JobFairEntListRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = 
+      "select * from recruitment "+ 
+      "where json_search(job_fair_id, \"one\", ?) "+
+      "      and enterprise_id=? and enterprise_uuid= ?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, req.getJobFairId());
+        ps.setInt(2, req.getEntId());
+        ps.setString(3, req.getEntUuid());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    RecruitmentProto.Reply reply = RecruitmentProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void jobFairList(RecruitmentProto.JobFairListRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "select * from recruitment where json_search(job_fair_id, \"one\", ?)";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, req.getJobFairId());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    RecruitmentProto.Reply reply = RecruitmentProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
 }

@@ -4,13 +4,13 @@ import { View1 } from './Components';
 const List = () => {
   const [list, setList] = useState([]);
 
-  const [auth, setAuth] = useState({});
+  //const [auth, setAuth] = useState({});
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'));
     if (_auth !== null) {
-      setAuth(_auth);
-      fetch(`./api/recruitment/enterprise/${_auth.enterprise_id}?u_id=${_auth.enterprise_uuid}`, {
+      //setAuth(_auth);
+      fetch(`./api/job-fair/${_auth.enterprise_id}?ent_uuid=${_auth.enterprise_uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({}),
@@ -37,7 +37,7 @@ const List = () => {
                 <tr>
                   <th scope="col">编号</th>
                   <th scope="col">招聘会名称</th>
-                  <th scope="col">举办时间</th>
+                  <th scope="col">预计举办时间</th>
                   <th scope="col">操作</th>
                 </tr>
               </thead>
@@ -46,16 +46,28 @@ const List = () => {
                   list.map((item) => (
                     <tr key={item.id}>
                       <td>{item.id}</td>
-                      <td>{item.name}</td>
-                      <td>{item.category}</td>
+                      <td>{item.title}</td>
+                      <td>{item.datime}</td>
                       <td>
                         <div className="btn-group btn-group-sm">
-                          <a
-                            className="btn btn-primary rounded-pill"
-                            href={`#招聘会/报名/${item.id}?u_id=${item.uuid}`}
-                          >
-                            报名
-                          </a>
+                          {
+                            item.qty ? (
+                              <a
+                                className="btn btn-info rounded-pill"
+                                href={`#招聘会/报名/${item.id}`}
+                              >
+                                编辑
+                              </a>
+                            ) : (
+                                <a
+                                  className="btn btn-primary rounded-pill"
+                                  href={`#招聘会/报名/${item.id}`}
+                                >
+                                  报名
+                                </a>
+                              )
+                          }
+
                         </div>
                       </td>
                     </tr>
@@ -65,7 +77,7 @@ const List = () => {
           </div>
         </div>
       </div>
-    </View1>
+    </View1 >
   );
 };
 

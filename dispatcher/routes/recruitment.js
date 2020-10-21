@@ -44,6 +44,47 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
+  .get("/job-fair/:job_fair_id", async (ctx) => {
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.jobFairList(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
+      });
+    try {
+      ctx.response.body = await grpcFetch(ctx.params);
+    } catch (err) {
+      console.error(err);
+      ctx.response.body = { message: "服务器错误" };
+    }
+  })
+  .get("/job-fair/ent/:job_fair_id/:ent_id", async (ctx) => {
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.jobFairEntList(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
+      });
+    try {
+      ctx.response.body = await grpcFetch({
+        ...ctx.params,
+        ent_uuid: ctx.query.ent_uuid
+      });
+    } catch (err) {
+      console.error(err);
+      ctx.response.body = { message: "服务器错误" };
+    }
+  })
   .get('/subject/:subject', async (ctx) => {
     const grpcFetch = (body) => new Promise((resolve, reject) => {
       grpcClient.subject(body, (err, response) => {

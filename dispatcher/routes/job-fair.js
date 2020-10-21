@@ -72,7 +72,7 @@ router.put("/edit/", async (ctx) => {
 	}
 });
 
-router.put("/:id", async (ctx) => {
+router.put("/:ent_id", async (ctx) => {
 	const grpcFetch = (body) =>
 		new Promise((resolve, reject) => {
 			grpcClient.search(body, (err, response) => {
@@ -89,71 +89,6 @@ router.put("/:id", async (ctx) => {
       ent_id: ctx.params.ent_id,
       ent_uuid: ctx.query.ent_uuid
     });
-	} catch (err) {
-		console.error(err);
-		ctx.response.body = { message: "服务器错误" };
-	}
-});
-
-router.get("/ent/:job_fair_id/", async (ctx) => {
-	const grpcFetch = (body) =>
-		new Promise((resolve, reject) => {
-			grpcClient.enterpriseList(body, (err, response) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-				} else {
-					resolve(JSON.parse(response.data));
-				}
-			});
-		});
-	try {
-    console.info(ctx.params)
-		ctx.response.body = await grpcFetch(ctx.params);
-	} catch (err) {
-		console.error(err);
-		ctx.response.body = { message: "服务器错误" };
-	}
-});
-
-router.get("/ent/recruitment/:job_fair_id/:ent_id", async (ctx) => {
-  console.info('xxx')
-	const grpcFetch = (body) =>
-		new Promise((resolve, reject) => {
-			grpcClient.entRecruitmentList(body, (err, response) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-				} else {
-					resolve(JSON.parse(response.data));
-				}
-			});
-		});
-	try {
-		ctx.response.body = await grpcFetch({
-      ...ctx.params,
-      ent_uuid: ctx.query.ent_uuid
-    });
-	} catch (err) {
-		console.error(err);
-		ctx.response.body = { message: "服务器错误" };
-	}
-});
-
-router.get("/recruitment/:job_fair_id", async (ctx) => {
-	const grpcFetch = (body) =>
-		new Promise((resolve, reject) => {
-			grpcClient.recruitmentList(body, (err, response) => {
-				if (err) {
-					console.error(err);
-					reject(err);
-				} else {
-					resolve(JSON.parse(response.data));
-				}
-			});
-		});
-	try {
-		ctx.response.body = await grpcFetch(ctx.params);
 	} catch (err) {
 		console.error(err);
 		ctx.response.body = { message: "服务器错误" };

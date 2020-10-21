@@ -1,39 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import moment from "moment";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 import TopNav from "../component/TopNav";
 import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
-import ComponentEnterpriseUserFavoriteList from "../favorite/ComponentEnterpriseUserFavoriteList";
 import useAuth from "../useAuth";
 
 export default function Detail({ component_option }) {
   const auth = useAuth();
   const { id } = useParams();
-  const location = useLocation();
-  const [uuid, setUUID] = useState("");
-  const [enterprise_id, setEnterpriseID] = useState(0);
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [data_list, setDataList] = useState([]);
+  const [title, setTitle] = useState("");
+  const [datime, setDatime] = useState("");
+  const [status, setStatus] = useState("");
+  const [content, setContent] = useState("");
 
   const handleSubmit = async () => {
     if (component_option === "编辑") {
       const response = await window.fetch(
-        `/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`,
+        `/api/job-fair/${id}`,
         {
           method: "PUT",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            name,
-            phone,
+            title,
+            datime,
+            status,
+            content
           }),
         }
       );
-      const res = await response.json();
-      if (res.message) {
-        window.alert(res.message);
+      if (response.status === 500) {
+        window.alert('服务器错误');
+        return;
+      }
+      window.history.go(-1);
+    } else {
+      const response = await window.fetch(
+        `/api/job-fair/`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            title,
+            datime,
+            status,
+            content
+          }),
+        }
+      );
+      if (response.status === 500) {
+        window.alert('服务器错误');
         return;
       }
       window.history.go(-1);
@@ -43,14 +64,13 @@ export default function Detail({ component_option }) {
   const handleRemove = async () => {
     if (!window.confirm("确定要删除当前数据？")) return;
     const response = await window.fetch(
-      `/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`,
+      `/api/job-fair/${id}`,
       {
         method: "DELETE",
       }
     );
-    const res = await response.json();
-    if (res.message) {
-      window.alert(res.message);
+    if (response.status === 500) {
+      window.alert('服务器错误');
       return;
     }
     window.history.go(-1);
@@ -58,26 +78,37 @@ export default function Detail({ component_option }) {
 
   useEffect(() => {
     if (component_option === "编辑") {
-      setEnterpriseID(
-        parseInt(new URLSearchParams(location.search).get("enterprise_id"), 10)
-      );
-      setUUID(new URLSearchParams(location.search).get("uuid"));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (enterprise_id && uuid) {
       (async () => {
         const response = await fetch(
-          `/api/enterprise-user/${id}?uuid=${uuid}&enterprise_id=${enterprise_id}`
+          `/api/job-fair/${id}`
         );
         const res = await response.json();
-        setName(res.content.name);
-        setPhone(res.content.phone);
+        setTitle(res.title);
+        setDatime(res.datime);
+        setStatus(res.status);
+        setContent(res.content);
       })();
+
+      (async () => {
+        const response = await window.fetch(
+          `/api/recruitment?category=job-fair`,
+          {
+            method: "PUT",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              job_fair_id: id
+            }),
+          }
+        );
+        const res = await response.json();
+        setDataList(res)
+      })();
+
+    } else {
+      setStatus('停用')
+      setDatime(moment().format("YYYY-MM-DD HH:mm:ss"));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enterprise_id, uuid]);
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -108,7 +139,7 @@ export default function Detail({ component_option }) {
                       返回
                     </button>
                   </div>
-                  <span className="h1">企业用户</span>
+                  <span className="h1">线上招聘会</span>
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
@@ -124,7 +155,7 @@ export default function Detail({ component_option }) {
                           href="enterprise-user"
                           className="text-reset text-decoration-none"
                         >
-                          企业用户
+                          线上招聘会
                         </a>
                       </li>
                       <li className="breadcrumb-item active">
@@ -137,34 +168,69 @@ export default function Detail({ component_option }) {
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-body">
                     <div className="mb-3">
-                      <label className="form-label">姓名</label>
+                      <label className="form-label">标题</label>
                       <input
                         type="text"
-                        value={name || ""}
+                        value={title || ""}
                         className="form-control input-underscore"
-                        onChange={(event) => setName(event.target.value)}
+                        onChange={(event) => setTitle(event.target.value)}
                       />
                     </div>
 
-                    {component_option === "新增" && (
-                      <div className="mb-3">
-                        <label className="form-label">密码</label>
-                        <input
-                          type="text"
-                          value={password || ""}
-                          className="form-control input-underscore"
-                          onChange={(event) => setPassword(event.target.value)}
-                        />
-                      </div>
-                    )}
+                    <div className="mb-3">
+                      <label className="form-label">预计召开时间</label>
+                      <input
+                        type="datetime-local"
+                        value={datime || ""}
+                        className="form-control input-underscore"
+                        onChange={(event) => setDatime(event.target.value)}
+                      />
+                    </div>
 
                     <div className="mb-3">
-                      <label className="form-label">电话</label>
-                      <input
-                        type="tel"
-                        value={phone || ""}
-                        className="form-control input-underscore"
-                        onChange={(event) => setPhone(event.target.value)}
+                      <label className="form-label">状态</label>
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="status"
+                          checked={status === "启用"}
+                          onChange={(event) =>
+                            event.target.checked
+                              ? setStatus("启用")
+                              : setStatus("停用")
+                          }
+                        />
+                        <label htmlFor="status" className="form-check-label">
+                          启用
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="mb-3">
+                      <label className="form-label">简介</label>
+                      <ReactQuill
+                        formats={[
+                          "header",
+                          "align",
+                          "bold",
+                          "italic",
+                          "underline",
+                          "blockquote",
+                          "link",
+                          "image",
+                        ]}
+                        modules={{
+                          toolbar: [
+                            [{ header: [1, 2, 3, false] }],
+                            [{ align: [] }],
+                            ["bold", "italic", "underline", "blockquote"],
+                            ["link", "image"],
+                          ],
+                        }}
+                        placeholder="请填写内容"
+                        value={content || ""}
+                        onChange={setContent}
                       />
                     </div>
                   </div>
@@ -196,7 +262,6 @@ export default function Detail({ component_option }) {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ display: "none" }}
                         onClick={handleSubmit}
                       >
                         保存
@@ -204,16 +269,52 @@ export default function Detail({ component_option }) {
                     </div>
                   </div>
                 </div>
+                {
+                  component_option === "编辑" ? (
+                    <div className="card bg-dark shadow mt-3">
+                      <div className="card-header">
+                        <span className="lead">已参会岗位</span>
+                      </div>
 
-                <div className="card bg-dark shadow mt-3">
-                  <div className="card-header">
-                    <span className="lead">收藏</span>
-                  </div>
+                      <div className="card-body">
+                        <table className="table table-dark table-striped">
+                          <caption>已参会岗位</caption>
+                          <thead>
+                            <tr>
+                              <th>序号</th>
+                              <th>日期</th>
+                              <th>岗位</th>
+                              <th>人数</th>
+                              <th>学历</th>
+                              <th>地址</th>
+                            </tr>
+                          </thead>
 
-                  <div className="card-body">
-                    <ComponentEnterpriseUserFavoriteList user_id={id} />
-                  </div>
-                </div>
+                          <tbody>
+                            {data_list.map((it) => (
+                              <tr key={it.id}>
+                                <td className="text-right">
+                                  {it.id}
+                                </td>
+                                <td>{it.date}</td>
+                                <td>{it.name}</td>
+                                <td>{it.qty}</td>
+                                <td>{it.education}</td>
+                                <td>
+                                  <ul className="list-inline">
+                                    <li className="list-inline-item">{it.address1}</li>
+                                    <li className="list-inline-item">{it.address2}</li>
+                                    <li className="list-inline-item">{it.address3}</li>
+                                  </ul>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  ):(<></>)
+                }
               </div>
             </div>
           </div>

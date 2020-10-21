@@ -9,6 +9,7 @@ import UserRouter from './user/Index';
 import RecruitmentRouter from './recruitment/Index';
 import MessageRouter from './message/Index';
 import RecruitRouter from './recruit/Index';
+import JobFairRouter from './job-fair/Index'
 
 export default function App() {
   return (
@@ -40,6 +41,9 @@ export default function App() {
         </Route>
         <Route path="/我的">
           <UserRouter />
+        </Route>
+        <Route path="/招聘会">
+          <JobFairRouter />
         </Route>
       </Switch>
     </Router>

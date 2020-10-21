@@ -134,4 +134,33 @@ public class EnterpriseServiceImpl extends EnterpriseGrpc.EnterpriseImplBase {
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
+
+  @Override
+  public void jobFairList(EnterpriseProto.JobFairListRequest req, StreamObserver<EnterpriseProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = 
+      "select id, uuid, status, name, yingyezhizhao, phone, "+
+      "faren, zhuceriqi, zhuziguimo, yuangongshuliang, address1, "+
+      "address2, address3, address4, industry, intro, url, date, subject "+
+      "from enterprise "+
+      "where id in (select enterprise_id from recruitment" + 
+      "             where json_search(job_fair_id, \"one\", ?))";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, req.getJobFairId());
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    EnterpriseProto.Reply reply = EnterpriseProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
 }

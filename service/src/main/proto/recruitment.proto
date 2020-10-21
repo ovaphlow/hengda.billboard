@@ -27,6 +27,10 @@ service Recruitment {
   rpc enterpriseSearch(EnterpriseSearchRequest) returns (Reply) {}
 
   rpc subject(SubjectRequest) returns (Reply) {}
+
+  rpc jobFairEntList(JobFairEntListRequest) returns (Reply) {}
+
+  rpc jobFairList(JobFairListRequest) returns (Reply) {} 
 }
 
 message ListRequest {}
@@ -112,5 +116,14 @@ message SubjectRequest {
   string subject = 1;
 }
 
-message Reply { string data = 1; }
+message JobFairEntListRequest {
+  uint32 job_fair_id = 1;
+  uint32 ent_id = 2;
+  string ent_uuid = 3;
+}
 
+message JobFairListRequest {
+  uint32 job_fair_id = 1;
+}
+
+message Reply { string data = 1; }

@@ -1,36 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlusCircle,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 
 import TopNav from "../component/TopNav";
 import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
 import useAuth from "../useAuth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faSyncAlt,
-  faEdit,
-  faLink,
-} from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
   const [list, setList] = useState([]);
-  const [filter, setFilter] = useState("");
 
-  const handleFilter = async () => {
-    setList([]);
-    const response = await window.fetch("/api/enterprise-user/filter", {
-      method: "PUT",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ filter }),
-    });
-    const res = await response.json();
-    if (res.message) {
-      window.alert(res.message);
-      return;
-    }
-    setList(res.content);
-  };
+  useEffect(() => {
+    (async () => {
+      const response = await window.fetch("/api/job-fair/", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      const res = await response.json();
+      if (res.status === 500) {
+        window.alert('服务器错误');
+        return;
+      }
+      setList(res);
+    })();
+  }, [])
+
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -61,7 +60,7 @@ export default function List() {
                       返回
                     </button>
                   </div>
-                  <span className="h1">企业用户</span>
+                  <span className="h1">线上招聘会</span>
                   <nav>
                     <ol className="breadcrumb transparent">
                       <li className="breadcrumb-item">
@@ -72,7 +71,7 @@ export default function List() {
                           首页
                         </a>
                       </li>
-                      <li className="breadcrumb-item active">企业用户</li>
+                      <li className="breadcrumb-item active">线上招聘会</li>
                     </ol>
                   </nav>
                 </div>
@@ -81,62 +80,27 @@ export default function List() {
                   <div className="card-header">
                     <div className="row">
                       <div className="col">
-                        <div className="input-group">
-                          <div className="input-group-prepend">
-                            <span className="input-group-text">
-                              姓名/电话/企业
-                            </span>
-                          </div>
-                          <input
-                            type="text"
-                            value={filter}
-                            className="form-control"
-                            onChange={(event) => setFilter(event.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="btn-group col-auto">
-                        <button
-                          type="button"
-                          className="btn btn-info"
-                          onClick={handleFilter}
-                        >
+                        <a href="#/新增" className="btn btn-secondary">
                           <FontAwesomeIcon
-                            icon={faSearch}
+                            icon={faPlusCircle}
                             fixedWidth
                             size="lg"
                           />
-                          查询
-                        </button>
-
-                        <button
-                          type="button"
-                          className="btn btn-secondary"
-                          onClick={() => {
-                            window.location.reload(true);
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faSyncAlt}
-                            fixedWidth
-                            size="lg"
-                          />
-                          重置
-                        </button>
+                          新增
+                        </a>
                       </div>
                     </div>
                   </div>
 
                   <div className="card-body">
                     <table className="table table-dark table-striped">
-                      <caption>企业用户</caption>
+                      <caption>线上招聘会</caption>
                       <thead>
                         <tr>
                           <th className="text-right">序号</th>
-                          <th>用户</th>
-                          <th>电话</th>
-                          <th>企业</th>
+                          <th>标题</th>
+                          <th>时间</th>
+                          <th>状态</th>
                         </tr>
                       </thead>
 
@@ -145,7 +109,7 @@ export default function List() {
                           <tr key={it.id}>
                             <td className="text-right">
                               <a
-                                href={`#/${it.id}?uuid=${it.uuid}`}
+                                href={`#/${it.id}`}
                                 className="float-left"
                               >
                                 <FontAwesomeIcon
@@ -156,20 +120,10 @@ export default function List() {
                               </a>
                               {it.id}
                             </td>
-                            <td>{it.name}</td>
-                            <td>{it.phone}</td>
+                            <td>{it.title}</td>
+                            <td>{it.datime}</td>
                             <td>
-                              {it.enterprise}
-                              &nbsp;
-                              <a
-                                href={`enterprise.html#/${it.enterprise_id}?uuid=${it.enterprise_uuid}`}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faLink}
-                                  fixedWidth
-                                  size="lg"
-                                />
-                              </a>
+                              {it.status}
                             </td>
                           </tr>
                         ))}

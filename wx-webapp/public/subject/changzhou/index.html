@@ -164,7 +164,7 @@
                 <div class='col pb-2 text-center'>
                   <strong>
                     <a
-                      href="/#/岗位/企业/{{id}}?u_id={{uuid}}"
+                      href="/wx/#/岗位/企业/{{id}}?u_id={{uuid}}"
                       style='font-size: 16px;color: #ff0000; text-decoration: none;'
                     >
                       {{name}}
@@ -181,7 +181,7 @@
   </body>
   <script>
     (async () => {
-      const content1 = await window.fetch('/api/enterprise/subject/湖州创业就业');
+      const content1 = await window.fetch('/api/enterprise/subject/常州创业就业');
       const res1 = await content1.json();
       if (res1.message) {
         window.alert(res.message);

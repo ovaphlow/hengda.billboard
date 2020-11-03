@@ -1,4 +1,4 @@
 <!--index.wxml-->
 <view class="container">
-  <web-view src="https://www.longzhaopin.com/wx/?ver=2.0.2/#/"/>
+  <web-view src="https://www.longzhaopin.com/wx/?ver=2.0.3/#/"/>
 </view>

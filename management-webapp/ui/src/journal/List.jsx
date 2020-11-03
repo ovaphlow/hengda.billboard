@@ -41,16 +41,17 @@ export default function List({ component_option }) {
   };
 
   useEffect(() => {
+
     setUserCategory(new URLSearchParams(location.search).get("user_category"));
     setUserID(new URLSearchParams(location.search).get("user_id"));
     setUserUUID(new URLSearchParams(location.search).get("user_uuid"));
-  }, []);
-
-  useEffect(() => {
     if (!user_category || !user_id || !user_uuid) {
       window.alert("参数错误");
       return;
     }
+  }, []);
+
+  useEffect(() => {
     if (component_option === "登录") {
       (async () => {
         const response = await window.fetch(

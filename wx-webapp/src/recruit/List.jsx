@@ -22,29 +22,34 @@ const RecruitRow = ({
   <>
     <div className="row">
       <div className="col">
-        <div className="pull-left">
-          <strong>{title}</strong>
-        </div>
-        <div className="pull-right">
-          <a href={`#/校园招聘/${id}?u_id=${uuid}`}>
-            详情
-            <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
-          </a>
-        </div>
-        <br />
-        <span className="text-muted">
-          举办地点:
-          {`${address_level2}-${address_level3}`}
-        </span>
-        <br />
-        <span className="text-muted">
-          开始时间:
-          {date}
-        </span>
-        <br />
-        <span>
-          {school}({category})
-        </span>
+        <a
+          href={`#/校园招聘/${id}?u_id=${uuid}`}
+          style={{ color: '#202529', textDecoration: 'none' }}
+        >
+          <div className="pull-left">
+            <strong>{title}</strong>
+          </div>
+          <div className="pull-right">
+            <span style={{ color: '#007dff' }}>
+              详情
+              <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
+            </span>
+          </div>
+          <br />
+          <span className="text-muted">
+            举办地点:
+            {`${address_level2}-${address_level3}`}
+          </span>
+          <br />
+          <span className="text-muted">
+            开始时间:
+            {date}
+          </span>
+          <br />
+          <span>
+            {school}({category})
+          </span>
+        </a>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />

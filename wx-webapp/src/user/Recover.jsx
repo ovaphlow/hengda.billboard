@@ -13,6 +13,11 @@ const Recover = () => {
     email: '',
   });
 
+  const [count, setCount] = useState({
+    countdown: 60,
+    flag: true,
+  });
+
   const [err, setErr] = useState({
     password1: false,
     password2: false,
@@ -118,6 +123,20 @@ const Recover = () => {
             });
         }
       });
+    const code = setInterval(() => {
+      if (count.countdown === 1) {
+        clearInterval(code);
+        setCount({
+          flag: true,
+          countdown: 60,
+        });
+      } else {
+        setCount({
+          flag: false,
+          countdown: (count.countdown -= 1),
+        });
+      }
+    }, 1000);
   };
 
   const checkEmail = () => {
@@ -167,15 +186,26 @@ const Recover = () => {
                       onChange={handleChange}
                     />
                     <div className="input-group-append">
-                      <button
-                        type="button"
-                        className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
-                        disabled={!checkEmail()}
-                        onClick={handleCode}
-                        style={{ fontSize: 14 }}
-                      >
-                        发送验证码
-                      </button>
+                      {count.flag ? (
+                        <button
+                          type="button"
+                          className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
+                          disabled={!checkEmail()}
+                          onClick={handleCode}
+                          style={{ fontSize: 14 }}
+                        >
+                          发送验证码
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
+                          disabled="disabled"
+                          style={{ fontSize: 14 }}
+                        >
+                          已发送{count.countdown}s
+                        </button>
+                      )}
                     </div>
                   </div>
                   {err.password1 && (

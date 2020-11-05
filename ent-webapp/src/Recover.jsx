@@ -12,6 +12,11 @@ const Recover = () => {
     password2: '',
   });
 
+  const [count, setCount] = useState({
+    countdown: 60,
+    flag: true,
+  });
+
   const [err, setErr] = useState({
     code: '',
     email: '',
@@ -120,6 +125,20 @@ const Recover = () => {
             });
         }
       });
+    const code = setInterval(() => {
+      if (count.countdown === 1) {
+        clearInterval(code);
+        setCount({
+          flag: true,
+          countdown: 60,
+        });
+      } else {
+        setCount({
+          flag: false,
+          countdown: (count.countdown -= 1),
+        });
+      }
+    }, 1000);
   };
 
   const checkEmail = () => {
@@ -195,14 +214,24 @@ const Recover = () => {
                       className="form-control rounded-0"
                     />
                     <div className="input-group-append">
-                      <button
-                        className="btn btn-primary rounded-0"
-                        type="button"
-                        onClick={handleCode}
-                        disabled={!checkEmail()}
-                      >
-                        发送验证码
-                      </button>
+                      {count.flag ? (
+                        <button
+                          className="btn btn-primary rounded-0"
+                          type="button"
+                          onClick={handleCode}
+                          disabled={!checkEmail()}
+                        >
+                          发送验证码
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-primary rounded-0"
+                          type="button"
+                          disabled="disabled"
+                        >
+                          已发送{count.countdown}s
+                        </button>
+                      )}
                     </div>
                   </div>
                   {err.code && <small className="form-text text-danger">{err.code}</small>}

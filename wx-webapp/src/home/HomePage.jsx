@@ -158,8 +158,8 @@ const HomePage = () => {
           {auth === 0 ? (
             <div className="col text-center">
               <a className="text-black-50" href="#登录">
-                <strong className="text-primary">登录</strong>
-                完善信息，为您精准推荐职位信息
+                <strong className="text-primary">注册/登录</strong>
+                完善信息，精准搜索职位信息
               </a>
             </div>
           ) : (

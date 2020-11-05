@@ -25,7 +25,27 @@ const router = new Router({
 
 module.exports = router;
 
-router.get("/:id/", async (ctx) => {
+router.get("/", async (ctx) => {
+	const grpcFetch = (body) =>
+		new Promise((resolve, reject) => {
+      grpcClient.list(body, (err, response) => {
+				if (err) {
+					console.error(err);
+					reject(err);
+				} else {
+					resolve(JSON.parse(response.data));
+				}
+			});
+		});
+	try {
+		ctx.response.body = await grpcFetch({});
+	} catch (err) {
+		console.error(err);
+		ctx.response.body = { message: "服务器错误" };
+	}
+});
+
+router.get("/:id", async (ctx) => {
 	const grpcFetch = (body) =>
 		new Promise((resolve, reject) => {
 			grpcClient.get(body, (err, response) => {
@@ -44,7 +64,6 @@ router.get("/:id/", async (ctx) => {
 		ctx.response.body = { message: "服务器错误" };
 	}
 });
-
 
 router.put("/edit/", async (ctx) => {
 	const grpcFetch = (body) =>

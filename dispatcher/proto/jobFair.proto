@@ -8,6 +8,8 @@ package jobFair;
 
 service JobFair {
 
+  rpc list(ListRequest) returns (Reply) {}
+
   rpc get(GetRequest) returns (Reply) {}
 
   rpc search(SearchRequest) returns (Reply) {}
@@ -15,6 +17,8 @@ service JobFair {
   rpc update(UpdateRequest) returns (Reply) {}
   
 }
+
+message ListRequest {}
 
 message GetRequest {
   uint32 id = 1;

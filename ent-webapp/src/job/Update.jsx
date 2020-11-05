@@ -12,7 +12,7 @@ const Update = () => {
 
   const [jobFair, setJobFair] = useState({});
 
-  const [allFlg, setAllFlg] = useState(false)
+  const [allFlg, setAllFlg] = useState(false);
 
   const { id } = useParams();
 

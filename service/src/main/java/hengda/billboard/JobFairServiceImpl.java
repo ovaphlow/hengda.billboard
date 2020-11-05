@@ -14,6 +14,31 @@ import java.util.Map;
 public class JobFairServiceImpl extends JobFairGrpc.JobFairImplBase {
 
   @Override
+  public void list(JobFairProto.ListRequest req, StreamObserver<JobFairProto.Reply> responseObserver) {
+    Gson gson = new Gson();
+    Map<String, Object> resp = new HashMap<>();
+    resp.put("message", "");
+    resp.put("content", "");
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = 
+        " select * from job_fair as j "
+      + " where status = '启用' order by datime desc ";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ResultSet rs = ps.executeQuery();
+        List<Map<String, Object>> result = DBUtil.getList(rs);
+        resp.put("content", result);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      resp.put("message", "gRPC服务器错误");
+    }
+    JobFairProto.Reply reply = JobFairProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+
+  @Override
   public void get(JobFairProto.GetRequest req, StreamObserver<JobFairProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();

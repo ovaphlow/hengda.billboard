@@ -414,3 +414,12 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.register-font h1 {
+  font-style: oblique
+}
+
+.register-img img {
+  width: 80%;
+  box-shadow: 5px 5px 5px 5px rgba(0,0,0,.3);
+}

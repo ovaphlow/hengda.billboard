@@ -13,8 +13,8 @@ const config = {
   email: {
     service: 'qq',
     auth: {
-      user: '1536676116@qq.com',
-      pass: 'iloqcpekslukhbji',
+      user: 'longzhaopin@foxmail.com',
+      pass: 'djtkwgcgtbknjhbh',
     },
   },
   wx: {

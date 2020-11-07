@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleRight, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar';
@@ -132,6 +132,21 @@ const List = () => {
       <div className="container-fluid">
         {/* <Title category="校园招聘" /> */}
         <PlayImg category="小程序-校园招聘" />
+        <div className="card border-0 mt-2 shadow">
+          <a href="#招聘会" style={{ textDecoration: 'none' }}>
+            <div className="card-body">
+              <span className="pull-left">
+                <FontAwesomeIcon icon={faHandPointRight} size="2x" fixedWidth />
+              </span>
+              <h6 className="pull-left pt-1 pb-2">
+                <strong>&nbsp;线上校园招聘会</strong>
+              </h6>
+              <span className="pull-right pt-1 pb-2">
+                <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
+              </span>
+            </div>
+          </a>
+        </div>
         <div className="card border-0 mt-2 shadow">
           <div className="card-body">
             <div className="row mb-3" style={{ fontSize: 14 }}>

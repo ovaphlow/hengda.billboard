@@ -7,6 +7,7 @@ import ResumeRouter from './resume/Index';
 import MessageRouter from './message/Index';
 import EnterpriseRouter from './enterprise/Index';
 import JournalRouter from './journal/Index';
+import OperationRouter from './operation/Index';
 
 import Login from './Login';
 import SignIn from './SignIn';
@@ -48,6 +49,9 @@ export default function App() {
         </Route>
         <Route path="/我的/">
           <EnterpriseRouter />
+        </Route>
+        <Route path="/操作手册/">
+          <OperationRouter />
         </Route>
       </Switch>
     </Router>

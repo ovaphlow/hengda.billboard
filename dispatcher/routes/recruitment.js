@@ -271,6 +271,7 @@ router.get('/', async (ctx) => {
 /**
  * 2020-11-09
  * 用于小程序首页，按类别检索功能。
+ * url 参数：?category=@PARAM
  */
 router.put('/', async (ctx) => {
   const category = ctx.request.query.category || '';

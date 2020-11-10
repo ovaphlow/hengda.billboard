@@ -12,6 +12,8 @@ service Recruitment {
 
   rpc list(ListRequest) returns (Reply) {}
 
+  rpc filter(FilterRequest) returns (Reply) {}
+
   rpc insert(InsertRequest) returns (Reply) {}
 
   rpc update(UpdateRequest) returns (Reply) {}
@@ -34,6 +36,11 @@ service Recruitment {
 }
 
 message ListRequest {}
+
+message FilterRequest {
+  string category = 1;
+  map<string, string> filter = 2;
+}
 
 message InsertRequest {
   uint32 enterprise_id = 1;

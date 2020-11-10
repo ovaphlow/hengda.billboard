@@ -22,15 +22,14 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
   private static final Logger logger = LoggerFactory.getLogger(RecruitmentServiceImpl.class);
 
   @Override
-  public void list(RecruitmentProto.ListRequest req ,StreamObserver<RecruitmentProto.Reply> responseObserver) {
-    logger.info("RecruitmentServiceImpl.list");
+  public void list(RecruitmentProto.ListRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from recruitment";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+      String sql = "select * from recruitment limit 200";
+     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ResultSet rs = ps.executeQuery();
         List<Map<String, Object>> result = DBUtil.getList(rs);
         resp.put("content", result);
@@ -40,6 +39,30 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
       resp.put("message", "gRPC服务器错误");
     }
     RecruitmentProto.Reply reply = RecruitmentProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
+    responseObserver.onNext(reply);
+    responseObserver.onCompleted();
+  }
+
+  /**
+   * 2020-11-10
+   * 用于小程序首页，按类别检索功能。
+   * @param req
+   * @param responseObserver
+   */
+  @Override
+  public void filter(RecruitmentProto.FilterRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
+    String resp = "[]";
+    try (Connection conn = DBUtil.getConn()) {
+      String sql = "select * from recruitment where industry = ? and status = '在招' order by id desc limit 200";
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setString(1, req.getFilterMap().get("category"));
+      ResultSet rs=  ps.executeQuery();
+      List<Map<String, Object>> result = DBUtil.getList(rs);
+      resp = new Gson().toJson(result);
+    } catch (Exception e) {
+      logger.error("", e);
+    }
+    RecruitmentProto.Reply reply = RecruitmentProto.Reply.newBuilder().setData(resp).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
@@ -76,7 +99,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         ps.executeUpdate();
         ResultSet rs = ps.getGeneratedKeys();
         if (rs.next()) {
-          resp.put("content", Map.of("id", rs.getInt(1), "uuid", uuid) );
+          resp.put("content", Map.of("id", rs.getInt(1), "uuid", uuid));
         }
       }
     } catch (Exception e) {
@@ -187,42 +210,44 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, "
-      +" salary1, salary2,education, category, status, industry, position, uuid from recruitment where status='在招' ";
+      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, " +
+          " salary1, salary2,education, category, status, industry, position, uuid " +
+          "from recruitment " +
+          "where status = '在招' ";
       List<String> list = new ArrayList<>();
-      
-        if (req.getCity() != null && !req.getCity().equals("")) {
-          sql += " and (address1 = ? or  address2 = ?) ";
-          list.add(req.getCity());
-          list.add(req.getCity());
-        }
-        boolean flg = false;
-        String category = "";
-        if (req.getCategory1()) {
-          category += " category = ? ";
-          list.add("兼职");
-          flg = true;
-        }
-        if (req.getCategory2()) {
-          if (flg) {
-            category += " or ";
-          }
-          category += "category = ? ";
-          list.add("全职");
-          flg = true;
-        }
-        if (req.getCategory3()) {
-          if (flg) {
-            category += " or ";
-          }
-          category += " category = ? ";
-          list.add("实习");
-          flg = true;
-        }
+
+      if (req.getCity() != null && !req.getCity().equals("")) {
+        sql += " and (address1 = ? or  address2 = ?) ";
+        list.add(req.getCity());
+        list.add(req.getCity());
+      }
+      boolean flg = false;
+      String category = "";
+      if (req.getCategory1()) {
+        category += " category = ? ";
+        list.add("兼职");
+        flg = true;
+      }
+      if (req.getCategory2()) {
         if (flg) {
-          sql += "and ( " + category + " )";
+          category += " or ";
         }
-      sql+=" ORDER BY date DESC";
+        category += "category = ? ";
+        list.add("全职");
+        flg = true;
+      }
+      if (req.getCategory3()) {
+        if (flg) {
+          category += " or ";
+        }
+        category += " category = ? ";
+        list.add("实习");
+        flg = true;
+      }
+      if (flg) {
+        sql += "and ( " + category + " )";
+      }
+      sql += " ORDER BY date DESC limit 200";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));
@@ -248,42 +273,45 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from recruitment where status='在招' and (POSITION(? in name) or enterprise_id in (select id from enterprise where POSITION(? in name) ))";
+      String sql = "select * " +
+          "from recruitment " +
+          "where status='在招' " +
+          "and (POSITION(? in name) or enterprise_id in (select id from enterprise where POSITION(? in name) )) ";
       List<String> list = new ArrayList<>();
       list.add(req.getKeyword());
       list.add(req.getKeyword());
-        if (req.getCity() != null && !req.getCity().equals("")) {
-          sql += " and (address1 = ? or  address2 = ?) ";
-          list.add(req.getCity());
-          list.add(req.getCity());
-        }
-        boolean flg = false;
-        String category = "";
-        if (req.getCategory1()) {
-          category += " category = ? ";
-          list.add("兼职");
-          flg = true;
-        }
-        if (req.getCategory2()) {
-          if (flg) {
-            category += " or ";
-          }
-          category += "category = ? ";
-          list.add("全职");
-          flg = true;
-        }
-        if (req.getCategory3()) {
-          if (flg) {
-            category += " or ";
-          }
-          category += " category = ? ";
-          list.add("实习");
-          flg = true;
-        }
+      if (req.getCity() != null && !req.getCity().equals("")) {
+        sql += " and (address1 = ? or  address2 = ?) ";
+        list.add(req.getCity());
+        list.add(req.getCity());
+      }
+      boolean flg = false;
+      String category = "";
+      if (req.getCategory1()) {
+        category += " category = ? ";
+        list.add("兼职");
+        flg = true;
+      }
+      if (req.getCategory2()) {
         if (flg) {
-          sql += "and ( " + category + " )";
+          category += " or ";
         }
-      sql+=" ORDER BY date DESC";
+        category += "category = ? ";
+        list.add("全职");
+        flg = true;
+      }
+      if (req.getCategory3()) {
+        if (flg) {
+          category += " or ";
+        }
+        category += " category = ? ";
+        list.add("实习");
+        flg = true;
+      }
+      if (flg) {
+        sql += "and ( " + category + " )";
+      }
+      sql += " ORDER BY date DESC limit 200";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));
@@ -308,8 +336,13 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from recruitment where enterprise_id = ? and "
-          + "(select uuid from enterprise where id = enterprise_id ) = ? and status = '在招' ORDER BY date DESC";
+      String sql = "select * " +
+          "from recruitment " +
+          "where enterprise_id = ? " +
+          "and (select uuid from enterprise where id = enterprise_id ) = ? " +
+          "and status = '在招' " +
+          "ORDER BY date DESC " +
+          "limit 200";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, req.getId());
         ps.setString(2, req.getUuid());
@@ -333,9 +366,12 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, date, salary1, salary2, education, category, status, industry, position, uuid, job_fair_id,"
-      +"(select count(*) from browse_journal where data_id=recruitment.id and data_uuid = recruitment.uuid ) as journal,"
-      +"(select count(*) from delivery where recruitment_id=recruitment.id and recruitment_uuid = recruitment.uuid ) as delivery from recruitment where enterprise_id = ? and enterprise_uuid = ? ";
+      String sql = "select id, enterprise_id, enterprise_uuid, name, qty, address1, address2, address3, " +
+          "date, salary1, salary2, education, category, status, industry, position, uuid, job_fair_id, " +
+          "(select count(*) from browse_journal where data_id = recruitment.id and data_uuid = recruitment.uuid) as journal, " +
+          "(select count(*) from delivery where recruitment_id = recruitment.id and recruitment_uuid = recruitment.uuid) as delivery " +
+          "from recruitment " +
+          "where enterprise_id = ? and enterprise_uuid = ?";
       List<String> list = new ArrayList<>();
       list.add(req.getEnterpriseId());
       list.add(req.getUuid());
@@ -355,11 +391,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         sql += " and status = ? ";
         list.add(req.getStatus());
       }
-      if (req.getEducation()  != null && !"".equals(req.getEducation())) {
+      if (req.getEducation() != null && !"".equals(req.getEducation())) {
         sql += " and education = ? ";
         list.add(req.getEducation());
       }
-      sql+=" ORDER BY date DESC";
+      sql += " ORDER BY date DESC";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (int inx = 0; inx < list.size(); inx++) {
           ps.setString(inx + 1, list.get(inx));
@@ -375,7 +411,7 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     RecruitmentProto.Reply reply = RecruitmentProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
-  } 
+  }
 
   @Override
   public void subject(RecruitmentProto.SubjectRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
@@ -384,7 +420,11 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select * from recruitment where  enterprise_id in(select id from enterprise where subject = ?) ORDER BY date DESC";
+      String sql = "select * " +
+          "from recruitment " +
+          "where enterprise_id in (select id from enterprise where subject = ?) " +
+          "ORDER BY date DESC " +
+          "limit 200";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, req.getSubject());
         ResultSet rs = ps.executeQuery();
@@ -407,10 +447,10 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     resp.put("message", "");
     resp.put("content", "");
     try (Connection conn = DBUtil.getConn()) {
-      String sql = 
-      "select * from recruitment "+ 
-      "where json_search(job_fair_id, \"one\", ?) "+
-      "      and enterprise_id=? and enterprise_uuid= ?";
+      String sql =
+          "select * from recruitment " +
+              "where json_search(job_fair_id, \"one\", ?) " +
+              "      and enterprise_id=? and enterprise_uuid= ?";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setInt(1, req.getJobFairId());
         ps.setInt(2, req.getEntId());
@@ -450,5 +490,4 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
-
 }

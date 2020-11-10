@@ -27,7 +27,7 @@ const router = new Router({
 module.exports = router;
 
 router.get('/job-fair/ent/:job_fair_id/:ent_id', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.jobFairEntList(body, (err, response) => {
         if (err) {
@@ -38,7 +38,6 @@ router.get('/job-fair/ent/:job_fair_id/:ent_id', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch({
       ...ctx.params,
@@ -51,7 +50,7 @@ router.get('/job-fair/ent/:job_fair_id/:ent_id', async (ctx) => {
 });
 
 router.get('/job-fair/:job_fair_id', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.jobFairList(body, (err, response) => {
         if (err) {
@@ -62,7 +61,6 @@ router.get('/job-fair/:job_fair_id', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch(ctx.params);
   } catch (err) {
@@ -72,7 +70,7 @@ router.get('/job-fair/:job_fair_id', async (ctx) => {
 });
 
 router.get('/subject/:subject', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.subject(body, (err, response) => {
         if (err) {
@@ -83,7 +81,6 @@ router.get('/subject/:subject', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch(ctx.params);
   } catch (err) {
@@ -93,7 +90,7 @@ router.get('/subject/:subject', async (ctx) => {
 });
 
 router.put('/search/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.search(body, (err, response) => {
         if (err) {
@@ -104,7 +101,6 @@ router.put('/search/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {
@@ -114,7 +110,7 @@ router.put('/search/', async (ctx) => {
 });
 
 router.put('/keyword-search/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.keywordSearch(body, (err, response) => {
         if (err) {
@@ -125,7 +121,6 @@ router.put('/keyword-search/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {
@@ -135,7 +130,7 @@ router.put('/keyword-search/', async (ctx) => {
 });
 
 router.get('/enterprise/:id/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.enterpriseList(body, (err, response) => {
         if (err) {
@@ -146,7 +141,6 @@ router.get('/enterprise/:id/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.params.uuid = ctx.query.u_id;
     ctx.response.body = await grpcFetch(ctx.params);
@@ -157,7 +151,7 @@ router.get('/enterprise/:id/', async (ctx) => {
 });
 
 router.put('/enterprise/:id/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.enterpriseSearch(body, (err, response) => {
         if (err) {
@@ -168,7 +162,6 @@ router.put('/enterprise/:id/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.request.body.enterprise_id = ctx.params.id;
     ctx.request.body.uuid = ctx.query.u_id;
@@ -180,7 +173,7 @@ router.put('/enterprise/:id/', async (ctx) => {
 });
 
 router.put('/status/:id/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.status(body, (err, response) => {
         if (err) {
@@ -191,7 +184,6 @@ router.put('/status/:id/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.request.body.id = ctx.params.id;
     ctx.request.body.uuid = ctx.query.u_id;
@@ -203,7 +195,7 @@ router.put('/status/:id/', async (ctx) => {
 });
 
 router.get('/:id/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.get(body, (err, response) => {
         if (err) {
@@ -214,7 +206,6 @@ router.get('/:id/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.params.uuid = ctx.query.u_id;
     ctx.response.body = await grpcFetch(ctx.params);
@@ -225,7 +216,7 @@ router.get('/:id/', async (ctx) => {
 });
 
 router.put('/:id/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.update(body, (err, response) => {
         if (err) {
@@ -236,7 +227,6 @@ router.put('/:id/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.request.body.id = ctx.params.id;
     ctx.request.body.uuid = ctx.query.u_id;
@@ -248,7 +238,7 @@ router.put('/:id/', async (ctx) => {
 });
 
 router.get('/', async (ctx) => {
-  const grpcFetch = () => {
+  const grpcFetch = () =>
     new Promise((resolve, reject) => {
       grpcClient.list({ data: JSON.stringify({}) }, (err, response) => {
         if (err) {
@@ -259,7 +249,6 @@ router.get('/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch();
   } catch (err) {
@@ -275,40 +264,35 @@ router.get('/', async (ctx) => {
  */
 router.put('/', async (ctx) => {
   const category = ctx.request.query.category || '';
-  switch (category) {
-    case 'filterByCategory':
-      const gfetch = (body) => {
-        new Promise((resolve, reject) => {
-          grpcClient.filter(body, (err, response) => {
-            if (err) {
-              logger.error(err);
-              reject(err);
-            } else {
-              resolve(JSON.parse(response.data));
-            }
-          });
-        });
-      };
-      try {
-        logger.info(ctx.request.body);
-        const response = await gfetch({
-          category: 'filterBybCategory',
-          filter: ctx.request.body,
-        });
-        logger.info(response);
-        ctx.response.body = response;
-      } catch (err) {
-        logger.error(err);
-        ctx.response.status = 500;
-      }
-      break;
-    default:
-      ctx.response.body = [];
+  const enums = ['byCategory'];
+  if (enums.indexOf(category) === -1) {
+    ctx.response.body = [];
+    return;
+  }
+  const gfetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.filter(body, (err, response) => {
+        if (err) {
+          logger.error(err);
+          reject(err);
+        } else {
+          resolve(response.data);
+        }
+      });
+    });
+  try {
+    ctx.response.body = await gfetch({
+      category,
+      filter: ctx.request.body,
+    });
+  } catch (err) {
+    logger.error(err);
+    ctx.response.status = 500;
   }
 });
 
 router.post('/', async (ctx) => {
-  const grpcFetch = (body) => {
+  const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.insert(body, (err, response) => {
         if (err) {
@@ -319,7 +303,6 @@ router.post('/', async (ctx) => {
         }
       });
     });
-  };
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {

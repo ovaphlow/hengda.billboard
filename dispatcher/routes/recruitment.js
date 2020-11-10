@@ -263,8 +263,8 @@ router.get('/', async (ctx) => {
  * url 参数：?category=@PARAM
  */
 router.put('/', async (ctx) => {
-  const category = ctx.request.query.category || '';
   const enums = ['byCategory'];
+  const category = ctx.request.query.category || '';
   if (enums.indexOf(category) === -1) {
     ctx.response.body = [];
     return;

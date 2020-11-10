@@ -277,25 +277,30 @@ router.put('/', async (ctx) => {
   const category = ctx.request.query.category || '';
   switch (category) {
     case 'filterByCategory':
-      // const gfetch = (body) => {
-      //   new Promise((resolve, reject) => {
-      //     grpcClient.filterByCategory(body, (err, response) => {
-      //       if (err) {
-      //         logger.error(err);
-      //         reject(err);
-      //       } else {
-      //         resolve(JSON.parse(response.data));
-      //       }
-      //     });
-      //   });
-      // };
-      // try {
-      //   ctx.response.body = await gfetch(ctx.request.body);
-      // } catch (err) {
-      //   logger.error(err);
-      //   ctx.response.status = 500;
-      // }
-      ctx.response.body = '12231123132';
+      const gfetch = (body) => {
+        new Promise((resolve, reject) => {
+          grpcClient.filter(body, (err, response) => {
+            if (err) {
+              logger.error(err);
+              reject(err);
+            } else {
+              resolve(JSON.parse(response.data));
+            }
+          });
+        });
+      };
+      try {
+        logger.info(ctx.request.body);
+        const response = await gfetch({
+          category: 'filterBybCategory',
+          filter: ctx.request.body,
+        });
+        logger.info(response);
+        ctx.response.body = response;
+      } catch (err) {
+        logger.error(err);
+        ctx.response.status = 500;
+      }
       break;
     default:
       ctx.response.body = [];

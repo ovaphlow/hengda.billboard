@@ -259,7 +259,8 @@ router.get('/', async (ctx) => {
 
 /**
  * 2020-11-09
- * 用于小程序首页，按类别检索功能。
+ * 按类别检索岗位功能。
+ * 用于之后的接口整合，候选代码。
  * url 参数：?category=@PARAM
  */
 router.put('/', async (ctx) => {

@@ -45,7 +45,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
 
   /**
    * 2020-11-10
-   * 用于小程序首页，按类别检索功能。
+   * 按类别检索岗位能。
+   * 用于之后的接口整合，候选代码。
    * @param { category: String, filter: Map }
    * @return filter results toJson(List<Map<String, Object>>)
    */

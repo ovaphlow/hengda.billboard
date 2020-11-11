@@ -26,7 +26,9 @@ const Details = () => {
       .then((res) => {
         if (res.content) {
           setItem(res.content);
-          document.getElementById('content').innerHTML = res.content.content;
+          if (document.getElementById('content') !== null) {
+            document.getElementById('content').innerHTML = res.content.content;
+          }
           _BrowseJournal(
             {
               data_id: id,
@@ -159,20 +161,24 @@ const Details = () => {
   };
 
   const scheduleButton = () => {
-    if (schedule) {
-      return (
-        <button type="button" className="btn btn-danger nav-btn" onClick={deleteSchedule}>
-          <FontAwesomeIcon icon={faMinusCircle} fixedWidth />
-          移出日程
-        </button>
-      );
+    if (auth) {
+      if (schedule) {
+        return (
+          <button type="button" className="btn btn-danger nav-btn" onClick={deleteSchedule}>
+            <FontAwesomeIcon icon={faMinusCircle} fixedWidth />
+            移出日程
+          </button>
+        );
+      } else {
+        return (
+          <button type="button" className="btn btn-success nav-btn" onClick={handleSchedule}>
+            <FontAwesomeIcon icon={faPlusCircle} fixedWidth />
+            加入日程
+          </button>
+        );
+      }
     } else {
-      return (
-        <button type="button" className="btn btn-success nav-btn" onClick={handleSchedule}>
-          <FontAwesomeIcon icon={faPlusCircle} fixedWidth />
-          加入日程
-        </button>
-      );
+      window.location = '#登录';
     }
   };
 

@@ -175,8 +175,8 @@ const Resume = () => {
     if (e.target.files.length === 0) {
       return;
     }
-    if (e.target.files[0].size >= 100000) {
-      window.alert('超出图片大小上限!(100KB)');
+    if (e.target.files[0].size >= 200000) {
+      window.alert('超出图片大小上限!(200KB)');
       return;
     }
     const list = e.target.files;
@@ -416,7 +416,7 @@ const Resume = () => {
                   <h5>
                     我的证书
                     <span className="text-danger" style={{ fontSize: 16 }}>
-                      (小于100KB)
+                      (小于200KB)
                     </span>
                   </h5>
                 </div>

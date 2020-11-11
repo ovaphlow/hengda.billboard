@@ -5,11 +5,18 @@ import LeftNav from "../component/LeftNav";
 import BottomNav from "../component/BottomNav";
 import useAuth from "../useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlusCircle,
+  faEdit,
+  faSearch,
+  faSyncAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function List() {
   const auth = useAuth();
   const [list, setList] = useState([]);
+  const [filter_title, setFilterTitle] = useState("");
+  const [filter_date, setFilterDate] = useState();
 
   useEffect(() => {
     (async () => {
@@ -18,6 +25,24 @@ export default function List() {
       setList(res.content);
     })();
   }, []);
+
+  const handleFilter = async () => {
+    setList([]);
+    const response = await window.fetch("/api/content/campus/", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        title: filter_title,
+        date: filter_date,
+      }),
+    });
+    const res = await response.json();
+    if (res.message) {
+      window.alert(res.message);
+      return;
+    }
+    setList(res.content);
+  };
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -66,14 +91,79 @@ export default function List() {
 
                 <div className="card shadow bg-dark h-100 flex-grow-1">
                   <div className="card-header">
-                    <a href="#/新增" className="btn btn-secondary">
-                      <FontAwesomeIcon
-                        icon={faPlusCircle}
-                        fixedWidth
-                        size="lg"
-                      />
-                      新增
-                    </a>
+                    <div className="row">
+                      <div className="col-auto">
+                        <a href="#/新增" className="btn btn-secondary">
+                          <FontAwesomeIcon
+                            icon={faPlusCircle}
+                            fixedWidth
+                            size="lg"
+                          />
+                          新增
+                        </a>
+                      </div>
+                      <div className="col">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">标题</span>
+                          </div>
+                          <input
+                            type="text"
+                            value={filter_title || ""}
+                            className="form-control"
+                            onChange={(event) =>
+                              setFilterTitle(event.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col">
+                        <div className="input-group">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">日期</span>
+                          </div>
+                          <input
+                            type="date"
+                            value={filter_date || ""}
+                            className="form-control"
+                            onChange={(event) =>
+                              setFilterDate(event.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-auto">
+                        <div className="btn-group">
+                          <button
+                            type="button"
+                            className="btn btn-info"
+                            onClick={handleFilter}
+                          >
+                            <FontAwesomeIcon
+                              icon={faSearch}
+                              fixedWidth
+                              size="lg"
+                            />
+                            查询
+                          </button>
+
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => window.location.reload(true)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faSyncAlt}
+                              fixedWidth
+                              size="lg"
+                            />
+                            重置
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div className="card-body">
                     <table className="table table-dark table-striped">

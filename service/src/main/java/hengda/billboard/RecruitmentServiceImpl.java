@@ -61,12 +61,12 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         List<Map<String, Object>> result = DBUtil.getList(rs);
         resp = new Gson().toJson(result);
       } else if ("byCategory".equals(req.getCategory())) {
-        String sql = "select * " +
-            "from recruitment " +
-            "where position(? in industry) > 0 " +
-            "and status = '在招' " +
-            "order by id desc " +
-            "limit 200";
+        String sql = "select * "
+            + "from recruitment "
+            + "where position(? in industry) > 0 "
+            + "and status = '在招' "
+            + "order by id desc "
+            + "limit 200";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, req.getFilterMap().get("category"));
         ResultSet rs = ps.executeQuery();

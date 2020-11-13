@@ -4,6 +4,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import List from './List';
 import Details from './Details';
 import Enterprise from './Enterprise';
+import KeywordSearch from './KeywordSearch';
 
 const RecruitmentRouter = () => (
   <Router>
@@ -13,6 +14,9 @@ const RecruitmentRouter = () => (
       </Route>
       <Route path="/岗位/企业/:id">
         <Enterprise />
+      </Route>
+      <Route path="/岗位/查询/">
+        <KeywordSearch />
       </Route>
       <Route path="/岗位/:id">
         <Details />

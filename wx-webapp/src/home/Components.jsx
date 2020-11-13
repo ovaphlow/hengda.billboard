@@ -21,24 +21,29 @@ export const RecommendRow = ({
   <>
     <div className="row">
       <div className="col">
-        <div className="row">
-          <div className="col text-hidden">
-            <strong>{title}</strong>
+        <a
+          href={`#主页/消息详情/${id}?u_id=${uuid}`}
+          style={{ color: '#202529', textDecoration: 'none' }}
+        >
+          <div className="row">
+            <div className="col text-hidden">
+              <strong>{title}</strong>
+            </div>
           </div>
-        </div>
-        <span className="text-muted pull-left">
-          工作地点:
-          {address_level1}-{address_level2}
-          |人数:
-          {qty}
-        </span>
-        <div className="pull-right ">
-          <a href={`#主页/消息详情/${id}?u_id=${uuid}`} style={{ color: '#00a4ff' }}>
-            <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
-          </a>
-        </div>
-        <br />
-        <span>{publisher}</span>
+          <span className="text-muted pull-left">
+            工作地点:
+            {address_level1}-{address_level2}
+            |人数:
+            {qty}
+          </span>
+          <div className="pull-right ">
+            <span style={{ color: '#00a4ff' }}>
+              <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
+            </span>
+          </div>
+          <br />
+          <span>{publisher}</span>
+        </a>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />

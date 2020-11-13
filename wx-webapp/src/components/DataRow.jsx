@@ -79,32 +79,30 @@ export const RecruitmentRow1 = ({
   return (
     <div className="row">
       <div className="col">
-        <div className="pull-left">
-          <strong>{name}</strong>
-        </div>
-        <div className="pull-right">
-          <a
-            style={{ fontSize: 14 }}
-            className="badge badge-pill badge-info"
-            href={`#/岗位/${id}?u_id=${uuid}`}
-          >
-            查看
-          </a>
-        </div>
-        <br />
-        <span className="text-success">
-          {salary1 && salary2 ? `${salary1}-${salary2}` : '面议'}
-        </span>
-        {salary1 && salary2 ? '元月' : ''}
-        <br />
-        <span className="pull-left text-muted" style={{ fontSize: 11 }}>
-          {address1} {address2}/{education}
-          |人数:
-          {qty}
-        </span>
-        <span className="pull-right text-muted" style={{ fontSize: 11 }}>
-          {date}
-        </span>
+        <a href={`#/岗位/${id}?u_id=${uuid}`} style={{ color: '#202529', textDecoration: 'none' }}>
+          <div className="pull-left">
+            <strong>{name}</strong>
+          </div>
+          <div className="pull-right">
+            <span style={{ fontSize: 14 }} className="badge badge-pill badge-info">
+              查看
+            </span>
+          </div>
+          <br />
+          <span className="text-success">
+            {salary1 && salary2 ? `${salary1}-${salary2}` : '面议'}
+          </span>
+          {salary1 && salary2 ? '元月' : ''}
+          <br />
+          <span className="pull-left text-muted" style={{ fontSize: 11 }}>
+            {address1} {address2}/{education}
+            |人数:
+            {qty}
+          </span>
+          <span className="pull-right text-muted" style={{ fontSize: 11 }}>
+            {date}
+          </span>
+        </a>
       </div>
     </div>
   );

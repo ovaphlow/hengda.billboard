@@ -14,6 +14,11 @@ export default function SignIn() {
     name: '',
   });
 
+  const [count, setCount] = useState({
+    countdown: 60,
+    flag: true,
+  });
+
   const [err, setErr] = useState({
     email: false,
     password1: false,
@@ -116,6 +121,20 @@ export default function SignIn() {
           window.alert('验证码已发送到您的邮箱');
         }
       });
+    const code = setInterval(() => {
+      if (count.countdown === 1) {
+        clearInterval(code);
+        setCount({
+          flag: true,
+          countdown: 60,
+        });
+      } else {
+        setCount({
+          flag: false,
+          countdown: (count.countdown -= 1),
+        });
+      }
+    }, 1000);
   };
 
   const checkEmail = () => {
@@ -221,15 +240,26 @@ export default function SignIn() {
                       onChange={handleChange}
                     />
                     <div className="input-group-append">
-                      <button
-                        type="button"
-                        style={{ fontSize: 14 }}
-                        disabled={!checkEmail()}
-                        onClick={handleCode}
-                        className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
-                      >
-                        发送验证码
-                      </button>
+                      {count.flag ? (
+                        <button
+                          type="button"
+                          style={{ fontSize: 14 }}
+                          disabled={!checkEmail()}
+                          onClick={handleCode}
+                          className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
+                        >
+                          发送验证码
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          style={{ fontSize: 14 }}
+                          disabled="disabled"
+                          className="col btn btn-secondary btn-sm btn-outline-secondary border-0 text-white"
+                        >
+                          已发送{count.countdown}s
+                        </button>
+                      )}
                     </div>
                   </div>
                 </form>

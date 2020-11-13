@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { _BrowseJournal } from '../commonFetch';
+import ToBack from '../components/ToBack';
 
 const Details = () => {
 
@@ -60,6 +61,7 @@ const Details = () => {
   return (
     <div className="container-fluid">
       <div className="card border-0 shadow my-2">
+      <ToBack href="#招聘会" />
         <div className="card-header bg-transparent mx-auto">
           <h5>{item.title}</h5>
         </div>

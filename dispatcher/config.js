@@ -11,10 +11,10 @@ const config = {
     port: '5001',
   },
   email: {
-    service: '163',
+    service: 'qq',
     auth: {
-      user: 'zhongtianxue0310@163.com',
-      pass: 'ANFZQOPHELJDBUCE',
+      user: 'longzhaopin@foxmail.com',
+      pass: 'djtkwgcgtbknjhbh',
     },
   },
   wx: {

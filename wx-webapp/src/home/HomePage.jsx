@@ -16,18 +16,18 @@ const HomePage = () => {
 
   const [recommendTypes, setRecommendTypes] = useState({});
 
-  const [auth, setAuth] = useState(0);
+  // const [auth, setAuth] = useState(0);
 
   //const [signature, setSignature] = useState('');
-  
+
   //const [signature2, setSignature2] = useState('');
 
   useEffect(() => {
     document.title = '龙江学子就业平台';
-    const _auth = localStorage.getItem('auth');
-    if (_auth !== null) {
-      setAuth(JSON.parse(_auth));
-    }
+    // const _auth = localStorage.getItem('auth');
+    // if (_auth !== null) {
+    //   setAuth(JSON.parse(_auth));
+    // }
     fetch('./api/topic/common/')
       .then((res) => res.json())
       .then((res) => {
@@ -71,25 +71,21 @@ const HomePage = () => {
       });
   };
 
-
-    // 调用微信接口
+  // 调用微信接口
   //const getWX = () => {
 
+  //fetch(`./api/wx/token/`)
+  //.then((res) => res.json())
+  //.then((res) => {
+  //  fetch(`./api/wx/ticket/${res.access_token}`)
+  //  .then((res) => res.json())
+  //  .then((res) => {
+  //    console.info(res)
+  //  })
+  //})
 
-    //fetch(`./api/wx/token/`) 
-    //.then((res) => res.json())
-    //.then((res) => {
-    //  fetch(`./api/wx/ticket/${res.access_token}`) 
-    //  .then((res) => res.json())
-    //  .then((res) => {
-    //    console.info(res)
-    //  })
-    //})
-    
-    //const access_token = 
-    //'36_9GtyyQ66WG8m8MuLxcz1RnARgeaqyFD_qCTrmFjJYMzhlRBNmbCGqWl6d_i4RBbgE89hbtHQnAyYI8kaYUFFk6k2jzOEPLEetsJ0kg6IlzDFqSPH_dhW2y7H73VFXMJQEqfcQDWQ2ycgUXeYXCEhAHAMRT'
-    
-    
+  //const access_token =
+  //'36_9GtyyQ66WG8m8MuLxcz1RnARgeaqyFD_qCTrmFjJYMzhlRBNmbCGqWl6d_i4RBbgE89hbtHQnAyYI8kaYUFFk6k2jzOEPLEetsJ0kg6IlzDFqSPH_dhW2y7H73VFXMJQEqfcQDWQ2ycgUXeYXCEhAHAMRT'
 
   //  const jsapi_ticket = 'HoagFKDcsGMVCIY2vOjf9mNcXehjyzXPQtFvziohDc2DxhJP4Sps953D5XYcRFPjE4LBiHUO0wUHxQYNRo_fAQ'
 
@@ -109,9 +105,9 @@ const HomePage = () => {
   //  const str = 'jsapi_ticket='+jsapi_ticket+'&'+Object.getOwnPropertyNames(sign)
   //  .sort()
   //  .map((key) =>`${key}=${sign[key]}`)
-  //  .join('&') 
+  //  .join('&')
   //  setSignature2(str)
-    
+
   //  const config={
   //    nonceStr:sign.noncestr,
   //    timestamp:sign.timestamp,
@@ -135,7 +131,7 @@ const HomePage = () => {
   //      success: () => {
   //        alert('success')
   //        //console.info();
-  //      },  
+  //      },
   //    })
   //  });
   //}
@@ -155,26 +151,27 @@ const HomePage = () => {
       <div className="container-fluid">
         <PlayImg category="小程序-首页" />
         <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5' }}>
-          {auth === 0 ? (
+          {/* {auth === 0 ? (
             <div className="col text-center">
               <a className="text-black-50" href="#登录">
-                <strong className="text-primary">登录</strong>
-                完善信息，为您精准推荐职位信息
+                <strong className="text-primary">注册/登录</strong>
+                完善信息，精准搜索职位信息
               </a>
             </div>
           ) : (
-              <div className="col">
-                <input
-                  type="text"
-                  className="w-100 border-0 text-center rounded-pill"
-                  placeholder="按照企业/职位名称查询"
-                  onClick={() => {
-                    window.location = '#主页/查询/';
-                  }}
-                  style={{ outline: 0, height: 35 }}
-                />
-              </div>
-            )}
+
+            )} */}
+          <div className="col">
+            <input
+              type="text"
+              className="w-100 border-0 text-center rounded-pill"
+              placeholder="按照名称查询"
+              onClick={() => {
+                window.location = '#主页/查询/';
+              }}
+              style={{ outline: 0, height: 35 }}
+            />
+          </div>
         </div>
 
         <div className="p-2 border-0 bg-white rounded card-body shadow ">

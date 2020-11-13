@@ -12,7 +12,7 @@ const KeywordSearch = () => {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    document.title = '推荐信息查询';
+    document.title = '校园招聘查询';
   }, []);
 
   const search = (param) => {
@@ -59,7 +59,7 @@ const KeywordSearch = () => {
               type="text"
               id="search"
               className="w-100 border-0 text-center rounded-pill"
-              placeholder="按照名称查询"
+              placeholder="按照企业/学校名称查询"
               onKeyPress={_οnkeypress}
               autoFocus
               style={{ outline: 0, height: 35 }}
@@ -77,7 +77,7 @@ const KeywordSearch = () => {
           </div>
         </div>
       </div>
-      <Navbar category="首页" />
+      <Navbar category="校园招聘" />
     </>
   );
 };

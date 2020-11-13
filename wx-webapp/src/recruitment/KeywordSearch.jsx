@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import TextCheckbox from '../components/Button';
 import { RecruitmentRow1 } from '../components/DataRow';
 import CityDropdowns from '../components/CityDropdowns';
 import Navbar from '../components/Navbar';
 
 const KeywordSearch = () => {
+  const [types, setTypes] = useState({});
 
   const [list, setList] = useState([]);
 
@@ -12,7 +14,7 @@ const KeywordSearch = () => {
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    document.title = '推荐信息查询';
+    document.title = '岗位/企业查询';
   }, []);
 
   const search = (param) => {
@@ -31,10 +33,25 @@ const KeywordSearch = () => {
       });
   };
 
+  const _onCheckboxChange = ({ name, checked }) => {
+    search({
+      city,
+      ...types,
+      keyword,
+      [name]: checked,
+    });
+    setTypes((p) => ({
+      ...p,
+      [name]: checked,
+    }));
+  };
+
   const handleChange = (val) => {
     search({
       city: val,
+      status: '在招',
       keyword,
+      ...types,
     });
     setCity(val);
   };
@@ -44,7 +61,9 @@ const KeywordSearch = () => {
     if (keyCode === 13 && event.target.value !== '') {
       search({
         city,
+        status: '在招',
         keyword: event.target.value,
+        ...types,
       });
       setKeyword(event.target.value);
     }
@@ -59,7 +78,7 @@ const KeywordSearch = () => {
               type="text"
               id="search"
               className="w-100 border-0 text-center rounded-pill"
-              placeholder="按照名称查询"
+              placeholder="按照企业/职位名称查询"
               onKeyPress={_οnkeypress}
               autoFocus
               style={{ outline: 0, height: 35 }}
@@ -71,6 +90,19 @@ const KeywordSearch = () => {
             <div className="row mb-3" style={{ fontSize: 14 }}>
               <div className="col">
                 <CityDropdowns handleChange={handleChange} />
+              </div>
+              <div className="col flex-end">
+                <div className="pull-right text-primary">
+                  <TextCheckbox name="兼职" onChange={_onCheckboxChange}>
+                    兼职
+                  </TextCheckbox>
+                  <TextCheckbox name="全职" onChange={_onCheckboxChange}>
+                    全职
+                  </TextCheckbox>
+                  <TextCheckbox name="实习" onChange={_onCheckboxChange}>
+                    实习
+                  </TextCheckbox>
+                </div>
               </div>
             </div>
             {list && list.map((item) => <RecruitmentRow1 key={item.id} {...item} />)}

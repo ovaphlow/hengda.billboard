@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronCircleRight, faHandPointRight } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar';
@@ -22,29 +22,34 @@ const RecruitRow = ({
   <>
     <div className="row">
       <div className="col">
-        <div className="pull-left">
-          <strong>{title}</strong>
-        </div>
-        <div className="pull-right">
-          <a href={`#/校园招聘/${id}?u_id=${uuid}`}>
-            详情
-            <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
-          </a>
-        </div>
-        <br />
-        <span className="text-muted">
-          举办地点:
-          {`${address_level2}-${address_level3}`}
-        </span>
-        <br />
-        <span className="text-muted">
-          开始时间:
-          {date}
-        </span>
-        <br />
-        <span>
-          {school}({category})
-        </span>
+        <a
+          href={`#/校园招聘/${id}?u_id=${uuid}`}
+          style={{ color: '#202529', textDecoration: 'none' }}
+        >
+          <div className="pull-left">
+            <strong>{title}</strong>
+          </div>
+          <div className="pull-right">
+            <span style={{ color: '#007dff' }}>
+              详情
+              <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
+            </span>
+          </div>
+          <br />
+          <span className="text-muted">
+            举办地点:
+            {`${address_level2}-${address_level3}`}
+          </span>
+          <br />
+          <span className="text-muted">
+            开始时间:
+            {date}
+          </span>
+          <br />
+          <span>
+            {school}({category})
+          </span>
+        </a>
       </div>
     </div>
     <hr style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />
@@ -127,6 +132,34 @@ const List = () => {
       <div className="container-fluid">
         {/* <Title category="校园招聘" /> */}
         <PlayImg category="小程序-校园招聘" />
+        <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5' }}>
+          <div className="col">
+            <input
+              type="text"
+              className="w-100 border-0 text-center rounded-pill"
+              placeholder="按照企业/学校名称查询"
+              onClick={() => {
+                window.location = '#校园招聘/查询/';
+              }}
+              style={{ outline: 0, height: 35 }}
+            />
+          </div>
+        </div>
+        <div className="card border-0 mt-1 shadow">
+          <a href="#招聘会" style={{ textDecoration: 'none' }}>
+            <div className="card-body">
+              <span className="pull-left">
+                <FontAwesomeIcon icon={faHandPointRight} size="2x" fixedWidth />
+              </span>
+              <h6 className="pull-left pt-1 pb-2">
+                <strong>&nbsp;线上校园招聘会</strong>
+              </h6>
+              <span className="pull-right pt-1 pb-2">
+                <FontAwesomeIcon icon={faChevronCircleRight} size="lg" fixedWidth />
+              </span>
+            </div>
+          </a>
+        </div>
         <div className="card border-0 mt-2 shadow">
           <div className="card-body">
             <div className="row mb-3" style={{ fontSize: 14 }}>

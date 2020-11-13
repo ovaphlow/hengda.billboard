@@ -56,7 +56,7 @@ const Login = () => {
               企业注册
             </a>
           </div>
-          <div className="col-2 header-right pull-left">
+          <div className="col-1 header-right pull-left">
             <span className="text-secondary border-0 bg-transparent img-weixin">
               <FontAwesomeIcon icon={faQrcode} fixedWidth />
               小程序
@@ -64,6 +64,16 @@ const Login = () => {
                 <img className="" alt="" src="./lib/img/qrcode.jpg" />
               </p>
             </span>
+          </div>
+          <div className="col-1 header-right pull-left">
+            <a
+              href="#操作手册/注册"
+              className="text-secondary"
+              style={{ textDecoration: 'none' }}
+              target="_blank"
+            >
+              操作手册
+            </a>
           </div>
         </div>
       </div>

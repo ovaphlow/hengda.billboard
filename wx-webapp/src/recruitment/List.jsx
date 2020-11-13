@@ -75,7 +75,20 @@ const List = () => {
       <div className="container-fluid">
         {/* <Title category="岗位" /> */}
         <PlayImg category="小程序-岗位" />
-        <div className="card border-0 mt-2 shadow">
+        <div className="row pb-2 pt-2" style={{ backgroundColor: '#f5f5f5' }}>
+          <div className="col">
+            <input
+              type="text"
+              className="w-100 border-0 text-center rounded-pill"
+              placeholder="按照企业/职位名称查询"
+              onClick={() => {
+                window.location = '#岗位/查询/';
+              }}
+              style={{ outline: 0, height: 35 }}
+            />
+          </div>
+        </div>
+        <div className="card border-0 mt-1 shadow">
           <div className="card-body">
             <div className="row mb-3" style={{ fontSize: 14 }}>
               <div className="col">

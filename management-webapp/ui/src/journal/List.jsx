@@ -41,20 +41,22 @@ export default function List({ component_option }) {
   };
 
   useEffect(() => {
+    let _user_category = new URLSearchParams(location.search).get(
+      "user_category"
+    );
+    let _user_id = new URLSearchParams(location.search).get("user_id");
+    let _user_uuid = new URLSearchParams(location.search).get("user_uuid");
     setUserCategory(new URLSearchParams(location.search).get("user_category"));
     setUserID(new URLSearchParams(location.search).get("user_id"));
     setUserUUID(new URLSearchParams(location.search).get("user_uuid"));
-  }, []);
-
-  useEffect(() => {
-    if (!user_category || !user_id || !user_uuid) {
+    if (!_user_category || !_user_id || !_user_uuid) {
       window.alert("参数错误");
       return;
     }
     if (component_option === "登录") {
       (async () => {
         const response = await window.fetch(
-          `/api/journal/sign-in/?user_id=${user_id}&user_uuid=${user_uuid}?category=${user_category}`
+          `/api/journal/sign-in/?user_id=${_user_id}&user_uuid=${_user_uuid}?category=${_user_category}`
         );
         const res = await response.json();
         setData(res.content);
@@ -62,7 +64,7 @@ export default function List({ component_option }) {
     } else if (component_option === "浏览") {
       (async () => {
         const response = await window.fetch(
-          `/api/journal/browse/?user_id=${user_id}&user_uuid=${user_uuid}?category=${user_category}`
+          `/api/journal/browse/?user_id=${_user_id}&user_uuid=${_user_uuid}?category=${_user_category}`
         );
         const res = await response.json();
         setData(res.content);
@@ -70,14 +72,17 @@ export default function List({ component_option }) {
     } else if (component_option === "编辑") {
       (async () => {
         const response = await window.fetch(
-          `/api/journal/edit/?user_id=${user_id}&user_uuid=${user_uuid}&category=${user_category}`
+          `/api/journal/edit/?user_id=${_user_id}&user_uuid=${_user_uuid}&category=${_user_category}`
         );
         const res = await response.json();
         setData(res.content);
       })();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user_category, user_id, user_uuid]);
+  }, []);
+
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [user_category, user_id, user_uuid]);
 
   const handleFilter = async () => {
     if (component_option === "登录") {

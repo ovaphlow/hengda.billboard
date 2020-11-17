@@ -1,9 +1,5 @@
 syntax = "proto3";
 
-// option java_multiple_files = true;
-option java_package = "hengda.billboard";
-option java_outer_classname = "CampusProto";
-
 package campus;
 
 service Campus {
@@ -20,10 +16,7 @@ message GetRequest {
 }
 
 message SearchRequest {
-  string city = 1;
-  bool category1 = 2;
-  bool category2 = 3;
-  string keyword = 4;
+  map<string, string> filter = 1;
 }
 
 message Reply { string data = 1; }

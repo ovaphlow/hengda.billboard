@@ -61,11 +61,13 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
           + "order by date "
           + "limit 200";
       PreparedStatement pstmt = cnx.prepareStatement(sql);
-      pstmt.setString(1, req.getCity());
-      pstmt.setString(2, req.getCategory1() ? "宣讲会" : "");
-      pstmt.setString(3, req.getCategory2() ? "双选会" : "");
-      pstmt.setString(4, req.getKeyword());
-      pstmt.setString(5, req.getKeyword());
+      pstmt.setString(1, req.getFilterMap().get("city"));
+      pstmt.setString(2,
+          Boolean.parseBoolean(req.getFilterMap().get("category1")) ? "宣讲会" : "");
+      pstmt.setString(3,
+          Boolean.parseBoolean(req.getFilterMap().get("category2")) ? "双选会" : "");
+      pstmt.setString(4, req.getFilterMap().get("keyword"));
+      pstmt.setString(5, req.getFilterMap().get("keyword"));
       ResultSet rs = pstmt.executeQuery();
       List<Map<String, Object>> result = DBUtil.getList(rs);
       resp.put("content", result);

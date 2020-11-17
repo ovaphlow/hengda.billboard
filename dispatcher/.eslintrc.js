@@ -10,5 +10,6 @@ module.exports = {
   },
   rules: {
     'implicit-arrow-linebreak': 0,
+    'global-require': 0,
   },
 };

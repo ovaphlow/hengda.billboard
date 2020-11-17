@@ -23,6 +23,7 @@ message SearchRequest {
   string city = 1;
   bool category1 = 2;
   bool category2 = 3;
+  string keyword = 4;
 }
 
 message Reply { string data = 1; }

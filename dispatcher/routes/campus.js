@@ -1,8 +1,9 @@
 const Router = require('@koa/router');
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
+
 const config = require('../config');
-const console = require('../logger');
+const logger = require('../logger');
 
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync(`${__dirname}/../proto/campus.proto`, {
@@ -30,7 +31,7 @@ router.get('/:id', async (ctx) => {
     new Promise((resolve, reject) => {
       grpcClient.get(body, (err, response) => {
         if (err) {
-          console.error(err);
+          logger.error(err);
           reject(err);
         } else {
           resolve(JSON.parse(response.data));
@@ -41,7 +42,7 @@ router.get('/:id', async (ctx) => {
     ctx.params.uuid = ctx.query.u_id;
     ctx.response.body = await grpcFetch(ctx.params);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     ctx.response.body = { message: '服务器错误' };
   }
 });
@@ -51,7 +52,7 @@ router.put('/', async (ctx) => {
     new Promise((resolve, reject) => {
       grpcClient.search(body, (err, response) => {
         if (err) {
-          console.error(err);
+          logger.error(err);
           reject(err);
         } else {
           resolve(JSON.parse(response.data));
@@ -59,9 +60,10 @@ router.put('/', async (ctx) => {
       });
     });
   try {
+    logger.info(ctx.request.body);
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     ctx.response.body = { message: '服务器错误' };
   }
 });

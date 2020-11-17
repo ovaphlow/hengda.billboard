@@ -3,19 +3,22 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 
 const config = require('./config');
+const logger = require('./logger');
 
 const app = new Koa();
 
 app.env = config.env;
 
-app.use(bodyParser({
-  jsonLimit: '8mb',
-}));
+app.use(
+  bodyParser({
+    jsonLimit: '8mb',
+  }),
+);
 
 app.use(async (ctx, next) => {
   await next();
   const rt = ctx.response.get('X-Response-Time');
-  console.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`);
+  logger.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`);
 });
 
 app.use(async (ctx, next) => {
@@ -26,7 +29,7 @@ app.use(async (ctx, next) => {
 });
 
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx);
+  logger.error('server error', err, ctx);
 });
 
 function EnterpriseUserRouter() {

@@ -10,8 +10,11 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import io.grpc.stub.StreamObserver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
+  private static final Logger logger = LoggerFactory.getLogger(CampusServiceImpl.class);
 
   @Override
   public void get(CampusProto.GetRequest req, StreamObserver<CampusProto.Reply> responseObserver) {
@@ -33,7 +36,7 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("", e);
       resp.put("message", "gRPC服务器错误");
     }
     CampusProto.Reply reply = CampusProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
@@ -47,8 +50,11 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");
     resp.put("content", "");
+    logger.info("{}", req);
     try (Connection conn = DBUtil.getConn()) {
-      String sql = "select id, uuid, title, address_level3, address_level2, date, school, category from campus where date >= curdate() ";
+      String sql = "select id, uuid, title, address_level3, address_level2, date, school, category "
+          + "from campus "
+          + "where date >= curdate() ";
       List<String> list = new ArrayList<>();
       if (req.getCity() != null && !"".equals(req.getCity())) {
         sql += "and address_level2 = ? ";
@@ -89,12 +95,11 @@ public class CampusServiceImpl extends CampusGrpc.CampusImplBase {
         resp.put("content", result);
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error("", e);
       resp.put("message", "gRPC服务器错误");
     }
     CampusProto.Reply reply = CampusProto.Reply.newBuilder().setData(gson.toJson(resp)).build();
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
-
 }

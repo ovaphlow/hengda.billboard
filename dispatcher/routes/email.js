@@ -28,16 +28,17 @@ module.exports = router;
 
 router
   .put('/check/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.code(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.code(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
@@ -46,16 +47,17 @@ router
     }
   })
   .put('/checkRecover/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.checkRecover(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.checkRecover(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
@@ -64,7 +66,10 @@ router
     }
   })
   .put('/', async (ctx) => {
-    const math = parseInt(Math.floor(Math.random() * (999999 - 100000 + 1) + 100000), 10);
+    const math = parseInt(
+      Math.floor(Math.random() * (999999 - 100000 + 1) + 100000),
+      10,
+    );
     const code = math.toString();
     const transporter = nodemailer.createTransport(config.email);
     const mailOptions = {
@@ -83,16 +88,17 @@ router
       }
     });
 
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.insert(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.insert(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch({
         ...ctx.request.body,

@@ -26,16 +26,17 @@ const router = new Router({
 module.exports = router;
 
 router.get('/detail/:id/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.detail(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.detail(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     ctx.params.uuid = ctx.query.uuid;
     ctx.response.body = await grpcFetch(ctx.params);
@@ -45,16 +46,17 @@ router.get('/detail/:id/', async (ctx) => {
   }
 });
 router.get('/:category/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.get(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.get(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     ctx.response.body = await grpcFetch(ctx.params);
   } catch (err) {

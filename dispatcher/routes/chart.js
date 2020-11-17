@@ -26,16 +26,17 @@ const router = new Router({
 module.exports = router;
 
 router.get('/ent-home/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.entHome(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.entHome(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {

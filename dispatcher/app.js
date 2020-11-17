@@ -35,133 +35,133 @@ app.on('error', (err, ctx) => {
 });
 
 (() => {
-  const router = require('./routes/enterpriseUser');
+  const router = require('./route/enterpriseUser');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/commonUser');
+  const router = require('./route/commonUser');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/commonUserFile');
+  const router = require('./route/commonUserFile');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/resume');
+  const router = require('./route/resume');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/banner');
+  const router = require('./route/banner');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/recruitment');
+  const router = require('./route/recruitment');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/journal');
+  const router = require('./route/journal');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/favorite');
+  const router = require('./route/favorite');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/delivery');
+  const router = require('./route/delivery');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/report');
+  const router = require('./route/report');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/feedback');
+  const router = require('./route/feedback');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/message');
+  const router = require('./route/message');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/enterprise');
+  const router = require('./route/enterprise');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/offer');
+  const router = require('./route/offer');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/topic');
+  const router = require('./route/topic');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/campus');
+  const router = require('./route/campus');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/commonUserSchedule');
+  const router = require('./route/commonUserSchedule');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/commonData');
+  const router = require('./route/commonData');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/recommend');
+  const router = require('./route/recommend');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/email');
+  const router = require('./route/email');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/chart');
+  const router = require('./route/chart');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();
 
 (() => {
-  const router = require('./routes/job-fair');
+  const router = require('./route/job-fair');
   app.use(router.routes());
   app.use(router.allowedMethods());
 })();

@@ -1,6 +1,6 @@
+const protoLoader = require('@grpc/proto-loader');
 const Router = require('@koa/router');
 const grpc = require('grpc');
-const protoLoader = require('@grpc/proto-loader');
 
 const config = require('../config');
 const logger = require('../logger');

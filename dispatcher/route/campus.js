@@ -60,7 +60,6 @@ router.put('/', async (ctx) => {
       });
     });
   try {
-    logger.table(ctx.request.body);
     ctx.response.body = await grpcFetch({ filter: ctx.request.body });
   } catch (err) {
     logger.error(err);

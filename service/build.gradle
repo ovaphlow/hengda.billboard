@@ -4,9 +4,6 @@ plugins {
   id 'idea'
 }
 
-group 'hengda.billboard'
-version '202002-11'
-
 //sourceCompatibility = 1.8
 
 repositories {

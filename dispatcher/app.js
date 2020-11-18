@@ -18,16 +18,9 @@ app.use(
 );
 
 app.use(async (ctx, next) => {
+  logger.info(`${new Date()} --> ${ctx.request.method} ${ctx.request.url}`);
   await next();
-  const rt = ctx.response.get('X-Response-Time');
-  logger.log(`${new Date()} [${ctx.method}] ${ctx.url} - ${rt}`);
-});
-
-app.use(async (ctx, next) => {
-  const start = Date.now();
-  await next();
-  const ms = Date.now() - start;
-  ctx.set('X-Response-Time', `${ms}ms`);
+  logger.info(`${new Date()} <-- ${ctx.request.method} ${ctx.request.url}`);
 });
 
 app.on('error', (err, ctx) => {

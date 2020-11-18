@@ -5,38 +5,39 @@ const config = require('../config');
 const console = require('../logger');
 
 const proto = grpc.loadPackageDefinition(
-  protoLoader.loadSync(`${__dirname}/../proto/feedback.proto`, {
+  protoLoader.loadSync(`${__dirname}/../proto/report.proto`, {
     keepCase: true,
     longs: String,
     enums: String,
     defaults: true,
     oneofs: true,
   }),
-).feedback;
+).report;
 
-const grpcClient = new proto.Feedback(
+const grpcClient = new proto.Report(
   `${config.grpcServer.host}:${config.grpcServer.port}`,
   grpc.credentials.createInsecure(),
 );
 
 const router = new Router({
-  prefix: '/api/feedback',
+  prefix: '/api/report',
 });
 
 module.exports = router;
 
 router
-  .get('/:user_category/:user_id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.list(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+  .get('/:user_category/:user_id/', async (ctx) => {
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.list(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch(ctx.params);
     } catch (err) {
@@ -45,16 +46,17 @@ router
     }
   })
   .post('/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.insert(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.insert(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { RecruitmentRow1 } from '../components/DataRow';
-import CityDropdowns from '../components/CityDropdowns';
+import { RecruitRow1 } from '../components/DataRow';
+// import CityDropdowns from '../components/CityDropdowns';
 import Navbar from '../components/Navbar';
 
 const KeywordSearch = () => {
-
   const [list, setList] = useState([]);
 
-  const [city, setCity] = useState('');
+  // const [city, setCity] = useState('');
 
   const [keyword, setKeyword] = useState('');
 
@@ -15,11 +14,16 @@ const KeywordSearch = () => {
     document.title = '校园招聘查询';
   }, []);
 
-  const search = (param) => {
-    fetch('./api/recruitment/keyword-search/', {
+  const search = () => {
+    fetch('./api/campus/', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(param),
+      body: JSON.stringify({
+        city: '',
+        category1: true,
+        category2: true,
+        keyword: keyword,
+      }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -31,22 +35,24 @@ const KeywordSearch = () => {
       });
   };
 
-  const handleChange = (val) => {
-    search({
-      city: val,
-      keyword,
-    });
-    setCity(val);
+  // const handleChange = (val) => {
+  //   search({
+  //     city: val,
+  //     keyword,
+  //   });
+  //   setCity(val);
+  // };
+
+  const handleChange = (event) => {
+    setKeyword(event.target.value);
   };
 
   const _οnkeypress = (event) => {
     const keyCode = event.which || event.keyCode;
     if (keyCode === 13 && event.target.value !== '') {
       search({
-        city,
         keyword: event.target.value,
       });
-      setKeyword(event.target.value);
     }
   };
 
@@ -60,6 +66,7 @@ const KeywordSearch = () => {
               id="search"
               className="w-100 border-0 text-center rounded-pill"
               placeholder="按照企业/学校名称查询"
+              onChange={handleChange}
               onKeyPress={_οnkeypress}
               autoFocus
               style={{ outline: 0, height: 35 }}
@@ -69,11 +76,9 @@ const KeywordSearch = () => {
         <div className="card border-0 shadow">
           <div className="card-body">
             <div className="row mb-3" style={{ fontSize: 14 }}>
-              <div className="col">
-                <CityDropdowns handleChange={handleChange} />
-              </div>
+              <div className="col">{/* <CityDropdowns handleChange={handleChange} /> */}</div>
             </div>
-            {list && list.map((item) => <RecruitmentRow1 key={item.id} {...item} />)}
+            {list && list.map((item) => <RecruitRow1 key={item.id} {...item} />)}
           </div>
         </div>
       </div>

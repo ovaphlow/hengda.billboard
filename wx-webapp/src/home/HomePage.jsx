@@ -165,7 +165,7 @@ const HomePage = () => {
             <input
               type="text"
               className="w-100 border-0 text-center rounded-pill"
-              placeholder="按照名称查询"
+              placeholder="按照名称或企业名称查询"
               onClick={() => {
                 window.location = '#主页/查询/';
               }}

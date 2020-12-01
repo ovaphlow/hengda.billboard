@@ -79,7 +79,12 @@ const List = () => {
     fetch('./api/campus/', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        city: '',
+        category1: true,
+        category2: true,
+        keyword: '',
+      }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -122,6 +127,9 @@ const List = () => {
   const handleChange = (val) => {
     search({
       city: val,
+      category1: true,
+      category2: true,
+      keyword: '',
       ...types,
     });
     setCity(val);

@@ -8,6 +8,11 @@ const User = () => {
     code: '',
   });
 
+  const [count, setCount] = useState({
+    countdown: 60,
+    flag: true,
+  });
+
   const [err, setErr] = useState({
     phone: '',
     email: '',
@@ -57,6 +62,20 @@ const User = () => {
           window.alert('验证码已发送到公司邮箱');
         }
       });
+    const code = setInterval(() => {
+      if (count.countdown === 1) {
+        clearInterval(code);
+        setCount({
+          flag: true,
+          countdown: 60,
+        });
+      } else {
+        setCount({
+          flag: false,
+          countdown: (count.countdown -= 1),
+        });
+      }
+    }, 1000);
   };
 
   const handleSave = async () => {
@@ -85,12 +104,12 @@ const User = () => {
     });
     const phoneCheck = await res2.json();
     if (phoneCheck.message) {
-      err.phone = '该电话号码已被使用';
+      err1.phone = '该电话号码已被使用';
     }
 
     window.console.info(phoneCheck);
 
-    if (Object.getOwnPropertyNames(err).length === 0) {
+    if (Object.getOwnPropertyNames(err1).length === 0) {
       fetch(`./api/ent-user/${auth.id}?uuid=${auth.uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
@@ -100,17 +119,18 @@ const User = () => {
         .then((res) => {
           if (res.message) {
             if (typeof res.message === 'object') {
-              err.code = '验证码错误';
+              err1.code = '验证码错误';
             } else {
               window.alert(res.message);
             }
           } else {
             window.alert('操作成功');
+            window.location = '#我的/信息';
           }
-          setErr(err);
+          setErr(err1);
         });
     } else {
-      setErr(err);
+      setErr(err1);
     }
   };
 
@@ -164,14 +184,24 @@ const User = () => {
                         className="form-control rounded-0"
                       />
                       <div className="input-group-append">
-                        <button
-                          className="btn btn-primary rounded-0"
-                          type="button"
-                          onClick={handleCode}
-                          disabled={!checkEmail()}
-                        >
-                          发送验证码
-                        </button>
+                        {count.flag ? (
+                          <button
+                            className="btn btn-primary rounded-0"
+                            type="button"
+                            onClick={handleCode}
+                            disabled={!checkEmail()}
+                          >
+                            发送验证码
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary rounded-0"
+                            type="button"
+                            disabled="disabled"
+                          >
+                            已发送{count.countdown}s
+                          </button>
+                        )}
                       </div>
                     </div>
                     {err.code && <small className="form-text text-danger">{err.code}</small>}

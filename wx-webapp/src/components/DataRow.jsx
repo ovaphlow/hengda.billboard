@@ -161,6 +161,43 @@ RecruitRow.propTypes = {
   enterprise_name: PropTypes.string.isRequired,
 };
 
+export const RecruitRow1 = ({ title, id, uuid, address_level2, address_level3, date, school, category }) => (
+  <div className="row">
+    <div className="col">
+      <div className="pull-left">
+        <strong>{title}</strong>
+      </div>
+      <div className="pull-right">
+        <a href={`#/校园招聘/${id}?u_id=${uuid}`}>
+          详情
+          <FontAwesomeIcon icon={faAngleRight} size="lg" fixedWidth />
+        </a>
+      </div>
+      <br />
+      <span className="text-muted" style={{ fontSize: 11 }}>
+        举办地点:
+        {address_level2}-{address_level3}
+        <br />
+        开始时间:
+        {date}
+      </span>
+      <br />
+      <span>{school}({category})</span>
+    </div>
+  </div>
+);
+
+RecruitRow1.propTypes = {
+  title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  uuid: PropTypes.string.isRequired,
+  address_level2: PropTypes.string.isRequired,
+  address_level3: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  school: PropTypes.string.isRequired,
+};
+
 export const RecommendRow = ({ name, id, uuid, address1, address2, qty, enterprise_name }) => (
   <div className="row">
     <div className="col">
@@ -187,6 +224,40 @@ export const RecommendRow = ({ name, id, uuid, address1, address2, qty, enterpri
 );
 
 RecommendRow.propTypes = {
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  uuid: PropTypes.string.isRequired,
+  address1: PropTypes.string.isRequired,
+  address2: PropTypes.string.isRequired,
+  qty: PropTypes.string.isRequired,
+  enterprise_name: PropTypes.string.isRequired,
+};
+export const RecommendRow1 = ({ name, id, uuid, address1, address2, qty, enterprise_name }) => (
+  <div className="row">
+    <div className="col">
+      <div className="pull-left">
+        <strong>{name}</strong>
+      </div>
+      <div className="pull-right">
+        <a href={`#主页/消息详情/${id}?u_id=${uuid}`}>
+          详情
+          <FontAwesomeIcon icon={faAngleRight} size="lg" fixedWidth />
+        </a>
+      </div>
+      <br />
+      <span className="text-muted" style={{ fontSize: 11 }}>
+        工作地点：
+        {address1}-{address2}
+        |人数:
+        {qty}
+      </span>
+      <br />
+      <span>{enterprise_name}</span>
+    </div>
+  </div>
+);
+
+RecommendRow1.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   uuid: PropTypes.string.isRequired,

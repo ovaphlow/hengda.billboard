@@ -18,8 +18,7 @@ def protocVersion = protobufVersion
 dependencies {
   implementation "io.grpc:grpc-protobuf:${grpcVersion}"
   implementation "io.grpc:grpc-stub:${grpcVersion}"
-//  compileOnly "javax.annotation:javax.annotation-api:1.2"
-  compileOnly "org.apache.tomcat:annotations-api:6.0.53" //necessary for Java 9+
+  compileOnly "org.apache.tomcat:annotations-api:6.0.53"//necessary for Java 9+
 
   implementation "com.google.protobuf:protobuf-java-util:${protobufVersion}"
 
@@ -27,9 +26,9 @@ dependencies {
 
   implementation "ch.qos.logback:logback-classic:1.2.3"
 
-//  implementation "com.zaxxer:HikariCP-java7:2.4.13"
   implementation "com.zaxxer:HikariCP:3.4.5"
   implementation "mysql:mysql-connector-java:8.0.22"
+  implementation 'commons-dbutils:commons-dbutils:1.7'
 }
 
 protobuf {

@@ -27,16 +27,17 @@ const router = new Router({
 module.exports = router;
 
 router.post('/sign-in', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.signIn(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.signIn(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     const salt = crypto.randomBytes(8).toString('hex');
     const hmac = crypto.createHmac('sha256', salt);
@@ -54,16 +55,17 @@ router.post('/sign-in', async (ctx) => {
 });
 
 router.post('/log-in/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.logIn(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.logIn(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     const result = await grpcFetch(ctx.request.body);
     if (result.message) {
@@ -87,16 +89,17 @@ router.post('/log-in/', async (ctx) => {
 });
 
 router.put('/recover/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.recover(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.recover(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     const salt = crypto.randomBytes(8).toString('hex');
     const hmac = crypto.createHmac('sha256', salt);
@@ -114,16 +117,17 @@ router.put('/recover/', async (ctx) => {
 });
 
 router.put('/checkEmail/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.checkEmail(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.checkEmail(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {
@@ -133,16 +137,17 @@ router.put('/checkEmail/', async (ctx) => {
 });
 
 router.put('/checkRecover/', async (ctx) => {
-  const grpcFetch = (body) => new Promise((resolve, reject) => {
-    grpcClient.checkRecover(body, (err, response) => {
-      if (err) {
-        console.error(err);
-        reject(err);
-      } else {
-        resolve(JSON.parse(response.data));
-      }
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.checkRecover(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
+      });
     });
-  });
   try {
     ctx.response.body = await grpcFetch(ctx.request.body);
   } catch (err) {
@@ -153,16 +158,17 @@ router.put('/checkRecover/', async (ctx) => {
 
 router
   .get('/:id', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.get(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.get(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.params.uuid = ctx.query.uuid;
       ctx.response.body = await grpcFetch(ctx.params);
@@ -172,16 +178,17 @@ router
     }
   })
   .put('/phone', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.phone(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.phone(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
@@ -190,16 +197,17 @@ router
     }
   })
   .put('/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.update(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.update(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
@@ -208,16 +216,17 @@ router
     }
   })
   .get('/journal/:user_id/', async (ctx) => {
-    const grpcFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.journal(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const grpcFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.journal(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
     try {
       ctx.params.category = '个人用户';
       ctx.response.body = await grpcFetch(ctx.params);
@@ -227,38 +236,41 @@ router
     }
   })
   .post('/updatePassword/', async (ctx) => {
-    const checkPasswordFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.checkPassword(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const checkPasswordFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.checkPassword(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
 
-    const checkCaptchaFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.checkCaptcha(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const checkCaptchaFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.checkCaptcha(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
 
-    const updatePasswordFetch = (body) => new Promise((resolve, reject) => {
-      grpcClient.updatePassword(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
+    const updatePasswordFetch = (body) =>
+      new Promise((resolve, reject) => {
+        grpcClient.updatePassword(body, (err, response) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else {
+            resolve(JSON.parse(response.data));
+          }
+        });
       });
-    });
 
     try {
       let result = await checkPasswordFetch({

@@ -25,9 +25,9 @@ const router = new Router({
 
 module.exports = router;
 
-router
-  .get('/hangye/', async (ctx) => {
-    const grpcFetch = () => new Promise((resolve, reject) => {
+router.get('/hangye/', async (ctx) => {
+  const grpcFetch = () =>
+    new Promise((resolve, reject) => {
       grpcClient.hangye({ data: JSON.stringify({}) }, (err, response) => {
         if (err) {
           console.error(err);
@@ -37,10 +37,10 @@ router
         }
       });
     });
-    try {
-      ctx.response.body = await grpcFetch();
-    } catch (err) {
-      console.error(err);
-      ctx.response.body = { message: '服务器错误' };
-    }
-  });
+  try {
+    ctx.response.body = await grpcFetch();
+  } catch (err) {
+    console.error(err);
+    ctx.response.body = { message: '服务器错误' };
+  }
+});

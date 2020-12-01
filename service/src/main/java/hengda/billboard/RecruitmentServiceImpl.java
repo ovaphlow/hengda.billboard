@@ -47,8 +47,8 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
    * 2020-11-10
    * 按类别检索岗位能。
    * 用于之后的接口整合，候选代码。
-   * @param { category: String, filter: Map }
-   * @return filter results toJson(List<Map<String, Object>>)
+   * param { category: String, filter: Map }
+   * return filter results toJson(List<Map<String, Object>>)
    */
   @Override
   public void filter(RecruitmentProto.FilterRequest req, StreamObserver<RecruitmentProto.Reply> responseObserver) {
@@ -61,12 +61,12 @@ public class RecruitmentServiceImpl extends RecruitmentGrpc.RecruitmentImplBase 
         List<Map<String, Object>> result = DBUtil.getList(rs);
         resp = new Gson().toJson(result);
       } else if ("byCategory".equals(req.getCategory())) {
-        String sql = "select * " +
-            "from recruitment " +
-            "where position(? in industry) > 0 " +
-            "and status = '在招' " +
-            "order by id desc " +
-            "limit 200";
+        String sql = "select * "
+            + "from recruitment "
+            + "where position(? in industry) > 0 "
+            + "and status = '在招' "
+            + "order by id desc "
+            + "limit 200";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, req.getFilterMap().get("category"));
         ResultSet rs = ps.executeQuery();

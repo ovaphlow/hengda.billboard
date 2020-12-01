@@ -21,12 +21,13 @@ public class DBUtil {
         config.setJdbcUrl("jdbc:mysql://211.159.150.3:3306/hengda-billboard?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC");
         config.setUsername("ovaphlow");
         config.setPassword("ovaph@HD.1123");
-        // config.setMinimumIdle(0);
-        config.setMaximumPoolSize(2);
+//        config.setMinimumIdle(0);
+        config.setMaximumPoolSize(4);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         config.addDataSourceProperty("connectionTimeout", "6000");
+        config.addDataSourceProperty("maxLifetime", "15000");
         ds = new HikariDataSource(config);
     }
 

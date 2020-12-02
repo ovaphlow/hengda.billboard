@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // import Title from '../components/Title'
 import Navbar from '../components/Navbar';
 import PlayImg from '../components/PlayImg';
-import TextCheckbox from '../components/Button';
+import TextCheckbox1 from '../components/SelectButton';
 import CityDropdowns from '../components/CityDropdowns';
 
 const RecruitRow = ({
@@ -79,7 +79,12 @@ const List = () => {
     fetch('./api/campus/', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        city: '',
+        category1: true,
+        category2: true,
+        keyword: '',
+      }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -110,6 +115,9 @@ const List = () => {
   const _onCheckboxChange = ({ name, checked }) => {
     search({
       city,
+      category1: true,
+      category2: true,
+      keyword: '',
       ...types,
       [name]: checked,
     });
@@ -122,6 +130,9 @@ const List = () => {
   const handleChange = (val) => {
     search({
       city: val,
+      category1: true,
+      category2: true,
+      keyword: '',
       ...types,
     });
     setCity(val);
@@ -168,12 +179,12 @@ const List = () => {
               </div>
               <div className="col">
                 <div className="pull-right text-primary">
-                  <TextCheckbox value="宣讲会" name="category1" onChange={_onCheckboxChange}>
+                  <TextCheckbox1 value="宣讲会" name="category1" onChange={_onCheckboxChange}>
                     宣讲会
-                  </TextCheckbox>
-                  <TextCheckbox value="双选会" name="category2" onChange={_onCheckboxChange}>
+                  </TextCheckbox1>
+                  <TextCheckbox1 value="双选会" name="category2" onChange={_onCheckboxChange}>
                     双选会
-                  </TextCheckbox>
+                  </TextCheckbox1>
                 </div>
               </div>
             </div>

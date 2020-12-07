@@ -194,7 +194,7 @@ router.put('/status/:id/', async (ctx) => {
   }
 });
 
-router.get('/:id/', async (ctx) => {
+router.get('/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.get(body, (err, response) => {

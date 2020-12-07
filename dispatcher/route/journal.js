@@ -66,7 +66,7 @@ router.get('/login/:category/:id', async (ctx) => {
 });
 
 router
-  .get('/:common_user_id/', async (ctx) => {
+  .get('/:common_user_id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.list(body, (err, response) => {

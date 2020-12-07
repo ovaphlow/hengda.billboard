@@ -80,7 +80,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .get('/user/:common_user_id/', async (ctx) => {
+  .get('/user/:common_user_id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.userDeliveryList(body, (err, response) => {

@@ -25,7 +25,7 @@ const router = new Router({
 
 module.exports = router;
 
-router.get('/edit/:category/:id/', async (ctx) => {
+router.get('/edit/:category/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.editList(body, (err, response) => {
@@ -45,7 +45,7 @@ router.get('/edit/:category/:id/', async (ctx) => {
   }
 });
 
-router.get('/login/:category/:id/', async (ctx) => {
+router.get('/login/:category/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.loginList(body, (err, response) => {

@@ -178,7 +178,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .put('/search/', async (ctx) => {
+  .put('/search', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.search(body, (err, response) => {
@@ -192,7 +192,6 @@ router
       });
     try {
       ctx.request.body.uuid = ctx.query.u_id;
-      console.info(ctx.request.body);
       ctx.response.body = await grpcFetch(ctx.request.body);
     } catch (err) {
       console.error(err);

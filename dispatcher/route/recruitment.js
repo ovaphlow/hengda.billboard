@@ -129,7 +129,7 @@ router.put('/keyword-search/', async (ctx) => {
   }
 });
 
-router.get('/enterprise/:id/', async (ctx) => {
+router.get('/enterprise/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.enterpriseList(body, (err, response) => {
@@ -150,7 +150,7 @@ router.get('/enterprise/:id/', async (ctx) => {
   }
 });
 
-router.put('/enterprise/:id/', async (ctx) => {
+router.put('/enterprise/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.enterpriseSearch(body, (err, response) => {

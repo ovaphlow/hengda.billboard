@@ -65,7 +65,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .get('/:id/', async (ctx) => {
+  .get('/:id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.get(body, (err, response) => {
@@ -85,7 +85,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .get('/check/:id/', async (ctx) => {
+  .get('/check/:id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.check(body, (err, response) => {

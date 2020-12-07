@@ -52,6 +52,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
+  // 注册：拼写错误，应为sign-up
   .post('/sign-in/', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {

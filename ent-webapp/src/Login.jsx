@@ -21,12 +21,12 @@ const Login = () => {
   };
 
   const handleLogIn = async () => {
-    const response = await fetch('/api/ent-user/log-in', {
+    const response = await fetch('/api/ent-user/log-in/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        ip: window.returnCitySN.cip,
-        address: window.returnCitySN.cname,
+        ip: window.returnCitySN ? window.returnCitySN.cip : '0.0.0.0',
+        address: window.returnCitySN ? window.returnCitySN.cname : '',
         phone_email: data.phone_email,
         password: md5(data.password),
       }),

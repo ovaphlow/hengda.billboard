@@ -32,26 +32,42 @@ const getSalted = (password, salt) => {
 
 module.exports = router;
 
-router
-  .get('/:id/', async (ctx) => {
-    const grpcFetch = (body) =>
-      new Promise((resolve, reject) => {
-        grpcClient.get(body, (err, response) => {
-          if (err) {
-            console.error(err);
-            reject(err);
-          } else {
-            resolve(JSON.parse(response.data));
-          }
-        });
+router.post('/log-in/', async (ctx) => {
+  const grpcFetch = (body) =>
+    new Promise((resolve, reject) => {
+      grpcClient.logIn(body, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(JSON.parse(response.data));
+        }
       });
-    try {
-      ctx.response.body = await grpcFetch(ctx.request.body);
-    } catch (err) {
-      console.error(err);
-      ctx.response.body = { message: '服务器错误' };
+    });
+  try {
+    const result = await grpcFetch(ctx.request.body);
+    if (result.message) {
+      ctx.response.body = result;
+    } else {
+      const passwordSalted = getSalted(
+        ctx.request.body.password,
+        result.content.salt,
+      );
+      if (passwordSalted !== result.content.password) {
+        ctx.response.body = { message: '用户名或密码错误', content: '' };
+      } else {
+        result.content.salt = undefined;
+        result.content.password = undefined;
+        ctx.response.body = result;
+      }
     }
-  })
+  } catch (err) {
+    console.error(err);
+    ctx.response.body = { message: '服务器错误' };
+  }
+});
+
+router
   // 注册：拼写错误，应为sign-up
   .post('/sign-in/', async (ctx) => {
     const grpcFetch = (body) =>
@@ -251,38 +267,3 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   });
-
-router.post('/log-in/', async (ctx) => {
-  const grpcFetch = (body) =>
-    new Promise((resolve, reject) => {
-      grpcClient.logIn(body, (err, response) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          resolve(JSON.parse(response.data));
-        }
-      });
-    });
-  try {
-    const result = await grpcFetch(ctx.request.body);
-    if (result.message) {
-      ctx.response.body = result;
-    } else {
-      const passwordSalted = getSalted(
-        ctx.request.body.password,
-        result.content.salt,
-      );
-      if (passwordSalted !== result.content.password) {
-        ctx.response.body = { message: '用户名或密码错误', content: '' };
-      } else {
-        result.content.salt = undefined;
-        result.content.password = undefined;
-        ctx.response.body = result;
-      }
-    }
-  } catch (err) {
-    console.error(err);
-    ctx.response.body = { message: '服务器错误' };
-  }
-});

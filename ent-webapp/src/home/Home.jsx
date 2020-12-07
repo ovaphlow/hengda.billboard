@@ -78,7 +78,7 @@ const Home = () => {
             window.alert(res.message);
           }
         });
-      fetch('./api/chart/ent-home')
+      fetch('./api/chart/ent-home/')
         .then((res) => res.json())
         .then((res) => {
           if (res.content) {

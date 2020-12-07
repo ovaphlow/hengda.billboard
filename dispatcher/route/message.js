@@ -106,7 +106,7 @@ router
     }
   })
 
-  .get('/ent/chat/total/:id/', async (ctx) => {
+  .get('/ent/chat/total/:id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.entChatTotal(body, (err, response) => {
@@ -144,7 +144,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .get('/ent/content/:ent_user_id/:common_user_id/', async (ctx) => {
+  .get('/ent/content/:ent_user_id/:common_user_id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.entContent(body, (err, response) => {

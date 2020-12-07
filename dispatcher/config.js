@@ -1,7 +1,7 @@
 const os = require('os');
 
 const config = {
-  env: 'development',
+  env: 'production',
   app: {
     port: 6000,
     numChildProcesses: os.cpus().length,

@@ -25,7 +25,7 @@ const router = new Router({
 
 module.exports = router;
 
-router.get('/detail/:id/', async (ctx) => {
+router.get('/detail/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.detail(body, (err, response) => {

@@ -54,7 +54,7 @@ router.post('/sign-in', async (ctx) => {
   }
 });
 
-router.post('/log-in/', async (ctx) => {
+router.post('/log-in', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.logIn(body, (err, response) => {
@@ -215,7 +215,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .get('/journal/:user_id/', async (ctx) => {
+  .get('/journal/:user_id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.journal(body, (err, response) => {

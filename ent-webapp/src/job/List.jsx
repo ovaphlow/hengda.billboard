@@ -10,7 +10,7 @@ const List = () => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'));
     if (_auth !== null) {
       //setAuth(_auth);
-      fetch(`./api/job-fair/${_auth.enterprise_id}?ent_uuid=${_auth.enterprise_uuid}`, {
+      fetch(`./api/job-fair/${_auth.enterprise_id}/?ent_uuid=${_auth.enterprise_uuid}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({}),

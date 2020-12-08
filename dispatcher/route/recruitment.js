@@ -129,7 +129,7 @@ router.put('/keyword-search/', async (ctx) => {
   }
 });
 
-router.get('/enterprise/:id/', async (ctx) => {
+router.get('/enterprise/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.enterpriseList(body, (err, response) => {
@@ -150,7 +150,7 @@ router.get('/enterprise/:id/', async (ctx) => {
   }
 });
 
-router.put('/enterprise/:id/', async (ctx) => {
+router.put('/enterprise/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.enterpriseSearch(body, (err, response) => {
@@ -172,7 +172,7 @@ router.put('/enterprise/:id/', async (ctx) => {
   }
 });
 
-router.put('/status/:id/', async (ctx) => {
+router.put('/status/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.status(body, (err, response) => {
@@ -194,7 +194,7 @@ router.put('/status/:id/', async (ctx) => {
   }
 });
 
-router.get('/:id/', async (ctx) => {
+router.get('/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.get(body, (err, response) => {
@@ -215,7 +215,7 @@ router.get('/:id/', async (ctx) => {
   }
 });
 
-router.put('/:id/', async (ctx) => {
+router.put('/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.update(body, (err, response) => {

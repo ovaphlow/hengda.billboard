@@ -45,7 +45,6 @@ public class FeedbackServiceImpl extends FeedbackGrpc.FeedbackImplBase {
 
   @Override
   public void list(FeedbackProto.ListRequest req, StreamObserver<FeedbackProto.Reply> responseObserver) {
-    logger.info("FeedbackServiceImpl.list");
     Gson gson = new Gson();
     Map<String, Object> resp = new HashMap<>();
     resp.put("message", "");

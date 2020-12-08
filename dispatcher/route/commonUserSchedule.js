@@ -102,7 +102,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .delete('/:id/', async (ctx) => {
+  .delete('/:id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.delete(body, (err, response) => {

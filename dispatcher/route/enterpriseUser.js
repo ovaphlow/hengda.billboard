@@ -69,7 +69,7 @@ router.post('/log-in/', async (ctx) => {
 
 router
   // 注册：拼写错误，应为sign-up
-  .post('/sign-in/', async (ctx) => {
+  .post('/sign-in', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.signIn(body, (err, response) => {

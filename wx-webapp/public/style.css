@@ -23,6 +23,10 @@ a {
   text-decoration: none;
 }
 
+.toback-line{
+  border-right: 1px solid #323a40;
+}
+
 .pull-right {
   float: right;
 }
@@ -78,6 +82,10 @@ a {
 
 .button-background1 {
   background-color: #00dc00;
+}
+
+.button-load::after {
+  border: none;
 }
 
 .input-placeholder::-webkit-input-placeholder {
@@ -229,6 +237,13 @@ a {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 12;
+}
+
+.intro-text{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
 }
 
 .textarea-row {

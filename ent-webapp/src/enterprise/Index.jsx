@@ -21,7 +21,7 @@ const Index = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid pb-4">
         <Title />
         <Navbar category="我的" totalFlg />
         <Router>

@@ -20,7 +20,7 @@ export default function IndustryPicker({ caption, value, onChange }) {
         className="form-control input-underscore"
         onChange={onChange}
       >
-        <option value="">未选择</option>
+        <option value="">不限</option>
         {list.map((it) => (
           <option value={it.name} key={it.id}>
             {it.name}

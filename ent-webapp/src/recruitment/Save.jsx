@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, SelectField, IndustryField } from '../components/InputField';
+import {
+  TextField1,
+  TextField,
+  SelectField,
+  SelectField1,
+  IndustryField,
+} from '../components/InputField';
 import RichEditor from '../components/RichEditor';
 import { View1 } from './Components';
 import { _EditJournal } from '../commonFetch';
@@ -22,6 +28,15 @@ const Save = () => {
     requirement: '',
   });
 
+  const [required, setRequired] = useState({
+    name: false,
+    salary1: false,
+    salary2: false,
+    address1: false,
+    address2: false,
+    address3: false,
+  });
+
   const [city, setCity] = useState([]);
 
   const [area, setArea] = useState([]);
@@ -29,6 +44,10 @@ const Save = () => {
   const [level, setLevel] = useState([]);
 
   const [address, setAddress] = useState([]);
+
+  const [number, setNumber] = useState(0);
+
+  const [number1, setNumber1] = useState(0);
 
   useEffect(() => {
     const auth = JSON.parse(sessionStorage.getItem('auth'));
@@ -60,7 +79,62 @@ const Save = () => {
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleIntroChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+    let value1 = value.replace(/<\/?.+?>/g, '');
+    setNumber(value1.length);
+    if (value1.length > 200) {
+      document.getElementById('number').style.color = '#ff2121';
+      document.getElementById('hide').style.display = 'block';
+      document.getElementById('preservation').disabled = true;
+    } else {
+      document.getElementById('number').style.color = '#7a858c';
+      document.getElementById('hide').style.display = 'none';
+      document.getElementById('preservation').disabled = false;
+    }
+  };
+
+  const handleIntroChange1 = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+    let value1 = value.replace(/<\/?.+?>/g, '');
+    setNumber1(value1.length);
+    if (value1.length > 200) {
+      document.getElementById('number1').style.color = '#ff2121';
+      document.getElementById('hide1').style.display = 'block';
+    } else {
+      document.getElementById('number1').style.color = '#7a858c';
+      document.getElementById('hide1').style.display = 'none';
+    }
+  };
+
+  useEffect(() => {
+    if (number > 200 || number1 > 200) {
+      document.getElementById('preservation').disabled = true;
+    } else {
+      document.getElementById('preservation').disabled = false;
+    }
+  }, [number, number1]);
+
   const handleSave = () => {
+    let flg = false;
+    const _req = {};
+    Object.getOwnPropertyNames(required).forEach((key) => {
+      if (!data[key] || data[key] === '') {
+        _req[key] = '请填写内容!';
+        flg = true;
+      } else {
+        _req[key] = false;
+      }
+    });
+
+    if (flg) {
+      window.console.info(_req);
+      setRequired(_req);
+      return;
+    }
+
     fetch('./api/recruitment/', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -157,15 +231,22 @@ const Save = () => {
       <div className="row bg-white shadow">
         <div className="col card rounded-0">
           <div className="card-body">
-            <h3>新增岗位</h3>
+            <div className="row">
+              <div className="col">
+                <h3 className="pull-left">新增岗位</h3>
+                <span className="text-danger">(带有*符号的选项为必填项)</span>
+              </div>
+            </div>
             <hr />
             <div className="row">
               <div className="col">
-                <TextField
+                <TextField1
                   category="职位名称"
                   name="name"
                   value={data.name}
+                  req={required.name}
                   handleChange={handleChange}
+                  required
                 />
               </div>
               <IndustryField
@@ -213,62 +294,78 @@ const Save = () => {
             </div>
             <div className="row">
               <div className="col-2">
-                <SelectField
+                <SelectField1
                   category="省"
                   name="address1"
                   value={data.address1}
+                  req={required.address1}
                   handleChange={handleProvince}
+                  required
                 >
                   <option> </option>
                   {level.map((item) => (
                     <option key={item.name}>{item.name}</option>
                   ))}
-                </SelectField>
+                </SelectField1>
               </div>
               <div className="col-2">
-                <SelectField
+                <SelectField1
                   category="市"
                   name="address2"
                   value={data.address2}
+                  req={required.address2}
                   handleChange={handleCity}
+                  required
                 >
                   <option> </option>
                   {city.map((item, inx) => (
                     <option key={item.id + inx.toString()}>{item.name}</option>
                   ))}
-                </SelectField>
+                </SelectField1>
               </div>
               <div className="col-2">
-                <SelectField
+                <SelectField1
                   category="区/县"
                   name="address3"
                   value={data.address3}
+                  req={required.address3}
                   handleChange={handleChange}
+                  required
                 >
                   <option> </option>
                   {area.map((item) => (
                     <option key={item.id}>{item.name}</option>
                   ))}
-                </SelectField>
+                </SelectField1>
               </div>
-              <div className="col-2">
-                <label>薪资要求</label>
+              <div className="col-4">
+                <label>
+                  <span className="text-danger">*</span>
+                  薪资要求
+                  <span className="text-danger">(单位：/月)</span>
+                </label>
                 <div className="row pl-3 pr-3">
                   <input
                     type="text"
                     name="salary1"
                     value={data.salary1}
                     onChange={handleChange}
-                    className="col form-control form-control-sm rounded-0"
+                    className={`col form-control form-control-sm rounded-0 ${
+                      required.salary1 ? 'is-invalid' : ''
+                    }`}
                   />
+                  <div className="invalid-feedback col-3">{required.salary1}</div>
                   -
                   <input
                     type="text"
                     name="salary2"
                     value={data.salary2}
                     onChange={handleChange}
-                    className="col form-control form-control-sm rounded-0"
+                    className={`col form-control form-control-sm rounded-0 ${
+                      required.salary2 ? 'is-invalid' : ''
+                    }`}
                   />
+                  <div className="invalid-feedback col-3">{required.salary2}</div>
                 </div>
               </div>
             </div>
@@ -279,8 +376,18 @@ const Save = () => {
                   <RichEditor
                     value={data.requirement}
                     name="requirement"
-                    handleChange={handleChange}
+                    handleChange={handleIntroChange}
                   />
+                  <span id="number" className="pull-right" style={{ color: '#7a858c' }}>
+                    {number}/200
+                  </span>
+                  <span
+                    id="hide"
+                    className="pull-left"
+                    style={{ color: '#ff2121', display: 'none' }}
+                  >
+                    请输入1-200个字符
+                  </span>
                 </div>
               </div>
             </div>
@@ -291,8 +398,18 @@ const Save = () => {
                   <RichEditor
                     value={data.description}
                     name="description"
-                    handleChange={handleChange}
+                    handleChange={handleIntroChange1}
                   />
+                  <span id="number1" className="pull-right" style={{ color: '#7a858c' }}>
+                    {number1}/200
+                  </span>
+                  <span
+                    id="hide1"
+                    className="pull-left"
+                    style={{ color: '#ff2121', display: 'none' }}
+                  >
+                    请输入1-200个字符
+                  </span>
                 </div>
               </div>
             </div>
@@ -304,7 +421,12 @@ const Save = () => {
                 </a>
               </div>
               <div className="col">
-                <button className="pull-right btn btn-success" onClick={handleSave} type="button">
+                <button
+                  id="preservation"
+                  className="pull-right btn btn-success"
+                  onClick={handleSave}
+                  type="button"
+                >
                   保存
                 </button>
               </div>

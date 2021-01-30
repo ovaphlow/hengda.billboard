@@ -46,7 +46,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .get('/job-fair/:job_fair_id/', async (ctx) => {
+  .get('/job-fair/:job_fair_id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.JobFairList(body, (err, response) => {
@@ -106,7 +106,7 @@ router
     }
   })
 
-  .put('/:id/', async (ctx) => {
+  .put('/:id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.update(body, (err, response) => {

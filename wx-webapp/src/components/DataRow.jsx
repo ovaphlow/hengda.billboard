@@ -33,7 +33,7 @@ export const RecruitmentRow = ({
         <span className="text-success">
           {salary1 && salary2 ? `${salary1}-${salary2}` : '面议'}
         </span>
-        {salary1 && salary2 ? '元月' : ''}
+        {salary1 && salary2 ? '元/月' : ''}
         <br />
         <span className="pull-left text-muted" style={{ fontSize: 11 }}>
           {address1}-{address2}
@@ -92,7 +92,7 @@ export const RecruitmentRow1 = ({
           <span className="text-success">
             {salary1 && salary2 ? `${salary1}-${salary2}` : '面议'}
           </span>
-          {salary1 && salary2 ? '元月' : ''}
+          {salary1 && salary2 ? '元/月' : ''}
           <br />
           <span className="pull-left text-muted" style={{ fontSize: 11 }}>
             {address1} {address2}/{education}

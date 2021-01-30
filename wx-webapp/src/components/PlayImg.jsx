@@ -105,6 +105,11 @@ const PlayImg = (props) => {
       } else {
         setList(file.banner);
       }
+      // if (file.banner.source_url !== null) {
+      //   fun();
+      // } else {
+      //   setList(file.banner);
+      // }
     }
   }, [props]);
 

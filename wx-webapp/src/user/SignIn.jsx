@@ -138,7 +138,7 @@ export default function SignIn() {
   };
 
   const checkEmail = () => {
-    const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+    const reg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
     return reg.test(data.email);
   };
 
@@ -230,7 +230,7 @@ export default function SignIn() {
                     />
                   </div>
                   {err.code && <small className="form-text text-danger">{err.code}</small>}
-                  <div className="input-group row mb-3 input-group-lg input-control">
+                  <div className="input-group row mb-1 input-group-lg input-control">
                     <input
                       type="text"
                       name="code"
@@ -264,7 +264,18 @@ export default function SignIn() {
                   </div>
                 </form>
               </div>
-
+              <div className="text-white text-center mb-3">
+                <span>
+                  点击注册即您已同意
+                  <a href="/agt/user.html" style={{ textDecoration: 'none' }}>
+                    《用户协议》
+                  </a>
+                  和
+                  <a href="/agt/privacy.html" style={{ textDecoration: 'none' }}>
+                    《隐私政策》
+                  </a>
+                </span>
+              </div>
               <div className="form-group row">
                 <button
                   type="button"

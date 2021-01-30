@@ -109,47 +109,55 @@ const Details = () => {
   };
 
   const handleSchedule = () => {
-    fetch('./api/common-user-schedule/', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        common_user_id: auth.id,
-        campus_id: id,
-        name: item.title,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        _EditJournal(
-          {
-            category2: '日程',
-            data_id: item.id,
-            data_uuid: item.uuid,
-            remark: `将<${item.title}>加入日程`,
-          },
-          () => {},
-        );
-        setSchedule({ id: res.content });
-      });
+    if (auth) {
+      fetch('./api/common-user-schedule/', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          common_user_id: auth.id,
+          campus_id: id,
+          name: item.title,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          _EditJournal(
+            {
+              category2: '日程',
+              data_id: item.id,
+              data_uuid: item.uuid,
+              remark: `将<${item.title}>加入日程`,
+            },
+            () => {},
+          );
+          setSchedule({ id: res.content });
+        });
+    } else {
+      window.location = '#登录';
+    }
   };
 
   const deleteSchedule = () => {
-    fetch(`./api/common-user-schedule/${schedule.id}?d=${id}&uuid=${auth.uuid}&u=${auth.id}`, {
-      method: 'DELETE',
-    })
-      .then((res) => res.json())
-      .then(() => {
-        _EditJournal(
-          {
-            category2: '日程',
-            data_id: item.id,
-            data_uuid: item.uuid,
-            remark: `将<${item.title}>移出日程`,
-          },
-          () => {},
-        );
-        setSchedule(false);
-      });
+    if (auth) {
+      fetch(`./api/common-user-schedule/${schedule.id}?d=${id}&uuid=${auth.uuid}&u=${auth.id}`, {
+        method: 'DELETE',
+      })
+        .then((res) => res.json())
+        .then(() => {
+          _EditJournal(
+            {
+              category2: '日程',
+              data_id: item.id,
+              data_uuid: item.uuid,
+              remark: `将<${item.title}>移出日程`,
+            },
+            () => {},
+          );
+          setSchedule(false);
+        });
+    } else {
+      window.location = '#登录';
+    }
   };
 
   const favoriteIcon = () => {
@@ -161,24 +169,20 @@ const Details = () => {
   };
 
   const scheduleButton = () => {
-    if (auth) {
-      if (schedule) {
-        return (
-          <button type="button" className="btn btn-danger nav-btn" onClick={deleteSchedule}>
-            <FontAwesomeIcon icon={faMinusCircle} fixedWidth />
-            移出日程
-          </button>
-        );
-      } else {
-        return (
-          <button type="button" className="btn btn-success nav-btn" onClick={handleSchedule}>
-            <FontAwesomeIcon icon={faPlusCircle} fixedWidth />
-            加入日程
-          </button>
-        );
-      }
+    if (schedule) {
+      return (
+        <button type="button" className="btn btn-danger nav-btn" onClick={deleteSchedule}>
+          <FontAwesomeIcon icon={faMinusCircle} fixedWidth />
+          移出日程
+        </button>
+      );
     } else {
-      window.location = '#登录';
+      return (
+        <button type="button" className="btn btn-success nav-btn" onClick={handleSchedule}>
+          <FontAwesomeIcon icon={faPlusCircle} fixedWidth />
+          加入日程
+        </button>
+      );
     }
   };
 

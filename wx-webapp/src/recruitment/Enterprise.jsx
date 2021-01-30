@@ -16,6 +16,8 @@ const Enterprise = () => {
 
   const { search } = useLocation();
 
+  const [flag, setFlag] = useState(true);
+
   useEffect(() => {
     fetch(`./api/enterprise/${id}${search}`)
       .then((res) => res.json())
@@ -36,6 +38,17 @@ const Enterprise = () => {
         }
       });
   }, [id, search]);
+
+  const divShow = () => {
+    setFlag(false);
+    document.getElementById('btnshow').style.display = 'block';
+    document.getElementById('btnhref').innerHTML = '收起全文';
+  };
+  const divhidden = () => {
+    setFlag(true);
+    document.getElementById('btnshow').style.display = '-webkit-box';
+    document.getElementById('btnhref').innerHTML = '展示全文';
+  };
 
   return (
     <div className="container-fluid" style={{ fontSize: 14 }}>
@@ -69,6 +82,19 @@ const Enterprise = () => {
                 {data.address4}
               </span>
               <br />
+              <span id="btnshow" className="text-muted intro-text">
+                企业简介：
+                {data.intro}
+              </span>
+              {flag === true ? (
+                <p id="btnhref" className="pull-right text-danger" onClick={divShow}>
+                  展开全文
+                </p>
+              ) : (
+                <p id="btnhref" className="pull-right text-danger" onClick={divhidden}>
+                  收起全文
+                </p>
+              )}
             </div>
           </div>
           <hr />

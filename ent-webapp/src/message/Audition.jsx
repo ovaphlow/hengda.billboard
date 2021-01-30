@@ -242,7 +242,7 @@ const Audition = () => {
 
   return (
     <View category="会话" totalFlg={totalFlg}>
-      <div className="row bg-white shadow ">
+      <div className="row bg-white shadow">
         <div className="col-2 border">
           <div className="row  border-bottom">
             <div className="col p-2">近期消息</div>

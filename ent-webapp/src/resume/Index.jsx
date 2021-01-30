@@ -13,9 +13,21 @@ import Recommend from './Recommend';
 
 const Index = () => {
   useEffect(() => {
-    const auth = sessionStorage.getItem('auth');
+    const auth = JSON.parse(sessionStorage.getItem('auth'));
     if (auth === null) {
       window.location = '#登录';
+    } else {
+      fetch(`./api/enterprise/check/${auth.enterprise_id}?uuid=${auth.enterprise_uuid}`)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.message) {
+            window.alert(res.message);
+            window.location = '#简历';
+          } else if (!res.content) {
+            window.alert('您的企业尚未完成认证,请等待认证成功后在添加岗位!');
+            window.location = '#我的/信息/';
+          }
+        });
     }
   }, []);
 

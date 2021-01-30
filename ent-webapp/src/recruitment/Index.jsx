@@ -21,8 +21,8 @@ const Index = () => {
             window.alert(res.message);
             window.location = '#岗位';
           } else if (!res.content) {
-            window.alert('您的企业尚未完成认证!');
-            window.location = '#岗位';
+            window.alert('您的企业尚未完成认证,请等待认证成功后在添加岗位!');
+            window.location = '#我的/信息/';
           }
         });
     }

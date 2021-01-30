@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faSync } from '@fortawesome/free-solid-svg-icons';
 import { View } from './Components';
 import { TextField, SelectField, DateField } from '../components/InputField';
 
@@ -56,6 +56,10 @@ const List = () => {
           setList(res.content);
         }
       });
+  };
+
+  const refresh = () => {
+    console.info(list);
   };
 
   return (
@@ -135,6 +139,7 @@ const List = () => {
             <table className="table table-hover">
               <thead>
                 <tr>
+                  <th scope="col"></th>
                   <th scope="col">编号</th>
                   <th scope="col">岗位名称</th>
                   <th scope="col">岗位类型</th>
@@ -154,6 +159,15 @@ const List = () => {
                 {list &&
                   list.map((item) => (
                     <tr key={item.id}>
+                      <td>
+                        <span
+                          className="pull-right btn btn-link btn-lg"
+                          onClick={refresh}
+                        >
+                          <FontAwesomeIcon icon={faSync} fixedWidth />
+                          刷新
+                        </span>
+                      </td>
                       <td>{item.id}</td>
                       <td>{item.name}</td>
                       <td>{item.category}</td>

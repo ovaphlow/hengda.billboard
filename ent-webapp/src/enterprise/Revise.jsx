@@ -25,6 +25,8 @@ const Revise = () => {
 
   const [auth, setAuth] = useState(0);
 
+  const [number, setNumber] = useState(0);
+
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'));
     if (_auth === null) {
@@ -47,6 +49,21 @@ const Revise = () => {
   const handleChange = (e) => {
     const { value, name } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleIntroChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+    setNumber(value.length);
+    if (value.length > 500) {
+      document.getElementById('number').style.color = '#ff2121';
+      document.getElementById('hide').style.display = 'block';
+      document.getElementById('preservation').disabled = true;
+    } else {
+      document.getElementById('number').style.color = '#7a858c';
+      document.getElementById('hide').style.display = 'none';
+      document.getElementById('preservation').disabled = false;
+    }
   };
 
   const handleSave = () => {
@@ -99,6 +116,7 @@ const Revise = () => {
             <div className="row">
               <div className="col">
                 <h3 className="pull-left">基本信息</h3>
+                <span className="text-danger">(带有*符号的选项为必填项)</span>
               </div>
             </div>
             <hr />
@@ -176,12 +194,22 @@ const Revise = () => {
                   <textarea
                     name="intro"
                     value={data.intro}
-                    onChange={handleChange}
+                    onChange={handleIntroChange}
                     rows="4"
                     className={`form-control form-control-sm rounded-0 ${
                       required.intro ? 'is-invalid' : ''
                     }`}
                   />
+                  <span id="number" className="pull-right" style={{ color: '#7a858c' }}>
+                    {number}/500
+                  </span>
+                  <span
+                    id="hide"
+                    className="pull-left"
+                    style={{ color: '#ff2121', display: 'none' }}
+                  >
+                    请输入1-500个字符
+                  </span>
                   <div className="invalid-feedback">{required.intro || ''}</div>
                 </div>
               </div>
@@ -209,7 +237,12 @@ const Revise = () => {
                 <a className="pull-left btn btn-primary" href="#/我的/信息">
                   返回
                 </a>
-                <button className="pull-right btn btn-success" type="button" onClick={handleSave}>
+                <button
+                  id="preservation"
+                  className="pull-right btn btn-success"
+                  type="button"
+                  onClick={handleSave}
+                >
                   保存
                 </button>
               </div>

@@ -415,9 +415,9 @@ const Resume = () => {
                 <div className="col-8 flex-start">
                   <h5>
                     我的证书
-                    <span className="text-danger" style={{ fontSize: 16 }}>
-                      (小于300KB)
-                    </span>
+                    <p className="text-danger" style={{ fontSize: 14 }}>
+                      (小于300KB,最多上传10张图片)
+                    </p>
                   </h5>
                 </div>
                 <div className="col-4">

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { View } from './Components';
 
-import { TextField, SelectField } from '../components/InputField';
+import { TextField1, SelectField1 } from '../components/InputField';
 import { _EditJournal } from '../commonFetch';
 
 const Update = () => {
@@ -55,6 +55,8 @@ const Update = () => {
   const [area, setArea] = useState([]);
 
   const [industry, setIndustry] = useState([]);
+
+  const [number, setNumber] = useState(0);
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'));
@@ -207,6 +209,21 @@ const Update = () => {
     // })
   };
 
+  const handleIntroChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+    setNumber(value.length);
+    if (value.length > 500) {
+      document.getElementById('number').style.color = '#ff2121';
+      document.getElementById('hide').style.display = 'block';
+      document.getElementById('preservation').disabled = true;
+    } else {
+      document.getElementById('number').style.color = '#7a858c';
+      document.getElementById('hide').style.display = 'none';
+      document.getElementById('preservation').disabled = false;
+    }
+  };
+
   const handleFileChange = (e) => {
     if (e.target.files.length === 0) {
       return;
@@ -344,13 +361,14 @@ const Update = () => {
             <div className="row">
               <div className="col">
                 <h3 className="pull-left">基本信息</h3>
+                <span className="text-danger">(带有*符号的选项为必填项)</span>
               </div>
             </div>
             <hr />
             <div className="row">
               <div className="col-3 col-md-4">
-                <TextField
-                  category="企业号"
+                <TextField1
+                  category="统一社会信用代码"
                   name="yingyezhizhao"
                   value={data.yingyezhizhao}
                   handleChange={handleChange}
@@ -359,7 +377,7 @@ const Update = () => {
                 />
               </div>
               <div className="col-3 col-md-4">
-                <TextField
+                <TextField1
                   category="法人"
                   name="faren"
                   value={data.faren}
@@ -387,7 +405,7 @@ const Update = () => {
                 </div>
               </div>
               <div className="col-3 col-md-4">
-                <TextField
+                <TextField1
                   category="注资规模"
                   name="zhuziguimo"
                   value={data.zhuziguimo}
@@ -397,7 +415,7 @@ const Update = () => {
                 />
               </div>
               <div className="col-3 col-md-4">
-                <SelectField
+                <SelectField1
                   category="员工数量"
                   name="yuangongshuliang"
                   value={data.yuangongshuliang}
@@ -411,10 +429,10 @@ const Update = () => {
                   <option>100-200 人</option>
                   <option>200-500 人</option>
                   <option>500 人以上</option>
-                </SelectField>
+                </SelectField1>
               </div>
               <div className="col-3 col-md-4">
-                <SelectField
+                <SelectField1
                   category="所属行业"
                   name="industry"
                   value={data.industry}
@@ -428,11 +446,10 @@ const Update = () => {
                     .map((item) => (
                       <option key={item.id}>{item.name}</option>
                     ))}
-                </SelectField>
+                </SelectField1>
               </div>
-
               <div className="col-3 col-md-4">
-                <TextField
+                <TextField1
                   category="电话号码"
                   name="phone"
                   value={data.phone}
@@ -500,12 +517,22 @@ const Update = () => {
                   <textarea
                     name="intro"
                     value={data.intro}
-                    onChange={handleChange}
+                    onChange={handleIntroChange}
                     rows="4"
                     className={`form-control form-control-sm rounded-0 ${
                       required.intro ? 'is-invalid' : ''
                     }`}
                   />
+                  <span id="number" className="pull-right" style={{ color: '#7a858c' }}>
+                    {number}/500
+                  </span>
+                  <span
+                    id="hide"
+                    className="pull-left"
+                    style={{ color: '#ff2121', display: 'none' }}
+                  >
+                    请输入1-500个字符
+                  </span>
                   <div className="invalid-feedback">{required.intro || ''}</div>
                 </div>
               </div>
@@ -519,7 +546,7 @@ const Update = () => {
             <hr />
             <div className="row">
               <div className="col-3 col-md-4">
-                <SelectField
+                <SelectField1
                   category="省/直辖市"
                   name="address1"
                   value={data.address1}
@@ -528,13 +555,13 @@ const Update = () => {
                   required
                 >
                   <option> </option>
-                  {level.map((item) => (
-                    <option key={item.id}>{item.name}</option>
+                  {level.map((item, inx) => (
+                    <option key={item.id + inx.toString()}>{item.name}</option>
                   ))}
-                </SelectField>
+                </SelectField1>
               </div>
               <div className="col-3 col-md-4">
-                <SelectField
+                <SelectField1
                   category="市"
                   name="address2"
                   value={data.address2}
@@ -546,10 +573,10 @@ const Update = () => {
                   {city.map((item) => (
                     <option key={item.id}>{item.name}</option>
                   ))}
-                </SelectField>
+                </SelectField1>
               </div>
               <div className="col-3 col-md-4">
-                <SelectField
+                <SelectField1
                   category="区"
                   name="address3"
                   value={data.address3}
@@ -561,12 +588,12 @@ const Update = () => {
                   {area.map((item) => (
                     <option key={item.id}>{item.name}</option>
                   ))}
-                </SelectField>
+                </SelectField1>
               </div>
             </div>
             <div className="row">
               <div className="col">
-                <TextField
+                <TextField1
                   category="详细地址"
                   name="address4"
                   value={data.address4}
@@ -614,7 +641,12 @@ const Update = () => {
                 <a className="pull-left btn btn-primary" href="#/我的/信息">
                   返回
                 </a>
-                <button className="pull-right btn btn-success" type="button" onClick={handleSave}>
+                <button
+                  id="preservation"
+                  className="pull-right btn btn-success"
+                  type="button"
+                  onClick={handleSave}
+                >
                   保存并提交审核
                 </button>
               </div>

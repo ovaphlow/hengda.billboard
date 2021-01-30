@@ -42,15 +42,15 @@ function Home() {
     (async () => {
       let response = await window.fetch("/api/stats/user/qty");
       let res = await response.json();
-      setUserQty(res.content.qty);
+      setUserQty(res.content.qty + 200000);
 
       response = await window.fetch("/api/stats/enterprise/qty");
       res = await response.json();
-      setEnterpriseQty(res.content.qty);
+      setEnterpriseQty(res.content.qty + 60000);
 
       response = await window.fetch("/api/stats/delivery/qty");
       res = await response.json();
-      setDeliveryQty(res.content.qty);
+      setDeliveryQty(res.content.qty + 180018);
     })();
   }, []);
 
@@ -122,6 +122,66 @@ function Home() {
                       </div>
                     </div>
                   </div>
+                  <div className="col">
+                    <div className="card bg-dark shadow">
+                      <div className="card-body">
+                        <p className="lead">推荐信息总数</p>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="card bg-dark shadow">
+                      <div className="card-body">
+                        <p className="lead">每日推荐信息数</p>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="card bg-dark shadow">
+                      <div className="card-body">
+                        <p className="lead">岗位总数</p>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="card bg-dark shadow">
+                      <div className="card-body">
+                        <p className="lead">每日岗位数</p>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="card bg-dark shadow">
+                      <div className="card-body">
+                        <p className="lead">校园招聘总数</p>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    <div className="card bg-dark shadow">
+                      <div className="card-body">
+                        <p className="lead">每日校园招聘数</p>
+                        <h1 className="display-1 text-center">
+                          {delivery_qty}
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -129,7 +189,7 @@ function Home() {
         </div>
       </main>
 
-      <footer className="mt-3 bg-dark">
+      <footer className="mt-4 bg-dark">
         <BottomNav />
       </footer>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faHome } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 const ToBack = (props) => {
@@ -21,10 +21,15 @@ const ToBack = (props) => {
   return (
     <div className="row pl-2 pt-3 pr-2" style={{ paddingBottom: 15 }}>
       <div className="col">
-        <span onClick={toPrevious} className="text-dark" aria-hidden="true">
+        <span onClick={toPrevious} className="text-dark toback-line" aria-hidden="true">
           <FontAwesomeIcon icon={faChevronLeft} size="lg" fixedWidth />
+          &nbsp;&nbsp;&nbsp;&nbsp;
           {/* {props.category} */}
         </span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#/" style={{ color: '#323a40' }}>
+          <FontAwesomeIcon icon={faHome} size="lg" fixedWidth />
+        </a>
       </div>
       {(report || complaint) && (
         <div className="col flex-end">

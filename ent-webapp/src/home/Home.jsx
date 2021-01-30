@@ -89,7 +89,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="mt-4" style={{ maxWidth: 1200, margin: 'auto' }}>
+    <div className="mt-4" style={{ maxWidth: 1200, margin: 'auto', marginBottom: 100 }}>
       <div className="row">
         <div className="col card rounded-0 shadow">
           <AutoCards category="企业端-首页" />
@@ -97,7 +97,7 @@ const Home = () => {
         &nbsp;&nbsp;&nbsp;
         <div className="col card rounded-0 shadow">
           <div className="mt-3">
-            {message && message.map((item) => <TopicRow {...item} key={item.id} />)}
+            {message && message.map((item, index) => <TopicRow {...item} key={index} />)}
           </div>
         </div>
       </div>

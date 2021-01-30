@@ -12,7 +12,7 @@ export default function EducationPicker({ caption, value, onChange }) {
         className="form-control input-underscore"
         onChange={onChange}
       >
-        <option value="">未选择</option>
+        <option value="">不限</option>
         {EDUCATION.map((it) => (
           <option key={EDUCATION.indexOf(it)} value={it}>
             {it}

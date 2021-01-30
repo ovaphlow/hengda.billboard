@@ -93,7 +93,7 @@ const Recover = () => {
   };
 
   const handleCode = () => {
-    fetch('./api/common-user/checkRecover', {
+    fetch('./api/common-user/checkRecover/', {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({

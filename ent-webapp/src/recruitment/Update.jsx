@@ -24,6 +24,15 @@ const Update = () => {
     requirement: '',
   });
 
+  const [required, setRequired] = useState({
+    name: false,
+    salary1: false,
+    salary2: false,
+    address1: false,
+    address2: false,
+    address3: false,
+  });
+
   const [city, setCity] = useState([]);
 
   const [area, setArea] = useState([]);
@@ -41,6 +50,10 @@ const Update = () => {
   const [address, setAddress] = useState([]);
 
   const [list, setList] = useState([]);
+
+  const [number, setNumber] = useState(0);
+
+  const [number1, setNumber1] = useState(0);
 
   useEffect(() => {
     const _auth = JSON.parse(sessionStorage.getItem('auth'));
@@ -124,7 +137,62 @@ const Update = () => {
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleIntroChange = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+    let zw_value = value.replace(/<\/?.+?>/g, '');
+    setNumber(zw_value.length);
+    if (zw_value.length > 200) {
+      document.getElementById('number').style.color = '#ff2121';
+      document.getElementById('hide').style.display = 'block';
+      document.getElementById('preservation').disabled = true;
+    } else {
+      document.getElementById('number').style.color = '#7a858c';
+      document.getElementById('hide').style.display = 'none';
+      document.getElementById('preservation').disabled = false;
+    }
+  };
+
+  const handleIntroChange1 = (e) => {
+    const { value, name } = e.target;
+    setData((prev) => ({ ...prev, [name]: value }));
+    let gz_value = value.replace(/<\/?.+?>/g, '');
+    setNumber1(gz_value.length);
+    if (gz_value.length > 200) {
+      document.getElementById('number1').style.color = '#ff2121';
+      document.getElementById('hide1').style.display = 'block';
+    } else {
+      document.getElementById('number1').style.color = '#7a858c';
+      document.getElementById('hide1').style.display = 'none';
+    }
+  };
+
+  useEffect(() => {
+    if (number > 200 || number1 > 200) {
+      document.getElementById('preservation').disabled = true;
+    } else {
+      document.getElementById('preservation').disabled = false;
+    }
+  }, [number, number1]);
+
   const handleSave = () => {
+    let flg = false;
+    const _req = {};
+    Object.getOwnPropertyNames(required).forEach((key) => {
+      if (!data[key] || data[key] === '') {
+        _req[key] = '请填写内容!';
+        flg = true;
+      } else {
+        _req[key] = false;
+      }
+    });
+
+    if (flg) {
+      window.console.info(_req);
+      setRequired(_req);
+      return;
+    }
+
     fetch(`./api/recruitment/${id}${search}`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
@@ -258,6 +326,7 @@ const Update = () => {
             <div className="row">
               <div className="col">
                 <h3 className="pull-left">编辑岗位</h3>
+                <span className="text-danger">(带有*符号的选项为必填项)</span>
                 {data.status === '在招' ? (
                   <button
                     className="pull-right btn btn-link btn-lg text-danger"
@@ -285,7 +354,9 @@ const Update = () => {
                   category="职位名称"
                   name="name"
                   value={data.name}
+                  req={required.name}
                   handleChange={handleChange}
+                  required
                 />
               </div>
               <IndustryField
@@ -337,7 +408,9 @@ const Update = () => {
                   category="省/直辖市"
                   name="address1"
                   value={data.address1}
+                  req={required.address1}
                   handleChange={handleProvince}
+                  required
                 >
                   <option> </option>
                   {level.map((item) => (
@@ -350,7 +423,9 @@ const Update = () => {
                   category="市"
                   name="address2"
                   value={data.address2}
+                  req={required.address2}
                   handleChange={handleCity}
+                  required
                 >
                   <option> </option>
                   {city && city.map((item) => <option key={item.name}>{item.name}</option>)}
@@ -361,7 +436,9 @@ const Update = () => {
                   category="区/县"
                   name="address3"
                   value={data.address3}
+                  req={required.address3}
                   handleChange={handleChange}
+                  required
                 >
                   <option> </option>
                   {area.map((item) => (
@@ -369,24 +446,34 @@ const Update = () => {
                   ))}
                 </SelectField>
               </div>
-              <div className="col-2">
-                <label>薪资要求</label>
+              <div className="col-4">
+                <label>
+                  <span className="text-danger">*</span>
+                  薪资要求
+                  <span className="text-danger">(单位：/月)</span>
+                </label>
                 <div className="row pl-3 pr-3">
                   <input
                     type="text"
                     name="salary1"
                     value={data.salary1}
                     onChange={handleChange}
-                    className="col form-control form-control-sm rounded-0"
+                    className={`col form-control form-control-sm rounded-0 ${
+                      required.salary1 ? 'is-invalid' : ''
+                    }`}
                   />
+                  <div className="invalid-feedback col-3">{required.salary1}</div>
                   -
                   <input
                     type="text"
                     name="salary2"
                     value={data.salary2}
                     onChange={handleChange}
-                    className="col form-control form-control-sm rounded-0"
+                    className={`col form-control form-control-sm rounded-0 ${
+                      required.salary1 ? 'is-invalid' : ''
+                    }`}
                   />
+                  <div className="invalid-feedback col-3">{required.salary1}</div>
                 </div>
               </div>
             </div>
@@ -397,8 +484,18 @@ const Update = () => {
                   <RichEditor
                     value={data.requirement}
                     name="requirement"
-                    handleChange={handleChange}
+                    handleChange={handleIntroChange}
                   />
+                  <span id="number" className="pull-right" style={{ color: '#7a858c' }}>
+                    {number}/200
+                  </span>
+                  <span
+                    id="hide"
+                    className="pull-left"
+                    style={{ color: '#ff2121', display: 'none' }}
+                  >
+                    请输入1-200个字符
+                  </span>
                 </div>
               </div>
             </div>
@@ -409,8 +506,18 @@ const Update = () => {
                   <RichEditor
                     value={data.description}
                     name="description"
-                    handleChange={handleChange}
+                    handleChange={handleIntroChange1}
                   />
+                  <span id="number1" className="pull-right" style={{ color: '#7a858c' }}>
+                    {number1}/200
+                  </span>
+                  <span
+                    id="hide1"
+                    className="pull-left"
+                    style={{ color: '#ff2121', display: 'none' }}
+                  >
+                    请输入1-200个字符
+                  </span>
                 </div>
               </div>
             </div>
@@ -423,7 +530,12 @@ const Update = () => {
               </div>
               <div className="col">
                 <div className="pull-right">
-                  <button className="btn btn-success" onClick={handleSave} type="button">
+                  <button
+                    id="preservation"
+                    className="btn btn-success"
+                    onClick={handleSave}
+                    type="button"
+                  >
                     保存
                   </button>
                 </div>

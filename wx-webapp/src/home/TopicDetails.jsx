@@ -37,9 +37,9 @@ const TopicDetails = () => {
 
   return (
     <div className="container-fluid">
-      <div className="card border-0 shadow interface-bottom">
+      <div className="card border-0 shadow interface-bottom mt-2">
+        <ToBack category={item.title} href="#" />
         <div className="card-body">
-          <ToBack category={item.title} />
           <h6 className="text-center">{item.title}</h6>
           <div className="row" style={{ fontSize: 14 }}>
             <div className="col editor-body" id="content" />

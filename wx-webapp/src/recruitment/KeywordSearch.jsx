@@ -93,13 +93,13 @@ const KeywordSearch = () => {
               </div>
               <div className="col flex-end">
                 <div className="pull-right text-primary">
-                  <TextCheckbox name="兼职" onChange={_onCheckboxChange}>
+                  <TextCheckbox name="category1" onChange={_onCheckboxChange}>
                     兼职
                   </TextCheckbox>
-                  <TextCheckbox name="全职" onChange={_onCheckboxChange}>
+                  <TextCheckbox name="category2" onChange={_onCheckboxChange}>
                     全职
                   </TextCheckbox>
-                  <TextCheckbox name="实习" onChange={_onCheckboxChange}>
+                  <TextCheckbox name="category3" onChange={_onCheckboxChange}>
                     实习
                   </TextCheckbox>
                 </div>
@@ -109,7 +109,7 @@ const KeywordSearch = () => {
           </div>
         </div>
       </div>
-      <Navbar category="首页" />
+      <Navbar category="岗位" />
     </>
   );
 };

@@ -28,6 +28,7 @@ export default function Detail({ component_option }) {
   const [address3, setAddress3] = useState("");
   const [address4, setAddress4] = useState("");
   const [industry, setIndustry] = useState("");
+  const [phone, setPhone] = useState("");
   const [intro, setIntro] = useState("");
   const [url, setUrl] = useState("");
 
@@ -57,6 +58,7 @@ export default function Detail({ component_option }) {
       address3,
       address4,
       industry,
+      phone,
       intro,
       url,
     };
@@ -114,6 +116,7 @@ export default function Detail({ component_option }) {
         setAddress3(res.content.address3);
         setAddress4(res.content.address4);
         setIndustry(res.content.industry);
+        setPhone(res.content.phone);
         setIntro(res.content.intro);
         setUrl(res.content.url);
       })();
@@ -324,14 +327,24 @@ export default function Detail({ component_option }) {
                     </div>
 
                     <div className="row">
-                      <div className="col-4">
+                      <div className="col-3">
                         <IndustryPicker
                           caption="所属行业"
                           value={industry || ""}
                           onChange={(event) => setIndustry(event.target.value)}
                         />
                       </div>
-
+                      <div className="col-3">
+                        <div className="mb-3">
+                          <label className="form-label">电话号码</label>
+                          <input
+                            type="text"
+                            value={phone}
+                            className="form-control input-underscore"
+                            onChange={(event) => setPhone(event.target.value)}
+                          />
+                        </div>
+                      </div>
                       <div className="col">
                         <div className="mb-3">
                           <label className="form-label">网址</label>

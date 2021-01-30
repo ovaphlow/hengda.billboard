@@ -26,7 +26,7 @@ const router = new Router({
 module.exports = router;
 
 router
-  .get('/:id/', async (ctx) => {
+  .get('/:id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.get(body, (err, response) => {
@@ -105,7 +105,7 @@ router
       ctx.response.body = { message: '服务器错误' };
     }
   })
-  .put('/:common_user_id/', async (ctx) => {
+  .put('/:common_user_id', async (ctx) => {
     const grpcFetch = (body) =>
       new Promise((resolve, reject) => {
         grpcClient.update(body, (err, response) => {
@@ -127,7 +127,7 @@ router
     }
   });
 
-router.post('/status/:id/', async (ctx) => {
+router.post('/status/:id', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.status(body, (err, response) => {
@@ -149,7 +149,7 @@ router.post('/status/:id/', async (ctx) => {
   }
 });
 
-router.post('/init/', async (ctx) => {
+router.post('/init', async (ctx) => {
   const grpcFetch = (body) =>
     new Promise((resolve, reject) => {
       grpcClient.init(body, (err, response) => {
